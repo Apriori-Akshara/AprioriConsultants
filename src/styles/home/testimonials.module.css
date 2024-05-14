@@ -1,0 +1,103 @@
+.slidercontainer{
+  padding: 20px 10vw 0;
+  position: relative;
+  margin-top: 60px;
+}
+.background{
+  position: absolute;
+  top: 0;
+  left: 0vw;
+  width: 100vw;
+  height: 750px;
+  z-index: -10;
+  object-fit: cover;
+}
+.cover{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 750px;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: -5;
+}
+.heading{
+  padding-top: 30px;
+  width: 80vw;
+  margin: 0px 0 50px;
+  font-size: 50px;
+  font-weight: 600;
+  text-align: center;
+  color: white;
+}
+.card{
+  padding: 0px 12vw 0px 12vw;
+  /* padding: 30px 2vw 50px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 55vw;
+  height: 500px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-weight: 500;
+}
+.img{
+  width: 100px;
+  height: 100px;
+object-fit: cover;
+border-radius: 50%;
+}
+.name{
+  font-size: 18px;
+  font-weight: 600;
+  margin: 20px 0 0px;
+}
+.boldtext{
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.description{
+  margin-top: 30px;
+  font-weight: 300;
+  font-size: 14px;
+}
+@media screen and (max-width: 720px){
+  .background, .cover{
+    height: 600px;
+  }
+  .slidercontainer{
+    padding: 20px 5vw;
+  }
+  .slider{
+    width: 90vw;
+  }
+  .card{
+    padding: 10px 4vw 20px 4vw;
+    width: 82vw;
+    height: 420px;
+  }
+  .heading{
+    font-size: 40px;
+    padding-top: 10px;
+    padding-left: 5vw;
+    margin-bottom: 20px;
+  }
+  .img{
+    width: 100px;
+    height: 100px;
+  }
+  .name{
+    font-size: 22px;
+  }
+  .boldtext{
+    font-size: 16px;
+  }
+  .description{
+    font-size: 14px;
+    padding: 0 5vw;
+  }
+}

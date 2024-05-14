@@ -1,0 +1,87 @@
+.container{
+  display: flex;
+  padding: 20px 12vw;
+  justify-content: space-between;
+}
+.left{
+  width: 48vw;
+}
+.headingtop{
+  font-size: 30px;
+  font-weight: 700;
+  color: rgb(61, 61, 61);
+}
+.headingtop span,.cardtopic span{
+  color: #E41937;
+}
+.headinglow{
+  font-size: 18px;
+  color: rgb(107, 107, 107);
+  font-weight: 300;
+  margin: 10px 0 20px;
+}
+.card{
+  width: 22vw;
+}
+.img{
+  width: 22vw;
+  height: auto;
+}
+.cardtopic{
+  font-size: 22px;
+  font-weight: 600;
+}
+.cardlow{
+  font-size: 14px;
+  margin: 10px 0;
+}
+.button{
+  background-color: rgb(9, 0, 112);
+  color: white;
+  border: 1px solid rgb(9, 0, 112);
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+.cards{
+  display: flex;
+  justify-content: space-between;
+}
+.formsection{
+  background-color: rgb(31, 24, 109);
+  padding: 20px 1.5vw;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.formheading{
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+}
+.inputco{
+  display: flex;
+  justify-content: space-between;
+}
+.input1{
+  width: 89%;
+  padding: 10px 5%;
+}
+.input1:focus, .input2:focus{
+  outline: none;
+}
+.input2{
+  width: 35%;
+  padding: 10px 5%;
+}
+.textarea{
+  height: 80px;
+  padding: 10px;
+}
+.textarea:focus{
+  outline: none;
+}
+.formbutton{
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}

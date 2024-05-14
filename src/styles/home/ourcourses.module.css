@@ -1,0 +1,53 @@
+.container{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.heading{
+  font-size: 30px;
+  font-weight: 700;
+}
+.heading span{
+  color: #E41937;
+}
+.headingtext{
+  text-align: center;
+  font-size: 14px;
+  width: 25vw;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+.slider{
+  width: 100vw;
+  padding:0 10% 0 12%;
+}
+.img{
+  width: 24vw;
+  height: 300px;
+  object-fit: cover;
+}
+.cardinfo{
+  width: 21.85vw;
+  padding: 20px 4%;
+  border-left: 1px solid rgb(204, 204, 204);
+  border-right: 1px solid rgb(204, 204, 204);
+  border-bottom: 2px solid #1f386b ;
+}
+.cardtitle{
+  font-weight: 700;
+  font-size: 18px;
+  margin: 15px 0;
+}
+.cardflexend{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 20px 0 10px;
+}
+.discount{
+  padding: 10px 5%;
+  border-left: 1px solid rgb(204, 204, 204);
+  border-right: 1px solid rgb(204, 204, 204);
+}

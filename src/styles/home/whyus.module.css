@@ -1,0 +1,48 @@
+.container{
+  display: flex;
+}
+.heading{
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 50px;
+}
+.left{
+  background-color: rgb(9, 0, 112);
+  width: 50vw;
+  height: 450px;
+  padding: 50px 7%;
+  color: white;
+}
+.img{
+  width: 50vw;
+  height: 550px;
+}
+.icondiv{
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon{
+  font-size: 40px;
+  color: #E41937;
+}
+.card{
+  display: flex;
+  gap: 2vw;
+  margin-bottom: 30px;
+}
+.text{
+  width: 25vw;
+}
+.top{
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.btm{
+  font-size: 15px;
+}
