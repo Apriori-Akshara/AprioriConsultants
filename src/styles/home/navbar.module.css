@@ -23,7 +23,18 @@
   padding: 8px 15px;
   border-radius: 30px;
 }
+.uldown li{
+  list-style: none;
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: 30px;
+}
 .ul li:hover{
+  background-color: rgb(9, 0, 112);
+  color: white;
+  cursor: pointer;
+}
+.uldown li:hover{
   background-color: rgb(9, 0, 112);
   color: white;
   cursor: pointer;
@@ -36,4 +47,99 @@
 }
 .active:hover{
   cursor: pointer;
+}
+.menubutton{
+  display: none;
+}
+.btnscontainer{
+  display: none;
+}
+.menu {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+  outline: none;
+  width: 10vw;
+}
+.line {
+  fill: none;
+  stroke: #0f117a;
+  stroke-width: 6;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.line1 {
+  stroke-dasharray: 60 207;
+  stroke-width: 6;
+}
+.line2 {
+  stroke-dasharray: 60 60;
+  stroke-width: 6;
+}
+.line3 {
+  stroke-dasharray: 60 207;
+  stroke-width: 6;
+}
+.opened .line1 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 6;
+}
+.opened .line2 {
+  stroke-dasharray: 1 60;
+  stroke-dashoffset: -30;
+  stroke-width: 6;
+}
+.opened .line3 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 6;
+}
+@media screen and (max-width: 720px){
+  .menubutton{
+    display: block;
+  }
+  .btnscontainer{
+    display: block;
+  }
+  .navbar{
+    padding: 10px 5%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logoimage{
+    width: 20vw;
+  }
+  .ul{
+    flex-direction: column;
+    position: absolute;
+    align-items: flex-start;
+    padding: 20px 5%;
+    top: -1000px;
+    left: 0;
+    z-index: 10;
+    background-color: white;
+    width: 90%;
+    transition: 0.3s;
+  }
+  .uldown{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    align-items: flex-start;
+    padding: 20px 5% 40px;
+    top: 50px;
+    left: 0;
+    z-index: 1000;
+    background-color: white;
+    width: 90%;
+    transition: 0.3s;
+  }
+  .ul li, .uldown li{
+    font-size: 18px;
+    width: 85%;
+  }
 }

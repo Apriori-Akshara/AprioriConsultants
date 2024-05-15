@@ -35,7 +35,7 @@
     border: none;
     outline: none;
     background: transparent;
-    z-index: 1000;
+    z-index: 10;
 }
 .slick-prev:hover,
 .slick-prev:focus,
@@ -154,7 +154,7 @@
 
     cursor: pointer;
 
-    color: transparent;
+    color: white;
     border: 0;
     outline: none;
     background: transparent;
@@ -195,4 +195,13 @@
 {
     opacity: .75;
     color: black;
+}
+@media screen and (max-width: 720px){
+
+    .slick-prev{
+        left: 10px;
+    }
+    .slick-next{
+        right: 20px;
+    }
 }

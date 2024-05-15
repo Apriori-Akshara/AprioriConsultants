@@ -51,3 +51,24 @@
   border-left: 1px solid rgb(204, 204, 204);
   border-right: 1px solid rgb(204, 204, 204);
 }
+@media screen and (max-width: 720px){
+  .headingtext{
+    width: 100%;
+  }
+  .cardinfo{
+    width: 100%;
+    border-left: none;
+    border-right: none;
+  }
+  .img{
+    width: 100%;
+  }
+  .slider{
+    width: 100vw;
+    padding:0 5% 0 5%;
+  }
+  .cardflexend{
+    justify-content: flex-start;
+    gap: 10vw;
+  }
+}

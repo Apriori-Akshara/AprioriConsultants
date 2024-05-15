@@ -21,3 +21,22 @@
   font-size: 18px;
   font-weight: 700;
 }
+@media screen and (max-width: 720px){
+  .container{
+    flex-direction: column;
+    height: auto;
+    padding: 30px 0;
+    gap: 30px;
+  }
+  .card{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .icon1{
+    font-size: 40px;
+  }
+  .icon{
+    font-size: 35px;
+  }
+}

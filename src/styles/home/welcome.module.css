@@ -85,3 +85,23 @@
   padding: 10px;
   border-radius: 5px;
 }
+@media screen and (max-width: 720px){
+  .container{
+    flex-direction: column;
+    padding: 30px 5vw;
+  }
+  .left{
+    width: 100%;
+  }
+  .cards{
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+  .card{
+    width: 100%;
+  }
+  .img{
+    width: 100%;
+  }
+}

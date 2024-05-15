@@ -61,3 +61,22 @@
 .icons{
   font-size: 14px;
 }
+@media screen and (max-width: 720px){
+  .headingtext{
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .cards{
+    grid-template-columns: 1fr;
+    padding: 0 5%;
+  }
+  .card{
+    flex-direction: column;
+  }
+  .card, .imgcontainer, .img{
+    width: 100%;
+  }
+  .textcontainer{
+    width: 95.75%;
+  }
+}

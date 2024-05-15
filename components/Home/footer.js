@@ -23,7 +23,7 @@ export default function footer() {
         <div className={styles.btn}>Read More</div>
       </div>
 
-      <div className={styles.row2}>
+      <div className={styles.row3}>
         <div className={styles.heading1}>Social Links</div>
         <div className={styles.linkflex1}><FaInstagram /> <div>Instagram</div></div>
         <div className={styles.linkflex2}><FaFacebook /> <div>Facebook</div></div>
@@ -37,14 +37,17 @@ export default function footer() {
         <div className={styles.linkflex6}><FaPhoneAlt /> <div>+91 97171 89650/ 659</div></div>
         <div className={styles.linkflex7}><SiGmail /> <div>info@aprioriconsultants.org</div></div>
         <div className={styles.linkflex8}><FaLocationArrow className={styles.icon}/> <div>89, Nehru Pl Market Rd, Nehru Place, New Delhi, Delhi 110019</div></div>
-        <div className={styles.newsletter}>
+
+      </div>
+
+      <div className={styles.newsletter}>
           <div className={styles.heading2}>Subscribe to our newsletter</div>
+          <div className={styles.newletterdesc}>Subscribe to our newsletter for latest updates about our site for universe.</div>
           <div className={styles.newsletterc}>
             <input className={styles.input} placeholder='Your Email'/>
             <button className={styles.button}><BsSendFill /></button>
           </div>
         </div>
-      </div>
     </div>
 
     <div className={styles.bottom}>

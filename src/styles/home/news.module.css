@@ -55,3 +55,18 @@
   padding: 10px;
   color: white;
 }
+@media screen and (max-width: 720px){
+  .headingtext{
+    width: 100%;
+  }
+  .cards{
+    flex-direction: column;
+    gap:30px;
+  }
+  .card{
+    width: 100%;
+  }
+  .img{
+    width: 100%;
+  }
+}

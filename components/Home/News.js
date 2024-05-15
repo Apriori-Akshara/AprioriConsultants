@@ -7,7 +7,7 @@ export default function News() {
   return (
     <div>
     <div className={styles.topcontainer}>
-      <div className={styles.heading}>Upcoming <span>Events</span></div>
+      <div className={styles.heading}>Recent <span>News</span></div>
       <div className={styles.headingtext}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem autem voluptatem obcaecati!</div>
     </div>
 

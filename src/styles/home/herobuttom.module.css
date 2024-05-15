@@ -33,3 +33,21 @@
 .block3{
   background-color: rgb(20, 16, 57);
 }
+@media screen and (max-width: 720px){
+  .bigcontainer{
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    height: auto;
+    background-color: rgb(74, 59, 234);
+  }
+  .container{
+    position: static;
+    flex-direction: column;
+  }
+  .block,.block1,.block2,.block3{
+    flex-direction: row;
+    width: 70vw;
+    padding: 20px 10vw;
+  }
+}
