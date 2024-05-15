@@ -51,11 +51,11 @@
     flex-direction: column;
   }
   .left{
-    width: 100%;
+    width: 85vw;
     height: auto;
   }
   .img{
-    width: 100%;
+    display: none;
     height: 250px;
   }
   .text{
