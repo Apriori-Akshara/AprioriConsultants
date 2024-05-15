@@ -25,7 +25,6 @@ export default function Home() {
       </Head>
       <main>
         <div>
-          <Navbar />
           <Heroslider />
           <Herobottom />
           <Welcome />
@@ -35,7 +34,6 @@ export default function Home() {
           <Events />
           <Testimonials />
           <News />
-          <Footer />
         </div>
       </main>
     </>

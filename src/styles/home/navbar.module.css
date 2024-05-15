@@ -17,29 +17,33 @@
   align-items: center;
   gap: 0.5vw;
 }
-.ul li{
+.ul .link{
+  list-style: none;
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: 30px;
+  text-decoration: none;
+  color: black;
+}
+.uldown .link{
   list-style: none;
   font-size: 14px;
   padding: 8px 15px;
   border-radius: 30px;
 }
-.uldown li{
-  list-style: none;
-  font-size: 14px;
-  padding: 8px 15px;
-  border-radius: 30px;
-}
-.ul li:hover{
+.ul .link:hover{
   background-color: rgb(9, 0, 112);
   color: white;
   cursor: pointer;
 }
-.uldown li:hover{
+.uldown .link:hover{
   background-color: rgb(9, 0, 112);
   color: white;
   cursor: pointer;
 }
 .active{
+  font-size: 14px;
+  text-decoration: none;
   background-color: rgb(9, 0, 112);
   color: white;
   padding: 8px 15px;
@@ -138,7 +142,7 @@
     width: 90%;
     transition: 0.3s;
   }
-  .ul li, .uldown li{
+  .ul .link, .uldown .link{
     font-size: 18px;
     width: 85%;
   }

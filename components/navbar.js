@@ -1,21 +1,27 @@
 import styles from "../src/styles/home/navbar.module.css"
 import Image from "next/image"
 import { useState } from "react"
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function navbar() {
   const[toggle,setToggle] = useState(false) 
+
+  const router = useRouter();
+  const isActive = (href) => router.pathname === href;
+
   return (
     <div className={styles.navbar}>
         <Image className={styles.logoimage} src={'/logo/logo.jpg'} width={400} height={400} alt="logo-image"/>
       <div>
         <ul className={toggle ? `${styles.uldown}` : `${styles.ul}`}>
-          <li className={styles.active}>Home</li>
-          <li>Admissions</li>
-          <li>Test Prep</li>
-          <li>Languages</li>
-          <li>Testimonials</li>
-          <li>About Us</li>
-          <li>Contact Us</li>
+          <Link href='/' className={isActive('/') ? `${styles.active}`: `${styles.link}`}>Home</Link>
+          <Link href='/Admissions' className={isActive('/Admissions') ? `${styles.active}`: `${styles.link}`}>Admissions</Link>
+          <Link href='/TestPrep' className={isActive('/TestPrep') ? `${styles.active}`: `${styles.link}`}>Test Prep</Link>
+          <Link href='/Languages' className={isActive('/Languages') ? `${styles.active}`: `${styles.link}`}>Languages</Link>
+          <Link href='/Testimonials' className={isActive('/Testimonials') ? `${styles.active}`: `${styles.link}`}>Testimonials</Link>
+          <Link href='/About' className={isActive('/About') ? `${styles.active}`: `${styles.link}`}>About Us</Link>
+          <Link href='/Contact' className={isActive('/Contact') ? `${styles.active}`: `${styles.link}`}>Contact Us</Link>
         </ul>
         <div className={styles.btnscontainer}>
           <button onClick={()=>{setToggle(!toggle)}} className={toggle ? `${styles.menu} ${styles.opened}` : `${styles.menu}`} aria-label="Main Menu">
