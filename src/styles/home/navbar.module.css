@@ -1,3 +1,19 @@
+.show{
+  position: sticky;
+  width: 100vw;
+  top: 0;
+  background-color: white;
+  z-index: 500;
+  transition: 0.3s;
+}
+.hide{
+  position: sticky;
+  width: 100vw;
+  top: -200px;
+  background-color: white;
+  z-index: 500;
+  transition: 0.3s;
+}
 .navbar{
   display: flex;
   align-items: center;
@@ -30,6 +46,8 @@
   font-size: 14px;
   padding: 8px 15px;
   border-radius: 30px;
+  text-decoration: none;
+  color: black;
 }
 .ul .link:hover{
   background-color: rgb(9, 0, 112);
@@ -102,6 +120,9 @@
   stroke-width: 6;
 }
 @media screen and (max-width: 720px){
+  .hide{
+    top: 0;
+  }
   .menubutton{
     display: block;
   }
@@ -144,6 +165,11 @@
   }
   .ul .link, .uldown .link{
     font-size: 18px;
-    width: 85%;
+    width: 90%;
+  }
+  .active{
+    font-size: 18px;
+    width: 90%;
+    padding-left: 5%;
   }
 }

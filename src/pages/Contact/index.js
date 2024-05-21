@@ -1,26 +1,17 @@
 import React from 'react'
 import styles from '../../styles/home/Contact/contact.module.css'
 import Reveal from '../../../components/Reveal'
+import Navbar from '../../../components/navbar'
 
 export default function index() {
   return (
     <div>
-    {/* <Reveal>
-    <div className={styles.bigicontainer}>
-    <div className={styles.bigcontainer}>
-    <div className={styles.text10}>
-      <div className={`${styles.top55}`}>Contact Us</div>
-      <div className={`${styles.middle56} ${styles.text12}`}>“Get in touch with us! We're here to assist and answer your queries.”</div>
-      <div className={`${styles.bottom55} ${styles.text13}`}></div>
+    <Navbar />
+    <div className={styles.contopicc}>
+    <div className={styles.tint}></div>
+      <div className={styles.contopic}>Get in touch</div>
     </div>
-    <div className={styles.imgcont10}>
-      <Image className={styles.img10} width={2400} height={1600} src={"/illustrations/20.png"} alt="image"/>
-    </div>
-    </div>
-    </div>
-  </Reveal> */}
     <div className={styles.consubcontainer}>
-        <div className={styles.contopic}>Get in touch</div>
         <div className={styles.coninfos}>
           <Reveal>
             <div className={styles.coninfo}>

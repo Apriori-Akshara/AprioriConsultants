@@ -15,7 +15,7 @@
 .headingtext{
   text-align: center;
   font-size: 14px;
-  width: 25vw;
+  width: 35vw;
   margin-top: 10px;
   margin-bottom: 40px;
 }
@@ -34,11 +34,18 @@
   border-left: 1px solid rgb(204, 204, 204);
   border-right: 1px solid rgb(204, 204, 204);
   border-bottom: 2px solid #1f386b ;
+  min-height: 240px;
+}
+.text3{
+  background-color: #1f386b;
+  padding: 10px;
+  color: white;
+  margin-top: 15px;
 }
 .cardtitle{
   font-weight: 700;
   font-size: 18px;
-  margin: 15px 0;
+  margin-bottom: 15px;
 }
 .cardflexend{
   display: flex;
@@ -51,12 +58,16 @@
   border-left: 1px solid rgb(204, 204, 204);
   border-right: 1px solid rgb(204, 204, 204);
 }
+.link{
+  color: black;
+  text-decoration: none;
+}
 @media screen and (max-width: 720px){
   .headingtext{
     width: 100%;
   }
   .cardinfo{
-    width: 100%;
+    width: 90%;
     border-left: none;
     border-right: none;
   }
@@ -64,8 +75,8 @@
     width: 100%;
   }
   .slider{
-    width: 100vw;
-    padding:0 5% 0 5%;
+    width: 95vw;
+    padding:0;
   }
   .cardflexend{
     justify-content: flex-start;

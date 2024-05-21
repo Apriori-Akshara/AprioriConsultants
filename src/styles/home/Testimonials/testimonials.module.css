@@ -1,0 +1,93 @@
+.contopicc{
+  background-image: url('/Homepageassets/aboutus.png');
+  width: 90%;
+  height: 170px;
+  padding:0 10%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.tint{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 170px;
+  background-color: rgb(41, 41, 41, 0.5);
+}
+.contopic{
+  z-index: 1;
+  font-size: 40px;
+  font-weight: 600;
+  color: white;
+}
+.cards{
+  padding: 70px 10% 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px 20px;
+}
+.card{
+  border: 2px solid #eeeeee;
+  padding: 50px 5% 20px;
+  position: relative;
+  border-radius: 10px;
+}
+.imgc{
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  position: absolute;
+  top: -35px;
+}
+.img{
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+}
+.name{
+  color: rgb(255, 72, 0);
+  font-weight: bold !important;
+  font-size: 14px;
+}
+.school{
+  color: rgb(73, 73, 73);
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.marks{
+  color: #1c1c84;
+  font-weight: bold !important;
+  font-size: 13px;
+}
+.review{
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 300;
+}
+@media screen and (max-width: 720px){
+  .contopicc{
+    width: 80%;
+    height: 120px;
+  }
+  .tint{
+    height: 120px;
+  }
+  .cards{
+    padding: 70px 5% 30px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px 20px;
+  }
+  .review{
+    font-weight: 400;
+  }
+  .contopic{
+    font-size: 32px;
+  }
+}

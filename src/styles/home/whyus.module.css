@@ -9,13 +9,14 @@
 .left{
   background-color: rgb(9, 0, 112);
   width: 50vw;
-  height: 450px;
+  height: 550px;
   padding: 50px 7%;
   color: white;
 }
 .img{
+  object-fit: cover;
   width: 50vw;
-  height: 550px;
+  height: 650px;
 }
 .icondiv{
   width: 90px;

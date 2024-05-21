@@ -10,6 +10,7 @@ import { BsSendFill } from "react-icons/bs";
 import { FaPhoneAlt } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 import { FaLocationArrow } from "react-icons/fa";
+import Link from 'next/link';
 
 export default function footer() {
   return (
@@ -20,7 +21,7 @@ export default function footer() {
       <div className={styles.row1}>
         <Image className={styles.logoimage} src={'/logo/logo.jpg'} width={400} height={400} alt="logo-image"/>
         <div>GreenPeace is a library of Crowdfunding and Charity templates with predefined elements which helps you to build your own site. Lorem ipsum dolor sit amet consectetur.</div>
-        <div className={styles.btn}>Read More</div>
+        <Link className={styles.link} href='/About'><div className={styles.btn}>Read More</div></Link>
       </div>
 
       <div className={styles.row3}>

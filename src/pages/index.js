@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Navbar from "../../components/navbar"
 import Heroslider from "../../components/Home/Heroslider";
 import Herobottom from "../../components/Home/Herobottom";
 import Welcome from "../../components/Home/Welcome";
@@ -10,7 +9,7 @@ import Events from '../../components/Home/Events'
 import { Inter } from "next/font/google";
 import News from "../../components/Home/News";
 import Testimonials from "../../components/Home/testimonials";
-import Footer from "../../components/Home/footer";
+import Navbar from "../../components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,13 +24,14 @@ export default function Home() {
       </Head>
       <main>
         <div>
+        <Navbar />
           <Heroslider />
           <Herobottom />
           <Welcome />
           <Whyus />
           <Ourcourses />
-          <Counters />
-          <Events />
+          {/* <Counters />
+          <Events /> */}
           <Testimonials />
           <News />
         </div>
