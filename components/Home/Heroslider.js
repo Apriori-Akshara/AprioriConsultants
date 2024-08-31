@@ -12,7 +12,7 @@ export default function Heroslider() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3500,
     cssEase: "linear"
   };
   return (

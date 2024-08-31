@@ -20,7 +20,7 @@ export default function footer() {
 
       <div className={styles.row1}>
         <Image className={styles.logoimage} src={'/logo/logo.jpg'} width={400} height={400} alt="logo-image"/>
-        <div>GreenPeace is a library of Crowdfunding and Charity templates with predefined elements which helps you to build your own site. Lorem ipsum dolor sit amet consectetur.</div>
+        <div>Apriori Education was formed with a vision to reverse the prevalent trend of diminishing interest in liberal arts education and to refute the view that it is any less practical or vocational compared to the technical fields of study.</div>
         <Link className={styles.link} href='/About'><div className={styles.btn}>Read More</div></Link>
       </div>
 

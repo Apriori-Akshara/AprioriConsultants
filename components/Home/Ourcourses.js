@@ -8,7 +8,9 @@ export default function Ourcourses() {
     <div className={styles.container}>
     
       <Reveal><div className={styles.heading}>Our <span>Premium Services</span></div></Reveal>
-      <Reveal><div className={styles.headingtext}>Unlock advanced knowledge with our exclusive Premium courses. Dive deeper into specialized subjects and gain a competitive edge.</div></Reveal>
+      <Reveal><div className={styles.headingtext}>
+        {/* Unlock advanced knowledge with our exclusive Premium courses. Dive deeper into specialized subjects and gain a competitive edge. */}
+        </div></Reveal>
       <div>
         <CoursesSlider />
       </div>

@@ -30,7 +30,7 @@ export default function Herobottom() {
         <div>ONLINE HELP</div>
         </Reveal>
       </div>
-      <div className={styles.block2}>
+      {/* <div className={styles.block2}>
         <div>
         <Reveal>
           <FaCcPaypal className={styles.icons}/>
@@ -39,7 +39,7 @@ export default function Herobottom() {
         <Reveal>
         <div>ONLINE PAYMENT</div>
         </Reveal>
-      </div>
+      </div> */}
       <div className={styles.block3}>
         <div>
         <Reveal>

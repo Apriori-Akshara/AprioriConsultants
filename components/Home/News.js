@@ -12,7 +12,9 @@ export default function News() {
             <div className={styles.heading}>Our <span>Flagship</span> Programs</div>
     </Reveal>
 <Reveal>
-  <div className={styles.headingtext}>Embark on a multifaceted learning journey with our Flagship Programs. From fostering literacy and numeracy skills to unlocking the world of multilingualism, we empower curious minds across disciplines</div>
+  <div className={styles.headingtext}>
+    {/* Embark on a multifaceted learning journey with our Flagship Programs. From fostering literacy and numeracy skills to unlocking the world of multilingualism, we empower curious minds across disciplines */}
+    </div>
 </Reveal>
       
     </div>
