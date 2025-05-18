@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import Navbar from '../../../components/navbar'
+import Navbar from '../../../components/NavbarJS'
 import styles from '../../styles/home/admissions/admissions.module.css'
 import { FaCheck } from "react-icons/fa";
 

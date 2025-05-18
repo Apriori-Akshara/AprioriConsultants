@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import styles from '../../styles/home/Aboutus/about.module.css'
 import Reveal from '../../../components/Reveal'
-import Navbar from '../../../components/navbar'
+import Navbar from '../../../components/NavbarJS'
 
 export default function index() {
   return (

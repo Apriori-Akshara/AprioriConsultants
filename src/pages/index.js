@@ -6,12 +6,9 @@ import Whyus from "../../components/Home/Whyus";
 import Ourcourses from "../../components/Home/Ourcourses";
 import Counters from '../../components/Home/Counters'
 import Events from '../../components/Home/Events'
-import { Inter } from "next/font/google";
 import News from "../../components/Home/News";
 import Testimonials from "../../components/Home/testimonials";
-import Navbar from "../../components/navbar";
-
-const inter = Inter({ subsets: ["latin"] });
+import Navbar from "../../components/NavbarJS";
 
 export default function Home() {
   return (

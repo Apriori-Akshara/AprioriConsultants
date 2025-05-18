@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import styles from '../../styles/home/Testimonials/testimonials.module.css'
-import Navbar from '../../../components/navbar'
+import Navbar from '../../../components/NavbarJS'
 
 const info = [{name:'AKSHARA THAKUR', 
                 school:'Dubai International Academy', 

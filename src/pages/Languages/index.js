@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../../../components/navbar'
+import Navbar from '../../../components/NavbarJS'
 import styles from '../../styles/home/Languages/languages.module.css'
 import Slider from '../../../components/Languagespage/slider'
 import Reveal from '../../../components/Reveal'

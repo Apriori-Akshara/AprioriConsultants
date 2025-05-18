@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../../styles/home/Contact/contact.module.css'
 import Reveal from '../../../components/Reveal'
-import Navbar from '../../../components/navbar'
+import Navbar from '../../../components/NavbarJS'
 
 export default function index() {
   return (

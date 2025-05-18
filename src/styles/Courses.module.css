@@ -1,0 +1,100 @@
+.coursesContainer {
+  width: 80vw;
+  margin: 2.5rem auto;
+  padding: 2rem 1.5rem;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(30, 34, 90, 0.08);
+}
+
+.header {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #23263b;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #4b5563;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.boxesWrapper {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.courseBox {
+  background: linear-gradient(120deg, #f6f8fc 0%, #e9eefa 100%);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(30, 34, 90, 0.06);
+  padding: 2rem 1.5rem;
+  width: 44%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+
+.courseBox:hover {
+  box-shadow: 0 6px 24px rgba(30, 34, 90, 0.13);
+  transform: translateY(-4px) scale(1.03);
+}
+
+.icon {
+  font-size: 2.6rem;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+}
+
+.boxTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.boxDesc {
+  font-size: 1rem;
+  color: #475569;
+  text-align: center;
+}
+
+.adminDashboard {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin-top: 2rem;
+  text-decoration: none;
+  color: black;
+  box-shadow: 0 1px 6px rgba(30, 34, 90, 0.04);
+}
+
+.adminIcon {
+  font-size: 2.1rem;
+  color: #6366f1;
+}
+
+@media (max-width: 700px) {
+  .boxesWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .coursesContainer {
+    padding: 1rem 0.5rem;
+  }
+  .courseBox {
+    width: 80%;
+  }
+}

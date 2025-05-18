@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 10vw 10px;
+  padding: 15px 7vw 10px;
 }
 .logoimage{
  width: 7vw;
@@ -118,6 +118,21 @@
   stroke-dashoffset: -134;
   stroke-width: 6;
 }
+.loginBtn {
+  background: #004ba0;
+  color: #fff;
+  border: none;
+  padding: 0.6em 1.5em;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 1rem;
+}
+
+.loginBtn:hover {
+  background: #003264;
+}
 @media screen and (max-width: 720px){
   .hide{
     top: 0;
@@ -170,5 +185,16 @@
     font-size: 18px;
     width: 90%;
     padding-left: 5%;
+  }
+  .loginBtn{
+    font-size: 0.8rem;
+    margin-left: 0;
+  }
+  .btnsconta{
+    display: flex;
+    gap: 10px;
+    align-items: left;
+    justify-content: center;
+    margin-right: 10px;
   }
 }

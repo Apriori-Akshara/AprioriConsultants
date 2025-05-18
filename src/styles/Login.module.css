@@ -1,0 +1,106 @@
+.loginContainer {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #f0f4ff 0%, #e0e7ff 100%);
+}
+
+.loginBox {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(60, 80, 180, 0.12);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2a3a5e;
+  margin: 0;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.label {
+  text-align: center;
+  font-size: 1rem;
+  color: #2a3a5e;
+  font-weight: 500;
+}
+
+.inputField {
+  padding: 0.7rem 1rem;
+  border: none;
+  border-bottom: 1px solid black;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.inputField:focus {
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+}
+
+.loginButton {
+  background: #5b7fff;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 0;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: 0.5rem;
+}
+
+.loginButton:hover,
+.loginButton:focus {
+  background: #2a3a5e;
+}
+
+.error {
+  color: #e53935;
+  background: #fff0f0;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.98rem;
+}
+
+.loader {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+@media screen and (max-width: 720px){
+    .loginBox {
+       margin: 0 10px;
+    }
+}
