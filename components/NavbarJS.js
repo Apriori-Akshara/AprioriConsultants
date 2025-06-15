@@ -42,7 +42,7 @@ export default function navbar() {
       <div>
         <ul className={toggle ? `${styles.uldown}` : `${styles.ul}`}>
           <Link href='/' className={isActive('/') ? `${styles.active}`: `${styles.link}`}>Home</Link>
-          <Link href='/SATDiagnosticTest' className={isActive('/SATDiagnosticTest') ? `${styles.active}`: `${styles.link}`}>SAT Diagnostic Test</Link>
+          {/* <Link href='/SATDiagnosticTest' className={isActive('/SATDiagnosticTest') ? `${styles.active}`: `${styles.link}`}>SAT Diagnostic Test</Link> */}
           <Link href='/Admissions' className={isActive('/Admissions') ? `${styles.active}`: `${styles.link}`}>Admissions</Link>
           <Link href='/TestPrep' className={isActive('/TestPrep') ? `${styles.active}`: `${styles.link}`}>Test Prep</Link>
           <Link href='/Languages' className={isActive('/Languages') ? `${styles.active}`: `${styles.link}`}>Languages</Link>
