@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import "../styles/slick.css";
 import "../styles/slick-theme.css";
 import Layout from "../../components/Layout";

@@ -1,0 +1,53 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem; /* Equivalent to py-12, px-4 */
+}
+
+.title {
+  font-size: 1.5rem; /* approximate to text-2xl */
+  font-weight: bold;
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.marks {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #d1d5db; /* similar to border-gray-300 */
+  font-size: 0.875rem; /* text-sm */
+}
+.table th,
+.table td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem; /* px-2, py-2 */
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .table {
+    font-size: 1rem; /* md:text-base */
+  }
+  .table th,
+  .table td {
+    padding: 1rem; /* md:px-4, md:py-2 */
+  }
+}
+
+/* Table header row */
+.tableHeader {
+  background-color: #e5e7eb; /* approximates bg-gray-200 */
+}
+
+/* Row variants based on result */
+.correct {
+  background-color: #d1fae5; /* bg-green-100 */
+}
+.wrong {
+  background-color: #fee2e2; /* bg-red-100 */
+}

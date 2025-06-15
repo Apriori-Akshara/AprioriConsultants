@@ -1,0 +1,52 @@
+.container {
+  width: 90%;
+  background-color: #93c5fd; /* Equivalent to bg-blue-300 */
+  padding: 1rem; /* p-4 */
+  border-radius: 0.25rem; /* rounded */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* shadow */
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 25%; /* Equivalent to md:w-1/4 */
+  }
+}
+
+.heading {
+  font-size: 1.125rem; /* text-lg */
+  color: #ffffff; /* text-white */
+  font-weight: 600; /* font-semibold */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* grid-cols-5 */
+  gap: 1rem; /* gap-4 */
+  padding-left: 0.5rem; /* pl-2 */
+}
+
+.button {
+  width: 2.5rem; /* w-10 */
+  height: 2.5rem; /* h-10 */
+  border-radius: 0.25rem; /* rounded */
+  font-weight: 600; /* font-semibold */
+  border: none;
+  cursor: pointer;
+}
+
+/* Variation classes for button backgrounds and text colors */
+.default {
+  background-color: #ffffff; /* white */
+  color: #000000; /* black */
+}
+
+.answered {
+  background-color: #48bb78; /* bg-green-500 */
+  color: #ffffff;
+}
+
+.skipped {
+  background-color: #ecc94b; /* bg-yellow-500 */
+  color: #ffffff;
+}

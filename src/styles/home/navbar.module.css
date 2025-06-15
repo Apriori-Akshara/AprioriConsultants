@@ -34,7 +34,7 @@
 }
 .ul .link{
   list-style: none;
-  font-size: 14px;
+  font-size: 12px;
   padding: 8px 15px;
   border-radius: 30px;
   text-decoration: none;
@@ -42,7 +42,7 @@
 }
 .uldown .link{
   list-style: none;
-  font-size: 14px;
+  font-size: 12px;
   padding: 8px 15px;
   border-radius: 30px;
   text-decoration: none;
@@ -59,7 +59,7 @@
   cursor: pointer;
 }
 .active{
-  font-size: 14px;
+  font-size: 12px;
   text-decoration: none;
   background-color: rgb(9, 0, 112);
   color: white;

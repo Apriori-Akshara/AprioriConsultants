@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Practice Test 1",
+    "description": "A full-length practice test.",
+    "image": "/logo/img1.jpg",
+    "duration": "2 hours and 30 minutes"
+  },
+  {
+    "id": 2,
+    "title": "Practice Test 2",
+    "description": "A full-length practice test.",
+    "image": "/logo/img1.jpg",
+    "duration": "2 hours and 30 minutes"
+  },
+  {
+    "id": 3,
+    "title": "Practice Test 3",
+    "description": "A full-length practice test.",
+    "image": "/logo/img1.jpg",
+    "duration": "2 hours and 30 minutes"
+  },
+    {
+    "id": 4,
+    "title": "Practice Test 4",
+    "description": "A full-length practice test.",
+    "image": "/logo/img1.jpg",
+    "duration": "2 hours and 30 minutes"
+  },
+  {
+    "id": 5,
+    "title": "Practice Test 5",
+    "description": "A full-length practice test.",
+    "image": "/logo/img1.jpg",
+    "duration": "2 hours and 30 minutes"
+  },
+  {
+    "id": 6,
+    "title": "Practice Test 6",
+    "description": "A full-length practice test.",
+    "image": "/logo/img1.jpg",
+    "duration": "2 hours and 30 minutes"
+  }
+]
