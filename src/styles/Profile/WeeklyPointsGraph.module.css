@@ -1,0 +1,20 @@
+.chartContainer {
+  border: 1px solid rgb(232, 232, 232);
+  box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 8.6px;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #fff;
+  padding-bottom: 50px;
+  width: max-content;
+  height: 400px;
+  width: 69vw;
+}
+.chart {
+  position: relative;
+  height: 80%;
+}
+@media screen and (max-width: 1120px){
+  .chartContainer {
+    width: 84vw;
+  }
+}

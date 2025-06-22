@@ -1,0 +1,122 @@
+/* components/LastWeekTopPlayers.module.css */
+.container {
+  border: 1px solid #ddd;
+  box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 8.6px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.podiumItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 15px;
+  animation: rise 0.8s ease-out;
+  -webkit-animation: rise 0.8s ease-out; /* for Safari/Chrome */
+}
+
+.podiumBlock {
+  width: 80px;
+  background-color: #4caf50;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  animation: fadeIn 1s ease-in;
+  -webkit-animation: fadeIn 1s ease-in;
+}
+
+/* Different heights for each podium position */
+.first .podiumBlock {
+  height: 150px; /* tallest (1st) */
+}
+
+.second .podiumBlock {
+  height: 120px; /* medium (2nd) */
+}
+
+.third .podiumBlock {
+  height: 100px; /* smallest (3rd) */
+}
+
+.playerIcon {
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+}
+
+.playerName {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+.playerPoints {
+  font-size: 0.9rem;
+}
+
+/* Keyframes with vendor prefixes */
+@-webkit-keyframes rise {
+  0% {
+    -webkit-transform: translateY(50px);
+            transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  0% {
+    -webkit-transform: translateY(50px);
+            transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width:1120px){
+  .playerName{
+    font-size: 12px;
+  }
+  .podiumBlock{
+    width: 40px;
+  }
+}

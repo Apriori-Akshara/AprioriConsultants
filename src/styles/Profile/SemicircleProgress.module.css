@@ -1,0 +1,55 @@
+.big {
+  display: flex;
+  padding: 30px 10px;
+  width: 37vw;
+  gap: 2vw;
+}
+
+.new {
+  padding: 30px 10px;
+  margin-top: 30px;
+}
+
+.small {
+  font-size: 14px;
+  margin: 5px;
+}
+
+.heading {
+  font-weight: 600;
+}
+
+.container {
+  position: relative;
+  margin-top: 50px;
+  width: 15vw;
+  /* Using aspect-ratio 1:1 for a full circle */
+  aspect-ratio: 1 / 1;
+}
+
+@media (max-width: 1120px) {
+  .container {
+    width: 80vw;
+  }
+  .big{
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.bg {
+  opacity: 0.3;
+}
+
+.progress {
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+}

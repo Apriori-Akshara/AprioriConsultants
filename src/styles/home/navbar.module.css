@@ -75,6 +75,9 @@
 .btnscontainer{
   display: none;
 }
+.btnsconta{
+  display: flex;
+}
 .menu {
   background-color: transparent;
   border: none;
@@ -132,6 +135,70 @@
 
 .loginBtn:hover {
   background: #003264;
+}
+
+.userInfoContainer {
+  position: relative; /* Make the container relative for positioning the dropdown */
+  text-decoration: none;
+  background: #004ba0;
+  color: #fff;
+  border: none;
+  padding: 0.6em 1em;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-left: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  color: var(--blue);
+  cursor: pointer; /* Make the user info clickable */
+}
+
+.userIcon {
+  font-size: 1rem;
+  margin-right: 10px;
+  z-index: 700;
+}
+
+.userId {
+  font-size: 12px;
+  font-weight: 500;
+  color: black;
+  z-index: 700;
+}
+
+/* Dropdown menu styling */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 20px); /* 20px below the userInfo div */
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: max-content;
+  border: 1px solid rgb(204, 202, 202);
+}
+
+.logoutButton {
+  background-color: var(--blue);
+  color: black;
+  border: none;
+  padding: 0px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  text-align: left;
 }
 @media screen and (max-width: 720px){
   .hide{

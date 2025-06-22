@@ -1,0 +1,480 @@
+.right{
+  width: 100%;
+}
+
+.addButton {
+  margin-top: 16px;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filterContainer{
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.filterContainer label{
+  font-size: 18px;
+}
+
+.filterContainer select{
+  padding: 5px;
+outline: none;
+}
+
+.filterContainer select:focus{
+  outline: none;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
+}
+/* Small Bar Section */
+.smallBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #f9f9f9;
+  width: 30vw;
+}
+
+.small {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.matchRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.input {
+  display: block;
+  width: 50%;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.choiceInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Search input field */
+.searchContainer {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.searchContainer input {
+  border: 1px solid rgb(186, 186, 186);
+  padding: 10px 20px;
+  width: 30vw;
+  font-size: 14px;
+  border-radius: 50px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.searchContainer input:focus {
+  border: 1px solid #007bff;
+}
+
+/* Search icon */
+.searchIcon {
+  border: 1px solid rgb(186, 186, 186);
+  border-radius: 100%;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+/* "Create New" Button */
+.createButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.createButton:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.createButton:focus {
+  outline: none;
+}
+
+.tableContainer {
+  margin-top: 20px;
+  width: 65vw;
+  padding: 20px 0;
+  border-radius: 8px; /* Soft rounded corners for container */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean, professional font */
+  color: #333; /* Dark text for readability */
+}
+
+.table th,
+.table td {
+  border: 1px solid #e0e0e0; /* Lighter borders for cleaner look */
+  padding: 12px 10px; /* Increased padding for better spacing */
+  text-align: left;
+}
+
+.table td {
+  font-size: 14px; /* Slightly larger font size for better readability */
+}
+
+.table th {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase; /* Uppercase headers for emphasis */
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternating row colors for better readability */
+}
+
+.table tr:hover {
+  background-color: #f1f1f1; /* Light hover effect for row highlight */
+}
+
+.table .editButton,
+.table .deleteButton,
+.table .infoButton {
+  padding: 5px 7px; /* Comfortable button size */
+  font-size: 20px; /* Slightly smaller font size for buttons */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s; /* Smooth hover and click effects */
+  border: none;
+  outline: none;
+}
+
+.table .editButton {
+  background-color: rgb(111, 111, 204); /* Green for editing */
+  color: white;
+}
+
+.choiceRowflex{
+  display: flex;
+  width: 90%;
+}
+
+.table .editButton:hover {
+  background-color: rgb(90, 127, 59); /* Slightly darker green on hover */
+  transform: scale(1.05); /* Slight grow effect on hover */
+}
+
+.table .deleteButton {
+  background-color: rgb(84, 84, 247); /* Red for delete */
+  color: white;
+}
+
+.table .infoButton {
+  background-color: rgb(149, 96, 202); /* Red for delete */
+  color: white;
+}
+
+.errorpara{
+font-size: 14px;
+}
+
+.table .deleteButton:hover {
+  background-color: rgb(127, 59, 87); /* Slightly darker red on hover */
+  transform: scale(1.05); /* Slight grow effect on hover */
+}
+
+.table .infoButton:hover {
+  background-color: #008a9f; /* Red for delete */
+  transform: scale(1.05); /* Slight grow effect on hover */
+}
+
+.table td button:focus {
+  outline: none;
+}
+
+.flex5{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 3vw;
+}
+
+.table td button:active {
+  transform: scale(0.98); /* Subtle shrink effect on click */
+}
+
+.table td{
+  font-size: 13px;
+}
+
+.inputcontainer{
+  width: 100%;
+  display: flex;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30, 41, 59, 0.45); /* dark semi-transparent */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.formContainer {
+  position: relative;
+  background-color: #fff;
+  padding: 32px 28px;
+  border: none;
+  border-radius: 14px;
+  width: 70vw;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.18), 0 1.5px 8px rgba(30, 41, 59, 0.08);
+  z-index: 2100;
+  animation: modalPop 0.25s cubic-bezier(.4,2,.6,1) both;
+}
+
+@keyframes modalPop {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+/* Switch container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+/* Hide default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider (the animated part) */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 26px;
+}
+
+/* Circular knob inside the slider */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* When checkbox is checked */
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+/* Move knob to right when checked */
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: repeat(2, 1fr); /* Two inputs per line */
+  }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+}
+
+.formField label {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.formField input,
+.formField textarea {
+  padding: 8px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 90%; /* Ensure inputs take full width */
+}
+
+.smallInput {
+  max-width: 120px; /* Restrict width for small input */
+}
+
+.textareaInput {
+  height: 100px;
+  resize: vertical;
+}
+
+.fullWidth {
+  grid-column: span 2; /* Make desc take the full line */
+}
+
+.submitButton,
+.cancelButton {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 15px;
+}
+
+.submitButton {
+  background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
+  color: white;
+}
+
+.submitButton:hover {
+  background: linear-gradient(90deg, #33347e 0%, #3b82f6 80%);
+}
+
+.cancelButton {
+  background: linear-gradient(90deg, #639ef1 0%, #3b82f6 100%);
+  color: white;
+}
+
+.cancelButton:hover {
+  background: linear-gradient(90deg, #2e4970 0%, #3b82f6 80%);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal h2 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.modal ul {
+  list-style: none;
+  padding: 0;
+}
+
+.modal ul li {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.closeButton {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.closeButton:hover {
+  background: #d32f2f;
+}

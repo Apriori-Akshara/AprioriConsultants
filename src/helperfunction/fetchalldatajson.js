@@ -1,0 +1,38 @@
+export const cards = [
+    {
+        "code":"french",
+        "Exercises": {"folder":"ExerciseData","file" :"french", "array": "quiz"},
+        "Reading": {"folder":"ReadingAssignments","file" :"French", "array": "data"},
+        "Listening": {"folder":"ListeningAssignments","file" :"French", "array": "data"},
+        "ReadingP": {"folder":"Speechtracker","file" :"French", "array": "data"},
+        "Writing": {"folder":"WritingPractice","file" :"French", "array": "data"},
+        "PracticeTest": {"folder":"Practicetests","file" :"french", "array": "quiz"},
+    },
+    {
+        "code":"frencha2",
+        "Exercises": {"folder":"ExerciseData","file" :"frencha2", "array": "quiz"},
+        "Reading": {"folder":"ReadingAssignments","file" :"Frencha2", "array": "data"},
+        "Listening": {"folder":"ListeningAssignments","file" :"Frencha2", "array": "data"},
+        "ReadingP": {"folder":"Speechtracker","file" :"Frencha2", "array": "data"},
+        "Writing": {"folder":"WritingPractice","file" :"Frencha2", "array": "data"},
+        "PracticeTest": {"folder":"Practicetests","file" :"frencha2", "array": "quiz"},
+    },
+    {
+        "code":"frenchb1",
+        "Exercises": {"folder":"ExerciseData","file" :"frenchb1", "array": "quiz"},
+        "Reading": {"folder":"ReadingAssignments","file" :"FrenchB1", "array": "data"},
+        "Listening": {"folder":"ListeningAssignments","file" :"", "array": ""},
+        "ReadingP": {"folder":"Speechtracker","file" :"Frenchb1", "array": "data"},
+        "Writing": {"folder":"WritingPractice","file" :"Frenchb1", "array": "data"},
+        "PracticeTest": {"folder":"Practicetests","file" :"frenchb1", "array": "quiz"},
+    },
+    {
+        "code":"frenchb2",
+        "Exercises": {"folder":"ExerciseData","file" :"frenchb2", "array": "quiz"},
+        "Reading": {"folder":"ReadingAssignments","file" :"", "array": ""},
+        "Listening": {"folder":"ListeningAssignments","file" :"", "array": ""},
+        "ReadingP": {"folder":"Speechtracker","file" :"", "array": ""},
+        "Writing": {"folder":"WritingPractice","file" :"", "array": ""},
+        "PracticeTest": {"folder":"Practicetests","file" :"french", "array": "quiz"},
+    },
+] 

@@ -1,0 +1,26 @@
+/* LeaderboardPage.module.css */
+.page {
+    padding: 30px;
+    font-family: sans-serif;
+  }
+  .topSection {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .rightside{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  @media screen and (max-width: 1120px){
+    .topSection{
+      flex-direction: column;
+      width: 100%;
+    }
+    .page{
+      padding: 15px 2vw 0;
+    }
+  }
+  

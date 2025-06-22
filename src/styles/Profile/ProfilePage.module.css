@@ -1,0 +1,66 @@
+.page {
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+  margin-bottom: 20px;
+  align-items: stretch; /* Ensure children are equal height */
+}
+
+.left, 
+.right {
+  border: 1px solid rgb(232, 232, 232);
+  box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 8.6px;
+  border-radius: 5px;
+  flex: 1;
+  margin: 10px;
+}
+
+.bottomSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: stretch; /* Make all bottom section children equal height */
+}
+
+.graphContainer {
+  display: flex;
+  flex-direction: column;
+  width: 71vw;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.statsContainer {
+display: grid;
+grid-template-columns: 1fr;
+}
+
+.belowcontainer {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+@media screen and (max-width: 1120px){
+  .topSection {
+    flex-direction: column;
+    width: 100%;
+  }
+  .belowcontainer {
+    flex-direction: column;
+  }
+  .page{
+    padding: 10px 2vw;
+  }
+  .left{
+    margin: 0;
+  }
+  .right{
+    margin: 0;
+  }
+}

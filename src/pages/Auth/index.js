@@ -97,6 +97,7 @@ export default function Login() {
         dispatch(login({ 
           userId: data.user.userId, 
           name: name,
+          admin: data.user.admin,
           trial: data.user.trial, 
           type: data.user.type, 
           next: data.user.next,
@@ -108,6 +109,7 @@ export default function Login() {
         setCookie('user', JSON.stringify({
         userId: data?.user?.userId,
         name,
+        admin: data?.user?.admin,
         trial: data?.user?.trial,
         type: data?.user?.type,
         next: data.user.next,

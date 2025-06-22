@@ -1,0 +1,91 @@
+/* components/LeaderboardTable.module.css */
+.container {
+    border: 1px solid #ddd;
+    box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 8.6px;
+    padding: 15px 2vw 30px;
+    border-radius: 12px;
+    width: 41vw;
+    background-color: rgb(80, 173, 213);
+    margin-bottom: 20px;
+    color: white;
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .container::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .container::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  .container::-webkit-scrollbar-thumb {
+    background:  rgb(43, 131, 169);
+  }
+
+  .container::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .container::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  .container::-webkit-scrollbar-thumb {
+    background:  rgb(43, 131, 169);
+  }
+  .heading{
+    font-weight: 600;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .card{
+    font-size: 14px;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 8.6px;
+    padding: 20px 2vw;
+    margin: 20px 0 0;
+  }
+  .rank{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .cupIcon {
+    font-size: 20px;
+    color: #f4c542; /* Goldish color for the cup */
+  }
+  .flex1{
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .flex2{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .up{
+    color: rgb(224, 0, 0);
+    font-size: 20px;
+  }
+  .down{
+    color: rgb(0, 176, 0);
+    transform: rotate(180deg);
+    font-size: 20px;
+  }
+  .points{
+    font-size: 20px;
+    font-weight: 600;
+  }
+  @media screen and (max-width: 1120px){
+    .container{
+      width: 88vw;
+    }
+  }
+  

@@ -3,14 +3,22 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
+import { logout } from '../src/Store'
 
 export default function navbar() {
   const[toggle,setToggle] = useState(false) 
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { user } = useSelector((state) => state.auth);
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const router = useRouter();
   const isActive = (href) => router.pathname === href;
+  const dispatch = useDispatch();
+
+  console.log("User in Navbar: ", user);
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
@@ -22,6 +30,16 @@ export default function navbar() {
       // remember current page location to use in the next move
       setLastScrollY(window.scrollY); 
     }
+  };
+
+     const toggleDropdown = () => {
+    setDropdownVisible(!isDropdownVisible);
+  };
+
+    const handleLogout = () => {
+    window.location.href = '/';
+    dispatch(logout()); // Dispatch logout action
+    setDropdownVisible(false); // Hide dropdown after logging out
   };
 
   useEffect(() => {   
@@ -42,7 +60,7 @@ export default function navbar() {
       <div>
         <ul className={toggle ? `${styles.uldown}` : `${styles.ul}`}>
           <Link href='/' className={isActive('/') ? `${styles.active}`: `${styles.link}`}>Home</Link>
-          {/* <Link href='/SATDiagnosticTest' className={isActive('/SATDiagnosticTest') ? `${styles.active}`: `${styles.link}`}>SAT Diagnostic Test</Link> */}
+          <Link href='/SATDiagnosticTest' className={isActive('/SATDiagnosticTest') ? `${styles.active}`: `${styles.link}`}>SAT Diagnostic Test</Link>
           <Link href='/Admissions' className={isActive('/Admissions') ? `${styles.active}`: `${styles.link}`}>Admissions</Link>
           <Link href='/TestPrep' className={isActive('/TestPrep') ? `${styles.active}`: `${styles.link}`}>Test Prep</Link>
           <Link href='/Languages' className={isActive('/Languages') ? `${styles.active}`: `${styles.link}`}>Languages</Link>
@@ -54,7 +72,29 @@ export default function navbar() {
 
       <div className={styles.btnsconta}>
       <Link href='/Courses'><button className={styles.loginBtn}>Courses</button></Link>
-      <Link href='/Auth'><button className={styles.loginBtn}>Login</button></Link>
+              <div className={styles.endflex}>
+        {user ? (
+          <div className={styles.userInfoContainer}>
+            <div className={styles.userinfocont}>
+            <div className={styles.userInfo} onClick={toggleDropdown}>
+              <FaUserCircle className={styles.userIcon} />
+              <span className={styles.userIdm}>{user?.name?.slice(0,8)}{user?.name?.length > 14 ? '...' : ''}</span>
+            </div>
+            </div>
+            {/* Dropdown menu */}
+            {isDropdownVisible && (
+              <div className={styles.dropdownMenu}>
+                <Link href={'/Profile'} className={styles.logoutButton} onClick={toggleDropdown}>Profile</Link>
+                {/* <Link href={'/User'} className={styles.logoutButton} onClick={toggleDropdown}>Courses</Link>
+                <Link href={'/Forum'} className={styles.logoutButton} onClick={toggleDropdown}>Forum</Link> */}
+                <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link href='/Auth'><button className={styles.loginBtn}>Login</button></Link>
+        )}
+        </div>
       </div>
 
       <div className={styles.btnscontainer}>

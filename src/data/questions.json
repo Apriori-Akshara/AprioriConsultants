@@ -1579,4 +1579,1586 @@
     }
   ]
 }
-]}
+],
+ "2": [
+    {
+      "id": "1",
+      "question": "<div>If 5x - 7 = 18, what is the value of x?<img src='/img1.jpg' style='width:300px; margin-top:20px;' alt='image'/></div>",
+      "options": ["5", "4", "3", "2"],
+      "type": "math",
+      "answer": "5"
+    },
+    {
+      "id": "2",
+      "question": "A rectangle has a length of 8 and a width of 3. What is the area?",
+      "options": ["11", "24", "18", "21"],
+      "type": "math",
+      "answer": "24"
+    },
+    {
+      "id": "3",
+      "question": "Which of the following is equivalent to 3(x + 4)?",
+      "options": ["3x + 4", "x + 12", "3x + 12", "3x + 4x"],
+      "type": "math",
+      "answer": "3x + 12"
+    },
+    {
+      "id": "4",
+      "question": "Magda eats in a restaurant which is running a “15% off your final check” promotion. The food she orders comes to a pre-discount total of $x. She leaves a 22% tip on the discounted total. What is the correct total?",
+      "options": ["0.85x / 0.78x", "1.22x / 1.15", "1.70x", "(1.22)(0.85)x"],
+      "type": "math",
+      "answer": "(1.22)(0.85)x"
+    },
+    {
+      "id": "5",
+      "question": "What is the value of (3^2 + 4^2)?",
+      "options": ["25", "9", "16", "7"],
+      "type": "math",
+      "answer": "25"
+    },
+    {
+      "id": "6",
+      "question": "What is the slope of a line that passes through the points (2, 3) and (4, 7)?",
+      "options": ["2", "1", "4", "3"],
+      "type": "math",
+      "answer": "2"
+    },
+    {
+      "id": "7",
+      "question": "Simplify: 2(x - 3) + 4x",
+      "options": ["6x - 3", "6x - 6", "2x + 1", "2x - 3"],
+      "type": "math",
+      "answer": "6x - 6"
+    },
+    {
+      "id": "8",
+      "question": "The mean of five numbers is 12. What is the sum of the numbers?",
+      "options": ["60", "12", "5", "65"],
+      "type": "math",
+      "answer": "60"
+    },
+    {
+      "id": "9",
+      "question": "Solve for x: 2x + 5 = 17",
+      "options": ["6", "11", "5", "8"],
+      "type": "math",
+      "answer": "6"
+    },
+    {
+      "id": "10",
+      "question": "Which of the following is equal to (x + 2)(x - 2)?",
+      "options": ["x^2 - 4", "x^2 + 4", "x^2 + 2x - 4", "x^2 - 2x + 4"],
+      "type": "math",
+      "answer": "x^2 - 4"
+    },
+    {
+      "id": "11",
+      "question": "What is the value of 25% of 80?",
+      "options": ["20", "25", "16", "32"],
+      "type": "math",
+      "answer": "20"
+    },
+    {
+      "id": "12",
+      "question": "Convert 3/4 to a decimal.",
+      "options": ["0.75", "0.25", "1.25", "0.5"],
+      "type": "math",
+      "answer": "0.75"
+    },
+    {
+      "id": "13",
+      "question": "What is 30% of 150?",
+      "options": ["45", "30", "60", "50"],
+      "type": "math",
+      "answer": "45"
+    },
+    {
+      "id": "14",
+      "question": "If a triangle has angles 35° and 65°, what is the third angle?",
+      "options": ["80°", "90°", "100°", "70°"],
+      "type": "math",
+      "answer": "80°"
+    },
+    {
+      "id": "15",
+      "question": "What is the perimeter of a square with side length 6?",
+      "options": ["24", "36", "12", "18"],
+      "type": "math",
+      "answer": "24"
+    },
+    {
+      "id": "16",
+      "question": "Simplify: (x^2)(x^3)",
+      "options": ["x^5", "x^6", "x^8", "x^9"],
+      "type": "math",
+      "answer": "x^5"
+    },
+    {
+      "id": "17",
+      "question": "What is the greatest common factor of 18 and 24?",
+      "options": ["6", "12", "3", "9"],
+      "type": "math",
+      "answer": "6"
+    },
+    {
+      "id": "18",
+      "question": "If f(x) = x^2 + 2x, what is f(3)?",
+      "options": ["15", "11", "9", "21"],
+      "type": "math",
+      "answer": "15"
+    },
+    {
+      "id": "19",
+      "question": "Which expression is equivalent to 2x + 3x?",
+      "options": ["5x", "6x", "x^2", "x + 3x"],
+      "type": "math",
+      "answer": "5x"
+    },
+    {
+      "id": "20",
+      "question": "If the radius of a circle is 7, what is the area? (Use π ≈ 3.14)",
+      "options": ["153.86", "49", "43.96", "100"],
+      "type": "math",
+      "answer": "153.86"
+    },
+    {
+      "id": "21",
+      "question": "Solve: 3(2x - 4) = 18",
+      "options": ["x = 5", "x = 4", "x = 6", "x = 3"],
+      "type": "math",
+      "answer": "x = 5"
+    },
+    {
+      "id": "22",
+      "question": "Which is the next number in the pattern: 2, 4, 8, 16, __?",
+      "options": ["32", "20", "24", "18"],
+      "type": "math",
+      "answer": "32"
+    },
+    {
+      "id": "23",
+      "question": "The average of 4 and 10 is:",
+      "options": ["7", "6", "8", "5"],
+      "type": "math",
+      "answer": "7"
+    },
+    {
+      "id": "24",
+      "question": "If a bag contains 3 red, 5 blue, and 2 green marbles, what is the probability of picking a green marble?",
+      "options": ["1/5", "2/10", "1/2", "1/10"],
+      "type": "math",
+      "answer": "1/5"
+    },
+    {
+      "id": "25",
+      "question": "What is the cube of 3?",
+      "options": ["27", "9", "81", "12"],
+      "type": "math",
+      "answer": "27"
+    },
+ {
+    "id": "26",
+    "question": "Despite its small size, the new smartphone is remarkably __________.",
+    "options": ["fragile", "versatile", "tedious", "insignificant"],
+    "type": "english",
+    "answer": "versatile"
+  },
+  {
+    "id": "27",
+    "question": "Which sentence is punctuated correctly?",
+    "options": [
+      "Its important to read the instructions carefully.",
+      "It’s important to read the instructions carefully.",
+      "Its’ important to read the instructions carefully.",
+      "Its important to read the instructions, carefully."
+    ],
+    "type": "english",
+    "answer": "It’s important to read the instructions carefully."
+  },
+  {
+    "id": "28",
+    "question": "Select the synonym for “abundant.”",
+    "options": ["scarce", "plentiful", "rare", "deficient"],
+    "type": "english",
+    "answer": "plentiful"
+  },
+  {
+    "id": "29",
+    "question": "Which of the following is an example of a simile?",
+    "options": [
+      "Time flies when you’re having fun.",
+      "Her smile was a ray of sunshine.",
+      "He was as brave as a lion.",
+      "The thunder grumbled angrily."
+    ],
+    "type": "english",
+    "answer": "He was as brave as a lion."
+  },
+  {
+    "id": "30",
+    "question": "Identify the error in this sentence:\n“Neither the manager nor the employees was prepared for the sudden inspection.”",
+    "options": [
+      "Subject–verb agreement",
+      "Misplaced modifier",
+      "Pronoun–antecedent agreement",
+      "Parallel structure"
+    ],
+    "type": "english",
+    "answer": "Subject–verb agreement"
+  },
+  {
+    "id": "31",
+    "question": "Choose the word that is most nearly opposite in meaning to “arduous.”",
+    "options": ["simple", "challenging", "tiring", "demanding"],
+    "type": "english",
+    "answer": "simple"
+  },
+  {
+    "id": "32",
+    "question": "Which sentence uses the semicolon correctly?",
+    "options": [
+      "I have a big test tomorrow; I can’t go out tonight.",
+      "I have a big test tomorrow; and I can’t go out tonight.",
+      "I have a big test; tomorrow I can’t go out tonight.",
+      "I have a big test tomorrow I can’t; go out tonight."
+    ],
+    "type": "english",
+    "answer": "I have a big test tomorrow; I can’t go out tonight."
+  },
+  {
+    "id": "33",
+    "question": "Select the correct form of the verb:\n“If she ______ earlier, she would have caught the bus.”",
+    "options": ["leaves", "left", "had left", "has left"],
+    "type": "english",
+    "answer": "had left"
+  },
+  {
+    "id": "34",
+    "question": "In the following sentence, which word is a pronoun?\n“Everyone made their own decision.”",
+    "options": ["Everyone", "made", "their", "own"],
+    "type": "english",
+    "answer": "their"
+  },
+  {
+    "id": "35",
+    "question": "Choose the correct preposition:\n“She is proficient _____ three languages.”",
+    "options": ["in", "at", "on", "with"],
+    "type": "english",
+    "answer": "in"
+  },
+  {
+    "id": "36",
+    "question": "Which word is an example of an onomatopoeia?",
+    "options": ["whisper", "thud", "harmony", "glow"],
+    "type": "english",
+    "answer": "thud"
+  },
+  {
+    "id": "37",
+    "question": "Identify the main clause in this sentence:\n“Although it rained all day, we enjoyed the festival.”",
+    "options": [
+      "Although it rained all day",
+      "we enjoyed the festival",
+      "it rained all day",
+      "we enjoyed"
+    ],
+    "type": "english",
+    "answer": "we enjoyed the festival"
+  },
+  {
+    "id": "38",
+    "question": "Which word is spelled incorrectly?",
+    "options": ["accommodate", "definitely", "recieve", "miscellaneous"],
+    "type": "english",
+    "answer": "recieve"
+  },
+  {
+    "id": "39",
+    "question": "Choose the correct comparative form:\n“Of the two paths, the shorter one is ______.”",
+    "options": ["safer", "more safe", "most safe", "safest"],
+    "type": "english",
+    "answer": "safer"
+  },
+  {
+    "id": "40",
+    "question": "Which sentence contains a dangling modifier?",
+    "options": [
+      "After reading the book, the movie was disappointing.",
+      "Reading the book, I found it interesting.",
+      "The movie was disappointing after I read the book.",
+      "I read the book before watching the movie."
+    ],
+    "type": "english",
+    "answer": "After reading the book, the movie was disappointing."
+  },
+  {
+    "id": "41",
+    "question": "Select the correct plural form:\n“One of the baby’s ______ broke.”",
+    "options": ["tooth", "teeth", "teeths", "tooths"],
+    "type": "english",
+    "answer": "teeth"
+  },
+  {
+    "id": "42",
+    "question": "Which word best completes the sentence:\n“The committee reached a ______ decision.”",
+    "options": ["unanimous", "varied", "divided", "conflicting"],
+    "type": "english",
+    "answer": "unanimous"
+  },
+  {
+    "id": "43",
+    "question": "Choose the correctly punctuated sentence:",
+    "options": [
+      "She asked, “Will you help me?”",
+      "She asked “Will you help me?”",
+      "She asked “Will you help me?,”",
+      "She asked, “Will you help me?”,"
+    ],
+    "type": "english",
+    "answer": "She asked, “Will you help me?”"
+  },
+  {
+    "id": "44",
+    "question": "Identify the antonym of “diligent.”",
+    "options": ["lazy", "eager", "hardworking", "persistent"],
+    "type": "english",
+    "answer": "lazy"
+  },
+  {
+    "id": "45",
+    "question": "Which word is a collective noun?",
+    "options": ["flock", "bird", "fly", "cloud"],
+    "type": "english",
+    "answer": "flock"
+  },
+  {
+    "id": "46",
+    "question": "Choose the correct verb tense:\n“By the time you arrive, we _____ dinner.”",
+    "options": ["will finish", "have finished", "will have finished", "finished"],
+    "type": "english",
+    "answer": "will have finished"
+  },
+  {
+    "id": "47",
+    "question": "Which sentence correctly uses the word “affect”?",
+    "options": [
+      "The weather will affect our plans.",
+      "Her happy mood will effect everyone.",
+      "He was deeply effected by the news.",
+      "The affect of the movie was positive."
+    ],
+    "type": "english",
+    "answer": "The weather will affect our plans."
+  },
+  {
+    "id": "48",
+    "question": "Select the word that best fits:\n“His explanation was so ______ that everyone understood.”",
+    "options": ["lucid", "opaque", "mundane", "obscure"],
+    "type": "english",
+    "answer": "lucid"
+  },
+  {
+    "id": "49",
+    "question": "Which of these is a subordinating conjunction?",
+    "options": ["and", "but", "although", "or"],
+    "type": "english",
+    "answer": "although"
+  },
+  {
+    "id": "50",
+    "question": "Choose the correct form of the word:\n“She showed remarkable ______ in solving the problem.”",
+    "options": ["ingenuity", "ingenious", "ingenue", "ingeniously"],
+    "type": "english",
+    "answer": "ingenuity"
+  },
+{
+  "matheasy": [
+    {
+      "id": "1",
+      "question": "What is 2 + 2?",
+      "options": ["3", "4", "5", "6"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "2",
+      "question": "What is 10 - 3?",
+      "options": ["7", "6", "8", "5"],
+      "type": "math",
+      "answer": "7"
+    },
+    {
+      "id": "3",
+      "question": "What is the value of 5 × 3?",
+      "options": ["8", "10", "15", "20"],
+      "type": "math",
+      "answer": "15"
+    },
+    {
+      "id": "4",
+      "question": "What is 12 ÷ 4?",
+      "options": ["2", "3", "4", "6"],
+      "type": "math",
+      "answer": "3"
+    },
+    {
+      "id": "5",
+      "question": "What is the value of x if x + 5 = 10?",
+      "options": ["3", "4", "5", "6"],
+      "type": "math",
+      "answer": "5"
+    },
+    {
+      "id": "6",
+      "question": "What is the square of 4?",
+      "options": ["8", "12", "16", "20"],
+      "type": "math",
+      "answer": "16"
+    },
+    {
+      "id": "7",
+      "question": "What is the value of 100 - 45?",
+      "options": ["55", "65", "45", "50"],
+      "type": "math",
+      "answer": "55"
+    },
+    {
+      "id": "8",
+      "question": "If a = 3 and b = 4, what is a + b?",
+      "options": ["6", "7", "8", "9"],
+      "type": "math",
+      "answer": "7"
+    },
+    {
+      "id": "9",
+      "question": "What is half of 20?",
+      "options": ["5", "10", "15", "20"],
+      "type": "math",
+      "answer": "10"
+    },
+    {
+      "id": "10",
+      "question": "Which number is a multiple of both 2 and 3?",
+      "options": ["5", "6", "7", "9"],
+      "type": "math",
+      "answer": "6"
+    },
+    {
+      "id": "11",
+      "question": "What is the next number in the pattern: 2, 4, 6, ?",
+      "options": ["8", "10", "12", "14"],
+      "type": "math",
+      "answer": "8"
+    },
+    {
+      "id": "12",
+      "question": "What is the value of 9 + 6?",
+      "options": ["14", "15", "16", "17"],
+      "type": "math",
+      "answer": "15"
+    },
+    {
+      "id": "13",
+      "question": "How many sides does a triangle have?",
+      "options": ["2", "3", "4", "5"],
+      "type": "math",
+      "answer": "3"
+    },
+    {
+      "id": "14",
+      "question": "What is the perimeter of a square with side length 4?",
+      "options": ["8", "12", "16", "20"],
+      "type": "math",
+      "answer": "16"
+    },
+    {
+      "id": "15",
+      "question": "What is 5²?",
+      "options": ["10", "20", "25", "30"],
+      "type": "math",
+      "answer": "25"
+    },
+    {
+      "id": "16",
+      "question": "Which is greater: 0.5 or 0.05?",
+      "options": ["0.5", "0.05", "equal", "can't tell"],
+      "type": "math",
+      "answer": "0.5"
+    },
+    {
+      "id": "17",
+      "question": "What is 18 ÷ 2?",
+      "options": ["6", "7", "8", "9"],
+      "type": "math",
+      "answer": "9"
+    },
+    {
+      "id": "18",
+      "question": "Which of the following is an even number?",
+      "options": ["3", "5", "7", "8"],
+      "type": "math",
+      "answer": "8"
+    },
+    {
+      "id": "19",
+      "question": "If 3x = 12, what is x?",
+      "options": ["2", "3", "4", "5"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "20",
+      "question": "What is the value of 7 × 2?",
+      "options": ["12", "14", "16", "18"],
+      "type": "math",
+      "answer": "14"
+    },
+    {
+      "id": "21",
+      "question": "What is 1/2 of 8?",
+      "options": ["2", "4", "6", "8"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "22",
+      "question": "What is 9 - 4?",
+      "options": ["4", "5", "6", "7"],
+      "type": "math",
+      "answer": "5"
+    },
+    {
+      "id": "23",
+      "question": "What is 6 + 7?",
+      "options": ["11", "12", "13", "14"],
+      "type": "math",
+      "answer": "13"
+    },
+    {
+      "id": "24",
+      "question": "If y = 2, what is the value of y²?",
+      "options": ["2", "4", "6", "8"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "25",
+      "question": "What is the cube of 2?",
+      "options": ["4", "6", "8", "10"],
+      "type": "math",
+      "answer": "8"
+    }
+  ]
+},
+{
+  "mathmedium": [
+    {
+      "id": "1",
+      "question": "What is 5 * 6?",
+      "options": ["30", "25", "35", "20"],
+      "type": "math",
+      "answer": "30"
+    },
+    {
+      "id": "2",
+      "question": "What is 12 / 4?",
+      "options": ["3", "4", "2", "5"],
+      "type": "math",
+      "answer": "3"
+    },
+    {
+      "id": "3",
+      "question": "Solve for x: 3x - 4 = 11",
+      "options": ["5", "6", "7", "4"],
+      "type": "math",
+      "answer": "5"
+    },
+    {
+      "id": "4",
+      "question": "What is the area of a triangle with base 10 and height 4?",
+      "options": ["20", "40", "14", "24"],
+      "type": "math",
+      "answer": "20"
+    },
+    {
+      "id": "5",
+      "question": "What is the greatest common factor of 24 and 36?",
+      "options": ["6", "8", "12", "18"],
+      "type": "math",
+      "answer": "12"
+    },
+    {
+      "id": "6",
+      "question": "What is the value of 2² + 3²?",
+      "options": ["9", "10", "13", "12"],
+      "type": "math",
+      "answer": "13"
+    },
+    {
+      "id": "7",
+      "question": "A car travels 60 miles in 1.5 hours. What is its average speed in mph?",
+      "options": ["30", "40", "45", "50"],
+      "type": "math",
+      "answer": "40"
+    },
+    {
+      "id": "8",
+      "question": "Simplify: 2(x + 3) + 4",
+      "options": ["2x + 7", "2x + 10", "x + 9", "2x + 6"],
+      "type": "math",
+      "answer": "2x + 10"
+    },
+    {
+      "id": "9",
+      "question": "What is the median of 4, 7, 9, 10, 12?",
+      "options": ["7", "9", "8", "10"],
+      "type": "math",
+      "answer": "9"
+    },
+    {
+      "id": "10",
+      "question": "What is 20% of 80?",
+      "options": ["12", "14", "16", "18"],
+      "type": "math",
+      "answer": "16"
+    },
+    {
+      "id": "11",
+      "question": "What is the square root of 81?",
+      "options": ["7", "8", "9", "10"],
+      "type": "math",
+      "answer": "9"
+    },
+    {
+      "id": "12",
+      "question": "Simplify: (3x + 4x) - 2x",
+      "options": ["7x", "5x", "6x", "4x"],
+      "type": "math",
+      "answer": "5x"
+    },
+    {
+      "id": "13",
+      "question": "Convert 0.75 to a fraction.",
+      "options": ["3/4", "2/3", "1/2", "1/4"],
+      "type": "math",
+      "answer": "3/4"
+    },
+    {
+      "id": "14",
+      "question": "If a rectangle has a length of 7 and a perimeter of 24, what is the width?",
+      "options": ["3", "5", "6", "8"],
+      "type": "math",
+      "answer": "5"
+    },
+    {
+      "id": "15",
+      "question": "What is 4⁵ ÷ 4³?",
+      "options": ["4", "8", "16", "64"],
+      "type": "math",
+      "answer": "16"
+    },
+    {
+      "id": "16",
+      "question": "Solve: |3 - 7|",
+      "options": ["3", "4", "5", "6"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "17",
+      "question": "What is the value of x in 2x + 3 = 11?",
+      "options": ["3", "4", "5", "6"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "18",
+      "question": "What is the volume of a cube with side length 3?",
+      "options": ["9", "18", "27", "36"],
+      "type": "math",
+      "answer": "27"
+    },
+    {
+      "id": "19",
+      "question": "If 2x = 10, what is the value of x?",
+      "options": ["2", "4", "5", "6"],
+      "type": "math",
+      "answer": "5"
+    },
+    {
+      "id": "20",
+      "question": "What is the sum of angles in a triangle?",
+      "options": ["90°", "180°", "270°", "360°"],
+      "type": "math",
+      "answer": "180°"
+    },
+    {
+      "id": "21",
+      "question": "What is 9²?",
+      "options": ["18", "81", "27", "72"],
+      "type": "math",
+      "answer": "81"
+    },
+    {
+      "id": "22",
+      "question": "If a train travels 180 miles in 3 hours, what is its speed?",
+      "options": ["60", "70", "80", "90"],
+      "type": "math",
+      "answer": "60"
+    },
+    {
+      "id": "23",
+      "question": "Simplify: 5x + 3x - 2x",
+      "options": ["6x", "5x", "7x", "8x"],
+      "type": "math",
+      "answer": "6x"
+    },
+    {
+      "id": "24",
+      "question": "If 3 pencils cost $1.50, what is the cost of 1 pencil?",
+      "options": ["$0.25", "$0.50", "$0.75", "$1.00"],
+      "type": "math",
+      "answer": "$0.50"
+    },
+    {
+      "id": "25",
+      "question": "What is 10% of 150?",
+      "options": ["10", "15", "20", "25"],
+      "type": "math",
+      "answer": "15"
+    }
+  ]
+},
+{
+  "mathhard": [
+    {
+      "id": "1",
+      "question": "What is the square root of 144?",
+      "options": ["12", "14", "10", "16"],
+      "type": "math",
+      "answer": "12"
+    },
+    {
+      "id": "2",
+      "question": "What is 15% of 200?",
+      "options": ["30", "25", "35", "20"],
+      "type": "math",
+      "answer": "30"
+    },
+    {
+      "id": "3",
+      "question": "If x² - 9 = 0, what is x?",
+      "options": ["±3", "3", "-3", "0"],
+      "type": "math",
+      "answer": "±3"
+    },
+    {
+      "id": "4",
+      "question": "Simplify: (x² + 5x + 6) / (x + 3)",
+      "options": ["x + 2", "x + 3", "x + 1", "x + 6"],
+      "type": "math",
+      "answer": "x + 2"
+    },
+    {
+      "id": "5",
+      "question": "Solve for x: 2x² - 8 = 0",
+      "options": ["±2", "±4", "2", "-2"],
+      "type": "math",
+      "answer": "±2"
+    },
+    {
+      "id": "6",
+      "question": "What is the value of sin(30°)?",
+      "options": ["1/2", "√2/2", "√3/2", "1"],
+      "type": "math",
+      "answer": "1/2"
+    },
+    {
+      "id": "7",
+      "question": "What is the distance between the points (3,4) and (7,1)?",
+      "options": ["5", "4", "6", "7"],
+      "type": "math",
+      "answer": "5"
+    },
+    {
+      "id": "8",
+      "question": "If f(x) = x² - 3x + 2, what is f(2)?",
+      "options": ["0", "2", "1", "-1"],
+      "type": "math",
+      "answer": "0"
+    },
+    {
+      "id": "9",
+      "question": "What is the solution to the inequality 3x - 5 > 7?",
+      "options": ["x > 4", "x > 3", "x > 5", "x > 2"],
+      "type": "math",
+      "answer": "x > 4"
+    },
+    {
+      "id": "10",
+      "question": "Which equation represents a line perpendicular to y = 2x + 1?",
+      "options": ["y = -1/2x + 3", "y = 2x - 4", "y = x + 5", "y = -2x + 3"],
+      "type": "math",
+      "answer": "y = -1/2x + 3"
+    },
+    {
+      "id": "11",
+      "question": "What is the sum of the interior angles of a hexagon?",
+      "options": ["720°", "540°", "900°", "360°"],
+      "type": "math",
+      "answer": "720°"
+    },
+    {
+      "id": "12",
+      "question": "Factor completely: x² - 16",
+      "options": ["(x + 4)(x - 4)", "(x - 8)(x + 2)", "(x + 8)(x - 2)", "Prime"],
+      "type": "math",
+      "answer": "(x + 4)(x - 4)"
+    },
+    {
+      "id": "13",
+      "question": "If a circle has a diameter of 10, what is its area?",
+      "options": ["25π", "100π", "50π", "10π"],
+      "type": "math",
+      "answer": "25π"
+    },
+    {
+      "id": "14",
+      "question": "Solve for x: log₁₀x = 2",
+      "options": ["100", "10", "20", "1"],
+      "type": "math",
+      "answer": "100"
+    },
+    {
+      "id": "15",
+      "question": "What is the value of cos(60°)?",
+      "options": ["1/2", "√3/2", "0", "1"],
+      "type": "math",
+      "answer": "1/2"
+    },
+    {
+      "id": "16",
+      "question": "Simplify: (x³y²)²",
+      "options": ["x⁶y⁴", "x⁵y²", "x⁶y²", "x³y⁴"],
+      "type": "math",
+      "answer": "x⁶y⁴"
+    },
+    {
+      "id": "17",
+      "question": "Find the slope of the line passing through (2, 3) and (4, 7).",
+      "options": ["2", "1", "4", "3"],
+      "type": "math",
+      "answer": "2"
+    },
+    {
+      "id": "18",
+      "question": "Solve: 3^(x) = 81",
+      "options": ["4", "3", "5", "2"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "19",
+      "question": "Find the domain of f(x) = 1 / (x - 3)",
+      "options": ["x ≠ 3", "x ≠ 0", "x > 3", "x ≥ 3"],
+      "type": "math",
+      "answer": "x ≠ 3"
+    },
+    {
+      "id": "20",
+      "question": "If tan(θ) = 1 and θ is acute, what is θ?",
+      "options": ["45°", "30°", "60°", "90°"],
+      "type": "math",
+      "answer": "45°"
+    },
+    {
+      "id": "21",
+      "question": "Which is the solution to x² + 2x - 15 = 0?",
+      "options": ["x = -5 or x = 3", "x = 5 or x = -3", "x = -3 or x = -5", "x = 3 or x = 5"],
+      "type": "math",
+      "answer": "x = -5 or x = 3"
+    },
+    {
+      "id": "22",
+      "question": "What is the equation of a circle with center at (0,0) and radius 5?",
+      "options": ["x² + y² = 25", "x² + y² = 5", "x + y = 25", "x² + y² = 10"],
+      "type": "math",
+      "answer": "x² + y² = 25"
+    },
+    {
+      "id": "23",
+      "question": "What is the cube root of 64?",
+      "options": ["4", "8", "16", "6"],
+      "type": "math",
+      "answer": "4"
+    },
+    {
+      "id": "24",
+      "question": "Evaluate: (2/3) ÷ (4/5)",
+      "options": ["5/6", "8/15", "3/10", "10/12"],
+      "type": "math",
+      "answer": "5/6"
+    },
+    {
+      "id": "25",
+      "question": "What is the discriminant of x² + 4x + 4?",
+      "options": ["0", "4", "8", "16"],
+      "type": "math",
+      "answer": "0"
+    }
+  ]
+},
+{
+  "englisheasy": [
+    {
+      "id": "1",
+      "question": "Which word is a synonym for 'happy'?",
+      "options": ["Sad", "Angry", "Joyful", "Tired"],
+      "type": "english",
+      "answer": "Joyful"
+    },
+    {
+      "id": "2",
+      "question": "Choose the correct past tense of 'go'.",
+      "options": ["Goes", "Went", "Going", "Gone"],
+      "type": "english",
+      "answer": "Went"
+    },
+    {
+      "id": "3",
+      "question": "Which sentence is grammatically correct?",
+      "options": [
+        "He don't like pizza.",
+        "She go to school.",
+        "They are playing.",
+        "I am eat lunch."
+      ],
+      "type": "english",
+      "answer": "They are playing."
+    },
+    {
+      "id": "4",
+      "question": "What is the opposite of 'hot'?",
+      "options": ["Warm", "Cold", "Boiling", "Burning"],
+      "type": "english",
+      "answer": "Cold"
+    },
+    {
+      "id": "5",
+      "question": "Choose the correct article: ___ apple",
+      "options": ["A", "An", "The", "No article"],
+      "type": "english",
+      "answer": "An"
+    },
+    {
+      "id": "6",
+      "question": "What is the plural of 'child'?",
+      "options": ["Childs", "Children", "Childes", "Childer"],
+      "type": "english",
+      "answer": "Children"
+    },
+    {
+      "id": "7",
+      "question": "Which word is a noun?",
+      "options": ["Run", "Beautiful", "Chair", "Quickly"],
+      "type": "english",
+      "answer": "Chair"
+    },
+    {
+      "id": "8",
+      "question": "Which word best completes the sentence: I ___ to the store.",
+      "options": ["goed", "go", "gone", "went"],
+      "type": "english",
+      "answer": "went"
+    },
+    {
+      "id": "9",
+      "question": "What is the opposite of 'early'?",
+      "options": ["Late", "Soon", "Before", "Punctual"],
+      "type": "english",
+      "answer": "Late"
+    },
+    {
+      "id": "10",
+      "question": "Which is a complete sentence?",
+      "options": [
+        "When I went to school.",
+        "I like reading books.",
+        "Because it was raining.",
+        "Running fast."
+      ],
+      "type": "english",
+      "answer": "I like reading books."
+    },
+    {
+      "id": "11",
+      "question": "Which word is a verb?",
+      "options": ["Blue", "Jump", "Chair", "Pretty"],
+      "type": "english",
+      "answer": "Jump"
+    },
+    {
+      "id": "12",
+      "question": "Which is a question word?",
+      "options": ["And", "Because", "Where", "Also"],
+      "type": "english",
+      "answer": "Where"
+    },
+    {
+      "id": "13",
+      "question": "Which sentence uses the correct punctuation?",
+      "options": [
+        "What's your name.",
+        "What is your name?",
+        "What is your name",
+        "Whats your name?"
+      ],
+      "type": "english",
+      "answer": "What is your name?"
+    },
+    {
+      "id": "14",
+      "question": "Identify the adjective: The red ball bounced.",
+      "options": ["The", "Ball", "Bounced", "Red"],
+      "type": "english",
+      "answer": "Red"
+    },
+    {
+      "id": "15",
+      "question": "Which word is an antonym of 'fast'?",
+      "options": ["Quick", "Speedy", "Rapid", "Slow"],
+      "type": "english",
+      "answer": "Slow"
+    },
+    {
+      "id": "16",
+      "question": "Choose the correct form: She ___ a movie last night.",
+      "options": ["see", "sees", "saw", "seen"],
+      "type": "english",
+      "answer": "saw"
+    },
+    {
+      "id": "17",
+      "question": "What is a pronoun?",
+      "options": ["Car", "Happy", "He", "Run"],
+      "type": "english",
+      "answer": "He"
+    },
+    {
+      "id": "18",
+      "question": "Which word means the same as 'begin'?",
+      "options": ["End", "Start", "Stop", "Finish"],
+      "type": "english",
+      "answer": "Start"
+    },
+    {
+      "id": "19",
+      "question": "Which of these is a compound word?",
+      "options": ["Basketball", "Red", "Ball", "Play"],
+      "type": "english",
+      "answer": "Basketball"
+    },
+    {
+      "id": "20",
+      "question": "Identify the adverb: He runs quickly.",
+      "options": ["He", "Runs", "Quickly", "Fast"],
+      "type": "english",
+      "answer": "Quickly"
+    },
+    {
+      "id": "21",
+      "question": "Which word is misspelled?",
+      "options": ["Receive", "Definitely", "Recieve", "Tomorrow"],
+      "type": "english",
+      "answer": "Recieve"
+    },
+    {
+      "id": "22",
+      "question": "Which is a proper noun?",
+      "options": ["city", "dog", "London", "book"],
+      "type": "english",
+      "answer": "London"
+    },
+    {
+      "id": "23",
+      "question": "Choose the word that best completes the sentence: I like ___ apple pie.",
+      "options": ["a", "an", "the", "no"],
+      "type": "english",
+      "answer": "the"
+    },
+    {
+      "id": "24",
+      "question": "Which is a synonym for 'small'?",
+      "options": ["Tiny", "Huge", "Tall", "Big"],
+      "type": "english",
+      "answer": "Tiny"
+    },
+    {
+      "id": "25",
+      "question": "Choose the correct form: They ___ playing soccer.",
+      "options": ["is", "are", "was", "be"],
+      "type": "english",
+      "answer": "are"
+    }
+  ]
+},
+{
+  "englishmedium": [
+    {
+      "id": "1",
+      "question": "Which word is closest in meaning to 'reluctant'?",
+      "options": ["Willing", "Hesitant", "Happy", "Eager"],
+      "type": "english",
+      "answer": "Hesitant"
+    },
+    {
+      "id": "2",
+      "question": "Identify the correct sentence.",
+      "options": [
+        "Their going to the store.",
+        "They're going to the store.",
+        "There going to the store.",
+        "Theyre going to the store."
+      ],
+      "type": "english",
+      "answer": "They're going to the store."
+    },
+    {
+      "id": "3",
+      "question": "Which word best completes the sentence: She has a very ___ personality.",
+      "options": ["color", "colorful", "colored", "coloring"],
+      "type": "english",
+      "answer": "colorful"
+    },
+    {
+      "id": "4",
+      "question": "What is the function of a conjunction in a sentence?",
+      "options": [
+        "Describes a noun",
+        "Connects words or phrases",
+        "Shows action",
+        "Replaces a noun"
+      ],
+      "type": "english",
+      "answer": "Connects words or phrases"
+    },
+    {
+      "id": "5",
+      "question": "Choose the sentence with correct subject-verb agreement.",
+      "options": [
+        "The dogs barks loudly.",
+        "She run every day.",
+        "He plays guitar well.",
+        "They walks to school."
+      ],
+      "type": "english",
+      "answer": "He plays guitar well."
+    },
+    {
+      "id": "6",
+      "question": "Which of the following is a metaphor?",
+      "options": [
+        "He ran like the wind.",
+        "She is a shining star.",
+        "As brave as a lion.",
+        "He swims like a fish."
+      ],
+      "type": "english",
+      "answer": "She is a shining star."
+    },
+    {
+      "id": "7",
+      "question": "What is the meaning of the prefix 'pre-'?",
+      "options": ["After", "Again", "Before", "Not"],
+      "type": "english",
+      "answer": "Before"
+    },
+    {
+      "id": "8",
+      "question": "Choose the sentence that uses a semicolon correctly.",
+      "options": [
+        "I have a big test tomorrow; I can't go out tonight.",
+        "I have a big test tomorrow; but I can't go out tonight.",
+        "I have a big test; tomorrow I can't go out tonight.",
+        "I have; a big test tomorrow I can't go out tonight."
+      ],
+      "type": "english",
+      "answer": "I have a big test tomorrow; I can't go out tonight."
+    },
+    {
+      "id": "9",
+      "question": "Which word is an antonym for 'generous'?",
+      "options": ["Kind", "Selfish", "Giving", "Loving"],
+      "type": "english",
+      "answer": "Selfish"
+    },
+    {
+      "id": "10",
+      "question": "Which sentence is in passive voice?",
+      "options": [
+        "The teacher praised the student.",
+        "The student received praise from the teacher.",
+        "The teacher gave praise.",
+        "The student earned praise."
+      ],
+      "type": "english",
+      "answer": "The student received praise from the teacher."
+    },
+    {
+      "id": "11",
+      "question": "What is the meaning of 'benevolent'?",
+      "options": ["Evil", "Kind", "Lazy", "Tired"],
+      "type": "english",
+      "answer": "Kind"
+    },
+    {
+      "id": "12",
+      "question": "What part of speech is the word 'quickly'?",
+      "options": ["Adjective", "Noun", "Adverb", "Verb"],
+      "type": "english",
+      "answer": "Adverb"
+    },
+    {
+      "id": "13",
+      "question": "What is the root word in 'unhappiness'?",
+      "options": ["Un", "Happy", "Ness", "Happiness"],
+      "type": "english",
+      "answer": "Happy"
+    },
+    {
+      "id": "14",
+      "question": "What is the indirect object in the sentence: She gave her friend a gift.",
+      "options": ["She", "Gave", "Gift", "Friend"],
+      "type": "english",
+      "answer": "Friend"
+    },
+    {
+      "id": "15",
+      "question": "Which punctuation mark is used to show possession?",
+      "options": ["Comma", "Period", "Apostrophe", "Colon"],
+      "type": "english",
+      "answer": "Apostrophe"
+    },
+    {
+      "id": "16",
+      "question": "Choose the word that fits: He was known for his ___.",
+      "options": ["Generous", "Generosity", "Generously", "Generating"],
+      "type": "english",
+      "answer": "Generosity"
+    },
+    {
+      "id": "17",
+      "question": "Which word is a homophone for 'pair'?",
+      "options": ["Pare", "Pear", "Peer", "Pier"],
+      "type": "english",
+      "answer": "Pear"
+    },
+    {
+      "id": "18",
+      "question": "What is the main idea of a passage?",
+      "options": [
+        "The first sentence",
+        "The most exciting part",
+        "The central point or message",
+        "The last sentence"
+      ],
+      "type": "english",
+      "answer": "The central point or message"
+    },
+    {
+      "id": "19",
+      "question": "Which is an example of alliteration?",
+      "options": [
+        "She sells sea shells by the sea shore.",
+        "The stars are like diamonds.",
+        "The thunder roared.",
+        "As light as a feather."
+      ],
+      "type": "english",
+      "answer": "She sells sea shells by the sea shore."
+    },
+    {
+      "id": "20",
+      "question": "Which word completes the analogy: Book is to Reading as Fork is to ___?",
+      "options": ["Drawing", "Writing", "Stirring", "Eating"],
+      "type": "english",
+      "answer": "Eating"
+    },
+    {
+      "id": "21",
+      "question": "What type of sentence is: 'Do your homework.'?",
+      "options": ["Interrogative", "Declarative", "Imperative", "Exclamatory"],
+      "type": "english",
+      "answer": "Imperative"
+    },
+    {
+      "id": "22",
+      "question": "Which best defines 'ambiguous'?",
+      "options": ["Clear", "Uncertain", "Precise", "Simple"],
+      "type": "english",
+      "answer": "Uncertain"
+    },
+    {
+      "id": "23",
+      "question": "Choose the best transition word to show contrast.",
+      "options": ["Furthermore", "In addition", "However", "Similarly"],
+      "type": "english",
+      "answer": "However"
+    },
+    {
+      "id": "24",
+      "question": "Which word is an interjection?",
+      "options": ["Run", "Quick", "Wow", "Under"],
+      "type": "english",
+      "answer": "Wow"
+    },
+    {
+      "id": "25",
+      "question": "What’s the past participle of 'begin'?",
+      "options": ["Began", "Beginned", "Begun", "Beginning"],
+      "type": "english",
+      "answer": "Begun"
+    }
+  ]
+},
+{
+  "englishhard": [
+    {
+      "id": "1",
+      "question": "Identify the sentence with correct parallel structure.",
+      "options": [
+        "She likes running, to swim, and biking.",
+        "She likes running, swimming, and biking.",
+        "She likes to run, swimming, and biking.",
+        "She likes running, swimming, and to bike."
+      ],
+      "type": "english",
+      "answer": "She likes running, swimming, and biking."
+    },
+    {
+      "id": "2",
+      "question": "Which word is closest in meaning to 'ubiquitous'?",
+      "options": ["Rare", "Everywhere", "Unknown", "Simple"],
+      "type": "english",
+      "answer": "Everywhere"
+    },
+    {
+      "id": "3",
+      "question": "Which sentence uses a subjunctive mood?",
+      "options": [
+        "If I was rich, I would travel the world.",
+        "If I were rich, I would travel the world.",
+        "I am rich, I travel the world.",
+        "When I am rich, I travel the world."
+      ],
+      "type": "english",
+      "answer": "If I were rich, I would travel the world."
+    },
+    {
+      "id": "4",
+      "question": "Choose the best synonym for 'obfuscate'.",
+      "options": ["Clarify", "Simplify", "Confuse", "Explain"],
+      "type": "english",
+      "answer": "Confuse"
+    },
+    {
+      "id": "5",
+      "question": "What rhetorical device is being used: 'The pen is mightier than the sword'?",
+      "options": ["Alliteration", "Metaphor", "Synecdoche", "Metonymy"],
+      "type": "english",
+      "answer": "Metonymy"
+    },
+    {
+      "id": "6",
+      "question": "Which sentence uses an appositive phrase?",
+      "options": [
+        "She ran quickly across the field.",
+        "My friend, a skilled musician, played the piano beautifully.",
+        "They left before the sun rose.",
+        "The movie was too long."
+      ],
+      "type": "english",
+      "answer": "My friend, a skilled musician, played the piano beautifully."
+    },
+    {
+      "id": "7",
+      "question": "What is the meaning of the idiom 'beat around the bush'?",
+      "options": [
+        "To strike foliage",
+        "To avoid the main topic",
+        "To garden aggressively",
+        "To move quickly"
+      ],
+      "type": "english",
+      "answer": "To avoid the main topic"
+    },
+    {
+      "id": "8",
+      "question": "Which word is an example of an oxymoron?",
+      "options": ["Bittersweet", "Delightful", "Fearful", "Tasty"],
+      "type": "english",
+      "answer": "Bittersweet"
+    },
+    {
+      "id": "9",
+      "question": "Choose the sentence with correct use of a colon.",
+      "options": [
+        "He brought: bread, butter, and jam.",
+        "He brought bread: butter, and jam.",
+        "He brought three things: bread, butter, and jam.",
+        "He: brought bread, butter, and jam."
+      ],
+      "type": "english",
+      "answer": "He brought three things: bread, butter, and jam."
+    },
+    {
+      "id": "10",
+      "question": "Which is an example of a complex sentence?",
+      "options": [
+        "He went home and cooked dinner.",
+        "Although it was raining, she went jogging.",
+        "He is tall, and she is short.",
+        "The cat meowed."
+      ],
+      "type": "english",
+      "answer": "Although it was raining, she went jogging."
+    },
+    {
+      "id": "11",
+      "question": "What is the best revision for clarity: 'Walking in the park, the flowers smelled lovely.'?",
+      "options": [
+        "The flowers smelled lovely walking in the park.",
+        "Walking in the park, lovely flowers were smelled.",
+        "Walking in the park, I noticed the flowers smelled lovely.",
+        "The flowers were walking in the park."
+      ],
+      "type": "english",
+      "answer": "Walking in the park, I noticed the flowers smelled lovely."
+    },
+    {
+      "id": "12",
+      "question": "Which of these uses correct punctuation for a nonessential clause?",
+      "options": [
+        "My brother who lives in Canada is visiting.",
+        "My brother, who lives in Canada is visiting.",
+        "My brother who lives in Canada, is visiting.",
+        "My brother, who lives in Canada, is visiting."
+      ],
+      "type": "english",
+      "answer": "My brother, who lives in Canada, is visiting."
+    },
+    {
+      "id": "13",
+      "question": "Which word completes the sentence correctly? 'She is known for her _____ behavior.'",
+      "options": ["impulsively", "impulsive", "impulse", "impulsing"],
+      "type": "english",
+      "answer": "impulsive"
+    },
+    {
+      "id": "14",
+      "question": "What does the word 'cacophony' mean?",
+      "options": ["Harmony", "Loud unpleasant noise", "Soft melody", "Silence"],
+      "type": "english",
+      "answer": "Loud unpleasant noise"
+    },
+    {
+      "id": "15",
+      "question": "What type of irony is used when the audience knows something the character does not?",
+      "options": ["Verbal", "Situational", "Dramatic", "Coincidental"],
+      "type": "english",
+      "answer": "Dramatic"
+    },
+    {
+      "id": "16",
+      "question": "Which literary device involves giving human traits to non-human things?",
+      "options": ["Metaphor", "Personification", "Hyperbole", "Simile"],
+      "type": "english",
+      "answer": "Personification"
+    },
+    {
+      "id": "17",
+      "question": "What is the best definition of 'ephemeral'?",
+      "options": ["Eternal", "Fleeting", "Painful", "Delightful"],
+      "type": "english",
+      "answer": "Fleeting"
+    },
+    {
+      "id": "18",
+      "question": "Which of the following is a compound-complex sentence?",
+      "options": [
+        "I like tea and he likes coffee.",
+        "Although I was tired, I went out, and I had fun.",
+        "I will stay home.",
+        "She cooks dinner every night."
+      ],
+      "type": "english",
+      "answer": "Although I was tired, I went out, and I had fun."
+    },
+    {
+      "id": "19",
+      "question": "Which of the following is an example of hyperbole?",
+      "options": [
+        "She’s taller than her brother.",
+        "He runs faster than a cheetah.",
+        "He ran a mile in five minutes.",
+        "She is very strong."
+      ],
+      "type": "english",
+      "answer": "He runs faster than a cheetah."
+    },
+    {
+      "id": "20",
+      "question": "What is the function of a gerund in a sentence?",
+      "options": ["Verb", "Adjective", "Noun", "Adverb"],
+      "type": "english",
+      "answer": "Noun"
+    },
+    {
+      "id": "21",
+      "question": "Choose the correct form: 'Neither the manager nor the employees ___ working late.'",
+      "options": ["enjoys", "enjoy", "has enjoyed", "is enjoying"],
+      "type": "english",
+      "answer": "enjoy"
+    },
+    {
+      "id": "22",
+      "question": "What is the tone of the sentence: 'Despite his failures, he remained unfazed and optimistic.'?",
+      "options": ["Cynical", "Hopeful", "Irritated", "Indifferent"],
+      "type": "english",
+      "answer": "Hopeful"
+    },
+    {
+      "id": "23",
+      "question": "Which best describes anaphora?",
+      "options": [
+        "The repetition of the same word at the beginning of successive clauses",
+        "The use of irony",
+        "The opposite of metaphor",
+        "The overuse of adjectives"
+      ],
+      "type": "english",
+      "answer": "The repetition of the same word at the beginning of successive clauses"
+    },
+    {
+      "id": "24",
+      "question": "What does 'juxtaposition' mean in literature?",
+      "options": [
+        "To compare two ideas indirectly",
+        "To place two contrasting ideas together for effect",
+        "To repeat an idea for emphasis",
+        "To exaggerate for humor"
+      ],
+      "type": "english",
+      "answer": "To place two contrasting ideas together for effect"
+    },
+    {
+      "id": "25",
+      "question": "What is the mood conveyed by the sentence: 'The wind howled through the desolate alleyways, echoing like a ghost’s lament'?",
+      "options": ["Cheerful", "Romantic", "Ominous", "Relaxed"],
+      "type": "english",
+      "answer": "Ominous"
+    }
+  ]
+}
+]
+}

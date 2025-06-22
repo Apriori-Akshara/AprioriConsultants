@@ -3,8 +3,10 @@ import Navbar from '../../../components/NavbarJS'
 import styles from '../../styles/Courses.module.css'
 import { FaGraduationCap, FaChartLine, FaUserShield } from 'react-icons/fa'
 import Link from 'next/link'
+import { useSelector } from 'react-redux'
 
 export default function Courses() {
+  const { user } = useSelector((state) => state.auth);
   return (
     <>
       <Navbar />
@@ -29,7 +31,7 @@ export default function Courses() {
             </p>
           </Link>
         </div>
-        <Link href='/Admin' className={styles.adminDashboard}>
+        {user?.admin && <Link href='/Admin' className={styles.adminDashboard}>
           <FaUserShield className={styles.adminIcon} />
           <div>
             <h3>Admin Dashboard</h3>
@@ -37,7 +39,7 @@ export default function Courses() {
               Access course management, student progress tracking, and analytics. For authorized administrators only.
             </p>
           </div>
-        </Link>
+        </Link>}
       </div>
     </>
   )
