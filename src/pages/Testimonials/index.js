@@ -254,35 +254,6 @@ const info = [
   },
 
   // =========================
-  // FOREIGN LANGUAGES
-  // No inset images
-  // =========================
-  {
-    name: 'DYUMNA',
-    school: 'Christ University (Banglore)',
-    marks: 'SPANISH FOUNDATION (A1 & A2)',
-    review:
-      'The beginner level Spanish lessons took up a very holistic approach towards understanding the language and to gain the ability to start speaking it a little by the end of the modules. Dominic sir’s way of teaching helped me in initiating and engaging in basic conversation in Spanish. Overall, it was a wonderful experience learning at Apriori!',
-    id: '7',
-  },
-  {
-    name: 'NIPUN BANERJEE',
-    school: 'IIHM (New Delhi)',
-    marks: 'SPANISH FOUNDATION (A1 & A2)',
-    review:
-      'The overall content delivery was phenomenal. The level of interaction even in an online session made the whole experience fruitful. The content itself was extremely informative and the most important part of the classes that made it different and effective was the practice of correct pronunciation. That itself is something that is hard to grasp and teach.',
-    id: '9',
-  },
-  {
-    name: 'PRISHA CHHABRA',
-    school: 'Rukmani Birla (Jaipur)',
-    marks: 'GERMAN FOUNDATION & INTERMEDIATE (A1, A2, B1 & B2)',
-    review:
-      'The 10-day Spanish foundation course with Apriori Education completely changed the way I look at learning a new language. I am thankful to be aware of how enriching, fun and lasting the knowledge of an interesting language like Spanish can be. From the first class till the last; my interest only kept mounting. In this lesson, you don’t learn simply the ABCs of a language, you learn every aspect of its practicality when you come around to speaking it.\nIn completing every assignment filled with realistic questions and conversations, I gained a sense of achievement thanks to the incredible and novel teaching of Dominic Sir. I truly miss this class, and grateful to have the experience!',
-    id: '10',
-  },
-
-  // =========================
   // OTHER EXISTING TESTIMONIAL
   // No inset image
   // =========================
