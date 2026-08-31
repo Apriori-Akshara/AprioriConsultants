@@ -8,7 +8,7 @@ const info = [
   // SAT — WITH SCORES
   // =========================
   {
-    name: 'AKSHARA THAKUR',
+    name: 'AKSHARA',
     school: 'Dubai International Academy',
     marks: 'SAT 1560 (790 M, 770 V)',
     review:
@@ -17,7 +17,7 @@ const info = [
     id: '1',
   },
   {
-    name: 'ARYA LAMBA',
+    name: 'ARYA',
     school: 'Modern School (Barakhamba, New Delhi)',
     marks: 'SAT 1540 (790 M, 750 V)',
     review:
@@ -26,7 +26,7 @@ const info = [
     id: '4',
   },
   {
-    name: 'SUKRITI GUPTA',
+    name: 'SUKRITI',
     school: 'Amity International School (Saket)',
     marks: 'SAT 1550 (790 M, 760 V)',
     review:
@@ -35,7 +35,7 @@ const info = [
     id: '5',
   },
   {
-    name: 'REYAN MEHTA',
+    name: 'REYAN',
     school: 'Pathways World School (Noida)',
     marks: 'SAT Score - 1550 (800 M, 750 V)',
     review:
@@ -44,7 +44,7 @@ const info = [
     id: '6',
   },
   {
-    name: 'SIDDHARTH GARG',
+    name: 'SIDDHARTH',
     school: 'Modern School (Barakhamba, New Delhi)',
     marks: 'SAT Score - 1570 (800 M, 770 V)',
     review:
@@ -53,7 +53,7 @@ const info = [
     id: '8',
   },
   {
-    name: 'DIYA SABHARWAL',
+    name: 'DIYA',
     school: 'Modern School (Barakhamba, New Delhi)',
     marks: 'SAT Score - 1550 (760 M, 790 V)',
     review:
@@ -62,7 +62,7 @@ const info = [
     id: '12',
   },
   {
-    name: 'DEVINA AGGARWAL',
+    name: 'DEVINA',
     school: 'Modern School (Barakhamba, New Delhi)',
     marks: 'SAT Score - 1580 (800 M, 780 V)',
     review:
@@ -71,7 +71,7 @@ const info = [
     id: '13',
   },
   {
-    name: 'SAMMARTH KUMAR',
+    name: 'SAMMARTH',
     school: 'Step by Step (Noida)',
     marks: 'SAT Score - 1540 (790 M, 750 V)',
     review:
@@ -80,7 +80,7 @@ const info = [
     id: '14',
   },
   {
-    name: 'HIYA GUPTA',
+    name: 'HIYA',
     school: 'Modern School (Barakhamba, New Delhi)',
     marks: 'SAT Score - 1550 (780 M, 770 V)',
     review:
@@ -89,7 +89,7 @@ const info = [
     id: '16',
   },
   {
-    name: 'PRISHA TEWARI',
+    name: 'PRISHA',
     school: 'Step by Step (Noida)',
     marks: 'SAT Score - 1500 (790 M, 710 V)',
     review:
@@ -102,7 +102,7 @@ const info = [
   // SAT — WITHOUT SCORES
   // =========================
   {
-    name: 'DHRUV SHARMA',
+    name: 'DHRUV',
     school: 'Modern School (Barakhamba, New Delhi)',
     marks: 'ACT 34 (36 M, 36 S, 32 R, 32 R)',
     review:
@@ -111,7 +111,7 @@ const info = [
     id: '3',
   },
   {
-    name: 'PRISHA NAVEEN',
+    name: 'PRISHA',
     school: 'Step by Step (Noida)',
     marks: 'SAT',
     review:
@@ -120,7 +120,7 @@ const info = [
     id: '17',
   },
   {
-    name: 'VIDIT MAHAJAN',
+    name: 'VIDIT',
     school: 'The British School (New Delhi)',
     marks: 'SAT',
     review:
@@ -129,7 +129,7 @@ const info = [
     id: '15',
   },
   {
-    name: 'AYUSHMAN JALAN',
+    name: 'AYUSHMAN',
     school: 'Modern School (Barakhamba, New Delhi)',
     marks: 'SAT',
     review:
@@ -138,7 +138,7 @@ const info = [
     id: '18',
   },
   {
-    name: 'RAINA KAPUR',
+    name: 'RAINA',
     school: 'Ryan International (Vasant Kunj, New Delhi)',
     marks: 'SAT',
     review:
