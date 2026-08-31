@@ -205,14 +205,6 @@ const info = [
   // No inset images
   // =========================
   {
-    name: 'ROHIT BHATNAGAR',
-    school: 'Boston University',
-    marks: 'GMAT 750 (50 M, 42 V)',
-    review:
-      'What is truly remarkable about the Apriori team is their commitment to being not only test prep professionals, but also teachers and mentors. My success on the GMAT was a direct result of their attention to detail and their focus on helping me understand test concepts.',
-    id: '2',
-  },
-  {
     name: 'MILIND',
     school: '',
     marks: 'GMAT 725 (Quant 86, Verbal 85, Data Insights 88)',
