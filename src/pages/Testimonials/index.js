@@ -5,7 +5,7 @@ import Navbar from '../../../components/NavbarJS'
 
 const info = [
   // =========================
-  // SAT
+  // SAT — WITH SCORES
   // =========================
   {
     name: 'AKSHARA THAKUR',
@@ -15,15 +15,6 @@ const info = [
       'For me, Apriori has not only been a test prep institute but also been an experience. The personal attention I got here is unparalleled. I would definitely recommend Apriori to anyone looking to get a great score on the SAT/ ACT.',
     img: '/testimonials/testimonial-img2.png',
     id: '1',
-  },
-  {
-    name: 'DHRUV SHARMA',
-    school: 'Modern School (Barakhamba, New Delhi)',
-    marks: 'ACT 34 (36 M, 36 S, 32 R, 32 R)',
-    review:
-      'I had the opportunity to attend classes for SAT and ACT at Apriori. I would like to extend a personal thanks to Dominic Sir who has been very patient and supportive and has at all times stressed the need to be a voracious reader in order to achieve the scores in the standardized tests and to achieve overall academic excellence.',
-    img: '/testimonials/testimonial-img5.png',
-    id: '3',
   },
   {
     name: 'ARYA LAMBA',
@@ -60,24 +51,6 @@ const info = [
       'Apriori Education provides unparalleled teaching and guidance for taking the SAT. Infusing the curriculum with other ancillary activities, they have helped me develop skills that are helpful both in and beyond the SAT. Applying what I learnt here at Apriori, I was certain that I would get a good score as I walked out of the test centre.',
     img: '/testimonials/testimonial-img14.png',
     id: '8',
-  },
-  {
-    name: 'PRISHA NAVEEN',
-    school: 'Step by Step (Noida)',
-    marks: 'SAT',
-    review:
-      "I joined Apriori Education in 11th grade. The training sessions were enriching and quite comprehensive. I have benefited immensely from the organised structure of the course. I learned numerous techniques to improve my score. Dominic Sir's energetic character always made the sessions lively. The entire Academic Team is very knowledgeable and sessions are planned in a well-organised manner. They helped us work on our weaknesses and made every problem look simple.\nThis has been a very profitable experience for me. It not only helped me for the SATs but also added to my overall learning experience. I highly recommend Apriori Education to anyone who is taking the SATs.",
-    img: '/testimonials/testimonial-img8 (1).png',
-    id: '17',
-  },
-  {
-    name: 'VIDIT MAHAJAN',
-    school: 'The British School (New Delhi)',
-    marks: 'SAT',
-    review:
-      'I joined Apriori Education in the beginning of my 11th grade. My experience with them has been amazing. Under the tutelage of extremely experienced faculty, the sessions are extremely knowledgeable not only in terms of the content knowledge but tips and tricks that were instrumental in increasing my SAT score.\nFurthermore, all the mock tests, sectional tests and preparatory material are carefully selected to expose students to all question types and address all areas of the syllabus.\nOne thing that distincts Apriori from others is their attention to detail; apart from teaching the syllabus, they also address the very basics of English and Math that go beyond the SATs helping you in your school curriculum.I am extremely grateful to all the faculty at Apriori for helping me achieve my target score and I would definitely recommend it to anyone who is considering taking the SATs.',
-    img: '/testimonials/testimonial-img9.png',
-    id: '15',
   },
   {
     name: 'DIYA SABHARWAL',
@@ -124,6 +97,37 @@ const info = [
     img: '/testimonials/testimonial-img13.png',
     id: '11',
   },
+
+  // =========================
+  // SAT — WITHOUT SCORES
+  // =========================
+  {
+    name: 'DHRUV SHARMA',
+    school: 'Modern School (Barakhamba, New Delhi)',
+    marks: 'ACT 34 (36 M, 36 S, 32 R, 32 R)',
+    review:
+      'I had the opportunity to attend classes for SAT and ACT at Apriori. I would like to extend a personal thanks to Dominic Sir who has been very patient and supportive and has at all times stressed the need to be a voracious reader in order to achieve the scores in the standardized tests and to achieve overall academic excellence.',
+    img: '/testimonials/testimonial-img5.png',
+    id: '3',
+  },
+  {
+    name: 'PRISHA NAVEEN',
+    school: 'Step by Step (Noida)',
+    marks: 'SAT',
+    review:
+      "I joined Apriori Education in 11th grade. The training sessions were enriching and quite comprehensive. I have benefited immensely from the organised structure of the course. I learned numerous techniques to improve my score. Dominic Sir's energetic character always made the sessions lively. The entire Academic Team is very knowledgeable and sessions are planned in a well-organised manner. They helped us work on our weaknesses and made every problem look simple.\nThis has been a very profitable experience for me. It not only helped me for the SATs but also added to my overall learning experience. I highly recommend Apriori Education to anyone who is taking the SATs.",
+    img: '/testimonials/testimonial-img8 (1).png',
+    id: '17',
+  },
+  {
+    name: 'VIDIT MAHAJAN',
+    school: 'The British School (New Delhi)',
+    marks: 'SAT',
+    review:
+      'I joined Apriori Education in the beginning of my 11th grade. My experience with them has been amazing. Under the tutelage of extremely experienced faculty, the sessions are extremely knowledgeable not only in terms of the content knowledge but tips and tricks that were instrumental in increasing my SAT score.\nFurthermore, all the mock tests, sectional tests and preparatory material are carefully selected to expose students to all question types and address all areas of the syllabus.\nOne thing that distincts Apriori from others is their attention to detail; apart from teaching the syllabus, they also address the very basics of English and Math that go beyond the SATs helping you in your school curriculum.I am extremely grateful to all the faculty at Apriori for helping me achieve my target score and I would definitely recommend it to anyone who is considering taking the SATs.",
+    img: '/testimonials/testimonial-img9.png',
+    id: '15',
+  },
   {
     name: 'AYUSHMAN JALAN',
     school: 'Modern School (Barakhamba, New Delhi)',
@@ -145,6 +149,7 @@ const info = [
 
   // =========================
   // GRE
+  // No inset images
   // =========================
   {
     name: 'AKSHAY',
@@ -197,6 +202,7 @@ const info = [
 
   // =========================
   // GMAT
+  // No inset images
   // =========================
   {
     name: 'ROHIT BHATNAGAR',
@@ -204,7 +210,6 @@ const info = [
     marks: 'GMAT 750 (50 M, 42 V)',
     review:
       'What is truly remarkable about the Apriori team is their commitment to being not only test prep professionals, but also teachers and mentors. My success on the GMAT was a direct result of their attention to detail and their focus on helping me understand test concepts.',
-    img: '/testimonials/testimonial-img1.png',
     id: '2',
   },
   {
@@ -258,6 +263,7 @@ const info = [
 
   // =========================
   // FOREIGN LANGUAGES
+  // No inset images
   // =========================
   {
     name: 'DYUMNA',
@@ -265,7 +271,6 @@ const info = [
     marks: 'SPANISH FOUNDATION (A1 & A2)',
     review:
       'The beginner level Spanish lessons took up a very holistic approach towards understanding the language and to gain the ability to start speaking it a little by the end of the modules. Dominic sir’s way of teaching helped me in initiating and engaging in basic conversation in Spanish. Overall, it was a wonderful experience learning at Apriori!',
-    img: '/testimonials/testimonial-img10.png',
     id: '7',
   },
   {
@@ -274,7 +279,6 @@ const info = [
     marks: 'SPANISH FOUNDATION (A1 & A2)',
     review:
       'The overall content delivery was phenomenal. The level of interaction even in an online session made the whole experience fruitful. The content itself was extremely informative and the most important part of the classes that made it different and effective was the practice of correct pronunciation. That itself is something that is hard to grasp and teach.',
-    img: '/testimonials/testimonial-img12.png',
     id: '9',
   },
   {
@@ -283,12 +287,12 @@ const info = [
     marks: 'GERMAN FOUNDATION & INTERMEDIATE (A1, A2, B1 & B2)',
     review:
       'The 10-day Spanish foundation course with Apriori Education completely changed the way I look at learning a new language. I am thankful to be aware of how enriching, fun and lasting the knowledge of an interesting language like Spanish can be. From the first class till the last; my interest only kept mounting. In this lesson, you don’t learn simply the ABCs of a language, you learn every aspect of its practicality when you come around to speaking it.\nIn completing every assignment filled with realistic questions and conversations, I gained a sense of achievement thanks to the incredible and novel teaching of Dominic Sir. I truly miss this class, and grateful to have the experience!',
-    img: '/testimonials/testimonial-img11.png',
     id: '10',
   },
 
   // =========================
   // OTHER EXISTING TESTIMONIAL
+  // No inset image
   // =========================
   {
     name: 'ANIRUDH BHATNAGAR',
@@ -296,7 +300,6 @@ const info = [
     marks: 'AP Calculus',
     review:
       'I’m a junior attending Boston University. This past summer (2019) the Apriori Education Math Faculty tutored me in Calculus. I hadn’t taken calculus, or even a math class, since taking AP calculus AB in high school. They managed to teach without lecturing me, keeping me engaged with each topic. In the span of 2 months my fundamentals have improved considerably and my confidence in Calculus has enhanced a lot. Their passion for teaching is infectious.',
-    img: '/testimonials/testimonial-img7.png',
     id: '20',
   },
 ]
