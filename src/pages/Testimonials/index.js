@@ -156,7 +156,7 @@ const info = [
     school: '',
     marks: 'GRE 338 (168 Verbal, 170 Quant)',
     review:
-      'My GRE preparation became much more focused once I understood exactly where I was losing marks. The structured approach helped me strengthen both Verbal and Quant without wasting time on areas I had already mastered. The mock tests and detailed analysis were particularly useful because they showed me how to manage time and stay consistent under pressure. Scoring 338, with 168 in Verbal and 170 in Quant, gave me the confidence I needed for my applications.',
+      'The GRE preparation gave me a much clearer strategy from the beginning. I learned how to approach difficult questions without losing time and became far more confident in both sections. The practice tests were particularly useful in helping me understand my progress. By test day, I felt prepared and focused, and the final result was better than I had expected.',
     id: 'GRE1',
   },
   {
@@ -164,7 +164,7 @@ const info = [
     school: '',
     marks: 'GRE 335 (168 Verbal, 167 Quant)',
     review:
-      'What I appreciated most about my GRE preparation was the emphasis on strategy rather than simply solving more questions. The sessions helped me identify patterns in my mistakes, improve my approach to difficult Quant problems and become much more precise in Verbal. Regular practice and feedback also made the actual test feel far less intimidating. My final score of 335, including 168 in Verbal and 167 in Quant, reflected the improvement I had worked towards throughout the preparation.',
+      'I had prepared for the GRE before, but I knew I needed a more structured approach to improve further. The regular practice sessions helped me identify patterns in my mistakes and understand where I was giving away marks unnecessarily. I particularly enjoyed the way Verbal concepts were broken down into manageable strategies, while Quant practice taught me to be more selective with my time. The GRE finally felt like an exam I could control rather than simply react to.',
     id: 'GRE2',
   },
   {
@@ -172,7 +172,7 @@ const info = [
     school: '',
     marks: 'GRE 333 (165 Verbal, 168 Quant)',
     review:
-      'The biggest difference in my GRE preparation was learning how to approach the test strategically. I had a reasonable academic foundation, but I needed a more disciplined way to handle timing, question selection and the tougher parts of the test. The regular practice and analysis helped me build that consistency. I became much more comfortable with both sections and was able to finish with a 333, scoring 165 in Verbal and 168 in Quant.',
+      'What made the GRE preparation effective for me was the focus on strategy alongside concepts. I became much better at managing time and deciding which questions deserved more attention. The mock tests also helped me become comfortable with the pressure of the actual exam. I saw consistent improvement throughout the process, and that progress gave me the confidence to aim higher.',
     id: 'GRE3',
   },
   {
@@ -180,7 +180,7 @@ const info = [
     school: '',
     marks: 'GRE 329 (164 Verbal, 165 Quant)',
     review:
-      'Preparing for the GRE while managing everything else required a plan that was realistic and consistent. The preparation helped me break the exam into manageable goals and gave me a much clearer understanding of how to improve from one practice test to the next. I found the feedback especially helpful in identifying small mistakes that were repeatedly costing me marks. My 329, with 164 in Verbal and 165 in Quant, was a result of that steady improvement.',
+      'Preparing for the GRE alongside school and other commitments was initially difficult, so having a clear plan made a huge difference. The sessions helped me work systematically on my weaker areas without neglecting the topics I was already comfortable with. I found the feedback after practice tests especially valuable because it made my mistakes easier to understand and correct. Gradually, I became more confident with the timing and format of the GRE, and the entire exam started feeling much more manageable.',
     id: 'GRE4',
   },
   {
@@ -188,7 +188,7 @@ const info = [
     school: '',
     marks: 'GRE 328 (165 Verbal, 163 Quant)',
     review:
-      'I initially underestimated how much strategy matters on the GRE. The preparation helped me understand not just how to solve a question, but when to move on, how to use my time and how to avoid repeating the same mistakes. The practice tests gave me a much better sense of my actual performance and helped me become more confident before test day. I finished with a 328, scoring 165 in Verbal and 163 in Quant.',
+      'I underestimated how much exam strategy matters on the GRE. The preparation taught me when to persist with a question and when to move on, which made a significant difference to my timing. The detailed review of practice tests helped me avoid repeating the same mistakes. By the time I took the GRE, I felt much more comfortable making decisions under pressure.',
     id: 'GRE5',
   },
   {
@@ -196,7 +196,7 @@ const info = [
     school: '',
     marks: 'GRE 324 (161 Verbal, 163 Quant)',
     review:
-      'The GRE preparation gave me the structure I needed to turn my preparation into measurable progress. I particularly benefited from the regular practice and detailed review of my mistakes, which helped me become more confident with both Verbal and Quant. Over time, I became much better at managing difficult questions without letting them affect the rest of the section. My final score of 324, with 161 in Verbal and 163 in Quant, was a very satisfying outcome.',
+      'The biggest benefit of my GRE preparation was having someone consistently challenge the way I approached questions. Instead of simply practising more, I learned to understand why certain approaches worked and where I was losing valuable time. The combination of Verbal practice, Quant problem-solving and regular mock tests made my preparation much more organised. I also became much better at staying calm when a section became difficult. The GRE felt considerably less intimidating by the end, and I was very happy with the result.',
     id: 'GRE6',
   },
 
@@ -217,7 +217,7 @@ const info = [
     school: '',
     marks: 'GMAT 725 (Quant 86, Verbal 85, Data Insights 88)',
     review:
-      'The GMAT required a very different kind of preparation from the exams I had taken before. I needed to balance accuracy with speed while becoming comfortable with the newer Data Insights section. The preparation helped me understand where to spend time, when to move on and how to analyse my performance objectively after every practice test. The focused feedback made my preparation much more efficient and helped me approach test day with confidence. I finished with a 725, including 86 in Quant, 85 in Verbal and 88 in Data Insights.',
+      'The GMAT required me to think differently about preparation. I learned to balance speed with accuracy and became much more comfortable making decisions under pressure. The practice tests helped me understand my weaknesses and refine my approach. By the time I took the GMAT, I had a clear strategy and felt genuinely confident about the exam.',
     id: 'GMAT1',
   },
   {
@@ -225,7 +225,7 @@ const info = [
     school: '',
     marks: 'GMAT 705 (Quant 85, Verbal 84, Data Insights 86)',
     review:
-      'My biggest challenge with the GMAT was learning to maintain accuracy while working within a demanding time limit. The preparation gave me a much clearer strategy for each section and helped me recognise the types of questions where I was losing valuable time. The regular analysis of practice tests was especially useful because it turned mistakes into specific areas for improvement. With consistent preparation, I became much more confident across all three sections and achieved a 705, with 85 in Quant, 84 in Verbal and 86 in Data Insights.',
+      'My biggest challenge with the GMAT was maintaining accuracy while working against the clock. The preparation helped me recognise when I was spending too much time on a problem and taught me to make smarter decisions throughout the test. I also found the Data Insights practice particularly useful because it required a different way of thinking. Regular mocks and detailed feedback gradually made the GMAT format much more familiar and manageable.',
     id: 'GMAT2',
   },
   {
@@ -233,7 +233,7 @@ const info = [
     school: '',
     marks: 'GMAT 705 (Quant 84, Verbal 86, Data Insights 83)',
     review:
-      'The structured approach to GMAT preparation helped me make much better use of my study time. Instead of simply attempting more questions, I learned to understand why I was making mistakes and how to approach unfamiliar problems more efficiently. The balance between Quant, Verbal and Data Insights also made the preparation feel much more comprehensive. By the time I took the exam, I had a clear strategy and much greater confidence in my decision-making. I scored 705, with 84 in Quant, 86 in Verbal and 83 in Data Insights.',
+      'I found the GMAT preparation most useful when it came to understanding my mistakes. Instead of simply solving more questions, I learned how to analyse my approach and identify what needed to change. The combination of Quant, Verbal and Data Insights practice gave me a much stronger understanding of the exam. I became more confident with every mock test and developed a strategy that suited me.',
     id: 'GMAT3',
   },
   {
@@ -241,7 +241,7 @@ const info = [
     school: '',
     marks: 'GMAT 695 (Quant 84, Verbal 81, Data Insights 82)',
     review:
-      'The GMAT preparation helped me move from solving questions individually to thinking about the exam as a complete strategy. I became much more conscious of timing, accuracy and knowing when a question was not worth spending too much time on. The practice tests were particularly valuable because they showed me how these decisions affected my overall score. With regular feedback and targeted practice, I was able to build much more consistency across all three sections and finish with a 695, including 84 in Quant, 81 in Verbal and 82 in Data Insights.',
+      'The GMAT taught me that preparation is not only about knowing the concepts but also about making good decisions throughout the exam. I initially spent too much time trying to solve every difficult question, but the practice sessions helped me understand when to move forward. The mock tests were particularly valuable because they showed me how small timing decisions could affect my overall performance. Over time, I became much more consistent across the different sections and far more comfortable with the pressure of the GMAT.',
     id: 'GMAT4',
   },
   {
@@ -249,7 +249,7 @@ const info = [
     school: '',
     marks: 'GMAT 675 (Quant 85, Verbal 81, Data Insights 81)',
     review:
-      'I found the GMAT challenging because every section required a different approach, and balancing accuracy with speed was not easy initially. The preparation helped me develop a more systematic way of tackling questions and, importantly, taught me how to review my mistakes rather than simply move on from them. The regular practice made me much more comfortable with the format and helped me build confidence gradually. My final score of 675, with 85 in Quant, 81 in Verbal and 81 in Data Insights, was a rewarding result.',
+      'I enjoyed the structured approach to my GMAT preparation because every practice session had a clear purpose. I became more aware of my weaker areas and learned how to improve them without losing focus on my strengths. The regular mock tests also helped me build confidence and improve my timing. By the end of the process, I felt much more prepared for the demands of the actual GMAT.',
     id: 'GMAT5',
   },
   {
@@ -257,7 +257,7 @@ const info = [
     school: '',
     marks: 'GMAT 645 (Quant 82, Verbal 78, Data Insights 82)',
     review:
-      'The most useful part of my GMAT preparation was having a clear framework for improving rather than preparing randomly. I became more aware of my weaker areas and learned how to approach each section with a specific strategy. Working through practice questions and reviewing the reasoning behind mistakes helped me improve my accuracy and decision-making. The preparation also made the actual exam format much more familiar and manageable. I finished with a 645, scoring 82 in Quant, 78 in Verbal and 82 in Data Insights.',
+      'The most valuable part of my GMAT preparation was learning how to prepare intelligently rather than simply spending more hours studying. I became much more aware of the types of mistakes I was making and learned practical ways to avoid them. The different sections required different approaches, particularly Data Insights, and working through varied problems helped me become more adaptable. The mock tests also made the actual GMAT environment feel familiar. That consistency gave me the confidence to approach test day without feeling overwhelmed.',
     id: 'GMAT6',
   },
 
