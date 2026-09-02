@@ -131,7 +131,18 @@ export default function Login() {
           }),
         });
         const updateData = await updateResponse.json();
-          router.push('/');
+          
+        const requestedReturnTo =
+          typeof router.query.returnTo === 'string'
+          ? router.query.returnTo
+          : '';
+          
+        const isSafeReturnTo =
+            requestedReturnTo.startsWith('/SATMocks') &&
+            !requestedReturnTo.startsWith('//') &&
+            !/[\r\n]/.test(requestedReturnTo);
+          
+          router.push(isSafeReturnTo ? requestedReturnTo : '/');
 
       } else if(!data.user.active){
         setError("User Validity Expired")
