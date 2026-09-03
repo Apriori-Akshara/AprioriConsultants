@@ -1,0 +1,99 @@
+name: Compress Website Images
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compress-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install image optimization tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jpegoptim optipng
+
+      - name: Compress JPEG and PNG images
+        shell: bash
+        run: |
+          set -e
+
+          echo "Scanning public/ for JPG, JPEG and PNG files..."
+
+          find public -type f \( \
+            -iname "*.jpg" -o \
+            -iname "*.jpeg" -o \
+            -iname "*.png" \
+          \) -print0 | while IFS= read -r -d '' file
+          do
+            before=$(stat -c%s "$file")
+            temp="${file}.optimized"
+
+            case "${file,,}" in
+              *.jpg|*.jpeg)
+                cp "$file" "$temp"
+
+                jpegoptim \
+                  --strip-all \
+                  --all-progressive \
+                  --quiet \
+                  "$temp" || true
+                ;;
+
+              *.png)
+                cp "$file" "$temp"
+
+                optipng \
+                  -o7 \
+                  -quiet \
+                  "$temp" || true
+                ;;
+            esac
+
+            after=$(stat -c%s "$temp")
+
+            if [ "$after" -lt "$before" ]; then
+              mv "$temp" "$file"
+
+              saved=$((before - after))
+              percent=$((saved * 100 / before))
+
+              echo "OPTIMIZED: $file"
+              echo "  Before: $before bytes"
+              echo "  After:  $after bytes"
+              echo "  Saved:  $percent%"
+            else
+              rm -f "$temp"
+
+              echo "UNCHANGED: $file"
+              echo "  Existing file is already as small or smaller."
+            fi
+          done
+
+      - name: Show changed files
+        run: |
+          echo "Files changed:"
+          git status --short
+
+      - name: Commit optimized images
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No image changes were necessary."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add public/
+
+          git commit -m "Optimize website images"
+
+          git push
