@@ -1,4 +1,4 @@
-import { query } from "../../../lib/db";
+import { query } from "../../lib/db";
 
 function mergeQuizzes(existingQuizzes, newQuizzes) {
   const existing = Array.isArray(existingQuizzes)
