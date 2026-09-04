@@ -14,7 +14,6 @@ export default function Login() {
   const [name, setName] = useState(''); // State for the user's name
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false)
-  const URL = process.env.NEXT_PUBLIC_BACKENDURL
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -61,7 +60,7 @@ export default function Login() {
       : 'Unknown';
 
     // Send login request to the backend
-    const response = await fetch(`${URL}/api/login`, {
+    const response = await fetch(`/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +119,7 @@ export default function Login() {
 
          localStorage.setItem('completedQuizzes', JSON.stringify(mergedQuizzes));
 
-         const updateResponse = await fetch(`${URL}/api/completed-quizzes`, {
+         const updateResponse = await fetch(`/api/completed-quizzes`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
