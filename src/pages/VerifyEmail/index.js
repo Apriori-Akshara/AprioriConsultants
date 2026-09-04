@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Navbar from "../../components/NavbarJS";
-import styles from "../styles/Login.module.css";
+import Navbar from "../../../components/NavbarJS";
+import styles from "../../styles/Login.module.css";
 
 export default function VerifyEmail() {
   const router = useRouter();
@@ -55,11 +55,7 @@ export default function VerifyEmail() {
             Email Verification
           </h2>
 
-          <p
-            className={
-              success ? styles.success : styles.error
-            }
-          >
+          <p className={success ? styles.success : styles.error}>
             {message}
           </p>
 
