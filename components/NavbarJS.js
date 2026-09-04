@@ -91,7 +91,19 @@ export default function navbar() {
             )}
           </div>
         ) : (
-          <Link href='/Auth'><button className={styles.loginBtn}>Login</button></Link>
+          <div style={{ display: "flex", gap: "8px" }}>
+  <Link href="/Auth">
+    <button className={styles.loginBtn}>
+      Login
+    </button>
+  </Link>
+
+  <Link href="/Register">
+    <button className={styles.loginBtn}>
+      Register
+    </button>
+  </Link>
+</div>
         )}
         </div>
       </div>
