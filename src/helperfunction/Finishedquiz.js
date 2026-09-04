@@ -12,9 +12,8 @@
  * @returns {Promise<Object>} - The response data from the backend.
  */
 export async function addSingleFinishedQuizToServer({ userId, questionType, exercise, language }) {
-    const URL = process.env.NEXT_PUBLIC_BACKENDURL; // Ensure this is set in your environment
     try {
-      const response = await fetch(`${URL}/api/completed-quizzes`, {
+      const response = await fetch(`/api/completed-quizzes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
