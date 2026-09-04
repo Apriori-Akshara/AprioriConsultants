@@ -212,6 +212,19 @@ export default function Login() {
             Login
           </motion.button>
         </form>
+
+                <button
+          type="button"
+          onClick={() => router.push("/Register")}
+          style={{
+            marginTop: "15px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          New student? Create an account
+        </button>
       </motion.div>
     </motion.div>
     </div>
