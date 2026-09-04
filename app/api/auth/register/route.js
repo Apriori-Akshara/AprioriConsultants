@@ -1,22 +1,15 @@
 import { NextResponse } from "next/server";
-import { Pool } from "pg";
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+import { query } from "../../../../src/lib/db";
+import { createPasswordHash } from "../../../../src/lib/auth";
+import crypto from "crypto";
 
 export async function POST(request) {
   try {
     const body = await request.json();
 
-    const {
-      name,
-      email,
-      password,
-    } = body;
+    const name = body?.name?.trim();
+    const email = body?.email?.trim()?.toLowerCase();
+    const password = body?.password;
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -28,11 +21,24 @@ export async function POST(request) {
       );
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
+    if (password.length < 8) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Password must be at least 8 characters long.",
+        },
+        { status: 400 }
+      );
+    }
 
-    const existingUser = await pool.query(
-      "SELECT id FROM users WHERE email = $1 LIMIT 1",
-      [normalizedEmail]
+    const existingUser = await query(
+      `
+        SELECT id
+        FROM users
+        WHERE LOWER(email) = $1
+        LIMIT 1
+      `,
+      [email]
     );
 
     if (existingUser.rows.length > 0) {
@@ -45,21 +51,34 @@ export async function POST(request) {
       );
     }
 
-    const result = await pool.query(
+    const passwordHash = await createPasswordHash(password);
+
+    const userId =
+      "SAT-" +
+      crypto.randomBytes(4).toString("hex").toUpperCase();
+
+    const result = await query(
       `
-      INSERT INTO users (
-        name,
-        email,
-        password,
-        email_verified
-      )
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, name, email, email_verified
+        INSERT INTO users (
+          user_id,
+          name,
+          email,
+          password_hash,
+          email_verified
+        )
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING
+          id,
+          user_id,
+          name,
+          email,
+          email_verified
       `,
       [
-        name.trim(),
-        normalizedEmail,
-        password,
+        userId,
+        name,
+        email,
+        passwordHash,
         false,
       ]
     );
@@ -67,7 +86,8 @@ export async function POST(request) {
     return NextResponse.json(
       {
         success: true,
-        message: "Registration successful.",
+        message:
+          "Registration successful. Please verify your email address.",
         user: result.rows[0],
       },
       { status: 201 }
