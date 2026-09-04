@@ -1,9 +1,10 @@
-import { query } from "../../../lib/db";
+// AFTER
+import { query } from "../../lib/db";
 import {
   verifyPassword,
   createSession,
   setSessionCookie,
-} from "../../../lib/auth";
+} from "../../lib/auth";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
