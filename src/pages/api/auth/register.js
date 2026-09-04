@@ -71,13 +71,7 @@ export default async function handler(req, res) {
           email,
           email_verified
       `,
-      [
-        userId,
-        name,
-        email,
-        passwordHash,
-        false,
-      ]
+      [userId, name, email, passwordHash, false]
     );
 
     return res.status(201).json({
