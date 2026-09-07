@@ -32,6 +32,30 @@ export default async function handler(req, res) {
       });
     }
 
+    if (!process.env.RESEND_API_KEY) {
+      console.error(
+        "Registration email error: RESEND_API_KEY is not configured."
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Email verification is temporarily unavailable. Please try again later.",
+      });
+    }
+
+    if (!process.env.EMAIL_FROM) {
+      console.error(
+        "Registration email error: EMAIL_FROM is not configured."
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Email verification is temporarily unavailable. Please try again later.",
+      });
+    }
+
     const existingUser = await query(
       `
         SELECT id
@@ -77,7 +101,9 @@ export default async function handler(req, res) {
 
     const user = result.rows[0];
 
-    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationToken = crypto
+      .randomBytes(32)
+      .toString("hex");
 
     const verificationTokenHash = crypto
       .createHash("sha256")
@@ -107,57 +133,74 @@ export default async function handler(req, res) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    await resend.emails.send({
-      from:
-        process.env.EMAIL_FROM ||
-        "Apriori Consultants <onboarding@resend.dev>",
-      to: email,
-      subject: "Verify your Apriori Consultants account",
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto;">
-          <h2>Welcome to Apriori Consultants</h2>
+    const { data: emailData, error: emailError } =
+      await resend.emails.send({
+        from: process.env.EMAIL_FROM,
+        to: email,
+        subject: "Verify your Apriori Consultants account",
+        html: `
+          <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto;">
+            <h2>Welcome to Apriori Consultants</h2>
 
-          <p>Dear ${name},</p>
+            <p>Dear ${name},</p>
 
-          <p>
-            Thank you for registering for the SAT Mock Test platform.
-          </p>
+            <p>
+              Thank you for registering for the SAT Mock Test platform.
+            </p>
 
-          <p>
-            Please verify your email address by clicking the button below:
-          </p>
+            <p>
+              Please verify your email address by clicking the button below:
+            </p>
 
-          <p style="margin: 30px 0;">
-            <a
-              href="${verificationUrl}"
-              style="
-                display: inline-block;
-                padding: 12px 24px;
-                background: #000000;
-                color: #ffffff;
-                text-decoration: none;
-                border-radius: 6px;
-              "
-            >
-              Verify My Email
-            </a>
-          </p>
+            <p style="margin: 30px 0;">
+              <a
+                href="${verificationUrl}"
+                style="
+                  display: inline-block;
+                  padding: 12px 24px;
+                  background: #000000;
+                  color: #ffffff;
+                  text-decoration: none;
+                  border-radius: 6px;
+                "
+              >
+                Verify My Email
+              </a>
+            </p>
 
-          <p>
-            This verification link will expire in 24 hours.
-          </p>
+            <p>
+              This verification link will expire in 24 hours.
+            </p>
 
-          <p>
-            If you did not create this account, you can safely ignore this email.
-          </p>
+            <p>
+              If you did not create this account, you can safely ignore this email.
+            </p>
 
-          <p>
-            Regards,<br />
-            Apriori Consultants
-          </p>
-        </div>
-      `,
-    });
+            <p>
+              Regards,<br />
+              Apriori Consultants
+            </p>
+          </div>
+        `,
+      });
+
+    if (emailError) {
+      console.error(
+        "Registration email error:",
+        emailError
+      );
+
+      return res.status(502).json({
+        success: false,
+        message:
+          "Your account was created, but we could not send the verification email. Please try again later.",
+      });
+    }
+
+    console.log(
+      "Verification email sent successfully:",
+      emailData?.id || "no message id returned"
+    );
 
     return res.status(201).json({
       success: true,
