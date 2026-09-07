@@ -1,532 +1,269 @@
 # Apriori Digital SAT Platform — Project State
 
-Last updated: September 2, 2026
+**Last updated:** September 7, 2026
 
-## 1. Project Overview
+## 1. Purpose of this document
 
-This repository contains the Apriori Consultants website.
+This is the current working status of the Apriori Digital SAT platform.
 
-The Digital SAT platform is being developed as a dedicated authenticated student experience inside the existing Next.js/React/Redux website.
+Use this document to resume development without relying on long copied prompts or memory from an earlier ChatGPT session.
 
-The SAT system must be developed without breaking any existing public website functionality.
+**Rule:** Before continuing work, read this document and `docs/SAT-ARCHITECTURE.md`, then inspect the current repository. The actual repository/code/database state takes precedence if anything differs from this document.
 
-The overall objective is to build a premium 10-day Digital SAT mock-test program consisting of:
+## 2. Project overview
 
-* 10 original full-length Digital SAT-style mock tests
-* one mock test per day
-* multistage adaptive testing
-* authenticated student access
-* student dashboard
-* detailed score reports
-* longitudinal performance analytics
-* personalized study recommendations
-* original SAT-style passages, questions and explanations
-* structured SVG graphs and geometry figures
-* question-level review
-* duplicate-content prevention
+The Digital SAT platform is being built inside the existing Next.js/React/Redux Apriori Consultants website.
 
-## 2. Core Architectural Principle
+The production/test URL currently used for controlled testing is:
 
-The GitHub repository is the source of truth.
+`https://aprioriconsultants.onrender.com`
 
-The SAT platform must be built incrementally.
+Do **not** switch testing to the custom domain until explicitly instructed.
 
-Do not create a second unrelated SAT architecture.
+The platform will ultimately provide 10 original Digital SAT-style mock tests, authenticated student access, adaptive testing, detailed scoring/reporting, longitudinal analytics, personalized recommendations, and secure subscription access.
 
-Do not unnecessarily delete the existing SAT implementation until the new implementation has replaced its functionality and has been tested.
+The existing public website must continue to work.
 
-The old SAT implementation may remain temporarily while the new architecture is developed and migrated.
+## 3. Permanent business rules
 
-## 3. Existing Website
+### Student registration and authentication
 
-The project is an existing Next.js application using the Pages Router.
+- Students can register.
+- Student registration creates an unverified account initially.
+- Email verification is required before student login is allowed.
+- Verification is performed through a time-limited email verification link.
+- Passwords are stored as secure hashes, never plaintext.
+- Authentication/session handling must remain server-verifiable.
+- Do not rely on a browser-readable user cookie or Redux state alone for authorization.
 
-The existing site uses:
+### Mock-test access
 
-* React
-* Next.js
-* Redux
-* existing reusable layouts/components
-* existing authentication infrastructure
-* existing API infrastructure
-* existing CSS/styling conventions
+- After successful email verification, a student may access Mock Tests 1 and 2.
+- Mock Tests 3–10 require an active subscription entitlement.
+- A student may purchase the subscription **at any stage**:
+  - before attempting Tests 1–2;
+  - between Tests 1 and 2;
+  - while working through the first two tests;
+  - after completing Tests 1–2.
+- Completion of Tests 1–2 must **never** be a prerequisite for purchasing the subscription.
+- Authentication, email verification, test access, payment, subscription status, and entitlement are separate concepts and must not be collapsed into one status field.
 
-All new SAT functionality should reuse the existing website architecture wherever practical.
+### Payment and subscription
 
-Unrelated pages must not be modified unnecessarily.
+- Subscription purchase will use a proper payment gateway.
+- A confirmed successful payment must automatically activate the student's subscription entitlement.
+- A successful payment must generate a payment receipt/record.
+- Payment status must be verified server-side; the client must not be able to grant entitlement merely by claiming payment success.
+- Internal/admin users must be able to see registrations, payments, subscriptions, and entitlements and intervene when necessary.
+- Payment/refund/failure/expiry handling must be designed explicitly when the payment gateway is implemented.
 
-## 4. Existing SAT Implementation
+### Master/admin access
 
-The legacy SAT implementation is primarily located under:
+- The architecture allows exactly five independent master accounts.
+- Master accounts are separate from student accounts.
+- Master credentials must never be stored in source code, GitHub, frontend code, `NEXT_PUBLIC_*` variables, or plaintext in the database.
+- Masters may manage students and appropriate operational records but must not view plaintext passwords or password hashes.
+- Master accounts can be individually deactivated.
 
-src/pages/SATDiagnosticTest/
+## 4. Current infrastructure
 
-and:
+- GitHub repository: `Apriori-Akshara/AprioriConsultants`
+- Branch: `main`
+- Framework: Next.js 14.1.4, Pages Router
+- React 18
+- Redux/Redux Toolkit already exists
+- PostgreSQL is the current SAT backend database
+- Render web service: `AprioriConsultants`
+- Render web service URL: `https://aprioriconsultants.onrender.com`
+- Render build: `npm install; npm run build`
+- Render start: `npm run start`
+- Resend is used for verification email delivery.
+- Current Resend package version in `package.json`: `^6.9.2`
 
-components/SATTest/
+Do not create a second unrelated Next.js backend, Express server, authentication system, or SAT repository unless a future architecture decision explicitly requires it.
 
-Legacy data includes:
+## 5. Day 1 status — COMPLETE
 
-src/data/questions.json
+Day 1 established the SAT architecture/data contracts and isolated SAT-specific functionality.
 
-src/data/tests.json
+Completed Day 1 work includes:
 
-The legacy implementation should not be considered the final SAT architecture.
+- SAT navbar item removed from public navigation.
+- Legacy SAT landing page temporarily redirected/hidden.
+- `src/data/sat/programConfig.js` created for central SAT program configuration.
+- `src/data/sat/mockTests.js` created as the master registry for Mock Tests 1–10.
+- `src/data/sat/questionSchema.js` created as the canonical question contract.
+- `src/lib/sat/attemptSchema.js` created as the canonical attempt structure.
+- `src/pages/SATMocks/index.js` established as the future authenticated SAT entry point; during the early architecture stage it intentionally returned 404.
 
-It may be migrated gradually.
+## 6. Day 2 status — IN PROGRESS
 
-## 5. SAT Navigation Status
+**Current milestone:** Step 25 — require email verification before login.
 
-The SAT Diagnostic Test link was intentionally removed from the public navbar.
+Steps 1–24 were completed before Step 25.
 
-The main legacy SAT landing page was also temporarily redirected away from the SAT experience.
+Step 24 connected student registration to email verification.
 
-The new SAT platform should remain inaccessible to unauthenticated users.
+Step 25 added the server-side login restriction that rejects an otherwise valid password login when `email_verified` is false.
 
-Do not restore the public SAT navigation link until the new platform is ready for release.
+### Step 25 implementation
 
-## 6. New SAT Architecture Created on Day 1
+The current `src/pages/api/login.js` checks:
 
-The following architecture was added:
+1. HTTP method.
+2. User ID and password presence.
+3. User lookup.
+4. Password validity.
+5. Optional name match.
+6. `email_verified` status.
+7. Login logging.
+8. Session creation and HTTP-only session cookie.
 
-src/data/sat/programConfig.js
+For an unverified student, the expected response is:
 
-Purpose:
-Central configuration for the entire SAT program.
+`Please verify your email address before logging in. Check your email for the verification link.`
 
-It defines:
+### Step 25 testing status
 
-* program ID
-* 10-day structure
-* Reading & Writing modules
-* Math modules
-* timing
-* adaptive pool identifiers
-* content rules
-* scoring configuration
-* reporting capabilities
-* figure types
-* Math reference configuration
+**PASSED:** An unverified student attempted login and received the expected verification-required message.
 
----
+**PASSED:** A fresh student registration successfully received the verification email and completed verification.
 
-src/data/sat/mockTests.js
+**PASSED:** The verified student's PostgreSQL record was checked in pgAdmin and `email_verified = true` was confirmed.
 
-Purpose:
-Master registry for Mock Tests 1–10.
+**Remaining confirmation:** Confirm that the now-verified student can log in successfully and receives a valid authenticated session. If this has already been tested, record it as PASSED here at the end of the session.
 
-Each mock has:
+## 7. Registration/email verification implementation
 
-* test ID
-* test number
-* day number
-* display title
-* release sequence
-* section/module references
-* adaptive pool references
-* expected question counts
-* time limits
-* validation status
+The current registration route is:
 
-No final test content is stored here.
+`src/pages/api/auth/register.js`
 
----
+It currently:
 
-src/data/sat/questionSchema.js
+- validates name, email and password;
+- enforces a minimum password length of 8 characters;
+- checks that `RESEND_API_KEY` exists;
+- checks that `EMAIL_FROM` exists;
+- prevents duplicate email registration;
+- hashes the password;
+- creates a SAT-prefixed user ID;
+- creates the user with `email_verified = false`;
+- creates a hashed email-verification token with a 24-hour expiry;
+- sends the verification email through Resend;
+- checks the Resend API response for an email error;
+- returns an appropriate response if email delivery fails;
+- uses the controlled Render URL for the verification link.
 
-Purpose:
-Canonical data contract for every future SAT question.
+The verification link currently targets:
 
-Questions must support:
+`https://aprioriconsultants.onrender.com/VerifyEmail?token=...`
 
-* questionId
-* testId
-* section
-* module
-* domain
-* skill
-* conceptId
-* difficulty
-* questionType
-* passageId
-* prompt
-* choices
-* answer
-* explanation
-* estimatedTimeSeconds
-* isOperational
-* figure
-* originalityFingerprint
-* conceptFingerprint
-* metadata
+### Resend environment configuration
 
-This schema should become the standard format for every future mock-test question.
+The Render `AprioriConsultants` web service has been confirmed to contain:
 
----
+- `RESEND_API_KEY`
+- `EMAIL_FROM`
 
-src/lib/sat/attemptSchema.js
+The Resend API key belongs on the **web service**, not the database service.
 
-Purpose:
-Canonical structure for student test attempts.
+## 8. PostgreSQL status
 
-It supports:
+The new SAT infrastructure uses PostgreSQL connected through `src/lib/db.js`.
 
-* attempt ID
-* authenticated user ID
-* test ID
-* module states
-* responses
-* question timing
-* adaptive state
-* estimated scores
-* score ranges
-* reporting data
-* integrity state
+The database connection is controlled through `DATABASE_URL` and SSL is configured in the existing database helper.
 
-Persistent storage and secure server-side attempt handling will be implemented in later stages.
+The database has been used successfully for authentication and verification testing.
 
----
+A recent pgAdmin check returned `email_verified = true` for the freshly verified student.
 
-src/pages/SATMocks/index.js
+Do not assume database credentials are available to the user; database access is being managed through the newly connected infrastructure/pgAdmin workflow already established in the project.
 
-Purpose:
-Future authenticated SAT program entry point.
+## 9. Important existing files
 
-During Day 1 this intentionally returns a 404.
+### Authentication
 
-Later this route will become the authenticated SAT dashboard entry point.
+- `src/pages/api/auth/register.js`
+- `src/pages/api/login.js`
+- `src/lib/auth.js`
+- `src/lib/db.js`
 
-## 7. SAT Test Structure
+### SAT access
 
-The system is designed around the current Digital SAT structure:
+- `src/lib/sat/satAccess.js`
+- `src/pages/SATMocks/index.js`
 
-Reading & Writing:
+### SAT architecture/data
 
-* 54 questions
-* 64 minutes
-* two 32-minute modules
+- `src/data/sat/programConfig.js`
+- `src/data/sat/mockTests.js`
+- `src/data/sat/questionSchema.js`
+- `src/lib/sat/attemptSchema.js`
 
-Math:
+## 10. Deployment status
 
-* 44 questions
-* 70 minutes
-* two 35-minute modules
+The current Render deployment for Step 25 is LIVE.
 
-Break:
+Historical failed deployments must not be treated as the current state.
 
-* 10 minutes between Reading & Writing and Math
+In particular, an earlier deployment named `Add Resend email package` failed, but later deployments succeeded and are live. Do not roll back to that historical failed deployment.
 
-Total:
+Later successful milestones include:
 
-* 98 questions
+- Fix verifyemail import paths
+- Connect registration to email verification
+- Require email verification before login
 
-The SAT is multistage adaptive at the module level.
+The manually applied registration-email error-handling fix should be retained as current work and must not be replaced by an older version of `register.js`.
 
-Module 1 performance determines the approximate difficulty band of Module 2.
+## 11. GitHub write/access status
 
-It is NOT intended to be question-by-question adaptive.
+GitHub file inspection is available.
 
-## 8. Adaptive Architecture
+Earlier direct GitHub write attempts returned HTTP 403 (`Resource not accessible by integration`). Therefore, when a direct GitHub update is unavailable, provide the user with the **complete replacement file content** and exact manual GitHub instructions rather than asking them to reconstruct individual lines.
 
-Reading & Writing and Math adapt independently.
+## 12. Next development step
 
-Each section will use:
+After Step 25 is fully tested and its verified-login test is recorded, continue to the next unfinished Day 2 step from the original Day 2 roadmap.
 
-Module 1
-→ provisional ability estimate
-→ adaptive route
-→ Module 2
+Do not restart earlier steps merely because a new session has started.
 
-Expected Module 2 routes:
+Before implementing the next step:
 
-* high
-* standard
-* low
+1. Read this state document.
+2. Read `docs/SAT-ARCHITECTURE.md`.
+3. Inspect the current repository files relevant to the next step.
+4. Check the live Render deployment status when deployment is relevant.
+5. Check PostgreSQL state when database changes are relevant.
+6. Make only the necessary changes.
+7. Test the result.
+8. Update this document at the end of the work.
 
-The exact scoring and routing model will be centralized and calibrated during later implementation.
+## 13. Development safety rules
 
-The platform must not claim to reproduce College Board's proprietary scoring algorithm.
+- Preserve existing non-SAT website functionality.
+- Do not create duplicate authentication or backend infrastructure.
+- Do not delete unrelated code.
+- Do not use placeholders such as `...` or `same as above` in replacement files.
+- When replacing a file, provide the complete file.
+- Explain file paths and where the work is performed in simple terms.
+- Give an exact commit message for GitHub changes.
+- Give expected Render behavior after deployment.
+- Give the exact controlled testing URL.
+- Do not claim a security property has been implemented unless the relevant server-side code actually enforces it.
 
-All student-facing SAT scores should be clearly identified as estimates unless a different validated scoring methodology is established.
+## 14. Session handoff rule
 
-## 9. SAT Content Domains
+At the end of each development session, update this document with:
 
-Reading & Writing:
+- date;
+- day/step completed;
+- files changed;
+- database changes;
+- tests performed and their results;
+- Render deployment result;
+- known problems;
+- exact next step.
 
-* Information and Ideas
-* Craft and Structure
-* Expression of Ideas
-* Standard English Conventions
-
-Math:
-
-* Algebra
-* Advanced Math
-* Problem-Solving and Data Analysis
-* Geometry and Trigonometry
-
-Underlying concepts may repeat across tests.
-
-Questions themselves must not repeat.
-
-## 10. Content Originality Rules
-
-All SAT content created for Apriori must be original.
-
-The system may use public College Board specifications and publicly described Digital SAT question structures as references.
-
-It must not copy:
-
-* College Board questions
-* College Board passages
-* College Board explanations
-* competitor questions
-* competitor passages
-* competitor explanations
-* competitor diagrams
-* competitor answer choices
-* competitor branding
-* competitor proprietary visual designs
-
-Magoosh, Kaplan, PrepScholar and Manhattan Prep may be used only as high-level product/design feature references.
-
-## 11. No-Repetition Rules
-
-Across all 10 mocks:
-
-Reading & Writing:
-
-* no repeated passage
-* no repeated passage pair
-* no repeated question
-* no near-duplicate question
-* no trivial wording modification of an existing question
-
-Math:
-
-* no repeated question
-* no trivial numerical substitutions
-* no repeated diagram
-* no near-duplicate framing
-
-Underlying skills and concepts may repeat.
-
-The content system should eventually use both exact and near-duplicate detection.
-
-## 12. Figures and Graphs
-
-Future SAT questions should support structured SVG figures rather than copied image assets.
-
-Supported figure categories include:
-
-* scatterplots
-* line graphs
-* bar charts
-* histograms
-* tables
-* box plots
-* coordinate planes
-* number lines
-* triangles
-* right triangles
-* circles
-* polygons
-* composite geometry
-* angle diagrams
-* quadratic graphs
-* transformations
-
-Figures must be generated from structured data.
-
-Figures should include accessible descriptions and readable labels.
-
-## 13. Math Reference Experience
-
-The future test experience should provide an original/paraphrased instruction sequence followed by a Math reference preview.
-
-The Math reference information should remain accessible during Math modules.
-
-Official wording should not be copied verbatim.
-
-## 14. Authentication Requirements
-
-The SAT platform must require authenticated student access.
-
-All of the following should eventually require authentication:
-
-* SAT dashboard
-* test launcher
-* test player
-* test modules
-* results
-* review
-* history
-* analytics
-
-A client-side Redux check alone is not considered sufficient premium-content security.
-
-The strongest server-verifiable session/authentication mechanism supported by the existing project should be used.
-
-The existing website's authentication should be reused rather than creating an unrelated second login system.
-
-## 15. Student Dashboard Goals
-
-The dashboard should eventually provide:
-
-* student name
-* target score
-* current estimated score
-* gap to target
-* latest score
-* score trend
-* Reading & Writing trend
-* Math trend
-* domain performance
-* difficulty performance
-* timing performance
-* tests completed
-* questions attempted
-* accuracy
-* streak
-* 10-day challenge progress
-* recommended study priorities
-* mistake-review access
-
-The dashboard should be visually consistent with Apriori's existing branding while incorporating strong product ideas found across premium SAT preparation platforms.
-
-Do not copy competitor branding or proprietary UI.
-
-## 16. Score Report Goals
-
-The final report should include:
-
-* estimated total score
-* estimated Reading & Writing score
-* estimated Math score
-* estimated score range
-* adaptive path
-* domain analysis
-* skill analysis
-* difficulty analysis
-* timing analysis
-* question-by-question review
-* likely error classification
-* personalized recommendations
-* target-score analysis
-* test-history comparison
-
-The report should go significantly beyond a simple correct/incorrect total.
-
-## 17. Future 10-Day Development Sequence
-
-Day 1:
-SAT architecture and data contracts
-
-Day 2:
-Secure authentication/access control
-
-Day 3:
-Student dashboard
-
-Day 4:
-Digital SAT test-taking interface
-
-Day 5:
-Multistage adaptive engine
-
-Day 6:
-Question architecture, SVG figures and anti-duplication validation
-
-Day 7:
-Scoring and detailed score reporting
-
-Day 8:
-Mock Tests 1–3
-
-Day 9:
-Mock Tests 4–7 and longitudinal personalization
-
-Day 10:
-Mock Tests 8–10, production QA and hardening
-
-## 18. Migration Principle
-
-Do not rebuild the entire website.
-
-Do not replace the Next.js architecture.
-
-Do not unnecessarily rewrite Redux.
-
-Do not unnecessarily rewrite generic data structures.
-
-Keep SAT-specific functionality isolated as much as practical.
-
-When legacy SAT functionality is migrated to the new system, remove or replace old functionality only after verifying imports, routes and dependencies.
-
-## 19. Coding Instructions for Future Work
-
-The developer/AI working on this project must:
-
-1. Inspect the current repository before editing.
-2. Treat current repository state as authoritative.
-3. Preserve previously completed work.
-4. Change only files necessary for the current task.
-5. Never invent the contents of unseen files.
-6. Never use placeholder code such as:
-
-   * "..."
-   * "same as above"
-   * "rest of file"
-7. For replaced files, provide complete file contents.
-8. For new files, provide complete file contents.
-9. Explain exactly where each file goes.
-10. Provide copy/paste instructions suitable for a non-coder.
-11. Include a test checklist after each development stage.
-12. Never compromise unrelated website functionality for SAT work.
-
-## 20. Current Project State
-
-Completed:
-
-* SAT navbar item removed
-* legacy SAT landing page temporarily redirected
-* Day 1 SAT architecture created
-
-Current phase:
-
-Day 1 completed.
-
-Next phase:
-
-Day 2 — secure authenticated SAT access.
-
-## 21. Important Future Decisions
-
-The following must remain centralized/configurable where possible:
-
-* test schedule
-* release timing
-* adaptive thresholds
-* scoring model
-* score ranges
-* question difficulty
-* content domains
-* skills
-* figure types
-* reporting metrics
-
-Avoid scattering these values throughout React components.
-
-## 22. Source of Truth Rule
-
-When continuing work in a new ChatGPT conversation or with another coding assistant:
-
-First inspect:
-
-docs/SAT-PROJECT-STATE.md
-
-Then inspect the current repository.
-
-The repository state takes precedence over this document if they differ.
-
-Update this document whenever a major architecture decision, migration, security decision, scoring decision, or project milestone changes.
+This document is intended to make session breaks safe and reduce the need for the user to remember or restate project history.
