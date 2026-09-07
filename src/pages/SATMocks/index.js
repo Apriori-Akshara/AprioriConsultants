@@ -3,19 +3,8 @@
  *
  * DAY 2:
  * - Protect the SAT area from logged-out users.
+ * - Use the server-side authenticated session as the authority.
  * - Preserve a safe return path through the existing login page.
- *
- * SECURITY NOTE:
- * The current repository does not expose a server-verifiable auth/session
- * endpoint. Therefore this page currently uses the existing user cookie as a
- * temporary access-state bridge, not as a cryptographically secure premium
- * content credential.
- *
- * The server-side access helper is intentionally centralized in:
- * src/lib/sat/satAccess.js
- *
- * When the backend provides a verifiable session/token, that helper should
- * become the single place where the verification is implemented.
  */
 
 import Head from "next/head";
@@ -27,7 +16,9 @@ import {
 import SAT_PROGRAM_CONFIG from "../../data/sat/programConfig";
 
 export async function getServerSideProps(context) {
-  const returnTo = getSafeSatReturnPath(context.resolvedUrl || "/SATMocks");
+  const returnTo = getSafeSatReturnPath(
+    context.resolvedUrl || "/SATMocks"
+  );
 
   const access = await getVerifiedSatServerAccessState(context.req);
 
@@ -134,9 +125,10 @@ export default function SATMocks({
               color: "#6b7280",
             }}
           >
-            Your authenticated SAT program entry point is now protected.
-            The student dashboard and complete mock-test experience will be
-            added in the next development stages.
+            Your authenticated SAT program entry point is now protected
+            by the server-side session. The student dashboard and
+            complete mock-test experience will be added in the next
+            development stages.
           </p>
 
           <div
