@@ -114,8 +114,17 @@ export async function getVerifiedSatServerAccessState(req) {
   }
 }
 
+export function getSatUserId(accessState) {
+  if (!accessState?.authenticated) {
+    return null;
+  }
+
+  return accessState.user?.id || null;
+}
+
 export default {
   getSafeSatReturnPath,
   getSatLoginUrl,
   getVerifiedSatServerAccessState,
+  getSatUserId,
 };
