@@ -184,108 +184,107 @@ The Resend API key belongs on the **web service**, not the database service.
 
 ---
 
-## 8. PostgreSQL status
+# STEP 8 — SAT SERVER-SIDE PROTECTION — COMPLETED
 
-The new SAT infrastructure uses PostgreSQL connected through `src/lib/db.js`.
-
-The database connection is controlled through `DATABASE_URL` and SSL is configured in the existing database helper.
-
-The database has been used successfully for authentication and verification testing.
-
-### Database schema verification
-
-Before creating the subscription/payment tables, the existing `users.id` type was checked in pgAdmin.
-
-Result:
-
-* `users.id`
-* PostgreSQL data type: `bigint`
-* PostgreSQL internal type: `int8`
-
-This is compatible with the new `BIGINT` foreign-key references used by the subscription/payment schema.
-
-### Subscription/payment foundation — CREATED
-
-The following tables have now been created successfully in PostgreSQL:
-
-* `subscriptions`
-* `payments`
-* `entitlements`
-* `receipts`
-
-The migration completed successfully in pgAdmin.
-
-These tables are currently the database foundation for future subscription and payment functionality.
-
-**Important:** No payment gateway has been connected yet and no real payment has been processed.
-
-The subscription/payment tables are currently a structural foundation only.
-
-Do not create test payment or entitlement records manually unless a future development step specifically requires them.
-
----
-
-## 9. Current SAT access implementation
-
-### Server-side SAT session access
-
-The current file is:
+Updated:
 
 `src/lib/sat/satAccess.js`
 
-It now:
+The SAT authentication architecture now uses the server-side PostgreSQL session represented to the browser by the HTTP-only `session` cookie.
 
-* reads the HTTP-only `session` cookie;
-* verifies the session against PostgreSQL;
-* rejects missing/invalid sessions;
-* checks that the associated account is active;
-* ignores the older browser-readable `user` cookie for SAT authorization;
-* provides a safe SAT-only `returnTo` path;
-* provides `getSatUserId()` for retrieving the authenticated student's database ID.
+The old browser-readable `user` cookie is NOT used as the authoritative SAT authentication mechanism.
 
-The SAT authentication mode is:
+Implemented:
 
-`verified-session`
+* Server-side session verification.
+* Active-account check.
+* Authenticated SAT access through `getVerifiedSatServerAccessState()`.
+* Safe SAT return-path validation.
+* SAT login URL generation.
+* Unauthenticated users are redirected toward `/Auth`.
+* SAT authentication is based on the new session architecture.
 
-### Test-access helper
+The existing database and authentication files remain server-side.
 
-The following file has been created:
+---
 
-`src/lib/sat/testAccess.js`
+# STEP 9 — SAT ENTRY PAGE — COMPLETED
 
-It establishes the server-side business rules:
+Updated:
 
-* Test 1 → free for an authenticated verified student.
-* Test 2 → free for an authenticated verified student.
-* Tests 3–10 → require an active `SAT_PREMIUM` entitlement.
-* Invalid test numbers are rejected.
-* Missing authentication is rejected.
-* Active entitlement is checked directly against PostgreSQL.
-* Entitlement must have status `active`.
-* Entitlement must have started, if a start date exists.
-* Entitlement must not have expired, if an expiry date exists.
+`src/pages/SATMocks/index.js`
 
-### SAT test-access API
+The SAT entry page is protected using `getServerSideProps`.
 
-The following file has been created:
+The page now:
 
-`src/pages/api/sat/test-access.js`
+* checks the authenticated server session before granting SAT access;
+* does not use the browser-readable `user` cookie for authorization;
+* redirects unauthenticated users to `/Auth` with a safe SAT return path;
+* allows authenticated users to reach the SAT mock-test area;
+* distinguishes Tests 1–2 from Premium Tests 3–10.
 
-This provides a server-side endpoint for checking whether the authenticated student can access a particular SAT test.
+### Additional client/server dependency fix completed
 
-The endpoint:
+A new browser-safe helper was created:
 
-* accepts GET requests;
-* verifies the server-side session first;
-* obtains the authenticated user's database ID;
-* applies the SAT test-access rules;
-* returns an authorization result;
-* returns `401` when the student is not authenticated;
-* returns `400` for an invalid test;
-* returns `403` when a premium test requires a subscription;
-* returns `200` when access is allowed.
+`src/lib/sat/satLogin.js`
 
-The client cannot grant itself premium access merely by changing browser state.
+This separates the SAT login URL helper from the server-only SAT authentication/database dependency chain.
+
+`src/pages/SATMocks/index.js` now imports:
+
+`getVerifiedSatServerAccessState` from `satAccess.js`
+
+and:
+
+`getSatLoginUrl` from `satLogin.js`
+
+This prevents the browser-side SAT page from unnecessarily pulling the PostgreSQL/Node `pg` dependency into the client bundle.
+
+### Deployment status
+
+The earlier Render build error:
+
+`Module not found: Can't resolve 'tls'`
+
+was caused by the server-side PostgreSQL dependency becoming reachable from the browser bundle.
+
+The dependency separation was implemented and the subsequent Render deployment is **Live**.
+
+### Current verification status
+
+GitHub confirms that:
+
+* `src/lib/sat/satLogin.js` exists and contains no server-side database imports;
+* `src/pages/SATMocks/index.js` uses the new `satLogin.js` helper;
+* `src/lib/sat/satAccess.js` continues to contain the server-side session protection.
+
+The code change is therefore complete.
+
+### PENDING — LIVE VERIFICATION
+
+The code fix has been deployed, but the live `/SATMocks` authentication flow has **not yet been fully verified in the browser**.
+
+This must be the **first task in the next session**.
+
+Verify:
+
+1. The live `/SATMocks` page loads without the previous `tls`/build problem.
+2. A logged-out user is redirected to `/Auth`.
+3. The SAT return path is preserved correctly.
+4. An authenticated user can reach `/SATMocks`.
+5. The server-side `session` remains the authoritative authentication mechanism.
+
+**No further code change is required for this issue unless the live verification reveals a problem.**
+
+### Resume point
+
+**Next session: begin with LIVE VERIFICATION of `/SATMocks`.**
+
+If the live verification passes, continue with the next unfinished authentication/subscription task beginning with **STEP 10 — LOGIN PAGE**.
+
+Do not revisit the completed database/session setup or the resolved `tls` build problem unless a new error appears.
 
 ---
 
