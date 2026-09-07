@@ -1,4 +1,3 @@
-// AFTER
 import { query } from "../../lib/db";
 import {
   verifyPassword,
@@ -31,6 +30,7 @@ export default async function handler(req, res) {
           user_id,
           name,
           password_hash,
+          email_verified,
           admin,
           trial,
           type,
@@ -72,6 +72,14 @@ export default async function handler(req, res) {
       });
     }
 
+    if (!user.email_verified) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Please verify your email address before logging in. Check your email for the verification link.",
+      });
+    }
+
     await query(
       `
         INSERT INTO login_logs (
@@ -98,6 +106,7 @@ export default async function handler(req, res) {
         type: user.type,
         next: user.next,
         active: user.active,
+        email_verified: user.email_verified,
         completedQuizzes: user.completed_quizzes || [],
       },
     });
