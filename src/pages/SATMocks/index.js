@@ -1,7 +1,5 @@
-import {
-  getVerifiedSatServerAccessState,
-  getSatLoginUrl,
-} from "../../lib/sat/satAccess";
+import { getVerifiedSatServerAccessState } from "../../lib/sat/satAccess";
+import { getSatLoginUrl } from "../../lib/sat/satLogin";
 
 const tests = Array.from({ length: 10 }, (_, index) => index + 1);
 
@@ -10,7 +8,13 @@ export default function SATMocksPage({
   user,
 }) {
   return (
-    <main style={{ padding: "40px", maxWidth: "900px", margin: "0 auto" }}>
+    <main
+      style={{
+        padding: "40px",
+        maxWidth: "900px",
+        margin: "0 auto",
+      }}
+    >
       <h1>Digital SAT Mock Tests</h1>
 
       {!authenticated ? (
@@ -59,7 +63,9 @@ export default function SATMocksPage({
 
                   {premium ? (
                     <>
-                      <p>Premium subscription required.</p>
+                      <p>
+                        Premium subscription required.
+                      </p>
 
                       <a
                         href={`/SATMocks/purchase?test=${testNumber}`}
@@ -69,9 +75,13 @@ export default function SATMocksPage({
                     </>
                   ) : (
                     <>
-                      <p>Available with your verified account.</p>
+                      <p>
+                        Available with your verified account.
+                      </p>
 
-                      <a href={`/SATMocks/Test${testNumber}`}>
+                      <a
+                        href={`/SATMocks/Test${testNumber}`}
+                      >
                         Start Test {testNumber}
                       </a>
                     </>
