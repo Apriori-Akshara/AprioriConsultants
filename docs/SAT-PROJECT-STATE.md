@@ -262,29 +262,34 @@ GitHub confirms that:
 
 The code change is therefore complete.
 
-### PENDING — LIVE VERIFICATION
+### LIVE VERIFICATION — PASSED
 
-The code fix has been deployed, but the live `/SATMocks` authentication flow has **not yet been fully verified in the browser**.
+The corrected SAT dashboard deployment is now **LIVE on Render**.
 
-This must be the **first task in the next session**.
+The deployment successfully completed after correcting the SAT dashboard relative import paths.
 
-Verify:
+The final working imports in `src/pages/SATMocks/index.js` now correctly reference:
 
-1. The live `/SATMocks` page loads without the previous `tls`/build problem.
-2. A logged-out user is redirected to `/Auth`.
-3. The SAT return path is preserved correctly.
-4. An authenticated user can reach `/SATMocks`.
-5. The server-side `session` remains the authoritative authentication mechanism.
+* `src/lib/sat/satAccess.js`
+* `src/lib/sat/testAccess.js`
+* `src/styles/SATMocks.module.css`
 
-**No further code change is required for this issue unless the live verification reveals a problem.**
+The previous module-resolution build errors have therefore been resolved.
 
-### Resume point
+### Current resume point
 
-**Next session: begin with LIVE VERIFICATION of `/SATMocks`.**
+The next session should **not repeat the authentication, database, subscription architecture, or resolved build-error work**.
 
-If the live verification passes, continue with the next unfinished authentication/subscription task beginning with **STEP 10 — LOGIN PAGE**.
+The next task is to continue the **10M progressive UI/UX milestone**, beginning with the live SAT dashboard verification and then proceeding to the next unfinished 10M item.
 
-Do not revisit the completed database/session setup or the resolved `tls` build problem unless a new error appears.
+Before making further changes:
+
+1. Read this document.
+2. Read `docs/SAT-ARCHITECTURE.md`.
+3. Inspect the current GitHub files and current deployed state.
+4. Continue from the current resume point rather than rebuilding earlier stages.
+
+If live dashboard verification reveals a problem, fix only the specific issue found.
 
 ---
 
@@ -411,17 +416,17 @@ Do not confuse these future access tests with the already-passed authentication/
 
 ## 14. Deployment status
 
-The GitHub code changes for the current batch have been made.
-
-The current Render deployment status after these latest changes has **not yet been confirmed in this session**.
-
-Therefore, do not record the current deployment as LIVE until Render has completed the new deployment successfully.
+The latest SAT dashboard changes have been successfully deployed to Render and the service is **LIVE**.
 
 Controlled testing URL remains:
 
 `https://aprioriconsultants.onrender.com`
 
-Do not switch testing to the custom domain.
+Do not switch testing to the custom domain unless explicitly instructed.
+
+The previously reported SAT dashboard module-resolution build errors are resolved.
+
+The latest deployment includes the corrected SAT dashboard import paths and SAT dashboard UI stylesheet.
 
 ---
 
