@@ -1,16 +1,18 @@
 import Link from 'next/link'
+
 import {
   getVerifiedSatServerAccessState,
   getSatLoginUrl,
-  getSatTestAccess,
-} from '../../../lib/satServerAccess'
-import { getSatPremiumPlan } from '../../../lib/satPlan'
-import styles from '../../../styles/SATMocks.module.css'
+} from '../../../lib/sat/satAccess'
+
+import { getSatTestAccess } from '../../../lib/sat/testAccess'
+
+import styles from '../../styles/SATMocks.module.css'
 
 const tests = Array.from({ length: 10 }, (_, index) => index + 1)
 
 export async function getServerSideProps(context) {
-  const accessState = await getVerifiedSatServerAccessState(context)
+  const accessState = await getVerifiedSatServerAccessState(context.req)
 
   if (!accessState.authenticated) {
     return {
@@ -21,27 +23,26 @@ export async function getServerSideProps(context) {
     }
   }
 
+  const userId = accessState.user?.id || null
   const testAccess = {}
 
   for (const testNumber of tests) {
-    testAccess[testNumber] = await getSatTestAccess(
-      accessState.userId,
-      testNumber
-    )
+    testAccess[testNumber] = await getSatTestAccess(userId, testNumber)
   }
 
   return {
     props: {
       testAccess,
-      premiumPlan: getSatPremiumPlan(),
     },
   }
 }
 
-export default function SATMocks({ testAccess, premiumPlan }) {
-  const premiumActive = tests.some(
-    (testNumber) => testAccess[testNumber]?.entitled === true
-  )
+export default function SATMocks({ testAccess }) {
+  const premiumActive = tests.some((testNumber) => {
+    const access = testAccess[testNumber]
+
+    return access?.premiumRequired === true && access?.allowed === true
+  })
 
   const includedTests = tests.filter(
     (testNumber) => !testAccess[testNumber]?.premiumRequired
@@ -52,9 +53,12 @@ export default function SATMocks({ testAccess, premiumPlan }) {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
+
         <section className={styles.hero}>
           <div>
-            <span className={styles.eyebrow}>APRiori SAT PREP</span>
+            <span className={styles.eyebrow}>
+              APRIORI SAT PREP
+            </span>
 
             <h1>SAT Mock Tests</h1>
 
@@ -71,29 +75,54 @@ export default function SATMocks({ testAccess, premiumPlan }) {
         </section>
 
         <section className={styles.summaryGrid}>
+
           <div className={styles.summaryCard}>
-            <span className={styles.summaryLabel}>TOTAL TESTS</span>
+            <span className={styles.summaryLabel}>
+              TOTAL TESTS
+            </span>
+
             <strong>{tests.length}</strong>
-            <p>Complete SAT mock test collection</p>
+
+            <p>
+              Complete SAT mock test collection
+            </p>
           </div>
 
           <div className={styles.summaryCard}>
-            <span className={styles.summaryLabel}>INCLUDED</span>
+            <span className={styles.summaryLabel}>
+              INCLUDED
+            </span>
+
             <strong>{includedTests}</strong>
-            <p>Available with your verified account</p>
+
+            <p>
+              Available with your verified account
+            </p>
           </div>
 
           <div className={styles.summaryCard}>
-            <span className={styles.summaryLabel}>PREMIUM</span>
+            <span className={styles.summaryLabel}>
+              PREMIUM
+            </span>
+
             <strong>{premiumTests}</strong>
-            <p>Additional tests with SAT Premium</p>
+
+            <p>
+              Additional tests with SAT Premium
+            </p>
           </div>
+
         </section>
 
         <section className={styles.sectionHeader}>
+
           <div>
-            <span className={styles.sectionEyebrow}>PRACTICE LIBRARY</span>
+            <span className={styles.sectionEyebrow}>
+              PRACTICE LIBRARY
+            </span>
+
             <h2>Choose a mock test</h2>
+
             <p>
               Start with an available test or unlock the complete Premium
               collection.
@@ -108,14 +137,23 @@ export default function SATMocks({ testAccess, premiumPlan }) {
               Explore Premium
             </Link>
           )}
+
         </section>
 
         <section className={styles.testGrid}>
+
           {tests.map((testNumber) => {
+
             const access = testAccess[testNumber] || {}
-            const isPremium = access.premiumRequired === true
-            const isAllowed = access.allowed === true
-            const isEntitled = access.entitled === true
+
+            const isPremium =
+              access.premiumRequired === true
+
+            const isAllowed =
+              access.allowed === true
+
+            const isEntitled =
+              isPremium && isAllowed
 
             return (
               <article
@@ -128,7 +166,9 @@ export default function SATMocks({ testAccess, premiumPlan }) {
                     : styles.testCardIncluded
                 }`}
               >
+
                 <div className={styles.testCardTop}>
+
                   <div>
                     <span className={styles.testNumber}>
                       TEST {testNumber}
@@ -146,10 +186,11 @@ export default function SATMocks({ testAccess, premiumPlan }) {
                         : 'Included'
                       : 'Locked'}
                   </span>
+
                 </div>
 
                 <p className={styles.testDescription}>
-                  {access.allowed
+                  {isAllowed
                     ? isPremium
                       ? 'Premium access is active. You can start this mock test.'
                       : 'Available with your verified student account.'
@@ -157,20 +198,33 @@ export default function SATMocks({ testAccess, premiumPlan }) {
                 </p>
 
                 <div className={styles.testMeta}>
+
                   <div className={styles.metaItem}>
-                    <span className={styles.metaIcon}>✓</span>
+                    <span className={styles.metaIcon}>
+                      ✓
+                    </span>
+
                     <span>
-                      {isPremium ? 'Premium test' : 'Included test'}
+                      {isPremium
+                        ? 'Premium test'
+                        : 'Included test'}
                     </span>
                   </div>
 
                   <div className={styles.metaItem}>
-                    <span className={styles.metaIcon}>•</span>
-                    <span>Full SAT practice</span>
+                    <span className={styles.metaIcon}>
+                      •
+                    </span>
+
+                    <span>
+                      Full SAT practice
+                    </span>
                   </div>
+
                 </div>
 
                 <div className={styles.actionArea}>
+
                   {isAllowed ? (
                     <Link
                       href={`/SATMocks/Test${testNumber}`}
@@ -186,20 +240,27 @@ export default function SATMocks({ testAccess, premiumPlan }) {
                       Unlock Test
                     </Link>
                   )}
+
                 </div>
+
               </article>
             )
           })}
+
         </section>
 
         {!premiumActive && (
           <section className={styles.premiumBanner}>
+
             <div className={styles.premiumBannerContent}>
+
               <span className={styles.premiumBannerEyebrow}>
                 SAT PREMIUM
               </span>
 
-              <h2>Unlock Tests 3–10</h2>
+              <h2>
+                Unlock Tests 3–10
+              </h2>
 
               <p>
                 Get access to the complete Premium mock-test collection.
@@ -211,6 +272,7 @@ export default function SATMocks({ testAccess, premiumPlan }) {
                 <span>✓ One Premium subscription</span>
                 <span>✓ Access after payment verification</span>
               </div>
+
             </div>
 
             <Link
@@ -219,17 +281,23 @@ export default function SATMocks({ testAccess, premiumPlan }) {
             >
               View Premium
             </Link>
+
           </section>
         )}
 
         <div className={styles.dashboardFooterNote}>
+
           <p>
             Your access is securely checked against your student account.
             Premium access is activated only after payment verification.
           </p>
 
-          <Link href="/SATMocks">Refresh access</Link>
+          <Link href="/SATMocks">
+            Refresh access
+          </Link>
+
         </div>
+
       </div>
     </div>
   )
