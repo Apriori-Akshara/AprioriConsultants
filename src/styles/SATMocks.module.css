@@ -1,6 +1,9 @@
 .page {
   min-height: 100vh;
-  background: #f5f7fb;
+  background:
+    radial-gradient(circle at 10% 5%, rgba(0, 75, 160, 0.08), transparent 28%),
+    radial-gradient(circle at 90% 25%, rgba(67, 56, 202, 0.07), transparent 30%),
+    #f4f7fc;
   padding: 42px 24px 70px;
 }
 
@@ -10,33 +13,53 @@
   margin: 0 auto;
 }
 
+/* ---------- HERO ---------- */
+
 .hero {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #ffffff 0%, #f7faff 100%);
-  border: 1px solid #e3e8f2;
-  border-radius: 22px;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f4f8ff 58%,
+      #edf3ff 100%
+    );
+  border: 1px solid #dce6f5;
+  border-radius: 24px;
   padding: 42px;
   margin-bottom: 26px;
-  box-shadow: 0 10px 30px rgba(15, 17, 122, 0.06);
+  box-shadow: 0 14px 35px rgba(15, 17, 122, 0.07);
 }
 
 .heroAccent {
   position: absolute;
-  width: 220px;
-  height: 220px;
-  right: -80px;
-  top: -90px;
+  width: 260px;
+  height: 260px;
+  right: -90px;
+  top: -110px;
   border-radius: 50%;
-  background: rgba(0, 75, 160, 0.06);
+  background: rgba(0, 75, 160, 0.08);
+}
+
+.heroAccent::after {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  left: -80px;
+  bottom: -90px;
+  border-radius: 50%;
+  background: rgba(67, 56, 202, 0.07);
 }
 
 .eyebrow {
+  position: relative;
   display: inline-flex;
   align-items: center;
   padding: 7px 12px;
   border-radius: 999px;
-  background: #edf3ff;
+  background: #e8f0ff;
   color: #004ba0;
   font-size: 11px;
   font-weight: 800;
@@ -63,55 +86,86 @@
   line-height: 1.7;
 }
 
+/* ---------- SUMMARY ---------- */
+
 .summaryGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-bottom: 34px;
+  margin-bottom: 36px;
 }
 
 .summaryCard {
+  position: relative;
+  overflow: hidden;
   background: #ffffff;
-  border: 1px solid #e3e8f2;
-  border-radius: 16px;
+  border: 1px solid #e0e7f1;
+  border-radius: 18px;
   padding: 22px;
-  box-shadow: 0 5px 18px rgba(15, 17, 122, 0.04);
+  box-shadow: 0 7px 20px rgba(15, 17, 122, 0.045);
+}
+
+.summaryCard::after {
+  content: "";
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  right: -35px;
+  bottom: -40px;
+  border-radius: 50%;
+  background: rgba(0, 75, 160, 0.05);
+}
+
+.summaryCardIncluded {
+  border-top: 3px solid #087443;
+}
+
+.summaryCardIncluded::after {
+  background: rgba(8, 116, 67, 0.06);
+}
+
+.summaryCardPremium {
+  border-top: 3px solid #4338ca;
+}
+
+.summaryCardPremium::after {
+  background: rgba(67, 56, 202, 0.07);
 }
 
 .summaryLabel {
+  position: relative;
+  z-index: 1;
   color: #667085;
   font-size: 13px;
-  margin-bottom: 8px;
+  margin-bottom: 9px;
 }
 
 .summaryNumber {
+  position: relative;
+  z-index: 1;
   color: #0f117a;
   font-size: 30px;
   font-weight: 800;
   line-height: 1;
 }
 
-.summaryDescription {
-  margin-top: 8px;
-  color: #7a8494;
-  font-size: 12px;
-}
-
-.summaryCardIncluded {
-  border-color: #cce9dc;
-}
-
 .summaryCardIncluded .summaryNumber {
   color: #087443;
-}
-
-.summaryCardPremium {
-  border-color: #d8ddff;
 }
 
 .summaryCardPremium .summaryNumber {
   color: #4338ca;
 }
+
+.summaryDescription {
+  position: relative;
+  z-index: 1;
+  margin-top: 8px;
+  color: #7a8494;
+  font-size: 12px;
+}
+
+/* ---------- TEST SECTION ---------- */
 
 .sectionHeader {
   margin-bottom: 18px;
@@ -137,37 +191,59 @@
   gap: 18px;
 }
 
+/* ---------- TEST CARDS ---------- */
+
 .testCard {
+  position: relative;
   display: flex;
-  min-height: 215px;
+  min-height: 235px;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   background: #ffffff;
-  border: 1px solid #e2e7ef;
+  border: 1px solid #dfe6f0;
   border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 5px 18px rgba(15, 17, 122, 0.035);
+  box-shadow: 0 7px 20px rgba(15, 17, 122, 0.04);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
     border-color 0.2s ease;
 }
 
+.testCard::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  right: -65px;
+  top: -60px;
+  border-radius: 50%;
+  background: rgba(0, 75, 160, 0.045);
+  pointer-events: none;
+}
+
 .testCard:hover {
-  transform: translateY(-2px);
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 26px rgba(15, 17, 122, 0.08);
+  transform: translateY(-3px);
+  border-color: #c9d5e7;
+  box-shadow: 0 13px 30px rgba(15, 17, 122, 0.09);
 }
 
 .testCardAvailable {
-  border-top: 3px solid #087443;
+  border-top: 4px solid #087443;
 }
 
 .testCardLocked {
-  border-top: 3px solid #4338ca;
+  border-top: 4px solid #4338ca;
+}
+
+.testCardLocked::after {
+  background: rgba(67, 56, 202, 0.06);
 }
 
 .testCardTop {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -208,27 +284,71 @@
   color: #4338ca;
 }
 
+.testMeta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: #f3f6fa;
+  color: #687386;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.metaPremium {
+  background: #f1efff;
+  color: #4338ca;
+}
+
 .testDescription {
-  margin: 22px 0;
+  position: relative;
+  z-index: 1;
+  max-width: 470px;
+  margin: 16px 0 20px;
   color: #536174;
   font-size: 14px;
   line-height: 1.6;
 }
 
-.actionButton {
-  display: block;
+/* ---------- CTA ---------- */
+
+.actionArea {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
   width: 100%;
+}
+
+.actionButton {
+  display: inline-flex;
+  width: auto;
+  min-width: 150px;
+  max-width: 185px;
+  align-items: center;
+  justify-content: center;
   border: 0;
   border-radius: 9px;
-  padding: 12px 16px;
+  padding: 10px 18px;
   text-align: center;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
   transition:
     background 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .actionButton:hover {
@@ -238,6 +358,7 @@
 .primaryButton {
   background: #004ba0;
   color: #ffffff;
+  box-shadow: 0 5px 12px rgba(0, 75, 160, 0.2);
 }
 
 .primaryButton:hover {
@@ -247,21 +368,31 @@
 .premiumButton {
   background: #4338ca;
   color: #ffffff;
+  box-shadow: 0 5px 12px rgba(67, 56, 202, 0.2);
 }
 
 .premiumButton:hover {
   background: #3730a3;
 }
 
+.unavailableButton {
+  background: #eef0f4;
+  color: #667085;
+  cursor: default;
+}
+
+/* ---------- LOGIN ---------- */
+
 .loginCard {
   max-width: 720px;
   margin: 40px auto;
-  background: #ffffff;
-  border: 1px solid #e3e8f2;
+  background:
+    linear-gradient(135deg, #ffffff 0%, #f2f7ff 100%);
+  border: 1px solid #dce6f5;
   border-radius: 22px;
   padding: 44px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(15, 17, 122, 0.06);
+  box-shadow: 0 12px 32px rgba(15, 17, 122, 0.07);
 }
 
 .loginCard h1 {
@@ -275,6 +406,8 @@
   color: #667085;
   line-height: 1.6;
 }
+
+/* ---------- RESPONSIVE ---------- */
 
 @media (max-width: 800px) {
   .summaryGrid {
@@ -292,32 +425,93 @@
 
 @media (max-width: 560px) {
   .page {
-    padding: 26px 15px 50px;
+    padding: 24px 14px 48px;
+  }
+
+  .container {
+    max-width: 100%;
   }
 
   .hero {
-    padding: 25px 21px;
+    padding: 26px 21px;
     border-radius: 18px;
+    text-align: center;
   }
 
   .hero h1 {
     font-size: 34px;
   }
 
+  .hero p {
+    font-size: 14px;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .summaryGrid {
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  .summaryCard {
+    padding: 19px;
+  }
+
+  .sectionHeader {
+    text-align: center;
+  }
+
+  .sectionHeader h2 {
+    font-size: 23px;
+  }
+
+  .testGrid {
+    gap: 14px;
+  }
+
   .testCard {
-    padding: 20px;
+    min-height: 0;
+    padding: 21px;
+    border-radius: 16px;
   }
 
   .testCardTop {
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
-  .status {
-    align-self: flex-start;
+  .testNumber {
+    font-size: 20px;
+  }
+
+  .testSubtitle {
+    font-size: 12px;
+  }
+
+  .testMeta {
+    margin-top: 15px;
+  }
+
+  .testDescription {
+    margin: 15px 0 19px;
+    font-size: 13px;
+  }
+
+  .actionArea {
+    justify-content: center;
+  }
+
+  .actionButton {
+    min-width: 145px;
+    max-width: 175px;
+    padding: 10px 15px;
+    font-size: 12px;
   }
 
   .loginCard {
+    margin: 25px auto;
     padding: 30px 20px;
   }
 }
