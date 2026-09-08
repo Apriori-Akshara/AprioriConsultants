@@ -437,6 +437,119 @@ Do not delete unrelated code.
 
 ---
 
+## STAGED UI/UX DEVELOPMENT REQUIREMENT
+
+UI/UX development must occur progressively alongside the implementation of each major SAT feature. The final visual design must NOT be postponed until the end of the project.
+
+The purpose is to ensure that every working milestone can also serve as an increasingly polished student/client demonstration rather than appearing as a purely technical prototype.
+
+### UI/UX must be developed in stages
+
+As each major feature is implemented, its corresponding user-facing experience should be designed and improved at that stage.
+
+This includes, as applicable:
+
+* SAT entry/dashboard experience
+* 10 mock-test cards
+* Free vs premium test presentation
+* Locked/unlocked test states
+* Subscription and purchase experience
+* Payment status and confirmation
+* Receipt presentation
+* Student test instructions
+* Test-taking interface
+* Module navigation
+* Timer and break experience
+* Question display and answer-selection interface
+* Review and navigation controls
+* Test completion experience
+* Results and score presentation
+* Progress tracking
+* Completed/in-progress/not-started states
+* Student account/session experience
+* Error, loading and empty states
+* Responsive/mobile presentation
+* Administrative/master-facing interfaces where applicable
+
+### 10 Mock-Test Cards
+
+The current 10-card presentation is a functional foundation and must not be treated as the final visual design.
+
+The final experience should progressively support appropriate states such as:
+
+* Not started
+* Available
+* In progress
+* Completed
+* Premium/locked
+* Premium/unlocked
+
+Where applicable, cards should eventually provide:
+
+* Clear test number and title
+* R&W / Math identification
+* Test availability state
+* Premium indication
+* Start / Continue / Review action
+* Completion or progress information
+* Score/result information when available
+* Clear subscription CTA for locked premium tests
+* Consistent visual hierarchy and responsive layout
+* Professional graphics, icons and visual elements consistent with the overall Apriori Digital SAT experience
+
+The implementation should improve these cards as the underlying test, subscription, progress and results features become available. Do not create misleading placeholder information merely to make the cards appear complete.
+
+### Feature-by-feature visual development rule
+
+For every major feature added to the platform:
+
+1. Implement the underlying secure functionality.
+2. Implement its basic usable UI.
+3. Test the complete user flow.
+4. Improve the visual presentation sufficiently for the current project milestone/demo.
+5. Continue refining the UI as additional functionality becomes available.
+
+A feature is therefore not considered fully demonstrated merely because its backend/API/database functionality works. Its student-facing experience should also be usable and appropriately polished for the current development stage.
+
+### Demo-readiness principle
+
+At every major milestone, the application should remain suitable for demonstration.
+
+The project should progressively move through:
+
+**Functional foundation → Usable interface → Polished feature → Integrated student experience**
+
+rather than:
+
+**Build everything technically → Design everything at the very end.**
+
+UI/UX work must never be allowed to accumulate as one final end-stage task if doing so would result in an unnecessarily unfinished-looking demonstration during development.
+
+### Security and UI separation
+
+UI state may communicate authentication, subscription, entitlement, progress and test status to the student, but UI state must never be the authority for those decisions.
+
+Server-side authentication, authorization, subscription, entitlement and payment verification remain authoritative.
+
+The interface must therefore reflect the server-confirmed state without allowing client-side state, Redux, browser-readable cookies or client-supplied values to grant access.
+
+### Current implementation status
+
+The current SAT 10-test card layout is considered an initial functional presentation only.
+
+Further UI/UX refinement is expected progressively as:
+
+* test access is completed,
+* subscription/purchase is implemented,
+* payment confirmation is implemented,
+* test-taking functionality is implemented,
+* attempts and progress are implemented,
+* results/scoring are implemented,
+* and the complete student journey is integrated.
+
+The final UI/UX should be treated as an evolving part of the product build, not a separate task reserved for the end of development.
+
+
 ## 16. Next development step
 
 ### NEXT SESSION — Resume here
