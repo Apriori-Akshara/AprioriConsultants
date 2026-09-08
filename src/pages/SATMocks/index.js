@@ -1,17 +1,28 @@
-import { getVerifiedSatServerAccessState } from "../../lib/sat/satAccess";
+import {
+  getVerifiedSatServerAccessState,
+} from "../../lib/sat/satAccess";
+
 import { getSatLoginUrl } from "../../lib/sat/satLogin";
 
-const tests = Array.from({ length: 10 }, (_, index) => index + 1);
+import {
+  getSatTestAccess,
+} from "../../lib/sat/testAccess";
+
+const tests = Array.from(
+  { length: 10 },
+  (_, index) => index + 1
+);
 
 export default function SATMocksPage({
   authenticated,
   user,
+  testAccess,
 }) {
   return (
     <main
       style={{
         padding: "40px",
-        maxWidth: "900px",
+        maxWidth: "1000px",
         margin: "0 auto",
       }}
     >
@@ -34,8 +45,9 @@ export default function SATMocksPage({
           </p>
 
           <p>
-            Tests 1 and 2 are available with your verified account.
-            Tests 3–10 require the SAT Premium subscription.
+            Tests 1 and 2 are available with your verified
+            account. Tests 3–10 require the SAT Premium
+            subscription.
           </p>
 
           <div
@@ -48,7 +60,25 @@ export default function SATMocksPage({
             }}
           >
             {tests.map((testNumber) => {
-              const premium = testNumber >= 3;
+              const access = testAccess[testNumber];
+
+              if (!access) {
+                return (
+                  <div
+                    key={testNumber}
+                    style={{
+                      border: "1px solid #ddd",
+                      borderRadius: "8px",
+                      padding: "20px",
+                    }}
+                  >
+                    <h2>Test {testNumber}</h2>
+                    <p>
+                      Access information is unavailable.
+                    </p>
+                  </div>
+                );
+              }
 
               return (
                 <div
@@ -61,7 +91,22 @@ export default function SATMocksPage({
                 >
                   <h2>Test {testNumber}</h2>
 
-                  {premium ? (
+                  {access.allowed ? (
+                    <>
+                      <p>
+                        {access.premiumRequired
+                          ? "Premium access is active."
+                          : "Available with your verified account."}
+                      </p>
+
+                      <a
+                        href={`/SATMocks/Test${testNumber}`}
+                      >
+                        Start Test {testNumber}
+                      </a>
+                    </>
+                  ) : access.reason ===
+                    "subscription_required" ? (
                     <>
                       <p>
                         Premium subscription required.
@@ -74,17 +119,9 @@ export default function SATMocksPage({
                       </a>
                     </>
                   ) : (
-                    <>
-                      <p>
-                        Available with your verified account.
-                      </p>
-
-                      <a
-                        href={`/SATMocks/Test${testNumber}`}
-                      >
-                        Start Test {testNumber}
-                      </a>
-                    </>
+                    <p>
+                      This test is currently unavailable.
+                    </p>
                   )}
                 </div>
               );
@@ -98,7 +135,9 @@ export default function SATMocksPage({
 
 export async function getServerSideProps(context) {
   const accessState =
-    await getVerifiedSatServerAccessState(context.req);
+    await getVerifiedSatServerAccessState(
+      context.req
+    );
 
   if (!accessState.authenticated) {
     return {
@@ -109,13 +148,26 @@ export async function getServerSideProps(context) {
     };
   }
 
+  const testAccess = {};
+
+  for (const testNumber of tests) {
+    testAccess[testNumber] =
+      await getSatTestAccess(
+        accessState.user.id,
+        testNumber
+      );
+  }
+
   return {
     props: {
       authenticated: true,
+
       user: {
         id: accessState.user?.id || null,
         name: accessState.user?.name || null,
       },
+
+      testAccess,
     },
   };
 }
