@@ -1,149 +1,185 @@
 import Link from "next/link";
+
 import {
   getVerifiedSatServerAccessState,
 } from "../../lib/sat/satAccess";
+
 import { getSatPremiumPlan } from "../../lib/sat/subscriptionPlans";
+
+import styles from "../../styles/SATPurchase.module.css";
 
 export default function SatPurchasePage({
   plan,
   requestedTest,
 }) {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        padding: "40px 20px",
-        background: "#f7f8fb",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "760px",
-          margin: "0 auto",
-        }}
-      >
-        <Link href="/SATMocks">
+    <main className={styles.page}>
+      <div className={styles.container}>
+        <Link
+          href="/SATMocks"
+          className={styles.backLink}
+        >
           ← Back to Mock Tests
         </Link>
 
-        <section
-          style={{
-            marginTop: "30px",
-            background: "#ffffff",
-            border: "1px solid #e1e4e8",
-            borderRadius: "16px",
-            padding: "32px",
-          }}
-        >
-          <p
-            style={{
-              margin: 0,
-              fontSize: "14px",
-              fontWeight: 600,
-            }}
-          >
-            DIGITAL SAT
-          </p>
-
-          <h1
-            style={{
-              fontSize: "34px",
-              margin: "10px 0",
-            }}
-          >
-            Unlock SAT Premium
-          </h1>
-
-          <p
-            style={{
-              fontSize: "17px",
-              lineHeight: 1.6,
-            }}
-          >
-            Get access to Digital SAT Mock Tests{" "}
-            {plan.includedTests.from}–{plan.includedTests.to}.
-          </p>
-
-          {requestedTest && (
-            <div
-              style={{
-                padding: "14px",
-                margin: "24px 0",
-                borderRadius: "10px",
-                background: "#f1f3f5",
-              }}
-            >
-              You selected Test {requestedTest}.
-              <br />
-              Premium access unlocks Tests 3–10.
+        <div className={styles.layout}>
+          <section className={styles.mainCard}>
+            <div className={styles.eyebrow}>
+              DIGITAL SAT PREMIUM
             </div>
-          )}
 
-          <div
-            style={{
-              display: "grid",
-              gap: "12px",
-              margin: "24px 0",
-            }}
-          >
-            <div>✓ Mock Tests 3–10</div>
-            <div>✓ Premium access linked to your account</div>
-            <div>✓ Access remains controlled server-side</div>
-          </div>
+            <h1 className={styles.title}>
+              Unlock SAT Premium
+            </h1>
 
-          <div
-            style={{
-              borderTop: "1px solid #e1e4e8",
-              paddingTop: "24px",
-              marginTop: "24px",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "14px",
-                marginBottom: "6px",
-              }}
-            >
-              SAT Premium
+            <p className={styles.intro}>
+              Get access to Digital SAT Mock Tests{" "}
+              {plan.includedTests.from}–
+              {plan.includedTests.to} through your
+              student account.
             </p>
 
-            <strong
-              style={{
-                fontSize: "28px",
-              }}
+            {requestedTest && (
+              <div className={styles.context}>
+                You selected <strong>Test {requestedTest}</strong>.
+                <br />
+                SAT Premium unlocks Tests 3–10.
+              </div>
+            )}
+
+            <ul className={styles.featureList}>
+              <li className={styles.feature}>
+                <span className={styles.check}>✓</span>
+                <span>
+                  Access to Mock Tests 3–10
+                </span>
+              </li>
+
+              <li className={styles.feature}>
+                <span className={styles.check}>✓</span>
+                <span>
+                  Premium access linked to your student
+                  account
+                </span>
+              </li>
+
+              <li className={styles.feature}>
+                <span className={styles.check}>✓</span>
+                <span>
+                  Server-side access control
+                </span>
+              </li>
+
+              <li className={styles.feature}>
+                <span className={styles.check}>✓</span>
+                <span>
+                  Subscription status and payment records
+                  will be linked to your account
+                </span>
+              </li>
+            </ul>
+
+            <div className={styles.priceBox}>
+              <div className={styles.priceLabel}>
+                SAT Premium
+              </div>
+
+              <div className={styles.price}>
+                {plan.currency}{" "}
+                {plan.amount.toLocaleString("en-IN")}
+              </div>
+
+              <div className={styles.duration}>
+                Premium subscription
+              </div>
+            </div>
+
+            <button
+              type="button"
+              disabled
+              className={`${styles.purchaseButton} ${styles.disabled}`}
             >
-              {plan.currency} {plan.amount.toLocaleString("en-IN")}
-            </strong>
-          </div>
+              Payment gateway coming next
+            </button>
 
-          <button
-            type="button"
-            disabled
-            style={{
-              width: "100%",
-              marginTop: "28px",
-              padding: "15px",
-              border: 0,
-              borderRadius: "10px",
-              fontSize: "16px",
-              fontWeight: 700,
-              cursor: "not-allowed",
-            }}
-          >
-            Payment gateway coming next
-          </button>
+            <p className={styles.notice}>
+              No payment has been processed. Premium will
+              only be activated after payment is successfully
+              verified by the server.
+            </p>
+          </section>
 
-          <p
-            style={{
-              marginTop: "16px",
-              fontSize: "13px",
-              lineHeight: 1.5,
-            }}
-          >
-            Your subscription will only be activated after
-            payment is successfully verified by the server.
-          </p>
-        </section>
+          <aside className={styles.sideCard}>
+            <h2 className={styles.sideTitle}>
+              Payment status design
+            </h2>
+
+            <div className={styles.stateList}>
+              <div className={styles.state}>
+                <div className={styles.stateName}>
+                  Ready to purchase
+                </div>
+                <div className={styles.stateDescription}>
+                  Student can begin the payment process.
+                </div>
+              </div>
+
+              <div className={styles.state}>
+                <div className={styles.stateName}>
+                  Payment processing
+                </div>
+                <div className={styles.stateDescription}>
+                  Gateway payment is being processed.
+                </div>
+              </div>
+
+              <div className={styles.state}>
+                <div className={styles.stateName}>
+                  Payment successful
+                </div>
+                <div className={styles.stateDescription}>
+                  Server verification activates entitlement.
+                </div>
+              </div>
+
+              <div className={styles.state}>
+                <div className={styles.stateName}>
+                  Payment failed or cancelled
+                </div>
+                <div className={styles.stateDescription}>
+                  Student receives a clear retry path.
+                </div>
+              </div>
+
+              <div className={styles.state}>
+                <div className={styles.stateName}>
+                  Subscription active / expired
+                </div>
+                <div className={styles.stateDescription}>
+                  Dashboard access reflects the actual
+                  entitlement.
+                </div>
+              </div>
+
+              <div className={styles.state}>
+                <div className={styles.stateName}>
+                  Receipt / support
+                </div>
+                <div className={styles.stateDescription}>
+                  Receipt and support paths can be connected
+                  when the gateway is integrated.
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.trust}>
+              Payment activation is intentionally not
+              simulated during this development stage.
+              The real payment gateway will be connected
+              in the next milestone.
+            </div>
+          </aside>
+        </div>
       </div>
     </main>
   );
@@ -151,7 +187,9 @@ export default function SatPurchasePage({
 
 export async function getServerSideProps(context) {
   const accessState =
-    await getVerifiedSatServerAccessState(context.req);
+    await getVerifiedSatServerAccessState(
+      context.req
+    );
 
   if (!accessState.authenticated) {
     return {
@@ -164,13 +202,21 @@ export async function getServerSideProps(context) {
 
   const plan = getSatPremiumPlan();
 
+  const requestedTestNumber = context.query?.test
+    ? Number(context.query.test)
+    : null;
+
+  const requestedTest =
+    Number.isInteger(requestedTestNumber) &&
+    requestedTestNumber >= 3 &&
+    requestedTestNumber <= 10
+      ? requestedTestNumber
+      : null;
+
   return {
     props: {
       plan,
-      requestedTest:
-        context.query?.test
-          ? Number(context.query.test)
-          : null,
+      requestedTest,
     },
   };
 }
