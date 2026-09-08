@@ -1,4 +1,3 @@
-```javascript
 import { query } from "../db";
 
 const FREE_TEST_MIN = 1;
@@ -137,4 +136,3 @@ export default {
   hasActivePremiumEntitlement,
   getSatTestAccess,
 };
-```
