@@ -18,17 +18,22 @@ export default async function handler(req, res) {
     });
   }
 
-  const { test } = req.query;
+  const testNumber = req.query?.test;
 
   const access = await getSatTestAccess(
     accessState.user.id,
-    test
+    testNumber
   );
 
   if (!access.allowed) {
-    return res.status(
-      access.reason === "subscription_required" ? 403 : 400
-    ).json({
+    if (access.reason === "subscription_required") {
+      return res.status(403).json({
+        ...access,
+        authenticated: true,
+      });
+    }
+
+    return res.status(400).json({
       ...access,
       authenticated: true,
     });
@@ -39,3 +44,4 @@ export default async function handler(req, res) {
     authenticated: true,
   });
 }
+```
