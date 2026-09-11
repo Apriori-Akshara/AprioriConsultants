@@ -1,15 +1,12 @@
 import { SAT_ASSESSMENT_CATALOG } from "./assessmentCatalog";
 import { SAT_ACTIVITY_BLUEPRINT } from "./activityBlueprint";
 import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT } from "./mockContent";
+import { validateMockContent } from "./mockContent/mockContentQualityGate";
 
-/**
- * Central SAT/PSAT content-bank manifest.
- *
- * This remains a manifest/index. Question records are modular and the
- * assessment/application architecture does not depend on their physical file.
- */
+validateMockContent(PSAT_MOCK_01_CONTENT);
+validateMockContent(SAT_MOCK_01_CONTENT);
 
-export const SAT_CONTENT_BANK_VERSION = "1.1.0";
+export const SAT_CONTENT_BANK_VERSION = "1.2.0";
 
 const STAGE_1_QUESTIONS = [
   ...PSAT_MOCK_01_CONTENT.readingWriting,
@@ -17,6 +14,34 @@ const STAGE_1_QUESTIONS = [
   ...SAT_MOCK_01_CONTENT.readingWriting,
   ...SAT_MOCK_01_CONTENT.math,
 ];
+
+const allQuestionIds = new Set();
+const allVerbalContexts = new Set();
+const allVerbalPrompts = new Set();
+
+for (const question of STAGE_1_QUESTIONS) {
+  if (allQuestionIds.has(question.questionId)) {
+    throw new Error(`Duplicate SAT/PSAT question ID across mocks: ${question.questionId}`);
+  }
+  allQuestionIds.add(question.questionId);
+
+  if (question.section === "reading-writing") {
+    const contextKey = String(question.metadata?.contextKey || "").trim().toLowerCase();
+    const normalizedPrompt = String(question.prompt || "").trim().toLowerCase().replace(/\s+/g, " ");
+    if (allVerbalContexts.has(contextKey)) {
+      throw new Error(`Repeated verbal context across mocks: ${contextKey}`);
+    }
+    if (allVerbalPrompts.has(normalizedPrompt)) {
+      throw new Error(`Repeated verbal question across mocks: ${question.questionId}`);
+    }
+    allVerbalContexts.add(contextKey);
+    allVerbalPrompts.add(normalizedPrompt);
+  }
+}
+
+if (STAGE_1_QUESTIONS.length !== 392) {
+  throw new Error(`Stage 1 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_1_QUESTIONS.length}`);
+}
 
 export const SAT_CONTENT_BANK = {
   version: SAT_CONTENT_BANK_VERSION,
@@ -40,11 +65,15 @@ export const SAT_CONTENT_BANK = {
   qualityGates: {
     originalityRequired: true,
     duplicateCheckRequired: true,
+    crossMockVerbalContextCheckRequired: true,
+    verbalAnswerLengthBalanceRequired: true,
+    answerPositionBalanceRequired: true,
     explanationRequired: true,
     accessibilityReviewRequired: true,
     figureReviewRequiredWhenFigureExists: true,
     mathReviewRequiredForMath: true,
     calculatorReviewRequiredWhenCalculatorIsAllowed: true,
+    adaptiveRoutePoolIntegrityRequired: true,
   },
 };
 
