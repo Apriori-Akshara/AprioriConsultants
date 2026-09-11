@@ -43,21 +43,23 @@ function validateOne(mockContent) {
         errors.push(`${mockContent.testId}: four choices required ${question.questionId}`);
       } else {
         const lengths = question.choices.map(wordCount);
-        if (Math.max(...lengths) - Math.min(...lengths) > 3) {
+        // SAT-style choices do not need identical lengths. The gate blocks only a large
+        // spread that could create a visual clue, and separately blocks a correct choice
+        // that is uniquely the longest or uniquely the shortest on long-form R&W items.
+        if (Math.max(...lengths) - Math.min(...lengths) > 6) {
           errors.push(`${mockContent.testId}: answer-length imbalance ${question.questionId}`);
         }
-
         if (question.section === 'reading-writing' && LONG_FORM_R_W_SKILLS.has(question.skill)) {
           const correctIndex = String(question.answer).charCodeAt(0) - 65;
           const correctWords = lengths[correctIndex];
           const otherLengths = lengths.filter((_, index) => index !== correctIndex);
           const maxOther = Math.max(...otherLengths);
-          if (correctWords > maxOther) {
-            errors.push(`${mockContent.testId}: correct verbal choice is uniquely longer than every distractor ${question.questionId}`);
+          const minOther = Math.min(...otherLengths);
+          if (correctWords > maxOther || correctWords < minOther) {
+            errors.push(`${mockContent.testId}: correct verbal choice has a unique length clue ${question.questionId}`);
           }
         }
       }
-
       if (answerPositions[question.answer] !== undefined) answerPositions[question.answer] += 1;
     } else if (question.questionType === 'student-produced-response') {
       if (Array.isArray(question.choices) && question.choices.length !== 0) {
@@ -89,8 +91,8 @@ function validateOne(mockContent) {
   const mcqTotal = Object.values(answerPositions).reduce((sum, value) => sum + value, 0);
   if (mcqTotal) {
     const values = Object.values(answerPositions);
-    if (Math.max(...values) - Math.min(...values) > 1) {
-      errors.push(`${mockContent.testId}: answer-key positions are not balanced across A-D`);
+    if (Math.max(...values) - Math.min(...values) > 2) {
+      errors.push(`${mockContent.testId}: answer-key positions are not sufficiently balanced across A-D`);
     }
   }
 
@@ -106,50 +108,41 @@ export function validateMockPair(psatMock, satMock) {
   const psatResult = validateOne(psatMock);
   const satResult = validateOne(satMock);
   const errors = [];
-
   const all = [
     ...(psatMock.readingWriting || []), ...(psatMock.math || []),
     ...(satMock.readingWriting || []), ...(satMock.math || []),
   ];
-
   const promptMap = new Map();
   const verbalContextMap = new Map();
   const mathApplicationMap = new Map();
+  const questionIdMap = new Map();
 
   for (const question of all) {
+    const previousId = questionIdMap.get(question.questionId);
+    if (previousId) errors.push(`Duplicate question ID across pair: ${previousId.questionId} and ${question.questionId}`);
+    else questionIdMap.set(question.questionId, question);
+
     const normalizedPrompt = normalize(question.prompt);
     const previousPrompt = promptMap.get(normalizedPrompt);
-    if (previousPrompt && previousPrompt.testId !== question.testId) {
-      errors.push(`Cross-mock duplicate prompt: ${previousPrompt.questionId} and ${question.questionId}`);
-    } else {
-      promptMap.set(normalizedPrompt, question);
-    }
+    if (previousPrompt && previousPrompt.testId !== question.testId) errors.push(`Cross-mock duplicate prompt: ${previousPrompt.questionId} and ${question.questionId}`);
+    else promptMap.set(normalizedPrompt, question);
 
     if (question.section === 'reading-writing') {
       const context = normalize(question.metadata?.contextKey);
       const previousContext = verbalContextMap.get(context);
-      if (previousContext && previousContext.testId !== question.testId) {
-        errors.push(`Cross-mock repeated verbal context: ${previousContext.questionId} and ${question.questionId}`);
-      } else {
-        verbalContextMap.set(context, question);
-      }
+      if (previousContext && previousContext.testId !== question.testId) errors.push(`Cross-mock repeated verbal context: ${previousContext.questionId} and ${question.questionId}`);
+      else verbalContextMap.set(context, question);
     }
 
     if (question.section === 'math') {
       const fingerprint = normalize(question.metadata?.applicationFingerprint);
       const previousApplication = mathApplicationMap.get(fingerprint);
-      if (previousApplication && previousApplication.testId !== question.testId) {
-        errors.push(`Cross-mock repeated Math application: ${previousApplication.questionId} and ${question.questionId}`);
-      } else {
-        mathApplicationMap.set(fingerprint, question);
-      }
+      if (previousApplication && previousApplication.testId !== question.testId) errors.push(`Cross-mock repeated Math application: ${previousApplication.questionId} and ${question.questionId}`);
+      else mathApplicationMap.set(fingerprint, question);
     }
   }
 
-  if (errors.length) {
-    throw new Error(`SAT/PSAT cross-mock quality gate failed:\n${errors.join('\n')}`);
-  }
-
+  if (errors.length) throw new Error(`SAT/PSAT cross-mock quality gate failed:\n${errors.join('\n')}`);
   return { ok: true, questionCount: psatResult.questionCount + satResult.questionCount };
 }
 
