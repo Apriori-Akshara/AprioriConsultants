@@ -1,5 +1,6 @@
 import { PSAT_MOCK_01_CONTENT as PSAT_BASE, SAT_MOCK_01_CONTENT as SAT_BASE } from "./stage1MockBank";
 import { validateMockContent, validateMockPair } from "./mockContentQualityGate";
+import { validateMockFigureQuality } from "./figureQualityGate";
 
 const LONG_FORM_RW = new Set([
   "Central Ideas and Details",
@@ -40,6 +41,7 @@ export const SAT_MOCK_01_CONTENT = normalizeVerbalChoices(SAT_BASE);
 validateMockContent(PSAT_MOCK_01_CONTENT);
 validateMockContent(SAT_MOCK_01_CONTENT);
 validateMockPair(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT);
+validateMockFigureQuality(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT);
 
 export const SAT_PSAT_STAGE_1_MOCKS = [PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT];
 export default SAT_PSAT_STAGE_1_MOCKS;
