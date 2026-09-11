@@ -17,48 +17,27 @@ const MOCKS = {
   },
 };
 
-const ROUTES = ["standard", "high", "low"];
-
-function routeForQuestion(question, fallbackIndex) {
-  return question.adaptiveRoute || ROUTES[fallbackIndex % ROUTES.length];
-}
-
 function normalizeModuleKey(value) {
   const normalized = String(value || "").toLowerCase();
-  return normalized.endsWith("-module-1") || normalized.endsWith("module-1")
-    ? "module-1"
-    : normalized.endsWith("-module-2") || normalized.endsWith("module-2")
-      ? "module-2"
-      : normalized;
+  return normalized.endsWith("module-1") ? "module-1" : normalized.endsWith("module-2") ? "module-2" : normalized;
 }
 
 function contentRecords(content) {
-  return [
-    ...(content?.readingWriting || []),
-    ...(content?.math || []),
-  ];
+  return [...(content?.readingWriting || []), ...(content?.math || [])];
 }
 
 function moduleQuestions(content, section, module) {
   return contentRecords(content).filter(
-    (question) =>
-      question.section === section &&
-      normalizeModuleKey(question.module) === module
+    (question) => question.section === section && normalizeModuleKey(question.module) === module
   );
 }
 
-function selectAdaptiveQuestions(questions, route, count) {
-  const preferred = questions.filter((question, index) => routeForQuestion(question, index) === route);
-  const ordered = [...preferred];
-
-  for (const question of questions) {
-    if (ordered.length >= count) break;
-    if (!ordered.some((item) => item.questionId === question.questionId)) {
-      ordered.push(question);
-    }
+function exactAdaptivePool(questions, route, count) {
+  const pool = questions.filter((question) => question.adaptiveRoute === route);
+  if (pool.length !== count) {
+    throw new Error(`Adaptive pool integrity failure: expected ${count} ${route} questions, found ${pool.length}`);
   }
-
-  return ordered.slice(0, count);
+  return pool;
 }
 
 export function getMockDefinition(testKey) {
@@ -81,8 +60,12 @@ export function createAdaptivePlan(testKey) {
   const math1 = moduleQuestions(mock.content, "math", "module-1");
   const math2 = moduleQuestions(mock.content, "math", "module-2");
 
+  if (rw1.length !== 27 || rw2.length !== 81 || math1.length !== 22 || math2.length !== 66) {
+    throw new Error(`Adaptive mock bank integrity failure for ${mock.id}`);
+  }
+
   return {
-    version: 2,
+    version: 3,
     testKey: mock.id,
     label: mock.label,
     sections: [
@@ -90,20 +73,20 @@ export function createAdaptivePlan(testKey) {
         key: "reading-writing",
         label: "Reading and Writing",
         modules: [
-          { key: "module-1", minutes: mock.sectionMinutes["reading-writing"], questions: rw1 },
-          { key: "module-2-standard", minutes: mock.sectionMinutes["reading-writing"], route: "standard", questions: selectAdaptiveQuestions(rw2, "standard", 27) },
-          { key: "module-2-high", minutes: mock.sectionMinutes["reading-writing"], route: "high", questions: selectAdaptiveQuestions(rw2, "high", 27) },
-          { key: "module-2-low", minutes: mock.sectionMinutes["reading-writing"], route: "low", questions: selectAdaptiveQuestions(rw2, "low", 27) },
+          { key: "module-1", minutes: 32, questions: rw1 },
+          { key: "module-2-standard", minutes: 32, route: "standard", questions: exactAdaptivePool(rw2, "standard", 27) },
+          { key: "module-2-high", minutes: 32, route: "high", questions: exactAdaptivePool(rw2, "high", 27) },
+          { key: "module-2-low", minutes: 32, route: "low", questions: exactAdaptivePool(rw2, "low", 27) },
         ],
       },
       {
         key: "math",
         label: "Math",
         modules: [
-          { key: "module-1", minutes: mock.sectionMinutes.math, questions: math1 },
-          { key: "module-2-standard", minutes: mock.sectionMinutes.math, route: "standard", questions: selectAdaptiveQuestions(math2, "standard", 22) },
-          { key: "module-2-high", minutes: mock.sectionMinutes.math, route: "high", questions: selectAdaptiveQuestions(math2, "high", 22) },
-          { key: "module-2-low", minutes: mock.sectionMinutes.math, route: "low", questions: selectAdaptiveQuestions(math2, "low", 22) },
+          { key: "module-1", minutes: 35, questions: math1 },
+          { key: "module-2-standard", minutes: 35, route: "standard", questions: exactAdaptivePool(math2, "standard", 22) },
+          { key: "module-2-high", minutes: 35, route: "high", questions: exactAdaptivePool(math2, "high", 22) },
+          { key: "module-2-low", minutes: 35, route: "low", questions: exactAdaptivePool(math2, "low", 22) },
         ],
       },
     ],
@@ -113,7 +96,6 @@ export function createAdaptivePlan(testKey) {
 export function getModuleForRoute(plan, sectionKey, moduleIndex, route = "standard") {
   const section = plan?.sections?.find((item) => item.key === sectionKey);
   if (!section) return null;
-
   const key = moduleIndex === 0 ? "module-1" : `module-2-${route}`;
   return section.modules.find((module) => module.key === key) || null;
 }
@@ -121,30 +103,20 @@ export function getModuleForRoute(plan, sectionKey, moduleIndex, route = "standa
 export function scoreModule(questions, answers) {
   let correct = 0;
   let answered = 0;
-
   questions.forEach((question) => {
     const answer = answers?.[question.questionId];
     if (answer !== undefined && answer !== null && String(answer).trim() !== "") {
       answered += 1;
-      if (String(answer).trim().toUpperCase() === String(question.answer).trim().toUpperCase()) {
-        correct += 1;
-      }
+      if (String(answer).trim().toUpperCase() === String(question.answer).trim().toUpperCase()) correct += 1;
     }
   });
-
   const total = questions.length;
-  return {
-    correct,
-    answered,
-    total,
-    accuracy: total ? Math.round((correct / total) * 100) : 0,
-  };
+  return { correct, answered, total, accuracy: total ? Math.round((correct / total) * 100) : 0 };
 }
 
 export function chooseModule2Route(module1Questions, answers) {
   const result = scoreModule(module1Questions, answers);
   const ratio = result.total ? result.correct / result.total : 0;
-
   if (ratio >= 0.75) return "high";
   if (ratio <= 0.45) return "low";
   return "standard";
@@ -153,7 +125,6 @@ export function chooseModule2Route(module1Questions, answers) {
 export function buildClientSafeTest(testKey) {
   const plan = createAdaptivePlan(testKey);
   if (!plan) return null;
-
   return {
     version: plan.version,
     testKey: plan.testKey,
