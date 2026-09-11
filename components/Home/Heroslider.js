@@ -41,7 +41,7 @@ export default function Heroslider() {
         </Reveal>
         </div>
         <div className={styles.tint1}></div>
-        <Image className={styles.heroimg} src={"/Heroslider/carasoul1.png"} width={1200} height={1200} sizes="100vw" priority alt="hero-image"/>
+        <Image className={styles.heroimg} src={"/Heroslider/carasoul1.png"} width={1200} height={1200} sizes="100vw" quality={60} fetchPriority="high" alt="hero-image"/>
       </div>
       <div className={styles.heroimgcont}>
         <div className={styles.herodata}>
