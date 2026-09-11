@@ -1,12 +1,11 @@
 import { SAT_ASSESSMENT_CATALOG } from "./assessmentCatalog";
 import { SAT_ACTIVITY_BLUEPRINT } from "./activityBlueprint";
 import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT } from "./mockContent";
-import { validateMockContent } from "./mockContent/mockContentQualityGate";
+import { validateMockPair } from "./mockContent/mockContentQualityGate";
 
-validateMockContent(PSAT_MOCK_01_CONTENT);
-validateMockContent(SAT_MOCK_01_CONTENT);
+validateMockPair(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT);
 
-export const SAT_CONTENT_BANK_VERSION = "1.2.0";
+export const SAT_CONTENT_BANK_VERSION = "1.3.0";
 
 const STAGE_1_QUESTIONS = [
   ...PSAT_MOCK_01_CONTENT.readingWriting,
@@ -18,54 +17,43 @@ const STAGE_1_QUESTIONS = [
 const allQuestionIds = new Set();
 const allVerbalContexts = new Set();
 const allVerbalPrompts = new Set();
+const allMathApplications = new Set();
 
 for (const question of STAGE_1_QUESTIONS) {
-  if (allQuestionIds.has(question.questionId)) {
-    throw new Error(`Duplicate SAT/PSAT question ID across mocks: ${question.questionId}`);
-  }
+  if (allQuestionIds.has(question.questionId)) throw new Error(`Duplicate SAT/PSAT question ID across mocks: ${question.questionId}`);
   allQuestionIds.add(question.questionId);
 
   if (question.section === "reading-writing") {
     const contextKey = String(question.metadata?.contextKey || "").trim().toLowerCase();
     const normalizedPrompt = String(question.prompt || "").trim().toLowerCase().replace(/\s+/g, " ");
-    if (allVerbalContexts.has(contextKey)) {
-      throw new Error(`Repeated verbal context across mocks: ${contextKey}`);
-    }
-    if (allVerbalPrompts.has(normalizedPrompt)) {
-      throw new Error(`Repeated verbal question across mocks: ${question.questionId}`);
-    }
+    if (allVerbalContexts.has(contextKey)) throw new Error(`Repeated verbal context across mocks: ${contextKey}`);
+    if (allVerbalPrompts.has(normalizedPrompt)) throw new Error(`Repeated verbal question across mocks: ${question.questionId}`);
     allVerbalContexts.add(contextKey);
     allVerbalPrompts.add(normalizedPrompt);
   }
+
+  if (question.section === "math") {
+    const application = String(question.metadata?.applicationFingerprint || "").trim().toLowerCase();
+    if (allMathApplications.has(application)) throw new Error(`Repeated Math application across mocks: ${application}`);
+    allMathApplications.add(application);
+  }
 }
 
-if (STAGE_1_QUESTIONS.length !== 392) {
-  throw new Error(`Stage 1 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_1_QUESTIONS.length}`);
-}
+if (STAGE_1_QUESTIONS.length !== 392) throw new Error(`Stage 1 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_1_QUESTIONS.length}`);
 
 export const SAT_CONTENT_BANK = {
   version: SAT_CONTENT_BANK_VERSION,
   assessmentCatalog: SAT_ASSESSMENT_CATALOG,
-  activities: {
-    foundation: SAT_ACTIVITY_BLUEPRINT.foundation,
-    advanced: SAT_ACTIVITY_BLUEPRINT.advanced,
-  },
-  questions: {
-    source: "apriori-original",
-    storageMode: "modular-records",
-    records: STAGE_1_QUESTIONS,
-  },
+  activities: { foundation: SAT_ACTIVITY_BLUEPRINT.foundation, advanced: SAT_ACTIVITY_BLUEPRINT.advanced },
+  questions: { source: "apriori-original", storageMode: "modular-records", records: STAGE_1_QUESTIONS },
   passages: { records: [] },
   lessons: { source: "apriori-original", records: [] },
-  mockManifests: {
-    psat: [PSAT_MOCK_01_CONTENT],
-    satSeriesA: [SAT_MOCK_01_CONTENT],
-    satSeriesB: [],
-  },
+  mockManifests: { psat: [PSAT_MOCK_01_CONTENT], satSeriesA: [SAT_MOCK_01_CONTENT], satSeriesB: [] },
   qualityGates: {
     originalityRequired: true,
     duplicateCheckRequired: true,
     crossMockVerbalContextCheckRequired: true,
+    crossMockMathApplicationCheckRequired: true,
     verbalAnswerLengthBalanceRequired: true,
     answerPositionBalanceRequired: true,
     explanationRequired: true,
