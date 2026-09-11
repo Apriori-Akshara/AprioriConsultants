@@ -16,6 +16,13 @@ const balancedCrossTextChoices = [
   'has limited value when local conditions change the outcome.'
 ];
 
+const balancedSeasonalInferenceChoices = [
+  'The seasonal shift may matter, but other changing conditions remain possible explanations.',
+  'The seasonal shift caused the pattern because it happened before the change.',
+  'Temperature and moisture can be ignored because they changed gradually during observation.',
+  'The pattern occurs only when the seasonal shift has the same form.'
+];
+
 function normalizeChoices(question) {
   if (question.section !== 'reading-writing' || question.questionType !== 'multiple-choice') {
     return question;
@@ -28,6 +35,8 @@ function normalizeChoices(question) {
     choices = balancedRhetoricalChoices;
   } else if (question.skill === 'Cross-Text Connections') {
     choices = balancedCrossTextChoices;
+  } else if (question.skill === 'Inferences' && question.prompt.includes('seasonal shift')) {
+    choices = balancedSeasonalInferenceChoices;
   }
 
   return {
