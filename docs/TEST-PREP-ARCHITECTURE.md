@@ -136,7 +136,7 @@ The new SAT Mock architecture continues to use:
 - `src/lib/sat/testAccess.js`
 - `src/pages/SATMocks/index.js`
 
-The current Mock Test registry is configuration-only and explicitly states that question content will be added later. fileciteturn35file0
+The current Mock Test registry is configuration-only and explicitly states that question content will be added later.
 
 Foundation content must not be silently inserted into Mock Test question pools.
 
