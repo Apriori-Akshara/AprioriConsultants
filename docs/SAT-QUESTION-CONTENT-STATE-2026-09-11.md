@@ -1,18 +1,17 @@
-# Apriori Digital SAT — Question & Quiz Content State
+# Apriori Digital SAT / PSAT — Question & Quiz Content State
 
 **Date:** September 11, 2026
 
 ## 1. Front-end milestone confirmed
 
-The user has confirmed that the SAT platform front-end features are now visible on the public website, including the current SAT student-facing dashboard/application experience.
+The user has confirmed that the SAT platform front-end/application features are visible on the public website.
 
-This confirms the project has moved beyond the dashboard-only UI/UX milestone and can now progress into SAT question, quiz, and test-taking content implementation.
+The user has also confirmed that production certificates are issued for both:
 
-Public verification domain:
+- `https://www.aprioriconsultants.org`
+- `https://aprioriconsultants.org`
 
-`https://www.aprioriconsultants.org`
-
-Render remains the deployment/infrastructure target and diagnostic environment; it is not the routine student verification URL.
+The public live website is the routine student verification environment. Render remains the deployment/infrastructure and diagnostic environment.
 
 ## 2. Current transition
 
@@ -22,138 +21,193 @@ The project is moving from:
 
 into:
 
-**Question bank → quiz/test engine → student test interface → attempts → scoring/results**
+**Question bank → quizzes/drills → student test interface → attempts → scoring/results**
 
 Do not rebuild the completed authentication, session, SAT access-control, subscription foundation, or dashboard UI.
 
-## 3. Question-content requirements
+## 3. Master content source of truth
 
-All SAT question content must be original Apriori-authored material.
+All SAT questions, lessons, drills, exercises, quizzes, mock-test content and other learning content are governed by:
 
-Do not copy or reproduce College Board, Magoosh, Kaplan, PrepScholar, Manhattan Prep, or other competitor questions, passages, diagrams, answer choices, explanations, or proprietary assets.
+`docs/TEST-PREP-CONTENT-QUALITY-CONTROL.md`
 
-### Coverage requirements
+The document also governs the future GRE and GMAT content programs.
 
-Each mock test is planned for:
+External benchmark hierarchy is documented in:
 
-* Reading and Writing: 54 questions.
-* Math: 44 questions.
-* Total: 98 questions.
+`docs/TEST-PREP-CONTENT-STANDARDS.md`
 
-The existing master registry already models two modules per section and adaptive Module 2 pools. Question content must fit that architecture rather than creating a parallel test structure.
+Current SAT benchmark hierarchy:
 
-### Originality requirements
+- College Board / Bluebook → structure and presentation;
+- OnePrep → primary R&W quality benchmark;
+- Princeton Review → secondary R&W benchmark;
+- Kaplan → primary Math quality benchmark;
+- Barron's → secondary Math benchmark.
 
-* No repeated Reading and Writing passage across the 10 tests.
-* No repeated Reading and Writing question across the 10 tests.
-* No repeated Math question across the 10 tests.
-* Concepts and skills may repeat when needed for proper SAT coverage.
-* Figures/graphs must be original structured content and should not depend on copied official/competitor graphics.
+## 4. PSAT/SAT Mock program
 
-## 4. Canonical question contract
+The mock area is now conceptually **PSAT/SAT Mocks**.
 
-The canonical question structure remains:
+Initial target:
+
+- 10 PSAT/NMSQT-aligned mocks;
+- 10 SAT mocks — Series A;
+- 10 SAT mocks — Series B.
+
+Total initial full-length mock inventory: **30 mocks**.
+
+The detailed assembly blueprint is:
+
+`docs/SAT-PSAT-DRILL-AND-MOCK-BLUEPRINT-2026-09-11.md`
+
+The existing technical route may remain `/SATMocks` until a deliberate later UI/route change. Content IDs and data architecture must not depend on the visible route name.
+
+## 5. Exercise/drill program
+
+### Foundation
+
+Every Foundation exercise/drill contains:
+
+- 5 sets;
+- 10 questions per set;
+- 50 questions total;
+- major difficulty jump after every set.
+
+### Advanced
+
+Every Advanced exercise/drill contains:
+
+- 10 sets;
+- 20 questions per set;
+- 200 questions total;
+- major difficulty jump after every set.
+
+Difficulty progression uses controlled progression-band metadata while retaining Easy/Medium/Hard as the broad difficulty labels.
+
+## 6. Timed and non-timed rules
+
+### Timed drills
+
+- use a hard timeout;
+- timeout is based on the relevant product/section average time per question;
+- time expires automatically and the activity is locked/submitted according to its execution rules;
+- answers and elapsed time are recorded.
+
+### Non-timed drills
+
+- never time out;
+- elapsed time is recorded from start to completion;
+- pacing information can be shown afterward without penalizing the student for taking longer.
+
+Current SAT timing baselines:
+
+- Reading & Writing ≈ 71 seconds/question;
+- Math ≈ 95 seconds/question.
+
+For mixed activities, the timeout is calculated from the individual question's relevant section/product benchmark.
+
+## 7. Calculator requirement
+
+The PSAT/SAT Math experience must include an integrated calculator throughout Math, with question-level metadata indicating intended calculator use.
+
+Scientific and graphing calculator capabilities must be supported without CAS functionality.
+
+## 8. Canonical question contract
+
+The existing SAT technical question schema remains:
 
 `src/data/sat/questionSchema.js`
 
-Important fields include:
+Important fields already include:
 
-* `questionId`
-* `testId`
-* `section`
-* `module`
-* `domain`
-* `skill`
-* `conceptId`
-* `difficulty`
-* `questionType`
-* `passageId`
-* `prompt`
-* `choices`
-* `answer`
-* `explanation`
-* `estimatedTimeSeconds`
-* `figure`
-* `originalityFingerprint`
-* `conceptFingerprint`
-* `tags`
-* `sourceType`
-* `authoringStatus`
-* `metadata`
+- `questionId`
+- `testId`
+- `section`
+- `module`
+- `domain`
+- `skill`
+- `conceptId`
+- `difficulty`
+- `questionType`
+- `passageId`
+- `prompt`
+- `choices`
+- `answer`
+- `explanation`
+- `estimatedTimeSeconds`
+- `figure`
+- `originalityFingerprint`
+- `conceptFingerprint`
+- `tags`
+- `sourceType`
+- `authoringStatus`
+- `metadata`
 
-Multiple-choice questions require exactly four choices under the current structural validator.
+The new content-governance layer must sit above this contract and must not create a parallel question schema unless a true product requirement later proves necessary.
 
-## 5. Recommended build sequence from this point
+## 9. Originality requirements
 
-### Q1 — Question-bank foundation
+All Apriori content must be independently authored.
 
-Create the central SAT content-bank structure and authoring/validation approach without yet pretending that a complete 10-test bank exists.
+Do not copy or reproduce College Board, OnePrep, Princeton Review, Kaplan, Barron's, Magoosh, Manhattan Prep, GMAT Club or other competitors' questions, passages, explanations, answer choices, diagrams or proprietary assets.
 
-### Q2 — Test 1 content
+Across PSAT/SAT mocks:
 
-Author and validate the first complete demonstration-ready content set for Mock Test 1, including both sections, both modules, adaptive Module 2 pools, explanations, and required figures/data displays.
+- no repeated R&W passage;
+- no repeated R&W question;
+- no repeated Math question;
+- no trivial Math numerical substitutions presented as new questions;
+- no near-duplicate diagrams or question framing;
+- concepts and skills may repeat for proper coverage.
 
-### Q3 — Student test-taking interface
+## 10. Lessons
 
-Build the actual `/SATMocks/Test1` experience around the canonical question contract and secure attempt/session model.
+SAT lessons are part of the SAT learning modules and must connect to the same content taxonomy.
 
-### Q4 — Attempt persistence and navigation
+Required learning sequence:
 
-Implement answer selection, navigation, review marking, timing, autosave/persistence, and submission while keeping server-side authorization authoritative.
+**Concept → Visual explanation → Worked example → Strategy → Guided practice → Independent practice → Error diagnosis → Transfer**
 
-### Q5 — Scoring/results
+Use graphics, diagrams, data displays, annotations, animations and interactive demonstrations where they materially improve understanding.
+
+## 11. Stage roadmap
+
+### STAGE 1 — Question Bank Foundation and Validation Infrastructure
+
+Build the central content-bank structure, controlled metadata/tags, validation/QC approach, progression-band model, assessment-family model, timed/non-timed metadata and content-to-lesson linkage without creating a parallel architecture.
+
+### STAGE 2 — First demonstration content set
+
+Author and validate the first demonstration-ready PSAT/SAT question set using the approved taxonomy and QC gates.
+
+### STAGE 3 — Student test-taking interface
+
+Build the student-facing test experience around the canonical question contract and secure attempt/session model.
+
+### STAGE 4 — Attempt persistence and navigation
+
+Implement answer selection, navigation, review marking, timing, autosave, persistence and submission.
+
+### STAGE 5 — Scoring and results
 
 Build result calculation and the student-facing review/results experience using real attempt data.
 
-### Q6 onward — Expand the content bank
+### STAGE 6 — Scale the question bank
 
-Extend the same validated structure across Tests 2–10 while maintaining originality and avoiding question duplication.
+Expand the validated bank across the full PSAT/SAT inventory while maintaining originality, adaptive coverage, progression and QC.
 
-## 6. Important UI/UX rule for question work
+## 12. Current immediate resume point
 
-Question content and the student-facing experience must be developed together.
+**Next build step: STAGE 1 — Question Bank Foundation and Validation Infrastructure.**
 
-Do not build a large raw question database and postpone the test interface until the end.
+Before coding Stage 1, inspect the current versions of:
 
-For each major test feature:
+- `src/data/sat/questionSchema.js`
+- `src/data/sat/mockTests.js`
+- `src/lib/sat/attemptSchema.js`
+- `src/data/sat/programConfig.js`
+- existing SAT Foundation/content files;
+- current SAT test-access API/helpers.
 
-**Content model → usable student UI → validation/testing → polished demo experience → integration**
-
-The eventual interface should support:
-
-* SAT section/module context
-* question display
-* answer choices or student-produced response entry
-* timer
-* previous/next navigation
-* mark for review
-* question navigator
-* module transitions
-* submission
-* clear loading/error/confirmation states
-* responsive presentation
-
-## 7. Current constraints
-
-* Preserve the existing Next.js Pages Router architecture.
-* Preserve server/client boundaries.
-* Keep PostgreSQL/server-only code out of browser bundles.
-* Do not create a second SAT backend or parallel question architecture.
-* Do not create fake scores, fake completion states, or fake test results.
-* Do not expose answer keys in client-side data before submission if the architecture can avoid it.
-* Continue updating the project-state documentation after meaningful completed batches.
-
-## 8. Immediate resume point
-
-**Next build step: Q1 — Question-bank foundation and first original SAT question set.**
-
-Before coding Q1, inspect the current repository versions of:
-
-* `src/data/sat/questionSchema.js`
-* `src/data/sat/mockTests.js`
-* `src/lib/sat/attemptSchema.js`
-* `src/data/sat/programConfig.js`
-* any existing SAT foundation/content files
-* the current SAT test-access API/helpers
-
-Then extend the existing architecture rather than creating duplicate content/test systems.
+Then extend the existing architecture rather than creating duplicate question or test systems.
