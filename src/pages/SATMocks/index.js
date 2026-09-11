@@ -8,7 +8,6 @@ import { getSatTestAccess } from '../../lib/sat/testAccess'
 import styles from '../../styles/SATMocks.module.css'
 
 const tests = Array.from({ length: 10 }, (_, index) => index + 1)
-const liveSatTests = new Set([1])
 
 export async function getServerSideProps(context) {
   const accessState = await getVerifiedSatServerAccessState(context.req)
@@ -66,8 +65,10 @@ export default function SATMocks({ testAccess }) {
   })
 
   const premiumTests = tests.filter((testNumber) => testAccess[testNumber]?.premiumRequired).length
-  const psatCompleted = (progress.completed || []).some((item) => item.test_key === 'PSAT1')
-  const satCompleted = (progress.completed || []).some((item) => item.test_key === 'SAT1')
+  const psat1Completed = (progress.completed || []).some((item) => item.test_key === 'PSAT1')
+  const psat2Completed = (progress.completed || []).some((item) => item.test_key === 'PSAT2')
+  const sat1Completed = (progress.completed || []).some((item) => item.test_key === 'SAT1')
+  const sat2Completed = (progress.completed || []).some((item) => item.test_key === 'SAT2')
 
   return (
     <div className={styles.page}>
@@ -108,8 +109,8 @@ export default function SATMocks({ testAccess }) {
         <section className={styles.sectionHeader}>
           <div>
             <span className={styles.sectionEyebrow}>LIVE MOCKS</span>
-            <h2>Start with the first two calibrated tests</h2>
-            <p>These two mocks establish the reusable adaptive template for the remaining library.</p>
+            <h2>Four calibrated tests are now online</h2>
+            <p>Mock 02 uses the same validated adaptive execution contract as Mock 01, with independent original content and cross-mock quality gates.</p>
           </div>
         </section>
 
@@ -123,21 +124,38 @@ export default function SATMocks({ testAccess }) {
                   <h3>PSAT Mock Test 01</h3>
                 </div>
               </div>
-              <span className={styles.status}>{psatCompleted ? 'Completed' : 'Ready'}</span>
+              <span className={styles.status}>{psat1Completed ? 'Completed' : 'Ready'}</span>
             </div>
-            <p className={styles.testDescription}>
-              Full-length PSAT/NMSQT-style adaptive practice using the same question contract,
-              module routing, attempt storage, scoring, and dashboard reporting used by future mocks.
-            </p>
+            <p className={styles.testDescription}>Full-length PSAT/NMSQT-style adaptive practice with timed modules, persistent attempts, scoring, and reporting.</p>
             <div className={styles.testMeta}>
               <Meta value="98" label="questions" />
               <Meta value="2 + 2" label="modules" />
               <Meta value="64 + 70" label="minutes" />
             </div>
             <div className={styles.actionArea}>
-              <Link href="/SATMocks/PSAT1" className={`${styles.actionButton} ${styles.primaryButton}`}>
-                {psatCompleted ? 'Retake PSAT' : 'Start PSAT Mock'}
-              </Link>
+              <Link href="/SATMocks/PSAT1" className={`${styles.actionButton} ${styles.primaryButton}`}>{psat1Completed ? 'Retake PSAT' : 'Start PSAT Mock'}</Link>
+            </div>
+          </article>
+
+          <article className={`${styles.testCard} ${styles.testCardIncluded}`}>
+            <div className={styles.testCardTop}>
+              <div className={styles.testIdentity}>
+                <div className={styles.testIcon}>P</div>
+                <div>
+                  <span className={styles.testNumber}>PSAT / NMSQT · MOCK 02</span>
+                  <h3>PSAT Mock Test 02</h3>
+                </div>
+              </div>
+              <span className={styles.status}>{psat2Completed ? 'Completed' : 'Ready'}</span>
+            </div>
+            <p className={styles.testDescription}>A second independent PSAT/NMSQT-style adaptive form with a fresh question bank, fresh passages, new Math applications, and validated figures.</p>
+            <div className={styles.testMeta}>
+              <Meta value="98" label="questions" />
+              <Meta value="2 + 2" label="modules" />
+              <Meta value="64 + 70" label="minutes" />
+            </div>
+            <div className={styles.actionArea}>
+              <Link href="/SATMocks/PSAT2" className={`${styles.actionButton} ${styles.primaryButton}`}>{psat2Completed ? 'Retake PSAT 02' : 'Start PSAT 02'}</Link>
             </div>
           </article>
 
@@ -150,35 +168,48 @@ export default function SATMocks({ testAccess }) {
                   <h3>SAT Mock Test 01</h3>
                 </div>
               </div>
-              <span className={styles.status}>{satCompleted ? 'Completed' : 'Ready'}</span>
+              <span className={styles.status}>{sat1Completed ? 'Completed' : 'Ready'}</span>
             </div>
-            <p className={styles.testDescription}>
-              Full-length Digital SAT-style adaptive practice with R&amp;W and Math modules,
-              adaptive Module 2 routing, timed execution, secure persistence, and results reporting.
-            </p>
+            <p className={styles.testDescription}>Full-length Digital SAT-style adaptive practice with R&amp;W and Math modules, adaptive routing, timed execution, persistence, and results reporting.</p>
             <div className={styles.testMeta}>
               <Meta value="98" label="questions" />
               <Meta value="2 + 2" label="modules" />
               <Meta value="64 + 70" label="minutes" />
             </div>
             <div className={styles.actionArea}>
-              <Link href="/SATMocks/Test1" className={`${styles.actionButton} ${styles.primaryButton}`}>
-                {satCompleted ? 'Retake SAT Mock' : 'Start SAT Mock'}
-              </Link>
+              <Link href="/SATMocks/Test1" className={`${styles.actionButton} ${styles.primaryButton}`}>{sat1Completed ? 'Retake SAT Mock' : 'Start SAT Mock'}</Link>
             </div>
           </article>
 
-          {tests.slice(1).map((testNumber) => {
+          <article className={`${styles.testCard} ${styles.testCardIncluded}`}>
+            <div className={styles.testCardTop}>
+              <div className={styles.testIdentity}>
+                <div className={styles.testIcon}>S</div>
+                <div>
+                  <span className={styles.testNumber}>SAT · SERIES A · MOCK 02</span>
+                  <h3>SAT Mock Test 02</h3>
+                </div>
+              </div>
+              <span className={styles.status}>{sat2Completed ? 'Completed' : 'Ready'}</span>
+            </div>
+            <p className={styles.testDescription}>A second independent Digital SAT-style adaptive form with a fresh question bank, new Math applications, independent figures, and the same shared execution engine.</p>
+            <div className={styles.testMeta}>
+              <Meta value="98" label="questions" />
+              <Meta value="2 + 2" label="modules" />
+              <Meta value="64 + 70" label="minutes" />
+            </div>
+            <div className={styles.actionArea}>
+              <Link href="/SATMocks/Test2" className={`${styles.actionButton} ${styles.primaryButton}`}>{sat2Completed ? 'Retake SAT 02' : 'Start SAT 02'}</Link>
+            </div>
+          </article>
+
+          {tests.slice(2).map((testNumber) => {
             const access = testAccess[testNumber] || {}
             const isPremium = access.premiumRequired === true
             const isAllowed = access.allowed === true
-            const isLive = false
 
             return (
-              <article
-                key={testNumber}
-                className={`${styles.testCard} ${isPremium ? (isAllowed ? styles.testCardPremiumUnlocked : styles.testCardPremiumLocked) : styles.testCardIncluded}`}
-              >
+              <article key={testNumber} className={`${styles.testCard} ${isPremium ? (isAllowed ? styles.testCardPremiumUnlocked : styles.testCardPremiumLocked) : styles.testCardIncluded}`}>
                 <div className={styles.testCardTop}>
                   <div className={styles.testIdentity}>
                     <div className={styles.testIcon}>{testNumber}</div>
@@ -187,11 +218,9 @@ export default function SATMocks({ testAccess }) {
                       <h3>SAT Mock Test {testNumber}</h3>
                     </div>
                   </div>
-                  <span className={styles.status}>{isLive ? 'Ready' : 'In build'}</span>
+                  <span className={styles.status}>{isAllowed ? 'Unlocked' : 'In build'}</span>
                 </div>
-                <p className={styles.testDescription}>
-                  Reserved in the SAT mock library. It will use the same validated adaptive test architecture as Mock 01.
-                </p>
+                <p className={styles.testDescription}>Reserved in the SAT mock library. Future forms will use the same validated adaptive test architecture and series-wide duplicate controls.</p>
                 <div className={styles.testMeta}>
                   <Meta value="98" label="questions" />
                   <Meta value="2 + 2" label="modules" />
