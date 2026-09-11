@@ -7,23 +7,20 @@ function removeDuplicateGeometryPrompts(mock) {
       if (normalized) seen.add(normalized);
       return question;
     }
-    const match = String(question.prompt).match(/^A triangle has a base of (\d+(?:\.\d+)?) units and a height of (\d+(?:\.\d+)?) units\. What is its area\?$/);
+    const match = String(question.prompt).match(/^A triangle has a base of (\d+(?:\.\d+)?) units and a height of (\d+(?:\.\d+)?) units\. What is its area\?(\nEnter your answer as a number\.)?$/);
     if (!match) return question;
     const base = Number(match[1]);
     const height = Number(match[2]) + 2 + duplicateIndex;
     duplicateIndex += 1;
     const answerValue = (base * height) / 2;
+    const prompt = `A triangle has a base of ${base} units and a height of ${height} units. What is its area?${match[3] || ''}`;
+    const figure = question.figure ? { ...question.figure, values: { ...question.figure.values, base, height } } : question.figure;
+    if (question.questionType === 'student-produced-response') return { ...question, prompt, answer: answerValue, figure };
     const correctIndex = String(question.answer).charCodeAt(0) - 65;
     const choices = [String(answerValue), String(answerValue + 1), String(answerValue - 1), String(answerValue * 2)];
     const first = choices.shift();
     choices.splice(correctIndex, 0, first);
-    return {
-      ...question,
-      prompt: `A triangle has a base of ${base} units and a height of ${height} units. What is its area?`,
-      choices,
-      answer: String.fromCharCode(65 + correctIndex),
-      figure: question.figure ? { ...question.figure, values: { ...question.figure.values, base, height } } : question.figure,
-    };
+    return { ...question, prompt, choices, answer: String.fromCharCode(65 + correctIndex), figure };
   });
   return { ...mock, math };
 }
