@@ -1,5 +1,6 @@
 import { PSAT_MOCK_01_CONTENT as PSAT_BASE, SAT_MOCK_01_CONTENT as SAT_BASE } from "./stage1MockBank";
 import { PSAT_MOCK_02_CONTENT as PSAT2_BASE, SAT_MOCK_02_CONTENT as SAT2_BASE } from "./stage2MockBank";
+import { prepareStage2Mock } from "./stage2PostProcess";
 import { validateMockContent, validateMockSeries } from "./mockContentQualityGate";
 import { validateMockFigureQuality } from "./figureQualityGate";
 
@@ -29,8 +30,8 @@ function normalizeVerbalChoices(mock) {
 
 const PSAT_NORMALIZED = normalizeVerbalChoices(PSAT_BASE);
 const SAT_NORMALIZED = normalizeVerbalChoices(SAT_BASE);
-const PSAT2_NORMALIZED = normalizeVerbalChoices(PSAT2_BASE);
-const SAT2_NORMALIZED = normalizeVerbalChoices(SAT2_BASE);
+const PSAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(PSAT2_BASE));
+const SAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(SAT2_BASE));
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
