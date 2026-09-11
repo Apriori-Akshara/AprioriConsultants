@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { getVerifiedSatServerAccessState } from "../../lib/sat/satAccess";
 import { getSatLoginUrl } from "../../lib/sat/satLogin";
 import { getSatTestAccess } from "../../lib/sat/testAccess";
-import { buildClientSafeTest, normalizeMockKey } from "../../lib/sat/adaptiveMockEngine";
+import { buildClientSafeTest, normalizeMockKey, getModuleForRoute } from "../../lib/sat/adaptiveMockEngine";
 import MathVisualStimulus from "../../components/sat/MathVisualStimulus";
 import styles from "../../styles/SATMockTest.module.css";
 
@@ -42,7 +42,7 @@ export default function SATMockTest({ test }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [flags, setFlags] = useState({});
-  const [route, setRoute] = useState("standard");
+  const [routes, setRoutes] = useState({ "reading-writing": "standard", math: "standard" });
   const [remaining, setRemaining] = useState(0);
   const [breakRemaining, setBreakRemaining] = useState(600);
   const [result, setResult] = useState(null);
@@ -97,17 +97,19 @@ export default function SATMockTest({ test }) {
 
   useEffect(() => {
     if (!section) return;
-    const next = test.sections[sectionIndex].modules[moduleIndex];
+    const sectionRoute = routes[section.key] || "standard";
+    const next = getModuleForRoute({ sections: test.sections }, section.key, moduleIndex, sectionRoute);
     setQuestions(next?.questions || []);
     setQuestionIndex(0);
     setRemaining((next?.minutes || 0) * 60);
-  }, [sectionIndex, moduleIndex, route, test]);
+  }, [sectionIndex, moduleIndex, routes, test]);
 
   async function persist(action, payload = {}) {
-    if (!attemptId) return;
+    if (!attemptId) return null;
     setSaving(true);
     try {
-      await fetch("/api/sat/mock-progress", { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ action, attemptId, ...payload }) });
+      const response = await fetch("/api/sat/mock-progress", { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ action, attemptId, ...payload }) });
+      return await response.json().catch(() => null);
     } finally { setSaving(false); }
   }
 
@@ -138,15 +140,9 @@ export default function SATMockTest({ test }) {
 
   async function advanceModule() {
     if (moduleIndex === 0) {
-      const moduleQuestions = section?.modules?.[0]?.questions || [];
-      const answered = moduleQuestions.filter((item) => answers[item.questionId] !== undefined && answers[item.questionId] !== "");
-      const correct = answered.filter((item) => String(answers[item.questionId]).trim().toUpperCase() === String(item.answer).trim().toUpperCase()).length;
-      const ratio = moduleQuestions.length ? correct / moduleQuestions.length : 0;
-      const nextRoute = ratio >= 0.75 ? "high" : ratio <= 0.45 ? "low" : "standard";
-      setRoute(nextRoute);
-      await persist("route", { route: nextRoute, section: section.key });
-    }
-    if (moduleIndex < 1) {
+      const routeData = await persist("route", { section: section.key });
+      const nextRoute = ["high", "standard", "low"].includes(routeData?.route) ? routeData.route : "standard";
+      setRoutes((current) => ({ ...current, [section.key]: nextRoute }));
       setModuleIndex(1);
       setQuestionIndex(0);
       setPhase("running");
@@ -160,15 +156,13 @@ export default function SATMockTest({ test }) {
       setBreakRemaining(600);
       return;
     }
-    await persist("finish", { answers });
+    const finishData = await persist("finish", { answers });
+    setResult(finishData?.scores || null);
     setPhase("complete");
   }
 
   function startBreak() {
     setPhase("running");
-    setSectionIndex((value) => value + 1);
-    setModuleIndex(0);
-    setQuestionIndex(0);
   }
 
   function toggleEliminate(index) {
@@ -197,7 +191,7 @@ export default function SATMockTest({ test }) {
     <div className={styles.statePage}><div className={styles.breakCard}><span className={styles.eyebrow}>TEST COMPLETE</span><h1>{test.label}</h1><p>Your attempt has been saved. The results and progress dashboard will use the persisted answers from this attempt.</p><button className={styles.primaryButton} onClick={() => router.push('/SATMocks')}>Back to Mock Library</button></div></div>
   );
 
-  const module = section?.modules?.[moduleIndex];
+  const module = section?.key ? getModuleForRoute({ sections: test.sections }, section.key, moduleIndex, routes[section.key] || "standard") : null;
   const choiceValues = question?.choices || [];
 
   return (
