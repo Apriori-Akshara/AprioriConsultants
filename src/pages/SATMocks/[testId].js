@@ -52,7 +52,6 @@ export default function SATMockTest({ test }) {
   const [saving, setSaving] = useState(false);
 
   const section = test?.sections?.[sectionIndex];
-  const module = questions.length ? { questions, minutes: remaining > 0 ? Math.ceil(remaining / 60) : 0 } : null;
   const question = questions[questionIndex];
   const answeredCount = useMemo(() => Object.keys(answers).filter((id) => answers[id] !== "").length, [answers]);
 
@@ -72,6 +71,7 @@ export default function SATMockTest({ test }) {
         return;
       }
       setAttemptId(data.attempt?.id || null);
+      setAnswers(data.attempt?.answers || {});
       setPhase("instructions");
     }
     start();
@@ -93,7 +93,7 @@ export default function SATMockTest({ test }) {
   }, [phase, breakRemaining]);
 
   useEffect(() => {
-    if (phase === "running" && remaining === 0) finishModule(true);
+    if (phase === "running" && remaining === 0) finishModule();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remaining, phase]);
 
@@ -145,7 +145,7 @@ export default function SATMockTest({ test }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ action: "route", attemptId, section: section.key }),
+          body: JSON.stringify({ action: "route", attemptId, testKey: test.testKey, section: section.key, answers }),
         });
         const data = await response.json();
         const nextRoute = data.route || "standard";
@@ -159,7 +159,7 @@ export default function SATMockTest({ test }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({ action: "finish", attemptId }),
+          body: JSON.stringify({ action: "finish", attemptId, testKey: test.testKey, answers }),
         });
         const data = await response.json();
         setResult(data.scores || null);
@@ -174,14 +174,13 @@ export default function SATMockTest({ test }) {
     setModuleQuestions(1, 0);
   }
 
-  const moduleLabel = moduleIndex === 0 ? "Module 1" : `Module 2 · ${route === "high" ? "Higher difficulty route" : route === "low" ? "Foundation route" : "Standard route"}`;
+  const moduleLabel = moduleIndex === 0
+    ? "Module 1"
+    : `Module 2 · ${route === "high" ? "Higher difficulty route" : route === "low" ? "Foundation route" : "Standard route"}`;
 
-  if (phase === "loading") {
-    return <div className={styles.centerState}>Preparing your secure mock test…</div>;
-  }
-  if (phase === "error") {
-    return <div className={styles.centerState}>We could not start this mock test. Please refresh and try again.</div>;
-  }
+  if (phase === "loading") return <div className={styles.centerState}>Preparing your secure mock test…</div>;
+  if (phase === "error") return <div className={styles.centerState}>We could not start this mock test. Please refresh and try again.</div>;
+
   if (phase === "instructions") {
     return (
       <div className={styles.page}>
@@ -203,6 +202,7 @@ export default function SATMockTest({ test }) {
       </div>
     );
   }
+
   if (phase === "break") {
     return (
       <div className={styles.page}>
@@ -216,6 +216,7 @@ export default function SATMockTest({ test }) {
       </div>
     );
   }
+
   if (phase === "results") {
     return (
       <div className={styles.page}>
