@@ -17,15 +17,19 @@ async function ensureTable() {
       status TEXT NOT NULL DEFAULT 'in-progress',
       current_section TEXT,
       current_module TEXT,
+      current_question INTEGER NOT NULL DEFAULT 0,
       module2_route_rw TEXT,
       module2_route_math TEXT,
       answers JSONB NOT NULL DEFAULT '{}'::jsonb,
+      flags JSONB NOT NULL DEFAULT '{}'::jsonb,
       section_scores JSONB NOT NULL DEFAULT '{}'::jsonb,
       started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       completed_at TIMESTAMPTZ
     )
   `);
+  await query(`ALTER TABLE sat_mock_attempts ADD COLUMN IF NOT EXISTS current_question INTEGER NOT NULL DEFAULT 0`);
+  await query(`ALTER TABLE sat_mock_attempts ADD COLUMN IF NOT EXISTS flags JSONB NOT NULL DEFAULT '{}'::jsonb`);
   await query(`CREATE INDEX IF NOT EXISTS idx_sat_mock_attempts_user ON sat_mock_attempts(user_id)`);
   await query(`CREATE INDEX IF NOT EXISTS idx_sat_mock_attempts_test ON sat_mock_attempts(user_id, test_key)`);
 }
@@ -50,8 +54,8 @@ export default async function handler(req, res) {
 
     if (req.method === "GET") {
       const result = await query(
-        `SELECT id, test_key, status, current_section, current_module,
-                module2_route_rw, module2_route_math, section_scores,
+        `SELECT id, test_key, status, current_section, current_module, current_question,
+                module2_route_rw, module2_route_math, section_scores, flags,
                 started_at, updated_at, completed_at
            FROM sat_mock_attempts
           WHERE user_id = $1
@@ -87,8 +91,8 @@ export default async function handler(req, res) {
 
       const result = await query(
         `INSERT INTO sat_mock_attempts
-          (user_id, test_key, status, current_section, current_module)
-         VALUES ($1, $2, 'in-progress', 'reading-writing', 'module-1')
+          (user_id, test_key, status, current_section, current_module, current_question)
+         VALUES ($1, $2, 'in-progress', 'reading-writing', 'module-1', 0)
          RETURNING *`,
         [user.id, testKey]
       );
@@ -112,6 +116,7 @@ export default async function handler(req, res) {
 
     const attempt = existing.rows[0];
     const answers = { ...(attempt.answers || {}) };
+    const flags = { ...(attempt.flags || {}) };
 
     if (action === "answer") {
       const questionId = String(req.body?.questionId || "").trim();
@@ -124,9 +129,42 @@ export default async function handler(req, res) {
             SET answers = $1::jsonb,
                 current_section = COALESCE($2, current_section),
                 current_module = COALESCE($3, current_module),
+                current_question = COALESCE($4, current_question),
+                updated_at = NOW()
+          WHERE id = $5 AND user_id = $6`,
+        [JSON.stringify(answers), req.body?.section || null, req.body?.module || null, Number.isInteger(req.body?.questionIndex) ? req.body.questionIndex : null, attemptId, user.id]
+      );
+
+      return res.status(200).json({ ok: true });
+    }
+
+    if (action === "flag") {
+      const questionId = String(req.body?.questionId || "").trim();
+      if (!questionId) return res.status(400).json({ error: "Question ID is required" });
+      flags[questionId] = Boolean(req.body?.flagged);
+
+      await query(
+        `UPDATE sat_mock_attempts SET flags = $1::jsonb, updated_at = NOW() WHERE id = $2 AND user_id = $3`,
+        [JSON.stringify(flags), attemptId, user.id]
+      );
+
+      return res.status(200).json({ ok: true, flags });
+    }
+
+    if (action === "position") {
+      const questionIndex = Number(req.body?.questionIndex);
+      if (!Number.isInteger(questionIndex) || questionIndex < 0) {
+        return res.status(400).json({ error: "Question index is required" });
+      }
+
+      await query(
+        `UPDATE sat_mock_attempts
+            SET current_section = COALESCE($1, current_section),
+                current_module = COALESCE($2, current_module),
+                current_question = $3,
                 updated_at = NOW()
           WHERE id = $4 AND user_id = $5`,
-        [JSON.stringify(answers), req.body?.section || null, req.body?.module || null, attemptId, user.id]
+        [req.body?.section || null, req.body?.module || null, questionIndex, attemptId, user.id]
       );
 
       return res.status(200).json({ ok: true });
