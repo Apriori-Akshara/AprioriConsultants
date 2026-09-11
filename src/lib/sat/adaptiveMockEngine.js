@@ -11,7 +11,7 @@ const MOCKS = {
   SAT1: {
     id: "SAT1",
     label: "SAT Mock 01 — Series A",
-    assessmentVariant: "sat",
+    assessmentVariant: "sat-series-a",
     content: SAT_MOCK_01_CONTENT,
     sectionMinutes: { "reading-writing": 32, math: 35 },
   },
@@ -23,19 +23,41 @@ function routeForQuestion(question, fallbackIndex) {
   return question.adaptiveRoute || ROUTES[fallbackIndex % ROUTES.length];
 }
 
+function normalizeModuleKey(value) {
+  const normalized = String(value || "").toLowerCase();
+  return normalized.endsWith("-module-1") || normalized.endsWith("module-1")
+    ? "module-1"
+    : normalized.endsWith("-module-2") || normalized.endsWith("module-2")
+      ? "module-2"
+      : normalized;
+}
+
+function contentRecords(content) {
+  return [
+    ...(content?.readingWriting || []),
+    ...(content?.math || []),
+  ];
+}
+
 function moduleQuestions(content, section, module) {
-  return content.questions.records.filter(
-    (question) => question.section === section && question.module === module
+  return contentRecords(content).filter(
+    (question) =>
+      question.section === section &&
+      normalizeModuleKey(question.module) === module
   );
 }
 
 function selectAdaptiveQuestions(questions, route, count) {
   const preferred = questions.filter((question, index) => routeForQuestion(question, index) === route);
   const ordered = [...preferred];
+
   for (const question of questions) {
     if (ordered.length >= count) break;
-    if (!ordered.some((item) => item.questionId === question.questionId)) ordered.push(question);
+    if (!ordered.some((item) => item.questionId === question.questionId)) {
+      ordered.push(question);
+    }
   }
+
   return ordered.slice(0, count);
 }
 
@@ -60,7 +82,7 @@ export function createAdaptivePlan(testKey) {
   const math2 = moduleQuestions(mock.content, "math", "module-2");
 
   return {
-    version: 1,
+    version: 2,
     testKey: mock.id,
     label: mock.label,
     sections: [
@@ -88,6 +110,14 @@ export function createAdaptivePlan(testKey) {
   };
 }
 
+export function getModuleForRoute(plan, sectionKey, moduleIndex, route = "standard") {
+  const section = plan?.sections?.find((item) => item.key === sectionKey);
+  if (!section) return null;
+
+  const key = moduleIndex === 0 ? "module-1" : `module-2-${route}`;
+  return section.modules.find((module) => module.key === key) || null;
+}
+
 export function scoreModule(questions, answers) {
   let correct = 0;
   let answered = 0;
@@ -96,17 +126,25 @@ export function scoreModule(questions, answers) {
     const answer = answers?.[question.questionId];
     if (answer !== undefined && answer !== null && String(answer).trim() !== "") {
       answered += 1;
-      if (String(answer).trim().toUpperCase() === String(question.answer).trim().toUpperCase()) correct += 1;
+      if (String(answer).trim().toUpperCase() === String(question.answer).trim().toUpperCase()) {
+        correct += 1;
+      }
     }
   });
 
   const total = questions.length;
-  return { correct, answered, total, accuracy: total ? Math.round((correct / total) * 100) : 0 };
+  return {
+    correct,
+    answered,
+    total,
+    accuracy: total ? Math.round((correct / total) * 100) : 0,
+  };
 }
 
 export function chooseModule2Route(module1Questions, answers) {
   const result = scoreModule(module1Questions, answers);
   const ratio = result.total ? result.correct / result.total : 0;
+
   if (ratio >= 0.75) return "high";
   if (ratio <= 0.45) return "low";
   return "standard";
@@ -156,6 +194,7 @@ export default {
   normalizeMockKey,
   getMockDefinition,
   createAdaptivePlan,
+  getModuleForRoute,
   buildClientSafeTest,
   scoreModule,
   chooseModule2Route,
