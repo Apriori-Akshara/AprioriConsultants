@@ -1,7 +1,16 @@
 const normalize = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
 const wordCount = (value) => normalize(value).split(/\s+/).filter(Boolean).length;
 
-export function validateMockContent(mockContent) {
+const LONG_FORM_R_W_SKILLS = new Set([
+  'Central Ideas and Details',
+  'Inferences',
+  'Command of Evidence',
+  'Text Structure and Purpose',
+  'Cross-Text Connections',
+  'Rhetorical Synthesis',
+]);
+
+function validateOne(mockContent) {
   const errors = [];
   const records = [...(mockContent.readingWriting || []), ...(mockContent.math || [])];
   const ids = new Set();
@@ -9,7 +18,7 @@ export function validateMockContent(mockContent) {
   const verbalContexts = new Set();
   const answerPositions = { A: 0, B: 0, C: 0, D: 0 };
 
-  if (records.length === 0) errors.push(`${mockContent.testId}: no question records`);
+  if (records.length !== 196) errors.push(`${mockContent.testId}: expected 196 bank questions, found ${records.length}`);
 
   for (const question of records) {
     if (ids.has(question.questionId)) errors.push(`${mockContent.testId}: duplicate questionId ${question.questionId}`);
@@ -19,6 +28,9 @@ export function validateMockContent(mockContent) {
     if (prompts.has(normalizedPrompt)) errors.push(`${mockContent.testId}: duplicate prompt ${question.questionId}`);
     prompts.add(normalizedPrompt);
 
+    if (!question.answer) errors.push(`${mockContent.testId}: missing answer ${question.questionId}`);
+    if (!question.explanation) errors.push(`${mockContent.testId}: missing explanation ${question.questionId}`);
+
     if (question.section === 'reading-writing') {
       const context = normalize(question.metadata?.contextKey);
       if (!context) errors.push(`${mockContent.testId}: missing verbal context key ${question.questionId}`);
@@ -26,19 +38,34 @@ export function validateMockContent(mockContent) {
       verbalContexts.add(context);
     }
 
-    if (!question.answer) errors.push(`${mockContent.testId}: missing answer ${question.questionId}`);
-    if (!question.explanation) errors.push(`${mockContent.testId}: missing explanation ${question.questionId}`);
-
     if (question.questionType === 'multiple-choice') {
       if (!Array.isArray(question.choices) || question.choices.length !== 4) {
         errors.push(`${mockContent.testId}: four choices required ${question.questionId}`);
       } else {
-        const choiceLengths = question.choices.map(wordCount);
-        if (Math.max(...choiceLengths) - Math.min(...choiceLengths) > 3) {
+        const lengths = question.choices.map(wordCount);
+        if (Math.max(...lengths) - Math.min(...lengths) > 3) {
           errors.push(`${mockContent.testId}: answer-length imbalance ${question.questionId}`);
         }
+
+        if (question.section === 'reading-writing' && LONG_FORM_R_W_SKILLS.has(question.skill)) {
+          const correctIndex = String(question.answer).charCodeAt(0) - 65;
+          const correctWords = lengths[correctIndex];
+          const otherLengths = lengths.filter((_, index) => index !== correctIndex);
+          const maxOther = Math.max(...otherLengths);
+          if (correctWords > maxOther) {
+            errors.push(`${mockContent.testId}: correct verbal choice is uniquely longer than every distractor ${question.questionId}`);
+          }
+        }
       }
+
       if (answerPositions[question.answer] !== undefined) answerPositions[question.answer] += 1;
+    } else if (question.questionType === 'student-produced-response') {
+      if (Array.isArray(question.choices) && question.choices.length !== 0) {
+        errors.push(`${mockContent.testId}: SPR item must not expose answer choices ${question.questionId}`);
+      }
+      if (question.metadata?.answerFormat !== 'numeric') {
+        errors.push(`${mockContent.testId}: SPR item must use numeric answer format ${question.questionId}`);
+      }
     }
   }
 
@@ -59,15 +86,71 @@ export function validateMockContent(mockContent) {
     if (mathRoute.length !== 22) errors.push(`${mockContent.testId}: Math ${route} route must contain 22 questions`);
   }
 
-  if (records.length !== 196) errors.push(`${mockContent.testId}: expected 196 bank questions, found ${records.length}`);
-
   const mcqTotal = Object.values(answerPositions).reduce((sum, value) => sum + value, 0);
-  if (mcqTotal && Math.max(...Object.values(answerPositions)) / mcqTotal > 0.4) {
-    errors.push(`${mockContent.testId}: answer-key position imbalance creates a guessing pattern`);
+  if (mcqTotal) {
+    const values = Object.values(answerPositions);
+    if (Math.max(...values) - Math.min(...values) > 1) {
+      errors.push(`${mockContent.testId}: answer-key positions are not balanced across A-D`);
+    }
   }
 
   if (errors.length) throw new Error(`SAT/PSAT mock content quality gate failed:\n${errors.join('\n')}`);
   return { ok: true, questionCount: records.length };
+}
+
+export function validateMockContent(mockContent) {
+  return validateOne(mockContent);
+}
+
+export function validateMockPair(psatMock, satMock) {
+  const psatResult = validateOne(psatMock);
+  const satResult = validateOne(satMock);
+  const errors = [];
+
+  const all = [
+    ...(psatMock.readingWriting || []), ...(psatMock.math || []),
+    ...(satMock.readingWriting || []), ...(satMock.math || []),
+  ];
+
+  const promptMap = new Map();
+  const verbalContextMap = new Map();
+  const mathApplicationMap = new Map();
+
+  for (const question of all) {
+    const normalizedPrompt = normalize(question.prompt);
+    const previousPrompt = promptMap.get(normalizedPrompt);
+    if (previousPrompt && previousPrompt.testId !== question.testId) {
+      errors.push(`Cross-mock duplicate prompt: ${previousPrompt.questionId} and ${question.questionId}`);
+    } else {
+      promptMap.set(normalizedPrompt, question);
+    }
+
+    if (question.section === 'reading-writing') {
+      const context = normalize(question.metadata?.contextKey);
+      const previousContext = verbalContextMap.get(context);
+      if (previousContext && previousContext.testId !== question.testId) {
+        errors.push(`Cross-mock repeated verbal context: ${previousContext.questionId} and ${question.questionId}`);
+      } else {
+        verbalContextMap.set(context, question);
+      }
+    }
+
+    if (question.section === 'math') {
+      const fingerprint = normalize(question.metadata?.applicationFingerprint);
+      const previousApplication = mathApplicationMap.get(fingerprint);
+      if (previousApplication && previousApplication.testId !== question.testId) {
+        errors.push(`Cross-mock repeated Math application: ${previousApplication.questionId} and ${question.questionId}`);
+      } else {
+        mathApplicationMap.set(fingerprint, question);
+      }
+    }
+  }
+
+  if (errors.length) {
+    throw new Error(`SAT/PSAT cross-mock quality gate failed:\n${errors.join('\n')}`);
+  }
+
+  return { ok: true, questionCount: psatResult.questionCount + satResult.questionCount };
 }
 
 export default validateMockContent;
