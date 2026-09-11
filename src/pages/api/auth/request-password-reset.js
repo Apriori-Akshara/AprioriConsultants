@@ -10,6 +10,10 @@ function getAppOrigin() {
   ).replace(/\/$/, "");
 }
 
+function getEmailFrom() {
+  return process.env.EMAIL_FROM || "Apriori Consultants <noreply@aprioriconsultants.org>";
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -28,8 +32,8 @@ export default async function handler(req, res) {
       });
     }
 
-    if (!process.env.RESEND_API_KEY || !process.env.EMAIL_FROM) {
-      console.error("Password reset email configuration is incomplete.");
+    if (!process.env.RESEND_API_KEY) {
+      console.error("Password reset email configuration is incomplete: RESEND_API_KEY is missing.");
       return res.status(500).json({
         success: false,
         message: "Password recovery is temporarily unavailable. Please try again later.",
@@ -49,7 +53,6 @@ export default async function handler(req, res) {
       [email]
     );
 
-    // Keep the response generic so account existence is not exposed.
     const genericMessage =
       "If a verified account exists for this email, we have sent a recovery email with your Student ID and a password reset link.";
 
@@ -91,7 +94,7 @@ export default async function handler(req, res) {
 
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { error: emailError } = await resend.emails.send({
-      from: process.env.EMAIL_FROM,
+      from: getEmailFrom(),
       to: user.email,
       subject: "Apriori Consultants account recovery",
       html: `
