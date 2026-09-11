@@ -14,12 +14,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, userId, password, ipAddress, location } = req.body || {};
+    const { userId, password, ipAddress, location } = req.body || {};
 
     if (!userId || !password) {
       return res.status(400).json({
         success: false,
-        message: "User ID and password are required",
+        message: "Student ID and password are required",
       });
     }
 
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         WHERE user_id = $1
         LIMIT 1
       `,
-      [userId]
+      [userId.trim()]
     );
 
     if (result.rows.length === 0) {
@@ -52,6 +52,14 @@ export default async function handler(req, res) {
     }
 
     const user = result.rows[0];
+
+    if (!user.email_verified) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Please verify your email address before logging in. Check your email for the verification link.",
+      });
+    }
 
     const passwordValid = await verifyPassword(
       password,
@@ -65,32 +73,24 @@ export default async function handler(req, res) {
       });
     }
 
-    if (name && user.name && name.trim() !== user.name.trim()) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials",
-      });
+    // Authentication must not depend on the legacy login-log table.
+    // Logging is best-effort so an operational logging problem can never
+    // prevent a verified student from receiving a valid session.
+    try {
+      await query(
+        `
+          INSERT INTO login_logs (
+            user_id,
+            ip_address,
+            location
+          )
+          VALUES ($1, $2, $3)
+        `,
+        [user.id, ipAddress || null, location || null]
+      );
+    } catch (logError) {
+      console.error("Login log error:", logError);
     }
-
-    if (!user.email_verified) {
-      return res.status(403).json({
-        success: false,
-        message:
-          "Please verify your email address before logging in. Check your email for the verification link.",
-      });
-    }
-
-    await query(
-      `
-        INSERT INTO login_logs (
-          user_id,
-          ip_address,
-          location
-        )
-        VALUES ($1, $2, $3)
-      `,
-      [user.id, ipAddress || null, location || null]
-    );
 
     const sessionToken = await createSession(user.id);
 
