@@ -32,23 +32,8 @@ export default async function handler(req, res) {
       });
     }
 
-    if (!process.env.RESEND_API_KEY) {
-      console.error(
-        "Registration email error: RESEND_API_KEY is not configured."
-      );
-
-      return res.status(500).json({
-        success: false,
-        message:
-          "Email verification is temporarily unavailable. Please try again later.",
-      });
-    }
-
-    if (!process.env.EMAIL_FROM) {
-      console.error(
-        "Registration email error: EMAIL_FROM is not configured."
-      );
-
+    if (!process.env.RESEND_API_KEY || !process.env.EMAIL_FROM) {
+      console.error("Registration email configuration is incomplete.");
       return res.status(500).json({
         success: false,
         message:
@@ -74,10 +59,8 @@ export default async function handler(req, res) {
     }
 
     const passwordHash = await createPasswordHash(password);
-
     const userId =
-      "SAT-" +
-      crypto.randomBytes(4).toString("hex").toUpperCase();
+      "SAT-" + crypto.randomBytes(4).toString("hex").toUpperCase();
 
     const result = await query(
       `
@@ -101,10 +84,7 @@ export default async function handler(req, res) {
 
     const user = result.rows[0];
 
-    const verificationToken = crypto
-      .randomBytes(32)
-      .toString("hex");
-
+    const verificationToken = crypto.randomBytes(32).toString("hex");
     const verificationTokenHash = crypto
       .createHash("sha256")
       .update(verificationToken)
@@ -117,79 +97,48 @@ export default async function handler(req, res) {
           token_hash,
           expires_at
         )
-        VALUES (
-          $1,
-          $2,
-          NOW() + INTERVAL '24 hours'
-        )
+        VALUES ($1, $2, NOW() + INTERVAL '24 hours')
       `,
       [user.id, verificationTokenHash]
     );
 
+    const appOrigin = (
+      process.env.NEXT_PUBLIC_APP_ORIGIN ||
+      "https://www.aprioriconsultants.org"
+    ).replace(/\/$/, "");
+
     const verificationUrl =
-      `https://aprioriconsultants.onrender.com/VerifyEmail?token=${encodeURIComponent(
-        verificationToken
-      )}`;
+      `${appOrigin}/VerifyEmail?token=${encodeURIComponent(verificationToken)}`;
 
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    const { data: emailData, error: emailError } =
-      await resend.emails.send({
-        from: process.env.EMAIL_FROM,
-        to: email,
-        subject: "Verify your Apriori Consultants account",
-        html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto;">
-            <h2>Welcome to Apriori Consultants</h2>
-
-            <p>Dear ${name},</p>
-
-            <p>
-              Thank you for registering for the SAT Mock Test platform.
-            </p>
-
-            <p>
-              Please verify your email address by clicking the button below:
-            </p>
-
-            <p style="margin: 30px 0;">
-              <a
-                href="${verificationUrl}"
-                style="
-                  display: inline-block;
-                  padding: 12px 24px;
-                  background: #000000;
-                  color: #ffffff;
-                  text-decoration: none;
-                  border-radius: 6px;
-                "
-              >
-                Verify My Email
-              </a>
-            </p>
-
-            <p>
-              This verification link will expire in 24 hours.
-            </p>
-
-            <p>
-              If you did not create this account, you can safely ignore this email.
-            </p>
-
-            <p>
-              Regards,<br />
-              Apriori Consultants
-            </p>
-          </div>
-        `,
-      });
+    const { data: emailData, error: emailError } = await resend.emails.send({
+      from: process.env.EMAIL_FROM,
+      to: email,
+      subject: "Verify your Apriori Consultants account",
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto;">
+          <h2>Welcome to Apriori Consultants</h2>
+          <p>Dear ${name},</p>
+          <p>Thank you for registering for the SAT Mock Test platform.</p>
+          <p><strong>Your Student ID:</strong> ${user.user_id}</p>
+          <p>Please keep this Student ID safe. You will use it together with your password to log in.</p>
+          <p>Please verify your email address by clicking the button below:</p>
+          <p style="margin: 30px 0;">
+            <a href="${verificationUrl}" style="display:inline-block;padding:12px 24px;background:#000000;color:#ffffff;text-decoration:none;border-radius:6px;">
+              Verify My Email
+            </a>
+          </p>
+          <p>This verification link will expire in 24 hours.</p>
+          <p>If you ever forget your Student ID or password, use the account recovery option on the login page with this same email address.</p>
+          <p>If you did not create this account, you can safely ignore this email.</p>
+          <p>Regards,<br />Apriori Consultants</p>
+        </div>
+      `,
+    });
 
     if (emailError) {
-      console.error(
-        "Registration email error:",
-        emailError
-      );
-
+      console.error("Registration email error:", emailError);
       return res.status(502).json({
         success: false,
         message:
@@ -216,7 +165,6 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error("Registration error:", error);
-
     return res.status(500).json({
       success: false,
       message: "Unable to complete registration.",
