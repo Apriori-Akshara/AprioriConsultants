@@ -1,45 +1,82 @@
 import React from 'react'
 import Navbar from '../../../components/NavbarJS'
 import styles from '../../styles/Courses.module.css'
-import { FaGraduationCap, FaChartLine, FaUserShield } from 'react-icons/fa'
+import {
+  FaGraduationCap,
+  FaChartLine,
+  FaClipboardCheck,
+  FaUserShield,
+} from 'react-icons/fa'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 
 export default function Courses() {
   const { user } = useSelector((state) => state.auth);
+
   return (
     <>
       <Navbar />
       <div className={styles.coursesContainer}>
-        <h1 className={styles.header}>Courses</h1>
+        <div className={styles.satEyebrow}>SAT PREPARATION</div>
+        <h1 className={styles.header}>Build Your SAT Preparation Path</h1>
         <p className={styles.description}>
-          At Apriori EduSolutions, we offer comprehensive SAT preparation courses designed to help students excel. Choose from our Foundation or Advanced tracks to match your current level and goals.
+          Move from core concepts to advanced strategy and realistic Digital SAT
+          practice through one connected learning path.
         </p>
+
         <div className={styles.boxesWrapper}>
           <Link href='/Courses/SATFoundation' className={styles.courseBox}>
-            <FaGraduationCap className={styles.icon} />
+            <span className={styles.iconBadge}>
+              <FaGraduationCap className={styles.icon} />
+            </span>
+            <span className={styles.cardKicker}>BUILD THE BASE</span>
             <h2 className={styles.boxTitle}>SAT Foundation</h2>
             <p className={styles.boxDesc}>
-              Build a strong base in SAT Math, Reading, and Writing. Ideal for students starting their SAT journey or looking to solidify core concepts.
+              Strengthen core Verbal and Math skills through lessons, targeted
+              drills, topic practice, and structured assessments.
             </p>
+            <span className={styles.cardAction}>Explore Foundation →</span>
           </Link>
+
           <Link href='/Courses/SATAdvanced' className={styles.courseBox}>
-            <FaChartLine className={styles.icon} />
+            <span className={styles.iconBadge}>
+              <FaChartLine className={styles.icon} />
+            </span>
+            <span className={styles.cardKicker}>RAISE YOUR CEILING</span>
             <h2 className={styles.boxTitle}>SAT Advanced</h2>
             <p className={styles.boxDesc}>
-              Tackle advanced SAT strategies, timed practice, and high-difficulty questions. Perfect for students aiming for top scores and scholarship opportunities.
+              Develop higher-level strategy, timing, and difficult-question
+              skills for students aiming for stronger SAT performance.
             </p>
+            <span className={styles.cardAction}>Explore Advanced →</span>
+          </Link>
+
+          <Link href='/SATMocks' className={`${styles.courseBox} ${styles.mockBox}`}>
+            <span className={styles.iconBadge}>
+              <FaClipboardCheck className={styles.icon} />
+            </span>
+            <span className={styles.cardKicker}>TEST DAY PRACTICE</span>
+            <h2 className={styles.boxTitle}>SAT Mock Tests</h2>
+            <p className={styles.boxDesc}>
+              Take full Digital SAT-style mock tests, review performance, and
+              build confidence under realistic test conditions.
+            </p>
+            <span className={styles.cardAction}>Go to Mock Tests →</span>
           </Link>
         </div>
-        {user?.admin && <Link href='/Admin' className={styles.adminDashboard}>
-          <FaUserShield className={styles.adminIcon} />
-          <div>
-            <h3>Admin Dashboard</h3>
-            <p>
-              Access course management, student progress tracking, and analytics. For authorized administrators only.
-            </p>
-          </div>
-        </Link>}
+
+        {user?.admin && (
+          <Link href='/Admin' className={styles.adminDashboard}>
+            <FaUserShield className={styles.adminIcon} />
+            <div>
+              <h3>Admin Dashboard</h3>
+              <p>
+                Access course management, student progress tracking, and analytics.
+                For authorized administrators only.
+              </p>
+            </div>
+          </Link>
+        )}
       </div>
     </>
   )
