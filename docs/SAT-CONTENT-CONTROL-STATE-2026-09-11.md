@@ -13,34 +13,17 @@ The public live site is the routine student verification environment. Render rem
 
 ## Master content-quality source of truth
 
-The single governing document for **all questions, lessons and learning content across SAT, GRE and GMAT** is now:
+The single governing document for **all questions, lessons and learning content across SAT, GRE and GMAT** is:
 
 `docs/TEST-PREP-CONTENT-QUALITY-CONTROL.md`
 
-It governs:
+It governs content taxonomy, labels/tags, difficulty, exercise/drill construction, timing, mock construction, figures, calculator metadata, lesson quality, originality, review/release gates, versioning and content changes that do not require architecture changes.
 
-- content taxonomy;
-- labels and tags;
-- question types;
-- difficulty and progression bands;
-- exercise/drill construction;
-- timed/non-timed rules;
-- PSAT/SAT mock construction;
-- graphics/charts/figures;
-- calculator metadata;
-- lesson quality;
-- originality and anti-duplication;
-- review/release gates;
-- versioning and retirement;
-- content changes that should not require architecture changes.
-
-The external benchmark hierarchy remains documented separately in:
-
-`docs/TEST-PREP-CONTENT-STANDARDS.md`
+External providers are benchmarks only. No College Board, competitor or third-party question, passage, answer choice, explanation or proprietary asset is copied into Apriori content.
 
 ## PSAT/SAT mock program
 
-The student-facing mock area is now conceptually **PSAT/SAT Mocks**.
+The student-facing mock area is conceptually **PSAT/SAT Mocks**.
 
 Initial target:
 
@@ -50,11 +33,89 @@ Initial target:
 
 Total initial full-length mock inventory: **30 mocks**.
 
-The detailed quantities and progression rules are in:
+Foundation and Advanced exercise/drill creation is intentionally deferred until the mock-bank build specified below has reached the requested milestone.
 
-`docs/SAT-PSAT-DRILL-AND-MOCK-BLUEPRINT-2026-09-11.md`
+## Mock difficulty revision rule — effective immediately and retrospectively
 
-The existing `/SATMocks` route and existing technical architecture are not being changed yet merely by this naming/content decision.
+For the current PSAT/SAT mock-bank build, the quality standard is elevated above baseline assessment difficulty while preserving the exact style of current College Board Digital SAT/PSAT presentation, wording, question construction and answer-choice logic.
+
+The rule is:
+
+**College Board = structure, wording style, application style, domain taxonomy and answer-choice conventions. Apriori = one difficulty level higher for both Verbal and Quant.**
+
+This rule applies **retrospectively** to already-authored mock questions in the current bank and **prospectively** to every new PSAT/SAT mock unless a later instruction explicitly changes the standard.
+
+A standards revision must therefore trigger a content-bank QC pass over already-created material; it must not be applied only to future questions.
+
+The elevation must come from stronger reasoning, more precise distractors, multi-step application, tighter evidence discrimination, subtler wording and higher cognitive demand—not from unnatural complexity or vocabulary/math tricks that would make the item unlike the SAT/PSAT.
+
+## Current Stage 1 mock-content milestone
+
+The first full-length content prototypes are now represented in the central SAT/PSAT content bank:
+
+### PSAT Mock 01
+
+- Assessment: `psat-nmsqt`
+- Questions: **98**
+- Reading & Writing: **54**
+- Math: **44**
+- Modules: 2 R&W + 2 Math
+- Difficulty: elevated one level above baseline
+- Calculator metadata: included throughout Math
+- Original content: yes
+
+### SAT Mock 01 — Series A
+
+- Assessment: `sat-series-a`
+- Questions: **98**
+- Reading & Writing: **54**
+- Math: **44**
+- Modules: 2 R&W + 2 Math
+- Difficulty: elevated one level above baseline
+- Calculator metadata: included throughout Math
+- Original content: yes
+
+These two prototypes are Stage 1 content-bank assets. They are not yet the final student-facing adaptive implementation because the adaptive Module 2 route pools, test-taking UI, attempt persistence, scoring and results layers are separate later stages.
+
+## Question-quality gate applied to the first two mocks
+
+Each current question record includes:
+
+- stable content/question ID;
+- assessment family and variant;
+- section/module;
+- College Board-aligned domain/skill taxonomy;
+- Easy/Medium/Hard-compatible difficulty metadata, with an elevated mock progression band;
+- cognitive-demand metadata;
+- question type and stimulus type;
+- timed baseline estimate;
+- calculator eligibility/mode for Math;
+- answer and explanation;
+- originality fingerprint;
+- content status and release metadata.
+
+The first quality pass also checks:
+
+- exactly one defensible answer;
+- four choices for multiple-choice items;
+- non-empty explanations;
+- no exact duplicate IDs;
+- no repeated answer-key requirement in the schema itself;
+- correct PSAT/SAT section and question counts;
+- no copied external content.
+
+## Known boundary of this Stage 1 content pass
+
+The first two mocks are content-bank prototypes, not yet the final adaptive delivery forms. Before either is exposed as a production mock, the following must still be completed by the relevant later implementation stages:
+
+- complete adaptive high/standard/low Module 2 pools;
+- final domain-distribution calibration against the official blueprint;
+- full figure/chart coverage and visual rendering validation;
+- accessibility review of every visual item;
+- student test-taking interface;
+- attempt persistence and secure submission;
+- scoring/reporting calibration;
+- end-to-end mock assembly and release gates.
 
 ## Foundation exercise/drill rule
 
@@ -72,41 +133,31 @@ Every Advanced exercise or drill contains:
 
 Each set must increase materially in difficulty, with a major difficulty jump at each set boundary.
 
-The master QC document uses progression-band metadata so this can be represented without replacing the existing Easy/Medium/Hard vocabulary.
-
 ## Timing rule
 
 Timed exercises/drills use a hard timeout computed from the relevant product/section average time per question.
 
-For SAT baseline timing:
+For SAT/PSAT baseline timing:
 
 - Reading & Writing ≈ 71 seconds per question;
 - Math ≈ 95 seconds per question.
 
-Non-timed exercises/drills never time out but always record elapsed time for pacing analytics.
-
-Mixed activities calculate time using the relevant question's section/product benchmark rather than a single universal time.
+Non-timed exercises/drills never time out but always record elapsed time.
 
 ## Calculator rule
 
 PSAT/SAT Math learning, drills and mocks will include an integrated calculator throughout Math. Question metadata records whether scientific or graphing functionality is intended, optional or required.
 
-The implementation must align with the current digital SAT Suite experience while avoiding CAS functionality that the SAT Suite does not permit.
-
 ## Lesson rule
 
-SAT lessons remain part of the SAT learning modules and must follow the premium instructional sequence:
+SAT lessons remain part of the SAT learning modules and follow:
 
 **Concept → Visual explanation → Worked example → Strategy → Guided practice → Independent practice → Error diagnosis → Transfer**
 
 Visual explanations, graphs, diagrams, animation and interactive demonstrations should be used when they improve conceptual understanding rather than as decoration.
 
-## Current implementation decision
+## Current implementation state
 
-Do not start mass question authoring until the master quality-control document and the PSAT/SAT blueprint are the governing content framework.
+**STAGE 1 — Question Bank Foundation and Validation Infrastructure is in progress.**
 
-The next implementation milestone is:
-
-**STAGE 1 — Question Bank Foundation and Validation Infrastructure**
-
-Stage 1 must build on the existing SAT question schema and test architecture rather than creating a parallel system.
+The first two full-length mock content sets are now established. The next Stage 1 work is validation/refinement of the mock-bank quality rules and then expansion to the remaining requested mock inventory before Foundation/Advanced content begins.
