@@ -1,2 +1,2 @@
-export { buildMock, buildReadingWriting, buildMath } from './surgicalMockContent';
-export { default } from './surgicalMockContent';
+export { buildMock, buildReadingWriting, buildMath } from './finalMockContent';
+export { default } from './finalMockContent';
