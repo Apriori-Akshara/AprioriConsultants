@@ -1,9 +1,79 @@
+import crypto from "crypto";
 import { query } from "../../lib/db";
-import {
-  verifyPassword,
-  createSession,
-  setSessionCookie,
-} from "../../lib/auth";
+
+const SESSION_DURATION_SECONDS = 6 * 60 * 60;
+
+function hashPassword(password, salt) {
+  return new Promise((resolve, reject) => {
+    crypto.scrypt(password, salt, 64, (error, derivedKey) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      resolve(derivedKey.toString("hex"));
+    });
+  });
+}
+
+async function verifyLoginPassword(password, storedPassword) {
+  if (typeof storedPassword !== "string") {
+    return false;
+  }
+
+  const separator = storedPassword.indexOf(":");
+  if (separator <= 0) {
+    return false;
+  }
+
+  const salt = storedPassword.slice(0, separator);
+  const storedHash = storedPassword.slice(separator + 1);
+
+  if (!salt || !storedHash || !/^[0-9a-f]+$/i.test(storedHash)) {
+    return false;
+  }
+
+  const derivedHash = await hashPassword(password, salt);
+  const expected = Buffer.from(derivedHash, "hex");
+  const actual = Buffer.from(storedHash, "hex");
+
+  if (expected.length !== actual.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(expected, actual);
+}
+
+async function createLoginSession(userId) {
+  const sessionToken = crypto.randomBytes(32).toString("hex");
+
+  await query(
+    `
+      INSERT INTO sessions (
+        session_token,
+        user_id,
+        expires_at
+      )
+      VALUES ($1, $2, NOW() + INTERVAL '6 hours')
+    `,
+    [sessionToken, userId]
+  );
+
+  return sessionToken;
+}
+
+function setLoginSessionCookie(res, sessionToken) {
+  const cookie = [
+    `session=${sessionToken}`,
+    "Path=/",
+    `Max-Age=${SESSION_DURATION_SECONDS}`,
+    "HttpOnly",
+    "SameSite=Lax",
+    "Secure",
+  ].join("; ");
+
+  res.setHeader("Set-Cookie", cookie);
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -16,7 +86,7 @@ export default async function handler(req, res) {
   try {
     const { userId, password, ipAddress, location } = req.body || {};
     const normalizedUserId =
-      typeof userId === "string" ? userId.trim().toUpperCase() : "";
+      typeof userId === "string" ? userId.trim() : "";
 
     if (!normalizedUserId || typeof password !== "string" || !password) {
       return res.status(400).json({
@@ -40,7 +110,7 @@ export default async function handler(req, res) {
           active,
           completed_quizzes
         FROM users
-        WHERE UPPER(user_id) = $1
+        WHERE LOWER(TRIM(user_id)) = LOWER($1)
         LIMIT 1
       `,
       [normalizedUserId]
@@ -63,7 +133,10 @@ export default async function handler(req, res) {
       });
     }
 
-    const passwordValid = await verifyPassword(password, user.password_hash);
+    const passwordValid = await verifyLoginPassword(
+      password,
+      user.password_hash
+    );
 
     if (!passwordValid) {
       return res.status(401).json({
@@ -88,8 +161,8 @@ export default async function handler(req, res) {
       console.error("Login log error:", logError);
     }
 
-    const sessionToken = await createSession(user.id);
-    setSessionCookie(res, sessionToken);
+    const sessionToken = await createLoginSession(user.id);
+    setLoginSessionCookie(res, sessionToken);
 
     return res.status(200).json({
       success: true,
