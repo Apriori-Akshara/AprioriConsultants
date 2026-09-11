@@ -19,7 +19,7 @@
 .statCard small { margin-top:.3rem; font-size:.7rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .contentGrid { display:grid; grid-template-columns:minmax(0,2.1fr) minmax(300px,.9fr); gap:1.4rem; }
 .mainColumn,.sideColumn { display:flex; flex-direction:column; gap:1.2rem; }
-.sectionHeading { display:flex; justify-content:space-between; align-items:end; gap:1rem; margin-bottom:.1rem; }
+.sectionHeading { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:.1rem; }
 .sectionLabel { color:#6b7c91; }
 .sectionHeading h2 { margin:.35rem 0 0; color:#1b416f; font-size:1.4rem; }
 .sectionHint { color:#7b899b; font-size:.78rem; font-weight:650; }
@@ -38,23 +38,6 @@
 .pathMeta { display:flex; gap:.4rem; flex-wrap:wrap; margin-top:1rem; }
 .pathMeta span { padding:.28rem .5rem; background:#f3f6fa; border-radius:6px; color:#6e7d91; font-size:.65rem; font-weight:700; }
 .pathLink { display:inline-flex; align-items:center; gap:.4rem; margin-top:1rem; color:#245fae; font-size:.78rem; font-weight:800; }
-.mockProgressPanel { padding:1.2rem; border:1px solid #dfe6ef; border-radius:16px; background:linear-gradient(145deg,#ffffff 0%,#f8fbff 100%); box-shadow:0 9px 22px rgba(30,64,120,.05); }
-.latestMockGrid { display:grid; grid-template-columns:minmax(0,1.3fr) .55fr .8fr; gap:1rem; align-items:center; }
-.latestMockIdentity { display:flex; align-items:center; gap:.9rem; min-width:0; }
-.latestBadge { display:grid; place-items:center; flex:0 0 auto; width:48px; height:48px; border-radius:14px; background:#e5effd; color:#245fae; font-size:1.05rem; font-weight:900; }
-.latestMockIdentity h3 { margin:.3rem 0 .2rem; color:#1b416f; font-size:1rem; }
-.latestMockIdentity p { margin:0; color:#718096; font-size:.74rem; }
-.latestScore { text-align:center; padding:.8rem; border-radius:12px; background:#eef5ff; }
-.latestScore strong { display:block; color:#1f5fae; font-size:1.8rem; line-height:1; }
-.latestScore span { display:block; margin-top:.3rem; color:#6c7c90; font-size:.68rem; font-weight:700; }
-.latestBreakdown { display:flex; flex-direction:column; gap:.5rem; }
-.latestBreakdown span { display:flex; justify-content:space-between; gap:.75rem; padding:.58rem .7rem; border-radius:9px; background:#f3f6fa; color:#68788b; font-size:.72rem; }
-.latestBreakdown strong { color:#1b416f; }
-.emptyMockState { display:grid; grid-template-columns:auto 1fr auto; gap:1rem; align-items:center; }
-.emptyMockIcon { display:grid; place-items:center; width:48px; height:48px; border-radius:14px; background:#e5effd; color:#2c67b4; }
-.emptyMockState h3 { margin:0 0 .25rem; color:#1b416f; font-size:.98rem; }
-.emptyMockState p { margin:0; color:#718096; font-size:.76rem; line-height:1.5; }
-.emptyMockState .fullButton { background:#245fae; color:#fff; white-space:nowrap; }
 .performanceGrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
 .performanceCard { display:flex; gap:.9rem; padding:1.1rem; border:1px solid #dfe6ef; background:#fff; }
 .performanceIcon { flex:0 0 auto; color:#376fae; margin-top:.2rem; }
@@ -73,5 +56,5 @@
 .roadmapItem strong { color:#3169ad; font-size:.8rem; }
 .roadmapItem span { color:#53657b; font-size:.8rem; font-weight:700; }
 .futureTag { display:inline-block; margin-top:.9rem; padding:.32rem .55rem; border-radius:999px; background:#eef3f8; color:#68778a; font-size:.65rem; font-weight:800; }
-@media(max-width:1100px){.quickStats,.pathGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.contentGrid{grid-template-columns:1fr}.latestMockGrid{grid-template-columns:1fr}.latestScore{text-align:left}.latestBreakdown{flex-direction:row}.latestBreakdown span{flex:1}}
-@media(max-width:760px){.profilePage{padding:1.2rem 3vw 3rem}.dashboardHero{flex-direction:column;align-items:flex-start;padding:1.5rem}.heroActions{width:100%}.primaryButton,.secondaryButton{flex:1}.quickStats,.pathGrid,.performanceGrid{grid-template-columns:1fr}.sectionHeading{align-items:flex-start;flex-direction:column}.emptyMockState{grid-template-columns:1fr}.emptyMockState .fullButton{width:auto}.latestBreakdown{flex-direction:column}}
+@media (max-width:1100px) { .quickStats,.pathGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } .contentGrid { grid-template-columns:1fr; } }
+@media (max-width:760px) { .profilePage { padding:1.2rem 3vw 3rem; } .dashboardHero { flex-direction:column; align-items:flex-start; padding:1.5rem; } .heroActions { width:100%; } .primaryButton,.secondaryButton { flex:1; } .quickStats,.pathGrid,.performanceGrid { grid-template-columns:1fr; } .sectionHeading { align-items:flex-start; flex-direction:column; } }
