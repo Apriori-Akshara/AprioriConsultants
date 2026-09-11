@@ -8,7 +8,9 @@ The SAT/PSAT student-facing mock area is now expanded to four live mock forms: P
 
 The public live site is the routine student verification environment. Render remains the deployment/infrastructure and diagnostic environment.
 
-**Latest Mock 02 changes are implemented and deployed, but are explicitly pending student quality verification.** The user will review all four live mocks together before Mock 03 work begins.
+**Current status: operational feature set is working, but question-by-question verification of all four mocks is still pending.** The recently identified observation-count filler issue has been removed from the student-facing delivery layer for all four forms. The user has reported that the other major features appear to be working correctly.
+
+Feature-level success must not be treated as final content approval. Every question still requires question-by-question review for correctness, quality, originality and presentation.
 
 ## Master content-quality source of truth
 
@@ -91,21 +93,25 @@ The series quality gate now validates all four mocks together for duplicate IDs,
 
 The figure quality gate remains active. Math figures must be question-essential, domain-compatible and question-specific; R&W questions cannot receive Math figures.
 
+The shared student-facing prompt sanitizer removes the obsolete observation-count filler from all four mocks, including when the filler occurs within rather than at the end of a prompt.
+
 ## Access and student-facing library
 
-Tests 1–2 remain free after the existing verified-student flow. Tests 3–10 remain premium. The Mock Library now exposes PSAT 01, PSAT 02, SAT 01 and SAT 02 as live forms while preserving the reserved future slots for Tests 3–10.
+Tests 1–2 remain free after the existing verified-student flow. Tests 3–10 remain premium. The Mock Library exposes PSAT 01, PSAT 02, SAT 01 and SAT 02 as live forms while preserving the reserved future slots.
 
 ## Verification status — IMPORTANT
 
 **PENDING VERIFICATION:**
 
-The latest four-mock build has not yet received the user's full quality review. Verification will be performed on the public live website after all four forms are online.
+The four-mock build has not yet received the user's full question-by-question quality review. Verification will be performed on the public live website after all four forms are online.
 
 The review should cover, at minimum:
 
+- every question's correctness and answer key;
+- every explanation's correctness and usefulness;
 - originality and non-repetition across the four forms;
-- passage/question quality and answer correctness;
-- Math calculations and explanations;
+- passage/question quality;
+- Math calculations;
 - relevance and usefulness of every displayed figure;
 - R&W absence of inappropriate Math visuals;
 - adaptive Module 2 route behavior;
@@ -114,13 +120,64 @@ The review should cover, at minimum:
 - persistence/resume behavior;
 - timing and section transitions;
 - mobile and desktop presentation;
-- Mock 01 and Mock 02 consistency without making them feel like copies.
+- meaningful differentiation between Mock 01 and Mock 02.
 
-**Do not mark the four-mock content milestone as quality-approved until this verification is complete.**
+**Do not mark the four-mock content milestone as quality-approved until this question-by-question verification is complete.**
+
+## Unlock verification sequence
+
+After the Mock 03 PSAT + SAT pair is created, the user will test the internal unlock mechanism. This keeps the verification sequence aligned with the expanded mock inventory.
+
+The unlock test must cover the intended internal unlock of PSAT/SAT Tests 8–10 and the separate SAT Tests 11–20 progression rule after the required Tests 1–10 completion condition is satisfied.
+
+## Future paired-build protocol — SPEED WITH CONTROL
+
+The standard build unit is a **PSAT + SAT pair**, because this gives a coherent content, architecture and QC milestone. However, the implementation may proceed one mock at a time when that is faster or technically cleaner.
+
+### For each new pair
+
+1. Reuse the existing adaptive runner, persistence, scoring, access control, figure validation and combined QC gates.
+2. Build one mock completely when needed: authored content, question IDs, route pools, metadata and student-facing integration.
+3. Run structural/content QC immediately; do not allow known failures to accumulate into the second mock.
+4. Build the paired mock with genuinely independent authored content using the same controlled architecture.
+5. Run the combined cross-mock release gate across both new mocks and the existing inventory.
+6. Deploy the coherent pair milestone when possible.
+7. Keep manual question-by-question verification as a separate user-quality pass so development can continue at pace without weakening automated controls.
+
+### Non-negotiable quality controls
+
+Do not remove or weaken controls for speed. Every future mock must retain:
+
+- duplicate ID detection;
+- cross-mock prompt/context/application duplication detection;
+- answer-position balancing;
+- explanation/answer integrity checks;
+- figure relevance and mathematical consistency checks;
+- adaptive pool-count integrity;
+- student-facing sanitization of internal/generated text;
+- build-time quality gates.
+
+## Priority before tomorrow's continuation
+
+**Urgent / mandatory:**
+
+1. Preserve the current four-mock build exactly as the verified implementation baseline; do not rewrite working architecture for Mock 03.
+2. Keep the four-mock question-by-question verification explicitly open in the records.
+3. Do not start a separate infrastructure or authentication rebuild.
+4. Treat the Mock 03 pair as the next implementation milestone.
+5. After Mock 03 is live, execute the planned internal unlock verification before expanding the build sequence further if the results are needed to validate the wider access model.
+
+No other urgent documentation or architecture change is required before resuming mock-pair creation. The key requirement is to follow this controlled, repeatable paired-build process while allowing one-mock-at-a-time implementation when it improves throughput.
 
 ## Next build rule
 
-No Mock 03 content generation begins until the four-mock verification is complete and concrete issues, if any, have been corrected. After approval, the same paired implementation pattern will be reused for the next PSAT + SAT pair.
+Begin Mock 03 only from the current repository state and existing architecture. Do not repeat completed authentication, database, shared-runner, figure-gate or previous mock-build work.
+
+The next work cycle should therefore be:
+
+**Mock 03 PSAT → structural/QC validation → Mock 03 SAT → combined QC → deployment → user verification → continue to the next pair.**
+
+If the pair must be split operationally, retain the same order and gates rather than inventing a parallel implementation.
 
 ## Foundation and Advanced timing rule
 
