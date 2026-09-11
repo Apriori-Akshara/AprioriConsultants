@@ -37,14 +37,22 @@ function normalizeChoices(question) {
   };
 }
 
-function convertSelectedMathItems(question, localIndex) {
-  if (
-    question.section !== 'math' ||
-    question.questionType !== 'multiple-choice' ||
-    localIndex % 22 !== 21
-  ) {
-    return question;
+function shouldConvertToSpr(question, localIndex) {
+  if (question.section !== 'math' || question.questionType !== 'multiple-choice') return false;
+
+  if (question.module === 'math-module-1') {
+    return localIndex === 20;
   }
+
+  if (question.module === 'math-module-2') {
+    return localIndex === 3 || localIndex === 24 || localIndex === 45;
+  }
+
+  return false;
+}
+
+function convertSelectedMathItems(question, localIndex) {
+  if (!shouldConvertToSpr(question, localIndex)) return question;
 
   const position = letterIndex(question.answer);
   const numericAnswer = question.choices?.[position] ?? '';
