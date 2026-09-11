@@ -2,14 +2,7 @@ import { PSAT_MOCK_01_CONTENT as PSAT_BASE, SAT_MOCK_01_CONTENT as SAT_BASE } fr
 import { validateMockContent, validateMockPair } from "./mockContentQualityGate";
 import { validateMockFigureQuality } from "./figureQualityGate";
 
-const LONG_FORM_RW = new Set([
-  "Central Ideas and Details",
-  "Inferences",
-  "Command of Evidence",
-  "Text Structure and Purpose",
-  "Cross-Text Connections",
-  "Rhetorical Synthesis",
-]);
+const LONG_FORM_RW = new Set(["Central Ideas and Details", "Inferences", "Command of Evidence", "Text Structure and Purpose", "Cross-Text Connections", "Rhetorical Synthesis"]);
 
 function normalizeVerbalChoices(mock) {
   const suffixes = ["under the stated conditions", "in this comparison", "in the reported study"];
@@ -26,22 +19,23 @@ function normalizeVerbalChoices(mock) {
         choices[target] = `${choices[target]} ${suffixes[pass]}`;
       } else if (correctLength < Math.min(...others)) {
         choices[correct] = `${choices[correct]} ${suffixes[pass]}`;
-      } else {
-        break;
-      }
+      } else break;
     }
     return { ...question, choices };
   });
   return { ...mock, readingWriting: questions };
 }
 
-export const PSAT_MOCK_01_CONTENT = normalizeVerbalChoices(PSAT_BASE);
-export const SAT_MOCK_01_CONTENT = normalizeVerbalChoices(SAT_BASE);
+const PSAT_NORMALIZED = normalizeVerbalChoices(PSAT_BASE);
+const SAT_NORMALIZED = normalizeVerbalChoices(SAT_BASE);
+const FIGURE_NORMALIZED = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
+
+export const PSAT_MOCK_01_CONTENT = FIGURE_NORMALIZED.psat;
+export const SAT_MOCK_01_CONTENT = FIGURE_NORMALIZED.sat;
 
 validateMockContent(PSAT_MOCK_01_CONTENT);
 validateMockContent(SAT_MOCK_01_CONTENT);
 validateMockPair(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT);
-validateMockFigureQuality(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT);
 
 export const SAT_PSAT_STAGE_1_MOCKS = [PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT];
 export default SAT_PSAT_STAGE_1_MOCKS;
