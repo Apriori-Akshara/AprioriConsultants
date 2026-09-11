@@ -1,4 +1,4 @@
-import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT } from "./stage1MockBank";
+import { PSAT_MOCK_01_CONTENT as PSAT_BASE, SAT_MOCK_01_CONTENT as SAT_BASE } from "./stage1MockBank";
 import { validateMockContent, validateMockPair } from "./mockContentQualityGate";
 
 const LONG_FORM_RW = new Set([
@@ -34,8 +34,8 @@ function normalizeVerbalChoices(mock) {
   return { ...mock, readingWriting: questions };
 }
 
-export const PSAT_MOCK_01_CONTENT = normalizeVerbalChoices(PSAT_MOCK_01_CONTENT);
-export const SAT_MOCK_01_CONTENT = normalizeVerbalChoices(SAT_MOCK_01_CONTENT);
+export const PSAT_MOCK_01_CONTENT = normalizeVerbalChoices(PSAT_BASE);
+export const SAT_MOCK_01_CONTENT = normalizeVerbalChoices(SAT_BASE);
 
 validateMockContent(PSAT_MOCK_01_CONTENT);
 validateMockContent(SAT_MOCK_01_CONTENT);
