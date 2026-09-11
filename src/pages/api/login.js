@@ -15,8 +15,10 @@ export default async function handler(req, res) {
 
   try {
     const { userId, password, ipAddress, location } = req.body || {};
+    const normalizedUserId =
+      typeof userId === "string" ? userId.trim().toUpperCase() : "";
 
-    if (!userId || !password) {
+    if (!normalizedUserId || typeof password !== "string" || !password) {
       return res.status(400).json({
         success: false,
         message: "Student ID and password are required",
@@ -38,16 +40,16 @@ export default async function handler(req, res) {
           active,
           completed_quizzes
         FROM users
-        WHERE user_id = $1
+        WHERE UPPER(user_id) = $1
         LIMIT 1
       `,
-      [userId.trim()]
+      [normalizedUserId]
     );
 
     if (result.rows.length === 0) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials",
+        message: "Invalid Student ID or password.",
       });
     }
 
@@ -61,21 +63,15 @@ export default async function handler(req, res) {
       });
     }
 
-    const passwordValid = await verifyPassword(
-      password,
-      user.password_hash
-    );
+    const passwordValid = await verifyPassword(password, user.password_hash);
 
     if (!passwordValid) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials",
+        message: "Invalid Student ID or password.",
       });
     }
 
-    // Authentication must not depend on the legacy login-log table.
-    // Logging is best-effort so an operational logging problem can never
-    // prevent a verified student from receiving a valid session.
     try {
       await query(
         `
@@ -93,7 +89,6 @@ export default async function handler(req, res) {
     }
 
     const sessionToken = await createSession(user.id);
-
     setSessionCookie(res, sessionToken);
 
     return res.status(200).json({
@@ -115,7 +110,7 @@ export default async function handler(req, res) {
 
     return res.status(500).json({
       success: false,
-      message: "Something went wrong. Please try again later.",
+      message: "Unable to complete login. Please try again later.",
     });
   }
 }
