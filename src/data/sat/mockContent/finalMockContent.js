@@ -23,79 +23,65 @@ const balancedSeasonalInferenceChoices = [
   'The pattern occurs only when the seasonal shift has the same form.'
 ];
 
-function normalizeChoices(question) {
-  if (question.section !== 'reading-writing' || question.questionType !== 'multiple-choice') {
-    return question;
+function rebalanceCorrectChoiceLength(question) {
+  if (question.section !== 'reading-writing' || question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
+  const correctIndex = letterIndex(question.answer);
+  const lengths = question.choices.map((choice) => String(choice).trim().split(/\s+/).filter(Boolean).length);
+  const correctLength = lengths[correctIndex];
+  const otherIndexes = [0, 1, 2, 3].filter((index) => index !== correctIndex);
+  const maxOther = Math.max(...otherIndexes.map((index) => lengths[index]));
+  const minOther = Math.min(...otherIndexes.map((index) => lengths[index]));
+  if (correctLength <= minOther || correctLength >= maxOther) {
+    const nearest = otherIndexes.sort((a, b) => Math.abs(lengths[a] - correctLength) - Math.abs(lengths[b] - correctLength))[0];
+    const choices = [...question.choices];
+    [choices[correctIndex], choices[nearest]] = [choices[nearest], choices[correctIndex]];
+    return { ...question, choices, answer: String.fromCharCode(65 + nearest) };
   }
+  return question;
+}
 
+function normalizeChoices(question) {
+  if (question.section !== 'reading-writing' || question.questionType !== 'multiple-choice') return question;
   const position = letterIndex(question.answer);
   let choices = question.choices;
-
-  if (question.skill === 'Rhetorical Synthesis') {
-    choices = balancedRhetoricalChoices;
-  } else if (question.skill === 'Cross-Text Connections') {
-    choices = balancedCrossTextChoices;
-  } else if (question.skill === 'Inferences' && question.prompt.includes('seasonal shift')) {
-    choices = balancedSeasonalInferenceChoices;
-  }
-
-  return {
-    ...question,
-    choices,
-    answer: String.fromCharCode(65 + position),
-  };
+  if (question.skill === 'Rhetorical Synthesis') choices = balancedRhetoricalChoices;
+  else if (question.skill === 'Cross-Text Connections') choices = balancedCrossTextChoices;
+  else if (question.skill === 'Inferences' && question.prompt.includes('seasonal shift')) choices = balancedSeasonalInferenceChoices;
+  return rebalanceCorrectChoiceLength({ ...question, choices, answer: String.fromCharCode(65 + position) });
 }
 
 function shouldConvertToSpr(question, localIndex) {
   if (question.section !== 'math' || question.questionType !== 'multiple-choice') return false;
-
-  if (question.module === 'math-module-1') {
-    return localIndex === 20;
-  }
-
-  if (question.module === 'math-module-2') {
-    return localIndex === 3 || localIndex === 24 || localIndex === 45;
-  }
-
+  if (question.module === 'math-module-1') return localIndex === 20;
+  if (question.module === 'math-module-2') return localIndex === 3 || localIndex === 24 || localIndex === 45;
   return false;
 }
 
 function convertSelectedMathItems(question, localIndex) {
   if (!shouldConvertToSpr(question, localIndex)) return question;
-
   const position = letterIndex(question.answer);
   const numericAnswer = question.choices?.[position] ?? '';
-
   return {
     ...question,
     questionType: 'student-produced-response',
     interactionType: 'student-produced-response',
     choices: [],
     answer: String(numericAnswer).trim(),
-    metadata: {
-      ...question.metadata,
-      answerFormat: 'numeric',
-    },
+    metadata: { ...question.metadata, answerFormat: 'numeric' },
   };
 }
 
 export function finalizeMockQuestions(records) {
-  return records.map((question, index) => {
-    const verbal = normalizeChoices(question);
-    return convertSelectedMathItems(verbal, index);
-  });
+  return records.map((question, index) => convertSelectedMathItems(normalizeChoices(question), index));
 }
 
 export function buildMock({ testId, variant, section, module }) {
   return finalizeMockQuestions(buildBaseMock({ testId, variant, section, module }));
 }
-
 export function buildReadingWriting(args) {
   return finalizeMockQuestions(buildBaseMock({ ...args, section: 'reading-writing' }));
 }
-
 export function buildMath(args) {
   return finalizeMockQuestions(buildBaseMock({ ...args, section: 'math' }));
 }
-
 export default { buildMock, buildReadingWriting, buildMath, finalizeMockQuestions };
