@@ -1,6 +1,6 @@
 # Test-Prep Architecture State Addendum — September 11, 2026
 
-This addendum records the product decisions established on September 11, 2026. It should be read together with `docs/SAT-PROJECT-STATE.md`, `docs/SAT-ARCHITECTURE.md`, and `docs/TEST-PREP-ARCHITECTURE.md` until the next project-state consolidation.
+This addendum records the product and UI/UX decisions established on September 11, 2026. It should be read together with `docs/SAT-PROJECT-STATE.md`, `docs/SAT-ARCHITECTURE.md`, and `docs/TEST-PREP-ARCHITECTURE.md` until the next project-state consolidation.
 
 ## Confirmed product decisions
 
@@ -26,6 +26,46 @@ The current SAT Mock dashboard and test architecture remain unchanged and contin
 
 No Foundation content is to be inserted into the SAT Mock question pools merely because it is reused for Foundation.
 
+The canonical Mock route remains `/SATMocks`.
+
+### SAT Courses navigation
+
+The public Courses area is the primary discovery point for SAT preparation and must visibly provide:
+
+- SAT Foundation → `/Courses/SATFoundation`
+- SAT Advanced → `/Courses/SATAdvanced`
+- SAT Mock Tests → `/SATMocks`
+
+The Progress Dashboard remains under the student Profile area and is not duplicated as a top-level Courses item.
+
+### Student Profile / Progress Dashboard UX
+
+The existing Profile architecture remains in use, but the visible dashboard has been redesigned specifically for test preparation.
+
+The redesign removes the inappropriate language-learning/generic gamification emphasis from the student-facing SAT dashboard, including the visible leaderboard, language selector, generic points/rank presentation, and unrelated language-course statistics.
+
+The new visual direction uses the existing Apriori colour family:
+
+- white;
+- blue;
+- different shades of blue;
+- grey/light neutral surfaces.
+
+The profile dashboard now presents a client-demo-oriented SAT preparation experience with:
+
+- SAT preparation overview;
+- Foundation → Advanced → Mock Tests learning path;
+- practice/activity snapshot;
+- study streak/activity indicators where currently available;
+- SAT accuracy placeholder until the SAT data pipeline is connected;
+- performance insight areas for strengths/weaknesses, pacing/timing, review queue, and topic progress;
+- recommended next step;
+- study roadmap;
+- goal-setting area marked for future integration;
+- downloadable dashboard/progress presentation.
+
+This is a UI/UX milestone. It does not yet implement the underlying SAT analytics/content integrations for every visible feature.
+
 ### Legacy question/test material
 
 The repository was verified to contain legacy SAT content and execution infrastructure:
@@ -39,43 +79,74 @@ These are candidates for controlled repurposing into Foundation content, especia
 
 The legacy runtime is not the new SAT Mock architecture.
 
-### Parallel development
+### Benchmarking decision
+
+The dashboard UX direction is informed by current test-prep patterns from OnePrep, Magoosh, and Manhattan Prep.
+
+Useful patterns to carry into Apriori include:
+
+- practice volume and accuracy;
+- skill/topic mastery;
+- pacing/timing insights;
+- strengths and weaknesses;
+- saved/bookmarked/flagged review;
+- recommended next activity;
+- structured learning paths;
+- detailed practice-test reporting;
+- clear distinction between learning/practice and full mock-test simulation.
+
+Apriori must not copy competitor branding, wording, proprietary content, or visual design.
+
+## Future implementation contracts — must be planned from Day 1
+
+The current profile UI is intentionally ahead of some backend functionality. Every visible feature must later connect cleanly to product-specific contracts rather than legacy language-learning data.
+
+Future SAT integrations must cover, where relevant:
+
+- Foundation progress;
+- Advanced progress;
+- question attempts;
+- accuracy;
+- pacing/timing;
+- topic/domain/skill mastery;
+- difficulty performance;
+- bookmarks/flags;
+- recent activity;
+- study streak/activity history;
+- target score and test date;
+- mock attempts and score reports;
+- personalized recommendations;
+- progress-report generation.
+
+These integrations must remain compatible with the existing server-side authentication/authorization model and must never allow client UI state, Redux, browser-readable data, or legacy score fields to determine access.
+
+## Parallel development
 
 SAT Foundation, SAT Advanced, and SAT Mocks are intended to be developed simultaneously where practical.
 
 This does not mean they should share their question banks, attempts, progress records, or mock-test runtime. Shared authentication/session infrastructure is acceptable.
 
-### Future products
+The profile dashboard is the cross-feature student presentation layer, while product-specific data and authorization remain separate underneath it.
 
-Apriori will support separate product paths for:
+## Current implementation status after this batch
 
-- SAT
-- GRE
-- GMAT
+Completed in GitHub:
 
-The same student login may be used across products, but product-specific authorization and content remain separate.
+1. Added **SAT Mock Tests** as a visible third SAT card on the public Courses page, linking to `/SATMocks`.
+2. Redesigned the Profile page as an SAT-focused student preparation dashboard while retaining the existing Profile route/architecture.
+3. Replaced generic/language-learning dashboard elements with SAT preparation path cards, study snapshots, performance insight areas, roadmap, recommendations, and integration-ready placeholders.
+4. Applied the existing white/blue/grey visual family to the redesigned Profile dashboard.
+5. Kept the existing SAT Mock engine and authorization architecture untouched.
 
-SAT and GRE may follow similar Foundation/Advanced and adaptive mock-test architecture where appropriate.
+### Controlled live verification required
 
-GMAT will share the common account/dashboard/course-module architecture but will require a separate mock-test algorithm, structure, timing, scoring, and test-taking design. GMAT mock specifications must be documented before that work begins.
+After Render deploys this batch, live testing should focus on:
 
-## Repository implementation status
+- `/Courses` loads normally and shows Foundation, Advanced, and Mock Tests.
+- The **SAT Mock Tests** Courses card opens `/SATMocks`.
+- `/Profile` loads normally for a logged-in student.
+- The Profile dashboard no longer presents the old leaderboard/language-learning UI.
+- The new SAT path cards, progress snapshot, recommendation area, roadmap, and performance areas render correctly on desktop and mobile.
+- `/SATMocks` itself remains unchanged in behaviour and access logic.
 
-No existing SAT Mock code was changed as part of these decisions.
-
-The new cross-product architecture is documented in:
-
-`docs/TEST-PREP-ARCHITECTURE.md`
-
-The existing live SAT Mock implementation remains the source of truth for the current Mock milestone.
-
-## Next development direction
-
-The next implementation work should build SAT Foundation and SAT Mocks in parallel without coupling them:
-
-1. Design the SAT Foundation information architecture and progress-dashboard model.
-2. Inventory and classify the legacy SAT question bank for possible Foundation reuse.
-3. Define Foundation activity/content identifiers and storage contracts.
-4. Build the Foundation Verbal/Math dashboard with Easy/Medium/Hard states.
-5. In parallel, continue the existing SAT Mock milestone from its documented resume point.
-6. Keep future GRE/GMAT namespaces and product boundaries in mind when creating shared infrastructure.
+Do not treat the current visual placeholder states as completed analytics functionality. Their backend/data integrations are later milestones recorded above.
