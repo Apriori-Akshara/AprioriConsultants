@@ -230,3 +230,89 @@ Existing functionality should be reused when it is genuinely useful and safe, bu
 Do not directly reuse legacy SAT runtime state, legacy browser authorization, or legacy question identifiers in the new product engines.
 
 Where legacy content is repurposed, create a controlled migration/classification process rather than moving the file wholesale.
+
+## 16. SAT course navigation
+
+The public `Courses` page is the main student-facing discovery point for SAT learning and must expose the three principal SAT preparation paths:
+
+- SAT Foundation → `/Courses/SATFoundation`
+- SAT Advanced → `/Courses/SATAdvanced`
+- SAT Mock Tests → `/SATMocks`
+
+SAT Mock Tests remain a distinct authenticated application route. They are not moved into the Foundation or Advanced runtime. The Courses page simply provides the expected student-facing navigation entry point.
+
+The student Progress Dashboard remains under the Profile area and is not duplicated as a top-level Courses item.
+
+## 17. Student Profile / Progress Dashboard UX
+
+The existing Profile route and overall profile architecture remain in place, but the visible feature set must be redesigned specifically for test-prep use rather than inherited from the previous language-learning website.
+
+The profile dashboard should use the existing Apriori visual identity based on:
+
+- white;
+- blue;
+- different shades of blue;
+- grey and light neutral surfaces.
+
+The UI should prioritize a polished, client-demo-ready SAT preparation experience.
+
+The dashboard UX should include, progressively as functionality becomes available:
+
+- SAT preparation overview;
+- clear Foundation → Advanced → Mock Tests learning path;
+- practice volume snapshot;
+- study activity/streak indicators where supported;
+- SAT accuracy;
+- pacing/timing insights;
+- strengths and weaknesses;
+- progress by Verbal/Math and by topic/skill/difficulty;
+- flagged/bookmarked review queue;
+- recent SAT activity;
+- recommended next action;
+- study roadmap;
+- target score and target test date;
+- mock-test status and results;
+- downloadable progress report.
+
+A leaderboard, generic points ranking, language selector, or unrelated language-learning statistics must not be part of the SAT student dashboard.
+
+The current implementation may display intentionally non-functional or integration-pending states for features whose backend/content contracts are not yet built. Such UI must clearly communicate the future/integration state and must not invent real performance figures.
+
+## 18. Day-1 integration requirement for dashboard features
+
+The dashboard is a presentation milestone now, but every visible feature must be designed so its eventual data source and interaction can be connected without redesigning the whole page.
+
+Future implementation must provide clean product-specific contracts for at least:
+
+- Foundation progress;
+- Advanced progress;
+- question attempts;
+- accuracy;
+- timing/pacing;
+- topic/domain/skill mastery;
+- difficulty performance;
+- bookmarks/flags;
+- recent activity;
+- study streak/activity history;
+- target score/test date;
+- mock attempts and score reports;
+- recommendations;
+- progress-report generation.
+
+These integrations must use the SAT product's authoritative server-side data and must not depend on legacy language-learning score fields or leaderboard records.
+
+## 19. Design benchmark for student dashboard
+
+The dashboard UX is informed by established test-prep patterns rather than generic gamification. Current benchmark observations include:
+
+- OnePrep emphasizes a live analytics view with questions attempted, accuracy, saved questions, study streak, skill/topic mastery, pacing, and activity trends.
+- Magoosh emphasizes timeline/progress, estimated performance, pace, strengths/weaknesses, guided or custom practice, review workflows, flags, explanations, and practice tests.
+- Manhattan Prep emphasizes structured student centers/practice exams, detailed assessment reports, strengths/weaknesses, timing and difficulty data, review of individual questions, and clear separation between learning and test simulation.
+
+Apriori should take the useful information architecture from these patterns without copying their branding, visual design, wording, or proprietary content.
+
+## 20. UI/UX-first implementation rule
+
+SAT UI/UX work must continue progressively alongside functionality. A feature may be visual-only at the current milestone, but its eventual functionality, data contract, and integration point must be recorded when the feature is introduced.
+
+Do not postpone the complete student experience until all backend functionality is finished.
