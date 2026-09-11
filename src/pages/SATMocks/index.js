@@ -1,9 +1,7 @@
 import Link from 'next/link'
 
-import {
-  getVerifiedSatServerAccessState,
-  getSatLoginUrl,
-} from '../../lib/sat/satAccess'
+import { getVerifiedSatServerAccessState } from '../../lib/sat/satAccess'
+import { getSatLoginUrl } from '../../lib/sat/satLogin'
 
 import { getSatTestAccess } from '../../lib/sat/testAccess'
 
