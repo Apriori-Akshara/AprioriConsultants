@@ -6,20 +6,14 @@ const MOCKS = {
     label: "PSAT/NMSQT Mock 01",
     assessmentVariant: "psat-nmsqt",
     content: PSAT_MOCK_01_CONTENT,
-    sectionMinutes: {
-      "reading-writing": 32,
-      math: 35,
-    },
+    sectionMinutes: { "reading-writing": 32, math: 35 },
   },
   SAT1: {
     id: "SAT1",
     label: "SAT Mock 01 — Series A",
     assessmentVariant: "sat",
     content: SAT_MOCK_01_CONTENT,
-    sectionMinutes: {
-      "reading-writing": 32,
-      math: 35,
-    },
+    sectionMinutes: { "reading-writing": 32, math: 35 },
   },
 };
 
@@ -29,20 +23,20 @@ function routeForQuestion(question, fallbackIndex) {
   return question.adaptiveRoute || ROUTES[fallbackIndex % ROUTES.length];
 }
 
-function getQuestionPool(questions, route) {
-  const explicit = questions.filter((question, index) => routeForQuestion(question, index) === route);
-  return explicit.length >= 8 ? explicit : questions;
-}
-
 function moduleQuestions(content, section, module) {
   return content.questions.records.filter(
     (question) => question.section === section && question.module === module
   );
 }
 
-function selectByRoute(questions, route, count) {
-  const pool = getQuestionPool(questions, route);
-  return pool.slice(0, count);
+function selectAdaptiveQuestions(questions, route, count) {
+  const preferred = questions.filter((question, index) => routeForQuestion(question, index) === route);
+  const ordered = [...preferred];
+  for (const question of questions) {
+    if (ordered.length >= count) break;
+    if (!ordered.some((item) => item.questionId === question.questionId)) ordered.push(question);
+  }
+  return ordered.slice(0, count);
 }
 
 export function getMockDefinition(testKey) {
@@ -51,8 +45,8 @@ export function getMockDefinition(testKey) {
 
 export function normalizeMockKey(value) {
   const normalized = String(value || "").trim().toUpperCase();
-  if (normalized === "PSAT1" || normalized === "PSAT-1" || normalized === "PSAT01") return "PSAT1";
-  if (normalized === "SAT1" || normalized === "SAT-1" || normalized === "SAT01" || normalized === "TEST1") return "SAT1";
+  if (["PSAT1", "PSAT-1", "PSAT01"].includes(normalized)) return "PSAT1";
+  if (["SAT1", "SAT-1", "SAT01", "TEST1"].includes(normalized)) return "SAT1";
   return null;
 }
 
@@ -75,9 +69,9 @@ export function createAdaptivePlan(testKey) {
         label: "Reading and Writing",
         modules: [
           { key: "module-1", minutes: mock.sectionMinutes["reading-writing"], questions: rw1 },
-          { key: "module-2-standard", minutes: mock.sectionMinutes["reading-writing"], route: "standard", questions: selectByRoute(rw2, "standard", 27) },
-          { key: "module-2-high", minutes: mock.sectionMinutes["reading-writing"], route: "high", questions: selectByRoute(rw2, "high", 27) },
-          { key: "module-2-low", minutes: mock.sectionMinutes["reading-writing"], route: "low", questions: selectByRoute(rw2, "low", 27) },
+          { key: "module-2-standard", minutes: mock.sectionMinutes["reading-writing"], route: "standard", questions: selectAdaptiveQuestions(rw2, "standard", 27) },
+          { key: "module-2-high", minutes: mock.sectionMinutes["reading-writing"], route: "high", questions: selectAdaptiveQuestions(rw2, "high", 27) },
+          { key: "module-2-low", minutes: mock.sectionMinutes["reading-writing"], route: "low", questions: selectAdaptiveQuestions(rw2, "low", 27) },
         ],
       },
       {
@@ -85,9 +79,9 @@ export function createAdaptivePlan(testKey) {
         label: "Math",
         modules: [
           { key: "module-1", minutes: mock.sectionMinutes.math, questions: math1 },
-          { key: "module-2-standard", minutes: mock.sectionMinutes.math, route: "standard", questions: selectByRoute(math2, "standard", 22) },
-          { key: "module-2-high", minutes: mock.sectionMinutes.math, route: "high", questions: selectByRoute(math2, "high", 22) },
-          { key: "module-2-low", minutes: mock.sectionMinutes.math, route: "low", questions: selectByRoute(math2, "low", 22) },
+          { key: "module-2-standard", minutes: mock.sectionMinutes.math, route: "standard", questions: selectAdaptiveQuestions(math2, "standard", 22) },
+          { key: "module-2-high", minutes: mock.sectionMinutes.math, route: "high", questions: selectAdaptiveQuestions(math2, "high", 22) },
+          { key: "module-2-low", minutes: mock.sectionMinutes.math, route: "low", questions: selectAdaptiveQuestions(math2, "low", 22) },
         ],
       },
     ],
@@ -102,22 +96,17 @@ export function scoreModule(questions, answers) {
     const answer = answers?.[question.questionId];
     if (answer !== undefined && answer !== null && String(answer).trim() !== "") {
       answered += 1;
-      if (String(answer).trim().toUpperCase() === String(question.answer).trim().toUpperCase()) {
-        correct += 1;
-      }
+      if (String(answer).trim().toUpperCase() === String(question.answer).trim().toUpperCase()) correct += 1;
     }
   });
 
   const total = questions.length;
-  const accuracy = total ? Math.round((correct / total) * 100) : 0;
-
-  return { correct, answered, total, accuracy };
+  return { correct, answered, total, accuracy: total ? Math.round((correct / total) * 100) : 0 };
 }
 
 export function chooseModule2Route(module1Questions, answers) {
   const result = scoreModule(module1Questions, answers);
   const ratio = result.total ? result.correct / result.total : 0;
-
   if (ratio >= 0.75) return "high";
   if (ratio <= 0.45) return "low";
   return "standard";
@@ -132,9 +121,12 @@ export function buildClientSafeTest(testKey) {
     testKey: plan.testKey,
     label: plan.label,
     sections: plan.sections.map((section) => ({
-      ...section,
+      key: section.key,
+      label: section.label,
       modules: section.modules.map((module) => ({
-        ...module,
+        key: module.key,
+        minutes: module.minutes,
+        route: module.route || null,
         questions: module.questions.map((question) => ({
           questionId: question.questionId,
           section: question.section,
@@ -150,8 +142,6 @@ export function buildClientSafeTest(testKey) {
           referenceSheetRelevant: question.referenceSheetRelevant,
           prompt: question.prompt,
           choices: question.choices,
-          answer: question.answer,
-          explanation: question.explanation,
         })),
       })),
     })),
