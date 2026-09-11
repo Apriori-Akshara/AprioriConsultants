@@ -1,341 +1,270 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import Left from '../../../components/Profile/left';
-import styles from './Profile.module.css';
+import Link from 'next/link';
+import Navbar from '../../../components/NavbarJS';
 import LoadingSpinner from '../../../components/loader';
-import {cards} from '../../helperfunction/fetchalldatajson'
 import { useSelector } from 'react-redux';
-import Right from '../../../components/Profile/Right';
 import { Getperformance } from '@/helperfunction/Getperformance';
-import Navbar from '../../../components/NavbarJS'
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import {
+  FaArrowRight,
+  FaBookOpen,
+  FaBullseye,
+  FaChartLine,
+  FaClipboardCheck,
+  FaClock,
+  FaFlag,
+  FaLayerGroup,
+  FaRegBookmark,
+  FaRoad,
+  FaStar,
+} from 'react-icons/fa';
+import styles from './Profile.module.css';
 
-const languages = {'french':'French A1', 'frencha2': 'French A2', 'frenchb1': 'French B1', 'frenchb2': 'French B2', 'spanish' :'Spanish A1','spanisha2': 'Spanish A2', 'spanish b1': 'Spanish B1', 'germana1':'German A1', 'germana2':'German A2', 'germanb1':'German B1', 'germanb2':'German B2'}
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-const exercisesgroup = {
-"French A1": ["French", "FrenchRA", "FrenchLA", "FrenchRP", "FrenchWP", "FrenchPT"], 
-"French A2": ["FrenchA2", "FrenchA2RA", "FrenchA2LA", "FrenchA2RP", "FrenchA2WP", "FrenchA2PT"], 
-"French B1": ["FrenchB1", "FrenchB1RA", "FrenchB1LA", "FrenchB1RP", "FrenchB1WP", "FrenchB1PT"],
-"French B2": ["FrenchB2", "FrenchB2RA", "FrenchB2LA", "FrenchB2RP", "FrenchB2WP", "FrenchB2PT"],
-"Spanish A1": ["Spanish", "SpanishRA", "SpanishLA", "SpanishRP", "SpanishWP", "SpanishPT"],
-"Spanish A2": ["SpanishA2", "SpanishA2RA", "SpanishA2LA", "SpanishA2RP", "SpanishA2WP", "SpanishA2PT"],
-"Spanish B1": ["SpanishB1", "SpanishB1RA", "SpanishB1LA", "SpanishB1RP", "SpanishB1WP", "SpanishB1PT"],
-"German A1": ["German", "GermanRA", "GermanLA", "GermanRP", "GermanWP", "GermanPT"],
-"German A2": ["GermanA2", "GermanA2RA", "GermanA2LA", "GermanA2RP", "GermanA2WP", "GermanA2PT"],
-"German B1": ["GermanB1", "GermanB1RA", "GermanB1LA", "GermanB1RP", "GermanB1WP", "GermanB1PT"],
-}
-
-const calculateStreak = (dailyScores) => {
-  const dates = Object.keys(dailyScores).sort(); // Get all dates and sort them
+const calculateStreak = (dailyScores = {}) => {
+  const dates = Object.keys(dailyScores).sort();
   let streak = 0;
   let currentStreak = 0;
 
-  for (let i = 0; i < dates.length; i++) {
+  for (let i = 0; i < dates.length; i += 1) {
     const currentDate = new Date(dates[i]);
     const previousDate = new Date(dates[i - 1]);
+    const isConsecutive = i === 0 || currentDate - previousDate === 86400000;
 
-    // Check if the current date is consecutive to the previous date
-    if (i === 0 || (currentDate - previousDate === 86400000)) { // 86400000 ms = 1 day
-      currentStreak++;
+    if (isConsecutive) {
+      currentStreak += 1;
       streak = Math.max(streak, currentStreak);
     } else {
-      currentStreak = 1; // Reset streak if not consecutive
+      currentStreak = 1;
     }
   }
 
   return streak;
 };
 
-const getThisWeeksScores = (dailyScores) => {
+const getWeeklyActiveDays = (dailyScores = {}) => {
   const today = new Date();
-  const startOfWeek = new Date(today); // Clone today's date
-  startOfWeek.setDate(today.getDate() - today.getDay()); // Set to the start of the week (Sunday)
-  startOfWeek.setHours(0, 0, 0, 0); // Reset time to midnight
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
 
-  const endOfWeek = new Date(startOfWeek); // Clone startOfWeek
-  endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to the end of the week (Saturday)
-  endOfWeek.setHours(23, 59, 59, 999); // Set time to the end of the day
-
-  const thisWeeksScores = {};
-
-  Object.entries(dailyScores).forEach(([date, score]) => {
+  return Object.keys(dailyScores).filter((date) => {
     const currentDate = new Date(date);
-
-    // Check if the date is within this week
-    if (currentDate >= startOfWeek && currentDate <= endOfWeek) {
-      const dayName = daysOfWeek[currentDate.getDay()]; // Get the day name (e.g., "Monday")
-      thisWeeksScores[dayName] = (thisWeeksScores[dayName] || 0) + score; // Add the score for the day
-    }
-  });
-
-  // Ensure all days of the week are present in the result, even if they have no scores
-  daysOfWeek.forEach((day) => {
-    if (!thisWeeksScores[day]) {
-      thisWeeksScores[day] = 0; // Default to 0 if no score exists for the day
-    }
-  });
-
-  return thisWeeksScores;
+    return currentDate >= startOfWeek && currentDate <= today;
+  }).length;
 };
 
-const calculateBestAndAverage = (scores) => {
-  const values = Object.values(scores); // Extract all score values
-  if (values.length === 0) return { best: 0, average: 0 }; // Handle empty scores
+export default function Profile() {
+  const { user } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const [streak, setStreak] = useState(0);
+  const [weeklyActiveDays, setWeeklyActiveDays] = useState(0);
+  const [error, setError] = useState(null);
+  const sectionRef = useRef();
+  const URL = process.env.NEXT_PUBLIC_BACKENDURL;
 
-  const best = Math.max(...values); // Find the highest score
-  const average = values.reduce((sum, score) => sum + score, 0) / values.length; // Calculate the average
-
-  return { best, average };
-};
-
-export default function index() {
-      const [ loading, setLoading ] = useState(false)
-      const { user } = useSelector((state) => state.auth);
-      const [selection, setSelection] = useState({ section: null, language: 'SAT' });
-      const [userData, setUserData] = useState(null);
-      const [streak, setStreak] = useState(0);
-      const [thisWeeksScores, setThisWeeksScores] = useState({});
-      const [lesson, setLesson] = useState({})
-      const [error, setError] = useState(null);
-      const [totalScores, setTotalScores] = useState([]);
-      const [userRank, setUserRank] = useState(null);
-      const [dailyScores, setDailyScores] = useState([]);
-      const [weeklyScores, setWeeklyScores] = useState([]);
-      const [monthlyScores, setMonthlyScores] = useState([]);
-      const [weeklyBest, setWeeklyBest] = useState(0);
-      const [weeklyAverage, setWeeklyAverage] = useState(0);
-      const [monthlyBest, setMonthlyBest] = useState(0);
-      const [monthlyAverage, setMonthlyAverage] = useState(0);
-      const URL = process.env.NEXT_PUBLIC_BACKENDURL
-      const value = selection.language;
-      const key = Object.keys(languages).find(key => languages[key] === value);
-      const card = cards.find(c => c.code === key);
-      const sections = useMemo(() => (["Exercises", "Reading", "Listening", "ReadingP", "Writing", "PracticeTest"]), []);
-      const [filteredObject, setFilteredObject] = useState({});
-       const sectionRef = useRef();
-const uniqueExerciseCount = userData?.completedExercises
-  ? new Set(userData.completedExercises.map(ex => ex.exercise)).size
-  : 0;
-
-      useEffect(() => {
-        const fetchUserData = async () => {
-          try {
-            const data = await Getperformance(user.userId);
-            setUserData(data);
-          } catch (err) {
-            console.error(err);
-            setError("Failed to load user data");
-          }
-        };
-    
-        fetchUserData();
-      }, [user?.userId]);
-
-      useEffect(() => {
-        if (!exercisesgroup[selection.language]) return;
-      
-        // Ensure exercisesgroup[selection.language] is an array
-        const exerciseList = Array.isArray(exercisesgroup[selection.language]) ? exercisesgroup[selection.language] : [];
-      
-        // Create an object where each language is a key and its value is an array of unique matching entries
-        const newFilteredObject = {};
-      
-        exerciseList.forEach(language => {
-          // Use a Set to track unique exercises
-          const seenExercises = new Set();
-      
-          // Filter completed exercises for this specific language and ensure uniqueness
-          const matchingExercises = userData?.completedExercises.filter(data => {
-            if (data.language === language && !seenExercises.has(data.exercise)) {
-              seenExercises.add(data.exercise);
-              return true;
-            }
-            return false;
-          });
-      
-          // Only add to the object if there are matches
-          if (matchingExercises?.length > 0) {
-            newFilteredObject[language] = matchingExercises;
-          }
-        });
-      
-        setFilteredObject(newFilteredObject);
-      }, [userData?.completedExercises, exercisesgroup, selection.language]);
-      
-      
-
-      useEffect(() => {
-        async function fetchAllLessons() {
-          const newLesson = {};
-          await Promise.all(
-            sections.map(async (section) => {
-              const sectionInfo = card[section];
-              if (sectionInfo && sectionInfo.file) {
-                try {
-                  // Adjust file extension if necessary (e.g., .js)
-                  const module = await import(`../../Data/${sectionInfo.folder}/${sectionInfo.file}.js`);
-                  newLesson[section] = module[sectionInfo.array];
-                } catch (error) {
-                  console.error(`Error loading ${section} data:`, error);
-                  newLesson[section] = null;
-                }
-              } else {
-                newLesson[section] = null;
-              }
-            })
-          );
-          setLesson(newLesson);
-        }
-        
-        if (card) {
-          fetchAllLessons();
-        }
-      }, [card, sections]);
-
-        // Fetch totalScores from the backend
   useEffect(() => {
-    const fetchTotalScores = async () => {
-      try {
-        const response = await fetch(`${URL}/api/users/totalScores`);
-        const data = await response.json();
-        if (data.success) {
-          const sortedScores = data.users.sort((a, b) => b.performance.totalScore - a.performance.totalScore);
-          setTotalScores(sortedScores);
+    if (!user?.userId) {
+      setLoading(false);
+      return;
+    }
 
-           // Find the rank of the current user
-           const rank = sortedScores?.findIndex((score) => score.userId === user.userId) + 1;
-           setUserRank(rank); // Store the user's rank
-        } else {
-          console.error("Failed to fetch totalScores:", data.message);
+    const loadDashboardData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const performance = await Getperformance(user.userId);
+        setUserData(performance);
+
+        try {
+          const response = await fetch(`${URL}/api/${user.userId}/scores`);
+          const data = await response.json();
+
+          if (data?.success) {
+            setStreak(calculateStreak(data.dailyScores));
+            setWeeklyActiveDays(getWeeklyActiveDays(data.dailyScores));
+          }
+        } catch (scoreError) {
+          console.error('SAT dashboard activity data unavailable:', scoreError);
         }
-      } catch (error) {
-        console.error("Error fetching totalScores:", error);
+      } catch (dashboardError) {
+        console.error(dashboardError);
+        setError('We could not load your current dashboard data.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchTotalScores();
-  }, []);
+    loadDashboardData();
+  }, [URL, user?.userId]);
 
-  useEffect(() => {
-    const fetchScores = async () => {
-      try {
-        const response = await fetch(`${URL}/api/${user.userId}/scores`);
-        const data = await response.json();
-        if (data.success) {
-          setDailyScores(data.dailyScores);
-          setWeeklyScores(data.weeklyScores);
-          setMonthlyScores(data.monthlyScores);
+  const completedPracticeItems = useMemo(() => {
+    if (!Array.isArray(userData?.completedExercises)) return 0;
+    return new Set(userData.completedExercises.map((item) => item.exercise)).size;
+  }, [userData?.completedExercises]);
 
-        // Calculate streak from dailyScores
-        const calculatedStreak = calculateStreak(data.dailyScores);
-        setStreak(calculatedStreak);
+  const handleDownload = async () => {
+    if (!sectionRef.current) return;
 
-        // Calculate this week's scores
-        const weeklyScores = getThisWeeksScores(data.dailyScores);
-        setThisWeeksScores(weeklyScores);
+    const canvas = await html2canvas(sectionRef.current, { scale: 2, backgroundColor: '#f6f8fb' });
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = 210;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-          // Calculate weekly best and average
-          const { best: weeklyBest, average: weeklyAverage } = calculateBestAndAverage(data.weeklyScores);
-          setWeeklyBest(weeklyBest);
-          setWeeklyAverage(weeklyAverage);
-
-          // Calculate monthly best and average
-          const { best: monthlyBest, average: monthlyAverage } = calculateBestAndAverage(data.monthlyScores);
-          setMonthlyBest(monthlyBest);
-          setMonthlyAverage(monthlyAverage);
-        } else {
-          console.error("Failed to fetch scores:", data.message);
-        }
-      } catch (error) {
-        console.error("Error fetching scores:", error);
-      }
-    };
-
-    fetchScores();
-  }, [user?.userId]);
-
-  const handleLanguageSelection = (section, language) => {
-    setSelection({ section, language });
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save('apriori-sat-dashboard.pdf');
   };
 
-  const getDayName = (dateString) => {
-    const date = new Date(dateString);
-    return daysOfWeek[date.getDay()];
-  };
+  const firstName = user?.name?.split(' ')[0] || 'Student';
 
-const handleDownload = async () => {
-  // Get the element to capture
-  const input = sectionRef.current;
+  return (
+    <>
+      <Navbar />
+      {loading && <div className={styles.loader}><LoadingSpinner /></div>}
 
-  // Capture the content as a canvas using html2canvas
-  const canvas = await html2canvas(input, { scale: 2 });
-  const imgData = canvas.toDataURL('image/png');
-
-  // Path for your logo image
-  const logoPath = "/newlogo1.png"; // Ensure this path is correct
-
-  // Create a new PDF document: A4 size, portrait, in millimeters
-  const pdf = new jsPDF('p', 'mm', 'a4');
-
-  // Add the logo at the top left (for example at x=10, y=10 with width=40, height=40)
-  pdf.addImage(logoPath, "PNG", 10, 10, 15, 15);
-
-  // Calculate dimensions for the captured content:
-  const imgProps = pdf.getImageProperties(imgData);
-  const pdfWidth = 210; // A4 width in mm
-  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-  // Set an offset to make sure the content is added below the logo. For instance, offset y by 60 mm.
-  const yOffset = 30;
-  pdf.addImage(imgData, 'PNG', 0, yOffset, pdfWidth, pdfHeight);
-
-  // Save the generated PDF
-  pdf.save('section.pdf');
-};
-
-    return (
-      <>
-          <Navbar />
-        <div>
-        {loading && <div className={styles.loader}><LoadingSpinner /></div>}
-        <div className={styles.bigcontainer}>
-          <div className={styles.heading}>
-            <div>{user?.name}'s Profile</div>
-            <div className={styles.flex11}> 
-              <div className={styles.user} onClick={() => onLanguageSelect("SAT")}>Progress Report</div>
-              <div className={styles.user} onClick={() => onLanguageSelect("Leader")}>Leaderboard</div>
-              <div className={`${styles.flex12} ${styles.user}`} onClick={handleDownload}>Download Report</div>
-              <div className={`${styles.flex12} ${styles.user}`} >Language: <span>{selection.language}</span></div>
-            </div>
-           
+      <main className={styles.profilePage} ref={sectionRef}>
+        <section className={styles.dashboardHero}>
+          <div>
+            <span className={styles.eyebrow}>STUDENT PROFILE · SAT PREPARATION</span>
+            <h1>Welcome back, {firstName}</h1>
+            <p>
+              Your profile is now your SAT preparation command centre — track your learning,
+              identify what to work on next, and move from Foundation to full mock-test readiness.
+            </p>
           </div>
-          <div className={styles.container}>
-            <div className={styles.righttext}>
-              <Right 
-              ref={sectionRef}
-              selection={selection} 
-              length={uniqueExerciseCount}
-              lesson={lesson} 
-              sections={sections} 
-              filteredObject={filteredObject} 
-              group={exercisesgroup[selection.language]} 
-              userData={userData}
-              userRank={userRank}
-              totalScores={totalScores}
-              streak={streak}
-              thisWeeksScores={thisWeeksScores}
-              weeklyBest={weeklyBest}
-              weeklyAverage={weeklyAverage}
-              monthlyBest={monthlyBest}
-              monthlyAverage={monthlyAverage}/>
+          <div className={styles.heroActions}>
+            <Link href="/Courses" className={styles.secondaryButton}>Explore Courses</Link>
+            <button type="button" className={styles.primaryButton} onClick={handleDownload}>
+              Download Progress
+            </button>
+          </div>
+        </section>
+
+        {error && <div className={styles.notice}>{error}</div>}
+
+        <section className={styles.quickStats} aria-label="Study snapshot">
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}><FaClipboardCheck /></div>
+            <div><span>Practice completed</span><strong>{completedPracticeItems}</strong><small>Tracked practice items</small></div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}><FaClock /></div>
+            <div><span>Weekly activity</span><strong>{weeklyActiveDays}/7</strong><small>Active study days</small></div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}><FaBullseye /></div>
+            <div><span>Study streak</span><strong>{streak}</strong><small>Consecutive active days</small></div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statIcon}><FaStar /></div>
+            <div><span>SAT accuracy</span><strong>—</strong><small>Appears after SAT practice is connected</small></div>
+          </div>
+        </section>
+
+        <section className={styles.contentGrid}>
+          <div className={styles.mainColumn}>
+            <div className={styles.sectionHeading}>
               <div>
-</div>
+                <span className={styles.sectionLabel}>YOUR SAT PATH</span>
+                <h2>Prepare with purpose</h2>
+              </div>
+              <span className={styles.sectionHint}>Foundation → Advanced → Mocks</span>
+            </div>
+
+            <div className={styles.pathGrid}>
+              <Link href="/Courses/SATFoundation" className={styles.pathCard}>
+                <div className={styles.pathCardTop}>
+                  <span className={styles.pathIcon}><FaBookOpen /></span>
+                  <span className={styles.statusPill}>Available</span>
+                </div>
+                <h3>SAT Foundation</h3>
+                <p>Build Verbal and Math fundamentals across Easy, Medium, and Hard learning levels.</p>
+                <div className={styles.pathMeta}><span>Lessons</span><span>Drills</span><span>Topic Practice</span></div>
+                <span className={styles.pathLink}>Open Foundation <FaArrowRight /></span>
+              </Link>
+
+              <Link href="/Courses/SATAdvanced" className={styles.pathCard}>
+                <div className={styles.pathCardTop}>
+                  <span className={styles.pathIcon}><FaChartLine /></span>
+                  <span className={styles.statusPill muted}>Next stage</span>
+                </div>
+                <h3>SAT Advanced</h3>
+                <p>Move into higher-level strategy, timing, difficult questions, and score-building practice.</p>
+                <div className={styles.pathMeta}><span>Strategy</span><span>Timed Work</span><span>Hard Skills</span></div>
+                <span className={styles.pathLink}>View Advanced <FaArrowRight /></span>
+              </Link>
+
+              <Link href="/SATMocks" className={`${styles.pathCard} ${styles.featuredPath}`}>
+                <div className={styles.pathCardTop}>
+                  <span className={styles.pathIcon}><FaClipboardCheck /></span>
+                  <span className={styles.statusPill}>Tests 1–2 available</span>
+                </div>
+                <h3>SAT Mock Tests</h3>
+                <p>Experience realistic Digital SAT-style mock tests with premium Tests 3–10 ready for future entitlement.</p>
+                <div className={styles.pathMeta}><span>Adaptive</span><span>Timed</span><span>Score Reports</span></div>
+                <span className={styles.pathLink}>Open Mock Tests <FaArrowRight /></span>
+              </Link>
+            </div>
+
+            <div className={styles.sectionHeading secondHeading}>
+              <div>
+                <span className={styles.sectionLabel}>PERFORMANCE CENTRE</span>
+                <h2>What you will see as you practice</h2>
+              </div>
+            </div>
+
+            <div className={styles.performanceGrid}>
+              <div className={styles.performanceCard}>
+                <FaChartLine className={styles.performanceIcon} />
+                <div><h3>Strengths & weaknesses</h3><p>Your highest- and lowest-performing SAT skills will appear here once Foundation and practice responses are connected.</p></div>
+              </div>
+              <div className={styles.performanceCard}>
+                <FaClock className={styles.performanceIcon} />
+                <div><h3>Pacing & timing</h3><p>Track average time by section, question difficulty, and test mode so timing becomes part of the learning process.</p></div>
+              </div>
+              <div className={styles.performanceCard}>
+                <FaRegBookmark className={styles.performanceIcon} />
+                <div><h3>Review queue</h3><p>Flagged and bookmarked questions will become a focused review list instead of getting lost in past attempts.</p></div>
+              </div>
+              <div className={styles.performanceCard}>
+                <FaLayerGroup className={styles.performanceIcon} />
+                <div><h3>Progress by topic</h3><p>See Verbal and Math progress by domain, skill, difficulty, and activity type as the content engine comes online.</p></div>
+              </div>
             </div>
           </div>
-        </div>
-        </div>
-        </>
-      );
+
+          <aside className={styles.sideColumn}>
+            <div className={styles.sideCardAccent}>
+              <span className={styles.sectionLabel}>RECOMMENDED NEXT</span>
+              <h2>Start building your SAT base</h2>
+              <p>Begin with Foundation to establish the concepts and skills that will feed into Advanced practice and mock performance later.</p>
+              <Link href="/Courses/SATFoundation" className={styles.fullButton}>Continue to Foundation <FaArrowRight /></Link>
+            </div>
+
+            <div className={styles.sideCard}>
+              <div className={styles.sideCardIcon}><FaRoad /></div>
+              <h3>Study roadmap</h3>
+              <div className={styles.roadmapItem}><strong>01</strong><span>Foundation skills</span></div>
+              <div className={styles.roadmapItem}><strong>02</strong><span>Advanced strategy</span></div>
+              <div className={styles.roadmapItem}><strong>03</strong><span>Mock-test readiness</span></div>
+              <div className={styles.roadmapItem}><strong>04</strong><span>Targeted review</span></div>
+            </div>
+
+            <div className={styles.sideCard}>
+              <div className={styles.sideCardIcon}><FaFlag /></div>
+              <h3>Goal setting</h3>
+              <p>Target score, SAT test date, weekly study target, and readiness milestones will be integrated here with the student profile.</p>
+              <span className={styles.futureTag}>Planned integration</span>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </>
+  );
 }
