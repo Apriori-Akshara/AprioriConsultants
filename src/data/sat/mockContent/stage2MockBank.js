@@ -6,12 +6,7 @@ const FIG = {
 };
 
 const TOPICS = [
-  'urban ecology', 'marine biology', 'archival science', 'linguistics', 'materials science', 'transportation',
-  'agriculture', 'conservation', 'astronomy', 'public health', 'geology', 'climate science', 'forest ecology',
-  'restoration ecology', 'cultural heritage', 'engineering', 'demography', 'botany', 'psychology', 'energy systems',
-  'archaeology', 'oceanography', 'soil science', 'museum acoustics', 'wildlife management', 'dune ecology',
-  'pollination', 'water resources', 'urban planning', 'mineral chemistry', 'plant diversity', 'textile conservation',
-  'sound design', 'remote sensing', 'coastal science', 'data curation',
+  'urban ecology', 'marine biology', 'archival science', 'linguistics', 'materials science', 'transportation', 'agriculture', 'conservation', 'astronomy', 'public health', 'geology', 'climate science', 'forest ecology', 'restoration ecology', 'cultural heritage', 'engineering', 'demography', 'botany', 'psychology', 'energy systems', 'archaeology', 'oceanography', 'soil science', 'museum acoustics', 'wildlife management', 'dune ecology', 'pollination', 'water resources', 'urban planning', 'mineral chemistry', 'plant diversity', 'textile conservation', 'sound design', 'remote sensing', 'coastal science', 'data curation',
 ];
 
 const PASSAGES = [
@@ -20,7 +15,7 @@ const PASSAGES = [
   'Archivists compare two digitization priorities. A method based on age selects older records, while a combined method also considers handling frequency and physical fragility.',
   'Linguists compare speech recordings from neighborhoods with different age distributions. A newer pronunciation is common among younger speakers but remains uncommon among older speakers.',
   'Materials researchers compare two coatings for protecting pigments from light. Both slow fading, but the difference between them is smaller for pigments with high initial saturation.',
-  'A transit agency compares two station layouts. The revised layout reduces typical transfer time, with the largest improvement during periods of heavy passenger volume.',
+  'A transit agency compares two station layouts. The revised layout reduces typical transfer time, with the largest improvement occurring during periods of heavy passenger volume.',
   'Agronomists compare two planting schedules across small plots. The later schedule has a slightly lower average yield but less variation from plot to plot.',
   'Conservators compare two repair materials for historic paper. Both improve handling strength, but one can be removed more readily during later conservation work.',
   'Astronomers compare two sensor calibrations. Both preserve the same long-term pattern, but one produces a larger reading under conditions of high humidity.',
@@ -69,9 +64,7 @@ const RW = [
 ];
 
 function rotate(choices, target) {
-  const out = [...choices];
-  const first = out.shift();
-  out.splice(target, 0, first);
+  const out = [...choices]; const first = out.shift(); out.splice(target, 0, first);
   return { choices: out, answer: String.fromCharCode(65 + target) };
 }
 
@@ -79,40 +72,28 @@ function base({ id, testId, variant, section, module, route, domain, skill, prom
   return {
     contentId: id, version: 1, product: 'sat', questionId: id, testId,
     assessmentFamily: variant === 'psat-nmsqt' ? 'psat' : 'sat', assessmentVariant: variant, assessmentNumber: 2,
-    section, module, domain, skill, subskill: skill,
-    conceptId: `${domain}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+    section, module, domain, skill, subskill: skill, conceptId: `${domain}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
     difficulty: i % 3 === 0 ? 'hard' : i % 3 === 1 ? 'medium' : 'easy',
     difficultyBand: `mock-${variant === 'psat-nmsqt' ? 'psat' : 'sat'}-${route || 'module-1'}-${i % 3}`,
-    cognitiveDemand: section === 'reading-writing' && i % 6 === 0 ? 'synthesize' : 'analyze',
-    questionType, stimulusType: figure?.type || 'short-passage',
-    interactionType: questionType === 'student-produced-response' ? 'student-produced-response' : 'single-select',
+    cognitiveDemand: section === 'reading-writing' && i % 6 === 0 ? 'synthesize' : 'analyze', questionType,
+    stimulusType: figure?.type || 'short-passage', interactionType: questionType === 'student-produced-response' ? 'student-produced-response' : 'single-select',
     timingMode: 'timed', estimatedTimeSeconds: section === 'reading-writing' ? 71 : 95,
-    calculatorEligibility: section === 'math', calculatorMode: section === 'math' ? 'either' : 'none', calculatorRequired: false,
-    referenceSheetRelevant: section === 'math', prompt, choices: choices || [], answer, explanation, figure: figure || null,
-    isOperational: true, adaptiveRoute: route || null,
-    originalityFingerprint: `${variant}-${id}`, conceptFingerprint: `${domain}-${skill}-${i}`,
-    tags: [variant, 'mock-02', 'apriori-original'], lessonIds: [], sourceType: 'apriori-original',
-    authoringStatus: 'qc-approved', status: 'assembly-ready', releaseEligibility: true,
-    metadata: {
-      contextKey: `${variant}-mock02-${id}`, contextFamily: `${variant}-mock02-context-${i}`,
-      applicationFingerprint: `${variant}-mock02-${domain}-${i}`,
-      answerFormat: questionType === 'student-produced-response' ? 'numeric' : 'A-D',
-      figurePurpose: figure ? 'question-essential' : null,
-    },
+    calculatorEligibility: section === 'math', calculatorMode: section === 'math' ? 'either' : 'none', calculatorRequired: false, referenceSheetRelevant: section === 'math',
+    prompt, choices: choices || [], answer, explanation, figure: figure || null, isOperational: true, adaptiveRoute: route || null,
+    originalityFingerprint: `${variant}-${id}`, conceptFingerprint: `${domain}-${skill}-${i}`, tags: [variant, 'mock-02', 'apriori-original'], lessonIds: [],
+    sourceType: 'apriori-original', authoringStatus: 'qc-approved', status: 'assembly-ready', releaseEligibility: true,
+    metadata: { contextKey: `${variant}-mock02-${id}`, contextFamily: `${variant}-mock02-context-${i}`, applicationFingerprint: `${variant}-mock02-${domain}-${i}`, answerFormat: questionType === 'student-produced-response' ? 'numeric' : 'A-D', figurePurpose: figure ? 'question-essential' : null },
   };
 }
 
 function buildRW({ testId, variant, i, module, route }) {
   const topic = TOPICS[i % TOPICS.length];
-  const passage = `${PASSAGES[i % PASSAGES.length]} The ${topic} analysis used a distinct comparison set of ${23 + i} observations and reported the result separately from earlier studies.`;
+  const form = variant === 'psat-nmsqt' ? 'PSAT' : 'SAT';
+  const passage = `${PASSAGES[i % PASSAGES.length]} The ${topic} analysis used a distinct comparison set of ${23 + i} observations and reported the result separately for the ${form} form.`;
   const [domain, skill, make] = RW[i % RW.length];
   const item = make(passage);
   const rotated = rotate(item.c, i % 4);
-  return base({
-    id: `${testId}-rw-${String(i + 1).padStart(3, '0')}`, testId, variant, section: 'reading-writing', module, route,
-    domain, skill,
-    prompt: item.q, choices: rotated.choices, answer: rotated.answer, explanation: item.e, i,
-  });
+  return base({ id: `${testId}-rw-${String(i + 1).padStart(3, '0')}`, testId, variant, section: 'reading-writing', module, route, domain, skill, prompt: item.q, choices: rotated.choices, answer: rotated.answer, explanation: item.e, i });
 }
 
 function mathItem(domain, i, seed) {
@@ -135,19 +116,15 @@ function mathItem(domain, i, seed) {
 
 function buildMath({ testId, variant, i, module, route, seed }) {
   const domains = ['Algebra', 'Advanced Math', 'Problem-Solving and Data Analysis', 'Geometry and Trigonometry'];
-  const domain = domains[i % domains.length];
-  const item = mathItem(domain, i, seed);
+  const domain = domains[i % domains.length]; const item = mathItem(domain, i, seed);
   const skill = domain === 'Algebra' ? 'Linear Equations' : domain === 'Advanced Math' ? 'Nonlinear Equations' : domain === 'Problem-Solving and Data Analysis' ? 'Data Analysis' : 'Area and Volume';
-  const isSPR = i % 4 === 3;
-  if (isSPR) return base({ id: `${testId}-math-${String(i + 1).padStart(3, '0')}`, testId, variant, section: 'math', module, route, domain, skill, prompt: `${item.q}\nEnter your answer as a number.`, answer: item.a, explanation: item.e, figure: item.figure, i, questionType: 'student-produced-response' });
-  const choices = [String(item.a), String(item.a + 1), String(item.a - 1), String(item.a * 2)];
-  const rotated = rotate(choices, i % 4);
+  if (i % 4 === 3) return base({ id: `${testId}-math-${String(i + 1).padStart(3, '0')}`, testId, variant, section: 'math', module, route, domain, skill, prompt: `${item.q}\nEnter your answer as a number.`, answer: item.a, explanation: item.e, figure: item.figure, i, questionType: 'student-produced-response' });
+  const rotated = rotate([String(item.a), String(item.a + 1), String(item.a - 1), String(item.a * 2)], i % 4);
   return base({ id: `${testId}-math-${String(i + 1).padStart(3, '0')}`, testId, variant, section: 'math', module, route, domain, skill, prompt: item.q, choices: rotated.choices, answer: rotated.answer, explanation: item.e, figure: item.figure, i });
 }
 
 function buildMock({ testId, variant, seed }) {
-  const readingWriting = [];
-  const math = [];
+  const readingWriting = []; const math = [];
   for (let i = 0; i < 27; i += 1) readingWriting.push(buildRW({ testId, variant, i, module: 'rw-module-1' }));
   for (const route of ['high', 'standard', 'low']) for (let i = 0; i < 27; i += 1) readingWriting.push(buildRW({ testId, variant, i: 27 + (route === 'high' ? 0 : route === 'standard' ? 27 : 54) + i, module: 'rw-module-2', route }));
   for (let i = 0; i < 22; i += 1) math.push(buildMath({ testId, variant, i, module: 'math-module-1', seed }));
