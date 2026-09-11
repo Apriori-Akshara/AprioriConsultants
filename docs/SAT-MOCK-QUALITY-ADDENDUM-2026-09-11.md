@@ -1,99 +1,89 @@
-# SAT/PSAT Mock Quality Addendum — Surgical Stage 1 Closure
+# SAT/PSAT Mock Quality Addendum — Four-Mock Verification Gate
 
 **Date:** September 11, 2026  
-**Scope:** PSAT Mock 01 and SAT Mock 01 — Series A  
-**Authority:** This addendum supplements `docs/TEST-PREP-CONTENT-QUALITY-CONTROL.md` and is authoritative for the Stage 1 mock prototypes until superseded.
+**Scope:** PSAT Mock 01, PSAT Mock 02, SAT Mock 01 — Series A, SAT Mock 02 — Series A  
+**Authority:** This addendum supplements `docs/TEST-PREP-CONTENT-QUALITY-CONTROL.md` and is authoritative for the current four-mock milestone until superseded.
 
-## 1. Zero-duplication rule
+## 1. Current milestone
 
-For the two Stage 1 mocks:
+Four student-facing mock forms are now implemented through the same adaptive execution architecture. Mock 02 was added as a reusable paired build rather than as a second test implementation.
 
-- no repeated R&W question;
-- no repeated R&W passage/context;
-- no repeated Math question;
-- no Math question that is a trivial numerical substitution of another item;
-- no cross-mock duplicate context or duplicate prompt;
-- no cross-mock duplicate Math application fingerprint;
+**Status: IMPLEMENTED — PENDING USER QUALITY VERIFICATION.**
+
+The user will review all four live forms together before Mock 03 is started.
+
+## 2. Zero-duplication rule
+
+Across the four-mock bank:
+
+- no duplicate question IDs;
+- no duplicate R&W prompts;
+- no repeated R&W context keys;
+- no repeated Math application fingerprints;
+- no cross-mock duplicate prompt;
 - concepts and skills may repeat only when the application, setup, reasoning path and item construction are materially different.
 
-The combined PSAT/SAT bank must be validated as one pair before release. A mock may not pass its own QC check and then bypass the paired-bank QC check.
+The combined four-mock bank is validated as one release set rather than allowing each mock to pass independently and bypass cross-mock controls.
 
-Every question receives stable identity, originality, context, and application fingerprints. The release gate checks the combined bank for duplicate IDs, repeated R&W prompts/contexts, and repeated Math application fingerprints.
+## 3. Verbal anti-cheat rule
 
-## 2. Verbal anti-cheat rule
+Correct R&W answers must not be reliably identifiable from length, grammatical complexity, vocabulary sophistication or sentence complexity. Correct-answer positions are deliberately distributed across A-D.
 
-A student must never be able to identify the correct R&W answer reliably from answer-choice length, grammatical complexity, vocabulary sophistication, or sentence complexity.
+## 4. Adaptive pool rule
 
-Therefore:
+Each mock protects the same reusable bank structure:
 
-- correct and incorrect choices must be approximately balanced in length for meaning-based questions;
-- no correct answer may systematically be the longest or most elaborate choice;
-- no correct answer may be uniquely longest or uniquely shortest on a meaning-based R&W item;
-- no distractor may be deliberately shorter merely to make the correct choice look more complete;
-- wording complexity must reflect the reasoning task, not the correct/incorrect status;
-- the correct-answer position must be deliberately distributed across A-D rather than patterned predictably;
-- answer choices must be independently plausible before the text/evidence is considered.
+- R&W Module 1: 27;
+- R&W Module 2: 27 High + 27 Standard + 27 Low;
+- Math Module 1: 22;
+- Math Module 2: 22 High + 22 Standard + 22 Low.
 
-The correct answer must be identifiable only by understanding the passage/notes and applying the relevant skill.
+A completed route delivers 98 questions: 54 R&W + 44 Math.
 
-## 3. Adaptive pool rule
+## 5. Math figure rule
 
-Each 98-question delivered mock uses a larger protected bank:
+Figures are Math-only and must be question-essential. Figure type must match the Math domain. R&W questions must not receive Math figures. Question-specific visual variants prevent the previous exact-signature failure from recurring while preserving authored figure relevance.
 
-- R&W Module 1: 27 operational questions;
-- R&W Module 2: 81 questions = 27 High + 27 Standard + 27 Low;
-- Math Module 1: 22 operational questions;
-- Math Module 2: 66 questions = 22 High + 22 Standard + 22 Low.
+## 6. Mock 02 implementation rule
 
-The student still receives 54 R&W + 44 Math = 98 questions.
+PSAT Mock 02 and SAT Mock 02 use the same:
 
-Module 2 is selected from an exact route pool. The adaptive engine is not permitted to silently fill a missing route with questions from another route.
+- `adaptiveMockEngine.js`;
+- shared student runner;
+- attempt persistence/scoring endpoint;
+- access-control model;
+- content-bank contract;
+- figure quality gate;
+- duplicate/QC gate.
 
-## 4. Question-type rule
+Only the authored content, question IDs, application fingerprints, route pools and test-specific metadata change.
 
-Math includes both multiple-choice and student-produced-response items. Student-produced-response records expose no answer-choice set to the client and store a numeric answer format in metadata.
+## 7. Historical failure prevention
 
-## 5. Routing rule
+The earlier Stage 1 failure modes remain explicitly blocked:
 
-Module 1 performance determines Module 2 route:
+- duplicate IDs;
+- answer-length clues;
+- answer-position imbalance;
+- cross-mock Math application duplication;
+- irrelevant/generated figures;
+- duplicate figure signatures that cause a production build to fail.
 
-- High: 75% or higher;
-- Standard: 46%–74%;
-- Low: 45% or lower.
+A future mock pair must pass the same combined release gates before being exposed as live.
 
-The execution architecture is shared by PSAT Mock 01, SAT Mock 01 and all future mocks.
+## 8. Final four-mock verification gate
 
-## 6. Stage 1 release gate
+The following remain **pending user verification** on the public live website:
 
-Stage 1 for the first PSAT/SAT pair closes only after the production build is green with the complete paired bank loaded.
+1. question correctness and explanations;
+2. originality/non-repetition across all four forms;
+3. R&W passage quality;
+4. Math calculation quality;
+5. figure relevance and usefulness;
+6. adaptive routing behavior;
+7. timer, navigator, Mark for Review and persistence;
+8. calculator/reference/tools;
+9. responsive desktop/mobile UI;
+10. consistency of the shared architecture without making Mock 02 feel like a copy of Mock 01.
 
-The previous failed build exposed four substantive content-generation defects:
-
-- duplicate question IDs caused by module-local numbering;
-- verbal answer-length clues;
-- answer-key distribution imbalance;
-- insufficiently explicit cross-mock Math application validation.
-
-The surgical correction series addresses them as one release pipeline:
-
-1. global bank numbering makes every question ID unique within each mock;
-2. verbal assembly removes uniquely-long/uniquely-short correct-answer clues while preserving answer meaning;
-3. answer positions are deterministically distributed after verbal normalization;
-4. the paired QC gate validates both mocks together;
-5. the content-bank release gate validates cross-mock R&W prompts/contexts and Math application fingerprints;
-6. the adaptive pools remain exactly 27/27/27 for R&W and 22/22/22 for Math;
-7. the Profile CSS compatibility warning is fixed separately from content QC.
-
-No Stage 1 architecture redesign is required after this release gate passes. Any remaining Stage 1 work is limited to clearing a concrete build/QC failure revealed by the gate.
-
-## 7. Future paired-build rule
-
-After student verification of this pair, future mock development proceeds in pairs:
-
-**one PSAT + one SAT**
-
-using the same approved execution, persistence, scoring, dashboard, content-bank, and QC architecture.
-
-Only new content authoring, route calibration, figures/data displays, and test-specific metadata should change unless a genuine product requirement is discovered.
-
-Future pairs must pass the same paired-bank duplicate, verbal anti-cheat, answer-position, Math application, and adaptive-pool gates before being marked complete.
+Mock 03 work must not begin until this gate is cleared or the user explicitly authorizes proceeding despite an identified issue.
