@@ -43,31 +43,20 @@ function validateOne(mockContent) {
         errors.push(`${mockContent.testId}: four choices required ${question.questionId}`);
       } else {
         const lengths = question.choices.map(wordCount);
-        // SAT-style choices do not need identical lengths. The gate blocks only a large
-        // spread that could create a visual clue, and separately blocks a correct choice
-        // that is uniquely the longest or uniquely the shortest on long-form R&W items.
-        if (Math.max(...lengths) - Math.min(...lengths) > 6) {
-          errors.push(`${mockContent.testId}: answer-length imbalance ${question.questionId}`);
-        }
+        if (Math.max(...lengths) - Math.min(...lengths) > 6) errors.push(`${mockContent.testId}: answer-length imbalance ${question.questionId}`);
         if (question.section === 'reading-writing' && LONG_FORM_R_W_SKILLS.has(question.skill)) {
           const correctIndex = String(question.answer).charCodeAt(0) - 65;
           const correctWords = lengths[correctIndex];
           const otherLengths = lengths.filter((_, index) => index !== correctIndex);
-          const maxOther = Math.max(...otherLengths);
-          const minOther = Math.min(...otherLengths);
-          if (correctWords > maxOther || correctWords < minOther) {
+          if (correctWords > Math.max(...otherLengths) || correctWords < Math.min(...otherLengths)) {
             errors.push(`${mockContent.testId}: correct verbal choice has a unique length clue ${question.questionId}`);
           }
         }
       }
       if (answerPositions[question.answer] !== undefined) answerPositions[question.answer] += 1;
     } else if (question.questionType === 'student-produced-response') {
-      if (Array.isArray(question.choices) && question.choices.length !== 0) {
-        errors.push(`${mockContent.testId}: SPR item must not expose answer choices ${question.questionId}`);
-      }
-      if (question.metadata?.answerFormat !== 'numeric') {
-        errors.push(`${mockContent.testId}: SPR item must use numeric answer format ${question.questionId}`);
-      }
+      if (Array.isArray(question.choices) && question.choices.length !== 0) errors.push(`${mockContent.testId}: SPR item must not expose answer choices ${question.questionId}`);
+      if (question.metadata?.answerFormat !== 'numeric') errors.push(`${mockContent.testId}: SPR item must use numeric answer format ${question.questionId}`);
     }
   }
 
@@ -91,9 +80,7 @@ function validateOne(mockContent) {
   const mcqTotal = Object.values(answerPositions).reduce((sum, value) => sum + value, 0);
   if (mcqTotal) {
     const values = Object.values(answerPositions);
-    if (Math.max(...values) - Math.min(...values) > 2) {
-      errors.push(`${mockContent.testId}: answer-key positions are not sufficiently balanced across A-D`);
-    }
+    if (Math.max(...values) - Math.min(...values) > 2) errors.push(`${mockContent.testId}: answer-key positions are not sufficiently balanced across A-D`);
   }
 
   if (errors.length) throw new Error(`SAT/PSAT mock content quality gate failed:\n${errors.join('\n')}`);
@@ -104,14 +91,10 @@ export function validateMockContent(mockContent) {
   return validateOne(mockContent);
 }
 
-export function validateMockPair(psatMock, satMock) {
-  const psatResult = validateOne(psatMock);
-  const satResult = validateOne(satMock);
+export function validateMockSeries(...mocks) {
+  const results = mocks.map(validateOne);
   const errors = [];
-  const all = [
-    ...(psatMock.readingWriting || []), ...(psatMock.math || []),
-    ...(satMock.readingWriting || []), ...(satMock.math || []),
-  ];
+  const all = mocks.flatMap((mock) => [...(mock.readingWriting || []), ...(mock.math || [])]);
   const promptMap = new Map();
   const verbalContextMap = new Map();
   const mathApplicationMap = new Map();
@@ -119,7 +102,7 @@ export function validateMockPair(psatMock, satMock) {
 
   for (const question of all) {
     const previousId = questionIdMap.get(question.questionId);
-    if (previousId) errors.push(`Duplicate question ID across pair: ${previousId.questionId} and ${question.questionId}`);
+    if (previousId) errors.push(`Duplicate question ID across mock series: ${previousId.questionId} and ${question.questionId}`);
     else questionIdMap.set(question.questionId, question);
 
     const normalizedPrompt = normalize(question.prompt);
@@ -142,8 +125,12 @@ export function validateMockPair(psatMock, satMock) {
     }
   }
 
-  if (errors.length) throw new Error(`SAT/PSAT cross-mock quality gate failed:\n${errors.join('\n')}`);
-  return { ok: true, questionCount: psatResult.questionCount + satResult.questionCount };
+  if (errors.length) throw new Error(`SAT/PSAT mock series quality gate failed:\n${errors.join('\n')}`);
+  return { ok: true, questionCount: results.reduce((sum, result) => sum + result.questionCount, 0) };
+}
+
+export function validateMockPair(psatMock, satMock) {
+  return validateMockSeries(psatMock, satMock);
 }
 
 export default validateMockContent;
