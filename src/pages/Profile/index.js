@@ -1,9 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import Navbar from '../../../components/NavbarJS';
-import LoadingSpinner from '../../../components/loader';
 import { useSelector } from 'react-redux';
-import { Getperformance } from '@/helperfunction/Getperformance';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import {
@@ -21,96 +19,18 @@ import {
 } from 'react-icons/fa';
 import styles from './Profile.module.css';
 
-const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-const calculateStreak = (dailyScores = {}) => {
-  const dates = Object.keys(dailyScores).sort();
-  let streak = 0;
-  let currentStreak = 0;
-
-  for (let i = 0; i < dates.length; i += 1) {
-    const currentDate = new Date(dates[i]);
-    const previousDate = new Date(dates[i - 1]);
-    const isConsecutive = i === 0 || currentDate - previousDate === 86400000;
-
-    if (isConsecutive) {
-      currentStreak += 1;
-      streak = Math.max(streak, currentStreak);
-    } else {
-      currentStreak = 1;
-    }
-  }
-
-  return streak;
-};
-
-const getWeeklyActiveDays = (dailyScores = {}) => {
-  const today = new Date();
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - today.getDay());
-  startOfWeek.setHours(0, 0, 0, 0);
-
-  return Object.keys(dailyScores).filter((date) => {
-    const currentDate = new Date(date);
-    return currentDate >= startOfWeek && currentDate <= today;
-  }).length;
-};
-
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState(null);
-  const [streak, setStreak] = useState(0);
-  const [weeklyActiveDays, setWeeklyActiveDays] = useState(0);
-  const [error, setError] = useState(null);
   const sectionRef = useRef();
-  const URL = process.env.NEXT_PUBLIC_BACKENDURL;
-
-  useEffect(() => {
-    if (!user?.userId) {
-      setLoading(false);
-      return;
-    }
-
-    const loadDashboardData = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const performance = await Getperformance(user.userId);
-        setUserData(performance);
-
-        try {
-          const response = await fetch(`${URL}/api/${user.userId}/scores`);
-          const data = await response.json();
-
-          if (data?.success) {
-            setStreak(calculateStreak(data.dailyScores));
-            setWeeklyActiveDays(getWeeklyActiveDays(data.dailyScores));
-          }
-        } catch (scoreError) {
-          console.error('SAT dashboard activity data unavailable:', scoreError);
-        }
-      } catch (dashboardError) {
-        console.error(dashboardError);
-        setError('We could not load your current dashboard data.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadDashboardData();
-  }, [URL, user?.userId]);
-
-  const completedPracticeItems = useMemo(() => {
-    if (!Array.isArray(userData?.completedExercises)) return 0;
-    return new Set(userData.completedExercises.map((item) => item.exercise)).size;
-  }, [userData?.completedExercises]);
+  const firstName = user?.name?.split(' ')[0] || 'Student';
 
   const handleDownload = async () => {
     if (!sectionRef.current) return;
 
-    const canvas = await html2canvas(sectionRef.current, { scale: 2, backgroundColor: '#f6f8fb' });
+    const canvas = await html2canvas(sectionRef.current, {
+      scale: 2,
+      backgroundColor: '#f6f8fb',
+    });
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF('p', 'mm', 'a4');
     const imgProps = pdf.getImageProperties(imgData);
@@ -121,12 +41,9 @@ export default function Profile() {
     pdf.save('apriori-sat-dashboard.pdf');
   };
 
-  const firstName = user?.name?.split(' ')[0] || 'Student';
-
   return (
     <>
       <Navbar />
-      {loading && <div className={styles.loader}><LoadingSpinner /></div>}
 
       <main className={styles.profilePage} ref={sectionRef}>
         <section className={styles.dashboardHero}>
@@ -146,20 +63,18 @@ export default function Profile() {
           </div>
         </section>
 
-        {error && <div className={styles.notice}>{error}</div>}
-
-        <section className={styles.quickStats} aria-label="Study snapshot">
+        <section className={styles.quickStats} aria-label="SAT study snapshot">
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaClipboardCheck /></div>
-            <div><span>Practice completed</span><strong>{completedPracticeItems}</strong><small>Tracked practice items</small></div>
+            <div><span>Practice completed</span><strong>—</strong><small>Appears after SAT practice is connected</small></div>
           </div>
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaClock /></div>
-            <div><span>Weekly activity</span><strong>{weeklyActiveDays}/7</strong><small>Active study days</small></div>
+            <div><span>Weekly activity</span><strong>—</strong><small>Appears after SAT activity is connected</small></div>
           </div>
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaBullseye /></div>
-            <div><span>Study streak</span><strong>{streak}</strong><small>Consecutive active days</small></div>
+            <div><span>Study streak</span><strong>—</strong><small>Appears after SAT activity is connected</small></div>
           </div>
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaStar /></div>
@@ -192,7 +107,7 @@ export default function Profile() {
               <Link href="/Courses/SATAdvanced" className={styles.pathCard}>
                 <div className={styles.pathCardTop}>
                   <span className={styles.pathIcon}><FaChartLine /></span>
-                  <span className={styles.statusPill muted}>Next stage</span>
+                  <span className={`${styles.statusPill} ${styles.muted}`}>Next stage</span>
                 </div>
                 <h3>SAT Advanced</h3>
                 <p>Move into higher-level strategy, timing, difficult questions, and score-building practice.</p>
@@ -212,7 +127,7 @@ export default function Profile() {
               </Link>
             </div>
 
-            <div className={styles.sectionHeading secondHeading}>
+            <div className={styles.sectionHeading}>
               <div>
                 <span className={styles.sectionLabel}>PERFORMANCE CENTRE</span>
                 <h2>What you will see as you practice</h2>
@@ -241,7 +156,7 @@ export default function Profile() {
 
           <aside className={styles.sideColumn}>
             <div className={styles.sideCardAccent}>
-              <span className={styles.sectionLabel}>RECOMMENDED NEXT</span>
+              <span className={`${styles.sectionLabel} ${styles.heroLabel}`}>RECOMMENDED NEXT</span>
               <h2>Start building your SAT base</h2>
               <p>Begin with Foundation to establish the concepts and skills that will feed into Advanced practice and mock performance later.</p>
               <Link href="/Courses/SATFoundation" className={styles.fullButton}>Continue to Foundation <FaArrowRight /></Link>
