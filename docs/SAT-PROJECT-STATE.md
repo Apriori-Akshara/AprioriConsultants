@@ -1,6 +1,6 @@
 # Apriori Digital SAT Platform — Project State
 
-**Last updated:** September 7, 2026
+**Last updated:** September 11, 2026
 
 ## 1. Purpose of this document
 
@@ -16,7 +16,7 @@ Use this document to resume development without relying on long copied prompts o
 
 The Digital SAT platform is being built inside the existing Next.js/React/Redux Apriori Consultants website.
 
-The production/test URL currently used for controlled testing is:
+The controlled testing URL is:
 
 `https://aprioriconsultants.onrender.com`
 
@@ -45,23 +45,17 @@ The existing public website must continue to work.
 
 * After successful email verification, a student may access Mock Tests 1 and 2.
 * Mock Tests 3–10 require an active subscription entitlement.
-* A student may purchase the subscription **at any stage**:
-
-  * before attempting Tests 1–2;
-  * between Tests 1 and 2;
-  * while working through the first two tests;
-  * after completing Tests 1–2.
+* A student may purchase the subscription at any stage, including before attempting Tests 1–2, between them, while attempting them, or after completing them.
 * Completion of Tests 1–2 must **never** be a prerequisite for purchasing the subscription.
 * Authentication, email verification, test access, payment, subscription status, and entitlement are separate concepts and must not be collapsed into one status field.
 
 ### Payment and subscription
 
-* Subscription purchase will use a proper payment gateway.
-* A confirmed successful payment must automatically activate the student's subscription entitlement.
-* A successful payment must generate a payment receipt/record.
-* Payment status must be verified server-side; the client must not be able to grant entitlement merely by claiming payment success.
-* Internal/admin users must be able to see registrations, payments, subscriptions, and entitlements and intervene when necessary.
-* Payment/refund/failure/expiry handling must be designed explicitly when the payment gateway is implemented.
+* Subscription purchase will use a proper payment gateway when that milestone is implemented.
+* Confirmed successful payment must automatically activate the student's entitlement.
+* Successful payment must generate a persistent payment receipt/record.
+* Payment status must be verified server-side.
+* Internal/admin users must be able to review registrations, payments, subscriptions and entitlements and intervene where appropriate.
 * Duplicate/replayed gateway notifications must not create duplicate entitlement or receipt records.
 
 ### Master/admin access
@@ -69,7 +63,7 @@ The existing public website must continue to work.
 * The architecture allows exactly five independent master accounts.
 * Master accounts are separate from student accounts.
 * Master credentials must never be stored in source code, GitHub, frontend code, `NEXT_PUBLIC_*` variables, or plaintext in the database.
-* Masters may manage students and appropriate operational records but must not view plaintext passwords or password hashes.
+* Masters may manage appropriate operational records but must not view plaintext passwords or password hashes.
 * Master accounts can be individually deactivated.
 
 ---
@@ -87,7 +81,6 @@ The existing public website must continue to work.
 * Render build: `npm install; npm run build`
 * Render start: `npm run start`
 * Resend is used for verification email delivery.
-* Current Resend package version in `package.json`: `^6.9.2`
 
 Do not create a second unrelated Next.js backend, Express server, authentication system, or SAT repository unless a future architecture decision explicitly requires it.
 
@@ -95,27 +88,22 @@ Do not create a second unrelated Next.js backend, Express server, authentication
 
 ## 5. Day 1 status — COMPLETE
 
-Day 1 established the SAT architecture/data contracts and isolated SAT-specific functionality.
+Completed:
 
-Completed Day 1 work includes:
-
+* SAT-specific architecture/data contracts established.
 * SAT navbar item removed from public navigation.
-* Legacy SAT landing page temporarily redirected/hidden.
+* Legacy SAT landing functionality retained for gradual migration.
 * `src/data/sat/programConfig.js` created for central SAT program configuration.
 * `src/data/sat/mockTests.js` created as the master registry for Mock Tests 1–10.
 * `src/data/sat/questionSchema.js` created as the canonical question contract.
 * `src/lib/sat/attemptSchema.js` created as the canonical attempt structure.
-* `src/pages/SATMocks/index.js` established as the future authenticated SAT entry point.
+* `src/pages/SATMocks/index.js` established as the authenticated SAT entry point.
 
 ---
 
-## 6. Day 2 status — IN PROGRESS
+## 6. Authentication and verified-session milestone — COMPLETE
 
-### Completed authentication milestone
-
-The email-verification-before-login milestone is **COMPLETE**.
-
-The following authentication flow has been implemented and tested:
+Completed and tested:
 
 1. Student registration.
 2. Password hashing.
@@ -129,187 +117,126 @@ The following authentication flow has been implemented and tested:
 10. HTTP-only `session` cookie.
 11. SAT access through the verified server-side session.
 
-### Authentication testing — PASSED
+**PASSED:** Unverified login rejection.
 
-**PASSED:** An unverified student attempted login and received the expected verification-required message.
+**PASSED:** Fresh registration and verification email delivery.
 
-**PASSED:** A fresh student registration successfully received the verification email.
+**PASSED:** Email verification.
 
-**PASSED:** Email verification was successfully completed.
+**PASSED:** PostgreSQL verification state showed `email_verified = true`.
 
-**PASSED:** PostgreSQL showed `email_verified = true` for the verified student.
-
-**PASSED:** The verified student successfully accessed the SAT area through the server-side authenticated session.
+**PASSED:** Verified student accessed the SAT area through the server-side authenticated session.
 
 **PASSED:** SAT access reported `verified-session`.
 
-The old browser-readable `user` cookie is no longer used as the authoritative SAT authorization mechanism.
+The old browser-readable `user` cookie is not the authoritative SAT authorization mechanism.
 
 ---
 
 ## 7. Registration/email verification implementation
 
-The current registration route is:
+Current registration route:
 
 `src/pages/api/auth/register.js`
 
-It currently:
+The implemented flow validates registration input, enforces the password rule, prevents duplicate registration, hashes passwords, creates SAT-prefixed users with `email_verified = false`, creates a hashed 24-hour verification token, sends verification email through Resend, checks provider errors, and uses the controlled Render URL for verification.
 
-* validates name, email and password;
-* enforces a minimum password length of 8 characters;
-* checks that `RESEND_API_KEY` exists;
-* checks that `EMAIL_FROM` exists;
-* prevents duplicate email registration;
-* hashes the password;
-* creates a SAT-prefixed user ID;
-* creates the user with `email_verified = false`;
-* creates a hashed email-verification token with a 24-hour expiry;
-* sends the verification email through Resend;
-* checks the Resend API response for an email error;
-* returns an appropriate response if email delivery fails;
-* uses the controlled Render URL for the verification link.
-
-The verification link currently targets:
+Current verification URL pattern:
 
 `https://aprioriconsultants.onrender.com/VerifyEmail?token=...`
 
-### Resend environment configuration
-
-The Render `AprioriConsultants` web service has been confirmed to contain:
+Confirmed Render web-service environment configuration includes:
 
 * `RESEND_API_KEY`
 * `EMAIL_FROM`
 
-The Resend API key belongs on the **web service**, not the database service.
+These remain server-side only.
 
 ---
 
 # STEP 8 — SAT SERVER-SIDE PROTECTION — COMPLETED
 
-Updated:
+Primary file:
 
 `src/lib/sat/satAccess.js`
-
-The SAT authentication architecture now uses the server-side PostgreSQL session represented to the browser by the HTTP-only `session` cookie.
-
-The old browser-readable `user` cookie is NOT used as the authoritative SAT authentication mechanism.
 
 Implemented:
 
 * Server-side session verification.
 * Active-account check.
 * Authenticated SAT access through `getVerifiedSatServerAccessState()`.
-* Safe SAT return-path validation.
-* SAT login URL generation.
-* Unauthenticated users are redirected toward `/Auth`.
-* SAT authentication is based on the new session architecture.
+* Safe SAT return-path handling.
+* SAT authentication based on the server-side session architecture.
 
-The existing database and authentication files remain server-side.
+The existing database and authentication dependencies remain server-side.
 
 ---
 
 # STEP 9 — SAT ENTRY PAGE — COMPLETED
 
-Updated:
+Primary file:
 
 `src/pages/SATMocks/index.js`
 
-The SAT entry page is protected using `getServerSideProps`.
+The SAT entry page:
 
-The page now:
-
+* uses `getServerSideProps`;
 * checks the authenticated server session before granting SAT access;
 * does not use the browser-readable `user` cookie for authorization;
 * redirects unauthenticated users to `/Auth` with a safe SAT return path;
-* allows authenticated users to reach the SAT mock-test area;
 * distinguishes Tests 1–2 from Premium Tests 3–10.
 
-### Additional client/server dependency fix completed
+### Client/server dependency separation — COMPLETED AND DEPLOYED
 
-A new browser-safe helper was created:
+Browser-safe helper:
 
 `src/lib/sat/satLogin.js`
 
-This separates the SAT login URL helper from the server-only SAT authentication/database dependency chain.
+Current repository state confirms:
 
-`src/pages/SATMocks/index.js` now imports:
+* `getVerifiedSatServerAccessState` is imported from `src/lib/sat/satAccess.js`;
+* `getSatLoginUrl` is imported from `src/lib/sat/satLogin.js`;
+* `satLogin.js` remains browser-safe and does not import PostgreSQL/database dependencies.
 
-`getVerifiedSatServerAccessState` from `satAccess.js`
+This keeps the login URL helper separate from the server-only SAT authentication/database dependency chain and prevents the PostgreSQL/Node dependency from being pulled into the browser bundle through the dashboard.
 
-and:
-
-`getSatLoginUrl` from `satLogin.js`
-
-This prevents the browser-side SAT page from unnecessarily pulling the PostgreSQL/Node `pg` dependency into the client bundle.
+The earlier `Module not found: Can't resolve 'tls'` issue was caused by server-side PostgreSQL dependencies becoming reachable from the client bundle. That issue is **resolved**.
 
 ### Deployment status
 
-The earlier Render build error:
+The correction was committed and the subsequent Render deployment is **LIVE**.
 
-`Module not found: Can't resolve 'tls'`
+The corrected dashboard code is now the repository state on `main`.
 
-was caused by the server-side PostgreSQL dependency becoming reachable from the browser bundle.
+### Live verification status
 
-The dependency separation was implemented and the subsequent Render deployment is **Live**.
+**CONFIRMED BY USER:** Render deployment completed and is live.
 
-### Current verification status
-
-GitHub confirms that:
-
-* `src/lib/sat/satLogin.js` exists and contains no server-side database imports;
-* `src/pages/SATMocks/index.js` uses the new `satLogin.js` helper;
-* `src/lib/sat/satAccess.js` continues to contain the server-side session protection.
-
-The code change is therefore complete.
-
-### LIVE VERIFICATION — PASSED
-
-The corrected SAT dashboard deployment is now **LIVE on Render**.
-
-The deployment successfully completed after correcting the SAT dashboard relative import paths.
-
-The final working imports in `src/pages/SATMocks/index.js` now correctly reference:
-
-* `src/lib/sat/satAccess.js`
-* `src/lib/sat/testAccess.js`
-* `src/styles/SATMocks.module.css`
-
-The previous module-resolution build errors have therefore been resolved.
+Do not claim independent external browser verification from this session. Future UI work should continue from the actual deployed dashboard state and user testing where required.
 
 ### Current resume point
 
-The next session should **not repeat the authentication, database, subscription architecture, or resolved build-error work**.
+Do **not** repeat authentication, database setup, subscription architecture foundation, or the resolved client/server import issue.
 
-The next task is to continue the **10M progressive UI/UX milestone**, beginning with the live SAT dashboard verification and then proceeding to the next unfinished 10M item.
-
-Before making further changes:
-
-1. Read this document.
-2. Read `docs/SAT-ARCHITECTURE.md`.
-3. Inspect the current GitHub files and current deployed state.
-4. Continue from the current resume point rather than rebuilding earlier stages.
-
-If live dashboard verification reveals a problem, fix only the specific issue found.
+The project is now at the **post-deployment / 10M progressive dashboard UI/UX stage**.
 
 ---
 
 ## 10. Current SAT student page
 
-The SAT entry page is:
+Primary page:
 
 `src/pages/SATMocks/index.js`
 
-It now uses the server-side session and presents the initial Test 1–10 structure.
-
 Current intended access model:
 
-* Tests 1–2 → available to the verified student.
-* Tests 3–10 → shown as premium/subscription-required.
-* Premium purchase is presented as an available path without requiring completion of Tests 1–2.
+* Tests 1–2 → available to verified students.
+* Tests 3–10 → premium/subscription-required unless a valid entitlement exists.
+* Premium purchase remains conceptually available without requiring completion of Tests 1–2.
 
-The current page is intentionally a functional foundation and **not yet the final visual SAT dashboard**.
+The current dashboard is a functional and progressively styled foundation, not the final student dashboard.
 
-The final SAT dashboard, test interface, graphics, question presentation, adaptive testing, scoring, reporting, and personalization will be built in later stages.
+Do not begin the test-taking interface merely by clicking into Tests 1–10 as part of dashboard UI verification. Test-taking functionality is a later milestone.
 
 ---
 
@@ -325,9 +252,11 @@ The final SAT dashboard, test interface, graphics, question presentation, adapti
 ### SAT access
 
 * `src/lib/sat/satAccess.js`
+* `src/lib/sat/satLogin.js`
 * `src/lib/sat/testAccess.js`
 * `src/pages/api/sat/test-access.js`
 * `src/pages/SATMocks/index.js`
+* `src/styles/SATMocks.module.css`
 
 ### SAT architecture/data
 
@@ -349,9 +278,7 @@ Current SAT business tables:
 
 ---
 
-## 12. Work completed in the current session — September 7, 2026
-
-The following work was completed after the verified-session milestone:
+## 12. Completed implementation batches
 
 ### Batch 1 — Secure SAT session foundation
 
@@ -385,9 +312,23 @@ Completed:
 * Established server-side Test 1–2 free / Tests 3–10 premium access logic.
 * Established the initial premium purchase path without requiring Tests 1–2 completion.
 
+### Dashboard UI/UX work completed so far
+
+Completed:
+
+* Initial SAT dashboard and 10-test card presentation.
+* Tests 1–2 and Tests 3–10 visual grouping.
+* Premium/locked presentation foundation.
+* Narrower, centred CTA treatment.
+* Responsive/mobile styling improvements.
+* Shared dashboard styling work using the existing Apriori visual identity.
+* The latest dashboard code was deployed successfully to Render.
+
+The next UI/UX work must inspect the exact current files first and build on this state rather than recreating the dashboard.
+
 ---
 
-## 13. Testing status after today's work
+## 13. Testing status
 
 ### Completed tests
 
@@ -398,15 +339,15 @@ Completed:
 * SAT access through verified server-side session — PASSED.
 * `users.id` PostgreSQL type verification — PASSED.
 * Subscription/payment database migration — PASSED.
+* Client/server SAT login-helper dependency separation — CONFIRMED IN REPOSITORY.
+* Corrected SAT dashboard deployment — CONFIRMED LIVE BY USER.
 
-### Not yet tested
-
-The following should be tested in the next development session after the current GitHub changes are deployed:
+### Still pending when the relevant milestone is reached
 
 * Test 1 server-side access.
 * Test 2 server-side access.
 * Test 3 server-side rejection without entitlement.
-* Test 3 server-side access with a controlled test entitlement.
+* Test 3 server-side access with a controlled entitlement.
 * Tests 4–10 premium enforcement.
 * Premium purchase availability without completing Tests 1–2.
 
@@ -416,48 +357,45 @@ Do not confuse these future access tests with the already-passed authentication/
 
 ## 14. Deployment status
 
-The latest SAT dashboard changes have been successfully deployed to Render and the service is **LIVE**.
+The latest SAT dashboard changes are deployed to Render and the service is **LIVE**.
 
-Controlled testing URL remains:
+Controlled testing URL:
 
-`https://aprioriconsultants.onrender.com`
+`https://aprioriconsultants.onrender.com/SATMocks`
 
-Do not switch testing to the custom domain unless explicitly instructed.
+Do not switch controlled testing to the custom domain unless explicitly instructed.
 
-The previously reported SAT dashboard module-resolution build errors are resolved.
-
-The latest deployment includes the corrected SAT dashboard import paths and SAT dashboard UI stylesheet.
+The previous SAT dashboard module-resolution/client-bundle issue is resolved.
 
 ---
 
 ## 15. GitHub write/access status
 
-GitHub file inspection and file updates are available through the connected GitHub integration.
+The connected GitHub integration can inspect the repository and should use the current file version before making changes.
 
-When updating an existing file, always use the current version of the file and avoid replacing newer work with an older version.
+When updating an existing file:
 
-When a complete replacement file is required, provide the complete file without `...` placeholders.
-
-Do not delete unrelated code.
+* avoid replacing newer work with an older version;
+* do not delete unrelated code;
+* use complete replacement content where a file replacement is required;
+* do not use `...` or `same as above` placeholders in replacement files.
 
 ---
 
-## STAGED UI/UX DEVELOPMENT REQUIREMENT
+# STAGED UI/UX DEVELOPMENT REQUIREMENT
 
-UI/UX development must occur progressively alongside the implementation of each major SAT feature. The final visual design must NOT be postponed until the end of the project.
+UI/UX development must occur progressively alongside each major SAT feature. The final visual design must **not** be postponed until the end of the project.
 
-The purpose is to ensure that every working milestone can also serve as an increasingly polished student/client demonstration rather than appearing as a purely technical prototype.
+Every working milestone should increasingly serve as a polished demonstration for students and clients.
 
 ### UI/UX must be developed in stages
-
-As each major feature is implemented, its corresponding user-facing experience should be designed and improved at that stage.
 
 This includes, as applicable:
 
 * SAT entry/dashboard experience
 * 10 mock-test cards
-* Free vs premium test presentation
-* Locked/unlocked test states
+* Free vs premium presentation
+* Locked/unlocked states
 * Subscription and purchase experience
 * Payment status and confirmation
 * Receipt presentation
@@ -465,9 +403,9 @@ This includes, as applicable:
 * Test-taking interface
 * Module navigation
 * Timer and break experience
-* Question display and answer-selection interface
+* Question display and answer selection
 * Review and navigation controls
-* Test completion experience
+* Test completion
 * Results and score presentation
 * Progress tracking
 * Completed/in-progress/not-started states
@@ -480,7 +418,7 @@ This includes, as applicable:
 
 The current 10-card presentation is a functional foundation and must not be treated as the final visual design.
 
-The final experience should progressively support appropriate states such as:
+Cards should progressively support, when backed by real functionality:
 
 * Not started
 * Available
@@ -493,99 +431,71 @@ Where applicable, cards should eventually provide:
 
 * Clear test number and title
 * R&W / Math identification
-* Test availability state
+* Availability state
 * Premium indication
 * Start / Continue / Review action
-* Completion or progress information
+* Completion/progress information
 * Score/result information when available
 * Clear subscription CTA for locked premium tests
 * Consistent visual hierarchy and responsive layout
-* Professional graphics, icons and visual elements consistent with the overall Apriori Digital SAT experience
+* Professional graphics, icons and visual elements consistent with the Apriori Digital SAT experience
 
-The implementation should improve these cards as the underlying test, subscription, progress and results features become available. Do not create misleading placeholder information merely to make the cards appear complete.
+Do not create misleading placeholder information merely to make cards appear complete.
 
 ### Feature-by-feature visual development rule
 
-For every major feature added to the platform:
+For every major feature:
 
 1. Implement the underlying secure functionality.
 2. Implement its basic usable UI.
 3. Test the complete user flow.
-4. Improve the visual presentation sufficiently for the current project milestone/demo.
+4. Improve the visual presentation sufficiently for the current milestone/demo.
 5. Continue refining the UI as additional functionality becomes available.
 
-A feature is therefore not considered fully demonstrated merely because its backend/API/database functionality works. Its student-facing experience should also be usable and appropriately polished for the current development stage.
+A backend/API/database milestone is not fully demonstrated merely because its underlying functionality works. Its relevant student-facing experience should also be usable and appropriately polished.
 
 ### Demo-readiness principle
 
-At every major milestone, the application should remain suitable for demonstration.
-
-The project should progressively move through:
+The application should progressively move through:
 
 **Functional foundation → Usable interface → Polished feature → Integrated student experience**
 
-rather than:
-
-**Build everything technically → Design everything at the very end.**
-
-UI/UX work must never be allowed to accumulate as one final end-stage task if doing so would result in an unnecessarily unfinished-looking demonstration during development.
+UI/UX work must not accumulate as one final end-stage task.
 
 ### Security and UI separation
 
-UI state may communicate authentication, subscription, entitlement, progress and test status to the student, but UI state must never be the authority for those decisions.
+UI state may communicate authentication, subscription, entitlement, progress and test status, but UI state is never authoritative for access decisions.
 
 Server-side authentication, authorization, subscription, entitlement and payment verification remain authoritative.
 
-The interface must therefore reflect the server-confirmed state without allowing client-side state, Redux, browser-readable cookies or client-supplied values to grant access.
+The interface must reflect server-confirmed state without allowing client-side state, Redux, browser-readable cookies or client-supplied values to grant access.
 
-### Current implementation status
-
-The current SAT 10-test card layout is considered an initial functional presentation only.
-
-Further UI/UX refinement is expected progressively as:
-
-* test access is completed,
-* subscription/purchase is implemented,
-* payment confirmation is implemented,
-* test-taking functionality is implemented,
-* attempts and progress are implemented,
-* results/scoring are implemented,
-* and the complete student journey is integrated.
-
-The final UI/UX should be treated as an evolving part of the product build, not a separate task reserved for the end of development.
-
+---
 
 ## 16. Next development step
 
 ### NEXT SESSION — Resume here
 
-Do **not** restart registration, email verification, login, or server-session work.
+**Current resume point: post-deployment 10M dashboard UI/UX milestone.**
 
-Do **not** repeat the already-passed verified-session test unless a later change breaks it.
-
-First:
+Before making the next UI/UX change:
 
 1. Read `docs/SAT-PROJECT-STATE.md`.
 2. Read `docs/SAT-ARCHITECTURE.md`.
-3. Inspect the current versions of:
-
-   * `src/lib/sat/satAccess.js`
-   * `src/lib/sat/testAccess.js`
-   * `src/pages/api/sat/test-access.js`
+3. Inspect the exact current versions of the dashboard files relevant to the requested change, especially:
    * `src/pages/SATMocks/index.js`
-4. Confirm the latest GitHub changes are deployed successfully to Render.
-5. Test the new server-side test-access endpoint.
-6. Confirm:
+   * `src/styles/SATMocks.module.css`
+   * any SAT access helper directly affected by the change.
+4. Preserve the current server-side session and entitlement architecture.
+5. Continue from the current dashboard rather than rebuilding earlier stages.
 
-   * authenticated student → Test 1 allowed;
-   * authenticated student → Test 2 allowed;
-   * authenticated student without entitlement → Test 3 blocked;
-   * premium entitlement → Test 3 allowed.
-7. Then continue building the **student subscription/purchase flow**, while keeping purchase available at any stage and without requiring completion of Tests 1–2.
+Do **not** restart registration, email verification, login, server-session work, database setup, or the resolved client/server dependency work.
 
-### Do not implement the payment gateway yet unless the next planned step explicitly calls for it.
+Do **not** implement the payment gateway unless a later planned step explicitly calls for it.
 
-The next major architecture sequence remains:
+The immediate next work will be based on the user's next set of requested changes for the SAT dashboard/UI/UX. Inspect first, then make only the changes required.
+
+Future secure feature sequence remains:
 
 **Student authentication → Test access control → Subscription purchase → Payment gateway → Server-side payment confirmation → Entitlement activation → Receipt → Premium Tests 3–10**
 
