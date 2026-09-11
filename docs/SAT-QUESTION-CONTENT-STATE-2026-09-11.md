@@ -2,42 +2,23 @@
 
 **Date:** September 11, 2026
 
-## 1. Front-end milestone confirmed
+## 1. Current platform state
 
-The user has confirmed that the SAT platform front-end/application features are visible on the public website.
+The SAT/PSAT application is being built against the public live website. The public live website is the routine student verification environment. Render remains the deployment/infrastructure and diagnostic environment.
 
-The user has also confirmed that production certificates are issued for both:
+Authentication, verified-session access, subscription foundation and the existing SAT dashboard UI are not to be rebuilt.
 
-- `https://www.aprioriconsultants.org`
-- `https://aprioriconsultants.org`
+## 2. Master content source of truth
 
-The public live website is the routine student verification environment. Render remains the deployment/infrastructure and diagnostic environment.
-
-## 2. Current transition
-
-The project is moving from:
-
-**Dashboard/UI foundation**
-
-into:
-
-**Question bank → quizzes/drills → student test interface → attempts → scoring/results**
-
-Do not rebuild the completed authentication, session, SAT access-control, subscription foundation, or dashboard UI.
-
-## 3. Master content source of truth
-
-All SAT questions, lessons, drills, exercises, quizzes, mock-test content and other learning content are governed by:
+All SAT questions, lessons, drills, exercises, quizzes, mock-test content and future GRE/GMAT learning content are governed by:
 
 `docs/TEST-PREP-CONTENT-QUALITY-CONTROL.md`
-
-The document also governs the future GRE and GMAT content programs.
 
 External benchmark hierarchy is documented in:
 
 `docs/TEST-PREP-CONTENT-STANDARDS.md`
 
-Current SAT benchmark hierarchy:
+SAT benchmark hierarchy:
 
 - College Board / Bluebook → structure and presentation;
 - OnePrep → primary R&W quality benchmark;
@@ -45,9 +26,9 @@ Current SAT benchmark hierarchy:
 - Kaplan → primary Math quality benchmark;
 - Barron's → secondary Math benchmark.
 
-## 4. PSAT/SAT Mock program
+No third-party question, passage, answer choice, explanation or proprietary asset is copied into Apriori content.
 
-The mock area is now conceptually **PSAT/SAT Mocks**.
+## 3. PSAT/SAT Mock program
 
 Initial target:
 
@@ -55,159 +36,145 @@ Initial target:
 - 10 SAT mocks — Series A;
 - 10 SAT mocks — Series B.
 
-Total initial full-length mock inventory: **30 mocks**.
+Total initial full-length inventory: **30 mocks**.
 
-The detailed assembly blueprint is:
+The Foundation and Advanced exercise/drill programs remain deferred until the requested mock-bank milestone is reached.
 
-`docs/SAT-PSAT-DRILL-AND-MOCK-BLUEPRINT-2026-09-11.md`
+## 4. Difficulty rule — retrospective and prospective
 
-The existing technical route may remain `/SATMocks` until a deliberate later UI/route change. Content IDs and data architecture must not depend on the visible route name.
+**College Board = structure, wording style, application style, domain taxonomy and answer-choice conventions. Apriori = one difficulty level higher for both Verbal and Quant.**
 
-## 5. Exercise/drill program
+This rule applies retrospectively to already-authored PSAT/SAT mock content and prospectively to every new mock until explicitly changed.
 
-### Foundation
+Difficulty elevation must come from stronger reasoning, tighter distractors, multi-step application and subtler evidence discrimination rather than unnatural complexity.
 
-Every Foundation exercise/drill contains:
+## 5. Canonical question contract
 
-- 5 sets;
-- 10 questions per set;
-- 50 questions total;
-- major difficulty jump after every set.
+`src/data/sat/questionSchema.js` remains the canonical SAT question contract. Content governance sits above it and must not create a parallel question schema without a genuine requirement.
 
-### Advanced
+Core metadata includes section/module/domain/skill/concept/difficulty/question type/stimulus/timing/calculator/originality/status information.
 
-Every Advanced exercise/drill contains:
+## 6. Originality controls
 
-- 10 sets;
-- 20 questions per set;
-- 200 questions total;
-- major difficulty jump after every set.
-
-Difficulty progression uses controlled progression-band metadata while retaining Easy/Medium/Hard as the broad difficulty labels.
-
-## 6. Timed and non-timed rules
-
-### Timed drills
-
-- use a hard timeout;
-- timeout is based on the relevant product/section average time per question;
-- time expires automatically and the activity is locked/submitted according to its execution rules;
-- answers and elapsed time are recorded.
-
-### Non-timed drills
-
-- never time out;
-- elapsed time is recorded from start to completion;
-- pacing information can be shown afterward without penalizing the student for taking longer.
-
-Current SAT timing baselines:
-
-- Reading & Writing ≈ 71 seconds/question;
-- Math ≈ 95 seconds/question.
-
-For mixed activities, the timeout is calculated from the individual question's relevant section/product benchmark.
-
-## 7. Calculator requirement
-
-The PSAT/SAT Math experience must include an integrated calculator throughout Math, with question-level metadata indicating intended calculator use.
-
-Scientific and graphing calculator capabilities must be supported without CAS functionality.
-
-## 8. Canonical question contract
-
-The existing SAT technical question schema remains:
-
-`src/data/sat/questionSchema.js`
-
-Important fields already include:
-
-- `questionId`
-- `testId`
-- `section`
-- `module`
-- `domain`
-- `skill`
-- `conceptId`
-- `difficulty`
-- `questionType`
-- `passageId`
-- `prompt`
-- `choices`
-- `answer`
-- `explanation`
-- `estimatedTimeSeconds`
-- `figure`
-- `originalityFingerprint`
-- `conceptFingerprint`
-- `tags`
-- `sourceType`
-- `authoringStatus`
-- `metadata`
-
-The new content-governance layer must sit above this contract and must not create a parallel question schema unless a true product requirement later proves necessary.
-
-## 9. Originality requirements
-
-All Apriori content must be independently authored.
-
-Do not copy or reproduce College Board, OnePrep, Princeton Review, Kaplan, Barron's, Magoosh, Manhattan Prep, GMAT Club or other competitors' questions, passages, explanations, answer choices, diagrams or proprietary assets.
-
-Across PSAT/SAT mocks:
+Across the 30 PSAT/SAT mocks:
 
 - no repeated R&W passage;
 - no repeated R&W question;
 - no repeated Math question;
-- no trivial Math numerical substitutions presented as new questions;
-- no near-duplicate diagrams or question framing;
-- concepts and skills may repeat for proper coverage.
+- no trivial numeric substitution presented as a new Math question;
+- no near-duplicate diagram/question framing;
+- concepts and skills may repeat for appropriate coverage.
 
-## 10. Lessons
+## 7. Stage 1 completed execution layer for first prototypes
 
-SAT lessons are part of the SAT learning modules and must connect to the same content taxonomy.
+The first two full-length mock content prototypes are now connected to a reusable student execution architecture.
 
-Required learning sequence:
+### PSAT Mock 01
 
-**Concept → Visual explanation → Worked example → Strategy → Guided practice → Independent practice → Error diagnosis → Transfer**
+- 98 questions: 54 R&W + 44 Math;
+- two R&W modules and two Math modules;
+- adaptive Module 2 routing;
+- timed 32-minute R&W modules and 35-minute Math modules;
+- 10-minute section break;
+- persistent attempt and answer storage;
+- secure server-side scoring;
+- progress dashboard integration;
+- route: `/SATMocks/PSAT1`.
 
-Use graphics, diagrams, data displays, annotations, animations and interactive demonstrations where they materially improve understanding.
+### SAT Mock 01 — Series A
 
-## 11. Stage roadmap
+- 98 questions: 54 R&W + 44 Math;
+- two R&W modules and two Math modules;
+- adaptive Module 2 routing;
+- timed 32-minute R&W modules and 35-minute Math modules;
+- 10-minute section break;
+- persistent attempt and answer storage;
+- secure server-side scoring;
+- progress dashboard integration;
+- route: `/SATMocks/Test1`.
 
-### STAGE 1 — Question Bank Foundation and Validation Infrastructure
+## 8. Reusable adaptive architecture
 
-Build the central content-bank structure, controlled metadata/tags, validation/QC approach, progression-band model, assessment-family model, timed/non-timed metadata and content-to-lesson linkage without creating a parallel architecture.
+The reusable execution engine is:
 
-### STAGE 2 — First demonstration content set
+`src/lib/sat/adaptiveMockEngine.js`
 
-Author and validate the first demonstration-ready PSAT/SAT question set using the approved taxonomy and QC gates.
+It provides:
 
-### STAGE 3 — Student test-taking interface
+- one common definition contract for PSAT/SAT mocks;
+- Module 1 → Module 2 route selection;
+- `high`, `standard`, and `low` route states;
+- secure client-safe question delivery without exposing answer keys;
+- reusable timing and section structure;
+- a common template for future mocks.
 
-Build the student-facing test experience around the canonical question contract and secure attempt/session model.
+Current routing thresholds:
 
-### STAGE 4 — Attempt persistence and navigation
+- high: ≥75% correct in Module 1;
+- standard: 46–74%;
+- low: ≤45%.
 
-Implement answer selection, navigation, review marking, timing, autosave, persistence and submission.
+The architecture is reusable. Remaining mocks will receive properly authored/calibrated high/standard/low question pools without rebuilding the execution engine.
 
-### STAGE 5 — Scoring and results
+## 9. Attempt persistence and reporting
 
-Build result calculation and the student-facing review/results experience using real attempt data.
+`src/pages/api/sat/mock-progress.js` provides the persistent attempt layer through PostgreSQL table `sat_mock_attempts`.
 
-### STAGE 6 — Scale the question bank
+Recorded data includes:
 
-Expand the validated bank across the full PSAT/SAT inventory while maintaining originality, adaptive coverage, progression and QC.
+- student account;
+- mock key;
+- attempt state;
+- current section/module;
+- adaptive route;
+- question answers;
+- section scores;
+- completion timestamp.
 
-## 12. Current immediate resume point
+The same endpoint feeds the SAT Mocks dashboard and the student Profile dashboard.
 
-**Next build step: STAGE 1 — Question Bank Foundation and Validation Infrastructure.**
+## 10. Dashboard integration
 
-Before coding Stage 1, inspect the current versions of:
+`src/pages/SATMocks/index.js` now shows:
 
-- `src/data/sat/questionSchema.js`
-- `src/data/sat/mockTests.js`
-- `src/lib/sat/attemptSchema.js`
-- `src/data/sat/programConfig.js`
-- existing SAT Foundation/content files;
-- current SAT test-access API/helpers.
+- PSAT Mock 01 as a live adaptive mock;
+- SAT Mock 01 as a live adaptive mock;
+- remaining SAT test slots using the same future template;
+- completed-mock count;
+- best accuracy;
+- persistent attempt state;
+- direct progress-dashboard access.
 
-Then extend the existing architecture rather than creating duplicate question or test systems.
+`src/pages/Profile/index.js` now shows recorded mock performance instead of UI-only placeholders for the connected mock data:
+
+- mocks completed;
+- questions answered;
+- best mock accuracy;
+- latest mock results;
+- direct mock-library navigation.
+
+## 11. Stage roadmap — updated
+
+### STAGE 1 — Question Bank Foundation + reusable adaptive execution
+
+**In progress and substantially built.** The first PSAT and SAT prototype banks, adaptive execution engine, secure attempt persistence, scoring and dashboard integration are established.
+
+### STAGE 2 — First demonstration content set / quality calibration
+
+Refine the first two prototype question sets to full production content quality: genuine route-separated difficulty, final domain calibration, stronger visual stimulus coverage, accessibility, duplicate controls and content release checks.
+
+### STAGE 3 — Scale validated mock content
+
+Use the verified Stage 1 execution template to author the remaining PSAT/SAT mock inventory without rebuilding the test engine.
+
+### STAGE 4 — Scoring/reporting expansion
+
+Extend beyond raw accuracy into richer SAT-style score interpretation, timing analytics, skill/domain reporting and review workflows.
+
+### STAGE 5 — Foundation and Advanced modules
+
+Begin Foundation/Advanced only after the mock milestone requested by the project direction is reached.
+
+## 12. Immediate build direction
+
+Continue Stage 1/Stage 2 quality work by improving the first PSAT Mock 01 and SAT Mock 01 content itself. Do not rebuild the adaptive engine, attempt layer or dashboard architecture after student verification unless a concrete defect requires it.
