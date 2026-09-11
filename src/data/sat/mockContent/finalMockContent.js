@@ -1,6 +1,7 @@
 import { buildMock as buildBaseMock } from './surgicalMockContent';
 
 const letterIndex = (letter) => String(letter || 'A').charCodeAt(0) - 65;
+const wordCount = (value) => String(value || '').trim().split(/\s+/).filter(Boolean).length;
 
 const balancedRhetoricalChoices = [
   'Approach B used 18% less energy than Approach A and met the target performance.',
@@ -26,18 +27,28 @@ const balancedSeasonalInferenceChoices = [
 function rebalanceCorrectChoiceLength(question) {
   if (question.section !== 'reading-writing' || question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
   const correctIndex = letterIndex(question.answer);
-  const lengths = question.choices.map((choice) => String(choice).trim().split(/\s+/).filter(Boolean).length);
-  const correctLength = lengths[correctIndex];
-  const otherIndexes = [0, 1, 2, 3].filter((index) => index !== correctIndex);
-  const maxOther = Math.max(...otherIndexes.map((index) => lengths[index]));
-  const minOther = Math.min(...otherIndexes.map((index) => lengths[index]));
-  if (correctLength <= minOther || correctLength >= maxOther) {
-    const nearest = otherIndexes.sort((a, b) => Math.abs(lengths[a] - correctLength) - Math.abs(lengths[b] - correctLength))[0];
+  const lengths = question.choices.map(wordCount);
+  const others = [0, 1, 2, 3].filter((index) => index !== correctIndex);
+  const maxOther = Math.max(...others.map((index) => lengths[index]));
+  const minOther = Math.min(...others.map((index) => lengths[index]));
+  if (lengths[correctIndex] <= minOther || lengths[correctIndex] >= maxOther) {
+    const nearest = others.sort((a, b) => Math.abs(lengths[a] - lengths[correctIndex]) - Math.abs(lengths[b] - lengths[correctIndex]))[0];
     const choices = [...question.choices];
     [choices[correctIndex], choices[nearest]] = [choices[nearest], choices[correctIndex]];
     return { ...question, choices, answer: String.fromCharCode(65 + nearest) };
   }
   return question;
+}
+
+function rebalanceCorrectPosition(question) {
+  if (question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
+  const current = letterIndex(question.answer);
+  const match = String(question.questionId || '').match(/-(?:rw|math)-(\d+)$/);
+  const target = match ? (Number(match[1]) - 1) % 4 : current;
+  if (target === current) return question;
+  const choices = [...question.choices];
+  [choices[current], choices[target]] = [choices[target], choices[current]];
+  return { ...question, choices, answer: String.fromCharCode(65 + target) };
 }
 
 function normalizeChoices(question) {
@@ -47,7 +58,7 @@ function normalizeChoices(question) {
   if (question.skill === 'Rhetorical Synthesis') choices = balancedRhetoricalChoices;
   else if (question.skill === 'Cross-Text Connections') choices = balancedCrossTextChoices;
   else if (question.skill === 'Inferences' && question.prompt.includes('seasonal shift')) choices = balancedSeasonalInferenceChoices;
-  return rebalanceCorrectChoiceLength({ ...question, choices, answer: String.fromCharCode(65 + position) });
+  return rebalanceCorrectPosition(rebalanceCorrectChoiceLength({ ...question, choices, answer: String.fromCharCode(65 + position) }));
 }
 
 function shouldConvertToSpr(question, localIndex) {
@@ -61,14 +72,7 @@ function convertSelectedMathItems(question, localIndex) {
   if (!shouldConvertToSpr(question, localIndex)) return question;
   const position = letterIndex(question.answer);
   const numericAnswer = question.choices?.[position] ?? '';
-  return {
-    ...question,
-    questionType: 'student-produced-response',
-    interactionType: 'student-produced-response',
-    choices: [],
-    answer: String(numericAnswer).trim(),
-    metadata: { ...question.metadata, answerFormat: 'numeric' },
-  };
+  return { ...question, questionType: 'student-produced-response', interactionType: 'student-produced-response', choices: [], answer: String(numericAnswer).trim(), metadata: { ...question.metadata, answerFormat: 'numeric' } };
 }
 
 export function finalizeMockQuestions(records) {
@@ -78,10 +82,6 @@ export function finalizeMockQuestions(records) {
 export function buildMock({ testId, variant, section, module }) {
   return finalizeMockQuestions(buildBaseMock({ testId, variant, section, module }));
 }
-export function buildReadingWriting(args) {
-  return finalizeMockQuestions(buildBaseMock({ ...args, section: 'reading-writing' }));
-}
-export function buildMath(args) {
-  return finalizeMockQuestions(buildBaseMock({ ...args, section: 'math' }));
-}
+export function buildReadingWriting(args) { return finalizeMockQuestions(buildBaseMock({ ...args, section: 'reading-writing' })); }
+export function buildMath(args) { return finalizeMockQuestions(buildBaseMock({ ...args, section: 'math' })); }
 export default { buildMock, buildReadingWriting, buildMath, finalizeMockQuestions };
