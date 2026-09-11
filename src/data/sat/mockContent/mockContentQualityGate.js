@@ -1,19 +1,15 @@
 const normalize = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
-
 const wordCount = (value) => normalize(value).split(/\s+/).filter(Boolean).length;
 
 export function validateMockContent(mockContent) {
   const errors = [];
-  const records = [
-    ...(mockContent.readingWriting || []),
-    ...(mockContent.math || []),
-  ];
-
-  if (records.length === 0) errors.push(`${mockContent.testId}: no question records`);
-
+  const records = [...(mockContent.readingWriting || []), ...(mockContent.math || [])];
   const ids = new Set();
   const prompts = new Set();
   const verbalContexts = new Set();
+  const answerPositions = { A: 0, B: 0, C: 0, D: 0 };
+
+  if (records.length === 0) errors.push(`${mockContent.testId}: no question records`);
 
   for (const question of records) {
     if (ids.has(question.questionId)) errors.push(`${mockContent.testId}: duplicate questionId ${question.questionId}`);
@@ -30,21 +26,20 @@ export function validateMockContent(mockContent) {
       verbalContexts.add(context);
     }
 
+    if (!question.answer) errors.push(`${mockContent.testId}: missing answer ${question.questionId}`);
+    if (!question.explanation) errors.push(`${mockContent.testId}: missing explanation ${question.questionId}`);
+
     if (question.questionType === 'multiple-choice') {
       if (!Array.isArray(question.choices) || question.choices.length !== 4) {
         errors.push(`${mockContent.testId}: four choices required ${question.questionId}`);
       } else {
         const choiceLengths = question.choices.map(wordCount);
-        const max = Math.max(...choiceLengths);
-        const min = Math.min(...choiceLengths);
-        if (max - min > 3) {
+        if (Math.max(...choiceLengths) - Math.min(...choiceLengths) > 3) {
           errors.push(`${mockContent.testId}: answer-length imbalance ${question.questionId}`);
         }
       }
+      if (answerPositions[question.answer] !== undefined) answerPositions[question.answer] += 1;
     }
-
-    if (!question.answer) errors.push(`${mockContent.testId}: missing answer ${question.questionId}`);
-    if (!question.explanation) errors.push(`${mockContent.testId}: missing explanation ${question.questionId}`);
   }
 
   const rw1 = records.filter((q) => q.section === 'reading-writing' && q.module === 'rw-module-1');
@@ -64,15 +59,14 @@ export function validateMockContent(mockContent) {
     if (mathRoute.length !== 22) errors.push(`${mockContent.testId}: Math ${route} route must contain 22 questions`);
   }
 
-  const expectedQuestionCount = 196;
-  if (records.length !== expectedQuestionCount) {
-    errors.push(`${mockContent.testId}: expected 196 bank questions, found ${records.length}`);
+  if (records.length !== 196) errors.push(`${mockContent.testId}: expected 196 bank questions, found ${records.length}`);
+
+  const mcqTotal = Object.values(answerPositions).reduce((sum, value) => sum + value, 0);
+  if (mcqTotal && Math.max(...Object.values(answerPositions)) / mcqTotal > 0.4) {
+    errors.push(`${mockContent.testId}: answer-key position imbalance creates a guessing pattern`);
   }
 
-  if (errors.length) {
-    throw new Error(`SAT/PSAT mock content quality gate failed:\n${errors.join('\n')}`);
-  }
-
+  if (errors.length) throw new Error(`SAT/PSAT mock content quality gate failed:\n${errors.join('\n')}`);
   return { ok: true, questionCount: records.length };
 }
 
