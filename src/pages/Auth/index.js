@@ -34,7 +34,7 @@ export default function Login() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        setError(data.message || "Invalid credentials");
+        setError(data.message || "Invalid Student ID or password.");
         setLoading(false);
         return;
       }
@@ -149,9 +149,24 @@ export default function Login() {
 
           <button
             type="button"
-            onClick={() => router.push("/Register")}
+            onClick={() => router.push("/ForgotPassword")}
             style={{
               marginTop: "15px",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "#174ea6",
+              fontWeight: 600,
+            }}
+          >
+            Forgot Student ID or password?
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push("/Register")}
+            style={{
+              marginTop: "10px",
               background: "none",
               border: "none",
               cursor: "pointer",
