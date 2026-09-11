@@ -1,5 +1,6 @@
 import { PSAT_MOCK_01_CONTENT as PSAT_BASE, SAT_MOCK_01_CONTENT as SAT_BASE } from "./stage1MockBank";
-import { validateMockContent, validateMockPair } from "./mockContentQualityGate";
+import { PSAT_MOCK_02_CONTENT as PSAT2_BASE, SAT_MOCK_02_CONTENT as SAT2_BASE } from "./stage2MockBank";
+import { validateMockContent, validateMockSeries } from "./mockContentQualityGate";
 import { validateMockFigureQuality } from "./figureQualityGate";
 
 const LONG_FORM_RW = new Set(["Central Ideas and Details", "Inferences", "Command of Evidence", "Text Structure and Purpose", "Cross-Text Connections", "Rhetorical Synthesis"]);
@@ -28,14 +29,24 @@ function normalizeVerbalChoices(mock) {
 
 const PSAT_NORMALIZED = normalizeVerbalChoices(PSAT_BASE);
 const SAT_NORMALIZED = normalizeVerbalChoices(SAT_BASE);
-const FIGURE_NORMALIZED = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
+const PSAT2_NORMALIZED = normalizeVerbalChoices(PSAT2_BASE);
+const SAT2_NORMALIZED = normalizeVerbalChoices(SAT2_BASE);
 
-export const PSAT_MOCK_01_CONTENT = FIGURE_NORMALIZED.psat;
-export const SAT_MOCK_01_CONTENT = FIGURE_NORMALIZED.sat;
+const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
+const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
+
+export const PSAT_MOCK_01_CONTENT = FIGURE_NORMALIZED_01.psat;
+export const SAT_MOCK_01_CONTENT = FIGURE_NORMALIZED_01.sat;
+export const PSAT_MOCK_02_CONTENT = FIGURE_NORMALIZED_02.psat;
+export const SAT_MOCK_02_CONTENT = FIGURE_NORMALIZED_02.sat;
 
 validateMockContent(PSAT_MOCK_01_CONTENT);
 validateMockContent(SAT_MOCK_01_CONTENT);
-validateMockPair(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT);
+validateMockContent(PSAT_MOCK_02_CONTENT);
+validateMockContent(SAT_MOCK_02_CONTENT);
+validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT);
 
 export const SAT_PSAT_STAGE_1_MOCKS = [PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT];
-export default SAT_PSAT_STAGE_1_MOCKS;
+export const SAT_PSAT_STAGE_2_MOCKS = [PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT];
+export const SAT_PSAT_MOCKS = [PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT];
+export default SAT_PSAT_MOCKS;
