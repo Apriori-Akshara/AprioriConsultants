@@ -29,15 +29,16 @@ async function authenticatedUser(req) {
   return state.authenticated ? state.user : null;
 }
 
+function mergeAnswers(existing, incoming) {
+  if (!incoming || typeof incoming !== "object" || Array.isArray(incoming)) return { ...existing };
+  return { ...existing, ...incoming };
+}
+
 export default async function handler(req, res) {
-  if (!["GET", "POST"].includes(req.method)) {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (!["GET", "POST"].includes(req.method)) return res.status(405).json({ error: "Method not allowed" });
 
   const user = await authenticatedUser(req);
-  if (!user?.id) {
-    return res.status(401).json({ error: "Authentication required" });
-  }
+  if (!user?.id) return res.status(401).json({ error: "Authentication required" });
 
   try {
     await ensureTable();
@@ -52,7 +53,6 @@ export default async function handler(req, res) {
           ORDER BY updated_at DESC`,
         [user.id]
       );
-
       return res.status(200).json({
         attempts: result.rows,
         completed: result.rows.filter((row) => row.status === "completed"),
@@ -60,12 +60,9 @@ export default async function handler(req, res) {
     }
 
     const action = req.body?.action;
-    const testKey = normalizeMockKey(req.body?.testKey);
+    const testKey = normalizeMockKey(req.body?.testKey) || normalizeMockKey(req.body?.testId);
     const plan = testKey ? createAdaptivePlan(testKey) : null;
-
-    if (!plan) {
-      return res.status(400).json({ error: "Unknown mock test" });
-    }
+    if (!plan) return res.status(400).json({ error: "Unknown mock test" });
 
     if (action === "start") {
       const existing = await query(
@@ -74,10 +71,7 @@ export default async function handler(req, res) {
           ORDER BY updated_at DESC LIMIT 1`,
         [user.id, testKey]
       );
-
-      if (existing.rows[0]) {
-        return res.status(200).json({ attempt: existing.rows[0] });
-      }
+      if (existing.rows[0]) return res.status(200).json({ attempt: existing.rows[0] });
 
       const result = await query(
         `INSERT INTO sat_mock_attempts
@@ -86,31 +80,24 @@ export default async function handler(req, res) {
          RETURNING *`,
         [user.id, testKey]
       );
-
       return res.status(201).json({ attempt: result.rows[0] });
     }
 
     const attemptId = Number(req.body?.attemptId);
-    if (!Number.isInteger(attemptId)) {
-      return res.status(400).json({ error: "Attempt ID is required" });
-    }
+    if (!Number.isInteger(attemptId)) return res.status(400).json({ error: "Attempt ID is required" });
 
     const existing = await query(
       `SELECT * FROM sat_mock_attempts WHERE id = $1 AND user_id = $2 LIMIT 1`,
       [attemptId, user.id]
     );
-
-    if (!existing.rows[0]) {
-      return res.status(404).json({ error: "Attempt not found" });
-    }
+    if (!existing.rows[0]) return res.status(404).json({ error: "Attempt not found" });
 
     const attempt = existing.rows[0];
-    const answers = { ...(attempt.answers || {}) };
+    const answers = mergeAnswers(attempt.answers || {}, req.body?.answers);
 
     if (action === "answer") {
       const questionId = String(req.body?.questionId || "").trim();
       if (!questionId) return res.status(400).json({ error: "Question ID is required" });
-
       answers[questionId] = String(req.body?.answer ?? "").trim();
 
       await query(
@@ -122,7 +109,6 @@ export default async function handler(req, res) {
           WHERE id = $4 AND user_id = $5`,
         [JSON.stringify(answers), req.body?.section || null, req.body?.module || null, attemptId, user.id]
       );
-
       return res.status(200).json({ ok: true });
     }
 
@@ -134,10 +120,15 @@ export default async function handler(req, res) {
       const column = section === "reading-writing" ? "module2_route_rw" : "module2_route_math";
 
       await query(
-        `UPDATE sat_mock_attempts SET ${column} = $1, updated_at = NOW() WHERE id = $2 AND user_id = $3`,
-        [route, attemptId, user.id]
+        `UPDATE sat_mock_attempts
+            SET ${column} = $1,
+                answers = $2::jsonb,
+                current_section = $3,
+                current_module = 'module-2',
+                updated_at = NOW()
+          WHERE id = $4 AND user_id = $5`,
+        [route, JSON.stringify(answers), section, attemptId, user.id]
       );
-
       return res.status(200).json({ route });
     }
 
@@ -157,11 +148,12 @@ export default async function handler(req, res) {
       await query(
         `UPDATE sat_mock_attempts
             SET status = 'completed',
-                section_scores = $1::jsonb,
+                answers = $1::jsonb,
+                section_scores = $2::jsonb,
                 updated_at = NOW(),
                 completed_at = NOW()
-          WHERE id = $2 AND user_id = $3`,
-        [JSON.stringify(scores), attemptId, user.id]
+          WHERE id = $3 AND user_id = $4`,
+        [JSON.stringify(answers), JSON.stringify(scores), attemptId, user.id]
       );
 
       return res.status(200).json({ completed: true, scores });
