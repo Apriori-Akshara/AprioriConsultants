@@ -8,9 +8,11 @@
 
 Four student-facing mock forms are now implemented through the same adaptive execution architecture. Mock 02 was added as a reusable paired build rather than as a second test implementation.
 
-**Status: IMPLEMENTED — PENDING USER QUALITY VERIFICATION.**
+**Status: IMPLEMENTED / OPERATIONAL — PENDING QUESTION-BY-QUESTION USER QUALITY VERIFICATION.**
 
-The user will review all four live forms together before Mock 03 is started.
+The user has indicated that the other major features appear to be working correctly. This does not constitute question-level approval. Every question in all four mocks remains subject to manual verification.
+
+The observation-count filler display issue has been corrected in the shared student-facing delivery layer for all four mocks.
 
 ## 2. Zero-duplication rule
 
@@ -67,7 +69,8 @@ The earlier Stage 1 failure modes remain explicitly blocked:
 - answer-position imbalance;
 - cross-mock Math application duplication;
 - irrelevant/generated figures;
-- duplicate figure signatures that cause a production build to fail.
+- duplicate figure signatures that cause a production build to fail;
+- student-visible generated/internal observation-count filler.
 
 A future mock pair must pass the same combined release gates before being exposed as live.
 
@@ -75,15 +78,38 @@ A future mock pair must pass the same combined release gates before being expose
 
 The following remain **pending user verification** on the public live website:
 
-1. question correctness and explanations;
-2. originality/non-repetition across all four forms;
-3. R&W passage quality;
-4. Math calculation quality;
-5. figure relevance and usefulness;
-6. adaptive routing behavior;
-7. timer, navigator, Mark for Review and persistence;
-8. calculator/reference/tools;
-9. responsive desktop/mobile UI;
-10. consistency of the shared architecture without making Mock 02 feel like a copy of Mock 01.
+1. question-by-question correctness and answer keys;
+2. explanation correctness and usefulness;
+3. originality/non-repetition across all four forms;
+4. R&W passage quality;
+5. Math calculation quality;
+6. figure relevance and usefulness;
+7. adaptive routing behavior;
+8. timer, navigator, Mark for Review and persistence;
+9. calculator/reference/tools;
+10. responsive desktop/mobile UI;
+11. consistency of the shared architecture without making Mock 02 feel like a copy of Mock 01.
 
-Mock 03 work must not begin until this gate is cleared or the user explicitly authorizes proceeding despite an identified issue.
+Mock 03 work may proceed as the next planned build milestone, but the four-mock content milestone must remain marked **pending question-by-question verification** until the user's review is complete.
+
+## 9. Next-pair release protocol
+
+Mock 03 should be developed as the next PSAT + SAT pair using the existing shared architecture. The implementation may be performed one mock at a time where that increases throughput, but the same QC controls must remain active.
+
+Required sequence:
+
+**Mock 03 PSAT → structural/QC validation → Mock 03 SAT → combined QC across the expanded inventory → deployment → user verification.**
+
+Do not create a parallel runner, duplicate persistence layer, or bypass the combined content gates.
+
+## 10. Unlock verification checkpoint
+
+After the Mock 03 pair is created, the user will test the internal unlock mechanism.
+
+This checkpoint is intended to verify:
+
+- internal unlock of PSAT/SAT Tests 8–10;
+- separate SAT Tests 11–20 unlock path;
+- the required completion condition covering Tests 1–10 for both PSAT and SAT before SAT Tests 11–20 may be unlocked.
+
+This checkpoint is recorded as a planned verification activity and is not to be treated as already passed.
