@@ -56,15 +56,15 @@ The profile dashboard now presents a client-demo-oriented SAT preparation experi
 - SAT preparation overview;
 - Foundation → Advanced → Mock Tests learning path;
 - practice/activity snapshot;
-- study streak/activity indicators where currently available;
-- SAT accuracy placeholder until the SAT data pipeline is connected;
+- study streak/activity indicators as future SAT-integrated metrics;
+- SAT accuracy as a future SAT-integrated metric;
 - performance insight areas for strengths/weaknesses, pacing/timing, review queue, and topic progress;
 - recommended next step;
 - study roadmap;
 - goal-setting area marked for future integration;
 - downloadable dashboard/progress presentation.
 
-This is a UI/UX milestone. It does not yet implement the underlying SAT analytics/content integrations for every visible feature.
+This is a UI/UX milestone only. The redesigned dashboard is intentionally **not connected to the old language-learning performance APIs or legacy score/rank fields**. Current SAT metrics use visual integration-pending states rather than recycled non-SAT data.
 
 ### Legacy question/test material
 
@@ -137,6 +137,7 @@ Completed in GitHub:
 3. Replaced generic/language-learning dashboard elements with SAT preparation path cards, study snapshots, performance insight areas, roadmap, recommendations, and integration-ready placeholders.
 4. Applied the existing white/blue/grey visual family to the redesigned Profile dashboard.
 5. Kept the existing SAT Mock engine and authorization architecture untouched.
+6. Explicitly kept the redesigned Profile UI disconnected from the old language-learning analytics APIs until SAT-specific data contracts are implemented.
 
 ### Controlled live verification required
 
