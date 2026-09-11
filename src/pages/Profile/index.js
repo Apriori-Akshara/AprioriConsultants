@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Navbar from '../../../components/NavbarJS';
 import { useSelector } from 'react-redux';
@@ -32,21 +32,16 @@ export default function Profile() {
       .catch(() => null);
   }, []);
 
-  const completed = mockProgress.completed || [];
-  const completedCount = completed.length;
-  const bestAccuracy = useMemo(() => {
-    const values = completed
-      .map((attempt) => Number(attempt.section_scores?.accuracy))
-      .filter((value) => Number.isFinite(value));
-    return values.length ? Math.max(...values) : 0;
-  }, [completed]);
-
-  const totalAnswered = useMemo(() => {
-    return completed.reduce((sum, attempt) => {
-      const scores = attempt.section_scores || {};
-      return sum + Number(scores.readingWriting?.answered || 0) + Number(scores.math?.answered || 0);
-    }, 0);
-  }, [completed]);
+  const completedMocks = mockProgress.completed || [];
+  const totalQuestionsAnswered = completedMocks.reduce(
+    (sum, item) => sum + Number(item.section_scores?.readingWriting?.answered || 0) + Number(item.section_scores?.math?.answered || 0),
+    0
+  );
+  const bestAccuracy = completedMocks.reduce(
+    (best, item) => Math.max(best, Number(item.section_scores?.accuracy || 0)),
+    0
+  );
+  const latestMock = completedMocks[0] || null;
 
   const handleDownload = async () => {
     if (!sectionRef.current) return;
@@ -76,7 +71,7 @@ export default function Profile() {
             <h1>Welcome back, {firstName}</h1>
             <p>
               Your profile is your SAT preparation command centre — track your learning,
-              monitor mock performance, and see what to work on next.
+              identify what to work on next, and carry every completed mock into your progress history.
             </p>
           </div>
           <div className={styles.heroActions}>
@@ -90,19 +85,19 @@ export default function Profile() {
         <section className={styles.quickStats} aria-label="SAT study snapshot">
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaClipboardCheck /></div>
-            <div><span>Mocks completed</span><strong>{completedCount}</strong><small>Saved against your verified account</small></div>
+            <div><span>Mocks completed</span><strong>{completedMocks.length}</strong><small>PSAT and SAT attempts completed</small></div>
           </div>
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaClock /></div>
-            <div><span>Questions answered</span><strong>{totalAnswered}</strong><small>Across completed mock attempts</small></div>
+            <div><span>Questions answered</span><strong>{totalQuestionsAnswered}</strong><small>Across completed mock attempts</small></div>
           </div>
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaBullseye /></div>
-            <div><span>Study streak</span><strong>—</strong><small>Will use activity history as drills connect</small></div>
+            <div><span>Latest accuracy</span><strong>{Number(latestMock?.section_scores?.accuracy || 0)}%</strong><small>{latestMock ? latestMock.test_key : 'Complete a mock to begin'}</small></div>
           </div>
           <div className={styles.statCard}>
             <div className={styles.statIcon}><FaStar /></div>
-            <div><span>Best mock accuracy</span><strong>{bestAccuracy}%</strong><small>Highest completed mock result</small></div>
+            <div><span>Best accuracy</span><strong>{bestAccuracy}%</strong><small>Highest completed mock</small></div>
           </div>
         </section>
 
@@ -142,10 +137,10 @@ export default function Profile() {
               <Link href="/SATMocks" className={`${styles.pathCard} ${styles.featuredPath}`}>
                 <div className={styles.pathCardTop}>
                   <span className={styles.pathIcon}><FaClipboardCheck /></span>
-                  <span className={styles.statusPill}>{completedCount ? `${completedCount} mock${completedCount === 1 ? '' : 's'} completed` : 'Adaptive mocks live'}</span>
+                  <span className={styles.statusPill}>{completedMocks.length ? `${completedMocks.length} completed` : '2 live mocks'}</span>
                 </div>
-                <h3>SAT Mock Tests</h3>
-                <p>Experience realistic Digital SAT-style mock tests with adaptive Module 2 routing and persistent progress reports.</p>
+                <h3>PSAT &amp; SAT Mocks</h3>
+                <p>Run the live adaptive PSAT and SAT mocks, save your attempts, and bring the results back into this dashboard.</p>
                 <div className={styles.pathMeta}><span>Adaptive</span><span>Timed</span><span>Score Reports</span></div>
                 <span className={styles.pathLink}>Open Mock Tests <FaArrowRight /></span>
               </Link>
@@ -153,59 +148,60 @@ export default function Profile() {
 
             <div className={styles.sectionHeading}>
               <div>
-                <span className={styles.sectionLabel}>MOCK PERFORMANCE</span>
-                <h2>Your latest recorded attempts</h2>
+                <span className={styles.sectionLabel}>MOCK PROGRESS</span>
+                <h2>Your latest test performance</h2>
               </div>
-              <Link href="/SATMocks" className={styles.sectionHint}>Open test library</Link>
+              <Link href="/SATMocks" className={styles.sectionAction}>Open all mocks <FaArrowRight /></Link>
             </div>
 
-            <div className={styles.performanceGrid}>
-              {completed.length ? completed.slice(0, 4).map((attempt) => {
-                const scores = attempt.section_scores || {};
-                const label = attempt.test_key === 'PSAT1' ? 'PSAT/NMSQT Mock 01' : attempt.test_key === 'SAT1' ? 'SAT Mock 01 — Series A' : attempt.test_key;
-                return (
-                  <div className={styles.performanceCard} key={attempt.id}>
-                    <FaChartLine className={styles.performanceIcon} />
+            <div className={styles.mockProgressPanel}>
+              {latestMock ? (
+                <div className={styles.latestMockGrid}>
+                  <div className={styles.latestMockIdentity}>
+                    <span className={styles.latestBadge}>{latestMock.test_key === 'PSAT1' ? 'P' : 'S'}</span>
                     <div>
-                      <h3>{label}</h3>
-                      <p>{scores.totalCorrect || 0}/{scores.totalQuestions || 98} correct · {scores.accuracy || 0}% accuracy</p>
-                      <small>Completed {attempt.completed_at ? new Date(attempt.completed_at).toLocaleDateString() : 'recently'}</small>
+                      <span className={styles.sectionLabel}>LATEST COMPLETED</span>
+                      <h3>{latestMock.test_key === 'PSAT1' ? 'PSAT Mock Test 01' : 'SAT Mock Test 01'}</h3>
+                      <p>Adaptive routes: {latestMock.section_scores?.adaptiveRoutes?.readingWriting || 'standard'} R&amp;W · {latestMock.section_scores?.adaptiveRoutes?.math || 'standard'} Math</p>
                     </div>
                   </div>
-                );
-              }) : (
-                <>
-                  <div className={styles.performanceCard}>
-                    <FaChartLine className={styles.performanceIcon} />
-                    <div><h3>No completed mock yet</h3><p>Start the PSAT Mock 01 or SAT Mock 01 to populate this report automatically.</p></div>
+                  <div className={styles.latestScore}><strong>{Number(latestMock.section_scores?.accuracy || 0)}%</strong><span>overall accuracy</span></div>
+                  <div className={styles.latestBreakdown}>
+                    <span>Reading &amp; Writing <strong>{latestMock.section_scores?.readingWriting?.correct || 0}/{latestMock.section_scores?.readingWriting?.total || 54}</strong></span>
+                    <span>Math <strong>{latestMock.section_scores?.math?.correct || 0}/{latestMock.section_scores?.math?.total || 44}</strong></span>
                   </div>
-                  <div className={styles.performanceCard}>
-                    <FaClock className={styles.performanceIcon} />
-                    <div><h3>Pacing & timing</h3><p>Future attempts will record module timing and adaptive route selection for deeper analysis.</p></div>
+                </div>
+              ) : (
+                <div className={styles.emptyMockState}>
+                  <div className={styles.emptyMockIcon}><FaClipboardCheck /></div>
+                  <div>
+                    <h3>Your mock results will appear here</h3>
+                    <p>Complete PSAT Mock 01 or SAT Mock 01 and this panel will become your live progress record.</p>
                   </div>
-                </>
+                  <Link href="/SATMocks" className={styles.fullButton}>Start a Mock <FaArrowRight /></Link>
+                </div>
               )}
             </div>
 
             <div className={styles.sectionHeading}>
               <div>
                 <span className={styles.sectionLabel}>PERFORMANCE CENTRE</span>
-                <h2>What will expand next</h2>
+                <h2>What you will see as you practice</h2>
               </div>
             </div>
 
             <div className={styles.performanceGrid}>
               <div className={styles.performanceCard}>
                 <FaChartLine className={styles.performanceIcon} />
-                <div><h3>Strengths & weaknesses</h3><p>Skill-level accuracy will appear once Foundation and question-bank responses are connected to the same reporting layer.</p></div>
+                <div><h3>Strengths &amp; weaknesses</h3><p>Your highest- and lowest-performing SAT skills will appear here as question-level analytics are connected.</p></div>
               </div>
               <div className={styles.performanceCard}>
                 <FaClock className={styles.performanceIcon} />
-                <div><h3>Pacing & timing</h3><p>Track time by section, module, question, and difficulty so timing becomes part of the learning process.</p></div>
+                <div><h3>Pacing &amp; timing</h3><p>Track average time by section, question difficulty, and test mode so timing becomes part of the learning process.</p></div>
               </div>
               <div className={styles.performanceCard}>
                 <FaRegBookmark className={styles.performanceIcon} />
-                <div><h3>Review queue</h3><p>Flagged and bookmarked questions will become a focused review list across practice and mocks.</p></div>
+                <div><h3>Review queue</h3><p>Flagged and bookmarked questions will become a focused review list instead of getting lost in past attempts.</p></div>
               </div>
               <div className={styles.performanceCard}>
                 <FaLayerGroup className={styles.performanceIcon} />
@@ -217,9 +213,9 @@ export default function Profile() {
           <aside className={styles.sideColumn}>
             <div className={styles.sideCardAccent}>
               <span className={`${styles.sectionLabel} ${styles.heroLabel}`}>RECOMMENDED NEXT</span>
-              <h2>Use the adaptive mocks as your benchmark</h2>
-              <p>Run a full mock now, then use the recorded accuracy and module route to guide the next Foundation or Advanced study cycle.</p>
-              <Link href="/SATMocks" className={styles.fullButton}>Open Mock Tests <FaArrowRight /></Link>
+              <h2>{latestMock ? 'Review your latest mock' : 'Start your first live mock'}</h2>
+              <p>{latestMock ? 'Your latest result is now recorded. Open the mock library to continue with the next available test.' : 'PSAT Mock 01 and SAT Mock 01 are now the first live adaptive experiences in the mock library.'}</p>
+              <Link href={latestMock ? '/SATMocks' : '/SATMocks'} className={styles.fullButton}>Open Mock Library <FaArrowRight /></Link>
             </div>
 
             <div className={styles.sideCard}>
@@ -227,14 +223,14 @@ export default function Profile() {
               <h3>Study roadmap</h3>
               <div className={styles.roadmapItem}><strong>01</strong><span>Foundation skills</span></div>
               <div className={styles.roadmapItem}><strong>02</strong><span>Advanced strategy</span></div>
-              <div className={styles.roadmapItem}><strong>03</strong><span>Mock-test readiness</span></div>
+              <div className={styles.roadmapItem}><strong>03</strong><span>PSAT / SAT mocks</span></div>
               <div className={styles.roadmapItem}><strong>04</strong><span>Targeted review</span></div>
             </div>
 
             <div className={styles.sideCard}>
               <div className={styles.sideCardIcon}><FaFlag /></div>
               <h3>Goal setting</h3>
-              <p>Target score, SAT test date, weekly study target, and readiness milestones will be integrated into this dashboard as the student data layer expands.</p>
+              <p>Target score, SAT test date, weekly study target, and readiness milestones will be integrated here with the student profile.</p>
               <span className={styles.futureTag}>Planned integration</span>
             </div>
           </aside>
