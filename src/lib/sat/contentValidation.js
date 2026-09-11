@@ -1,19 +1,72 @@
-import {
-  SAT_ASSESSMENT_FAMILIES,
-  SAT_ASSESSMENT_VARIANTS,
-  SAT_CALCULATOR_MODES,
-  SAT_COGNITIVE_DEMANDS,
-  SAT_DIFFICULTIES,
-  SAT_INTERACTION_TYPES,
-  SAT_MODULES,
-  SAT_PROGRESSION_BANDS,
-  SAT_QUESTION_TYPES,
-  SAT_SECTIONS,
-  SAT_STATUS_LABELS,
-  SAT_STIMULUS_TYPES,
-} from "../../data/sat/questionSchema";
 import { SAT_ACTIVITY_BLUEPRINT } from "../../data/sat/activityBlueprint";
 import { getAssessmentConfig } from "../../data/sat/assessmentCatalog";
+
+const ASSESSMENT_FAMILIES = ["psat", "sat"];
+const ASSESSMENT_VARIANTS = ["psat-nmsqt", "sat-series-a", "sat-series-b"];
+const DIFFICULTIES = ["easy", "medium", "hard"];
+const SECTIONS = ["reading-writing", "math"];
+const MODULES = [
+  "rw-module-1",
+  "rw-module-2-high",
+  "rw-module-2-standard",
+  "rw-module-2-low",
+  "math-module-1",
+  "math-module-2-high",
+  "math-module-2-standard",
+  "math-module-2-low",
+];
+const QUESTION_TYPES = ["multiple-choice", "student-produced-response"];
+const STIMULUS_TYPES = [
+  "single-short-passage",
+  "paired-passages",
+  "notes-bullets",
+  "sentence-level",
+  "equation",
+  "table",
+  "chart",
+  "scatterplot",
+  "line-graph",
+  "bar-chart",
+  "histogram",
+  "box-plot",
+  "coordinate-plane",
+  "number-line",
+  "geometry-diagram",
+  "mixed-visual",
+  "word-problem",
+  "data-set",
+  "other-approved",
+];
+const COGNITIVE_DEMANDS = ["recall-apply", "interpret", "analyze", "reason", "synthesize"];
+const CALCULATOR_MODES = ["none", "scientific", "graphing", "either"];
+const INTERACTION_TYPES = ["select-one", "enter-numeric"];
+const STATUS_LABELS = [
+  "draft",
+  "author-review",
+  "content-review",
+  "subject-review",
+  "qc-approved",
+  "assembly-ready",
+  "published",
+  "retired",
+];
+const PROGRESSION_BANDS = [
+  "foundation-set-01",
+  "foundation-set-02",
+  "foundation-set-03",
+  "foundation-set-04",
+  "foundation-set-05",
+  "advanced-set-01",
+  "advanced-set-02",
+  "advanced-set-03",
+  "advanced-set-04",
+  "advanced-set-05",
+  "advanced-set-06",
+  "advanced-set-07",
+  "advanced-set-08",
+  "advanced-set-09",
+  "advanced-set-10",
+];
 
 const isNonEmptyString = (value) =>
   typeof value === "string" && value.trim().length > 0;
@@ -33,51 +86,51 @@ export function validateSatContentRecord(record) {
     errors.push("Missing product.");
   }
 
-  if (record.assessmentFamily && !SAT_ASSESSMENT_FAMILIES.includes(record.assessmentFamily)) {
+  if (record.assessmentFamily && !ASSESSMENT_FAMILIES.includes(record.assessmentFamily)) {
     errors.push(`Invalid assessmentFamily: ${record.assessmentFamily}`);
   }
 
-  if (record.assessmentVariant && !SAT_ASSESSMENT_VARIANTS.includes(record.assessmentVariant)) {
+  if (record.assessmentVariant && !ASSESSMENT_VARIANTS.includes(record.assessmentVariant)) {
     errors.push(`Invalid assessmentVariant: ${record.assessmentVariant}`);
   }
 
-  if (record.section && !SAT_SECTIONS.includes(record.section)) {
+  if (record.section && !SECTIONS.includes(record.section)) {
     errors.push(`Invalid section: ${record.section}`);
   }
 
-  if (record.module && !SAT_MODULES.includes(record.module)) {
+  if (record.module && !MODULES.includes(record.module)) {
     errors.push(`Invalid module: ${record.module}`);
   }
 
-  if (record.difficulty && !SAT_DIFFICULTIES.includes(record.difficulty)) {
+  if (record.difficulty && !DIFFICULTIES.includes(record.difficulty)) {
     errors.push(`Invalid difficulty: ${record.difficulty}`);
   }
 
-  if (record.difficultyBand && !SAT_PROGRESSION_BANDS.includes(record.difficultyBand)) {
+  if (record.difficultyBand && !PROGRESSION_BANDS.includes(record.difficultyBand)) {
     errors.push(`Invalid difficultyBand: ${record.difficultyBand}`);
   }
 
-  if (record.questionType && !SAT_QUESTION_TYPES.includes(record.questionType)) {
+  if (record.questionType && !QUESTION_TYPES.includes(record.questionType)) {
     errors.push(`Invalid questionType: ${record.questionType}`);
   }
 
-  if (record.stimulusType && !SAT_STIMULUS_TYPES.includes(record.stimulusType)) {
+  if (record.stimulusType && !STIMULUS_TYPES.includes(record.stimulusType)) {
     errors.push(`Invalid stimulusType: ${record.stimulusType}`);
   }
 
-  if (record.cognitiveDemand && !SAT_COGNITIVE_DEMANDS.includes(record.cognitiveDemand)) {
+  if (record.cognitiveDemand && !COGNITIVE_DEMANDS.includes(record.cognitiveDemand)) {
     errors.push(`Invalid cognitiveDemand: ${record.cognitiveDemand}`);
   }
 
-  if (record.calculatorMode && !SAT_CALCULATOR_MODES.includes(record.calculatorMode)) {
+  if (record.calculatorMode && !CALCULATOR_MODES.includes(record.calculatorMode)) {
     errors.push(`Invalid calculatorMode: ${record.calculatorMode}`);
   }
 
-  if (record.interactionType && !SAT_INTERACTION_TYPES.includes(record.interactionType)) {
+  if (record.interactionType && !INTERACTION_TYPES.includes(record.interactionType)) {
     errors.push(`Invalid interactionType: ${record.interactionType}`);
   }
 
-  if (record.status && !SAT_STATUS_LABELS.includes(record.status)) {
+  if (record.status && !STATUS_LABELS.includes(record.status)) {
     errors.push(`Invalid status: ${record.status}`);
   }
 
@@ -120,13 +173,8 @@ export function validateSatContentRecord(record) {
     errors.push("Non-timed activities must not have a hard timeout.");
   }
 
-  if (
-    record.status === "published" ||
-    record.status === "assembly-ready"
-  ) {
-    if (record.releaseEligibility !== true) {
-      errors.push("Assembly-ready/published content must have releaseEligibility=true.");
-    }
+  if ((record.status === "published" || record.status === "assembly-ready") && record.releaseEligibility !== true) {
+    errors.push("Assembly-ready/published content must have releaseEligibility=true.");
   }
 
   return { valid: errors.length === 0, errors };
