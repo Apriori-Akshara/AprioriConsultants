@@ -40,14 +40,14 @@ This applies **retrospectively** to already-authored mock questions and **prospe
 
 The elevation must come from stronger reasoning, more precise distractors, multi-step application, tighter evidence discrimination and subtler wording—not artificial complexity or vocabulary/math tricks that make the item unlike the SAT/PSAT.
 
-## Stage 1 first-mock implementation milestone
+## First two mock implementation milestone
 
-The first complete content prototypes are now connected to a reusable adaptive mock-test engine.
+The first two full-length prototypes are now connected to one reusable adaptive execution architecture.
 
 ### PSAT Mock 01
 
 - Assessment: `psat-nmsqt`
-- Questions: **98**
+- Questions delivered per completed route: **98**
 - Reading & Writing: **54**
 - Math: **44**
 - Modules: 2 R&W + 2 Math
@@ -58,7 +58,8 @@ The first complete content prototypes are now connected to a reusable adaptive m
 
 ### SAT Mock 01 — Series A
 
-- Questions: **98**
+- Assessment: `sat-series-a`
+- Questions delivered per completed route: **98**
 - Reading & Writing: **54**
 - Math: **44**
 - Modules: 2 R&W + 2 Math
@@ -67,13 +68,15 @@ The first complete content prototypes are now connected to a reusable adaptive m
 - Original Apriori content
 - Student route: `/SATMocks/Test1`
 
-## Adaptive mock implementation completed in Stage 1
+## Adaptive mock implementation completed
 
 Reusable engine:
 
 `src/lib/sat/adaptiveMockEngine.js`
 
-The engine now provides:
+The engine now correctly maps the existing mock-content module records into the student-facing test plan. The previous delivery defect where the engine expected `questions.records` while the content bank exposes section arrays has been corrected.
+
+The engine provides:
 
 - one common mock-definition contract for PSAT Mock 01 and SAT Mock 01;
 - Module 1 → Module 2 routing;
@@ -91,11 +94,11 @@ Current routing thresholds are:
 - **Standard route:** 46–74% correct;
 - **Low route:** ≤45% correct.
 
-The routing framework is intentionally reusable. The remaining mock sets will replace prototype route-pool assignments with fully authored and calibrated high/standard/low question pools rather than requiring a new execution architecture.
+The execution framework is reusable. Future mocks should plug their authored module and route pools into the same engine instead of creating another test implementation.
 
-## Attempt persistence and reporting completed in Stage 1
+## Attempt persistence and reporting completed
 
-New server-side attempt endpoint:
+Server endpoint:
 
 `src/pages/api/sat/mock-progress.js`
 
@@ -105,38 +108,44 @@ It creates/uses the `sat_mock_attempts` PostgreSQL table and records:
 - mock key;
 - in-progress/completed state;
 - current section/module;
-- selected adaptive route;
+- selected adaptive route for R&W and Math;
 - question responses;
 - section scores;
 - completion timestamp.
 
-This gives the mock engine a persistent attempt layer before later expansion into richer scoring analytics.
+Completion scoring now uses the **actual adaptive route selected for each section**, rather than always scoring the standard Module 2 pool.
 
-## Dashboard integration completed in Stage 1
+## Dashboard integration completed
 
 `src/pages/SATMocks/index.js` now exposes:
 
 - PSAT Mock 01 as a live student-facing adaptive mock;
 - SAT Mock 01 as a live student-facing adaptive mock;
-- the remaining SAT inventory as reserved production slots using the same template;
+- the remaining SAT library as reserved production slots using the same visual/test template;
 - completed-mock count;
 - best mock accuracy;
-- persistent attempt status;
-- direct access to the progress dashboard.
+- direct test launch actions;
+- direct access to the Profile progress dashboard.
+
+The PSAT and SAT cards were also redesigned together so that they use one cohesive card system: clear identity badge, compact status pill, structured test metadata, balanced card height and centered CTA treatment.
 
 `src/pages/Profile/index.js` now consumes the same mock-progress endpoint and displays:
 
 - mocks completed;
 - questions answered;
-- best mock accuracy;
-- latest recorded mock attempts and accuracy;
-- direct path back to the adaptive mock library.
+- latest accuracy;
+- best accuracy;
+- latest mock route information;
+- latest R&W and Math breakdown;
+- direct path to the mock library.
 
-## Content-quality boundary for the two live prototypes
+The SAT Mock Tests path card on the Profile dashboard was aligned with the same visual treatment and now represents the live PSAT/SAT mock experience rather than a future-only placeholder.
 
-The execution architecture is now functional, but content release quality remains governed by the master QC document.
+## Content-quality boundary for the two prototypes
 
-Before a mock is classified as a fully production-calibrated assessment, the content itself still requires:
+The execution architecture is now ready to serve as the template for the remaining mock inventory. Content release quality remains governed by the master QC document.
+
+The remaining content calibration work is:
 
 - fully authored high/standard/low Module 2 pools with real difficulty separation;
 - final official domain-distribution calibration;
@@ -145,7 +154,7 @@ Before a mock is classified as a fully production-calibrated assessment, the con
 - deeper duplicate/concept-overlap controls across the 30-mock inventory;
 - final scoring calibration and report interpretation.
 
-These are content-calibration gates, not reasons to rebuild the execution architecture. Once the student verifies the reusable mock engine, future mocks should use this same route, persistence, reporting and dashboard template without repeating architecture checks.
+These are content-calibration tasks, not reasons to rebuild the execution architecture.
 
 ## Foundation and Advanced timing rule
 
@@ -164,6 +173,6 @@ SAT/PSAT Math continues to support the integrated scientific/graphing calculator
 
 ## Current Stage 1 state
 
-**STAGE 1 — Question Bank Foundation and Validation Infrastructure + first reusable adaptive mock implementation is in progress.**
+**STAGE 1 — Question Bank Foundation and Validation Infrastructure + reusable adaptive mock implementation is in progress.**
 
-The reusable execution architecture, attempt persistence, progress reporting and dashboard integration are now established for the first PSAT and SAT prototypes. The next build work can therefore focus on authoring and calibrating the remaining mock inventory rather than rebuilding the test engine.
+The first two mocks now have the reusable execution engine, persistent attempt layer, adaptive routing framework, scoring, mock-library integration and Profile integration. The next build work should concentrate on surgical content calibration and expansion of these exact patterns into the remaining mocks, without recreating the architecture.
