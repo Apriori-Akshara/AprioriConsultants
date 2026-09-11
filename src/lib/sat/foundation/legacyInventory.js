@@ -2,6 +2,25 @@ import legacyQuestionBank from "../../../data/questions.json";
 
 const DIFFICULTY_BUCKETS = ["easy", "medium", "hard"];
 
+function normalizeText(value) {
+  return String(value ?? "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function createLegacyFingerprint(question) {
+  return [
+    question?.type,
+    normalizeText(question?.question),
+    ...(Array.isArray(question?.options)
+      ? question.options.map(normalizeText)
+      : []),
+    normalizeText(question?.answer),
+  ].join("||");
+}
+
 function normalizeLegacyQuestion(question, sourceTestId, sourceGroup, index) {
   return {
     inventoryId: `legacy-${sourceTestId}-${sourceGroup}-${index + 1}`,
@@ -18,6 +37,7 @@ function normalizeLegacyQuestion(question, sourceTestId, sourceGroup, index) {
       : null,
     publicationStatus: "needs-review",
     reviewFlags: [],
+    fingerprint: createLegacyFingerprint(question),
   };
 }
 
@@ -35,7 +55,9 @@ export function buildLegacyFoundationInventory() {
 
     rawGroups.forEach((entry, entryIndex) => {
       const explicitGroups = DIFFICULTY_BUCKETS.filter(
-        (level) => Array.isArray(entry?.[`math${level}`]) || Array.isArray(entry?.[`english${level}`])
+        (level) =>
+          Array.isArray(entry?.[`math${level}`]) ||
+          Array.isArray(entry?.[`english${level}`])
       );
 
       if (explicitGroups.length > 0) {
@@ -65,11 +87,28 @@ export function buildLegacyFoundationInventory() {
     });
   }
 
-  return inventory;
+  const fingerprintCounts = inventory.reduce((counts, item) => {
+    counts[item.fingerprint] = (counts[item.fingerprint] || 0) + 1;
+    return counts;
+  }, {});
+
+  return inventory.map((item) => {
+    const duplicateCount = fingerprintCounts[item.fingerprint] || 1;
+
+    return {
+      ...item,
+      duplicateCount,
+      reviewFlags:
+        duplicateCount > 1 ? ["duplicate-content"] : [],
+      publicationStatus:
+        duplicateCount > 1 ? "needs-review" : item.publicationStatus,
+    };
+  });
 }
 
 export function summarizeLegacyFoundationInventory() {
   const inventory = buildLegacyFoundationInventory();
+  const duplicateItems = inventory.filter((item) => item.duplicateCount > 1);
 
   return inventory.reduce(
     (summary, item) => {
@@ -89,6 +128,7 @@ export function summarizeLegacyFoundationInventory() {
       bySubject: { verbal: 0, math: 0 },
       byCandidateLevel: { easy: 0, medium: 0, hard: 0 },
       unclassified: 0,
+      duplicateItemCount: duplicateItems.length,
     }
   );
 }
