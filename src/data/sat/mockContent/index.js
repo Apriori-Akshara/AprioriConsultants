@@ -14,6 +14,73 @@ function removeGeneratedObservationFiller(mock) {
   return { ...mock, readingWriting: questions };
 }
 
+function diversifyStage1Prompts(...mocks) {
+  const poolBySkill = new Map();
+  const seenPrefixesBySkill = new Map();
+
+  for (const mock of mocks) {
+    for (const question of mock.readingWriting || []) {
+      const parts = String(question.prompt || "").split("\n\n");
+      const context = parts.length > 1 ? parts[0].trim() : "";
+      if (!context) continue;
+      const skill = String(question.skill || "");
+      if (!poolBySkill.has(skill)) poolBySkill.set(skill, []);
+      if (!poolBySkill.get(skill).some((item) => item === context)) poolBySkill.get(skill).push(context);
+    }
+  }
+
+  const seenPrompts = new Set();
+  return mocks.map((mock) => {
+    const readingWriting = (mock.readingWriting || []).map((question) => {
+      const originalPrompt = String(question.prompt || "");
+      const normalizedOriginal = originalPrompt.trim().toLowerCase().replace(/\s+/g, " ");
+      const parts = originalPrompt.split("\n\n");
+      const originalContext = parts.length > 1 ? parts[0].trim() : "";
+      const suffix = parts.length > 1 ? parts.slice(1).join("\n\n") : "";
+      const skill = String(question.skill || "");
+
+      if (!normalizedOriginal || seenPrompts.has(normalizedOriginal) || !originalContext || !suffix) {
+        if (normalizedOriginal) seenPrompts.add(normalizedOriginal);
+        return question;
+      }
+
+      const candidates = poolBySkill.get(skill) || [];
+      if (!candidates.length) {
+        seenPrompts.add(normalizedOriginal);
+        return question;
+      }
+
+      let selectedContext = originalContext;
+      let selectedPrompt = originalPrompt;
+
+      for (const candidate of candidates) {
+        const candidatePrompt = `${candidate}\n\n${suffix}`;
+        const normalizedCandidate = candidatePrompt.trim().toLowerCase().replace(/\s+/g, " ");
+        if (!seenPrompts.has(normalizedCandidate)) {
+          selectedContext = candidate;
+          selectedPrompt = candidatePrompt;
+          break;
+        }
+      }
+
+      const normalizedSelected = selectedPrompt.trim().toLowerCase().replace(/\s+/g, " ");
+      seenPrompts.add(normalizedSelected);
+      if (selectedContext === originalContext) return question;
+
+      return {
+        ...question,
+        prompt: selectedPrompt,
+        metadata: {
+          ...(question.metadata || {}),
+          contextFamily: `${question.metadata?.contextFamily || "stage1"}|${selectedContext}`,
+        },
+      };
+    });
+
+    return { ...mock, readingWriting };
+  });
+}
+
 function normalizeVerbalChoices(mock) {
   const suffixes = ["under the stated conditions", "in this comparison", "in the reported study"];
   const questions = [...(mock.readingWriting || [])].map((question) => {
@@ -36,10 +103,15 @@ function normalizeVerbalChoices(mock) {
   return { ...mock, readingWriting: questions };
 }
 
-const PSAT_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(PSAT_BASE));
-const SAT_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(SAT_BASE));
-const PSAT2_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(prepareStage2Mock(PSAT2_BASE)));
-const SAT2_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(prepareStage2Mock(SAT2_BASE)));
+const STAGE1_DIVERSIFIED = diversifyStage1Prompts(
+  removeGeneratedObservationFiller(PSAT_BASE),
+  removeGeneratedObservationFiller(SAT_BASE),
+);
+
+const PSAT_NORMALIZED = normalizeVerbalChoices(STAGE1_DIVERSIFIED[0]);
+const SAT_NORMALIZED = normalizeVerbalChoices(STAGE1_DIVERSIFIED[1]);
+const PSAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(PSAT2_BASE));
+const SAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(SAT2_BASE));
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
