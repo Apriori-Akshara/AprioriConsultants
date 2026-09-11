@@ -1,21 +1,39 @@
+function normalizePrompt(value) {
+  return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
 function removeDuplicateGeometryPrompts(mock) {
   const seen = new Set();
-  let duplicateIndex = 0;
   const math = (mock.math || []).map((question) => {
-    const normalized = String(question.prompt || '').trim().toLowerCase();
+    const originalPrompt = String(question.prompt || '').trim();
+    const normalized = normalizePrompt(originalPrompt);
     if (!normalized || !seen.has(normalized)) {
       if (normalized) seen.add(normalized);
       return question;
     }
-    const match = String(question.prompt).match(/^A triangle has a base of (\d+(?:\.\d+)?) units and a height of (\d+(?:\.\d+)?) units\. What is its area\?(\nEnter your answer as a number\.)?$/);
+
+    const match = originalPrompt.match(/^A triangle has a base of (\d+(?:\.\d+)?) units and a height of (\d+(?:\.\d+)?) units\. What is its area\?(\nEnter your answer as a number\.)?$/);
     if (!match) return question;
+
     const base = Number(match[1]);
-    const height = Number(match[2]) + 2 + duplicateIndex;
-    duplicateIndex += 1;
+    const originalHeight = Number(match[2]);
+    const suffix = match[3] || '';
+    let height = originalHeight + 2;
+    let prompt = `A triangle has a base of ${base} units and a height of ${height} units. What is its area?${suffix}`;
+
+    while (seen.has(normalizePrompt(prompt))) {
+      height += 1;
+      prompt = `A triangle has a base of ${base} units and a height of ${height} units. What is its area?${suffix}`;
+    }
+
+    seen.add(normalizePrompt(prompt));
     const answerValue = (base * height) / 2;
-    const prompt = `A triangle has a base of ${base} units and a height of ${height} units. What is its area?${match[3] || ''}`;
     const figure = question.figure ? { ...question.figure, values: { ...question.figure.values, base, height } } : question.figure;
-    if (question.questionType === 'student-produced-response') return { ...question, prompt, answer: answerValue, figure };
+
+    if (question.questionType === 'student-produced-response') {
+      return { ...question, prompt, answer: answerValue, figure };
+    }
+
     const correctIndex = String(question.answer).charCodeAt(0) - 65;
     const choices = [String(answerValue), String(answerValue + 1), String(answerValue - 1), String(answerValue * 2)];
     const first = choices.shift();
