@@ -18,7 +18,7 @@ For the two Stage 1 mocks:
 
 The combined PSAT/SAT bank must be validated as one pair before release. A mock may not pass its own QC check and then bypass the paired-bank QC check.
 
-Every question receives a stable originality fingerprint plus context/application fingerprints, and the combined content bank is checked for duplicate IDs, repeated R&W prompts/contexts and repeated Math application fingerprints before the bank is accepted.
+Every question receives stable identity, originality, context, and application fingerprints. The release gate checks the combined bank for duplicate IDs, repeated R&W prompts/contexts, and repeated Math application fingerprints.
 
 ## 2. Verbal anti-cheat rule
 
@@ -28,12 +28,11 @@ Therefore:
 
 - correct and incorrect choices must be approximately balanced in length for meaning-based questions;
 - no correct answer may systematically be the longest or most elaborate choice;
-- no correct answer may be the uniquely longest choice in a meaning-based R&W item;
+- no correct answer may be uniquely longest or uniquely shortest on a meaning-based R&W item;
 - no distractor may be deliberately shorter merely to make the correct choice look more complete;
 - wording complexity must reflect the reasoning task, not the correct/incorrect status;
-- the correct-answer position must be deliberately balanced across A-D rather than patterned predictably;
-- answer choices must be independently plausible before the text/evidence is considered;
-- the content bank quality gate must reject materially unbalanced choice lengths and answer-position concentration.
+- the correct-answer position must be deliberately distributed across A-D rather than patterned predictably;
+- answer choices must be independently plausible before the text/evidence is considered.
 
 The correct answer must be identifiable only by understanding the passage/notes and applying the relevant skill.
 
@@ -52,7 +51,7 @@ Module 2 is selected from an exact route pool. The adaptive engine is not permit
 
 ## 4. Question-type rule
 
-Math must include both multiple-choice and student-produced-response items. Student-produced-response records expose no answer-choice set to the client and store a numeric answer format in metadata.
+Math includes both multiple-choice and student-produced-response items. Student-produced-response records expose no answer-choice set to the client and store a numeric answer format in metadata.
 
 ## 5. Routing rule
 
@@ -64,30 +63,28 @@ Module 1 performance determines Module 2 route:
 
 The execution architecture is shared by PSAT Mock 01, SAT Mock 01 and all future mocks.
 
-## 6. Current Stage 1 completion status
+## 6. Stage 1 release gate
 
-The implementation architecture is complete, but **Stage 1 is not considered closed until the current content bank passes a clean production build**.
+Stage 1 for the first PSAT/SAT pair closes only after the production build is green with the complete paired bank loaded.
 
-The current failed build exposed content-QC defects that must be cleared before closure:
+The previous failed build exposed four substantive content-generation defects:
 
-- R&W answer-length imbalance in Rhetorical Synthesis items;
-- duplicate Math prompts in the prior generated bank;
-- answer-key position imbalance;
-- cross-mock duplicate/context risk in the previous generator;
-- the Profile `align-items: end` CSS compatibility warning.
+- duplicate question IDs caused by module-local numbering;
+- verbal answer-length clues;
+- answer-key distribution imbalance;
+- insufficiently explicit cross-mock Math application validation.
 
-The surgical replacement now addresses those defects through:
+The surgical correction series addresses them as one release pipeline:
 
-- a dedicated duplicate-safe mock content engine;
-- balanced Rhetorical Synthesis and Cross-Text answer choices;
-- deterministic A-D answer-position balancing;
-- paired PSAT/SAT cross-mock duplicate checks;
-- unique verbal context allocation across the complete 216-question paired R&W bank;
-- unique Math application fingerprints across the complete 176-question paired Math bank;
-- four Math student-produced-response items per mock;
-- the Profile CSS compatibility fix.
+1. global bank numbering makes every question ID unique within each mock;
+2. verbal assembly removes uniquely-long/uniquely-short correct-answer clues while preserving answer meaning;
+3. answer positions are deterministically distributed after verbal normalization;
+4. the paired QC gate validates both mocks together;
+5. the content-bank release gate validates cross-mock R&W prompts/contexts and Math application fingerprints;
+6. the adaptive pools remain exactly 27/27/27 for R&W and 22/22/22 for Math;
+7. the Profile CSS compatibility warning is fixed separately from content QC.
 
-Stage 1 closes only after those rules are incorporated and the resulting build is green.
+No Stage 1 architecture redesign is required after this release gate passes. Any remaining Stage 1 work is limited to clearing a concrete build/QC failure revealed by the gate.
 
 ## 7. Future paired-build rule
 
@@ -95,8 +92,8 @@ After student verification of this pair, future mock development proceeds in pai
 
 **one PSAT + one SAT**
 
-using the same approved execution, persistence, scoring, dashboard and QC architecture.
+using the same approved execution, persistence, scoring, dashboard, content-bank, and QC architecture.
 
 Only new content authoring, route calibration, figures/data displays, and test-specific metadata should change unless a genuine product requirement is discovered.
 
-Future pairs must pass the same paired-bank duplicate, verbal anti-cheat, answer-position, Math application and adaptive-pool gates before being marked complete.
+Future pairs must pass the same paired-bank duplicate, verbal anti-cheat, answer-position, Math application, and adaptive-pool gates before being marked complete.
