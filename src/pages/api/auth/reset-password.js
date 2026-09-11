@@ -34,68 +34,60 @@ export default async function handler(req, res) {
       .createHash("sha256")
       .update(token)
       .digest("hex");
+    const passwordHash = await createPasswordHash(password);
 
-    const tokenResult = await query(
+    const result = await query(
       `
-        SELECT id, user_id
-        FROM password_reset_tokens
-        WHERE token_hash = $1
-          AND used_at IS NULL
-          AND expires_at > NOW()
+        WITH valid_token AS (
+          SELECT id, user_id
+          FROM password_reset_tokens
+          WHERE token_hash = $1
+            AND used_at IS NULL
+            AND expires_at > NOW()
+          LIMIT 1
+        ),
+        updated_user AS (
+          UPDATE users u
+          SET password_hash = $2,
+              updated_at = NOW()
+          FROM valid_token v
+          WHERE u.id = v.user_id
+            AND u.email_verified = TRUE
+          RETURNING u.id
+        ),
+        marked_token AS (
+          UPDATE password_reset_tokens t
+          SET used_at = NOW()
+          FROM valid_token v
+          INNER JOIN updated_user u ON u.id = v.user_id
+          WHERE t.id = v.id
+          RETURNING t.id
+        ),
+        deleted_sessions AS (
+          DELETE FROM sessions s
+          USING updated_user u
+          WHERE s.user_id = u.id
+          RETURNING s.id
+        )
+        SELECT u.id
+        FROM updated_user u
+        INNER JOIN marked_token t ON TRUE
         LIMIT 1
       `,
-      [tokenHash]
+      [tokenHash, passwordHash]
     );
 
-    if (tokenResult.rows.length === 0) {
+    if (result.rows.length === 0) {
       return res.status(400).json({
         success: false,
         message: "This password reset link is invalid or has expired.",
       });
     }
 
-    const resetToken = tokenResult.rows[0];
-    const passwordHash = await createPasswordHash(password);
-
-    await query("BEGIN");
-
-    try {
-      await query(
-        `
-          UPDATE users
-          SET password_hash = $1, updated_at = NOW()
-          WHERE id = $2
-            AND email_verified = TRUE
-        `,
-        [passwordHash, resetToken.user_id]
-      );
-
-      await query(
-        `
-          UPDATE password_reset_tokens
-          SET used_at = NOW()
-          WHERE id = $1
-        `,
-        [resetToken.id]
-      );
-
-      await query(
-        `
-          DELETE FROM sessions
-          WHERE user_id = $1
-        `,
-        [resetToken.user_id]
-      );
-
-      await query("COMMIT");
-    } catch (transactionError) {
-      await query("ROLLBACK");
-      throw transactionError;
-    }
-
     return res.status(200).json({
       success: true,
-      message: "Your password has been reset successfully. You can now log in with your Student ID and new password.",
+      message:
+        "Your password has been reset successfully. You can now log in with your Student ID and new password.",
     });
   } catch (error) {
     console.error("Password reset completion error:", error);
