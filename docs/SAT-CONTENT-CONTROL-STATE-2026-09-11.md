@@ -4,21 +4,21 @@
 
 ## Current status
 
-The SAT/PSAT student-facing application is being built against the public live website. The public live site is the routine student verification environment; Render remains the deployment and infrastructure/diagnostic environment.
+The SAT/PSAT student-facing mock area is now expanded to four live mock forms: PSAT Mock 01, PSAT Mock 02, SAT Mock 01 — Series A, and SAT Mock 02 — Series A.
+
+The public live site is the routine student verification environment. Render remains the deployment/infrastructure and diagnostic environment.
+
+**Latest Mock 02 changes are implemented and deployed, but are explicitly pending student quality verification.** The user will review all four live mocks together before Mock 03 work begins.
 
 ## Master content-quality source of truth
 
-The single governing document for **all questions, lessons and learning content across SAT, GRE and GMAT** is:
+The single governing document for all SAT, GRE and GMAT learning content remains:
 
 `docs/TEST-PREP-CONTENT-QUALITY-CONTROL.md`
 
-It governs content taxonomy, labels/tags, difficulty, exercise/drill construction, timing, mock construction, figures, calculator metadata, lesson quality, originality, review/release gates, versioning and content changes that do not require architecture changes.
+No College Board, competitor or third-party question, passage, answer choice, explanation or proprietary asset is copied into Apriori content.
 
-External providers are benchmarks only. No College Board, competitor or third-party question, passage, answer choice, explanation or proprietary asset is copied into Apriori content.
-
-## PSAT/SAT mock program
-
-The student-facing mock area is **PSAT/SAT Mocks**.
+## Mock program
 
 Initial target:
 
@@ -28,151 +28,100 @@ Initial target:
 
 Total initial full-length mock inventory: **30 mocks**.
 
-Foundation and Advanced exercise/drill creation is intentionally deferred until the mock-bank build reaches the requested milestone of completed PSAT/SAT mock inventory.
+Future mock pairs must reuse the existing execution, persistence, scoring, access-control and QC architecture. New work should be limited to content, route calibration, figures/data displays and test-specific metadata unless a genuine product requirement requires an architectural change.
 
-## Mock difficulty revision rule — effective immediately and retrospectively
+## Four-mock implementation state
 
-For the current PSAT/SAT mock-bank build, the quality standard is elevated above baseline assessment difficulty while preserving the exact style of current College Board Digital SAT/PSAT presentation, wording, question construction, application style and answer-choice logic.
+Each delivered mock contains a protected bank of **196 questions**:
 
-**College Board = structure, wording style, application style, domain taxonomy and answer-choice conventions. Apriori = one difficulty level higher for both Verbal and Quant.**
+- R&W Module 1: 27;
+- R&W Module 2: 81 = 27 High + 27 Standard + 27 Low;
+- Math Module 1: 22;
+- Math Module 2: 66 = 22 High + 22 Standard + 22 Low.
 
-This applies **retrospectively** to already-authored mock questions and **prospectively** to every new PSAT/SAT mock unless a later instruction explicitly changes the standard.
-
-The elevation must come from stronger reasoning, more precise distractors, multi-step application, tighter evidence discrimination and subtler wording—not artificial complexity or vocabulary/math tricks that make the item unlike the SAT/PSAT.
-
-## First two mock implementation milestone
-
-The first two full-length prototypes are now connected to one reusable adaptive execution architecture.
+A completed adaptive route delivers **54 R&W + 44 Math = 98 questions**.
 
 ### PSAT Mock 01
 
 - Assessment: `psat-nmsqt`
-- Questions delivered per completed route: **98**
-- Reading & Writing: **54**
-- Math: **44**
-- Modules: 2 R&W + 2 Math
-- Elevated difficulty standard applied
-- Calculator metadata included throughout Math
-- Original Apriori content
 - Student route: `/SATMocks/PSAT1`
+- Original content
+- Figure-aware Math delivery
+- Adaptive routing and persistent attempts
+
+### PSAT Mock 02
+
+- Assessment: `psat-nmsqt`
+- Student route: `/SATMocks/PSAT2`
+- Independent Mock 02 bank
+- Fresh R&W passages/prompts and Math applications
+- Question-specific Math figures
+- Included in the same four-mock duplicate/QC gate
 
 ### SAT Mock 01 — Series A
 
 - Assessment: `sat-series-a`
-- Questions delivered per completed route: **98**
-- Reading & Writing: **54**
-- Math: **44**
-- Modules: 2 R&W + 2 Math
-- Elevated difficulty standard applied
-- Calculator metadata included throughout Math
-- Original Apriori content
 - Student route: `/SATMocks/Test1`
+- Original content
+- Figure-aware Math delivery
+- Adaptive routing and persistent attempts
 
-## Adaptive mock implementation completed
+### SAT Mock 02 — Series A
 
-Reusable engine:
+- Assessment: `sat-series-a`
+- Student route: `/SATMocks/Test2`
+- Independent Mock 02 bank
+- Fresh R&W passages/prompts and Math applications
+- Question-specific Math figures
+- Free-test access remains controlled by the existing Tests 1–2 rule
 
-`src/lib/sat/adaptiveMockEngine.js`
+## Reusable Mock 02 implementation
 
-The engine now correctly maps the existing mock-content module records into the student-facing test plan. The previous delivery defect where the engine expected `questions.records` while the content bank exposes section arrays has been corrected.
+Mock 02 uses:
 
-The engine provides:
+- `src/data/sat/mockContent/stage2MockBank.js`
+- `src/data/sat/mockContent/stage2PostProcess.js`
+- `src/data/sat/mockContent/index.js`
+- `src/lib/sat/adaptiveMockEngine.js`
+- `src/data/sat/mockContent/mockContentQualityGate.js`
+- `src/data/sat/contentBank.js`
+- the existing shared `/SATMocks/[testId]` runner
 
-- one common mock-definition contract for PSAT Mock 01 and SAT Mock 01;
-- Module 1 → Module 2 routing;
-- three Module 2 route states: `high`, `standard`, `low`;
-- section timing of 32 minutes R&W and 35 minutes Math;
-- 10-minute break between sections;
-- secure server-side answer recording;
-- server-side scoring using the canonical answer key;
-- reusable client-safe question delivery that does not expose correct answers;
-- a reusable route/template intended for the remaining mock inventory.
+The series quality gate now validates all four mocks together for duplicate IDs, duplicate prompts, repeated R&W context keys and repeated Math application fingerprints. Math answer positions are rebalanced before the Mock 02 release gate.
 
-Current routing thresholds are:
+The figure quality gate remains active. Math figures must be question-essential, domain-compatible and question-specific; R&W questions cannot receive Math figures.
 
-- **High route:** ≥75% correct in Module 1;
-- **Standard route:** 46–74% correct;
-- **Low route:** ≤45% correct.
+## Access and student-facing library
 
-The execution framework is reusable. Future mocks should plug their authored module and route pools into the same engine instead of creating another test implementation.
+Tests 1–2 remain free after the existing verified-student flow. Tests 3–10 remain premium. The Mock Library now exposes PSAT 01, PSAT 02, SAT 01 and SAT 02 as live forms while preserving the reserved future slots for Tests 3–10.
 
-## Attempt persistence and reporting completed
+## Verification status — IMPORTANT
 
-Server endpoint:
+**PENDING VERIFICATION:**
 
-`src/pages/api/sat/mock-progress.js`
+The latest four-mock build has not yet received the user's full quality review. Verification will be performed on the public live website after all four forms are online.
 
-It creates/uses the `sat_mock_attempts` PostgreSQL table and records:
+The review should cover, at minimum:
 
-- student ID;
-- mock key;
-- in-progress/completed state;
-- current section/module;
-- selected adaptive route for R&W and Math;
-- question responses;
-- section scores;
-- completion timestamp.
+- originality and non-repetition across the four forms;
+- passage/question quality and answer correctness;
+- Math calculations and explanations;
+- relevance and usefulness of every displayed figure;
+- R&W absence of inappropriate Math visuals;
+- adaptive Module 2 route behavior;
+- calculator/reference/tools behavior;
+- Mark for Review and Question Navigator;
+- persistence/resume behavior;
+- timing and section transitions;
+- mobile and desktop presentation;
+- Mock 01 and Mock 02 consistency without making them feel like copies.
 
-Completion scoring now uses the **actual adaptive route selected for each section**, rather than always scoring the standard Module 2 pool.
+**Do not mark the four-mock content milestone as quality-approved until this verification is complete.**
 
-## Dashboard integration completed
+## Next build rule
 
-`src/pages/SATMocks/index.js` now exposes:
-
-- PSAT Mock 01 as a live student-facing adaptive mock;
-- SAT Mock 01 as a live student-facing adaptive mock;
-- the remaining SAT library as reserved production slots using the same visual/test template;
-- completed-mock count;
-- best mock accuracy;
-- direct test launch actions;
-- direct access to the Profile progress dashboard.
-
-The PSAT and SAT cards were also redesigned together so that they use one cohesive card system: clear identity badge, compact status pill, structured test metadata, balanced card height and centered CTA treatment.
-
-`src/pages/Profile/index.js` now consumes the same mock-progress endpoint and displays:
-
-- mocks completed;
-- questions answered;
-- latest accuracy;
-- best accuracy;
-- latest mock route information;
-- latest R&W and Math breakdown;
-- direct path to the mock library.
-
-The SAT Mock Tests path card on the Profile dashboard was aligned with the same visual treatment and now represents the live PSAT/SAT mock experience rather than a future-only placeholder.
-
-## Content-quality boundary for the two prototypes
-
-The execution architecture is now ready to serve as the template for the remaining mock inventory. Content release quality remains governed by the master QC document.
-
-The remaining content calibration work is:
-
-- fully authored high/standard/low Module 2 pools with real difficulty separation;
-- final official domain-distribution calibration;
-- expanded figure/chart/geometry stimulus coverage;
-- visual accessibility validation;
-- deeper duplicate/concept-overlap controls across the 30-mock inventory;
-- final scoring calibration and report interpretation.
-
-These are content-calibration tasks, not reasons to rebuild the execution architecture.
+No Mock 03 content generation begins until the four-mock verification is complete and concrete issues, if any, have been corrected. After approval, the same paired implementation pattern will be reused for the next PSAT + SAT pair.
 
 ## Foundation and Advanced timing rule
 
-Foundation remains **5 × 10 = 50 questions** per exercise/drill and Advanced remains **10 × 20 = 200 questions** per exercise/drill, with a major difficulty jump at each set boundary. Their creation remains deferred until the mock milestone specified above.
-
-## Timing and calculator rules
-
-Timed SAT/PSAT learning uses approximately:
-
-- Reading & Writing ≈ 71 seconds per question;
-- Math ≈ 95 seconds per question.
-
-Non-timed exercises do not expire but record elapsed time.
-
-SAT/PSAT Math continues to support the integrated scientific/graphing calculator model with CAS excluded, and question metadata records calculator mode/requirement.
-
-## Current Stage 1 state
-
-**STAGE 1 — Question Bank Foundation and Validation Infrastructure + reusable adaptive mock implementation is in progress.**
-
-The first two mocks now have the reusable execution engine, persistent attempt layer, adaptive routing framework, scoring, mock-library integration and Profile integration. The next build work should concentrate on surgical content calibration and expansion of these exact patterns into the remaining mocks, without recreating the architecture.
+Foundation remains **5 × 10 = 50 questions** per exercise/drill and Advanced remains **10 × 20 = 200 questions** per exercise/drill. Their creation remains deferred until the mock milestone specified by the project plan.
