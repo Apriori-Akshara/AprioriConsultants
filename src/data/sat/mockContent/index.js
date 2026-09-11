@@ -6,6 +6,14 @@ import { validateMockFigureQuality } from "./figureQualityGate";
 
 const LONG_FORM_RW = new Set(["Central Ideas and Details", "Inferences", "Command of Evidence", "Text Structure and Purpose", "Cross-Text Connections", "Rhetorical Synthesis"]);
 
+function removeGeneratedObservationFiller(mock) {
+  const questions = [...(mock.readingWriting || [])].map((question) => ({
+    ...question,
+    prompt: String(question.prompt || "").replace(/\nFor this (?:PSAT|SAT) form, the comparison uses \d+ observation sites\.$/i, ""),
+  }));
+  return { ...mock, readingWriting: questions };
+}
+
 function normalizeVerbalChoices(mock) {
   const suffixes = ["under the stated conditions", "in this comparison", "in the reported study"];
   const questions = [...(mock.readingWriting || [])].map((question) => {
@@ -28,10 +36,10 @@ function normalizeVerbalChoices(mock) {
   return { ...mock, readingWriting: questions };
 }
 
-const PSAT_NORMALIZED = normalizeVerbalChoices(PSAT_BASE);
-const SAT_NORMALIZED = normalizeVerbalChoices(SAT_BASE);
-const PSAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(PSAT2_BASE));
-const SAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(SAT2_BASE));
+const PSAT_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(PSAT_BASE));
+const SAT_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(SAT_BASE));
+const PSAT2_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(prepareStage2Mock(PSAT2_BASE)));
+const SAT2_NORMALIZED = normalizeVerbalChoices(removeGeneratedObservationFiller(prepareStage2Mock(SAT2_BASE)));
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
