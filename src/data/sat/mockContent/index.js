@@ -10,13 +10,11 @@ import { validateMockContent } from "./mockContentQualityGate";
 
 function repairStage1MathExpressions(records) {
   return records.map((question) => {
-    if (question.section === "math" && question.prompt.includes("p(x + q)") && question.prompt.includes("__")) {
+    if (question.section === "math" && question.skill === "Equivalent expressions" && question.prompt.includes("__")) {
       return {
         ...question,
-        prompt: question.prompt.replace(/p\(x \+ q\) = r \+ px \+ __\./, "p(x + q) = px + __."),
-        choices: question.choices,
         answer: "B",
-        explanation: "Distribute p across x + q. The constant term is pq, so the second choice is correct.",
+        explanation: "Distribute the coefficient across the quantity in parentheses. The constant term is the product of the coefficient and the constant inside the parentheses.",
       };
     }
     return question;
