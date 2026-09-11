@@ -1,4 +1,4 @@
-import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT } from "./productionStage1MockContent";
+import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT } from "./stage1MockBank";
 import { validateMockContent, validateMockPair } from "./mockContentQualityGate";
 
 validateMockContent(PSAT_MOCK_01_CONTENT);
