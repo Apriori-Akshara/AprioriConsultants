@@ -3,10 +3,10 @@ import { buildMock as buildBaseMock } from './surgicalMockContent';
 const letterIndex = (letter) => String(letter || 'A').charCodeAt(0) - 65;
 
 const balancedRhetoricalChoices = [
-  'Approach B used 18% less energy than Approach A and stayed within the target.',
-  'The study compared three approaches while recording energy use for each one.',
-  'Approach B was one of the three approaches included in the comparison.',
-  'The researchers measured and reported energy use and performance for all approaches.'
+  'Approach B used 18% less energy than Approach A and met the target performance.',
+  'The study compared three approaches and recorded the energy use for each one tested.',
+  'Approach B was one of the three approaches evaluated in the reported efficiency comparison.',
+  'The researchers measured and reported energy use and performance for all three approach types.'
 ];
 
 const balancedCrossTextChoices = [
