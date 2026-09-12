@@ -11,27 +11,33 @@ const CONTEXTS = [
 const LENSES = ['a comparison of two sites','a repeated measurement study','a survey across several regions','a long-term observational record','a model checked against field observations','a controlled experiment with repeated measurements'];
 
 function normalizeVerbalChoices(questions) {
-  const suffixes = ['under the stated conditions','in this comparison','in the reported study','for the stated purpose','given the evidence provided','in the context described'];
+  const padding = ['as described', 'in this study', 'for this purpose', 'under these conditions', 'in the comparison', 'given the evidence'];
   return questions.map((question) => {
     if (question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
-    const choices = [...question.choices];
-    const correct = String(question.answer || 'A').charCodeAt(0) - 65;
-    for (let pass = 0; pass < suffixes.length; pass += 1) {
-      const lengths = choices.map((choice) => String(choice).trim().split(/\s+/).filter(Boolean).length);
-      const correctLength = lengths[correct];
-      const otherLengths = lengths.filter((_, index) => index !== correct);
-      if (correctLength > Math.max(...otherLengths)) {
-        const targetIndex = [0, 1, 2, 3].filter((index) => index !== correct)[otherLengths.indexOf(Math.max(...otherLengths))];
-        choices[targetIndex] = `${choices[targetIndex]} ${suffixes[pass]}`;
-        continue;
-      }
-      if (correctLength < Math.min(...otherLengths)) {
-        choices[correct] = `${choices[correct]} ${suffixes[pass]}`;
-        continue;
-      }
-      break;
-    }
-    return { ...question, choices };
+    const choices = question.choices.map((choice) => String(choice).trim());
+    const lengths = choices.map((choice) => choice.split(/\s+/).filter(Boolean).length);
+    const targetLength = Math.max(...lengths);
+    return {
+      ...question,
+      choices: choices.map((choice, index) => {
+        let result = choice;
+        let currentLength = lengths[index];
+        let padIndex = 0;
+        while (currentLength < targetLength) {
+          const phrase = padding[padIndex % padding.length];
+          const phraseLength = phrase.split(/\s+/).length;
+          if (currentLength + phraseLength <= targetLength) {
+            result = `${result} ${phrase}`;
+            currentLength += phraseLength;
+          } else {
+            result = `${result} ${'in the study'.split(/\s+/).slice(0, targetLength - currentLength).join(' ')}`;
+            currentLength = targetLength;
+          }
+          padIndex += 1;
+        }
+        return result;
+      })
+    };
   });
 }
 
