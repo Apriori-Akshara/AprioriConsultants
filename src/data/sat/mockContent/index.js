@@ -112,28 +112,14 @@ function correctKnownVerbalQC(mock) {
           "A description of the equipment used to collect the original measurements.",
           "A statement noting that the study was conducted during a particular season.",
         ];
-        const corrected = preserveAnswerPosition(
-          question,
-          choices,
-          "The first choice is the strongest evidence because it directly supports the claim that the observed effect depends on conditions. The other choices describe the study without directly supporting that claim.",
-        );
-        return {
-          ...corrected,
-          prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nSuppose a follow-up study were conducted. Which finding would best support the interpretation presented in the passage?`,
-        };
+        const corrected = preserveAnswerPosition(question, choices, "The first choice is the strongest evidence because it directly supports the claim that the observed effect depends on conditions. The other choices describe the study without directly supporting that claim.");
+        return { ...corrected, prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nSuppose a follow-up study were conducted. Which finding would best support the interpretation presented in the passage?` };
       }
 
       if (question.skill === "Words in Context") {
         const choices = ["determine", "remove", "measure", "separate"];
-        const corrected = preserveAnswerPosition(
-          question,
-          choices,
-          "In this context, identify means determine or recognize something through the comparison. The other choices do not express the meaning intended by the sentence.",
-        );
-        return {
-          ...corrected,
-          prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nThe comparison helps researchers identify an important difference between the conditions. As used in this sentence, what does identify most nearly mean?`,
-        };
+        const corrected = preserveAnswerPosition(question, choices, "In this context, identify means determine or recognize something through the comparison. The other choices do not express the meaning intended by the sentence.");
+        return { ...corrected, prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nThe comparison helps researchers identify an important difference between the conditions. As used in this sentence, what does identify most nearly mean?` };
       }
 
       if (question.skill === "Cross-Text Connections") {
@@ -145,15 +131,8 @@ function correctKnownVerbalQC(mock) {
           "Both passages argue that comparisons are unnecessary when a pattern is observed.",
           "Both passages conclude that local conditions have no effect on the result.",
         ];
-        const corrected = preserveAnswerPosition(
-          question,
-          choices,
-          "Both passages support a qualified interpretation: the broad pattern can be informative while the strength of the result varies with conditions.",
-        );
-        return {
-          ...corrected,
-          prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nPassage 2: ${passage2}\n\nBased on the two passages, which statement would both authors most likely agree with?`,
-        };
+        const corrected = preserveAnswerPosition(question, choices, "Both passages support a qualified interpretation: the broad pattern can be informative while the strength of the result varies with conditions.");
+        return { ...corrected, prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nPassage 2: ${passage2}\n\nBased on the two passages, which statement would both authors most likely agree with?` };
       }
 
       if (question.skill === "Rhetorical Synthesis") {
@@ -163,11 +142,7 @@ function correctKnownVerbalQC(mock) {
           "The study proves that the same effect must occur in every setting.",
           "The comparison is useful only because it uses a large number of observations.",
         ];
-        return preserveAnswerPosition(
-          question,
-          choices,
-          "The first choice best accomplishes the goal because it emphasizes the result while preserving the important qualification about conditions.",
-        );
+        return preserveAnswerPosition(question, choices, "The first choice best accomplishes the goal because it emphasizes the result while preserving the important qualification about conditions.");
       }
 
       return question;
@@ -176,15 +151,7 @@ function correctKnownVerbalQC(mock) {
 }
 
 function applyBlueprintMath(mock, assessmentNumber, seed) {
-  return {
-    ...mock,
-    math: buildMathBank({
-      testId: mock.testId,
-      variant: mock.assessmentVariant,
-      assessmentNumber,
-      seed,
-    }),
-  };
+  return { ...mock, math: buildMathBank({ testId: mock.testId, variant: mock.assessmentVariant, assessmentNumber, seed }) };
 }
 
 const PSAT_BASE_ALIGNED = applyBlueprintMath(PSAT_BASE, 1, 0);
@@ -192,10 +159,10 @@ const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 1);
 const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 2));
 const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 3));
 
-const PSAT_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED))));
-const SAT_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED))));
-const PSAT2_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(PSAT2_BASE_ALIGNED)));
-const SAT2_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(SAT2_BASE_ALIGNED)));
+const PSAT_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED))));
+const SAT_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED))));
+const PSAT2_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(PSAT2_BASE_ALIGNED)));
+const SAT2_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(SAT2_BASE_ALIGNED)));
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
