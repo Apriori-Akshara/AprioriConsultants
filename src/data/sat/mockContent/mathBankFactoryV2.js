@@ -33,6 +33,24 @@ function sequenceValue(a) {
   return a.i + a.seed * 88;
 }
 
+function uniqueDistractors(answer, distractors, mode) {
+  const normalizedAnswer = String(answer).trim();
+  const output = [];
+  const seen = new Set([normalizedAnswer]);
+  const candidates = [
+    ...(Array.isArray(distractors) ? distractors : []),
+    ...wrong(answer, mode),
+  ];
+  for (const candidate of candidates) {
+    const value = String(candidate).trim();
+    if (!value || seen.has(value)) continue;
+    seen.add(value);
+    output.push(candidate);
+    if (output.length === 3) break;
+  }
+  return output;
+}
+
 function item({ testId, variant, assessmentNumber, module, route, domain, i, difficulty, skill, prompt, answer, explanation, figure = null, features = [], distractors }) {
   const questionType = i % 4 === 3 ? 'student-produced-response' : 'multiple-choice';
   const questionId = `${testId}-math-${module}-${route || 'm1'}-${String(i + 1).padStart(2, '0')}`;
@@ -62,7 +80,8 @@ function item({ testId, variant, assessmentNumber, module, route, domain, i, dif
   };
   if (questionType === 'student-produced-response') out.answer = String(answer);
   else {
-    const choices = [String(answer), ...(distractors || wrong(answer, domain === 'Algebra' ? 'algebra' : domain === 'Problem-Solving and Data Analysis' ? 'percent' : 'generic'))];
+    const mode = domain === 'Algebra' ? 'algebra' : domain === 'Problem-Solving and Data Analysis' ? 'percent' : 'generic';
+    const choices = [String(answer), ...uniqueDistractors(answer, distractors, mode).map(String)];
     const target = (i + assessmentNumber) % 4;
     const first = choices.shift(); choices.splice(target, 0, first);
     out.choices = choices;
