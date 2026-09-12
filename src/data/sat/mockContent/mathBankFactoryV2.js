@@ -161,8 +161,8 @@ const PSAT_M2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Al
 
 const LEVELS = {
   module1: ['easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard'],
-  high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
-  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard'],
+  high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
+  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
   low: ['easy','easy','easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard'],
 };
 
