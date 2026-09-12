@@ -8,17 +8,32 @@ const FIG = {
 const LEVELS = {
   module1: ['easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard'],
   high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
-  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
+  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
   low: ['easy','easy','easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard'],
 };
-const DOMAINS1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
-const DOMAINS2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+
+const DOMAINS1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+const DOMAINS2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+const PSAT_DOMAINS1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+const PSAT_DOMAINS2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
 
 function valueFor(seed, i, offset = 0) { return Math.abs((seed + 1) * 997 + (i + offset) * 131); }
 function distractors(answer) {
   if (typeof answer === 'string' && !/^[-+]?\d+(?:\.\d+)?$/.test(answer)) return [`${answer} + 1`, `${answer} − 1`, 'none of these'];
   const n = Number(answer); return [n + 1, n - 1, n * 2].map(String).filter((v) => v !== String(answer)).slice(0, 3);
 }
+
+const CONSTRUCTION_FAMILIES = [
+  'A planning analyst models a changing quantity from a stated baseline and rate.',
+  'A field researcher compares two measured states and reconstructs the unknown quantity from the reported relationship.',
+  'An engineering team represents the relationship symbolically and checks the unknown against an observed condition.',
+  'A data specialist translates the stated relationship into a mathematical model before determining the requested value.',
+];
+
+function constructionFamily(seed, assessmentNumber) {
+  return CONSTRUCTION_FAMILIES[Math.abs(seed + assessmentNumber - 1) % CONSTRUCTION_FAMILIES.length];
+}
+
 function makeQuestion({ testId, variant, assessmentNumber, module, route, domain, difficulty, i, seed }) {
   const n = valueFor(seed, i, module === 'math-module-2' ? (route === 'high' ? 100 : route === 'standard' ? 200 : 300) : 0);
   const form = (seed + i) % 4;
@@ -47,6 +62,8 @@ function makeQuestion({ testId, variant, assessmentNumber, module, route, domain
     else { const scale = 2 + n % 5; const area = 12 + Math.floor(n / 5) % 41; skill = 'Similarity and scaling'; prompt = `Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has area ${area}. What is the larger area?`; answer = area * scale * scale; explanation = 'Areas scale by the square of the length ratio.'; figure = FIG.geometry('similar-figures', { scale, area }); features = ['multi-step','constraint-inference']; }
   }
   const questionType = (i + assessmentNumber) % 5 === 0 ? 'student-produced-response' : 'multiple-choice';
+  const family = constructionFamily(seed, assessmentNumber);
+  prompt = `${family} ${prompt}`;
   const questionId = `${testId}-math-${module}-${route || 'm1'}-${String(i + 1).padStart(2, '0')}`;
   let choices = [];
   let answerValue = String(answer);
@@ -57,7 +74,7 @@ function makeQuestion({ testId, variant, assessmentNumber, module, route, domain
   } else {
     prompt = `${prompt}\nEnter your answer as a number.`;
   }
-  return { contentId: questionId, version: 5, product: 'sat', questionId, testId, assessmentFamily: variant === 'psat-nmsqt' ? 'psat' : 'sat', assessmentVariant: variant, assessmentNumber, section: 'math', module, domain, skill, subskill: skill, conceptId: `${domain}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, difficulty, difficultyBand: `math-${route || 'module-1'}-${difficulty}`, cognitiveDemand: difficulty === 'hard' ? 'analyze' : 'apply', questionType, stimulusType: figure?.type || 'numeric-text', interactionType: questionType === 'student-produced-response' ? 'student-produced-response' : 'single-select', timingMode: 'timed', estimatedTimeSeconds: difficulty === 'hard' ? 105 : difficulty === 'medium' ? 95 : 80, calculatorEligibility: true, calculatorMode: 'either', calculatorRequired: false, referenceSheetRelevant: true, prompt, choices, answer: answerValue, explanation, figure, isOperational: true, adaptiveRoute: route || null, originalityFingerprint: `${variant}-${questionId}`, conceptFingerprint: `${domain}-${skill}-${i}`, tags: [variant, 'mock', 'math', 'apriori-original'], lessonIds: [], sourceType: 'apriori-original', authoringStatus: 'qc-approved', status: 'assembly-ready', releaseEligibility: true, metadata: { contextKey: `${variant}-${testId}-math-${i}`, contextFamily: `${variant}-${domain}-${skill}`, applicationFingerprint: `${variant}-${testId}-${domain}-${skill}-${i}`, constructionFamily: `${domain}|${skill}|form-${(seed + i) % 4}`, answerFormat: questionType === 'student-produced-response' ? 'numeric' : 'A-D', figurePurpose: figure ? 'question-essential' : null, difficultyFeatures: [...new Set([...features, ...(difficulty === 'hard' ? ['strategic-choice'] : [])])] } };
+  return { contentId: questionId, version: 6, product: 'sat', questionId, testId, assessmentFamily: variant === 'psat-nmsqt' ? 'psat' : 'sat', assessmentVariant: variant, assessmentNumber, section: 'math', module, domain, skill, subskill: skill, conceptId: `${domain}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, difficulty, difficultyBand: `math-${route || 'module-1'}-${difficulty}`, cognitiveDemand: difficulty === 'hard' ? 'analyze' : 'apply', questionType, stimulusType: figure?.type || 'numeric-text', interactionType: questionType === 'student-produced-response' ? 'student-produced-response' : 'single-select', timingMode: 'timed', estimatedTimeSeconds: difficulty === 'hard' ? 105 : difficulty === 'medium' ? 95 : 80, calculatorEligibility: true, calculatorMode: 'either', calculatorRequired: false, referenceSheetRelevant: true, prompt, choices, answer: answerValue, explanation, figure, isOperational: true, adaptiveRoute: route || null, originalityFingerprint: `${variant}-${questionId}`, conceptFingerprint: `${domain}-${skill}-${i}`, tags: [variant, 'mock', 'math', 'apriori-original'], lessonIds: [], sourceType: 'apriori-original', authoringStatus: 'qc-approved', status: 'assembly-ready', releaseEligibility: true, metadata: { contextKey: `${variant}-${testId}-math-${i}`, contextFamily: `${variant}-${domain}-${skill}`, applicationFingerprint: `${variant}-${testId}-${domain}-${skill}-${i}`, constructionFamily: `${variant}|${testId}|${domain}|${skill}|family-${Math.abs(seed + assessmentNumber - 1) % CONSTRUCTION_FAMILIES.length}`, answerFormat: questionType === 'student-produced-response' ? 'numeric' : 'A-D', figurePurpose: figure ? 'question-essential' : null, difficultyFeatures: [...new Set([...features, ...(difficulty === 'hard' ? ['strategic-choice'] : [])])] } };
 }
 
 function buildPool({ testId, variant, assessmentNumber, seed, module, route, domains, levels, offset }) {
@@ -65,11 +82,12 @@ function buildPool({ testId, variant, assessmentNumber, seed, module, route, dom
 }
 
 export function buildMathBank({ testId, variant, assessmentNumber, seed = 0 }) {
+  const isPsat = variant === 'psat-nmsqt';
   const pools = [
-    { module: 'math-module-1', route: null, domains: DOMAINS1, levels: LEVELS.module1, offset: 0 },
-    { module: 'math-module-2', route: 'high', domains: DOMAINS2, levels: LEVELS.high, offset: 22 },
-    { module: 'math-module-2', route: 'standard', domains: DOMAINS2, levels: LEVELS.standard, offset: 44 },
-    { module: 'math-module-2', route: 'low', domains: DOMAINS2, levels: LEVELS.low, offset: 66 },
+    { module: 'math-module-1', route: null, domains: isPsat ? PSAT_DOMAINS1 : DOMAINS1, levels: LEVELS.module1, offset: 0 },
+    { module: 'math-module-2', route: 'high', domains: isPsat ? PSAT_DOMAINS2 : DOMAINS2, levels: LEVELS.high, offset: 22 },
+    { module: 'math-module-2', route: 'standard', domains: isPsat ? PSAT_DOMAINS2 : DOMAINS2, levels: LEVELS.standard, offset: 44 },
+    { module: 'math-module-2', route: 'low', domains: isPsat ? PSAT_DOMAINS2 : DOMAINS2, levels: LEVELS.low, offset: 66 },
   ];
   return pools.flatMap((pool) => buildPool({ testId, variant, assessmentNumber, seed, ...pool }));
 }
