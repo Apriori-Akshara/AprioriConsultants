@@ -28,6 +28,29 @@ function exactAdaptivePool(questions, route, count) {
   return pool;
 }
 
+function validateQuestionRecords(mock, questions) {
+  const seen = new Set();
+  questions.forEach((question) => {
+    if (!question?.questionId) throw new Error(`Question integrity failure in ${mock.id}: missing questionId`);
+    if (seen.has(question.questionId)) throw new Error(`Question integrity failure in ${mock.id}: duplicate questionId ${question.questionId}`);
+    seen.add(question.questionId);
+    if (question.testId !== mock.id) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} has mismatched testId`);
+    if (!question.section || !question.module) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} missing section/module`);
+    if (question.prompt == null || String(question.prompt).trim() === "") throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} missing prompt`);
+    if (question.answer == null || String(question.answer).trim() === "") throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} missing answer`);
+    if (question.questionType === "multiple-choice") {
+      if (!Array.isArray(question.choices) || question.choices.length !== 4) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} must have four choices`);
+      const uniqueChoices = new Set(question.choices.map((choice) => String(choice).trim().toLowerCase()));
+      if (uniqueChoices.size !== 4) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} has duplicate choices`);
+      const answer = String(question.answer).trim().toUpperCase();
+      if (/^[A-D]$/.test(answer)) {
+        const index = answer.charCodeAt(0) - 65;
+        if (index < 0 || index >= question.choices.length) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} has invalid answer position`);
+      }
+    }
+  });
+}
+
 export function getMockDefinition(testKey) {
   return MOCKS[testKey] || null;
 }
@@ -53,8 +76,11 @@ export function createAdaptivePlan(testKey) {
     throw new Error(`Adaptive mock bank integrity failure for ${mock.id}`);
   }
 
+  const allQuestions = [...rw1, ...rw2, ...math1, ...math2];
+  validateQuestionRecords(mock, allQuestions);
+
   return {
-    version: 5,
+    version: 6,
     testKey: mock.id,
     label: mock.label,
     sections: [
@@ -89,6 +115,17 @@ export function getModuleForRoute(plan, sectionKey, moduleIndex, route = "standa
   return section.modules.find((module) => module.key === key) || null;
 }
 
+function answersMatch(question, suppliedAnswer) {
+  const supplied = String(suppliedAnswer ?? "").trim();
+  if (!supplied) return false;
+  const correct = String(question.answer ?? "").trim();
+  if (/^[A-D]$/i.test(correct) && Array.isArray(question.choices)) {
+    const correctChoice = question.choices[correct.toUpperCase().charCodeAt(0) - 65];
+    return supplied.toUpperCase() === correct.toUpperCase() || supplied === String(correctChoice ?? "").trim();
+  }
+  return supplied.toUpperCase() === correct.toUpperCase();
+}
+
 export function scoreModule(questions, answers) {
   let correct = 0;
   let answered = 0;
@@ -96,7 +133,7 @@ export function scoreModule(questions, answers) {
     const answer = answers?.[question.questionId];
     if (answer !== undefined && answer !== null && String(answer).trim() !== "") {
       answered += 1;
-      if (String(answer).trim().toUpperCase() === String(question.answer).trim().toUpperCase()) correct += 1;
+      if (answersMatch(question, answer)) correct += 1;
     }
   });
   const total = questions.length;
@@ -113,19 +150,14 @@ export function chooseModule2Route(module1Questions, answers) {
 
 function displaySafePrompt(value) {
   let prompt = String(value || "");
-
-  // Remove authoring-only comparison-site text from every mock at the final shared display boundary.
-  // This protects the current four mocks and future mock content using the same templates.
   prompt = prompt.replace(/\s*For this (?:PSAT\/NMSQT|PSAT|SAT) form, the comparison uses \d+ observation sites\.\s*/gi, " ");
   prompt = prompt.replace(/\s*The [^.?!\n]{1,160} analysis used a distinct comparison set of \d+ observations and reported the result separately for the (?:PSAT\/NMSQT|PSAT|SAT) form\.\s*/gi, " ");
-
   return prompt.replace(/\n{3,}/g, "\n\n").trim();
 }
 
 export function buildClientSafeTest(testKey) {
   const plan = createAdaptivePlan(testKey);
   if (!plan) return null;
-
   return {
     version: plan.version,
     testKey: plan.testKey,
