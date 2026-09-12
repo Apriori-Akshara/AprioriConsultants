@@ -74,6 +74,26 @@ function validateMathBlueprint(mock, errors) {
   if (hardShare < 0.30) errors.push(`${mock.testId}: Math bank hard share ${Math.round(hardShare * 100)}% is below the 30% internal floor`);
 }
 
+function constructionFingerprint(question) {
+  if (question.section !== 'math') return '';
+  return normalize(question.prompt)
+    .replace(/enter your answer as a number\.?/g, '')
+    .replace(/[-+]?\d+(?:\.\d+)?/g, '<n>')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function figureFingerprint(question) {
+  if (!question.figure || question.section !== 'math') return '';
+  const stable = (value) => {
+    if (value === null || value === undefined) return '';
+    if (Array.isArray(value)) return `[${value.map(stable).join(',')}]`;
+    if (typeof value === 'object') return `{${Object.keys(value).filter((key) => key !== 'visualVariant').sort().map((key) => `${key}:${stable(value[key])}`).join('|')}}`;
+    return String(value);
+  };
+  return `${question.domain}|${question.figure.type}|${stable(question.figure)}`;
+}
+
 function validateOne(mockContent) {
   const errors = [];
   const records = [...(mockContent.readingWriting || []), ...(mockContent.math || [])];
@@ -139,7 +159,7 @@ export function validateMockContent(mockContent) { return validateOne(mockConten
 
 export function validateMockSeries(...mocks) {
   const results = mocks.map(validateOne); const errors = []; const all = mocks.flatMap((mock) => [...(mock.readingWriting || []), ...(mock.math || [])]);
-  const promptMap = new Map(); const verbalContextMap = new Map(); const mathApplicationMap = new Map(); const questionIdMap = new Map();
+  const promptMap = new Map(); const verbalContextMap = new Map(); const mathApplicationMap = new Map(); const mathFigureMap = new Map(); const questionIdMap = new Map();
   for (const question of all) {
     const previousId = questionIdMap.get(question.questionId);
     if (previousId) errors.push(`Duplicate question ID across mock series: ${previousId.questionId} and ${question.questionId}`); else questionIdMap.set(question.questionId, question);
@@ -150,8 +170,10 @@ export function validateMockSeries(...mocks) {
       if (previousContext && previousContext.testId !== question.testId) errors.push(`Cross-mock repeated verbal context: ${previousContext.questionId} and ${question.questionId}`); else verbalContextMap.set(context, question);
     }
     if (question.section === 'math') {
-      const fingerprint = normalize(question.metadata?.applicationFingerprint); const previousApplication = mathApplicationMap.get(fingerprint);
-      if (previousApplication && previousApplication.testId !== question.testId) errors.push(`Cross-mock repeated Math application: ${previousApplication.questionId} and ${question.questionId}`); else mathApplicationMap.set(fingerprint, question);
+      const fingerprint = constructionFingerprint(question); const previousApplication = mathApplicationMap.get(fingerprint);
+      if (fingerprint && previousApplication && previousApplication.testId !== question.testId) errors.push(`Cross-mock repeated Math construction: ${previousApplication.questionId} and ${question.questionId}`); else if (fingerprint) mathApplicationMap.set(fingerprint, question);
+      const figure = figureFingerprint(question); const previousFigure = mathFigureMap.get(figure);
+      if (figure && previousFigure && previousFigure.testId !== question.testId) errors.push(`Cross-mock repeated Math figure data: ${previousFigure.questionId} and ${question.questionId}`); else if (figure) mathFigureMap.set(figure, question);
     }
   }
   if (errors.length) throw new Error(`SAT/PSAT mock series quality gate failed:\n${errors.join('\n')}`);
