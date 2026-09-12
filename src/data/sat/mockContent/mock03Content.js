@@ -44,10 +44,13 @@ function normalizeVerbalChoices(questions) {
 function makeReadingWriting(testId, variant) {
   const module1 = buildReadingWriting({ testId, variant, module: 'rw-module-1' });
   const module2 = buildReadingWriting({ testId, variant, module: 'rw-module-2' });
+  const programFrame = variant === 'psat-nmsqt'
+    ? 'For the original Apriori PSAT study'
+    : 'For the original Apriori SAT study';
   return normalizeVerbalChoices([...module1, ...module2]).map((question, index) => {
     const topic = CONTEXTS[Math.floor(index / 6)];
     const lens = LENSES[index % 6];
-    const prefix = `For the original Apriori study on ${topic}, researchers used ${lens}.`;
+    const prefix = `${programFrame} on ${topic}, researchers used ${lens}.`;
     return {
       ...question,
       version: 6,
