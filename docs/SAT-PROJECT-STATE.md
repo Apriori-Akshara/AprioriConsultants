@@ -205,12 +205,36 @@ For every code change, state:
 
 Do not use placeholder code such as `...` or `same as above` in replacement files. Do not overwrite newer repository work with an older remembered version.
 
-## 16. Current resume point
+## 16. Current expansion status — Mock 4 complete
 
-**Step B is closed and must not lead to a second SAT Mock 1.**
+### Mock 3 — COMPLETE
 
-**Next task:** define the correct next-new-mock production batch from the existing four completed mocks, using the current repository architecture and Stage 3 implementation as the foundation.
+PSAT Mock 3 and SAT Mock 3 were generated as original content and integrated through the shared pipeline. Six mock content sets are represented in the central content bank, with 1,176 questions total. The shared adaptive-engine identity validation and completion timestamp parameter issues discovered during integration were fixed without creating a parallel engine.
 
-Before implementing that batch, inspect only the current mock registry/content architecture and the existing four mock identities/content contracts needed to determine the correct next mock number and integration path.
+### Mock 4 — COMPLETE
 
-Do not restart Stage 3. Do not regenerate the existing four mocks. Do not create a parallel mock engine.
+PSAT Mock 4 and SAT Mock 4 were generated as original content using the same shared content-generation pipeline. Mock 4 adds 392 questions for the pair, bringing the central bank to **1,568 questions across eight mock content sets**.
+
+Mock 4 passed the shared structural/content validation and cross-mock originality/duplication gates used by the content bank. Its content, content-bank integration and shared adaptive-engine integration were merged to `main` in one production batch.
+
+Merge commit: `4521b772b38f2fe06218f4e6ebd6f1d32ccba099` — `Merge pull request #3 from Apriori-Akshara/mock4-production-batch Build PSAT and SAT Mock 4`
+
+Render deployment for that merge is **LIVE**: `dep-daihcegae00c73ddgkcg`.
+
+The existing first four mock content sets were preserved; no separate Mock 4 engine was created.
+
+## 17. Public verification status
+
+The implementation/deployment side of Mock 4 is complete. Public-site student-flow verification remains a user-side check and has not been claimed as completed.
+
+Public site for verification when instructed: `https://www.aprioriconsultants.org`
+
+The user should test only the public site, not the controlled Render URL.
+
+## 18. Next build stage
+
+**Next batch: Mock 5 — PSAT Mock 5 and SAT Mock 5.**
+
+Use the same shared production pipeline. Before coding, inspect only the current Mock 4 integration and the content-generation contracts necessary to create the next unique identities. Do not regenerate Mocks 1–4. Do not restart Stage 3. Do not create a parallel mock engine.
+
+Prefer one coherent branch/PR merge for the Mock 5 pair so compatible changes produce one production deployment.
