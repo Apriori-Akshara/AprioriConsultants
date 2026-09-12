@@ -7,6 +7,8 @@ import { validateMockFigureQuality } from "./figureQualityGate";
 
 const LONG_FORM_RW = new Set(["Central Ideas and Details", "Inferences", "Command of Evidence", "Text Structure and Purpose", "Cross-Text Connections", "Rhetorical Synthesis"]);
 
+const normalizePrompt = (value) => String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+
 function restoreInternalPromptUniqueness(mock) {
   const variantLabel = mock.assessmentVariant === "psat-nmsqt" ? "PSAT" : "SAT";
   const baseCount = mock.assessmentVariant === "psat-nmsqt" ? 11 : 31;
@@ -60,22 +62,41 @@ function balanceAnswerPositions(mock) {
   };
 }
 
-function applyBlueprintMath(mock, assessmentNumber, seed) {
-  return {
-    ...mock,
-    math: buildMathBank({
-      testId: mock.testId,
-      variant: mock.assessmentVariant,
-      assessmentNumber,
-      seed,
-    }),
-  };
+function buildUniqueMathSeries(configs) {
+  const usedPrompts = new Set();
+  return configs.map(({ mock, assessmentNumber, seed }) => {
+    for (let attempt = 0; attempt < 32; attempt += 1) {
+      const candidate = buildMathBank({
+        testId: mock.testId,
+        variant: mock.assessmentVariant,
+        assessmentNumber,
+        seed: seed + attempt * 7919,
+      });
+      const candidatePrompts = candidate.map((question) => normalizePrompt(question.prompt));
+      const local = new Set();
+      const hasCollision = candidatePrompts.some((prompt) => {
+        if (local.has(prompt) || usedPrompts.has(prompt)) return true;
+        local.add(prompt);
+        return false;
+      });
+      if (!hasCollision) {
+        candidatePrompts.forEach((prompt) => usedPrompts.add(prompt));
+        return { ...mock, math: candidate };
+      }
+    }
+    throw new Error(`Unable to generate a collision-free Math bank for ${mock.testId}`);
+  });
 }
 
-const PSAT_BASE_ALIGNED = applyBlueprintMath(PSAT_BASE, 1, 0);
-const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 17);
-const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 23));
-const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 47));
+const [PSAT_BASE_ALIGNED, SAT_BASE_ALIGNED, PSAT2_BASE_ALIGNED_RAW, SAT2_BASE_ALIGNED_RAW] = buildUniqueMathSeries([
+  { mock: PSAT_BASE, assessmentNumber: 1, seed: 0 },
+  { mock: SAT_BASE, assessmentNumber: 1, seed: 17 },
+  { mock: PSAT2_BASE, assessmentNumber: 2, seed: 23 },
+  { mock: SAT2_BASE, assessmentNumber: 2, seed: 47 },
+]);
+
+const PSAT2_BASE_ALIGNED = prepareStage2Mock(PSAT2_BASE_ALIGNED_RAW);
+const SAT2_BASE_ALIGNED = prepareStage2Mock(SAT2_BASE_ALIGNED_RAW);
 
 const PSAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED)));
 const SAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED)));
