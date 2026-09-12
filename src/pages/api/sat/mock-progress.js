@@ -1,6 +1,7 @@
 import { query } from "../../../lib/db";
 import { getVerifiedSatServerAccessState } from "../../../lib/sat/satAccess";
-import { createAdaptivePlan, normalizeMockKey, chooseModule2Route, scoreModule, getModuleForRoute } from "../../../lib/sat/adaptiveMockEngine";
+import { createAdaptivePlan, normalizeMockKey, chooseModule2Route, getModuleForRoute } from "../../../lib/sat/adaptiveMockEngine";
+import { buildPracticeReport } from "../../../lib/sat/mockScoring";
 
 async function ensureTable() {
   await query(`CREATE TABLE IF NOT EXISTS sat_mock_attempts (
@@ -42,6 +43,14 @@ export default async function handler(req, res) {
   try {
     await ensureTable();
     if (req.method === "GET") {
+      const requestedId = Number(req.query?.attemptId);
+      if (Number.isInteger(requestedId)) {
+        const result = await query(`SELECT id,test_key,status,section_scores,completed_at FROM sat_mock_attempts WHERE id=$1 AND user_id=$2 LIMIT 1`, [requestedId, user.id]);
+        const row = result.rows[0];
+        if (!row) return res.status(404).json({ error: "Attempt not found" });
+        if (row.status !== "completed") return res.status(409).json({ error: "This attempt is not completed yet" });
+        return res.status(200).json({ attempt: row, report: row.section_scores || null });
+      }
       const result = await query(`SELECT id,test_key,status,current_section,current_module,current_question,module2_route_rw,module2_route_math,section_scores,flags,notes,module_started_at,module_deadline_at,break_deadline_at,started_at,updated_at,completed_at FROM sat_mock_attempts WHERE user_id=$1 ORDER BY updated_at DESC`, [user.id]);
       return res.status(200).json({ attempts: result.rows, completed: result.rows.filter((row) => row.status === "completed") });
     }
@@ -144,15 +153,13 @@ export default async function handler(req, res) {
     }
 
     if (action === "finish") {
-      const rwRoute = attempt.module2_route_rw || "standard";
-      const mathRoute = attempt.module2_route_math || "standard";
-      const rw = scoreModule([...(getModuleForRoute(plan, "reading-writing", 0)?.questions || []), ...(getModuleForRoute(plan, "reading-writing", 1, rwRoute)?.questions || [])], answers);
-      const math = scoreModule([...(getModuleForRoute(plan, "math", 0)?.questions || []), ...(getModuleForRoute(plan, "math", 1, mathRoute)?.questions || [])], answers);
-      const total = rw.correct + math.correct;
-      const max = rw.total + math.total;
-      const scores = { readingWriting: rw, math, totalCorrect: total, totalQuestions: max, accuracy: max ? Math.round((total / max) * 100) : 0, adaptiveRoutes: { readingWriting: rwRoute, math: mathRoute } };
-      await query(`UPDATE sat_mock_attempts SET status='completed',section_scores=$1::jsonb,updated_at=NOW(),completed_at=NOW(),module_deadline_at=NULL,break_deadline_at=NULL WHERE id=$2 AND user_id=$3`, [JSON.stringify(scores), attemptId, user.id]);
-      return res.status(200).json({ completed: true, scores });
+      const fresh = await query(`SELECT * FROM sat_mock_attempts WHERE id=$1 AND user_id=$2 LIMIT 1`, [attemptId, user.id]);
+      const currentAttempt = fresh.rows[0];
+      if (!currentAttempt) return res.status(404).json({ error: "Attempt not found" });
+      if (currentAttempt.status === "completed" && currentAttempt.section_scores) return res.status(200).json({ completed: true, scores: currentAttempt.section_scores });
+      const report = buildPracticeReport(plan, currentAttempt);
+      await query(`UPDATE sat_mock_attempts SET status='completed',section_scores=$1::jsonb,updated_at=NOW(),completed_at=NOW(),module_deadline_at=NULL,break_deadline_at=NULL WHERE id=$2 AND user_id=$3`, [JSON.stringify(report), attemptId, user.id]);
+      return res.status(200).json({ completed: true, scores: report });
     }
 
     return res.status(400).json({ error: "Unknown action" });
