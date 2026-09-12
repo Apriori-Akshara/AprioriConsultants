@@ -10,25 +10,26 @@ This is the current expansion addendum to `docs/SAT-PROJECT-STATE.md`.
 - Mock 6: complete and deployed LIVE after originality/generation fixes.
 - Mock 7: complete and deployed LIVE after originality/generation fixes.
 - Mock 8: complete and deployed LIVE after the full 16-mock quality gate passed; Mock 2 legacy identity collision was corrected at the source.
-- Existing Mocks 1–8 remain preserved and are not regenerated.
+- Mock 9: complete and deployed LIVE after the full 18-mock quality gate passed.
+- Existing Mocks 1–9 remain preserved and are not regenerated.
 
-## Mock 9 batch
+## Mock 10 batch
 
-Mock 9 is now implemented through the existing shared production pipeline:
-- PSAT Mock 9
-- SAT Mock 9 — Series A
-- Original R&W contexts and Math generation seed pair 16/17.
-- Cross-mock question ID, verbal context/prompt, and Math application checks remain active across all eighteen content sets.
+Mock 10 is now implemented through the existing shared production pipeline:
+- PSAT Mock 10
+- SAT Mock 10 — Series A
+- Original R&W contexts and Math generation seed pair 18/19.
+- Cross-mock question ID, verbal context/prompt, and Math application checks remain active across all twenty content sets.
 - Shared adaptive engine is reused; no parallel mock engine is created.
-- Central bank target after this batch: 3,528 questions across 18 mock content sets (196 per mock).
+- Central bank target after this batch: 3,920 questions across 20 mock content sets (196 per mock).
 
 ## Quality standard
 
-Each mock must provide 196 bank questions: 27 R&W Module 1, 81 R&W Module 2 route questions, 22 Math Module 1, and 66 Math Module 2 route questions. Shared structural, originality, figure, answer-position, and adaptive-pool gates remain active. Mock 9 must pass the complete series gate before it is considered complete.
+Each mock must provide 196 bank questions: 27 R&W Module 1, 81 R&W Module 2 route questions, 22 Math Module 1, and 66 Math Module 2 route questions. Shared structural, originality, figure, answer-position, and adaptive-pool gates remain active. Mock 10 must pass the complete series gate before it is considered complete.
 
 ## Current deployment process
 
-Mock 9 is kept as one coherent deployment batch. Do not consider it complete until the full eighteen-mock quality gate passes and the resulting deployment is LIVE. After LIVE confirmation, freeze this state and proceed directly to Mock 10.
+Mock 10 is kept as one coherent deployment batch. Do not consider it complete until the full twenty-mock quality gate passes and the resulting deployment is LIVE. After LIVE confirmation, freeze this state.
 
 ## Public verification
 
@@ -38,4 +39,4 @@ Public site: `https://www.aprioriconsultants.org`
 
 ## Next build
 
-After Mock 9 deployment is confirmed LIVE, build **PSAT Mock 10 + SAT Mock 10 — Series A** using the same shared pipeline. Do not restart Stage 3 and do not regenerate earlier mocks.
+After Mock 10 deployment is confirmed LIVE, freeze Stage 3 content expansion and proceed to the next planned Stage 3 product-integration batch. Do not regenerate earlier mocks.
