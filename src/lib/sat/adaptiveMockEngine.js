@@ -1,10 +1,12 @@
-import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT } from "../../data/sat/mockContent";
+import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT } from "../../data/sat/mockContent";
 
 const MOCKS = {
   PSAT1: { id: "PSAT1", label: "PSAT/NMSQT Mock 01", assessmentVariant: "psat-nmsqt", content: PSAT_MOCK_01_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
   SAT1: { id: "SAT1", label: "SAT Mock 01 — Series A", assessmentVariant: "sat-series-a", content: SAT_MOCK_01_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
   PSAT2: { id: "PSAT2", label: "PSAT/NMSQT Mock 02", assessmentVariant: "psat-nmsqt", content: PSAT_MOCK_02_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
   SAT2: { id: "SAT2", label: "SAT Mock 02 — Series A", assessmentVariant: "sat-series-a", content: SAT_MOCK_02_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
+  PSAT3: { id: "PSAT3", label: "PSAT/NMSQT Mock 03", assessmentVariant: "psat-nmsqt", content: PSAT_MOCK_03_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
+  SAT3: { id: "SAT3", label: "SAT Mock 03 — Series A", assessmentVariant: "sat-series-a", content: SAT_MOCK_03_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
 };
 
 function normalizeModuleKey(value) {
