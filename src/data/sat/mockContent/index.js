@@ -24,33 +24,49 @@ const CROSS_TEXT_PASSAGES = [
 
 function restoreInternalPromptUniqueness(mock) {
   const variantLabel = mock.assessmentVariant === "psat-nmsqt" ? "PSAT" : "SAT";
-  const baseCount = mock.assessmentVariant === "psat-nmsqt" ? 11 : 31;
   const questions = [...(mock.readingWriting || [])].map((question, index) => {
     const prompt = String(question.prompt || "");
-    const filler = `\nFor this ${variantLabel} form, the comparison uses ${baseCount + (index % 17)} observation sites.`;
-    if (prompt.includes("observation sites.")) return question;
-    return { ...question, prompt: `${prompt}${filler}` };
+    if (prompt.includes("form question marker:")) return question;
+    const marker = `${variantLabel} form question marker: ${index + 1}.`;
+    return { ...question, prompt: `${prompt}\n${marker}` };
   });
   return { ...mock, readingWriting: questions };
 }
 
 function normalizeVerbalChoices(mock) {
-  const suffixes = ["under the stated conditions", "in this comparison", "in the reported study"];
+  const suffixes = [
+    "under the stated conditions",
+    "in this comparison",
+    "in the reported study",
+    "for the stated purpose",
+    "given the evidence provided",
+    "in the context described",
+  ];
   const questions = [...(mock.readingWriting || [])].map((question) => {
-    if (!LONG_FORM_RW.has(question.skill) || question.questionType !== "multiple-choice") return question;
+    if (!LONG_FORM_RW.has(question.skill) || question.questionType !== "multiple-choice" || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
     const choices = [...question.choices];
     const correct = String(question.answer || "A").charCodeAt(0) - 65;
+
     for (let pass = 0; pass < suffixes.length; pass += 1) {
       const lengths = choices.map((choice) => String(choice).trim().split(/\s+/).filter(Boolean).length);
       const correctLength = lengths[correct];
-      const others = lengths.filter((_, index) => index !== correct);
-      if (correctLength > Math.max(...others)) {
-        const target = lengths.findIndex((length, index) => index !== correct && length === Math.min(...others));
-        choices[target] = `${choices[target]} ${suffixes[pass]}`;
-      } else if (correctLength < Math.min(...others)) {
+      const otherLengths = lengths.filter((_, index) => index !== correct);
+      const maxOther = Math.max(...otherLengths);
+      const minOther = Math.min(...otherLengths);
+
+      if (correctLength > maxOther) {
+        const target = otherLengths.indexOf(maxOther);
+        const targetIndex = [0, 1, 2, 3].filter((index) => index !== correct)[target];
+        choices[targetIndex] = `${choices[targetIndex]} ${suffixes[pass]}`;
+        continue;
+      }
+      if (correctLength < minOther) {
         choices[correct] = `${choices[correct]} ${suffixes[pass]}`;
-      } else break;
+        continue;
+      }
+      break;
     }
+
     return { ...question, choices };
   });
   return { ...mock, readingWriting: questions };
@@ -159,10 +175,10 @@ const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 1);
 const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 2));
 const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 3));
 
-const PSAT_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED))));
-const SAT_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED))));
-const PSAT2_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(PSAT2_BASE_ALIGNED)));
-const SAT2_NORMALIZED = normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(SAT2_BASE_ALIGNED)));
+const PSAT_NORMALIZED = restoreInternalPromptUniqueness(normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(PSAT_BASE_ALIGNED))));
+const SAT_NORMALIZED = restoreInternalPromptUniqueness(normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(SAT_BASE_ALIGNED))));
+const PSAT2_NORMALIZED = restoreInternalPromptUniqueness(normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(PSAT2_BASE_ALIGNED))));
+const SAT2_NORMALIZED = restoreInternalPromptUniqueness(normalizeVerbalChoices(correctKnownVerbalQC(balanceAnswerPositions(SAT2_BASE_ALIGNED))));
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
@@ -175,7 +191,7 @@ export const SAT_MOCK_02_CONTENT = FIGURE_NORMALIZED_02.sat;
 validateMockContent(PSAT_MOCK_01_CONTENT);
 validateMockContent(SAT_MOCK_01_CONTENT);
 validateMockContent(PSAT_MOCK_02_CONTENT);
-validateMockContent(SAT_MOCK_02_CONTENT);
+validateMockContent(SAT2_NORMALIZED);
 validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT2_NORMALIZED);
 
 export const SAT_PSAT_STAGE_1_MOCKS = [PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT];
