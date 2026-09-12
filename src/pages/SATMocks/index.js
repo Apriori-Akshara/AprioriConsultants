@@ -26,7 +26,7 @@ function Meta({ value, label }) {
   return <div className={styles.metaItem}><span className={styles.metaIcon}>✓</span><span>{value}</span><strong>{label}</strong></div>
 }
 
-function MockCard({ track, testNumber, completed }) {
+function MockCard({ track, testNumber, attempt }) {
   const isPsat = track === 'PSAT'
   const routeKey = `${track}${testNumber}`
   const title = `${isPsat ? 'PSAT/NMSQT' : 'SAT'} Mock Test ${String(testNumber).padStart(2, '0')}`
@@ -34,6 +34,13 @@ function MockCard({ track, testNumber, completed }) {
   const description = isPsat
     ? `Original PSAT/NMSQT-style adaptive practice with timed modules, persistent progress, scoring, and reporting.`
     : `Original Digital SAT-style adaptive practice with timed modules, persistent progress, scoring, and reporting.`
+
+  const status = attempt?.status === 'in-progress' ? 'In Progress' : attempt?.status === 'completed' ? 'Completed' : 'Ready'
+  const actionLabel = status === 'In Progress'
+    ? `Resume Mock ${String(testNumber).padStart(2, '0')}`
+    : status === 'Completed'
+      ? `Retake Mock ${String(testNumber).padStart(2, '0')}`
+      : `Start Mock ${String(testNumber).padStart(2, '0')}`
 
   return (
     <article className={`${styles.testCard} ${styles.testCardIncluded}`}>
@@ -45,7 +52,7 @@ function MockCard({ track, testNumber, completed }) {
             <h3>{title}</h3>
           </div>
         </div>
-        <span className={styles.status}>{completed ? 'Completed' : 'Ready'}</span>
+        <span className={styles.status}>{status}</span>
       </div>
       <p className={styles.testDescription}>{description}</p>
       <div className={styles.testMeta}>
@@ -55,7 +62,7 @@ function MockCard({ track, testNumber, completed }) {
       </div>
       <div className={styles.actionArea}>
         <Link href={`/SATMocks/${routeKey}`} className={`${styles.actionButton} ${styles.primaryButton}`}>
-          {completed ? `Retake Mock ${String(testNumber).padStart(2, '0')}` : `Start Mock ${String(testNumber).padStart(2, '0')}`}
+          {actionLabel}
         </Link>
       </div>
     </article>
@@ -73,6 +80,7 @@ export default function SATMocks() {
   }, [])
 
   const completedCount = progress.completed?.length || 0
+  const inProgressCount = (progress.attempts || []).filter((item) => item.status === 'in-progress').length
   const bestAccuracy = useMemo(() => {
     const values = (progress.completed || [])
       .map((item) => Number(item.section_scores?.accuracy))
@@ -80,7 +88,20 @@ export default function SATMocks() {
     return values.length ? Math.max(...values) : 0
   }, [progress])
 
-  const completed = (key) => (progress.completed || []).some((item) => item.test_key === key)
+  const attemptsByTestKey = useMemo(() => {
+    const grouped = {}
+    for (const item of progress.attempts || []) {
+      const key = String(item?.test_key || '')
+      if (!key) continue
+      const existing = grouped[key]
+      if (!existing || item.status === 'in-progress' || new Date(item.updated_at || 0).getTime() > new Date(existing.updated_at || 0).getTime()) {
+        grouped[key] = item
+      }
+    }
+    return grouped
+  }, [progress])
+
+  const attemptFor = (key) => attemptsByTestKey[key] || null
 
   return (
     <div className={styles.page}>
@@ -96,6 +117,7 @@ export default function SATMocks() {
 
         <section className={styles.summaryGrid}>
           <div className={styles.summaryCard}><span className={styles.summaryLabel}>TESTS COMPLETED</span><strong>{completedCount}</strong><p>Completed PSAT/SAT attempts saved to your account</p></div>
+          <div className={styles.summaryCard}><span className={styles.summaryLabel}>IN PROGRESS</span><strong>{inProgressCount}</strong><p>PSAT/SAT mocks with an active saved attempt</p></div>
           <div className={styles.summaryCard}><span className={styles.summaryLabel}>BEST ACCURACY</span><strong>{bestAccuracy}%</strong><p>Highest completed mock accuracy so far</p></div>
           <div className={styles.summaryCard}><span className={styles.summaryLabel}>FULL LIBRARY</span><strong>20</strong><p>10 PSAT/NMSQT forms + 10 Digital SAT forms</p></div>
         </section>
@@ -111,7 +133,7 @@ export default function SATMocks() {
 
         <section className={styles.testGrid}>
           {tests.map((testNumber) => (
-            <MockCard key={`PSAT${testNumber}`} track="PSAT" testNumber={testNumber} completed={completed(`PSAT${testNumber}`)} />
+            <MockCard key={`PSAT${testNumber}`} track="PSAT" testNumber={testNumber} attempt={attemptFor(`PSAT${testNumber}`)} />
           ))}
         </section>
 
@@ -125,7 +147,7 @@ export default function SATMocks() {
 
         <section className={styles.testGrid}>
           {tests.map((testNumber) => (
-            <MockCard key={`SAT${testNumber}`} track="SAT" testNumber={testNumber} completed={completed(`SAT${testNumber}`)} />
+            <MockCard key={`SAT${testNumber}`} track="SAT" testNumber={testNumber} attempt={attemptFor(`SAT${testNumber}`)} />
           ))}
         </section>
 
