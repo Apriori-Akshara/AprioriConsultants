@@ -102,7 +102,7 @@ function advanced(a) {
   }
   if (v % 2 === 0) {
     const leading = 1 + Math.floor(v / 31) % 29, h = 2 + v % 31, answer = leading * h * h;
-    return item({ ...a, skill: 'Quadratic parameter reasoning', prompt: `For ${leading}x² − ${2 * leading * h}x + k = 0, the equation has exactly one real solution. What is k?`, answer, explanation: `A repeated root requires discriminant 0, so (2${leading}h)² − 4(${leading})k = 0 and k = ${answer}.`, distractors: [answer + leading, h * h, leading * h], features: ['parameter-reasoning', 'constraint-inference'] });
+    return item({ ...a, skill: 'Quadratic parameter reasoning', prompt: `For ${leading}x² − ${2 * leading * h}x + k = 0, the equation has exactly one real solution. What is k?`, answer, explanation: `A repeated root requires discriminant 0, so (2(${leading})h)² − 4(${leading})k = 0 and k = ${answer}.`, distractors: [answer + leading, answer - leading, answer * 2], features: ['parameter-reasoning', 'constraint-inference'] });
   }
   const h = 2 + v % 29, c = 12 + Math.floor(v / 29) % 31, vertex = c - h * h;
   return item({ ...a, skill: 'Quadratic functions and representations', prompt: `A quadratic is f(x) = x² − ${2 * h}x + ${c}. What is the minimum value of f(x)?`, answer: vertex, explanation: `Complete the square: f(x) = (x − ${h})² + ${vertex}; therefore the minimum is ${vertex}.`, figure: FIG.quadratic(1, -2 * h, c), distractors: [c, h, vertex + h], features: ['representation-shift', 'multi-step', 'strategic-choice'] });
@@ -133,8 +133,8 @@ function psda(a) {
 function geometry(a) {
   const v = sequenceValue(a);
   if (a.difficulty === 'easy') {
-    const radius = 3 + v % 294, scale = 1 + Math.floor(v / 294) % 3, answer = radius * radius * scale * scale;
-    return item({ ...a, skill: 'Circles', prompt: `A circle has radius ${radius}. If its radius is scaled by a factor of ${scale}, what is the area of the scaled circle in terms of π?`, answer, explanation: `The scaled radius is ${radius * scale}, so the coefficient of π is ${answer}.`, figure: FIG.geometry('circle', { radius, scale }), distractors: [radius * radius, radius * scale, answer + radius] });
+    const radius = 3 + v % 294, scale = 2 + Math.floor(v / 294) % 3, answer = radius * radius * scale * scale;
+    return item({ ...a, skill: 'Circles', prompt: `A circle has radius ${radius}. If its radius is scaled by a factor of ${scale}, what is the area of the scaled circle in terms of π?`, answer, explanation: `The scaled radius is ${radius * scale}, so the coefficient of π is ${answer}.`, figure: FIG.geometry('circle', { radius, scale }), distractors: [answer + radius, answer - radius, answer + scale] });
   }
   if (a.difficulty === 'medium') {
     const x = 6 + v % 23, y = 8 + Math.floor(v / 23) % 29, answer = Number(Math.sqrt(x * x + y * y).toFixed(2));
@@ -142,7 +142,7 @@ function geometry(a) {
   }
   if (v % 2 === 0) {
     const scale = 2 + v % 7, baseArea = 12 + Math.floor(v / 7) % 126, answer = baseArea * scale * scale;
-    return item({ ...a, skill: 'Similarity and scaling', prompt: `Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has an area of ${baseArea} square units. What is the area of the larger figure?`, answer, explanation: `Area scales by the square of the length ratio: ${baseArea} × ${scale}² = ${answer} square units.`, figure: FIG.geometry('similar-figures', { side: Math.sqrt(baseArea), scale }), distractors: [baseArea * scale, baseArea + scale, answer + baseArea] });
+    return item({ ...a, skill: 'Similarity and scaling', prompt: `Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has an area of ${baseArea} square units. What is the area of the larger figure?`, answer, explanation: `Area scales by the square of the length ratio: ${baseArea} × ${scale}² = ${answer} square units.`, figure: FIG.geometry('similar-figures', { side: Math.sqrt(baseArea), scale }), distractors: [answer + scale, answer - scale, answer + baseArea] });
   }
   const angle = [30, 45, 60][v % 3], opposite = 6 + Math.floor(v / 3) % 294, sine = angle === 30 ? 0.5 : angle === 45 ? Math.SQRT1_2 : Math.sqrt(3) / 2, answer = Number((opposite / sine).toFixed(2));
   return item({ ...a, skill: 'Right-triangle trigonometry', prompt: `In the right triangle shown, an acute angle is ${angle}°. The side opposite the angle has length ${opposite}. What is the hypotenuse length?`, answer, explanation: `Use sin(${angle}°) = opposite/hypotenuse.`, figure: FIG.geometry('right-triangle-trig', { opposite, angle }), distractors: [opposite, Number((opposite / (Math.cos(angle * Math.PI / 180))).toFixed(2)), Number((opposite * sine).toFixed(2))], features: ['representation-shift', 'multi-step'] });
