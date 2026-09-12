@@ -22,6 +22,17 @@ const wrong = (answer, mode = 'generic') => {
   return [...new Set(candidates.filter((v) => v !== n))].slice(0, 3);
 };
 
+const routeOffset = (args) => {
+  const key = `${args.variant}|${args.testId}|${args.module}|${args.route || 'm1'}`;
+  let hash = 17;
+  for (const char of key) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return hash % 997;
+};
+
+function sequenceValue(a) {
+  return a.i * 37 + a.seed + routeOffset(a);
+}
+
 function item({ testId, variant, assessmentNumber, module, route, domain, i, difficulty, skill, prompt, answer, explanation, figure = null, features = [], distractors }) {
   const questionType = i % 4 === 3 ? 'student-produced-response' : 'multiple-choice';
   const questionId = `${testId}-math-${module}-${route || 'm1'}-${String(i + 1).padStart(2, '0')}`;
@@ -61,7 +72,7 @@ function item({ testId, variant, assessmentNumber, module, route, domain, i, dif
 }
 
 function algebra(a) {
-  const p = a.i + a.seed;
+  const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
     const m = 2 + p % 6, b = 4 + (p * 3) % 13, x = 2 + p % 6, y = m * x + b;
     return item({ ...a, skill: 'Linear functions', prompt: `A linear model is y = ${m}x + ${b}. What is y when x = ${x}?`, answer: y, explanation: `Substitute x = ${x}: ${m}(${x}) + ${b} = ${y}.`, distractors: [y - m, y + m, b] });
@@ -79,7 +90,7 @@ function algebra(a) {
 }
 
 function advanced(a) {
-  const p = a.i + a.seed;
+  const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
     const r1 = 2 + p % 6, r2 = r1 + 3;
     return item({ ...a, skill: 'Quadratic equations', prompt: `One solution of x² − ${r1 + r2}x + ${r1 * r2} = 0 is ${r1}. What is the other solution?`, answer: r2, explanation: `The roots sum to ${r1 + r2}; subtract ${r1} to get ${r2}.`, distractors: [r1, r2 - 1, r2 + 1] });
@@ -97,7 +108,7 @@ function advanced(a) {
 }
 
 function psda(a) {
-  const p = a.i + a.seed;
+  const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
     const total = 200 + (p % 6) * 25, pct = 15 + (p % 4) * 5, answer = total * pct / 100;
     return item({ ...a, skill: 'Percentages', prompt: `A population contains ${total} observations. If ${pct}% meet a condition, how many observations meet it?`, answer, explanation: `Calculate ${total} × ${pct}/100 = ${answer}.`, distractors: [answer + 5, answer - 5, total - answer] });
@@ -119,7 +130,7 @@ function psda(a) {
 }
 
 function geometry(a) {
-  const p = a.i + a.seed;
+  const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
     const r = 3 + p % 7, answer = r * r;
     return item({ ...a, skill: 'Circles', prompt: `A circle has radius ${r}. What is its area in terms of π?`, answer, explanation: `Use A = πr², so the coefficient of π is ${answer}.`, figure: FIG.geometry('circle', { radius: r }), distractors: [r, 2 * r, r * r + r] });
