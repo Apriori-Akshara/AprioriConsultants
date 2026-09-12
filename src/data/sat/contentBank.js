@@ -1,41 +1,18 @@
 import { SAT_ASSESSMENT_CATALOG } from "./assessmentCatalog";
 import { SAT_ACTIVITY_BLUEPRINT } from "./activityBlueprint";
-import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, SAT_MOCK_04_CONTENT } from "./mockContent";
+import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, SAT_MOCK_04_CONTENT, PSAT_MOCK_05_CONTENT, SAT_MOCK_05_CONTENT } from "./mockContent";
 import { validateMockSeries } from "./mockContent/mockContentQualityGate";
 
-validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, SAT_MOCK_04_CONTENT);
+validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, SAT_MOCK_04_CONTENT, PSAT_MOCK_05_CONTENT, SAT_MOCK_05_CONTENT);
 
-export const SAT_CONTENT_BANK_VERSION = "1.6.0";
+export const SAT_CONTENT_BANK_VERSION = "1.7.0";
 
-const STAGE_1_QUESTIONS = [
-  ...PSAT_MOCK_01_CONTENT.readingWriting,
-  ...PSAT_MOCK_01_CONTENT.math,
-  ...SAT_MOCK_01_CONTENT.readingWriting,
-  ...SAT_MOCK_01_CONTENT.math,
-];
-
-const STAGE_2_QUESTIONS = [
-  ...PSAT_MOCK_02_CONTENT.readingWriting,
-  ...PSAT_MOCK_02_CONTENT.math,
-  ...SAT_MOCK_02_CONTENT.readingWriting,
-  ...SAT_MOCK_02_CONTENT.math,
-];
-
-const STAGE_3_QUESTIONS = [
-  ...PSAT_MOCK_03_CONTENT.readingWriting,
-  ...PSAT_MOCK_03_CONTENT.math,
-  ...SAT_MOCK_03_CONTENT.readingWriting,
-  ...SAT_MOCK_03_CONTENT.math,
-];
-
-const STAGE_4_QUESTIONS = [
-  ...PSAT_MOCK_04_CONTENT.readingWriting,
-  ...PSAT_MOCK_04_CONTENT.math,
-  ...SAT_MOCK_04_CONTENT.readingWriting,
-  ...SAT_MOCK_04_CONTENT.math,
-];
-
-const ALL_QUESTIONS = [...STAGE_1_QUESTIONS, ...STAGE_2_QUESTIONS, ...STAGE_3_QUESTIONS, ...STAGE_4_QUESTIONS];
+const STAGE_1_QUESTIONS = [...PSAT_MOCK_01_CONTENT.readingWriting, ...PSAT_MOCK_01_CONTENT.math, ...SAT_MOCK_01_CONTENT.readingWriting, ...SAT_MOCK_01_CONTENT.math];
+const STAGE_2_QUESTIONS = [...PSAT_MOCK_02_CONTENT.readingWriting, ...PSAT_MOCK_02_CONTENT.math, ...SAT_MOCK_02_CONTENT.readingWriting, ...SAT_MOCK_02_CONTENT.math];
+const STAGE_3_QUESTIONS = [...PSAT_MOCK_03_CONTENT.readingWriting, ...PSAT_MOCK_03_CONTENT.math, ...SAT_MOCK_03_CONTENT.readingWriting, ...SAT_MOCK_03_CONTENT.math];
+const STAGE_4_QUESTIONS = [...PSAT_MOCK_04_CONTENT.readingWriting, ...PSAT_MOCK_04_CONTENT.math, ...SAT_MOCK_04_CONTENT.readingWriting, ...SAT_MOCK_04_CONTENT.math];
+const STAGE_5_QUESTIONS = [...PSAT_MOCK_05_CONTENT.readingWriting, ...PSAT_MOCK_05_CONTENT.math, ...SAT_MOCK_05_CONTENT.readingWriting, ...SAT_MOCK_05_CONTENT.math];
+const ALL_QUESTIONS = [...STAGE_1_QUESTIONS, ...STAGE_2_QUESTIONS, ...STAGE_3_QUESTIONS, ...STAGE_4_QUESTIONS, ...STAGE_5_QUESTIONS];
 const allQuestionIds = new Set();
 const allVerbalContexts = new Set();
 const allVerbalPrompts = new Set();
@@ -44,7 +21,6 @@ const allMathApplications = new Set();
 for (const question of ALL_QUESTIONS) {
   if (allQuestionIds.has(question.questionId)) throw new Error(`Duplicate SAT/PSAT question ID across mocks: ${question.questionId}`);
   allQuestionIds.add(question.questionId);
-
   if (question.section === "reading-writing") {
     const contextKey = String(question.metadata?.contextKey || "").trim().toLowerCase();
     const normalizedPrompt = String(question.prompt || "").trim().toLowerCase().replace(/\s+/g, " ");
@@ -53,7 +29,6 @@ for (const question of ALL_QUESTIONS) {
     allVerbalContexts.add(contextKey);
     allVerbalPrompts.add(normalizedPrompt);
   }
-
   if (question.section === "math") {
     const application = String(question.metadata?.applicationFingerprint || "").trim().toLowerCase();
     if (allMathApplications.has(application)) throw new Error(`Repeated Math application across mocks: ${application}`);
@@ -65,7 +40,8 @@ if (STAGE_1_QUESTIONS.length !== 392) throw new Error(`Stage 1 mock bank must co
 if (STAGE_2_QUESTIONS.length !== 392) throw new Error(`Stage 2 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_2_QUESTIONS.length}`);
 if (STAGE_3_QUESTIONS.length !== 392) throw new Error(`Stage 3 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_3_QUESTIONS.length}`);
 if (STAGE_4_QUESTIONS.length !== 392) throw new Error(`Stage 4 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_4_QUESTIONS.length}`);
-if (ALL_QUESTIONS.length !== 1568) throw new Error(`Eight calibrated mocks must contain 1568 bank questions; found ${ALL_QUESTIONS.length}`);
+if (STAGE_5_QUESTIONS.length !== 392) throw new Error(`Stage 5 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_5_QUESTIONS.length}`);
+if (ALL_QUESTIONS.length !== 1960) throw new Error(`Ten calibrated mocks must contain 1960 bank questions; found ${ALL_QUESTIONS.length}`);
 
 export const SAT_CONTENT_BANK = {
   version: SAT_CONTENT_BANK_VERSION,
@@ -75,8 +51,8 @@ export const SAT_CONTENT_BANK = {
   passages: { records: [] },
   lessons: { source: "apriori-original", records: [] },
   mockManifests: {
-    psat: [PSAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT],
-    satSeriesA: [SAT_MOCK_01_CONTENT, SAT_MOCK_02_CONTENT, SAT_MOCK_03_CONTENT, SAT_MOCK_04_CONTENT],
+    psat: [PSAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, PSAT_MOCK_05_CONTENT],
+    satSeriesA: [SAT_MOCK_01_CONTENT, SAT_MOCK_02_CONTENT, SAT_MOCK_03_CONTENT, SAT_MOCK_04_CONTENT, SAT_MOCK_05_CONTENT],
     satSeriesB: [],
   },
   qualityGates: {
