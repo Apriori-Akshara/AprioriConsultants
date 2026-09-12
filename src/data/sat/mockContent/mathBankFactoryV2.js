@@ -74,7 +74,7 @@ function item({ testId, variant, assessmentNumber, module, route, domain, i, dif
 function algebra(a) {
   const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
-    const m = 2 + p % 6, b = 4 + (p * 3) % 19, x = 2 + Math.floor(p / 19) % 9, y = m * x + b;
+    const m = 2 + p % 9, b = 4 + (Math.floor(p / 9) % 37), x = 2 + (Math.floor(p / 333) % 19), y = m * x + b;
     return item({ ...a, skill: 'Linear functions', prompt: `A linear model is y = ${m}x + ${b}. What is y when x = ${x}?`, answer: y, explanation: `Substitute x = ${x}: ${m}(${x}) + ${b} = ${y}.`, distractors: [y - m, y + m, b] });
   }
   if (a.difficulty === 'medium') {
@@ -92,7 +92,7 @@ function algebra(a) {
 function advanced(a) {
   const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
-    const r1 = 2 + p % 37, r2 = r1 + 3;
+    const r1 = 2 + p % 101, r2 = r1 + 3;
     return item({ ...a, skill: 'Quadratic equations', prompt: `One solution of x² − ${r1 + r2}x + ${r1 * r2} = 0 is ${r1}. What is the other solution?`, answer: r2, explanation: `The roots sum to ${r1 + r2}; subtract ${r1} to get ${r2}.`, distractors: [r1, r2 - 1, r2 + 1] });
   }
   if (a.difficulty === 'medium') {
@@ -140,8 +140,8 @@ function geometry(a) {
     return item({ ...a, skill: 'Right triangles', prompt: `The right triangle shown has legs ${x} and ${y}. What is the length of the hypotenuse?`, answer, explanation: `Apply c² = ${x}² + ${y}².`, figure: FIG.geometry('right-triangle', { x, y }), distractors: [x + y, Math.abs(y - x), Number(Math.sqrt(Math.max(1, y * y - x * x)).toFixed(2))], features: ['multi-step'] });
   }
   if (p % 2 === 0) {
-    const side = 4 + p % 19, scale = 2 + p % 5, answer = scale * scale;
-    return item({ ...a, skill: 'Similarity and scaling', prompt: `Two similar figures have corresponding lengths in the ratio ${scale}:1. By what factor does area change?`, answer, explanation: `Area scales by the square of the length scale factor: ${scale}² = ${answer}.`, figure: FIG.geometry('similar-figures', { side, scale }), distractors: [scale, scale + 1, scale * 3], features: ['constraint-inference', 'representation-shift'] });
+    const scale = 2 + p % 7, baseArea = 12 + Math.floor(p / 7) % 48, answer = baseArea * scale * scale;
+    return item({ ...a, skill: 'Similarity and scaling', prompt: `Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has an area of ${baseArea} square units. What is the area of the larger figure?`, answer, explanation: `Area scales by the square of the length ratio: ${baseArea} × ${scale}² = ${answer} square units.`, figure: FIG.geometry('similar-figures', { side: Math.sqrt(baseArea), scale }), distractors: [baseArea * scale, baseArea + scale, answer + baseArea] });
   }
   const angle = [30, 45, 60][p % 3], opposite = 6 + p % 31, sine = angle === 30 ? 0.5 : angle === 45 ? Math.SQRT1_2 : Math.sqrt(3) / 2, answer = Number((opposite / sine).toFixed(2));
   return item({ ...a, skill: 'Right-triangle trigonometry', prompt: `In the right triangle shown, an acute angle is ${angle}°. The side opposite the angle has length ${opposite}. What is the hypotenuse length?`, answer, explanation: `Use sin(${angle}°) = opposite/hypotenuse.`, figure: FIG.geometry('right-triangle-trig', { opposite, angle }), distractors: [opposite, Number((opposite / (Math.cos(angle * Math.PI / 180))).toFixed(2)), Number((opposite * sine).toFixed(2))], features: ['representation-shift', 'multi-step'] });
