@@ -1,4 +1,4 @@
-import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, SAT_MOCK_04_CONTENT } from "../../data/sat/mockContent";
+import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, SAT_MOCK_04_CONTENT, PSAT_MOCK_05_CONTENT, SAT_MOCK_05_CONTENT } from "../../data/sat/mockContent";
 
 const MOCKS = {
   PSAT1: { id: "PSAT1", label: "PSAT/NMSQT Mock 01", assessmentVariant: "psat-nmsqt", content: PSAT_MOCK_01_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
@@ -9,6 +9,8 @@ const MOCKS = {
   SAT3: { id: "SAT3", label: "SAT Mock 03 — Series A", assessmentVariant: "sat-series-a", content: SAT_MOCK_03_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
   PSAT4: { id: "PSAT4", label: "PSAT/NMSQT Mock 04", assessmentVariant: "psat-nmsqt", content: PSAT_MOCK_04_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
   SAT4: { id: "SAT4", label: "SAT Mock 04 — Series A", assessmentVariant: "sat-series-a", content: SAT_MOCK_04_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
+  PSAT5: { id: "PSAT5", label: "PSAT/NMSQT Mock 05", assessmentVariant: "psat-nmsqt", content: PSAT_MOCK_05_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
+  SAT5: { id: "SAT5", label: "SAT Mock 05 — Series A", assessmentVariant: "sat-series-a", content: SAT_MOCK_05_CONTENT, sectionMinutes: { "reading-writing": 32, math: 35 } },
 };
 
 function normalizeModuleKey(value) {
@@ -71,44 +73,32 @@ export function normalizeMockKey(value) {
 export function createAdaptivePlan(testKey) {
   const mock = getMockDefinition(normalizeMockKey(testKey));
   if (!mock) return null;
-
   const rw1 = moduleQuestions(mock.content, "reading-writing", "module-1");
   const rw2 = moduleQuestions(mock.content, "reading-writing", "module-2");
   const math1 = moduleQuestions(mock.content, "math", "module-1");
   const math2 = moduleQuestions(mock.content, "math", "module-2");
-
   if (rw1.length !== 27 || rw2.length !== 81 || math1.length !== 22 || math2.length !== 66) {
     throw new Error(`Adaptive mock bank integrity failure for ${mock.id}`);
   }
-
   const allQuestions = [...rw1, ...rw2, ...math1, ...math2];
   validateQuestionRecords(mock, allQuestions);
-
   return {
     version: 6,
     testKey: mock.id,
     label: mock.label,
     sections: [
-      {
-        key: "reading-writing",
-        label: "Reading and Writing",
-        modules: [
-          { key: "module-1", minutes: 32, questions: rw1 },
-          { key: "module-2-standard", minutes: 32, route: "standard", questions: exactAdaptivePool(rw2, "standard", 27) },
-          { key: "module-2-high", minutes: 32, route: "high", questions: exactAdaptivePool(rw2, "high", 27) },
-          { key: "module-2-low", minutes: 32, route: "low", questions: exactAdaptivePool(rw2, "low", 27) },
-        ],
-      },
-      {
-        key: "math",
-        label: "Math",
-        modules: [
-          { key: "module-1", minutes: 35, questions: math1 },
-          { key: "module-2-standard", minutes: 35, route: "standard", questions: exactAdaptivePool(math2, "standard", 22) },
-          { key: "module-2-high", minutes: 35, route: "high", questions: exactAdaptivePool(math2, "high", 22) },
-          { key: "module-2-low", minutes: 35, route: "low", questions: exactAdaptivePool(math2, "low", 22) },
-        ],
-      },
+      { key: "reading-writing", label: "Reading and Writing", modules: [
+        { key: "module-1", minutes: 32, questions: rw1 },
+        { key: "module-2-standard", minutes: 32, route: "standard", questions: exactAdaptivePool(rw2, "standard", 27) },
+        { key: "module-2-high", minutes: 32, route: "high", questions: exactAdaptivePool(rw2, "high", 27) },
+        { key: "module-2-low", minutes: 32, route: "low", questions: exactAdaptivePool(rw2, "low", 27) },
+      ] },
+      { key: "math", label: "Math", modules: [
+        { key: "module-1", minutes: 35, questions: math1 },
+        { key: "module-2-standard", minutes: 35, route: "standard", questions: exactAdaptivePool(math2, "standard", 22) },
+        { key: "module-2-high", minutes: 35, route: "high", questions: exactAdaptivePool(math2, "high", 22) },
+        { key: "module-2-low", minutes: 35, route: "low", questions: exactAdaptivePool(math2, "low", 22) },
+      ] },
     ],
   };
 }
