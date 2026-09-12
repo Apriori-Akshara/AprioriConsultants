@@ -73,9 +73,9 @@ function applyBlueprintMath(mock, assessmentNumber, seed) {
 }
 
 const PSAT_BASE_ALIGNED = applyBlueprintMath(PSAT_BASE, 1, 0);
-const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 17);
-const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 23));
-const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 47));
+const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 18);
+const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 587));
+const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 551));
 
 const PSAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED)));
 const SAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED)));
@@ -94,7 +94,7 @@ validateMockContent(PSAT_MOCK_01_CONTENT);
 validateMockContent(SAT_MOCK_01_CONTENT);
 validateMockContent(PSAT_MOCK_02_CONTENT);
 validateMockContent(SAT_MOCK_02_CONTENT);
-validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT);
+validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT2_BASE_ALIGNED);
 
 export const SAT_PSAT_STAGE_1_MOCKS = [PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT];
 export const SAT_PSAT_STAGE_2_MOCKS = [PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT];
