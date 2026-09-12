@@ -201,7 +201,6 @@ export default function SATMockTest({ test }) {
 
   function startBreak() {
     setPhase("running");
-    setSectionIndex((value) => value + 1);
     setModuleIndex(0);
     setQuestionIndex(0);
   }
