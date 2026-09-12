@@ -14,8 +14,8 @@ const LEVELS = {
 
 const DOMAINS1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
 const DOMAINS2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
-const PSAT_DOMAINS1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry'];
-const PSAT_DOMAINS2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+const PSAT_DOMAINS1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Problem-Solving and Data Analysis','Geometry and Trigonometry'];
+const PSAT_DOMAINS2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Advanced Math'];
 
 function valueFor(seed, i, offset = 0) { return Math.abs((seed + 1) * 997 + (i + offset) * 131); }
 function distractors(answer) {
@@ -29,10 +29,7 @@ const CONSTRUCTION_FAMILIES = [
   'An engineering team represents the relationship symbolically and checks the unknown against an observed condition.',
   'A data specialist translates the stated relationship into a mathematical model before determining the requested value.',
 ];
-
-function constructionFamily(seed, assessmentNumber) {
-  return CONSTRUCTION_FAMILIES[Math.abs(seed + assessmentNumber - 1) % CONSTRUCTION_FAMILIES.length];
-}
+function constructionFamily(seed, assessmentNumber) { return CONSTRUCTION_FAMILIES[Math.abs(seed + assessmentNumber - 1) % CONSTRUCTION_FAMILIES.length]; }
 
 function makeQuestion({ testId, variant, assessmentNumber, module, route, domain, difficulty, i, seed }) {
   const n = valueFor(seed, i, module === 'math-module-2' ? (route === 'high' ? 100 : route === 'standard' ? 200 : 300) : 0);
@@ -62,26 +59,16 @@ function makeQuestion({ testId, variant, assessmentNumber, module, route, domain
     else { const scale = 2 + n % 5; const area = 12 + Math.floor(n / 5) % 41; skill = 'Similarity and scaling'; prompt = `Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has area ${area}. What is the larger area?`; answer = area * scale * scale; explanation = 'Areas scale by the square of the length ratio.'; figure = FIG.geometry('similar-figures', { scale, area }); features = ['multi-step','constraint-inference']; }
   }
   const questionType = (i + assessmentNumber) % 5 === 0 ? 'student-produced-response' : 'multiple-choice';
-  const family = constructionFamily(seed, assessmentNumber);
-  prompt = `${family} ${prompt}`;
+  const family = constructionFamily(seed, assessmentNumber); prompt = `${family} ${prompt}`;
   const questionId = `${testId}-math-${module}-${route || 'm1'}-${String(i + 1).padStart(2, '0')}`;
-  let choices = [];
-  let answerValue = String(answer);
-  if (questionType === 'multiple-choice') {
-    choices = [String(answer), ...distractors(answer)];
-    while (choices.length < 4) choices.push(`alternative ${choices.length}`);
-    const target = (i + assessmentNumber + seed) % 4; const correct = choices.shift(); choices.splice(target, 0, correct); answerValue = String.fromCharCode(65 + target);
-  } else {
-    prompt = `${prompt}\nEnter your answer as a number.`;
-  }
+  let choices = []; let answerValue = String(answer);
+  if (questionType === 'multiple-choice') { choices = [String(answer), ...distractors(answer)]; while (choices.length < 4) choices.push(`alternative ${choices.length}`); const target = (i + assessmentNumber + seed) % 4; const correct = choices.shift(); choices.splice(target, 0, correct); answerValue = String.fromCharCode(65 + target); }
+  else prompt = `${prompt}\nEnter your answer as a number.`;
   const difficultyFeatures = difficulty === 'hard' ? [...new Set([...features, 'strategic-choice', 'multi-step'])] : [...new Set(features)];
   return { contentId: questionId, version: 6, product: 'sat', questionId, testId, assessmentFamily: variant === 'psat-nmsqt' ? 'psat' : 'sat', assessmentVariant: variant, assessmentNumber, section: 'math', module, domain, skill, subskill: skill, conceptId: `${domain}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, difficulty, difficultyBand: `math-${route || 'module-1'}-${difficulty}`, cognitiveDemand: difficulty === 'hard' ? 'analyze' : 'apply', questionType, stimulusType: figure?.type || 'numeric-text', interactionType: questionType === 'student-produced-response' ? 'student-produced-response' : 'single-select', timingMode: 'timed', estimatedTimeSeconds: difficulty === 'hard' ? 105 : difficulty === 'medium' ? 95 : 80, calculatorEligibility: true, calculatorMode: 'either', calculatorRequired: false, referenceSheetRelevant: true, prompt, choices, answer: answerValue, explanation, figure, isOperational: true, adaptiveRoute: route || null, originalityFingerprint: `${variant}-${questionId}`, conceptFingerprint: `${domain}-${skill}-${i}`, tags: [variant, 'mock', 'math', 'apriori-original'], lessonIds: [], sourceType: 'apriori-original', authoringStatus: 'qc-approved', status: 'assembly-ready', releaseEligibility: true, metadata: { contextKey: `${variant}-${testId}-math-${i}`, contextFamily: `${variant}-${domain}-${skill}`, applicationFingerprint: `${variant}-${testId}-${domain}-${skill}-${i}`, constructionFamily: `${variant}|${testId}|${domain}|${skill}|family-${Math.abs(seed + assessmentNumber - 1) % CONSTRUCTION_FAMILIES.length}`, answerFormat: questionType === 'student-produced-response' ? 'numeric' : 'A-D', figurePurpose: figure ? 'question-essential' : null, difficultyFeatures } };
 }
 
-function buildPool({ testId, variant, assessmentNumber, seed, module, route, domains, levels, offset }) {
-  return domains.map((domain, i) => makeQuestion({ testId, variant, assessmentNumber, module, route, domain, difficulty: levels[i], i: offset + i, seed }));
-}
-
+function buildPool({ testId, variant, assessmentNumber, seed, module, route, domains, levels, offset }) { return domains.map((domain, i) => makeQuestion({ testId, variant, assessmentNumber, module, route, domain, difficulty: levels[i], i: offset + i, seed })); }
 export function buildMathBank({ testId, variant, assessmentNumber, seed = 0 }) {
   const isPsat = variant === 'psat-nmsqt';
   const pools = [
@@ -92,5 +79,4 @@ export function buildMathBank({ testId, variant, assessmentNumber, seed = 0 }) {
   ];
   return pools.flatMap((pool) => buildPool({ testId, variant, assessmentNumber, seed, ...pool }));
 }
-
 export default buildMathBank;
