@@ -5,195 +5,84 @@ const FIG = {
   geometry: (shape, values) => ({ type: 'geometry', shape, values }),
 };
 
-const FEATURES = {
-  easy: ['direct-application', 'single-step'],
-  medium: ['two-step', 'representation-shift'],
-  hard: ['multi-step', 'strategic-choice', 'distractor-trap'],
-};
-
-const wrong = (answer, mode = 'generic') => {
-  const n = Number(answer);
-  if (!Number.isFinite(n)) return ['not defined', 'insufficient information', 'cannot be determined'];
-  const candidates = mode === 'algebra'
-    ? [n + 2, n - 2, n * 2]
-    : mode === 'percent'
-      ? [n + 5, n - 5, 100 - n]
-      : [n + 1, n - 1, n * 2];
-  return [...new Set(candidates.filter((v) => v !== n))].slice(0, 3);
-};
-
-const routeOffset = (args) => {
-  const key = `${args.variant}|${args.testId}|${args.module}|${args.route || 'm1'}`;
-  let hash = 17;
-  for (const char of key) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
-  return hash % 997;
-};
-
-function sequenceValue(a) {
-  return a.i + a.seed * 88;
-}
-
-function uniqueDistractors(answer, distractors, mode) {
-  const normalizedAnswer = String(answer).trim();
-  const output = [];
-  const seen = new Set([normalizedAnswer]);
-  const candidates = [
-    ...(Array.isArray(distractors) ? distractors : []),
-    ...wrong(answer, mode),
-  ];
-  for (const candidate of candidates) {
-    const value = String(candidate).trim();
-    if (!value || seen.has(value)) continue;
-    seen.add(value);
-    output.push(candidate);
-    if (output.length === 3) break;
-  }
-  return output;
-}
+const FEATURES = { easy: ['direct-application', 'single-step'], medium: ['two-step', 'representation-shift'], hard: ['multi-step', 'strategic-choice', 'distractor-trap'] };
+const wrong = (answer, mode = 'generic') => { const n = Number(answer); if (!Number.isFinite(n)) return ['not defined','insufficient information','cannot be determined']; const candidates = mode === 'algebra' ? [n + 2,n - 2,n * 2] : mode === 'percent' ? [n + 5,n - 5,100 - n] : [n + 1,n - 1,n * 2]; return [...new Set(candidates.filter((v) => v !== n))].slice(0,3); };
+function sequenceValue(a) { const routeKey = `${a.module}|${a.route || 'm1'}`; let routeHash = 0; for (const char of routeKey) routeHash = (routeHash * 31 + char.charCodeAt(0)) >>> 0; return a.i * 97 + a.seed * 100000 + (routeHash % 997); }
+function uniqueDistractors(answer, distractors, mode) { const seen = new Set([String(answer).trim()]); const output = []; for (const candidate of [...(Array.isArray(distractors) ? distractors : []), ...wrong(answer, mode)]) { const value = String(candidate).trim(); if (!value || seen.has(value)) continue; seen.add(value); output.push(candidate); if (output.length === 3) break; } return output; }
 
 function item({ testId, variant, assessmentNumber, module, route, domain, i, difficulty, skill, prompt, answer, explanation, figure = null, features = [], distractors }) {
   const questionType = i % 4 === 3 ? 'student-produced-response' : 'multiple-choice';
   const questionId = `${testId}-math-${module}-${route || 'm1'}-${String(i + 1).padStart(2, '0')}`;
   const out = {
-    contentId: questionId, version: 3, product: 'sat', questionId, testId,
-    assessmentFamily: variant === 'psat-nmsqt' ? 'psat' : 'sat', assessmentVariant: variant,
-    assessmentNumber, section: 'math', module, domain, skill, subskill: skill,
-    conceptId: `${domain}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-    difficulty, difficultyBand: `math-${route || 'module-1'}-${difficulty}`,
-    cognitiveDemand: difficulty === 'hard' ? 'analyze' : 'apply', questionType,
-    stimulusType: figure?.type || 'numeric-text', interactionType: questionType === 'student-produced-response' ? 'student-produced-response' : 'single-select',
-    timingMode: 'timed', estimatedTimeSeconds: difficulty === 'hard' ? 105 : difficulty === 'medium' ? 95 : 80,
+    contentId: questionId, version: 4, product: 'sat', questionId, testId, assessmentFamily: variant === 'psat-nmsqt' ? 'psat' : 'sat', assessmentVariant: variant,
+    assessmentNumber, section: 'math', module, domain, skill, subskill: skill, conceptId: `${domain}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+    difficulty, difficultyBand: `math-${route || 'module-1'}-${difficulty}`, cognitiveDemand: difficulty === 'hard' ? 'analyze' : 'apply', questionType,
+    stimulusType: figure?.type || 'numeric-text', interactionType: questionType === 'student-produced-response' ? 'student-produced-response' : 'single-select', timingMode: 'timed', estimatedTimeSeconds: difficulty === 'hard' ? 105 : difficulty === 'medium' ? 95 : 80,
     calculatorEligibility: true, calculatorMode: 'either', calculatorRequired: false, referenceSheetRelevant: true,
-    prompt: questionType === 'student-produced-response' ? `${prompt}\nEnter your answer as a number.` : prompt,
-    choices: [], answer: null, explanation, figure, isOperational: true, adaptiveRoute: route || null,
-    originalityFingerprint: `${variant}-${questionId}`, conceptFingerprint: `${domain}-${skill}-${i}`,
-    tags: [variant, 'mock', 'math', 'apriori-original'], lessonIds: [], sourceType: 'apriori-original',
-    authoringStatus: 'qc-approved', status: 'assembly-ready', releaseEligibility: true,
-    metadata: {
-      contextKey: `${variant}-${testId}-math-${i}`,
-      contextFamily: `${variant}-${domain}-${skill}`,
-      applicationFingerprint: `${variant}-${testId}-${domain}-${skill}-${i}`,
-      answerFormat: questionType === 'student-produced-response' ? 'numeric' : 'A-D',
-      figurePurpose: figure ? 'question-essential' : null,
-      difficultyFeatures: [...new Set([...FEATURES[difficulty], ...features])],
-    },
+    prompt: questionType === 'student-produced-response' ? `${prompt}\nEnter your answer as a number.` : prompt, choices: [], answer: null, explanation, figure, isOperational: true, adaptiveRoute: route || null,
+    originalityFingerprint: `${variant}-${questionId}`, conceptFingerprint: `${domain}-${skill}-${i}`, tags: [variant,'mock','math','apriori-original'], lessonIds: [], sourceType: 'apriori-original', authoringStatus: 'qc-approved', status: 'assembly-ready', releaseEligibility: true,
+    metadata: { contextKey: `${variant}-${testId}-math-${i}`, contextFamily: `${variant}-${domain}-${skill}`, applicationFingerprint: `${variant}-${testId}-${domain}-${skill}-${i}`, constructionFamily: `${domain}|${difficulty}|form-${((Number(assessmentNumber) || 1) - 1) % 4}`, answerFormat: questionType === 'student-produced-response' ? 'numeric' : 'A-D', figurePurpose: figure ? 'question-essential' : null, difficultyFeatures: [...new Set([...FEATURES[difficulty], ...features])] },
   };
   if (questionType === 'student-produced-response') out.answer = String(answer);
-  else {
-    const mode = domain === 'Algebra' ? 'algebra' : domain === 'Problem-Solving and Data Analysis' ? 'percent' : 'generic';
-    const choices = [String(answer), ...uniqueDistractors(answer, distractors, mode).map(String)];
-    const target = (i + assessmentNumber) % 4;
-    const first = choices.shift(); choices.splice(target, 0, first);
-    out.choices = choices;
-    out.answer = String.fromCharCode(65 + target);
-  }
+  else { const mode = domain === 'Algebra' ? 'algebra' : domain === 'Problem-Solving and Data Analysis' ? 'percent' : 'generic'; const choices = [String(answer), ...uniqueDistractors(answer, distractors, mode).map(String)]; const target = (i + assessmentNumber) % 4; const first = choices.shift(); choices.splice(target,0,first); out.choices = choices; out.answer = String.fromCharCode(65 + target); }
   return out;
 }
 
 function algebra(a) {
-  const v = sequenceValue(a);
+  const v = sequenceValue(a); const form = a.seed % 4;
   if (a.difficulty === 'easy') {
     const m = 2 + v % 9, b = 4 + Math.floor(v / 9) % 37, x = 2 + Math.floor(v / 333) % 19, y = m * x + b;
-    return item({ ...a, skill: 'Linear functions', prompt: `A linear model is y = ${m}x + ${b}. What is y when x = ${x}?`, answer: y, explanation: `Substitute x = ${x}: ${m}(${x}) + ${b} = ${y}.`, distractors: [y - m, y + m, b] });
+    if (form === 0) return item({ ...a, skill:'Linear functions', prompt:`A linear model is y = ${m}x + ${b}. What is y when x = ${x}?`, answer:y, explanation:`Substitute x = ${x}: ${m}(${x}) + ${b} = ${y}.`, distractors:[y-m,y+m,b] });
+    if (form === 1) return item({ ...a, skill:'Linear equations', prompt:`A linear model is y = ${m}x + ${b}. For what value of x is y = ${y}?`, answer:x, explanation:`Set ${m}x + ${b} equal to ${y}, subtract ${b}, and divide by ${m} to obtain x = ${x}.`, distractors:[x+1,x-1,b] });
+    if (form === 2) return item({ ...a, skill:'Linear functions and representations', prompt:`A line passes through (${x}, ${y}) and has slope ${m}. What is its y-intercept?`, answer:b, explanation:`Using y = mx + b, ${y} = ${m}(${x}) + b, so b = ${b}.`, distractors:[y,m,b+m] });
+    return item({ ...a, skill:'Linear functions', prompt:`Which ordered pair lies on y = ${m}x + ${b}?`, answer:`(${x}, ${y})`, explanation:`Substituting x = ${x} gives y = ${y}, so (${x}, ${y}) lies on the line.`, distractors:[`(${x+1}, ${y})`,`(${x}, ${y+m})`,`(${x-1}, ${y})`] });
   }
   if (a.difficulty === 'medium') {
-    const coefficient = 1 + Math.floor(v / 143) % 7, x = 2 + v % 11, y = 3 + Math.floor(v / 11) % 13;
-    const firstResult = coefficient * x + y, secondResult = 2 * x + 3 * y;
-    return item({ ...a, skill: 'Systems of two linear equations', prompt: `The system ${coefficient}x + y = ${firstResult} and 2x + 3y = ${secondResult} has solution (x, y). What is x?`, answer: x, explanation: `Substitute the first equation into the second and solve for x = ${x}.`, distractors: [y, coefficient * x, x + y] });
+    const coefficient = 1 + Math.floor(v / 143) % 7, x = 2 + v % 11, y = 3 + Math.floor(v / 11) % 13, firstResult = coefficient * x + y, secondResult = 2 * x + 3 * y;
+    if (form === 0) return item({ ...a, skill:'Systems of two linear equations', prompt:`The system ${coefficient}x + y = ${firstResult} and 2x + 3y = ${secondResult} has solution (x, y). What is x?`, answer:x, explanation:`Substitute the first equation into the second and solve for x = ${x}.`, distractors:[y,coefficient*x,x+y] });
+    if (form === 1) { const answer = Math.floor((firstResult + 12 - y) / (coefficient + 1)); return item({ ...a, skill:'Linear inequalities', prompt:`A storage room can hold at most ${firstResult + 12} boxes. It already holds ${y} boxes, and each shipment adds ${coefficient + 1} boxes. What is the greatest whole number of additional shipments?`, answer, explanation:'Use a capacity inequality and take the greatest whole-number solution.', distractors:[answer-1,answer+1,y] }); }
+    if (form === 2) return item({ ...a, skill:'Linear functions', prompt:`A table follows a linear rule. When x increases from ${x} to ${x+2}, y increases from ${firstResult} to ${firstResult + 2*coefficient}. What is the slope?`, answer:coefficient, explanation:`Slope is change in y divided by change in x: ${2*coefficient}/2 = ${coefficient}.`, distractors:[coefficient+1,coefficient-1,firstResult] });
+    const slope = coefficient + 1, x2 = x + 2, y0 = slope*x + y, y2 = slope*x2 + y; return item({ ...a, skill:'Linear functions and representations', prompt:`A line passes through (${x}, ${y0}) and (${x2}, ${y2}). What is the slope of the line?`, answer:slope, explanation:`Compute change in y divided by change in x: (${y2} − ${y0})/2 = ${slope}.`, distractors:[coefficient,slope+1,y] });
   }
-  if (v % 2 === 0) {
-    const m = 2 + v % 7, b = 5 + Math.floor(v / 7) % 17, x1 = 2 + Math.floor(v / 119) % 13, x2 = x1 + 3, y1 = m * x1 + b, y2 = m * x2 + b;
-    return item({ ...a, skill: 'Linear functions and representations', prompt: `A line passes through (${x1}, ${y1}) and (${x2}, ${y2}). What is its y-intercept?`, answer: b, explanation: `The slope is ${m}; substituting either point into y = ${m}x + b gives b = ${b}.`, distractors: [y1, y2, b + m], features: ['multi-step'] });
-  }
-  const m = 2 + v % 7, b = 6 + Math.floor(v / 7) % 17, q = 2 + Math.floor(v / 119) % 11;
-  return item({ ...a, skill: 'Linear equations and parameter reasoning', prompt: `Line A is y = ${m}x + ${b}. Line B is parallel to Line A and passes through (${q}, ${m * q + b + 4}). What is the y-intercept of Line B?`, answer: b + 4, explanation: `Parallel lines have the same slope. Substitute the given point into y = ${m}x + b_B to obtain b_B = ${b + 4}.`, distractors: [b, b + m, m * q + b], features: ['parameter-reasoning', 'constraint-inference'] });
+  if (form === 0) { const m=2+v%7,b=5+Math.floor(v/7)%17,x1=2+Math.floor(v/119)%13,x2=x1+3,y1=m*x1+b,y2=m*x2+b; return item({ ...a, skill:'Linear functions and representations', prompt:`A line passes through (${x1}, ${y1}) and (${x2}, ${y2}). What is its y-intercept?`, answer:b, explanation:`The slope is ${m}; substituting either point into y = ${m}x + b gives b = ${b}.`, distractors:[y1,y2,b+m], features:['multi-step'] }); }
+  const m=2+v%7,b=6+Math.floor(v/7)%17,q=2+Math.floor(v/119)%11;
+  if (form === 1) { const p=m*q+b, shifted=p+4; return item({ ...a, skill:'Linear equations and parameter reasoning', prompt:`A line has slope ${m} and passes through (${q}, ${p}). A second line is parallel to it and passes through (${q}, ${shifted}). What is the vertical distance between their y-intercepts?`, answer:4, explanation:'Parallel lines have equal slopes, and the second point is 4 units above the first at the same x-value, so its y-intercept is also 4 units larger.', distractors:[m,b,4+m], features:['parameter-reasoning','constraint-inference'] }); }
+  if (form === 2) { const x0=q+2,y0=m*x0+b,targetSlope=m+2; return item({ ...a, skill:'Linear functions and parameter reasoning', prompt:`A line through (${x0}, ${y0}) has slope ${targetSlope}. What is its y-intercept?`, answer:b-2*x0, explanation:`Use y = ${targetSlope}x + b_new at x = ${x0}; solving gives b_new = ${b-2*x0}.`, distractors:[b,b+2*x0,targetSlope], features:['parameter-reasoning','constraint-inference'] }); }
+  const x0=q,y0=m*q+b; return item({ ...a, skill:'Linear functions and parameter reasoning', prompt:`For y = ${m}x + c, the point (${x0}, ${y0+6}) lies on the line. What is c?`, answer:b+6, explanation:`Substitute the point: ${y0+6} = ${m}(${x0}) + c, so c = ${b+6}.`, distractors:[b,b+m,y0], features:['parameter-reasoning','constraint-inference'] });
 }
 
 function advanced(a) {
-  const v = sequenceValue(a);
-  if (a.difficulty === 'easy') {
-    const r1 = 2 + v % 101, gap = 2 + Math.floor(v / 101) % 9, r2 = r1 + gap;
-    return item({ ...a, skill: 'Quadratic equations', prompt: `One solution of x² − ${r1 + r2}x + ${r1 * r2} = 0 is ${r1}. What is the other solution?`, answer: r2, explanation: `The roots sum to ${r1 + r2}; subtract ${r1} to get ${r2}.`, distractors: [r1, r2 - 1, r2 + 1] });
-  }
-  if (a.difficulty === 'medium') {
-    const coefficient = 1 + Math.floor(v / 143) % 7, base = 2 + v % 13, exponent = 2 + Math.floor(v / 13) % 11, value = coefficient * base ** exponent;
-    return item({ ...a, skill: 'Exponential equations', prompt: `If ${coefficient}(${base}^x) = ${value}, what is x?`, answer: exponent, explanation: `Divide by ${coefficient} to get ${base}^x = ${base}^${exponent}.`, distractors: [exponent - 1, exponent + 1, base * exponent] });
-  }
-  if (v % 2 === 0) {
-    const leading = 1 + Math.floor(v / 31) % 29, h = 2 + v % 31, answer = leading * h * h;
-    return item({ ...a, skill: 'Quadratic parameter reasoning', prompt: `For ${leading}x² − ${2 * leading * h}x + k = 0, the equation has exactly one real solution. What is k?`, answer, explanation: `A repeated root requires discriminant 0, so (2(${leading})h)² − 4(${leading})k = 0 and k = ${answer}.`, distractors: [answer + leading, answer - leading, answer * 2], features: ['parameter-reasoning', 'constraint-inference'] });
-  }
-  const h = 2 + v % 29, c = 12 + Math.floor(v / 29) % 31, vertex = c - h * h;
-  return item({ ...a, skill: 'Quadratic functions and representations', prompt: `A quadratic is f(x) = x² − ${2 * h}x + ${c}. What is the minimum value of f(x)?`, answer: vertex, explanation: `Complete the square: f(x) = (x − ${h})² + ${vertex}; therefore the minimum is ${vertex}.`, figure: FIG.quadratic(1, -2 * h, c), distractors: [c, h, vertex + h], features: ['representation-shift', 'multi-step', 'strategic-choice'] });
+  const v=sequenceValue(a); const form=a.seed%4;
+  if (a.difficulty === 'easy') { const r1=2+v%19,gap=2+Math.floor(v/19)%9,r2=r1+gap; if(form===0)return item({ ...a,skill:'Quadratic equations',prompt:`One solution of x² − ${r1+r2}x + ${r1*r2} = 0 is ${r1}. What is the other solution?`,answer:r2,explanation:`The roots sum to ${r1+r2}; subtract ${r1} to get ${r2}.`,distractors:[r1,r2-1,r2+1] }); if(form===1)return item({ ...a,skill:'Quadratic equations',prompt:`The equation (x − ${r1})(x − ${r2}) = 0 has two solutions. What is the greater solution?`,answer:r2,explanation:`Set each factor equal to zero; the greater root is x = ${r2}.`,distractors:[r1,r2-1,r1+r2] }); if(form===2)return item({ ...a,skill:'Quadratic equations',prompt:`A quadratic has roots ${r1} and ${r2}. What is the sum of the roots?`,answer:r1+r2,explanation:`Add the two roots: ${r1} + ${r2} = ${r1+r2}.`,distractors:[r2-r1,r1*r2,r1+r2+1] }); return item({ ...a,skill:'Quadratic equations',prompt:`The solutions of x² − ${r1+r2}x + ${r1*r2} = 0 are r and ${r2}. What is r?`,answer:r1,explanation:`The roots sum to ${r1+r2}; subtract ${r2} to obtain ${r1}.`,distractors:[r2,r1+1,r2-1] }); }
+  if (a.difficulty === 'medium') { const base=2+a.i,exponent=2+(a.i%5),coefficient=1+(a.i%3),value=coefficient*base**exponent; if(form===0)return item({ ...a,skill:'Exponential equations',prompt:`If ${coefficient}(${base}^x) = ${value}, what is x?`,answer:exponent,explanation:`Divide by ${coefficient} to obtain ${base}^x = ${base}^${exponent}.`,distractors:[exponent-1,exponent+1,base*exponent] }); if(form===1)return item({ ...a,skill:'Exponential equations',prompt:`The value of ${base}^x is ${base**exponent}. What is x?`,answer:exponent,explanation:`The exponents match, so x = ${exponent}.`,distractors:[exponent-1,exponent+1,base] }); if(form===2)return item({ ...a,skill:'Equivalent expressions',prompt:`Which expression is equivalent to ${base}^${exponent} × ${base}^2?`,answer:`${base}^${exponent+2}`,explanation:'When multiplying powers with the same base, add the exponents.',distractors:[`${base}^${exponent}`,`${base}^${exponent-2}`,`${base*2}^${exponent}`] }); return item({ ...a,skill:'Exponential equations',prompt:`If ${base}^(x − 2) = ${base**(exponent-2)}, what is x?`,answer:exponent,explanation:`Equal powers with the same base have equal exponents, so x − 2 = ${exponent-2}.`,distractors:[exponent-2,exponent+2,base] }); }
+  const leading=1+(a.i%9),h=2+a.i;
+  if(form===0){const answer=leading*h*h;return item({ ...a,skill:'Quadratic parameter reasoning',prompt:`For ${leading}x² − ${2*leading*h}x + k = 0, the equation has exactly one real solution. What is k?`,answer,explanation:`A repeated root requires discriminant 0, giving k = ${answer}.`,distractors:[answer+leading,answer-leading,answer*2],features:['parameter-reasoning','constraint-inference'] });}
+  if(form===1){const c=h*h+5+(a.i%7),answer=c-h*h;return item({ ...a,skill:'Quadratic functions and representations',prompt:`A quadratic is f(x) = (x − ${h})² + ${answer}. What is its minimum value?`,answer,explanation:`A square is minimized at 0, so the minimum value is the constant ${answer}.`,figure:FIG.quadratic(1,-2*h,c+a.seed*1000),distractors:[h,c,answer+h],features:['representation-shift','multi-step','strategic-choice'] });}
+  if(form===2){const c=h*h+8,vertex=c-h*h;return item({ ...a,skill:'Quadratic functions and representations',prompt:`For f(x) = x² − ${2*h}x + ${c}, at what x-value does the minimum occur?`,answer:h,explanation:`The vertex occurs at x = −b/(2a) = ${h}.`,figure:FIG.quadratic(1,-2*h,c+a.seed*1000),distractors:[h-1,h+1,vertex],features:['representation-shift','multi-step','strategic-choice'] });}
+  const c=10+h*h; return item({ ...a,skill:'Quadratic functions and representations',prompt:`The vertex of f(x) = (x − ${h})² + ${c-h*h} is (h, k). What is k?`,answer:c-h*h,explanation:`The constant term in vertex form is the minimum value k = ${c-h*h}.`,figure:FIG.quadratic(1,-2*h,c+a.seed*1000),distractors:[h,c,c-h],features:['representation-shift','multi-step','strategic-choice'] });
 }
 
 function psda(a) {
-  const v = sequenceValue(a);
-  if (a.difficulty === 'easy') {
-    const total = 200 + (v % 31) * 25, pct = 15 + (Math.floor(v / 31) % 29) * 2, answer = total * pct / 100;
-    return item({ ...a, skill: 'Percentages', prompt: `A population contains ${total} observations. If ${pct}% meet a condition, how many observations meet it?`, answer, explanation: `Calculate ${total} × ${pct}/100 = ${answer}.`, distractors: [answer + 5, answer - 5, total - answer] });
-  }
-  if (a.difficulty === 'medium') {
-    const m = 2 + v % 11, b = 6 + Math.floor(v / 11) % 17, x = 4 + Math.floor(v / 187) % 13, y = m * x + b;
-    return item({ ...a, skill: 'Two-variable data and models', prompt: `The scatterplot shown is modeled by y = ${m}x + ${b}. According to the model, what y-value is predicted when x = ${x}?`, answer: y, explanation: `Substitute x = ${x} into the model.`, figure: FIG.scatter(v), distractors: [m * x, y + m, b + x], features: ['data-interpretation', 'representation-shift'] });
-  }
-  if (a.variant !== 'psat-nmsqt' && v % 3 === 0) {
-    const estimate = 52 + v % 53, margin = 3 + Math.floor(v / 53) % 17, answer = estimate + margin;
-    return item({ ...a, skill: 'Margin of error', prompt: `A survey estimate is ${estimate}% with a margin of error of ±${margin} percentage points. What is the upper end of the reported interval?`, answer, explanation: `Add the margin of error: ${estimate} + ${margin} = ${answer}.`, distractors: [estimate - margin, estimate + 2 * margin, margin], features: ['data-interpretation', 'multi-step'] });
-  }
-  if (v % 2 === 0) {
-    const group = 40 + v % 31, outcome = 8 + Math.floor(v / 31) % 19, answer = Number((outcome / group * 100).toFixed(2));
-    return item({ ...a, skill: 'Conditional probability and data interpretation', prompt: `A study records ${group} participants in a group, and ${outcome} of those participants have outcome C. What percentage of the group has outcome C?`, answer, explanation: `The relevant denominator is ${group}: ${outcome}/${group} × 100 = ${answer}%.`, figure: FIG.scatter(v + 3), distractors: [Number((outcome / (group + outcome) * 100).toFixed(2)), Number((outcome / Math.max(1, group - outcome) * 100).toFixed(2)), Number((group / outcome * 100).toFixed(2))], features: ['data-interpretation', 'constraint-inference'] });
-  }
-  const n = 8 + v % 17, mean = 20 + Math.floor(v / 17) % 19, added = mean + 10 + Math.floor(v / 323) % 13, answer = Number(((mean * n + added) / (n + 1)).toFixed(2));
-  return item({ ...a, skill: 'Distributions and measures of center', prompt: `A data set of ${n} values has mean ${mean}. After one value of ${added} is added, what is the new mean?`, answer, explanation: `Find the original total, add ${added}, and divide by ${n + 1}.`, distractors: [mean, added, Number(((mean * n - added) / (n + 1)).toFixed(2))], features: ['multi-step', 'strategic-choice'] });
+  const v=sequenceValue(a); const form=a.seed%4;
+  if(a.difficulty==='easy'){const total=200+(v%17)*25,pct=20+(Math.floor(v/17)%5)*5,part=total*pct/100;if(form===0)return item({ ...a,skill:'Percentages',prompt:`A population contains ${total} observations. If ${pct}% meet a condition, how many observations meet it?`,answer:part,explanation:`Calculate ${total} × ${pct}/100 = ${part}.`,distractors:[part+5,part-5,total-part] });if(form===1)return item({ ...a,skill:'Percentages',prompt:`${part} observations represent ${pct}% of a population. What is the population size?`,answer:total,explanation:`Divide ${part} by ${pct}/100 to obtain ${total}.`,distractors:[total-25,total+25,part] });if(form===2)return item({ ...a,skill:'Percentages',prompt:`A quantity of ${total} is reduced by ${pct}%. What is the new quantity?`,answer:total-part,explanation:`The reduction is ${part}, so the new quantity is ${total-part}.`,distractors:[total-pct,total+part,part] });const original=100,increased=original+pct;return item({ ...a,skill:'Percentages',prompt:`A quantity increases from ${original} to ${increased}. What is the percent increase?`,answer:pct,explanation:`The increase is ${pct} from an original value of 100, so the percent increase is ${pct}%.`,distractors:[100-pct,pct+5,pct-5] });}
+  if(a.difficulty==='medium'){const m=2+v%9,b=6+Math.floor(v/9)%17,x=4+Math.floor(v/153)%13,y=m*x+b;if(form===0)return item({ ...a,skill:'Two-variable data and models',prompt:`A scatterplot is modeled by y = ${m}x + ${b}. According to the model, what y-value is predicted when x = ${x}?`,answer:y,explanation:`Substitute x = ${x} into the model.`,figure:{...FIG.scatter(v+a.seed*1000),series:a.seed},distractors:[m*x,y+m,b+x],features:['data-interpretation','representation-shift'] });if(form===1)return item({ ...a,skill:'Two-variable data and models',prompt:`A line of best fit has slope ${m} and y-intercept ${b}. What x-value corresponds to a predicted y-value of ${y}?`,answer:x,explanation:`Solve ${y} = ${m}x + ${b} to obtain x = ${x}.`,figure:{...FIG.scatter(v+5+a.seed*1000),series:a.seed},distractors:[x+1,x-1,y] });if(form===2)return item({ ...a,skill:'Two-variable data and models',prompt:`A model predicts y = ${y} when x = ${x}. If the slope is ${m}, what is the y-intercept?`,answer:b,explanation:`Use y = mx + b: ${b} = ${y} − ${m}(${x}).`,figure:{...FIG.line(m,b),series:a.seed},distractors:[m,x,y] });return item({ ...a,skill:'Two-variable data and models',prompt:`A linear model has y-intercept ${b} and passes through (${x}, ${y}). What is its slope?`,answer:m,explanation:`Slope = (y − b)/x = ${m}.`,figure:{...FIG.scatter(v+9+a.seed*1000),series:a.seed},distractors:[m+1,m-1,b],features:['data-interpretation','representation-shift'] });}
+  if(form===0){const n1=20+(a.i%17),n2=30+(a.i%19),mean1=18+(a.i%11),mean2=28+(a.i%13),answer=Number(((n1*mean1+n2*mean2)/(n1+n2)).toFixed(2));return item({ ...a,skill:'Weighted means',prompt:`Group A contains ${n1} observations with mean ${mean1}. Group B contains ${n2} observations with mean ${mean2}. What is the combined mean?`,answer,explanation:`Use the weighted total: (${n1} × ${mean1} + ${n2} × ${mean2}) ÷ ${n1+n2} = ${answer}.`,distractors:[mean1,mean2,Number(((mean1+mean2)/2).toFixed(2))],features:['data-interpretation','multi-step'] });}
+  if(form===1){const n=8+v%17,mean=20+Math.floor(v/17)%19,added=mean+10+Math.floor(v/323)%13,answer=Number(((mean*n+added)/(n+1)).toFixed(2));return item({ ...a,skill:'Distributions and measures of center',prompt:`A data set of ${n} values has mean ${mean}. After one value of ${added} is added, what is the new mean?`,answer,explanation:`Find the original total, add ${added}, and divide by ${n+1}.`,distractors:[mean,added,Number(((mean*n-added)/(n+1)).toFixed(2))],features:['multi-step','strategic-choice'] });}
+  if(form===2){const group=40+v%31,outcome=8+Math.floor(v/31)%19,answer=Number((outcome/group*100).toFixed(2));return item({ ...a,skill:'Conditional probability and data interpretation',prompt:`A study records ${group} participants in a group, and ${outcome} have outcome C. What percentage of the group has outcome C?`,answer,explanation:`Divide ${outcome} by ${group} and multiply by 100 to obtain ${answer}%.`,figure:{...FIG.scatter(v+13+a.seed*1000),series:a.seed},distractors:[Number((outcome/(group+outcome)*100).toFixed(2)),Number((outcome/Math.max(1,group-outcome)*100).toFixed(2)),Number((group/outcome*100).toFixed(2))],features:['data-interpretation','constraint-inference'] });}
+  const q1=8+v%11,q3=q1+10+Math.floor(v/11)%9;return item({ ...a,skill:'Distributions and measures of center',prompt:`A data set has first quartile ${q1} and third quartile ${q3}. What is the interquartile range?`,answer:q3-q1,explanation:`IQR = Q3 − Q1 = ${q3} − ${q1} = ${q3-q1}.`,distractors:[q1+q3,q3,q1] });
 }
 
-function geometry(a) {
-  const v = sequenceValue(a);
-  if (a.difficulty === 'easy') {
-    const radius = 3 + v % 294, scale = 2 + Math.floor(v / 294) % 3, answer = radius * radius * scale * scale;
-    return item({ ...a, skill: 'Circles', prompt: `A circle has radius ${radius}. If its radius is scaled by a factor of ${scale}, what is the area of the scaled circle in terms of π?`, answer, explanation: `The scaled radius is ${radius * scale}, so the coefficient of π is ${answer}.`, figure: FIG.geometry('circle', { radius, scale }), distractors: [answer + radius, answer - radius, answer + scale] });
-  }
-  if (a.difficulty === 'medium') {
-    const x = 6 + v % 23, y = 8 + Math.floor(v / 23) % 29, answer = Number(Math.sqrt(x * x + y * y).toFixed(2));
-    return item({ ...a, skill: 'Right triangles', prompt: `The right triangle shown has legs ${x} and ${y}. What is the length of the hypotenuse?`, answer, explanation: `Apply c² = ${x}² + ${y}².`, figure: FIG.geometry('right-triangle', { x, y }), distractors: [x + y, Math.abs(y - x), Number(Math.sqrt(Math.max(1, y * y - x * x)).toFixed(2))], features: ['multi-step'] });
-  }
-  if (v % 2 === 0) {
-    const scale = 2 + v % 7, baseArea = 12 + Math.floor(v / 7) % 126, answer = baseArea * scale * scale;
-    return item({ ...a, skill: 'Similarity and scaling', prompt: `Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has an area of ${baseArea} square units. What is the area of the larger figure?`, answer, explanation: `Area scales by the square of the length ratio: ${baseArea} × ${scale}² = ${answer} square units.`, figure: FIG.geometry('similar-figures', { side: Math.sqrt(baseArea), scale }), distractors: [answer + scale, answer - scale, answer + baseArea] });
-  }
-  const angle = [30, 45, 60][v % 3], opposite = 6 + Math.floor(v / 3) % 294, sine = angle === 30 ? 0.5 : angle === 45 ? Math.SQRT1_2 : Math.sqrt(3) / 2, answer = Number((opposite / sine).toFixed(2));
-  return item({ ...a, skill: 'Right-triangle trigonometry', prompt: `In the right triangle shown, an acute angle is ${angle}°. The side opposite the angle has length ${opposite}. What is the hypotenuse length?`, answer, explanation: `Use sin(${angle}°) = opposite/hypotenuse.`, figure: FIG.geometry('right-triangle-trig', { opposite, angle }), distractors: [opposite, Number((opposite / (Math.cos(angle * Math.PI / 180))).toFixed(2)), Number((opposite * sine).toFixed(2))], features: ['representation-shift', 'multi-step'] });
+function geometry(a){
+  const v=sequenceValue(a);const form=a.seed%4;
+  if(a.difficulty==='easy'){const radius=3+v%27,scale=2+Math.floor(v/27)%3,area=radius*radius*scale*scale;if(form===0)return item({ ...a,skill:'Circles',prompt:`A circle has radius ${radius}. If its radius is scaled by a factor of ${scale}, what is the area of the scaled circle in terms of π?`,answer:area,explanation:`The scaled radius is ${radius*scale}, so the coefficient of π is ${area}.`,figure:FIG.geometry('circle',{radius,scale,series:a.seed}),distractors:[radius*radius,area+radius,area-scale] });if(form===1)return item({ ...a,skill:'Circles',prompt:`A circle has area ${radius*radius}π. What is its radius?`,answer:radius,explanation:`Since area = πr², r² = ${radius*radius}, so r = ${radius}.`,figure:FIG.geometry('circle-area',{areaCoefficient:radius*radius,series:a.seed}),distractors:[radius-1,radius+1,radius*2] });if(form===2)return item({ ...a,skill:'Circles',prompt:`A circle has radius ${radius}. What is its circumference in terms of π?`,answer:`${2*radius}π`,explanation:`Circumference = 2πr = ${2*radius}π.`,figure:FIG.geometry('circle-circumference',{radius,series:a.seed}),distractors:[`${radius}π`,`${radius*radius}π`,`${2*radius+2}π`] });return item({ ...a,skill:'Circles',prompt:`Two circles have radii ${radius} and ${radius*scale}. By what factor is the larger circle's area greater?`,answer:scale*scale,explanation:`Area scales with the square of the radius, so the factor is ${scale}² = ${scale*scale}.`,figure:FIG.geometry('circle-comparison',{smallRadius:radius,largeRadius:radius*scale,series:a.seed}),distractors:[scale,scale+1,scale*scale+1] });}
+  if(a.difficulty==='medium'){const x=6+v%17,y=8+Math.floor(v/17)%19,hyp=Number(Math.sqrt(x*x+y*y).toFixed(2));if(form===0)return item({ ...a,skill:'Right triangles',prompt:`The right triangle shown has legs ${x} and ${y}. What is the length of the hypotenuse?`,answer:hyp,explanation:`Apply c² = ${x}² + ${y}².`,figure:FIG.geometry('right-triangle',{x,y,series:a.seed}),distractors:[x+y,Math.abs(y-x),Number(Math.sqrt(Math.max(1,y*y-x*x)).toFixed(2))],features:['multi-step'] });if(form===1)return item({ ...a,skill:'Right triangles',prompt:`A right triangle has hypotenuse ${hyp} and one leg ${x}. What is the positive length of the other leg?`,answer:y,explanation:`Use y² = ${hyp}² − ${x}²; the positive value is ${y}.`,figure:FIG.geometry('right-triangle-missing-leg',{x,hyp,series:a.seed}),distractors:[x,hyp-x,x+y] });if(form===2)return item({ ...a,skill:'Right triangles',prompt:`A right triangle has legs ${x} and ${y}. What is its area?`,answer:Number((x*y/2).toFixed(2)),explanation:`Area = 1/2 × ${x} × ${y}.`,figure:FIG.geometry('right-triangle-area',{x,y,series:a.seed}),distractors:[x*y,x+y,hyp] });return item({ ...a,skill:'Right triangles',prompt:`A right triangle has hypotenuse ${hyp} and one leg ${y}. What is the length of the other leg?`,answer:x,explanation:`Use the Pythagorean theorem to solve for the missing leg x = ${x}.`,figure:FIG.geometry('right-triangle-reverse',{y,hyp,series:a.seed}),distractors:[y,hyp-y,x+1] });}
+  const scale=2+v%5,baseArea=12+Math.floor(v/5)%37;if(form===0){const answer=baseArea*scale*scale;return item({ ...a,skill:'Similarity and scaling',prompt:`Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has area ${baseArea}. What is the area of the larger figure?`,answer,explanation:`Area scales by the square of the length ratio: ${baseArea} × ${scale}² = ${answer}.`,figure:FIG.geometry('similar-figures',{side:Math.sqrt(baseArea),scale,series:a.seed}),distractors:[answer+scale,answer-scale,answer+baseArea],features:['multi-step'] });}if(form===1){const side=4+(a.i%80),perimeter=4*side;return item({ ...a,skill:'Geometry and measurement',prompt:`A square has perimeter ${perimeter}. What is its area?`,answer:side*side,explanation:`Each side is ${perimeter}/4 = ${side}; area = ${side}² = ${side*side}.`,figure:FIG.geometry('square',{side,series:a.seed}),distractors:[perimeter,side*2,side*side+side],features:['multi-step'] });}if(form===2){const base=8+v%11,height=6+Math.floor(v/11)%13,answer=base*height/2;return item({ ...a,skill:'Geometry and measurement',prompt:`A triangle has base ${base} and height ${height}. What is its area?`,answer,explanation:`Use A = 1/2bh, so A = ${answer}.`,figure:FIG.geometry('triangle',{base,height,series:a.seed}),distractors:[base*height,base+height,answer+base],features:['multi-step'] });}const angle=[30,45,60][v%3],opposite=6+Math.floor(v/3)%19,sine=angle===30?0.5:angle===45?Math.SQRT1_2:Math.sqrt(3)/2,answer=Number((opposite/sine).toFixed(2));return item({ ...a,skill:'Right-triangle trigonometry',prompt:`In the right triangle shown, an acute angle is ${angle}°. The side opposite the angle has length ${opposite}. What is the hypotenuse length?`,answer,explanation:`Use sin(${angle}°) = opposite/hypotenuse.`,figure:FIG.geometry('right-triangle-trig',{opposite,angle,series:a.seed}),distractors:[opposite,Number((opposite/Math.cos(angle*Math.PI/180)).toFixed(2)),Number((opposite*sine).toFixed(2))],features:['representation-shift','multi-step'] });
 }
 
-function generate(args) {
-  if (args.domain === 'Algebra') return algebra(args);
-  if (args.domain === 'Advanced Math') return advanced(args);
-  if (args.domain === 'Problem-Solving and Data Analysis') return psda(args);
-  return geometry(args);
-}
-
-const SAT_M1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
-const SAT_M2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
-const PSAT_M1 = SAT_M1;
-const PSAT_M2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
-
-const LEVELS = {
-  module1: ['easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard'],
-  high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
-  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
-  low: ['easy','easy','easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard'],
-};
-
-export function buildMathBank({ testId, variant, assessmentNumber, seed }) {
-  const m1 = variant === 'psat-nmsqt' ? PSAT_M1 : SAT_M1;
-  const m2 = variant === 'psat-nmsqt' ? PSAT_M2 : SAT_M2;
-  const pools = [
-    ['math-module-1', null, m1, LEVELS.module1, 0],
-    ['math-module-2', 'high', m2, LEVELS.high, 22],
-    ['math-module-2', 'standard', m2, LEVELS.standard, 44],
-    ['math-module-2', 'low', m2, LEVELS.low, 66],
-  ];
-  return pools.flatMap(([module, route, domains, levels, offset]) => domains.map((domain, i) => generate({ testId, variant, assessmentNumber, module, route, domain, difficulty: levels[i], i: offset + i, seed })));
-}
+function generate(args){if(args.domain==='Algebra')return algebra(args);if(args.domain==='Advanced Math')return advanced(args);if(args.domain==='Problem-Solving and Data Analysis')return psda(args);return geometry(args);}
+const SAT_M1=['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+const SAT_M2=['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+const PSAT_M1=SAT_M1;
+const PSAT_M2=['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
+const LEVELS={module1:['easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard'],high:['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],standard:['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard'],low:['easy','easy','easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard']};
+export function buildMathBank({testId,variant,assessmentNumber,seed}){const m1=variant==='psat-nmsqt'?PSAT_M1:SAT_M1;const m2=variant==='psat-nmsqt'?PSAT_M2:SAT_M2;const pools=[['math-module-1',null,m1,LEVELS.module1,0],['math-module-2','high',m2,LEVELS.high,22],['math-module-2','standard',m2,LEVELS.standard,44],['math-module-2','low',m2,LEVELS.low,66]];return pools.flatMap(([module,route,domains,levels,offset])=>domains.map((domain,i)=>generate({testId,variant,assessmentNumber,module,route,domain,difficulty:levels[i],i:offset+i,seed})));}
