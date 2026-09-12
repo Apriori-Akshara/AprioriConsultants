@@ -10,6 +10,90 @@ const LONG_FORM_R_W_SKILLS = new Set([
   'Rhetorical Synthesis',
 ]);
 
+const HARD_FEATURES = new Set([
+  'multi-step',
+  'representation-shift',
+  'non-routine-modeling',
+  'distractor-trap',
+  'parameter-reasoning',
+  'data-interpretation',
+  'strategic-choice',
+  'constraint-inference',
+]);
+
+const DIFFICULTY_SCORE = { easy: 1, medium: 2, hard: 3 };
+
+function validateMathDifficulty(mockContent, errors) {
+  const math = (mockContent.math || []);
+  const modules = {
+    'math-module-1': math.filter((q) => q.module === 'math-module-1'),
+    high: math.filter((q) => q.module === 'math-module-2' && q.adaptiveRoute === 'high'),
+    standard: math.filter((q) => q.module === 'math-module-2' && q.adaptiveRoute === 'standard'),
+    low: math.filter((q) => q.module === 'math-module-2' && q.adaptiveRoute === 'low'),
+  };
+
+  const profile = (items) => ({
+    easy: items.filter((q) => q.difficulty === 'easy').length,
+    medium: items.filter((q) => q.difficulty === 'medium').length,
+    hard: items.filter((q) => q.difficulty === 'hard').length,
+  });
+
+  const validateCounts = (label, counts, rules) => {
+    for (const [level, [min, max]] of Object.entries(rules)) {
+      if (counts[level] < min || counts[level] > max) {
+        errors.push(`${mockContent.testId}: Math ${label} ${level} count ${counts[level]} is outside ${min}-${max}`);
+      }
+    }
+  };
+
+  validateCounts('Module 1', profile(modules['math-module-1']), {
+    easy: [4, 8],
+    medium: [7, 10],
+    hard: [4, 8],
+  });
+  validateCounts('High route', profile(modules.high), {
+    easy: [0, 4],
+    medium: [6, 10],
+    hard: [9, 14],
+  });
+  validateCounts('Standard route', profile(modules.standard), {
+    easy: [3, 7],
+    medium: [7, 11],
+    hard: [5, 9],
+  });
+  validateCounts('Low route', profile(modules.low), {
+    easy: [6, 10],
+    medium: [8, 12],
+    hard: [2, 6],
+  });
+
+  for (const [label, items] of Object.entries(modules)) {
+    if (!items.length) continue;
+    for (const question of items) {
+      if (question.difficulty !== 'hard') continue;
+      const features = new Set(question.metadata?.difficultyFeatures || []);
+      const featureCount = [...features].filter((feature) => HARD_FEATURES.has(feature)).length;
+      if (featureCount < 2) errors.push(`${mockContent.testId}: hard Math item lacks two approved difficulty features ${question.questionId}`);
+      if (!['analyze', 'synthesize'].includes(question.cognitiveDemand)) errors.push(`${mockContent.testId}: hard Math item must use analyze/synthesize cognitive demand ${question.questionId}`);
+    }
+  }
+
+  const routeScore = (items) => items.reduce((sum, q) => sum + (DIFFICULTY_SCORE[q.difficulty] || 0), 0) / Math.max(items.length, 1);
+  const m1Score = routeScore(modules['math-module-1']);
+  const highScore = routeScore(modules.high);
+  const standardScore = routeScore(modules.standard);
+  const lowScore = routeScore(modules.low);
+
+  if (!(highScore > standardScore && standardScore > lowScore)) {
+    errors.push(`${mockContent.testId}: adaptive Math route difficulty must increase High > Standard > Low`);
+  }
+
+  const hardShare = math.filter((q) => q.difficulty === 'hard').length / Math.max(math.length, 1);
+  if (hardShare < 0.30) errors.push(`${mockContent.testId}: Math bank hard share ${Math.round(hardShare * 100)}% is below the 30% minimum internal QC target`);
+
+  return { modules, scores: { module1: m1Score, high: highScore, standard: standardScore, low: lowScore } };
+}
+
 function validateOne(mockContent) {
   const errors = [];
   const records = [...(mockContent.readingWriting || []), ...(mockContent.math || [])];
@@ -82,6 +166,8 @@ function validateOne(mockContent) {
     const values = Object.values(answerPositions);
     if (Math.max(...values) - Math.min(...values) > 2) errors.push(`${mockContent.testId}: answer-key positions are not sufficiently balanced across A-D`);
   }
+
+  validateMathDifficulty(mockContent, errors);
 
   if (errors.length) throw new Error(`SAT/PSAT mock content quality gate failed:\n${errors.join('\n')}`);
   return { ok: true, questionCount: records.length };
