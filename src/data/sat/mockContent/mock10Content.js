@@ -3,7 +3,7 @@ import { buildMathBank } from './mathBankFactoryV2';
 import { validateMockContent, validateMockSeries } from './mockContentQualityGate';
 import { validateMockFigureQuality } from './figureQualityGate';
 
-const CONTEXTS = ['forest-fire recovery surveys','community solar adoption records','public-library program studies','coastal habitat restoration','school attendance pattern studies','urban heat mapping','water-quality monitoring','small-business inventory audits','bird migration observations','public-garden yield records','regional air-quality measurements','museum visitor studies','river restoration comparisons','housing-energy surveys','agricultural soil surveys','local mobility studies','historic archive digitization','wildlife nesting observations'];
+const CONTEXTS = ['mangrove seedling survival surveys','rooftop garden water-retention trials','rail-station wayfinding studies','community clinic scheduling audits','historic photograph conservation tests','urban stream insect surveys','public-housing energy retrofits','orchard blossom timing records','school-laboratory equipment audits','coastal bird nesting surveys','small-farm compost trials','theater acoustics measurements','regional museum loan records','riverbank vegetation mapping','neighborhood pedestrian-count studies','ceramic kiln temperature records','wetland carbon sampling','municipal tree-pruning trials'];
 const LENSES = ['multi-year comparisons','matched-site analysis','repeated field measurements','before-and-after observations','controlled comparisons','regional sampling'];
 
 function normalizeVerbalChoices(questions) {
