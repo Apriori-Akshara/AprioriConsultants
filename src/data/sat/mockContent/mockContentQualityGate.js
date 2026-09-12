@@ -337,7 +337,7 @@ function validateOne(mockContent) {
   ).trim();
 
   if (
-    !/^((PSAT|SAT)-mock-(0[1-9]|10))$/.test(
+    !/^((psat|sat)-mock-(0[1-9]|10))$/.test(
       mockTestId
     )
   ) {
