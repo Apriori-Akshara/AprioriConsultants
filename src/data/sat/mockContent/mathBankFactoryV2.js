@@ -7,9 +7,9 @@ const FIG = {
 
 const LEVELS = {
   module1: ['easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard'],
-  high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
-  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard'],
-  low: ['easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard'],
+  high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
+  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard'],
+  low: ['easy','easy','easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard'],
 };
 
 const DOMAINS1 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Advanced Math','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Problem-Solving and Data Analysis','Geometry and Trigonometry','Geometry and Trigonometry','Geometry and Trigonometry'];
