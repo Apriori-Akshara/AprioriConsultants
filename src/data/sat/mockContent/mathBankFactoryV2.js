@@ -31,6 +31,13 @@ const CONSTRUCTION_FAMILIES = [
 ];
 function constructionFamily(seed, assessmentNumber) { return CONSTRUCTION_FAMILIES[Math.abs(seed + assessmentNumber - 1) % CONSTRUCTION_FAMILIES.length]; }
 
+function routeContext(route) {
+  if (route === 'high') return 'The selected comparison condition establishes the target relationship.';
+  if (route === 'standard') return 'The reported comparison condition establishes the target relationship.';
+  if (route === 'low') return 'The observed comparison condition establishes the target relationship.';
+  return 'The initial condition establishes the reference relationship.';
+}
+
 function makeQuestion({ testId, variant, assessmentNumber, module, route, domain, difficulty, i, seed }) {
   const n = valueFor(seed, i, module === 'math-module-2' ? (route === 'high' ? 100 : route === 'standard' ? 200 : 300) : 0);
   const form = (seed + i) % 4;
@@ -59,7 +66,7 @@ function makeQuestion({ testId, variant, assessmentNumber, module, route, domain
     else { const scale = 2 + n % 5; const area = 12 + Math.floor(n / 5) % 41; skill = 'Similarity and scaling'; prompt = `Two similar figures have corresponding lengths in the ratio ${scale}:1. The smaller figure has area ${area}. What is the larger area?`; answer = area * scale * scale; explanation = 'Areas scale by the square of the length ratio.'; figure = FIG.geometry('similar-figures', { scale, area }); features = ['multi-step','constraint-inference']; }
   }
   const questionType = (i + assessmentNumber) % 5 === 0 ? 'student-produced-response' : 'multiple-choice';
-  const family = constructionFamily(seed, assessmentNumber); prompt = `${family} ${prompt}`;
+  const family = constructionFamily(seed, assessmentNumber); prompt = `${family} ${routeContext(route)} ${prompt}`;
   const questionId = `${testId}-math-${module}-${route || 'm1'}-${String(i + 1).padStart(2, '0')}`;
   let choices = []; let answerValue = String(answer);
   if (questionType === 'multiple-choice') { choices = [String(answer), ...distractors(answer)]; while (choices.length < 4) choices.push(`alternative ${choices.length}`); const target = (i + assessmentNumber + seed) % 4; const correct = choices.shift(); choices.splice(target, 0, correct); answerValue = String.fromCharCode(65 + target); }
