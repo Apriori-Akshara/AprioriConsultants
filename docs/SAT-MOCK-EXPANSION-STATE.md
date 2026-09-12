@@ -2,6 +2,16 @@
 
 This is the current expansion addendum to `docs/SAT-PROJECT-STATE.md`.
 
+## Authoritative student access rule
+
+PSAT Mocks 1–10 and SAT Mocks 1–10 are accessed through the **same single student login/account**. **Subscription payment is not required for any of these 20 mocks.**
+
+- One verified student account is used for both PSAT and SAT.
+- The same authenticated session can access PSAT Mocks 1–10 and SAT Mocks 1–10.
+- Do not create separate PSAT/SAT login systems or require a second account.
+- Do not add subscription/payment gating to Mocks 1–10.
+- Any older documentation or implementation assumption that Mocks 3–10 require subscription is superseded by this rule.
+
 ## Completed expansion batches
 
 - Mock 3: complete and frozen.
@@ -25,11 +35,13 @@ Mock 10 is now implemented through the existing shared production pipeline:
 
 ## Quality standard
 
-Each mock must provide 196 bank questions: 27 R&W Module 1, 81 R&W Module 2 route questions, 22 Math Module 1, and 66 Math Module 2 route questions. Shared structural, originality, figure, answer-position, and adaptive-pool gates remain active. Mock 10 must pass the complete series gate before it is considered complete.
+Each mock must provide 196 bank questions: 27 R&W Module 1, 81 R&W Module 2 route questions, 22 Math Module 1, and 66 Math Module 2 route questions. Shared structural, originality, figure, answer-position, and adaptive-pool gates remain active. Mock 10 passed the complete twenty-mock series gate.
 
-## Current deployment process
+## Current status
 
-Mock 10 is kept as one coherent deployment batch. Do not consider it complete until the full twenty-mock quality gate passes and the resulting deployment is LIVE. After LIVE confirmation, freeze this state.
+Content expansion is **frozen at Mock 10**. The next work is Stage 3 functional completion of PSAT and SAT Mocks 1–10. Do not create Mock 11 until all 10 PSAT mocks and all 10 SAT mocks have been fully functional and publicly QC-approved by the user.
+
+Stage 3 is to be deployed sequentially, one approved step at a time. Avoid unnecessary intermediate deployments within a step.
 
 ## Public verification
 
@@ -39,4 +51,4 @@ Public site: `https://www.aprioriconsultants.org`
 
 ## Next build
 
-After Mock 10 deployment is confirmed LIVE, freeze Stage 3 content expansion and proceed to the next planned Stage 3 product-integration batch. Do not regenerate earlier mocks.
+**Stage 3, Step 1 of 12.** Complete the student-facing functional flow for all PSAT Mocks 1–10 and SAT Mocks 1–10 using the existing shared architecture. No subscription gate applies to these mocks. Do not regenerate earlier content and do not create Mock 11.
