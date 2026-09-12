@@ -125,7 +125,7 @@ export default async function handler(req, res) {
       if (!questionId) return res.status(400).json({ error: "Question ID is required" });
       notes[questionId] = String(req.body?.note ?? "");
       await query(`UPDATE sat_mock_attempts SET notes=$1::jsonb,updated_at=NOW() WHERE id=$2 AND user_id=$3 AND status='in-progress'`, [JSON.stringify(notes), attemptId, user.id]);
-      return res.status(200).json({ ok: true });
+      return res.status(200).json({ ok: true, notes });
     }
 
     if (action === "position") {
@@ -164,7 +164,7 @@ export default async function handler(req, res) {
       const report = buildPracticeReport(plan, currentAttempt);
       const completedAt = new Date().toISOString();
       report.completedAt = completedAt;
-      await query(`UPDATE sat_mock_attempts SET status='completed',section_scores=$1::jsonb,updated_at=NOW(),completed_at=$1::timestamptz,module_deadline_at=NULL,break_deadline_at=NULL WHERE id=$2 AND user_id=$3`, [JSON.stringify(report), completedAt, attemptId, user.id]);
+      await query(`UPDATE sat_mock_attempts SET status='completed',section_scores=$1::jsonb,updated_at=NOW(),completed_at=$2::timestamptz,module_deadline_at=NULL,break_deadline_at=NULL WHERE id=$3 AND user_id=$4`, [JSON.stringify(report), completedAt, attemptId, user.id]);
       return res.status(200).json({ completed: true, scores: report });
     }
 
