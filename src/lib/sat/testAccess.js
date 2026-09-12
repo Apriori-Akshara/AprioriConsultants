@@ -1,7 +1,7 @@
 import { query } from "../db";
 
 const FREE_TEST_MIN = 1;
-const FREE_TEST_MAX = 2;
+const FREE_TEST_MAX = 10;
 const PREMIUM_TEST_MIN = 3;
 const PREMIUM_TEST_MAX = 10;
 const SAT_TEST_MAX = 20;
