@@ -43,10 +43,7 @@ function makeMock(testId, variant, seed) {
     assessmentVariant: variant,
     assessmentNumber: 3,
     readingWriting: makeReadingWriting(testId, variant),
-    math: [
-      ...buildMathBank({ testId, variant, assessmentNumber: 3, seed }),
-      ...buildMathBank({ testId, variant, assessmentNumber: 3, seed: seed + 11 })
-    ]
+    math: buildMathBank({ testId, variant, assessmentNumber: 3, seed })
   };
 }
 
