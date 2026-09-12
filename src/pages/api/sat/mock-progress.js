@@ -56,7 +56,12 @@ export default async function handler(req, res) {
     }
 
     const action = req.body?.action;
-    const testKey = normalizeMockKey(req.body?.testKey);
+    const attemptId = Number(req.body?.attemptId);
+    let testKey = normalizeMockKey(req.body?.testKey);
+    if (!testKey && Number.isInteger(attemptId)) {
+      const lookup = await query(`SELECT test_key FROM sat_mock_attempts WHERE id=$1 AND user_id=$2 LIMIT 1`, [attemptId, user.id]);
+      testKey = normalizeMockKey(lookup.rows[0]?.test_key);
+    }
     const plan = testKey ? createAdaptivePlan(testKey) : null;
     if (!plan) return res.status(400).json({ error: "Unknown mock test" });
 
@@ -67,7 +72,6 @@ export default async function handler(req, res) {
       return res.status(201).json({ resumed: false, attempt: publicAttempt(result.rows[0]) });
     }
 
-    const attemptId = Number(req.body?.attemptId);
     if (!Number.isInteger(attemptId)) return res.status(400).json({ error: "Attempt ID is required" });
     const existing = await query(`SELECT * FROM sat_mock_attempts WHERE id=$1 AND user_id=$2 LIMIT 1`, [attemptId, user.id]);
     if (!existing.rows[0]) return res.status(404).json({ error: "Attempt not found" });
@@ -158,7 +162,9 @@ export default async function handler(req, res) {
       if (!currentAttempt) return res.status(404).json({ error: "Attempt not found" });
       if (currentAttempt.status === "completed" && currentAttempt.section_scores) return res.status(200).json({ completed: true, scores: currentAttempt.section_scores });
       const report = buildPracticeReport(plan, currentAttempt);
-      await query(`UPDATE sat_mock_attempts SET status='completed',section_scores=$1::jsonb,updated_at=NOW(),completed_at=NOW(),module_deadline_at=NULL,break_deadline_at=NULL WHERE id=$2 AND user_id=$3`, [JSON.stringify(report), attemptId, user.id]);
+      const completedAt = new Date().toISOString();
+      report.completedAt = completedAt;
+      await query(`UPDATE sat_mock_attempts SET status='completed',section_scores=$1::jsonb,updated_at=NOW(),completed_at=$1::timestamptz,module_deadline_at=NULL,break_deadline_at=NULL WHERE id=$2 AND user_id=$3`, [JSON.stringify(report), completedAt, attemptId, user.id]);
       return res.status(200).json({ completed: true, scores: report });
     }
 
