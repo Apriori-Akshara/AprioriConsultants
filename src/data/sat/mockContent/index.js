@@ -41,6 +41,25 @@ function normalizeVerbalChoices(mock) {
   return { ...mock, readingWriting: questions };
 }
 
+function balanceAnswerPositions(mock) {
+  let mcqIndex = 0;
+  const rebalance = (question) => {
+    if (question.questionType !== "multiple-choice" || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
+    const choices = [...question.choices];
+    const current = String(question.answer || "A").charCodeAt(0) - 65;
+    const target = mcqIndex % 4;
+    mcqIndex += 1;
+    if (current === target) return question;
+    [choices[current], choices[target]] = [choices[target], choices[current]];
+    return { ...question, choices, answer: String.fromCharCode(65 + target) };
+  };
+  return {
+    ...mock,
+    readingWriting: (mock.readingWriting || []).map(rebalance),
+    math: (mock.math || []).map(rebalance),
+  };
+}
+
 function applyBlueprintMath(mock, assessmentNumber, seed) {
   return {
     ...mock,
@@ -58,10 +77,10 @@ const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 17);
 const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 23));
 const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 47));
 
-const PSAT_NORMALIZED = normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED));
-const SAT_NORMALIZED = normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED));
-const PSAT2_NORMALIZED = normalizeVerbalChoices(PSAT2_BASE_ALIGNED);
-const SAT2_NORMALIZED = normalizeVerbalChoices(SAT2_BASE_ALIGNED);
+const PSAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED)));
+const SAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED)));
+const PSAT2_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(PSAT2_BASE_ALIGNED));
+const SAT2_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(SAT2_BASE_ALIGNED));
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
