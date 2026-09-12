@@ -28,11 +28,17 @@ function positionToIndexes(attempt) {
 export async function getServerSideProps(context) {
   const accessState = await getVerifiedSatServerAccessState(context.req);
   if (!accessState.authenticated) return { redirect: { destination: getSatLoginUrl(`/SATMocks/${context.params.testId}`), permanent: false } };
+
   const testKey = normalizeMockKey(String(context.params.testId || ""));
   if (!testKey) return { notFound: true };
-  const satNumber = testKey === "SAT1" ? 1 : testKey === "SAT2" ? 2 : null;
-  const access = satNumber ? await getSatTestAccess(accessState.user?.id, satNumber) : { allowed: true };
-  if (!access.allowed) return { redirect: { destination: `/SATMocks/purchase?test=${satNumber}`, permanent: false } };
+
+  const mockMatch = testKey.match(/^(PSAT|SAT)(\d+)$/);
+  const testNumber = Number(mockMatch?.[2]);
+  if (!mockMatch || !Number.isInteger(testNumber) || testNumber < 1 || testNumber > 10) return { notFound: true };
+
+  const access = await getSatTestAccess(accessState.user?.id, testNumber);
+  if (!access.allowed) return { notFound: true };
+
   const test = buildClientSafeTest(testKey);
   if (!test) return { notFound: true };
   return { props: { test } };
@@ -270,22 +276,22 @@ export default function SATMockTest({ test }) {
 
   return <div className={styles.page}>
     <header className={styles.topbar}><div><span className={styles.topbarLabel}>{test.label}</span><strong>{section?.label} · Module {moduleIndex + 1} of 2</strong></div><div className={styles.topTools}>
-      <div className={styles.timer}><span>TIME REMAINING</span><strong>{formatTime(remaining)}</strong></div><button className={styles.toolButton} onClick={toggleFlag}>{isFlagged ? "Unmark" : "Mark for Review"}</button><button className={styles.toolButton} onClick={() => setTool(tool === "navigator" ? null : "navigator")}>Question Menu</button>
-    </div></header>
-
-    <div className={styles.moduleStrip}><div><span>Current section</span><strong>{section?.label}</strong></div><div><span>Module</span><strong>{moduleIndex + 1} of 2</strong></div><div><span>Module progress</span><strong>{moduleAnsweredCount}/{questions.length}</strong></div><div><span>Total saved</span><strong>{answeredCount} answered</strong></div></div>
-    {errorMessage && <div className={styles.expiredBanner}>{errorMessage}</div>}
-
-    <main className={styles.testShell}><div className={styles.progressTrack}><div style={{ width: `${progress}%` }} /></div><div className={styles.questionMeta}><span>Question {questionIndex + 1} of {questions.length} · {flaggedCount} flagged</span><div className={styles.metaTools}><button onClick={() => setZoom((value) => Math.max(85, value - 10))}>A−</button><button onClick={() => setZoom((value) => Math.min(125, value + 10))}>A+</button></div></div>
-      <section className={styles.questionCard}><div className={styles.prompt} style={{ fontSize: `${16 * (zoom / 100)}px` }}>{cleanPrompt(question?.prompt)}</div>{question?.figure ? <MathVisualStimulus figure={question.figure} /> : null}
-        {question?.questionType === "student-produced-response" ? <input className={styles.numericInput} inputMode="decimal" value={answers[question.questionId] || ""} onChange={(event) => selectAnswer(event.target.value)} placeholder="Enter answer" /> : <div className={styles.choices}>{choiceValues.map((choice, index) => { const key = `${question.questionId}-${index}`; const selected = answers[question.questionId] === choice; return <button key={key} className={`${styles.choice} ${selected ? styles.choiceSelected : ""} ${eliminated[key] ? styles.choiceEliminated : ""}`} onClick={() => selectAnswer(choice)} onContextMenu={(event) => { event.preventDefault(); toggleEliminate(index); }}><span className={styles.choiceLetter}>{String.fromCharCode(65 + index)}</span><span>{choice}</span></button>; })}</div>}
-        <div className={styles.navigation}><button className={styles.secondaryButton} onClick={() => moveTo(questionIndex - 1)} disabled={questionIndex === 0}>Previous</button><button className={styles.secondaryButton} onClick={() => moveTo(questionIndex + 1)} disabled={questionIndex === questions.length - 1}>Next</button><button className={styles.primaryButton} onClick={() => advanceModule(false)} disabled={saving}>{moduleIndex === 1 && sectionIndex === test.sections.length - 1 ? "Finish Test" : "Continue"}</button></div>
-        <button className={styles.questionMenuButton} onClick={() => setTool(tool === "navigator" ? null : "navigator")}>Open Question Navigator</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "calculator" ? null : "calculator")} disabled={!isMath}>{isMath ? "Open Calculator" : "Calculator available in Math"}</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "reference" ? null : "reference")} disabled={!isMath}>Math Reference</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "notes" ? null : "notes")}>Notes</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "line-reader" ? null : "line-reader")}>Line Reader</button>
-      </section></main>
-
-    {tool ? <div className={styles.overlay} onClick={() => setTool(null)}><div className={tool === "navigator" ? styles.drawer : tool === "calculator" ? styles.calculatorPanel : tool === "reference" ? styles.referencePanel : styles.notesPanel} onClick={(event) => event.stopPropagation()}>
-      <div className={styles.drawerHeader}><h2>{tool === "navigator" ? "Question Navigator" : tool === "calculator" ? "Desmos Calculator" : tool === "reference" ? "Math Reference" : "Notes"}</h2><button onClick={() => setTool(null)}>Close</button></div>
-      {tool === "navigator" ? <><div className={styles.navigatorLegend}><span>Answered: {answeredCount}</span><span>Flagged: {flaggedCount}</span></div><div className={styles.questionGrid}>{questions.map((item, index) => <button key={item.questionId} className={`${styles.questionCell} ${answers[item.questionId] ? styles.questionAnswered : ""} ${flags[item.questionId] ? styles.questionFlagged : ""} ${index === questionIndex ? styles.questionCurrent : ""}`} onClick={async () => { await moveTo(index); setTool(null); }}>{index + 1}</button>)}</div></> : tool === "calculator" ? <iframe className={styles.calculatorFrame} title="Desmos calculator" src="https://www.desmos.com/testing/cb-digital-sat/graphing" /> : tool === "reference" ? <div className={styles.referenceGrid}><div><strong>Triangle</strong><p>A = ½bh</p></div><div><strong>Circle</strong><p>A = πr²</p></div><div><strong>Pythagorean theorem</strong><p>a² + b² = c²</p></div><div><strong>Coordinate geometry</strong><p>Use the coordinate-plane relationships needed by the question.</p></div></div> : <textarea value={notes[question?.questionId] || ""} onChange={(event) => setNotes((current) => ({ ...current, [question.questionId]: event.target.value }))} onBlur={(event) => saveNote(event.target.value)} placeholder="Write a note for this attempt…" />}
-    </div></div> : null}
+      <div className={styles.timer}><span>TIME REMAINING</span><strong>{formatTime(remaining)}</strong></div><button className={styles.toolButton} onClick={() => setTool(tool === "formula" ? null : "formula")}>Formula</button><button className={styles.toolButton} onClick={() => setTool(tool === "notes" ? null : "notes")}>Notes</button><button className={styles.toolButton} onClick={() => setZoom((value) => value === 100 ? 110 : value === 110 ? 125 : 100)}>Zoom {zoom}%</button></div></header>
+    <main className={styles.testShell} style={{ "--mock-zoom": `${zoom / 100}` }}>
+      <aside className={styles.questionRail}><div className={styles.railHeader}><span>{section?.label}</span><strong>Module {moduleIndex + 1}</strong></div><div className={styles.railGrid}>{questions.map((item, index) => <button key={item.questionId} className={`${styles.railButton} ${index === questionIndex ? styles.railButtonCurrent : ""} ${answers[item.questionId] ? styles.railButtonAnswered : ""} ${flags[item.questionId] ? styles.railButtonFlagged : ""}`} onClick={() => moveTo(index)}>{index + 1}</button>)}</div><div className={styles.railSummary}><span>{moduleAnsweredCount} answered</span><span>{flaggedCount} flagged</span></div></aside>
+      <section className={styles.questionPane}>
+        <div className={styles.questionHeader}><span>Question {questionIndex + 1} of {questions.length}</span><div className={styles.questionActions}><button className={isFlagged ? styles.flagButtonActive : styles.flagButton} onClick={toggleFlag}>{isFlagged ? "Flagged" : "Flag"}</button></div></div>
+        <div className={styles.progressBar}><span style={{ width: `${progress}%` }} /></div>
+        <div className={styles.questionBody}>
+          {question?.figure && <MathVisualStimulus figure={question.figure} />}
+          {question?.stimulus && <div className={styles.stimulus}>{question.stimulus}</div>}
+          <div className={styles.prompt}>{cleanPrompt(question?.prompt)}</div>
+          {question?.questionType === "multiple-choice" ? <div className={styles.choiceGrid}>{choiceValues.map((choice, index) => { const eliminatedKey = `${question.questionId}-${index}`; const selected = String(answers[question.questionId] ?? "") === String(choice); const eliminatedChoice = eliminated[eliminatedKey]; return <button key={`${question.questionId}-${index}`} className={`${styles.choiceButton} ${selected ? styles.choiceSelected : ""} ${eliminatedChoice ? styles.choiceEliminated : ""}`} onClick={() => selectAnswer(choice)}><span className={styles.choiceLetter}>{String.fromCharCode(65 + index)}</span><span>{choice}</span></button> })}</div> : <input className={styles.gridIn} value={answers[question?.questionId] || ""} onChange={(event) => selectAnswer(event.target.value)} aria-label="Student response" />}
+          {tool === "notes" && <div className={styles.notesPanel}><label htmlFor="mock-note">Notes for this question</label><textarea id="mock-note" value={notes[question?.questionId] || ""} onChange={(event) => void saveNote(event.target.value)} placeholder="Write a private note…" /></div>}
+          {tool === "formula" && <div className={styles.formulaPanel}><strong>Reference formulas</strong><p>a² + b² = c²</p><p>Area of a circle = πr²</p><p>Volume of a rectangular prism = lwh</p></div>}
+        </div>
+        <div className={styles.footerActions}><button className={styles.secondaryButton} disabled={questionIndex === 0} onClick={() => moveTo(questionIndex - 1)}>Previous</button><button className={styles.secondaryButton} disabled={questionIndex === questions.length - 1} onClick={() => moveTo(questionIndex + 1)}>Next</button><button className={styles.primaryButton} onClick={() => advanceModule(false)}>{moduleIndex === 1 && sectionIndex === 1 ? "Submit Mock" : moduleIndex === 1 ? "Continue to Math" : "Finish Module"}</button></div>
+      </section>
+    </main>
   </div>;
 }
