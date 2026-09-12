@@ -1,11 +1,11 @@
 import { SAT_ASSESSMENT_CATALOG } from "./assessmentCatalog";
 import { SAT_ACTIVITY_BLUEPRINT } from "./activityBlueprint";
-import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT } from "./mockContent";
+import { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT } from "./mockContent";
 import { validateMockSeries } from "./mockContent/mockContentQualityGate";
 
-validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT);
+validateMockSeries(PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, SAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT);
 
-export const SAT_CONTENT_BANK_VERSION = "1.4.0";
+export const SAT_CONTENT_BANK_VERSION = "1.5.0";
 
 const STAGE_1_QUESTIONS = [
   ...PSAT_MOCK_01_CONTENT.readingWriting,
@@ -21,7 +21,14 @@ const STAGE_2_QUESTIONS = [
   ...SAT_MOCK_02_CONTENT.math,
 ];
 
-const ALL_QUESTIONS = [...STAGE_1_QUESTIONS, ...STAGE_2_QUESTIONS];
+const STAGE_3_QUESTIONS = [
+  ...PSAT_MOCK_03_CONTENT.readingWriting,
+  ...PSAT_MOCK_03_CONTENT.math,
+  ...SAT_MOCK_03_CONTENT.readingWriting,
+  ...SAT_MOCK_03_CONTENT.math,
+];
+
+const ALL_QUESTIONS = [...STAGE_1_QUESTIONS, ...STAGE_2_QUESTIONS, ...STAGE_3_QUESTIONS];
 const allQuestionIds = new Set();
 const allVerbalContexts = new Set();
 const allVerbalPrompts = new Set();
@@ -49,7 +56,8 @@ for (const question of ALL_QUESTIONS) {
 
 if (STAGE_1_QUESTIONS.length !== 392) throw new Error(`Stage 1 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_1_QUESTIONS.length}`);
 if (STAGE_2_QUESTIONS.length !== 392) throw new Error(`Stage 2 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_2_QUESTIONS.length}`);
-if (ALL_QUESTIONS.length !== 784) throw new Error(`Four calibrated mocks must contain 784 bank questions; found ${ALL_QUESTIONS.length}`);
+if (STAGE_3_QUESTIONS.length !== 392) throw new Error(`Stage 3 mock bank must contain 392 bank questions (196 per mock); found ${STAGE_3_QUESTIONS.length}`);
+if (ALL_QUESTIONS.length !== 1176) throw new Error(`Six calibrated mocks must contain 1176 bank questions; found ${ALL_QUESTIONS.length}`);
 
 export const SAT_CONTENT_BANK = {
   version: SAT_CONTENT_BANK_VERSION,
@@ -59,8 +67,8 @@ export const SAT_CONTENT_BANK = {
   passages: { records: [] },
   lessons: { source: "apriori-original", records: [] },
   mockManifests: {
-    psat: [PSAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT],
-    satSeriesA: [SAT_MOCK_01_CONTENT, SAT_MOCK_02_CONTENT],
+    psat: [PSAT_MOCK_01_CONTENT, PSAT_MOCK_02_CONTENT, PSAT_MOCK_03_CONTENT],
+    satSeriesA: [SAT_MOCK_01_CONTENT, SAT_MOCK_02_CONTENT, SAT_MOCK_03_CONTENT],
     satSeriesB: [],
   },
   qualityGates: {
