@@ -1,6 +1,7 @@
 import { PSAT_MOCK_01_CONTENT as PSAT_BASE, SAT_MOCK_01_CONTENT as SAT_BASE } from "./stage1MockBank";
 import { PSAT_MOCK_02_CONTENT as PSAT2_BASE, SAT_MOCK_02_CONTENT as SAT2_BASE } from "./stage2MockBank";
 import { prepareStage2Mock } from "./stage2PostProcess";
+import { buildMathBank } from "./mathBankFactoryV2";
 import { validateMockContent, validateMockSeries } from "./mockContentQualityGate";
 import { validateMockFigureQuality } from "./figureQualityGate";
 
@@ -40,10 +41,27 @@ function normalizeVerbalChoices(mock) {
   return { ...mock, readingWriting: questions };
 }
 
-const PSAT_NORMALIZED = normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE));
-const SAT_NORMALIZED = normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE));
-const PSAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(PSAT2_BASE));
-const SAT2_NORMALIZED = normalizeVerbalChoices(prepareStage2Mock(SAT2_BASE));
+function applyBlueprintMath(mock, assessmentNumber, seed) {
+  return {
+    ...mock,
+    math: buildMathBank({
+      testId: mock.testId,
+      variant: mock.assessmentVariant,
+      assessmentNumber,
+      seed,
+    }),
+  };
+}
+
+const PSAT_BASE_ALIGNED = applyBlueprintMath(PSAT_BASE, 1, 0);
+const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 17);
+const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 23));
+const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 47));
+
+const PSAT_NORMALIZED = normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED));
+const SAT_NORMALIZED = normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED));
+const PSAT2_NORMALIZED = normalizeVerbalChoices(PSAT2_BASE_ALIGNED);
+const SAT2_NORMALIZED = normalizeVerbalChoices(SAT2_BASE_ALIGNED);
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
