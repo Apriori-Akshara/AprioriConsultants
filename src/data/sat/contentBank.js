@@ -6,10 +6,10 @@ import { validateMockSeries } from "./mockContent/mockContentQualityGate";
 function normalizeMockIdentity(mock){
   const normalizeQuestion=(question)=>{
     const currentId=String(question.questionId||question.contentId||"");
-    const marker=currentId.includes("-math-")?"-math-":"-rw-";
-    const markerIndex=currentId.indexOf(marker);
-    if(markerIndex<0)return{...question,testId:mock.testId};
-    const questionId=`${mock.testId}${currentId.slice(markerIndex)}`;
+    const mockId=String(mock.testId||"");
+    const prefixIndex=currentId.indexOf("-math-")>=0?currentId.indexOf("-math-"):currentId.indexOf("-rw-");
+    if(prefixIndex<0)return{...question,testId:mock.testId};
+    const questionId=`${mockId}${currentId.slice(prefixIndex)}`;
     return{...question,testId:mock.testId,questionId,contentId:questionId,originalityFingerprint:String(question.originalityFingerprint||"").replace(currentId,questionId)};
   };
   return{...mock,testId:mock.testId,readingWriting:(mock.readingWriting||[]).map(normalizeQuestion),math:(mock.math||[]).map(normalizeQuestion)};
