@@ -117,12 +117,118 @@ For every code change, state:
 
 After each Stage 3 step, update the project-state documentation with the step result, files changed, deployment result, public testing result and next step.
 
-## 12. Mock 11 rule
+## 12. Stage 3 implementation history — Steps 1–7 COMPLETE
 
-**Do not create, regenerate or begin Mock 11 until the user has personally QC-verified and approved all PSAT Mocks 1–10 and SAT Mocks 1–10 as fully functional.**
+### Step 1 — Remove subscription gate for Mocks 1–10
+
+**Status:** LIVE and confirmed.
+
+**File:** `src/lib/sat/testAccess.js`
+
+**Change:** Increased the free-test ceiling from 2 to 10 so PSAT/SAT Mocks 1–10 are allowed without subscription/payment gating.
+
+**Commit:** `0eb24a2b5036b809d4ae90cec08af86a1a983273`
+
+**Commit message:** `Stage 3 Step 1: Remove subscription gate for Mocks 1-10`
+
+**Render deployment:** `dep-daijd95ckfvc73938fu0` — LIVE.
+
+### Step 2 — Wire Mocks 9–10 into the shared adaptive engine
+
+**Status:** COMPLETE and deployed LIVE.
+
+**File:** `src/lib/sat/adaptiveMockEngine.js`
+
+**Change:** Integrated PSAT/SAT Mocks 9–10 into the existing shared adaptive execution engine; no parallel mock engine was created.
+
+**Commit:** `664dd1dd3bc73ec103b7c358aeaf5ec7983ed18c`
+
+**Commit message:** `Stage 3 Step 2: Wire Mocks 9-10 into adaptive engine`
+
+### Step 3 — Expose all 20 mocks through the student-facing library and route
+
+**Status:** COMPLETE and deployed LIVE.
+
+**Files:**
+- `src/pages/SATMocks/index.js`
+- `src/pages/SATMocks/[testId].js`
+
+**Changes:** Exposed PSAT Mocks 1–10 and SAT Mocks 1–10 as permanent library cards; removed obsolete “Coming Next” placeholders; aligned the route to accept PSAT/SAT mock keys 1–10; preserved the existing test interface after an intermediate route-control regression was corrected.
+
+**Commits:**
+- `1bf15dec58bd23f1c2fbc85ddf9f187acf9e97bf1` — `Stage 3 Step 3: Expose all 20 mock tests`
+- `4d2c9dbc33a4030836b3043a63c2a7e6c7dd5188` — `Stage 3 Step 3: Align mock route access`
+- `a0eb021fb13286096239cb01563b83828cee4bfb` — `Stage 3 Step 3: Preserve existing mock test interface`
+
+**Render deployment:** `dep-daijiv2q185c73a8vqo0` — LIVE.
+
+### Step 4 — Enforce mock access in the progress API
+
+**Status:** LIVE and confirmed.
+
+**File:** `src/pages/api/sat/mock-progress.js`
+
+**Change:** Added server-side mock-family/test-number access enforcement before creating or mutating attempts, including validation of the allowed PSAT/SAT mock range 1–10.
+
+**Commit:** `79a7d17dd56c0e77434e8f6db59026d2bab58479`
+
+**Commit message:** `Stage 3 Step 4: Enforce mock access in progress API`
+
+**Render deployment:** `dep-daijnv0jo6nc73blou80` — deployed LIVE before later deployments.
+
+### Step 5 — Validate mock question IDs server-side
+
+**Status:** LIVE and confirmed.
+
+**File:** `src/pages/api/sat/mock-progress.js`
+
+**Change:** Added server-side validation so answer/flag/note/position operations cannot reference questions outside the selected mock plan, while preserving the shared adaptive plan and existing attempt ownership checks.
+
+**Commit:** `88ed0e72cdfba9e91f89bfb87bac6552c1310a1a`
+
+**Commit message:** `Stage 3 Step 5: Validate mock question IDs server-side`
+
+**Render deployment:** `dep-daijpbgae00c73dfbuvg` — LIVE.
+
+### Step 6 — Add completed mock report history
+
+**Status:** LIVE and confirmed by the user.
+
+**File:** `src/pages/SATMocks/results.js`
+
+**Change:** Added a completed-attempt history selector so students with multiple completed mocks can switch between their saved reports. Existing scoring, breakdowns and question-level reporting were preserved.
+
+**Commit:** `d31bdca8c16500910693ea210e4417049b7bd93b`
+
+**Commit message:** `Stage 3 Step 6: Add completed mock report history`
+
+**Render deployment:** `dep-daijqsh5efls7390uob0` — LIVE.
+
+### Step 7 — Enforce server-authoritative mock progression
+
+**Status:** LIVE and confirmed by the user.
+
+**File:** `src/pages/api/sat/mock-progress.js`
+
+**Change:** Strengthened server authority over attempt progression. The server now validates active section/module context, validates question positions against the active module, prevents client-spoofed section/module changes, enforces valid adaptive progression, and requires a valid Math Module 2 stage before completion.
+
+**Commit:** `c8fd626c9897bb3f8851baba9ce122a50e7bb3e8`
+
+**Commit message:** `Stage 3 Step 7: Enforce server-authoritative mock progression`
+
+**Render deployment:** `dep-daijs1cs728c73akeukg` — LIVE and subsequently confirmed by the user.
 
 ## 13. Current next step
 
-**Stage 3 — Step 1 of 12.**
+**Stage 3 — Step 8 of 12.**
 
-Use the existing shared architecture to begin functional completion of Mocks 1–10. No subscription gate applies to these mocks. Do not regenerate content. Do not create Mock 11.
+Update `src/pages/SATMocks/index.js` so all 20 PSAT/SAT cards accurately show `Ready`, `In Progress`, or `Completed` from saved attempts. Prioritize an in-progress attempt when both an in-progress and completed attempt exist for the same mock. Add the in-progress summary count and use the existing `/SATMocks/[testId]` route for Resume/Start/Retake actions.
+
+Commit message:
+`Stage 3 Step 8: Show mock attempt status and resume actions`
+
+Do not change mock content, the adaptive engine, authentication, subscription rules, scoring architecture or create Mock 11.
+
+## 14. Mock 11 rule
+
+**Do not create, regenerate or begin Mock 11 until the user has personally QC-verified and approved all PSAT Mocks 1–10 and SAT Mocks 1–10 as fully functional.**
