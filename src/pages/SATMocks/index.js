@@ -112,6 +112,7 @@ export default function SATMocks({ testAccess }) {
             <h2>Four calibrated tests are now online</h2>
             <p>Mock 02 uses the same validated adaptive execution contract as Mock 01, with independent original content and cross-mock quality gates.</p>
           </div>
+          <Link href="/SATMocks/results" className={styles.actionButton}>View Performance Reports</Link>
         </section>
 
         <section className={styles.testGrid}>
