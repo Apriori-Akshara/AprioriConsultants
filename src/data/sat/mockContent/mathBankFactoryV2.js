@@ -74,76 +74,76 @@ function item({ testId, variant, assessmentNumber, module, route, domain, i, dif
 function algebra(a) {
   const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
-    const m = 2 + p % 6, b = 4 + (p * 3) % 13, x = 2 + p % 6, y = m * x + b;
+    const m = 2 + p % 6, b = 4 + (p * 3) % 19, x = 2 + Math.floor(p / 19) % 9, y = m * x + b;
     return item({ ...a, skill: 'Linear functions', prompt: `A linear model is y = ${m}x + ${b}. What is y when x = ${x}?`, answer: y, explanation: `Substitute x = ${x}: ${m}(${x}) + ${b} = ${y}.`, distractors: [y - m, y + m, b] });
   }
   if (a.difficulty === 'medium') {
-    const x = 2 + p % 5, y = 3 + (p * 2) % 6, c = x + y;
+    const x = 2 + p % 11, y = 3 + (p * 2) % 13, c = x + y;
     return item({ ...a, skill: 'Systems of two linear equations', prompt: `The system x + y = ${c} and 2x + 3y = ${2 * x + 3 * y} has solution (x, y). What is x?`, answer: x, explanation: `Use x = ${c} − y in the second equation and solve.`, distractors: [y, c, x + y] });
   }
   if (p % 2 === 0) {
-    const m = 2 + p % 5, b = 5 + p % 9, x1 = 2 + p % 4, x2 = x1 + 3, y1 = m * x1 + b, y2 = m * x2 + b;
+    const m = 2 + p % 7, b = 5 + (p * 3) % 17, x1 = 2 + (p * 5) % 13, x2 = x1 + 3, y1 = m * x1 + b, y2 = m * x2 + b;
     return item({ ...a, skill: 'Linear functions and representations', prompt: `A line passes through (${x1}, ${y1}) and (${x2}, ${y2}). What is its y-intercept?`, answer: b, explanation: `The slope is ${m}; substituting either point into y = ${m}x + b gives b = ${b}.`, distractors: [y1, y2, b + m], features: ['multi-step'] });
   }
-  const m = 2 + p % 5, b = 6 + p % 8, q = 2 + p % 5;
+  const m = 2 + p % 7, b = 6 + (p * 3) % 17, q = 2 + (p * 5) % 11;
   return item({ ...a, skill: 'Linear equations and parameter reasoning', prompt: `Line A is y = ${m}x + ${b}. Line B is parallel to Line A and passes through (${q}, ${m * q + b + 4}). What is the y-intercept of Line B?`, answer: b + 4, explanation: `Parallel lines have the same slope. Substitute the given point into y = ${m}x + b_B to obtain b_B = ${b + 4}.`, distractors: [b, b + m, m * q + b], features: ['parameter-reasoning', 'constraint-inference'] });
 }
 
 function advanced(a) {
   const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
-    const r1 = 2 + p % 6, r2 = r1 + 3;
+    const r1 = 2 + p % 37, r2 = r1 + 3;
     return item({ ...a, skill: 'Quadratic equations', prompt: `One solution of x² − ${r1 + r2}x + ${r1 * r2} = 0 is ${r1}. What is the other solution?`, answer: r2, explanation: `The roots sum to ${r1 + r2}; subtract ${r1} to get ${r2}.`, distractors: [r1, r2 - 1, r2 + 1] });
   }
   if (a.difficulty === 'medium') {
-    const base = 2 + p % 4, exponent = 2 + p % 4, value = base ** exponent;
+    const base = 2 + p % 13, exponent = 2 + (p * 3) % 11, value = base ** exponent;
     return item({ ...a, skill: 'Exponential equations', prompt: `If ${base}^x = ${value}, what is x?`, answer: exponent, explanation: `Rewrite ${value} as ${base}^${exponent}.`, distractors: [exponent - 1, exponent + 1, base * exponent] });
   }
   if (p % 2 === 0) {
-    const h = 2 + p % 6, answer = h * h;
+    const h = 2 + p % 31, answer = h * h;
     return item({ ...a, skill: 'Quadratic parameter reasoning', prompt: `For x² − ${2 * h}x + k = 0, the equation has exactly one real solution. What is k?`, answer, explanation: `Exactly one real solution requires discriminant 0: ${2 * h}² − 4k = 0, so k = ${answer}.`, distractors: [(2 * h) ** 2, answer - h, answer + h], features: ['parameter-reasoning', 'constraint-inference'] });
   }
-  const h = 2 + p % 5, c = 12 + p % 7, vertex = c - h * h;
+  const h = 2 + p % 29, c = 12 + (p * 5) % 31, vertex = c - h * h;
   return item({ ...a, skill: 'Quadratic functions and representations', prompt: `A quadratic is f(x) = x² − ${2 * h}x + ${c}. What is the minimum value of f(x)?`, answer: vertex, explanation: `Complete the square: f(x) = (x − ${h})² + ${vertex}; therefore the minimum is ${vertex}.`, figure: FIG.quadratic(1, -2 * h, c), distractors: [c, h, vertex + h], features: ['representation-shift', 'multi-step', 'strategic-choice'] });
 }
 
 function psda(a) {
   const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
-    const total = 200 + (p % 6) * 25, pct = 15 + (p % 4) * 5, answer = total * pct / 100;
+    const total = 200 + (p % 17) * 25, pct = 15 + (p * 7 % 8) * 5, answer = total * pct / 100;
     return item({ ...a, skill: 'Percentages', prompt: `A population contains ${total} observations. If ${pct}% meet a condition, how many observations meet it?`, answer, explanation: `Calculate ${total} × ${pct}/100 = ${answer}.`, distractors: [answer + 5, answer - 5, total - answer] });
   }
   if (a.difficulty === 'medium') {
-    const m = 2 + p % 5, b = 6 + p % 8, x = 4 + p % 6, y = m * x + b;
+    const m = 2 + p % 11, b = 6 + (p * 3) % 17, x = 4 + (p * 5) % 13, y = m * x + b;
     return item({ ...a, skill: 'Two-variable data and models', prompt: `The scatterplot shown is modeled by y = ${m}x + ${b}. According to the model, what y-value is predicted when x = ${x}?`, answer: y, explanation: `Substitute x = ${x} into the model.`, figure: FIG.scatter(p), distractors: [m * x, y + m, b + x], features: ['data-interpretation', 'representation-shift'] });
   }
   if (a.variant !== 'psat-nmsqt' && p % 3 === 0) {
-    const estimate = 52 + p % 5, margin = 3 + p % 3, answer = estimate + margin;
+    const estimate = 52 + p % 29, margin = 3 + (p * 5) % 7, answer = estimate + margin;
     return item({ ...a, skill: 'Margin of error', prompt: `A survey estimate is ${estimate}% with a margin of error of ±${margin} percentage points. What is the upper end of the reported interval?`, answer, explanation: `Add the margin of error: ${estimate} + ${margin} = ${answer}.`, distractors: [estimate - margin, estimate + 2 * margin, margin], features: ['data-interpretation', 'multi-step'] });
   }
   if (p % 2 === 0) {
-    const group = 40 + p % 20, outcome = 8 + p % 7, answer = Number((outcome / group * 100).toFixed(2));
-    return item({ ...a, skill: 'Conditional probability and data interpretation', prompt: `A study records ${group} participants in a group, and ${outcome} of those participants have outcome C. What percentage of the group has outcome C?`, answer, explanation: `The relevant denominator is ${group}: ${outcome}/${group} × 100 = ${answer}%.`, figure: FIG.scatter(p + 3), distractors: [Number((outcome / (group + outcome) * 100).toFixed(2)), Number((outcome / (group - outcome) * 100).toFixed(2)), Number((group / outcome * 100).toFixed(2))], features: ['data-interpretation', 'constraint-inference'] });
+    const group = 40 + p % 31, outcome = 8 + (p * 7) % 19, answer = Number((outcome / group * 100).toFixed(2));
+    return item({ ...a, skill: 'Conditional probability and data interpretation', prompt: `A study records ${group} participants in a group, and ${outcome} of those participants have outcome C. What percentage of the group has outcome C?`, answer, explanation: `The relevant denominator is ${group}: ${outcome}/${group} × 100 = ${answer}%.`, figure: FIG.scatter(p + 3), distractors: [Number((outcome / (group + outcome) * 100).toFixed(2)), Number((outcome / Math.max(1, group - outcome) * 100).toFixed(2)), Number((group / outcome * 100).toFixed(2))], features: ['data-interpretation', 'constraint-inference'] });
   }
-  const n = 8 + p % 7, mean = 20 + (p * 3) % 10, added = mean + 10 + p % 8, answer = Number(((mean * n + added) / (n + 1)).toFixed(2));
+  const n = 8 + p % 17, mean = 20 + (p * 3) % 19, added = mean + 10 + (p * 5) % 13, answer = Number(((mean * n + added) / (n + 1)).toFixed(2));
   return item({ ...a, skill: 'Distributions and measures of center', prompt: `A data set of ${n} values has mean ${mean}. After one value of ${added} is added, what is the new mean?`, answer, explanation: `Find the original total, add ${added}, and divide by ${n + 1}.`, distractors: [mean, added, Number(((mean * n - added) / (n + 1)).toFixed(2))], features: ['multi-step', 'strategic-choice'] });
 }
 
 function geometry(a) {
   const p = sequenceValue(a);
   if (a.difficulty === 'easy') {
-    const r = 3 + p % 7, answer = r * r;
+    const r = 3 + p % 31, answer = r * r;
     return item({ ...a, skill: 'Circles', prompt: `A circle has radius ${r}. What is its area in terms of π?`, answer, explanation: `Use A = πr², so the coefficient of π is ${answer}.`, figure: FIG.geometry('circle', { radius: r }), distractors: [r, 2 * r, r * r + r] });
   }
   if (a.difficulty === 'medium') {
-    const x = 6 + p % 5, y = 8 + (p * 2) % 5, answer = Number(Math.sqrt(x * x + y * y).toFixed(2));
+    const x = 6 + p % 23, y = 8 + (p * 5) % 29, answer = Number(Math.sqrt(x * x + y * y).toFixed(2));
     return item({ ...a, skill: 'Right triangles', prompt: `The right triangle shown has legs ${x} and ${y}. What is the length of the hypotenuse?`, answer, explanation: `Apply c² = ${x}² + ${y}².`, figure: FIG.geometry('right-triangle', { x, y }), distractors: [x + y, Math.abs(y - x), Number(Math.sqrt(Math.max(1, y * y - x * x)).toFixed(2))], features: ['multi-step'] });
   }
   if (p % 2 === 0) {
-    const side = 4 + p % 6, scale = 2 + p % 3, answer = scale * scale;
+    const side = 4 + p % 19, scale = 2 + p % 5, answer = scale * scale;
     return item({ ...a, skill: 'Similarity and scaling', prompt: `Two similar figures have corresponding lengths in the ratio ${scale}:1. By what factor does area change?`, answer, explanation: `Area scales by the square of the length scale factor: ${scale}² = ${answer}.`, figure: FIG.geometry('similar-figures', { side, scale }), distractors: [scale, scale + 1, scale * 3], features: ['constraint-inference', 'representation-shift'] });
   }
-  const angle = [30, 45, 60][p % 3], opposite = 6 + p % 5, sine = angle === 30 ? 0.5 : angle === 45 ? Math.SQRT1_2 : Math.sqrt(3) / 2, answer = Number((opposite / sine).toFixed(2));
+  const angle = [30, 45, 60][p % 3], opposite = 6 + p % 31, sine = angle === 30 ? 0.5 : angle === 45 ? Math.SQRT1_2 : Math.sqrt(3) / 2, answer = Number((opposite / sine).toFixed(2));
   return item({ ...a, skill: 'Right-triangle trigonometry', prompt: `In the right triangle shown, an acute angle is ${angle}°. The side opposite the angle has length ${opposite}. What is the hypotenuse length?`, answer, explanation: `Use sin(${angle}°) = opposite/hypotenuse.`, figure: FIG.geometry('right-triangle-trig', { opposite, angle }), distractors: [opposite, Number((opposite / (Math.cos(angle * Math.PI / 180))).toFixed(2)), Number((opposite * sine).toFixed(2))], features: ['representation-shift', 'multi-step'] });
 }
 
@@ -161,9 +161,9 @@ const PSAT_M2 = ['Algebra','Algebra','Algebra','Algebra','Algebra','Algebra','Al
 
 const LEVELS = {
   module1: ['easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard'],
-  high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
-  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
-  low: ['easy','easy','easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard'],
+  high: ['easy','easy','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard','hard'],
+  standard: ['easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard','hard','hard','hard','hard','hard'],
+  low: ['easy','easy','easy','easy','easy','easy','easy','easy','easy','medium','medium','medium','medium','medium','medium','medium','medium','medium','medium','hard','hard','hard'],
 };
 
 export function buildMathBank({ testId, variant, assessmentNumber, seed }) {
