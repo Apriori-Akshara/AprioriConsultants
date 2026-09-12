@@ -60,6 +60,31 @@ function balanceAnswerPositions(mock) {
   };
 }
 
+function correctKnownVerbalQC(mock) {
+  return {
+    ...mock,
+    readingWriting: (mock.readingWriting || []).map((question) => {
+      if (question.skill !== "Transitions" || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
+      const choices = [...question.choices];
+      const currentIndex = String(question.answer || "A").charCodeAt(0) - 65;
+      const contrastIndex = choices.findIndex((choice) => String(choice).trim() === "In contrast");
+      if (contrastIndex < 0 || contrastIndex === currentIndex) {
+        if (contrastIndex === currentIndex) {
+          return { ...question, explanation: "In contrast correctly signals the contrast between a strong result in one setting and the decision not to generalize it to every setting." };
+        }
+        return question;
+      }
+      [choices[currentIndex], choices[contrastIndex]] = [choices[contrastIndex], choices[currentIndex]];
+      return {
+        ...question,
+        choices,
+        answer: String.fromCharCode(65 + currentIndex),
+        explanation: "In contrast correctly signals the contrast between a strong result in one setting and the decision not to generalize it to every setting.",
+      };
+    }),
+  };
+}
+
 function applyBlueprintMath(mock, assessmentNumber, seed) {
   return {
     ...mock,
@@ -77,10 +102,10 @@ const SAT_BASE_ALIGNED = applyBlueprintMath(SAT_BASE, 1, 1);
 const PSAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(PSAT2_BASE, 2, 2));
 const SAT2_BASE_ALIGNED = prepareStage2Mock(applyBlueprintMath(SAT2_BASE, 2, 3));
 
-const PSAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED)));
-const SAT_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED)));
-const PSAT2_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(PSAT2_BASE_ALIGNED));
-const SAT2_NORMALIZED = balanceAnswerPositions(normalizeVerbalChoices(SAT2_BASE_ALIGNED));
+const PSAT_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(PSAT_BASE_ALIGNED))));
+const SAT_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(restoreInternalPromptUniqueness(SAT_BASE_ALIGNED))));
+const PSAT2_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(PSAT2_BASE_ALIGNED)));
+const SAT2_NORMALIZED = correctKnownVerbalQC(balanceAnswerPositions(normalizeVerbalChoices(SAT2_BASE_ALIGNED)));
 
 const FIGURE_NORMALIZED_01 = validateMockFigureQuality(PSAT_NORMALIZED, SAT_NORMALIZED);
 const FIGURE_NORMALIZED_02 = validateMockFigureQuality(PSAT2_NORMALIZED, SAT2_NORMALIZED);
