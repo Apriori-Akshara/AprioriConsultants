@@ -119,7 +119,7 @@ function correctKnownVerbalQC(mock) {
         );
         return {
           ...corrected,
-          prompt: `${String(question.prompt || "").split("\\n\\n")[0]}\\n\\nSuppose a follow-up study were conducted. Which finding would best support the interpretation presented in the passage?`,
+          prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nSuppose a follow-up study were conducted. Which finding would best support the interpretation presented in the passage?`,
         };
       }
 
@@ -132,7 +132,7 @@ function correctKnownVerbalQC(mock) {
         );
         return {
           ...corrected,
-          prompt: `${String(question.prompt || "").split("\\n\\n")[0]}\\n\\nThe comparison helps researchers identify an important difference between the conditions. As used in this sentence, what does identify most nearly mean?`,
+          prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nThe comparison helps researchers identify an important difference between the conditions. As used in this sentence, what does identify most nearly mean?`,
         };
       }
 
@@ -152,7 +152,7 @@ function correctKnownVerbalQC(mock) {
         );
         return {
           ...corrected,
-          prompt: `${String(question.prompt || "").split("\\n\\n")[0]}\\n\\nPassage 2: ${passage2}\\n\\nBased on the two passages, which statement would both authors most likely agree with?`,
+          prompt: `${String(question.prompt || "").split("\n\n")[0]}\n\nPassage 2: ${passage2}\n\nBased on the two passages, which statement would both authors most likely agree with?`,
         };
       }
 
