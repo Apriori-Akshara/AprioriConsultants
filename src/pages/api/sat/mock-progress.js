@@ -67,6 +67,22 @@ function questionFromPlan(plan, questionId) {
   return null;
 }
 
+function currentModuleForAttempt(plan, attempt) {
+  const section = String(attempt?.current_section || "");
+  const moduleKey = String(attempt?.current_module || "module-1");
+  if (!["reading-writing", "math"].includes(section)) return null;
+  const moduleIndex = moduleKey.endsWith("module-2") ? 1 : 0;
+  const route = section === "reading-writing"
+    ? attempt?.module2_route_rw || "standard"
+    : attempt?.module2_route_math || "standard";
+  return getModuleForRoute(plan, section, moduleIndex, route);
+}
+
+function requestedModuleMatchesAttempt(attempt, section, moduleKey) {
+  return String(section || "") === String(attempt?.current_section || "")
+    && String(moduleKey || "") === String(attempt?.current_module || "");
+}
+
 export default async function handler(req, res) {
   if (!["GET", "POST"].includes(req.method)) return res.status(405).json({ error: "Method not allowed" });
 
@@ -138,10 +154,7 @@ export default async function handler(req, res) {
     if (action === "begin") {
       if (attempt.module_deadline_at) return res.status(200).json({ started: true, deadlineAt: attempt.module_deadline_at });
       if (attempt.break_deadline_at) return res.status(409).json({ error: "The inter-section break is active", break: true, breakDeadlineAt: attempt.break_deadline_at });
-      const section = attempt.current_section || "reading-writing";
-      const moduleIndex = String(attempt.current_module || "module-1").endsWith("module-2") ? 1 : 0;
-      const route = section === "reading-writing" ? attempt.module2_route_rw || "standard" : attempt.module2_route_math || "standard";
-      const currentModule = getModuleForRoute(plan, section, moduleIndex, route);
+      const currentModule = currentModuleForAttempt(plan, attempt);
       if (!currentModule) return res.status(409).json({ error: "Attempt module is invalid" });
       const deadline = deadlineForModule(currentModule);
       await query(`UPDATE sat_mock_attempts SET module_started_at=NOW(),module_deadline_at=$1,updated_at=NOW() WHERE id=$2 AND user_id=$3 AND status='in-progress'`, [deadline, attemptId, user.id]);
@@ -151,7 +164,9 @@ export default async function handler(req, res) {
     if (action === "resume-break") {
       if (!attempt.break_deadline_at) return res.status(409).json({ error: "No active break" });
       if (new Date(attempt.break_deadline_at).getTime() <= Date.now()) return res.status(409).json({ error: "Break has expired", expired: true });
-      const nextModule = getModuleForRoute(plan, "math", 0);
+      if (attempt.current_section !== "math" || attempt.current_module !== "module-1") return res.status(409).json({ error: "Attempt is not ready to resume Math" });
+      const nextModule = getModuleForRoute(plan, "math", 0, "standard");
+      if (!nextModule) return res.status(409).json({ error: "Math Module 1 is invalid" });
       const deadline = deadlineForModule(nextModule);
       await query(`UPDATE sat_mock_attempts SET break_deadline_at=NULL,module_started_at=NOW(),module_deadline_at=$1,updated_at=NOW() WHERE id=$2 AND user_id=$3 AND status='in-progress'`, [deadline, attemptId, user.id]);
       return res.status(200).json({ next: { section: "math", module: "module-1", question: 0, route: "standard", deadlineAt: deadline.toISOString() } });
@@ -160,17 +175,24 @@ export default async function handler(req, res) {
     if (action === "answer") {
       if (attempt.module_deadline_at && new Date(attempt.module_deadline_at).getTime() <= Date.now()) return res.status(409).json({ error: "This module's time has expired", expired: true, deadlineAt: attempt.module_deadline_at });
       const questionId = String(req.body?.questionId || "").trim();
+      const section = String(req.body?.section || "");
+      const moduleKey = String(req.body?.module || "");
+      if (!requestedModuleMatchesAttempt(attempt, section, moduleKey)) return res.status(409).json({ error: "Question context does not match the active module" });
       if (!questionId) return res.status(400).json({ error: "Question ID is required" });
-      if (!questionFromPlan(plan, questionId)) return res.status(400).json({ error: "Question does not belong to this mock" });
+      const currentModule = currentModuleForAttempt(plan, attempt);
+      if (!currentModule || !(currentModule.questions || []).some((item) => String(item?.questionId || "") === questionId)) return res.status(400).json({ error: "Question does not belong to the active module" });
+      const questionIndex = Number(req.body?.questionIndex);
+      if (!Number.isInteger(questionIndex) || questionIndex < 0 || questionIndex >= currentModule.questions.length) return res.status(400).json({ error: "Question position is invalid" });
       answers[questionId] = String(req.body?.answer ?? "").trim();
-      await query(`UPDATE sat_mock_attempts SET answers=$1::jsonb,current_section=COALESCE($2,current_section),current_module=COALESCE($3,current_module),current_question=COALESCE($4,current_question),updated_at=NOW() WHERE id=$5 AND user_id=$6 AND status='in-progress'`, [JSON.stringify(answers), req.body?.section || null, req.body?.module || null, Number.isInteger(req.body?.questionIndex) ? req.body.questionIndex : null, attemptId, user.id]);
+      await query(`UPDATE sat_mock_attempts SET answers=$1::jsonb,current_question=$2,updated_at=NOW() WHERE id=$3 AND user_id=$4 AND status='in-progress'`, [JSON.stringify(answers), questionIndex, attemptId, user.id]);
       return res.status(200).json({ ok: true });
     }
 
     if (action === "flag") {
       const questionId = String(req.body?.questionId || "").trim();
       if (!questionId) return res.status(400).json({ error: "Question ID is required" });
-      if (!questionFromPlan(plan, questionId)) return res.status(400).json({ error: "Question does not belong to this mock" });
+      const currentModule = currentModuleForAttempt(plan, attempt);
+      if (!currentModule || !(currentModule.questions || []).some((item) => String(item?.questionId || "") === questionId)) return res.status(400).json({ error: "Question does not belong to the active module" });
       flags[questionId] = Boolean(req.body?.flagged);
       await query(`UPDATE sat_mock_attempts SET flags=$1::jsonb,updated_at=NOW() WHERE id=$2 AND user_id=$3 AND status='in-progress'`, [JSON.stringify(flags), attemptId, user.id]);
       return res.status(200).json({ ok: true, flags });
@@ -179,7 +201,8 @@ export default async function handler(req, res) {
     if (action === "note") {
       const questionId = String(req.body?.questionId || "").trim();
       if (!questionId) return res.status(400).json({ error: "Question ID is required" });
-      if (!questionFromPlan(plan, questionId)) return res.status(400).json({ error: "Question does not belong to this mock" });
+      const currentModule = currentModuleForAttempt(plan, attempt);
+      if (!currentModule || !(currentModule.questions || []).some((item) => String(item?.questionId || "") === questionId)) return res.status(400).json({ error: "Question does not belong to the active module" });
       notes[questionId] = String(req.body?.note ?? "");
       await query(`UPDATE sat_mock_attempts SET notes=$1::jsonb,updated_at=NOW() WHERE id=$2 AND user_id=$3 AND status='in-progress'`, [JSON.stringify(notes), attemptId, user.id]);
       return res.status(200).json({ ok: true, notes });
@@ -187,25 +210,25 @@ export default async function handler(req, res) {
 
     if (action === "position") {
       const questionIndex = Number(req.body?.questionIndex);
+      const section = String(req.body?.section || "");
+      const moduleKey = String(req.body?.module || "");
+      if (!requestedModuleMatchesAttempt(attempt, section, moduleKey)) return res.status(409).json({ error: "Question context does not match the active module" });
       if (!Number.isInteger(questionIndex) || questionIndex < 0) return res.status(400).json({ error: "Question index is required" });
-      const section = req.body?.section || attempt.current_section || "reading-writing";
-      const moduleKey = req.body?.module || attempt.current_module || "module-1";
-      const moduleIndex = String(moduleKey).endsWith("module-2") ? 1 : 0;
-      const route = section === "reading-writing" ? attempt.module2_route_rw || "standard" : attempt.module2_route_math || "standard";
-      const currentModule = getModuleForRoute(plan, section, moduleIndex, route);
+      const currentModule = currentModuleForAttempt(plan, attempt);
       if (!currentModule || questionIndex >= currentModule.questions.length) return res.status(400).json({ error: "Question position is invalid" });
-      await query(`UPDATE sat_mock_attempts SET current_section=COALESCE($1,current_section),current_module=COALESCE($2,current_module),current_question=$3,updated_at=NOW() WHERE id=$4 AND user_id=$5 AND status='in-progress'`, [req.body?.section || null, req.body?.module || null, questionIndex, attemptId, user.id]);
+      await query(`UPDATE sat_mock_attempts SET current_question=$1,updated_at=NOW() WHERE id=$2 AND user_id=$3 AND status='in-progress'`, [questionIndex, attemptId, user.id]);
       return res.status(200).json({ ok: true });
     }
 
     if (action === "advance") {
-      const section = attempt.current_section || req.body?.section;
-      const moduleKey = attempt.current_module || req.body?.module || "module-1";
-      const currentModuleIndex = String(moduleKey).endsWith("module-2") ? 1 : 0;
+      const section = String(attempt.current_section || "");
+      const moduleKey = String(attempt.current_module || "");
+      if (!["reading-writing", "math"].includes(section) || !["module-1", "module-2"].includes(moduleKey)) return res.status(409).json({ error: "Attempt module is invalid" });
+      const currentModule = currentModuleForAttempt(plan, attempt);
+      if (!currentModule) return res.status(409).json({ error: "Attempt module is invalid" });
+      const currentModuleIndex = moduleKey === "module-2" ? 1 : 0;
       if (currentModuleIndex === 0) {
-        const module1 = getModuleForRoute(plan, section, 0);
-        if (!module1) return res.status(409).json({ error: "Attempt module is invalid" });
-        const route = chooseModule2Route(module1.questions || [], answers);
+        const route = chooseModule2Route(currentModule.questions || [], answers);
         const column = section === "reading-writing" ? "module2_route_rw" : "module2_route_math";
         const nextModule = getModuleForRoute(plan, section, 1, route);
         if (!nextModule) return res.status(409).json({ error: "Adaptive route is invalid" });
@@ -226,6 +249,9 @@ export default async function handler(req, res) {
       const currentAttempt = fresh.rows[0];
       if (!currentAttempt) return res.status(404).json({ error: "Attempt not found" });
       if (currentAttempt.status === "completed" && currentAttempt.section_scores) return res.status(200).json({ completed: true, scores: currentAttempt.section_scores });
+      if (currentAttempt.status !== "in-progress" || currentAttempt.current_section !== "math" || currentAttempt.current_module !== "module-2") {
+        return res.status(409).json({ error: "The mock test cannot be completed from the current stage" });
+      }
       const report = buildPracticeReport(plan, currentAttempt);
       const completedAt = new Date().toISOString();
       report.completedAt = completedAt;
