@@ -43,6 +43,7 @@ export default function SATMockResults({ attemptId: initialAttemptId }) {
   useEffect(() => {
     let active = true;
     const load = async () => {
+      setLoading(true);
       try {
         const url = attemptId ? `/api/sat/mock-progress?attemptId=${encodeURIComponent(attemptId)}` : "/api/sat/mock-progress";
         const response = await fetch(url, { credentials: "include" });
@@ -81,6 +82,23 @@ export default function SATMockResults({ attemptId: initialAttemptId }) {
           <div><span className={styles.eyebrow}>APRIORI PERFORMANCE REPORT</span><h1>{report.testLabel}</h1><p>{report.scoreNotice}</p></div>
           <Link className={styles.backLink} href="/SATMocks">Mock Library</Link>
         </header>
+
+        {attempts.length > 1 && (
+          <section className={styles.sectionCard}>
+            <div className={styles.sectionTitle}><span>Completed mock history</span><small>Select a completed mock to review its report</small></div>
+            <select
+              value={attemptId || ""}
+              onChange={(event) => setAttemptId(Number(event.target.value))}
+              aria-label="Select completed mock report"
+            >
+              {attempts.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.test_key} · {item.completed_at ? new Date(item.completed_at).toLocaleDateString() : "Completed"}
+                </option>
+              ))}
+            </select>
+          </section>
+        )}
 
         <section className={styles.scoreGrid}>
           <div className={styles.scoreHero}><span>OVERALL ACCURACY</span><strong>{metricLabel(report.accuracy)}</strong><small>{report.totalCorrect}/{report.totalQuestions} correct</small></div>
