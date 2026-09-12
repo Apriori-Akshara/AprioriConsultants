@@ -2,7 +2,21 @@ import { SAT_ASSESSMENT_CATALOG } from "./assessmentCatalog";
 import { SAT_ACTIVITY_BLUEPRINT } from "./activityBlueprint";
 import { PSAT_MOCK_01_CONTENT,SAT_MOCK_01_CONTENT,PSAT_MOCK_02_CONTENT,SAT_MOCK_02_CONTENT,PSAT_MOCK_03_CONTENT,SAT_MOCK_03_CONTENT,PSAT_MOCK_04_CONTENT,SAT_MOCK_04_CONTENT,PSAT_MOCK_05_CONTENT,SAT_MOCK_05_CONTENT,PSAT_MOCK_06_CONTENT,SAT_MOCK_06_CONTENT,PSAT_MOCK_07_CONTENT,SAT_MOCK_07_CONTENT,PSAT_MOCK_08_CONTENT,SAT_MOCK_08_CONTENT } from "./mockContent";
 import { validateMockSeries } from "./mockContent/mockContentQualityGate";
-const MOCKS=[PSAT_MOCK_01_CONTENT,SAT_MOCK_01_CONTENT,PSAT_MOCK_02_CONTENT,SAT_MOCK_02_CONTENT,PSAT_MOCK_03_CONTENT,SAT_MOCK_03_CONTENT,PSAT_MOCK_04_CONTENT,SAT_MOCK_04_CONTENT,PSAT_MOCK_05_CONTENT,SAT_MOCK_05_CONTENT,PSAT_MOCK_06_CONTENT,SAT_MOCK_06_CONTENT,PSAT_MOCK_07_CONTENT,SAT_MOCK_07_CONTENT,PSAT_MOCK_08_CONTENT,SAT_MOCK_08_CONTENT];
+
+function normalizeMockIdentity(mock){
+  const normalizeQuestion=(question)=>{
+    const currentId=String(question.questionId||question.contentId||"");
+    const marker=currentId.includes("-math-")?"-math-":"-rw-";
+    const markerIndex=currentId.indexOf(marker);
+    if(markerIndex<0)return{...question,testId:mock.testId};
+    const questionId=`${mock.testId}${currentId.slice(markerIndex)}`;
+    return{...question,testId:mock.testId,questionId,contentId:questionId,originalityFingerprint:String(question.originalityFingerprint||"").replace(currentId,questionId)};
+  };
+  return{...mock,testId:mock.testId,readingWriting:(mock.readingWriting||[]).map(normalizeQuestion),math:(mock.math||[]).map(normalizeQuestion)};
+}
+
+const RAW_MOCKS=[PSAT_MOCK_01_CONTENT,SAT_MOCK_01_CONTENT,PSAT_MOCK_02_CONTENT,SAT_MOCK_02_CONTENT,PSAT_MOCK_03_CONTENT,SAT_MOCK_03_CONTENT,PSAT_MOCK_04_CONTENT,SAT_MOCK_04_CONTENT,PSAT_MOCK_05_CONTENT,SAT_MOCK_05_CONTENT,PSAT_MOCK_06_CONTENT,SAT_MOCK_06_CONTENT,PSAT_MOCK_07_CONTENT,SAT_MOCK_07_CONTENT,PSAT_MOCK_08_CONTENT,SAT_MOCK_08_CONTENT];
+const MOCKS=RAW_MOCKS.map(normalizeMockIdentity);
 validateMockSeries(...MOCKS);
 export const SAT_CONTENT_BANK_VERSION="2.0.0";
 const ALL_QUESTIONS=MOCKS.flatMap((mock)=>[...mock.readingWriting,...mock.math]);
@@ -10,6 +24,6 @@ const ids=new Set(),contexts=new Set(),prompts=new Set(),applications=new Set();
 for(const question of ALL_QUESTIONS){if(ids.has(question.questionId))throw new Error(`Duplicate SAT/PSAT question ID across mocks: ${question.questionId}`);ids.add(question.questionId);if(question.section==="reading-writing"){const context=String(question.metadata?.contextKey||"").trim().toLowerCase();const prompt=String(question.prompt||"").trim().toLowerCase().replace(/\s+/g," ");if(contexts.has(context))throw new Error(`Repeated verbal context across mocks: ${context}`);if(prompts.has(prompt))throw new Error(`Repeated verbal question across mocks: ${question.questionId}`);contexts.add(context);prompts.add(prompt);}if(question.section==="math"){const application=String(question.metadata?.applicationFingerprint||"").trim().toLowerCase();if(applications.has(application))throw new Error(`Repeated Math application across mocks: ${application}`);applications.add(application);}}
 for(const [index,mock] of MOCKS.entries())if(mock.readingWriting.length+mock.math.length!==196)throw new Error(`Mock ${index+1} must contain 196 bank questions; found ${mock.readingWriting.length+mock.math.length}`);
 if(ALL_QUESTIONS.length!==3136)throw new Error(`Sixteen calibrated mocks must contain 3136 bank questions; found ${ALL_QUESTIONS.length}`);
-export const SAT_CONTENT_BANK={version:SAT_CONTENT_BANK_VERSION,assessmentCatalog:SAT_ASSESSMENT_CATALOG,activities:{foundation:SAT_ACTIVITY_BLUEPRINT.foundation,advanced:SAT_ACTIVITY_BLUEPRINT.advanced},questions:{source:"apriori-original",storageMode:"modular-records",records:ALL_QUESTIONS},passages:{records:[]},lessons:{source:"apriori-original",records:[]},mockManifests:{psat:[PSAT_MOCK_01_CONTENT,PSAT_MOCK_02_CONTENT,PSAT_MOCK_03_CONTENT,PSAT_MOCK_04_CONTENT,PSAT_MOCK_05_CONTENT,PSAT_MOCK_06_CONTENT,PSAT_MOCK_07_CONTENT,PSAT_MOCK_08_CONTENT],satSeriesA:[SAT_MOCK_01_CONTENT,SAT_MOCK_02_CONTENT,SAT_MOCK_03_CONTENT,SAT_MOCK_04_CONTENT,SAT_MOCK_05_CONTENT,SAT_MOCK_06_CONTENT,SAT_MOCK_07_CONTENT,SAT_MOCK_08_CONTENT],satSeriesB:[]},qualityGates:{originalityRequired:true,duplicateCheckRequired:true,crossMockVerbalContextCheckRequired:true,crossMockMathApplicationCheckRequired:true,verbalAnswerLengthBalanceRequired:true,answerPositionBalanceRequired:true,explanationRequired:true,accessibilityReviewRequired:true,figureReviewRequiredWhenFigureExists:true,mathReviewRequiredForMath:true,calculatorReviewRequiredWhenCalculatorIsAllowed:true,adaptiveRoutePoolIntegrityRequired:true}};
+export const SAT_CONTENT_BANK={version:SAT_CONTENT_BANK_VERSION,assessmentCatalog:SAT_ASSESSMENT_CATALOG,activities:{foundation:SAT_ACTIVITY_BLUEPRINT.foundation,advanced:SAT_ACTIVITY_BLUEPRINT.advanced},questions:{source:"apriori-original",storageMode:"modular-records",records:ALL_QUESTIONS},passages:{records:[]},lessons:{source:"apriori-original",records:[]},mockManifests:{psat:[MOCKS[0],MOCKS[2],MOCKS[4],MOCKS[6],MOCKS[8],MOCKS[10],MOCKS[12],MOCKS[14]],satSeriesA:[MOCKS[1],MOCKS[3],MOCKS[5],MOCKS[7],MOCKS[9],MOCKS[11],MOCKS[13],MOCKS[15]],satSeriesB:[]},qualityGates:{originalityRequired:true,duplicateCheckRequired:true,crossMockVerbalContextCheckRequired:true,crossMockMathApplicationCheckRequired:true,verbalAnswerLengthBalanceRequired:true,answerPositionBalanceRequired:true,explanationRequired:true,accessibilityReviewRequired:true,figureReviewRequiredWhenFigureExists:true,mathReviewRequiredForMath:true,calculatorReviewRequiredWhenCalculatorIsAllowed:true,adaptiveRoutePoolIntegrityRequired:true}};
 export const getContentBankSummary=()=>({version:SAT_CONTENT_BANK_VERSION,questionCount:ALL_QUESTIONS.length,passageCount:0,lessonCount:0,psatMockCount:8,satSeriesAMockCount:8,satSeriesBMockCount:0});
 export default SAT_CONTENT_BANK;
