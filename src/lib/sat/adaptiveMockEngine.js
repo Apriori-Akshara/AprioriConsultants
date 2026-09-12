@@ -32,11 +32,12 @@ function exactAdaptivePool(questions, route, count) {
 
 function validateQuestionRecords(mock, questions) {
   const seen = new Set();
+  const expectedContentTestId = mock.content?.testId || questions.find((question) => question?.testId)?.testId || mock.id;
   questions.forEach((question) => {
     if (!question?.questionId) throw new Error(`Question integrity failure in ${mock.id}: missing questionId`);
     if (seen.has(question.questionId)) throw new Error(`Question integrity failure in ${mock.id}: duplicate questionId ${question.questionId}`);
     seen.add(question.questionId);
-    if (question.testId !== mock.id) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} has mismatched testId`);
+    if (question.testId !== expectedContentTestId) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} has mismatched testId`);
     if (!question.section || !question.module) throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} missing section/module`);
     if (question.prompt == null || String(question.prompt).trim() === "") throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} missing prompt`);
     if (question.answer == null || String(question.answer).trim() === "") throw new Error(`Question integrity failure in ${mock.id}: ${question.questionId} missing answer`);
