@@ -135,7 +135,7 @@ export default function SATMockTest({ test }) {
     if (!attemptId) return null;
     setSaving(true);
     try {
-      const response = await fetch("/api/sat/mock-progress", { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ action, attemptId, ...payload }) });
+      const response = await fetch("/api/sat/mock-progress", { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ action, attemptId, testKey: test.testKey, ...payload }) });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) return { ...data, ok: false, status: response.status };
       return { ...data, ok: true, status: response.status };
@@ -260,7 +260,8 @@ export default function SATMockTest({ test }) {
     <div className={styles.page}><div className={styles.shell}><section className={styles.resultShell}>
       <span className={styles.eyebrow}>TEST COMPLETE</span><h1>{test.label}</h1><p className={styles.resultNote}>Your attempt has been saved. This completion screen reports practice performance; it is not an official College Board scaled score.</p>
       {result ? <div className={styles.resultGrid}><div><strong>{result.accuracy}%</strong><span>Overall accuracy</span></div><div><strong>{result.totalCorrect}/{result.totalQuestions}</strong><span>Questions correct</span></div><div><strong>{result.readingWriting?.accuracy ?? 0}%</strong><span>Reading and Writing</span></div><div><strong>{result.math?.accuracy ?? 0}%</strong><span>Math</span></div></div> : <p>Results could not be loaded immediately. Your completed attempt remains saved.</p>}
-      <button className={styles.primaryButton} onClick={() => router.push("/SATMocks")}>Back to Mock Library</button>
+      <button className={styles.primaryButton} onClick={() => router.push(`/SATMocks/results?attemptId=${attemptId}`)}>View Detailed Report</button>
+      <button className={styles.secondaryButton} onClick={() => router.push("/SATMocks")}>Back to Mock Library</button>
     </section></div></div>
   );
 
