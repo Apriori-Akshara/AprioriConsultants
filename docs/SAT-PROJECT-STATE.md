@@ -1,6 +1,6 @@
 # Apriori Digital SAT Platform — Project State
 
-**Last updated:** September 11, 2026
+**Last updated:** September 12, 2026
 
 ## 1. Purpose of this document
 
@@ -20,9 +20,15 @@ The controlled testing URL is:
 
 `https://aprioriconsultants.onrender.com`
 
-Do **not** switch testing to the custom domain until explicitly instructed.
+Do **not** switch controlled testing to the custom domain unless explicitly instructed.
 
-The platform will ultimately provide 10 original Digital SAT-style mock tests, authenticated student access, adaptive testing, detailed scoring/reporting, longitudinal analytics, personalized recommendations, and secure subscription access.
+### Current product target
+
+The production-development target is now:
+
+**20 complete original PSAT/SAT-style mock tests.**
+
+We will not build 20 independent test implementations. One shared production-quality mock-test architecture will serve all 20 mocks. Mock 1 will first be taken completely through the required production process and used to prove the content-generation, adaptive, scoring/reporting, UI/UX, deployment and documentation workflow before Mocks 2–20 are produced using the proven process.
 
 The existing public website must continue to work.
 
@@ -41,10 +47,21 @@ The existing public website must continue to work.
 * Do not rely on a browser-readable user cookie or Redux state alone for authorization.
 * The authoritative SAT authentication mechanism is the server-side PostgreSQL session represented by the HTTP-only `session` cookie.
 
-### Mock-test access
+### Mock-test access — current development phase
+
+For the current 20-mock development phase, the temporary access rule is:
+
+* **All 20 mocks require authenticated student login.**
+* **No Test 3–10 Premium-lock/subscription enforcement is to be implemented or enforced during this development phase.**
+* Students who are authenticated may access the available mocks without a subscription gate interfering with the 20-mock build.
+* The commercial subscription architecture remains part of the project and can be completed later without being allowed to interfere with the current mock-production work.
+
+This temporary development rule supersedes the earlier Test 1–2 free / Tests 3–10 premium presentation for the current 20-mock build only. It does not delete or invalidate the longer-term commercial requirement.
+
+### Long-term commercial access model
 
 * After successful email verification, a student may access Mock Tests 1 and 2.
-* Mock Tests 3–10 require an active subscription entitlement.
+* Mock Tests 3–10 require an active subscription entitlement when the commercial subscription milestone is activated.
 * A student may purchase the subscription at any stage, including before attempting Tests 1–2, between them, while attempting them, or after completing them.
 * Completion of Tests 1–2 must **never** be a prerequisite for purchasing the subscription.
 * Authentication, email verification, test access, payment, subscription status, and entitlement are separate concepts and must not be collapsed into one status field.
@@ -57,6 +74,7 @@ The existing public website must continue to work.
 * Payment status must be verified server-side.
 * Internal/admin users must be able to review registrations, payments, subscriptions and entitlements and intervene where appropriate.
 * Duplicate/replayed gateway notifications must not create duplicate entitlement or receipt records.
+* The payment gateway is **not** part of the current 20-mock production phase unless a later planned step explicitly calls for it.
 
 ### Master/admin access
 
@@ -94,10 +112,12 @@ Completed:
 * SAT navbar item removed from public navigation.
 * Legacy SAT landing functionality retained for gradual migration.
 * `src/data/sat/programConfig.js` created for central SAT program configuration.
-* `src/data/sat/mockTests.js` created as the master registry for Mock Tests 1–10.
+* `src/data/sat/mockTests.js` created as the master registry for the original mock-test library.
 * `src/data/sat/questionSchema.js` created as the canonical question contract.
 * `src/lib/sat/attemptSchema.js` created as the canonical attempt structure.
 * `src/pages/SATMocks/index.js` established as the authenticated SAT entry point.
+
+The original registry was established for the initial 10-mock scope; the current product target has subsequently been expanded to 20 mocks and the registry/architecture must evolve without creating a parallel test system.
 
 ---
 
@@ -184,7 +204,7 @@ The SAT entry page:
 * checks the authenticated server session before granting SAT access;
 * does not use the browser-readable `user` cookie for authorization;
 * redirects unauthenticated users to `/Auth` with a safe SAT return path;
-* distinguishes Tests 1–2 from Premium Tests 3–10.
+* was originally structured to distinguish Tests 1–2 from Premium Tests 3–10.
 
 ### Client/server dependency separation — COMPLETED AND DEPLOYED
 
@@ -212,35 +232,428 @@ The corrected dashboard code is now the repository state on `main`.
 
 **CONFIRMED BY USER:** Render deployment completed and is live.
 
-Do not claim independent external browser verification from this session. Future UI work should continue from the actual deployed dashboard state and user testing where required.
-
-### Current resume point
-
-Do **not** repeat authentication, database setup, subscription architecture foundation, or the resolved client/server import issue.
-
-The project is now at the **post-deployment / 10M progressive dashboard UI/UX stage**.
+Do not claim independent external browser verification from this session. Public-site verification remains a separate verification activity where explicitly requested.
 
 ---
 
-## 10. Current SAT student page
+## 10. Stage 3 implementation status — COMPLETE, PUBLIC VERIFICATION PENDING
+
+The Stage 3 work is recorded as implementation-complete through the following three functional areas:
+
+### Stage 3A — Adaptive/integrity foundation
+
+* Adaptive testing foundation implemented.
+* Integrity/security controls for the test flow implemented as part of the Stage 3 architecture.
+
+### Stage 3B — Resumable/timed test experience
+
+* Resumable test-taking experience implemented.
+* Timed test experience implemented.
+* The existing Stage 3 infrastructure is intended to be reused by every mock rather than rebuilt per mock.
+
+### Stage 3C — Scoring/reporting
+
+* Server-side scoring/reporting foundation implemented.
+* Completion and reporting architecture are intended to remain shared across all mocks.
+
+### Verification status
+
+**Implementation complete; public-site verification pending.**
+
+Do not mark Stage 3 as fully verified until the relevant public-site verification has actually been performed.
+
+Do not restart Stage 3 unless an actual implementation defect is discovered during the relevant verification or later mock integration.
+
+---
+
+## 11. Current mock-test production architecture
+
+The project will use one shared mock-test system/template to production quality.
+
+The intended relationship is:
+
+```text
+                    Shared PSAT/SAT Mock Engine
+                               │
+          ┌────────────────────┼────────────────────┐
+          │                    │                    │
+        Mock 1               Mock 2              Mock 3 ...
+          │                    │                    │
+       Content              Content              Content
+          │                    │                    │
+          └────────────── Shared test flow ────────┘
+                               │
+                    Adaptive → Attempt → Resume
+                               │
+                       Scoring → Report
+```
+
+The same architecture continues through Mock 20.
+
+Do not create 20 separate test engines or 20 parallel implementations.
+
+The existing adaptive engine, persistence, timing, scoring and reporting work from Stage 3 must be reused rather than rebuilt.
+
+---
+
+## 12. Master mock-production process
+
+Every mock must follow this production sequence:
+
+**Blueprint → Content Generation → Originality QC → Structural QC → Adaptive Integration → Test-Taking QA → Server Scoring → Detailed Report → UI/UX → Mock Library Integration → Deployment → Documentation**
+
+A mock is not complete merely because its questions exist.
+
+A mock is complete only when the student can:
+
+**Log in → launch → take the complete adaptive test → resume if interrupted → finish → receive server-generated results → view the detailed report.**
+
+### MOCK STAGE 0 — Content & blueprint
+
+Before writing the mock into the application:
+
+1. Define the mock number.
+2. Define its PSAT/SAT profile.
+3. Define R&W skills/domains.
+4. Define Math skills/domains.
+5. Define difficulty distribution.
+6. Define adaptive Module 2 routing requirements.
+7. Define passage/question relationships.
+8. Define graph/figure/table requirements.
+9. Define answer-key requirements.
+10. Define explanations and reporting metadata.
+11. Assign unique question IDs.
+12. Run originality/collision checks against all previous mocks.
+
+Originality checks must be performed at the content-generation stage, not postponed until after deployment.
+
+### MOCK STAGE 1 — Generate complete content
+
+#### Reading & Writing
+
+Each mock must contain:
+
+* original passages;
+* original questions;
+* answer choices;
+* correct answers;
+* explanations;
+* domain;
+* skill;
+* difficulty;
+* module assignment;
+* question metadata.
+
+#### Math
+
+Each mock must contain:
+
+* original questions;
+* answer choices where applicable;
+* student-produced-response questions where required;
+* correct answers;
+* explanations;
+* formulas/reference requirements;
+* graphs;
+* tables;
+* figures;
+* geometry diagrams;
+* domain;
+* skill;
+* difficulty;
+* module assignment.
+
+Content must be original. Do not copy College Board, Magoosh, Kaplan, PrepScholar, Manhattan Prep, or other competitors' questions, passages, diagrams or assets.
+
+### MOCK STAGE 2 — Content Quality Control
+
+#### Structural QC
+
+Check:
+
+* correct number of questions;
+* correct modules;
+* valid question IDs;
+* no duplicate IDs;
+* valid answer keys;
+* correct number of choices;
+* no duplicate choices;
+* valid difficulty metadata;
+* valid skill/domain metadata;
+* valid adaptive routing metadata;
+* valid figure/asset references.
+
+#### Originality QC
+
+Compare the new mock against all previously completed mocks.
+
+For R&W:
+
+* no repeated passage;
+* no repeated question;
+* no near-duplicate question construction;
+* no accidental reused text.
+
+For Math:
+
+* no repeated question;
+* no disguised numerical substitution;
+* no repeated mathematical construction where the structure is effectively identical;
+* no reused figure data;
+* no repeated graph/table construction where it amounts to the same question.
+
+The QC becomes stricter as the library grows from Mock 1 through Mock 20.
+
+Phase 2 demonstrated why this must be enforced at the generator/source level: changing numbers while retaining the same underlying mathematical construction is not sufficient originality.
+
+### MOCK STAGE 3 — Connect to the shared adaptive engine
+
+The mock content becomes an actual test through the existing Stage 3 architecture:
+
+**Mock content → adaptive engine → attempt → persistent progress → scoring → report**
+
+Do not create a separate engine for each mock.
+
+### MOCK STAGE 4 — Student test-taking experience
+
+Each mock must support the established Stage 3 experience, as applicable:
+
+* login;
+* test launch;
+* instructions;
+* R&W Module 1;
+* adaptive R&W Module 2;
+* Math Module 1;
+* inter-section break;
+* Math Module 2;
+* server-authoritative timers;
+* answer saving;
+* question navigation;
+* back/next/continue;
+* mark for review;
+* notes;
+* calculator;
+* reference information;
+* zoom;
+* resume;
+* automatic expiry handling;
+* completion.
+
+Reuse the existing Stage 3 infrastructure.
+
+### MOCK STAGE 5 — Server-authoritative scoring
+
+After completion:
+
+1. The server determines final answers.
+2. The server calculates performance.
+3. The server records the attempt.
+4. The server records the adaptive route.
+5. The server records section/module results.
+6. The server generates detailed report data.
+
+The browser must not be trusted to declare the final score or completion state.
+
+### MOCK STAGE 6 — Detailed performance report
+
+At minimum, each mock should provide:
+
+#### Overall
+
+* questions attempted;
+* correct;
+* incorrect;
+* unanswered;
+* accuracy.
+
+#### R&W
+
+* overall performance;
+* Module 1;
+* Module 2;
+* domain performance;
+* skill performance;
+* difficulty performance.
+
+#### Math
+
+* overall performance;
+* Module 1;
+* Module 2;
+* domain performance;
+* skill performance;
+* difficulty performance.
+
+#### Adaptive information
+
+* route taken;
+* appropriate explanatory information.
+
+#### Question review
+
+* question-level performance;
+* correct/incorrect/unanswered;
+* relevant metadata.
+
+Use the existing reporting infrastructure rather than creating a separate reporting system per mock.
+
+### MOCK STAGE 7 — UI/UX polish
+
+After the mock is functionally complete, polish its student experience for the current milestone.
+
+Check:
+
+* visual hierarchy;
+* spacing;
+* typography;
+* question readability;
+* mathematical notation;
+* figures;
+* graphs;
+* tables;
+* answer-choice presentation;
+* buttons;
+* timer;
+* progress indicator;
+* navigator;
+* responsive behaviour;
+* mobile layout;
+* accessibility;
+* error states;
+* completion experience;
+* report presentation.
+
+UI/UX must continue progressively alongside feature development rather than being postponed until Mock 20.
+
+### MOCK STAGE 8 — Mock Library integration
+
+The mock becomes a proper entry in the SAT mock library.
+
+Where backed by real functionality, cards may represent:
+
+* Available;
+* Not Started;
+* In Progress;
+* Completed;
+* Continue Test;
+* Review Results.
+
+Do not display invented scores, progress or other placeholder performance data merely to make cards look complete.
+
+For the current 20-mock development phase:
+
+**Authenticated login → access to the available mocks.**
+
+No Premium-lock presentation is required for this phase.
+
+### MOCK STAGE 9 — Deployment and verification
+
+Each meaningful mock batch gets a controlled deployment.
+
+Verify:
+
+#### Build
+
+* production compilation;
+* page generation;
+* no server/client dependency errors;
+* no missing imports;
+* no static-generation errors.
+
+#### Runtime
+
+* mock launches;
+* questions load;
+* answers save;
+* timer works;
+* resume works;
+* adaptive routing works;
+* completion works;
+* scoring works;
+* report works.
+
+#### Regression
+
+Retest existing functionality only when the new mock could realistically affect it. Do not repeatedly retest the entire website after every mock.
+
+### MOCK STAGE 10 — Documentation checkpoint
+
+After each completed mock, update:
+
+`docs/SAT-PROJECT-STATE.md`
+
+Record:
+
+* mock completed;
+* content scope;
+* content-generation method;
+* QC/originality status;
+* files added/modified;
+* database changes, if any;
+* adaptive integration;
+* scoring/report integration;
+* deployment status;
+* testing status;
+* known limitations;
+* next mock.
+
+---
+
+## 13. Mock 1–20 production sequence
+
+The approved production sequence is:
+
+| Batch | Work |
+| --- | --- |
+| **Foundation** | Documentation/state update + define 20-mock architecture |
+| **Mock 1** | Build completely through every required stage |
+| **Mock 2** | Generate → QC → integrate → test → report |
+| **Mock 3** | Same |
+| **Mock 4** | Same |
+| **Mock 5** | Same |
+| **Mock 6** | Same |
+| **Mock 7** | Same |
+| **Mock 8** | Same |
+| **Mock 9** | Same |
+| **Mock 10** | Same + midpoint library QC |
+| **Mock 11** | Same |
+| **Mock 12** | Same |
+| **Mock 13** | Same |
+| **Mock 14** | Same |
+| **Mock 15** | Same |
+| **Mock 16** | Same |
+| **Mock 17** | Same |
+| **Mock 18** | Same |
+| **Mock 19** | Same |
+| **Mock 20** | Same + full library QC |
+
+Do **not** generate all 20 blindly in one giant batch. Mock 1 must prove the production method first.
+
+The key lesson from Phase 2 is:
+
+**Build one mock → validate its content-generation model → validate its adaptive implementation → validate scoring/reporting → validate UI → deploy and verify → freeze the proven process → replicate.**
+
+---
+
+## 14. Current SAT student page
 
 Primary page:
 
 `src/pages/SATMocks/index.js`
 
-Current intended access model:
+For the current 20-mock development phase:
 
-* Tests 1–2 → available to verified students.
-* Tests 3–10 → premium/subscription-required unless a valid entitlement exists.
-* Premium purchase remains conceptually available without requiring completion of Tests 1–2.
+* authenticated students may access the available mocks;
+* no Tests 3–10 premium lock should interfere with the mock-production work;
+* the commercial subscription architecture remains reserved for its later milestone.
 
-The current dashboard is a functional and progressively styled foundation, not the final student dashboard.
+The dashboard is a functional and progressively styled foundation. It will continue to evolve as the student experience becomes more complete.
 
-Do not begin the test-taking interface merely by clicking into Tests 1–10 as part of dashboard UI verification. Test-taking functionality is a later milestone.
+Do not begin the full test-taking implementation merely by clicking into mock cards as dashboard UI verification. Test-taking work should follow the approved Mock 1 production sequence.
 
 ---
 
-## 11. Important current files
+## 15. Important current files
 
 ### Authentication
 
@@ -276,9 +689,11 @@ Current SAT business tables:
 * `entitlements`
 * `receipts`
 
+Additional mock-generation and Stage 3 files must be identified from the current repository before modification; do not assume paths or recreate existing architecture from memory.
+
 ---
 
-## 12. Completed implementation batches
+## 16. Completed implementation batches
 
 ### Batch 1 — Secure SAT session foundation
 
@@ -309,26 +724,39 @@ Completed:
 * Created `src/lib/sat/testAccess.js`.
 * Updated `src/lib/sat/satAccess.js` with `getSatUserId()`.
 * Updated `src/pages/SATMocks/index.js`.
-* Established server-side Test 1–2 free / Tests 3–10 premium access logic.
+* Established the initial server-side Test 1–2 free / Tests 3–10 premium access architecture.
 * Established the initial premium purchase path without requiring Tests 1–2 completion.
+
+This commercial access architecture remains available for the later commercial phase; the current 20-mock development phase temporarily does not enforce the premium lock.
+
+### Stage 3 — Adaptive / timed / resumable / scoring foundation
+
+Completed:
+
+* Stage 3A adaptive/integrity foundation.
+* Stage 3B resumable/timed test experience.
+* Stage 3C scoring/reporting foundation.
+
+Status:
+
+**Implementation complete; public-site verification pending.**
 
 ### Dashboard UI/UX work completed so far
 
 Completed:
 
-* Initial SAT dashboard and 10-test card presentation.
-* Tests 1–2 and Tests 3–10 visual grouping.
-* Premium/locked presentation foundation.
+* Initial SAT dashboard and mock-test card presentation.
+* Test grouping/presentation foundation.
 * Narrower, centred CTA treatment.
 * Responsive/mobile styling improvements.
 * Shared dashboard styling work using the existing Apriori visual identity.
-* The latest dashboard code was deployed successfully to Render.
+* Latest dashboard code deployed successfully to Render.
 
-The next UI/UX work must inspect the exact current files first and build on this state rather than recreating the dashboard.
+The dashboard must continue to be improved progressively as the real mock functionality is integrated.
 
 ---
 
-## 13. Testing status
+## 17. Testing status
 
 ### Completed tests
 
@@ -342,7 +770,16 @@ The next UI/UX work must inspect the exact current files first and build on this
 * Client/server SAT login-helper dependency separation — CONFIRMED IN REPOSITORY.
 * Corrected SAT dashboard deployment — CONFIRMED LIVE BY USER.
 
-### Still pending when the relevant milestone is reached
+### Stage 3 verification
+
+* Stage 3 implementation — COMPLETE.
+* Public-site verification of the complete Stage 3 student flow — **PENDING**.
+
+Do not claim the pending public-site verification has been completed.
+
+### Future commercial access tests
+
+These remain pending until the commercial subscription milestone is reactivated:
 
 * Test 1 server-side access.
 * Test 2 server-side access.
@@ -351,11 +788,15 @@ The next UI/UX work must inspect the exact current files first and build on this
 * Tests 4–10 premium enforcement.
 * Premium purchase availability without completing Tests 1–2.
 
-Do not confuse these future access tests with the already-passed authentication/session tests.
+Do not confuse these future commercial access tests with the already-passed authentication/session tests or the current temporary 20-mock development access rule.
+
+### Mock-production verification
+
+For each mock, verification must follow the Mock Stage 9 checklist before the mock is marked complete.
 
 ---
 
-## 14. Deployment status
+## 18. Deployment status
 
 The latest SAT dashboard changes are deployed to Render and the service is **LIVE**.
 
@@ -367,9 +808,11 @@ Do not switch controlled testing to the custom domain unless explicitly instruct
 
 The previous SAT dashboard module-resolution/client-bundle issue is resolved.
 
+Stage 3 implementation is complete, but its public-site verification remains pending.
+
 ---
 
-## 15. GitHub write/access status
+## 19. GitHub write/access status
 
 The connected GitHub integration can inspect the repository and should use the current file version before making changes.
 
@@ -379,6 +822,16 @@ When updating an existing file:
 * do not delete unrelated code;
 * use complete replacement content where a file replacement is required;
 * do not use `...` or `same as above` placeholders in replacement files.
+
+Every code change must identify:
+
+* where the work is performed;
+* exact file path;
+* exact change;
+* BEFORE + AFTER or complete replacement file where appropriate;
+* exact commit message;
+* expected Render result;
+* exact testing URL.
 
 ---
 
@@ -392,53 +845,53 @@ Every working milestone should increasingly serve as a polished demonstration fo
 
 This includes, as applicable:
 
-* SAT entry/dashboard experience
-* 10 mock-test cards
-* Free vs premium presentation
-* Locked/unlocked states
-* Subscription and purchase experience
-* Payment status and confirmation
-* Receipt presentation
-* Student test instructions
-* Test-taking interface
-* Module navigation
-* Timer and break experience
-* Question display and answer selection
-* Review and navigation controls
-* Test completion
-* Results and score presentation
-* Progress tracking
-* Completed/in-progress/not-started states
-* Student account/session experience
-* Error, loading and empty states
-* Responsive/mobile presentation
-* Administrative/master-facing interfaces where applicable
+* SAT entry/dashboard experience;
+* mock-test cards;
+* Free vs premium presentation when the commercial phase is active;
+* locked/unlocked states when the commercial phase is active;
+* subscription and purchase experience;
+* payment status and confirmation;
+* receipt presentation;
+* student test instructions;
+* test-taking interface;
+* module navigation;
+* timer and break experience;
+* question display and answer selection;
+* review and navigation controls;
+* test completion;
+* results and score presentation;
+* progress tracking;
+* completed/in-progress/not-started states;
+* student account/session experience;
+* error, loading and empty states;
+* responsive/mobile presentation;
+* administrative/master-facing interfaces where applicable.
 
-### 10 Mock-Test Cards
+### Mock-test cards
 
-The current 10-card presentation is a functional foundation and must not be treated as the final visual design.
+The current card presentation is a functional foundation and must not be treated as the final visual design.
 
 Cards should progressively support, when backed by real functionality:
 
-* Not started
-* Available
-* In progress
-* Completed
-* Premium/locked
-* Premium/unlocked
+* Not started;
+* Available;
+* In progress;
+* Completed;
+* Premium/locked when the commercial phase is active;
+* Premium/unlocked when the commercial phase is active.
 
 Where applicable, cards should eventually provide:
 
-* Clear test number and title
-* R&W / Math identification
-* Availability state
-* Premium indication
-* Start / Continue / Review action
-* Completion/progress information
-* Score/result information when available
-* Clear subscription CTA for locked premium tests
-* Consistent visual hierarchy and responsive layout
-* Professional graphics, icons and visual elements consistent with the Apriori Digital SAT experience
+* clear test number and title;
+* R&W / Math identification;
+* availability state;
+* premium indication when applicable;
+* Start / Continue / Review action;
+* completion/progress information;
+* score/result information when available;
+* clear subscription CTA for locked premium tests when applicable;
+* consistent visual hierarchy and responsive layout;
+* professional graphics, icons and visual elements consistent with the Apriori Digital SAT experience.
 
 Do not create misleading placeholder information merely to make cards appear complete.
 
@@ -472,36 +925,45 @@ The interface must reflect server-confirmed state without allowing client-side s
 
 ---
 
-## 16. Next development step
+## 20. Next development step
 
-### NEXT SESSION — Resume here
+### STEP A — DOCUMENTATION/STATE UPDATE — COMPLETE
 
-**Current resume point: post-deployment 10M dashboard UI/UX milestone.**
+This documentation batch records:
 
-Before making the next UI/UX change:
+* completed work through Stage 3C;
+* Stage 3 status as **implementation complete; public-site verification pending**;
+* the new target of **20 complete original PSAT/SAT-style mock tests**;
+* the current temporary rule that all 20 mocks require authenticated login but no Test 3–10 subscription lock is enforced during this development phase;
+* the shared one-engine architecture for Mocks 1–20;
+* the approved Mock Stage 0–10 production standard;
+* the Mock 1 proof-of-process requirement;
+* the subsequent Mocks 2–20 production sequence.
+
+### NEXT — STEP B
+
+**Mock 1 blueprint and content architecture.**
+
+Before modifying code for Step B:
 
 1. Read `docs/SAT-PROJECT-STATE.md`.
 2. Read `docs/SAT-ARCHITECTURE.md`.
-3. Inspect the exact current versions of the dashboard files relevant to the requested change, especially:
-   * `src/pages/SATMocks/index.js`
-   * `src/styles/SATMocks.module.css`
-   * any SAT access helper directly affected by the change.
-4. Preserve the current server-side session and entitlement architecture.
-5. Continue from the current dashboard rather than rebuilding earlier stages.
+3. Inspect the exact current repository files relevant to mock generation, question schemas, mock registry, adaptive routing and Stage 3 integration.
+4. Determine what existing content-generation infrastructure can be reused and what must be extended for the 20-mock target.
+5. Do not create a parallel mock engine or replace existing architecture without necessity.
+6. Establish Mock 1's complete blueprint before generating its full content.
 
 Do **not** restart registration, email verification, login, server-session work, database setup, or the resolved client/server dependency work.
 
-Do **not** implement the payment gateway unless a later planned step explicitly calls for it.
+Do **not** implement the payment gateway during the current 20-mock production phase unless a later planned step explicitly calls for it.
 
-The immediate next work will be based on the user's next set of requested changes for the SAT dashboard/UI/UX. Inspect first, then make only the changes required.
+### Future production sequence
 
-Future secure feature sequence remains:
-
-**Student authentication → Test access control → Subscription purchase → Payment gateway → Server-side payment confirmation → Entitlement activation → Receipt → Premium Tests 3–10**
+**Step A — Documentation/state update → Step B — Mock 1 blueprint/content architecture → Step C — Build Mock 1 completely → Step D — Deploy and verify Mock 1 → Step E — Freeze proven process → Step F — Produce Mocks 2–20 using the proven pipeline with originality checks against the entire library.**
 
 ---
 
-## 17. Development safety rules
+## 21. Development safety rules
 
 * Preserve existing non-SAT website functionality.
 * Do not create duplicate authentication or backend infrastructure.
@@ -515,13 +977,17 @@ Future secure feature sequence remains:
 * Give the exact controlled testing URL.
 * Do not claim a security property has been implemented unless the relevant server-side code actually enforces it.
 * Do not treat frontend visibility as authorization.
-* Do not allow a browser-readable cookie or Redux state to grant premium SAT access.
-* Do not make subscription purchase dependent on completion of Tests 1–2.
+* Do not allow a browser-readable cookie or Redux state to grant SAT access.
+* Do not make subscription purchase dependent on completion of Tests 1–2 when the commercial phase is implemented.
 * Do not overwrite newer code with an older version from a previous session.
+* Do not generate all 20 mocks before Mock 1 proves the production process.
+* Do not accept superficial numerical substitutions as mathematical originality.
+* Do not copy competitor or College Board content or assets.
+* Do not mark Stage 3 or a mock as fully verified without the relevant verification having actually occurred.
 
 ---
 
-## 18. Session handoff rule
+## 22. Session handoff rule
 
 At the end of each development session, update this document with:
 
