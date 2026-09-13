@@ -1,6 +1,6 @@
 # Question Generation Checkpoint — September 13, 2026
 
-**Purpose:** Preserve the exact question-generation implementation state through the completion of Batch L and the active Batch M production sequence so later work resumes from the next unfinished production checkpoint without repeating completed implementation or audit work.
+**Purpose:** Preserve the exact question-generation implementation state through the active Batch M production sequence so later work resumes from the next unfinished production checkpoint without repeating completed implementation or audit work.
 
 ## Taxonomy rule
 
@@ -10,7 +10,7 @@ The project uses **Batch A–M** as the single implementation taxonomy. “Phase
 
 **Stage 1 Blueprint → Stage 2 Draft → Stage 3 Independent QC Review → Canonical Storage → Existing SAT Engine**
 
-Question-generation work remains limited to generation, storage, validation, and figure rendering, with the specifically requested SAT Series B navigation shell recorded as a Batch M release-surface dependency.
+Question-generation work remains limited to generation, storage, validation, and figure rendering, with the requested SAT Series B navigation shell recorded as a Batch M release-surface dependency.
 
 ## Batch history and status
 
@@ -24,10 +24,10 @@ Question-generation work remains limited to generation, storage, validation, and
 **Status:** Implemented in the current R&W generation path.
 
 ### Batch D — R&W distractor, evidence map, and independent QC
-**Status:** Complete and live. The current R&W path uses misconception-oriented distractor architecture, internal evidence support, deterministic independent QC, and a passed-status delivery gate.
+**Status:** Complete and live.
 
 ### Batch E — Figure framework + rendering foundation
-**Status:** Complete and live. Compatibility corrections were deployed successfully in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
+**Status:** Complete and live.
 
 ### Batch F — Basic data visuals
 **Status:** Complete and live/verified by public Mock 3 spot checks.
@@ -36,79 +36,75 @@ Question-generation work remains limited to generation, storage, validation, and
 **Status:** Complete and live. Number lines remain deliberately deferred.
 
 ### Batch H — 3D solids + future multi-source architecture
-**Status:** Complete and publicly verified. `3d_solid` is structurally validated and rendered deterministically. `multi_source_table` remains future-only and is not live-enabled.
+**Status:** Complete and publicly verified. `3d_solid` is structurally validated and rendered deterministically. `multi_source_table` remains future-only.
 
 ### Batch I — Math integration + mathematical QC
 **Status:** Complete and live.
 
-The final live correction is commit `bdaecfb1e35dbfdc2279e62cdd2961d065f5916`.
-
 ### Batch J — Figure validation + originality/uniqueness
 **Status:** Complete and live.
-
-Final J runtime commit: `a27ffb1f5af4faaf7360b224e87ea1d652069bd8`.
 
 ### Batch K — Calibration corpus + assessment calibration
 **Status:** **COMPLETE / READY FOR PRIVATE ANCHOR POPULATION.**
 
-Implementation: `src/data/sat/mockContent/calibrationCorpus.js`. The public repository contains no official College Board anchor text.
-
 ### Batch L — Controlled end-to-end generation/QC/storage/adapter test
 **Status:** **COMPLETE / LIVE.**
 
-Batch L implemented and executed a deterministic controlled integration gate without generating the final production corpus. The gate exercises a controlled SAT/PSAT pair through Stage 1 construction, Stage 2 post-processing, figure validation and Math mathematical QC, Batch D independent R&W QC, mock-level/cross-mock QC, canonical schema adaptation, JSON storage round-trip validation, and integration with the existing SAT content-bank load path.
-
-The Render build completed successfully and is live. Batch L does **not** create or publish the final 20-mock production corpus.
+Batch L exercised a controlled SAT/PSAT pair through generation, post-processing, figure validation, Math QC, R&W independent QC, mock/cross-mock QC, canonical adaptation, JSON storage round-trip, and existing content-bank integration. It did not generate the final production corpus.
 
 ## Batch M — Production generation
 
-**Status:** **ACTIVE / SAT SERIES A MOCKS 1–10 ACCEPTED AND STORED.**
+**Status:** **ACTIVE / SAT SERIES A MOCKS 1–10 AND PSAT MOCKS 1–10 ACCEPTED AND STORED.**
 
 The exact production sequence is fixed and must not be reordered:
 
-1. **SAT Mocks — Series A: Tests 1–10**
-2. **PSAT Mocks: Tests 1–10**
-3. **SAT Mocks — Series B: Tests 11–20** under the new `/SATMocksSeriesB` navigation page
+1. **SAT Mocks — Series A: Tests 1–10** — accepted
+2. **PSAT Mocks: Tests 1–10** — accepted
+3. **SAT Mocks — Series B: Tests 11–20** — next
 4. **Final collective verification across the complete 20-mock corpus**
 
-Mocks are generated and accepted one at a time within that sequence. A mock must pass its generation, independent QC, figure/math/originality checks, mock-level checks, cross-mock checks against all previously accepted mocks, and canonical storage validation before the next mock begins.
+Mocks are generated and accepted one at a time. A mock must pass generation, independent QC, figure/math/originality checks, mock-level checks, cross-mock checks against all previously accepted mocks, canonical storage validation, and Render deployment acceptance before the next mock begins.
 
-### SAT Series A production checkpoint
+### Accepted production checkpoint — SAT Series A
 
-**Mocks 1–10 are now accepted and stored as canonical runtime production records.**
+**SAT Mocks 1–10 are accepted and stored as canonical runtime production records.** Mock 10 uses `SAT10` → `sat-series-a-mock-10`, variant `sat-series-a`, assessment number `10`, deterministic seed `1010`. Its production gate checked the complete accepted Series A baseline for R&W context/prompt reuse, Math application reuse, exact figure-data reuse, figure originality, figure quality, Math mathematical QC, schema integrity, 196-record count, and storage round-trip integrity.
 
-Mock 10 uses the established production identity/order:
+### Accepted production checkpoint — PSAT
 
-- test key: `SAT10`
-- test ID: `sat-series-a-mock-10`
-- variant: `sat-series-a`
+**PSAT Mocks 1–10 are accepted and stored as canonical runtime production records.**
+
+PSAT Mock 10 uses:
+
+- test key: `PSAT10`
+- test ID: `psat-mock-10`
+- variant: `psat-nmsqt`
 - assessment number: `10`
-- deterministic generation seed: `1010`
+- deterministic generation seed: `2010`
+- validated mock size: 196 records
+- storage mode: `canonical-runtime-records`
 
-Mock 10 was generated only after accepted Mocks 1–9. Its cross-mock gate compares against all nine accepted Series A mocks for R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and series-level figure originality. It also preserves the established figure-quality/Mathematical-QC path, canonical schema validation, 196-record count, and JSON storage round-trip validation.
+PSAT Mock 10 was generated only after accepted SAT1–SAT10 and PSAT1–PSAT9. Its production gate compares R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and figure originality against the complete prior accepted production baseline and preserves the established figure-quality, Math mathematical-QC, canonical-schema, 196-record, and storage round-trip gates.
 
-The accepted production mocks remain separate from the legacy public corpus. Mock 10 is **not exposed through the public website**.
+Implementation commits:
+- `781cb832d9984f2ab78ed29648cd2a0a92dcac94` — `Batch M: Add PSAT Mock 10 production gate`
+- `cbeeb1c6c20a756e10c184ae774fbf9293550d90` — `Batch M: Store accepted PSAT Mock 10`
 
-### Deployment acceptance
+**Render acceptance:** User-confirmed LIVE for PSAT10. This closes the PSAT10 production acceptance gate.
 
-Batch M Mock 10 implementation was deployed through Render AutoDeploy after the GitHub commit `42adbcd198a4028b39dcbc40c2291622bbe278ae` (`Batch M: Store accepted SAT Series A Mock 10`).
+The accepted Batch M production records remain separate from the legacy public corpus. They must not replace or be exposed through the legacy public corpus until the final corpus gate passes.
 
-Render deployment: `dep-daj6rteojv1c73eho9b0` — **LIVE**.
+### Current next production target
 
-The successful Render build is the acceptance gate for this production step.
+**SAT Series B Mock 11 (`SAT11`).**
 
-### Next production target
-
-**PSAT Mock 1 (`PSAT1`).**
-
-Do not begin PSAT Mock 1 until the accepted SAT Series A Mock 10 checkpoint is preserved. The PSAT production sequence must begin with the first PSAT mock and must preserve the same one-at-a-time generation, independent QC, cross-mock uniqueness/originality, canonical storage, and Render acceptance rules. Do not expose or replace the legacy public corpus with the Batch M production records.
+The next session must begin from this checkpoint and implement SAT11 under the established one-at-a-time production discipline. SAT11 must be compared against all 20 previously accepted mocks before acceptance.
 
 ## Production-generation gate
 
-Before production-volume generation advances, the Batch L end-to-end gate remains the hard integration prerequisite. After each accepted mock, the production corpus must remain recoverable without silently changing previously accepted mocks. After Mock 20, the final collective QC must cover uniqueness, originality, distributions, difficulty/adaptive balance, answer-key balance, mathematical correctness, figure/data integrity, schema/storage integrity, and runtime compatibility across the complete corpus.
+After each accepted mock, the production corpus must remain recoverable without silently changing previously accepted mocks. After SAT Series B Mock 20, the final collective QC must cover uniqueness, originality, distributions, difficulty/adaptive balance, answer-key balance, mathematical correctness, figure/data integrity, schema/storage integrity, and runtime compatibility across the complete production corpus.
 
 ## Closure decision
 
-**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–10 are accepted; the next production-generation target is PSAT Mock 1.**
+**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–10 and PSAT Mocks 1–10 are accepted. The next production-generation target is SAT Series B Mock 11 (`SAT11`).**
 
-Do not begin production-volume generation outside the controlled Batch M sequence. Do not replace the existing live corpus until the final 20-mock corpus gate has passed.
+Do not begin production outside the controlled Batch M sequence. Do not replace the existing live corpus until the final corpus gate has passed.
