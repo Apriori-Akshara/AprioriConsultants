@@ -160,6 +160,8 @@ A failed item may receive 2–3 correction attempts. Repeated failures on the sa
 
 Only `metadata.qc_status = "passed"` items are eligible for live delivery.
 
+The current Batch D implementation provides this R&W QC stage as a deterministic internal reviewer because the repository does not currently contain an external AI-generation/reviewer service. It does not weaken the delivery gate or introduce a new runtime dependency.
+
 ---
 
 ## 6. Calibration Corpus
@@ -198,6 +200,8 @@ Implement the dedicated R&W source-family, rhetorical, evidence, and cognitive-d
 ### D — Verbal distractor + evidence map + independent QC
 
 Implement misconception-based distractors, internal evidence maps, rationale support, and independent QC.
+
+**Completed in the current repository checkpoint:** the final Batch C R&W path now records Batch D distractor architecture and evidence maps, performs a fresh independent deterministic QC review, allows up to two correction/retry passes for Batch D-owned metadata defects, and blocks live return unless `metadata.qc_status = "passed"`.
 
 ### E — Figure framework + rendering foundation
 
@@ -273,6 +277,6 @@ At the beginning of the next session:
 6. Implement the next batch in A→M order, with deployment-safe checkpoints.
 7. Do not start Batch M until Batch L passes.
 
-**Current planning checkpoint:** The roadmap is approved. No implementation batch from A–M is recorded as completed by this document yet. The next implementation session should determine the actual repository state and then begin with the first unfinished batch, starting with A if no newer batch completion exists in git history.
+**Current planning checkpoint:** Batch C is provisionally passed based on implementation and public-site spot checks. Batch D is implemented and records the R&W distractor/evidence/QC gate in the final Batch C delivery path. The next implementation batch is **E — Figure framework + rendering foundation**. Do not begin Batch E until the Batch D verification gate is accepted.
 
 ---

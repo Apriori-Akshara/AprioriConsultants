@@ -1,16 +1,20 @@
+import { applyBatchDVerbalQC, assertBatchDLiveDeliveryReady } from './batchDVerbalQC';
+
 /**
  * Batch C — deterministic construction expansion for Reading & Writing.
  *
  * The dedicated construction layer supplies the rhetorical skeleton. This
  * layer adds mock-identity-seeded context to the stimulus itself so every
  * generated item has a substantively different construction across PSAT/SAT
- * mock pairs. It does not change answer keys or implement Batch D
- * distractor/QC logic.
+ * mock pairs. It does not change answer keys.
  *
  * IMPORTANT: stimulus variation is inserted BEFORE the final question stem.
  * The series quality gate fingerprints R&W passages by removing that final
  * stem, so variation placed after the stem does not count as passage
  * variation.
+ *
+ * Batch D wraps the completed Batch C item set with independent R&W QC before
+ * the item is returned to the existing SAT engine.
  */
 
 const SCIENCE_VARIATIONS = [
@@ -166,7 +170,7 @@ function varyRhetoricalSynthesisPrompt(question, mock, index) {
 
 export function varyVerbalConstruction(mock) {
   let variationIndex = 0;
-  return {
+  const variedMock = {
     ...mock,
     readingWriting: (mock.readingWriting || []).map((question) => {
       const index = variationIndex;
@@ -217,6 +221,9 @@ export function varyVerbalConstruction(mock) {
       };
     }),
   };
+
+  const qcMock = applyBatchDVerbalQC(variedMock, { maxRetries: 2 });
+  return assertBatchDLiveDeliveryReady(qcMock);
 }
 
 export default varyVerbalConstruction;
