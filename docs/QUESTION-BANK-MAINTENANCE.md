@@ -8,7 +8,7 @@ The human-readable mock files are the canonical editable source. Production JS/J
 
 Question correction workflow: identify mock + section + module + question + item_id; edit the canonical entry; validate; synchronize; run relevant QC; run cross-mock uniqueness checks; test runtime behavior when affected.
 
-QC checkpoint: Verbal/R&W independent QC begins in Batch D. Math/Quant independent mathematical QC begins in Batch I. Figure and originality validation was strengthened and closed in Batch J.
+QC checkpoint: Verbal/R&W independent QC begins in Batch D. Math/Quant independent mathematical QC begins in Batch I. Figure and originality validation was strengthened and closed in Batch J. Calibration infrastructure is established in Batch K.
 
 Approved sequence: A schema, B blueprint, C Verbal construction, D Verbal distractor/evidence/QC, E figure framework, F basic visuals, G 2D geometry, H 3D/future multi-source, I Math integration/QC, J figure/originality, K calibration, L end-to-end test, M 20-mock production and corpus QC.
 
@@ -22,26 +22,17 @@ The Math figure-quality path integrates deterministic mathematical QC and canoni
 
 **Status: COMPLETE / LIVE.**
 
-The final J runtime commit is `a27ffb1f5af4faaf7360b224e87ea1d652069bd8` — `Batch J: Strengthen figure originality and relationship QC`.
+Added and strengthened `src/data/sat/mockContent/figureOriginalityQC.js` and integrated it into the figure-quality path. J validates figure data shape, figure/question relationships, normalized construction fingerprints, exact figure-data fingerprints, and cross-mock exact-data reuse while preserving legitimate same-mock structural reuse.
 
-The J audit and fix strengthened `src/data/sat/mockContent/figureOriginalityQC.js` to:
-- validate chart labels/series widths and numeric chart data;
-- validate scatter-point structure and numeric coordinates;
-- validate table headers/rows and row widths;
-- validate coordinate-shape vertex structure and reject duplicate vertices;
-- independently require Math figures to be marked `question-essential`;
-- validate supported figure-family/domain relationships;
-- record a numeric-normalized figure structure fingerprint;
-- record an exact figure-data fingerprint;
-- record the combined originality fingerprint plus both component fingerprints;
-- provide a series-level exact-data duplication check across mocks;
-- preserve legitimate repeated structural figures within a single mock.
+## Batch K — Calibration corpus + assessment calibration
 
-The broader `mockContentQualityGate.js` remains the cross-mock question/prompt/construction/figure uniqueness layer. J adds figure-specific normalization and relationship validation rather than replacing that broader gate.
+**Status: IMPLEMENTED / READY FOR PRIVATE ANCHOR POPULATION.**
 
-**J closure decision:** no further J code changes are required unless a later K/L test demonstrates a regression specifically attributable to the J figure-validation/originality layer.
+Added `src/data/sat/mockContent/calibrationCorpus.js` as the private calibration-corpus adapter. It validates metadata-only calibration records, supports domain/difficulty anchor selection, summarizes corpus coverage, and provides assessment-oriented target profiles. Added `internal-only/calibration-corpus/README.md` and repository ignore rules so official/retired anchor text is never committed to the public repository.
 
-No final 20-mock production corpus or private calibration corpus is being created during J.
+The repository deliberately contains **no official College Board anchor text**. The adapter reads a local/private corpus through `SAT_CALIBRATION_CORPUS_DIR`; when that variable is absent, it returns an empty corpus and does not affect the live application. This is the correct copyright boundary for a public repository. Actual private anchor population is an operational input and is not fabricated by the implementation.
+
+No final 20-mock production corpus is created during K.
 
 ## Batch E — Figure framework + rendering foundation
 
@@ -71,7 +62,7 @@ The existing renderer behavior was preserved through `MathVisualStimulusCore`; n
 
 ## Remaining approved batches
 
-- **K — Calibration corpus + assessment calibration:** next / pending.
+- **K — Calibration corpus + assessment calibration:** implemented infrastructure; private anchor population remains an operational input.
 - **L — End-to-end generation/QC/storage/adapter test:** pending and is the hard gate before production-volume generation.
 - **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until Batch L passes.
 

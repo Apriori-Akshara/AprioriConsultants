@@ -1,6 +1,6 @@
 # Question Generation Checkpoint — September 13, 2026
 
-**Purpose:** Preserve the exact question-generation implementation state at the completion of Batch J so later work resumes from the next unfinished phase without repeating completed implementation or audit work.
+**Purpose:** Preserve the exact question-generation implementation state at the completion of Batch K so later work resumes from the next unfinished phase without repeating completed implementation or audit work.
 
 ## Current architecture
 
@@ -39,45 +39,33 @@ The existing SAT/adaptive engine remains the delivery engine. Question-generatio
 
 The final live deployment is commit `bdaecfb1e35bdbfdc2279e62cdd2961d065f5916`. Phase I includes strengthened Math figure contracts, deterministic mathematical QC, selected legacy figure canonicalization, deterministic construction checks, figure-integrity checks, nonnumeric legacy SPR normalization, cyclic answer placement for normalized responses, and rejection of deterministic mathematical inconsistencies.
 
-## Phase J — Figure validation + originality/uniqueness
-
+### J — Figure validation + originality/uniqueness
 **Status: COMPLETE / LIVE.**
 
-The Phase J audit identified that the existing originality layer was useful but too coarse in two places: it had only one normalized fingerprint, and its relationship checks were not independently explicit. The implementation was strengthened without changing the legitimate same-mock reuse rule.
+The final J runtime commit is `a27ffb1f5af4faaf7360b224e87ea1d652069bd8`. J strengthened figure-specific validation, relationship checks, structure fingerprints, exact figure-data fingerprints, and cross-mock exact-data duplication checks while preserving legitimate same-mock structural reuse.
 
-The final J runtime commit is:
+## Phase K — Calibration corpus + assessment calibration
 
-`a27ffb1f5af4faaf7360b224e87ea1d652069bd8`
+**Status: IMPLEMENTED / READY FOR PRIVATE ANCHOR POPULATION.**
 
-`Batch J: Strengthen figure originality and relationship QC`
+Batch K establishes the private calibration boundary without placing copyrighted official anchor content in the public repository.
 
-The final implementation now:
+The implementation is `src/data/sat/mockContent/calibrationCorpus.js`. It provides:
 
-1. validates chart labels/series widths and numeric chart data;
-2. validates scatter-point structure and numeric coordinates;
-3. validates table headers/rows and row widths;
-4. validates coordinate-shape vertex structure and rejects duplicate vertices;
-5. independently validates that Math figures are marked `question-essential`;
-6. independently validates figure-family/domain compatibility for the supported Math domains;
-7. records a **structure fingerprint** that normalizes numeric values for construction-level comparison;
-8. records an **exact data fingerprint** that preserves figure data values for exact cross-mock duplication detection;
-9. records the combined `figureOriginalityFingerprint` plus the two component fingerprints in question metadata;
-10. provides a series-level validation function that rejects exact figure-data reuse across different mocks while allowing different data within the same construction family;
-11. preserves legitimate repeated structural figures within a single mock — no same-mock duplicate-figure rejection was added.
+1. controlled calibration domains and difficulty bands;
+2. validation for metadata-only calibration records;
+3. local/private corpus loading through `SAT_CALIBRATION_CORPUS_DIR`;
+4. domain/difficulty anchor selection for future Stage 2 drafting;
+5. corpus coverage summaries;
+6. assessment-oriented target profiles for source family and cognitive demand.
 
-The existing broader mock-content quality gate continues to provide the cross-mock question/prompt/construction/figure uniqueness layer. Phase J strengthens the figure-specific normalization and relationship layer rather than replacing the broader gate.
+The repository now contains `internal-only/calibration-corpus/README.md` and `.gitignore` protection for private anchor files. Official/retired College Board anchor text is intentionally **not** committed here. When no private corpus directory is configured, the adapter returns an empty corpus and the live SAT application remains unchanged.
 
-### Phase J audit conclusion
+This is a deliberate implementation boundary: actual official/retired anchor files must be supplied in a private/local environment under an appropriate use basis. The repository does not fabricate or redistribute copyrighted calibration material.
 
-**No further Phase J code changes are required at this checkpoint.** The implementation satisfies the approved J objective while preserving legitimate reuse within a mock and keeping cross-mock originality stricter.
+### K calibration decision
 
-## Important distinction for later phases
-
-A renderer existing does not mean a production question family is already generated at production volume.
-
-A figure contract being validated does not mean that every figure family is currently emitted by `mathBankFactoryV2.js`.
-
-Phases I and J bridge and validate the currently integrated Math path. Later phases must continue to distinguish supported contracts/renderers from families actually emitted by the generator.
+The **K software/integration work is complete**. Private anchor population is an operational input, not a public-repository code change. The calibration adapter is ready for that input and does not block the repository from proceeding to the controlled end-to-end gate.
 
 ## Production-generation gate
 
@@ -85,7 +73,7 @@ No production-volume generation of the final 20 mocks begins before:
 
 - Batch I Math integration/QC passes; **COMPLETE**;
 - Batch J figure validation and originality/uniqueness passes; **COMPLETE**;
-- Batch K calibration passes; **PENDING**;
+- Batch K calibration infrastructure passes; **COMPLETE**;
 - Batch L end-to-end generation/QC/storage/adapter testing passes; **PENDING / HARD GATE**.
 
 Batch M remains hard-gated on Batch L.
@@ -102,14 +90,15 @@ Batch M remains hard-gated on Batch L.
 
 ## Batch J commit
 
-- `a27ffb1f5af4faaf7360b224e87ea1d652069bd8` — `Batch J: Strengthen figure originality and relationship QC` **(FINAL J RUNTIME COMMIT)**
+- `a27ffb1f5af4faaf7360b224e87ea1d652069bd8` — `Batch J: Strengthen figure originality and relationship QC`
+
+## Batch K commits
+
+- `0a91844d37c90e7fb539f21b544dea0da11d2b93` — `Batch K: Add private calibration corpus adapter`
+- `a5d756f414ed35b9275e8ae6724fc0d94f49dd4a` — `Batch K: Establish private calibration corpus boundary`
 
 ## Closure decision
 
-**Batch J is formally closed.** No further Phase J code changes are required unless a later K/L test demonstrates a regression specifically attributable to the Phase J figure-validation/originality layer.
-
-### Next action
-
-Resume at **Batch K — Calibration corpus + assessment calibration**.
+**Batch K software/integration implementation is complete.** No further Batch K code changes are required unless the private anchor population or Batch L exposes a concrete calibration defect. The next implementation phase is **Batch L — controlled end-to-end generation/QC/storage/adapter test**.
 
 Do not begin production-volume generation until Batch L passes its hard gate. Batch M remains blocked until L passes.
