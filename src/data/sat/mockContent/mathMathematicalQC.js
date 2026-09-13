@@ -28,7 +28,7 @@ function normalizeStudentResponse(question, targetIndex = 0) {
   if (question.questionType !== 'student-produced-response') return false;
   if (numeric(question.answer) !== null) return false;
   const correct = String(question.answer);
-  const choices = [correct, `${correct} + 1`, `${correct} − 1`, 'none of these'];
+  const choices = [correct, `${correct}+1`, `${correct}−1`, 'none'];
   const target = Math.max(0, Math.min(3, targetIndex));
   const rotated = choices.slice(1);
   rotated.splice(target, 0, correct);
@@ -125,17 +125,11 @@ export function validateMathQuestionMathematics(question) {
 
 export function validateMathBankMathematics(math) {
   if (!Array.isArray(math)) throw new Error('Math mathematical QC expected an array.');
-  const answerCounts = [0, 0, 0, 0];
-  math.forEach((question) => {
-    if (question?.section === 'math' && question.questionType === 'multiple-choice') {
-      const index = String(question.answer || '').charCodeAt(0) - 65;
-      if (index >= 0 && index < 4) answerCounts[index] += 1;
-    }
-  });
+  let normalizedCount = 0;
   math.forEach((question) => {
     if (question?.section === 'math' && question.questionType === 'student-produced-response' && numeric(question.answer) === null) {
-      const targetIndex = answerCounts.indexOf(Math.min(...answerCounts));
-      if (normalizeStudentResponse(question, targetIndex)) answerCounts[targetIndex] += 1;
+      const targetIndex = normalizedCount % 4;
+      if (normalizeStudentResponse(question, targetIndex)) normalizedCount += 1;
     }
     validateMathQuestionMathematics(question);
   });
