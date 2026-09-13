@@ -7,6 +7,7 @@
  */
 
 import { runBatchMFirstProductionGate } from './batchMFirstProductionGate';
+import { runBatchMSecondProductionGate } from './batchMSecondProductionGate';
 
 const FIRST_PRODUCTION_RESULT = runBatchMFirstProductionGate();
 
@@ -16,12 +17,21 @@ if (!FIRST_PRODUCTION_RESULT?.passed || !FIRST_PRODUCTION_RESULT?.productionMock
 
 export const SAT_SERIES_A_MOCK_01_PRODUCTION = FIRST_PRODUCTION_RESULT.productionMock;
 
+const SECOND_PRODUCTION_RESULT = runBatchMSecondProductionGate(SAT_SERIES_A_MOCK_01_PRODUCTION);
+
+if (!SECOND_PRODUCTION_RESULT?.passed || !SECOND_PRODUCTION_RESULT?.productionMock) {
+  throw new Error('Batch M SAT2: accepted production mock was not returned by the production gate');
+}
+
+export const SAT_SERIES_A_MOCK_02_PRODUCTION = SECOND_PRODUCTION_RESULT.productionMock;
+
 export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
-  testKey: FIRST_PRODUCTION_RESULT.testKey,
-  testId: FIRST_PRODUCTION_RESULT.testId,
-  questionCount: FIRST_PRODUCTION_RESULT.questionCount,
-  status: FIRST_PRODUCTION_RESULT.status,
+  acceptedTestKeys: [FIRST_PRODUCTION_RESULT.testKey, SECOND_PRODUCTION_RESULT.testKey],
+  acceptedTestIds: [FIRST_PRODUCTION_RESULT.testId, SECOND_PRODUCTION_RESULT.testId],
+  questionCounts: [FIRST_PRODUCTION_RESULT.questionCount, SECOND_PRODUCTION_RESULT.questionCount],
+  status: SECOND_PRODUCTION_RESULT.status,
   storageMode: 'canonical-runtime-records',
+  nextTestKey: 'SAT3',
 });
 
-export default SAT_SERIES_A_MOCK_01_PRODUCTION;
+export default SAT_SERIES_A_MOCK_02_PRODUCTION;
