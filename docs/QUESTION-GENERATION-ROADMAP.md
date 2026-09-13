@@ -201,7 +201,7 @@ Implement the dedicated R&W source-family, rhetorical, evidence, and cognitive-d
 
 Implement misconception-based distractors, internal evidence maps, rationale support, and independent QC.
 
-**Completed in the current repository checkpoint:** the final Batch C R&W path now records Batch D distractor architecture and evidence maps, performs a fresh independent deterministic QC review, allows up to two correction/retry passes for Batch D-owned metadata defects, and blocks live return unless `metadata.qc_status = "passed"`.
+**Completed and verified at the current repository checkpoint:** the Batch C R&W path records Batch D distractor architecture and evidence maps, performs a fresh independent deterministic QC review, allows up to two correction/retry passes for Batch D-owned metadata defects, blocks live return unless `metadata.qc_status = "passed"`, and has passed public-site functional spot checks.
 
 ### E — Figure framework + rendering foundation
 
@@ -277,6 +277,6 @@ At the beginning of the next session:
 6. Implement the next batch in A→M order, with deployment-safe checkpoints.
 7. Do not start Batch M until Batch L passes.
 
-**Current planning checkpoint:** Batch C is provisionally passed based on implementation and public-site spot checks. Batch D is implemented and records the R&W distractor/evidence/QC gate in the final Batch C delivery path. The next implementation batch is **E — Figure framework + rendering foundation**. Do not begin Batch E until the Batch D verification gate is accepted.
+**Current planning checkpoint:** Batch D is fully verified based on implementation and public-site functional spot checks. The current implementation has established the structured figure registry/rendering foundation for **Batch E**. Do not begin Batch F until the Batch E verification gate is accepted.
 
 ---
