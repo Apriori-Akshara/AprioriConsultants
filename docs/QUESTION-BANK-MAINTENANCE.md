@@ -8,7 +8,7 @@ The human-readable mock files are the canonical editable source. Production JS/J
 
 Question correction workflow: identify mock + section + module + question + item_id; edit the canonical entry; validate; synchronize; run relevant QC; run cross-mock uniqueness checks; test runtime behavior when affected.
 
-QC checkpoint: Verbal/R&W independent QC begins in Batch D. Math/Quant independent mathematical QC begins in Batch I. Figure and originality validation is strengthened in Batch J.
+QC checkpoint: Verbal/R&W independent QC begins in Batch D. Math/Quant independent mathematical QC begins in Batch I. Figure and originality validation was strengthened and closed in Batch J.
 
 Approved sequence: A schema, B blueprint, C Verbal construction, D Verbal distractor/evidence/QC, E figure framework, F basic visuals, G 2D geometry, H 3D/future multi-source, I Math integration/QC, J figure/originality, K calibration, L end-to-end test, M 20-mock production and corpus QC.
 
@@ -20,20 +20,26 @@ The Math figure-quality path integrates deterministic mathematical QC and canoni
 
 ## Batch J — Figure validation + originality/uniqueness
 
-**Status: IN PROGRESS / CURRENT CHECKPOINT.**
+**Status: COMPLETE / LIVE.**
 
-Added `src/data/sat/mockContent/figureOriginalityQC.js` and integrated it into `figureQualityGate.js`.
+The final J runtime commit is `a27ffb1f5af4faaf7360b224e87ea1d652069bd8` — `Batch J: Strengthen figure originality and relationship QC`.
 
-The J foundation now:
-- validates chart labels/series widths and numeric chart data;
-- validates scatter-point structure and numeric coordinates;
-- validates table headers/rows and row widths;
-- rejects duplicate vertices in coordinate shapes;
-- generates a deterministic normalized figure originality fingerprint;
-- stores that fingerprint as `metadata.figureOriginalityFingerprint` for Math figures;
-- preserves legitimate repeated figure structures within a single mock.
+The J audit and fix strengthened `src/data/sat/mockContent/figureOriginalityQC.js` to:
+- validate chart labels/series widths and numeric chart data;
+- validate scatter-point structure and numeric coordinates;
+- validate table headers/rows and row widths;
+- validate coordinate-shape vertex structure and reject duplicate vertices;
+- independently require Math figures to be marked `question-essential`;
+- validate supported figure-family/domain relationships;
+- record a numeric-normalized figure structure fingerprint;
+- record an exact figure-data fingerprint;
+- record the combined originality fingerprint plus both component fingerprints;
+- provide a series-level exact-data duplication check across mocks;
+- preserve legitimate repeated structural figures within a single mock.
 
-The existing `mockContentQualityGate.js` already performs series-level exact Math figure-data uniqueness across mocks, alongside question/prompt/construction/originality checks. The remaining J work is to strengthen figure-specific normalization and figure/question relationship validation without incorrectly rejecting legitimate reuse within a mock.
+The broader `mockContentQualityGate.js` remains the cross-mock question/prompt/construction/figure uniqueness layer. J adds figure-specific normalization and relationship validation rather than replacing that broader gate.
+
+**J closure decision:** no further J code changes are required unless a later K/L test demonstrates a regression specifically attributable to the J figure-validation/originality layer.
 
 No final 20-mock production corpus or private calibration corpus is being created during J.
 
@@ -65,8 +71,7 @@ The existing renderer behavior was preserved through `MathVisualStimulusCore`; n
 
 ## Remaining approved batches
 
-- **J — Figure validation + originality/uniqueness:** in progress as described above.
-- **K — Calibration corpus + assessment calibration:** pending.
+- **K — Calibration corpus + assessment calibration:** next / pending.
 - **L — End-to-end generation/QC/storage/adapter test:** pending and is the hard gate before production-volume generation.
 - **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until Batch L passes.
 
