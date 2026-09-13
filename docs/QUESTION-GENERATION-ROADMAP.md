@@ -220,13 +220,17 @@ Implement bar charts, line charts, scatter plots, and tables.
 
 Implement right triangles, general triangles, circles, parabolas, linear-function graphs, and coordinate shapes.
 
-**Status: IMPLEMENTED / CURRENT CHECKPOINT.** The Batch G implementation extends the existing figure registry and quality gate and connects all six approved Phase G families to the existing `MathVisualStimulus` rendering path. Number lines are intentionally not part of this implementation. No new visualization library or parallel renderer was introduced.
+**Status: COMPLETE and live.** The Batch G implementation extends the existing figure registry and quality gate and connects all six approved Phase G families to the existing `MathVisualStimulus` rendering path. Number lines are intentionally not part of this implementation.
 
 ### H — 3D + future multi-source architecture
 
 Implement 3D solids and reserve the extensible multi-source table architecture.
 
-**Pending.**
+**Status: IMPLEMENTED / CURRENT CHECKPOINT.** The `3d_solid` contract is validated in the shared figure registry and rendered deterministically through the shared Math visual entry point. The reserved `multi_source_table` contract is structurally validated but intentionally remains future-only and is not rendered or enabled for live delivery.
+
+The existing Math visual renderer is preserved through `MathVisualStimulusCore`, with the new `ThreeDSolidFigure` component handling 3D solids. Supported 3D solid families include rectangular prisms/cuboids, cubes, cylinders, spheres, and cones.
+
+No production 3D corpus is generated during Batch H. Batch I will integrate Math generation and independent mathematical QC; Batch J will strengthen figure validation and originality/uniqueness.
 
 ### I — Math integration + mathematical QC
 
@@ -294,10 +298,6 @@ At the beginning of the next session:
 6. Implement the next batch in A→M order, with deployment-safe checkpoints.
 7. Do not start Batch M until Batch L passes.
 
-**Previous planning checkpoint:** Batch D was fully verified based on implementation and public-site functional spot checks, and Batch E established the structured figure registry/rendering foundation.
+**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = COMPLETE and LIVE. Batch H = IMPLEMENTED/CURRENT.** Batch F provides structured support and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`. Batch G extends the same architecture to `right_triangle`, `general_triangle`, `circle`, `parabola`, `linear_function_graph`, and `coordinate_shape`, while retaining the legacy figure formats. Batch H adds deterministic `3d_solid` rendering and reserves validated `multi_source_table` data structures for future use. Number-line rendering remains deferred.
 
-**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = IMPLEMENTED/CURRENT.** Batch F provides structured support and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`. Batch G extends the same architecture to `right_triangle`, `general_triangle`, `circle`, `parabola`, `linear_function_graph`, and `coordinate_shape`, while retaining the legacy figure formats. Number-line rendering remains deferred.
-
-**Remaining:** Batch H, I, J, K, L, and M are pending. Batch M remains hard-gated on Batch L. Do not create the 20 final production mocks or the calibration corpus during Batch G.
-
----
+**Remaining:** Batch I, J, K, L, and M are pending. Batch M remains hard-gated on Batch L. Do not create the 20 final production mocks or the calibration corpus during Batch H.
