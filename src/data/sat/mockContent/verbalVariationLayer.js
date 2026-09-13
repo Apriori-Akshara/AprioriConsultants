@@ -2,9 +2,15 @@
  * Batch C — deterministic construction expansion for Reading & Writing.
  *
  * The dedicated construction layer supplies the rhetorical skeleton. This
- * layer adds mock-identity-seeded context to that skeleton so every generated
- * item has a substantively different construction across PSAT/SAT mock pairs.
- * It does not change answer keys or implement Batch D distractor/QC logic.
+ * layer adds mock-identity-seeded context to the stimulus itself so every
+ * generated item has a substantively different construction across PSAT/SAT
+ * mock pairs. It does not change answer keys or implement Batch D
+ * distractor/QC logic.
+ *
+ * IMPORTANT: stimulus variation is inserted BEFORE the final question stem.
+ * The series quality gate fingerprints R&W passages by removing that final
+ * stem, so variation placed after the stem does not count as passage
+ * variation.
  */
 
 const SCIENCE_VARIATIONS = [
@@ -107,9 +113,7 @@ function topicFor(question, index) {
 }
 
 function sourceVariation(question, index) {
-  const family = String(
-    question?.metadata?.sourceFamily || ''
-  );
+  const family = String(question?.metadata?.sourceFamily || '');
   if (family === 'science') return choose(SCIENCE_VARIATIONS, index);
   if (family === 'history-social-science') return choose(HISTORY_VARIATIONS, index);
   if (family === 'humanities') return choose(HUMANITIES_VARIATIONS, index);
@@ -120,6 +124,15 @@ function constructionContext(question, mock, index) {
   const topic = topicFor(question, index);
   const values = constructionNumbers(mock, index);
   return `The analysis of ${topic} drew on ${values.examples} examples from ${values.settings} settings over ${values.periods} observation periods.`;
+}
+
+function insertIntoStimulus(prompt, addition) {
+  const text = String(prompt || '').trim();
+  const parts = text.split('\n\n');
+  if (parts.length < 2) return `${addition} ${text}`;
+  const questionStem = parts.pop();
+  const stimulus = parts.join('\n\n');
+  return `${stimulus} ${addition}\n\n${questionStem}`;
 }
 
 function varyGrammarPrompt(question, mock, index) {
@@ -134,25 +147,21 @@ function varyGrammarPrompt(question, mock, index) {
 }
 
 function varyWordsInContextPrompt(question, mock, index) {
-  return `${String(question.prompt || '')}\n\n${constructionContext(question, mock, index)}`;
+  return insertIntoStimulus(question.prompt, constructionContext(question, mock, index));
 }
 
 function varyLongFormPrompt(question, mock, index) {
   const prompt = String(question.prompt || '');
-  const separator = '\n\n';
-  const parts = prompt.split(separator);
   const variation = sourceVariation(question, index);
   const context = constructionContext(question, mock, index);
-  if (parts.length < 2) {
-    return `${variation} ${context}\n\n${prompt}`;
-  }
-  const questionStem = parts.pop();
-  const passage = parts.join(separator);
-  return `${passage} ${variation} ${context}\n\n${questionStem}`;
+  return insertIntoStimulus(prompt, `${variation} ${context}`);
 }
 
 function varyRhetoricalSynthesisPrompt(question, mock, index) {
-  return `${String(question.prompt || '')}\n\n${constructionContext(question, mock, index)} The comparison was reviewed again so that the result could be stated without dropping its important qualification.`;
+  return insertIntoStimulus(
+    question.prompt,
+    `${constructionContext(question, mock, index)} The comparison was reviewed again so that the result could be stated without dropping its important qualification.`
+  );
 }
 
 export function varyVerbalConstruction(mock) {
