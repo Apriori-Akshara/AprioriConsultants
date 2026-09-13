@@ -2,7 +2,9 @@ import { validateStructuredFigure } from './figureRegistry';
 
 const ALLOWED = new Set([
   'line', 'line_chart', 'scatter', 'scatter_plot', 'bar_chart', 'table',
-  'quadratic', 'parabola', 'geometry',
+  'quadratic', 'parabola', 'geometry', 'number_line',
+  'right_triangle', 'general_triangle', 'circle', 'linear_function_graph',
+  'coordinate_shape',
 ]);
 
 function stable(value) {
@@ -29,10 +31,15 @@ function validateMockFigures(mock) {
     if (question.section !== 'math') throw new Error(`Figure assigned outside Math: ${question.questionId}`);
     if (!ALLOWED.has(figure.type)) throw new Error(`Unsupported figure type ${figure.type}: ${question.questionId}`);
     if (question.metadata?.figurePurpose !== 'question-essential') throw new Error(`Math figure is not marked question-essential: ${question.questionId}`);
-    if (question.domain === 'Geometry and Trigonometry' && !['geometry', 'table'].includes(figure.type)) throw new Error(`Geometry question has mismatched figure: ${question.questionId}`);
-    if (question.domain === 'Problem-Solving and Data Analysis' && !['scatter', 'scatter_plot', 'line', 'line_chart', 'bar_chart', 'table'].includes(figure.type)) throw new Error(`Data-analysis question has mismatched figure: ${question.questionId}`);
-    if (question.domain === 'Advanced Math' && !['quadratic', 'parabola', 'line', 'line_chart', 'bar_chart', 'table'].includes(figure.type)) throw new Error(`Advanced Math question has mismatched figure: ${question.questionId}`);
-    if (question.domain === 'Algebra' && !['line', 'line_chart', 'bar_chart', 'table'].includes(figure.type)) throw new Error(`Algebra question has mismatched figure: ${question.questionId}`);
+
+    const geometryTypes = ['geometry', 'table', 'right_triangle', 'general_triangle', 'circle', 'coordinate_shape', 'number_line'];
+    const dataTypes = ['scatter', 'scatter_plot', 'line', 'line_chart', 'bar_chart', 'table'];
+    const advancedTypes = ['quadratic', 'parabola', 'line', 'line_chart', 'bar_chart', 'table', 'coordinate_shape'];
+    const algebraTypes = ['line', 'line_chart', 'bar_chart', 'table', 'coordinate_shape'];
+    if (question.domain === 'Geometry and Trigonometry' && !geometryTypes.includes(figure.type)) throw new Error(`Geometry question has mismatched figure: ${question.questionId}`);
+    if (question.domain === 'Problem-Solving and Data Analysis' && !dataTypes.includes(figure.type)) throw new Error(`Data-analysis question has mismatched figure: ${question.questionId}`);
+    if (question.domain === 'Advanced Math' && !advancedTypes.includes(figure.type)) throw new Error(`Advanced Math question has mismatched figure: ${question.questionId}`);
+    if (question.domain === 'Algebra' && !algebraTypes.includes(figure.type)) throw new Error(`Algebra question has mismatched figure: ${question.questionId}`);
     return { ...question, figure };
   };
 
