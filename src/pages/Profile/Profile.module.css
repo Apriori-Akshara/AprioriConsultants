@@ -19,7 +19,7 @@
 .statCard small { margin-top:.3rem; font-size:.7rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .contentGrid { display:grid; grid-template-columns:minmax(0,2.1fr) minmax(300px,.9fr); gap:1.4rem; }
 .mainColumn,.sideColumn { display:flex; flex-direction:column; gap:1.2rem; }
-.sideColumn { padding-top:2.95rem; }
+.sideColumn { padding-top:3.15rem; }
 .sectionHeading { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:.1rem; }
 .sectionLabel { color:#6b7c91; }
 .sectionHeading h2 { margin:.35rem 0 0; color:#1b416f; font-size:1.4rem; }
