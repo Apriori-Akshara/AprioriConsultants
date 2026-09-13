@@ -51,18 +51,21 @@ export default function Courses() {
             <span className={styles.cardAction}>Explore Advanced →</span>
           </Link>
 
-          <Link href='/SATMocks' className={`${styles.courseBox} ${styles.mockBox}`}>
+          <div className={`${styles.courseBox} ${styles.mockBox}`}>
             <span className={styles.iconBadge}>
               <FaClipboardCheck className={styles.icon} />
             </span>
             <span className={styles.cardKicker}>TEST DAY PRACTICE</span>
-            <h2 className={styles.boxTitle}>SAT Mock Tests</h2>
+            <h2 className={styles.boxTitle}>Mock Tests</h2>
             <p className={styles.boxDesc}>
-              Take full Digital SAT-style mock tests, review performance, and
-              build confidence under realistic test conditions.
+              Choose dedicated PSAT/NMSQT or Digital SAT mock tests and continue
+              through the same validated adaptive test experience.
             </p>
-            <span className={styles.cardAction}>Go to Mock Tests →</span>
-          </Link>
+            <div className={styles.mockButtons}>
+              <Link href='/PSATMocks' className={styles.mockButton}>PSAT Mock Tests</Link>
+              <Link href='/SATMocks' className={styles.mockButton}>SAT Mock Tests</Link>
+            </div>
+          </div>
         </div>
 
         {user?.admin && (
