@@ -22,37 +22,53 @@ Batch E established the structured figure registry/normalization and shared Math
 
 ## Batch F — Basic Data Visuals
 
-**Status: IMPLEMENTED / CURRENT CHECKPOINT.**
+**Status: COMPLETE.**
 
-Batch F extends the Batch E architecture for four approved basic data-visual families:
+Batch F established structured support and shared rendering for:
 
 - `bar_chart`
 - `line_chart`
 - `scatter_plot`
 - `table`
 
-The structured figure registry now validates required fields, numeric values, series lengths, table column consistency, and optional axis/trend metadata. The existing legacy `line`, `scatter`, `quadratic`, and `geometry` figure formats remain supported.
-
-The existing `MathVisualStimulus` rendering path now renders the four canonical Phase F types directly from their structured data. Tables use semantic HTML table markup for accessibility. No AI-drawn or opaque production images were introduced.
-
-The Math figure quality gate accepts the Phase F types where appropriate to the existing Math domains while preserving the existing `question-essential` and R&W exclusion checks.
+The structured registry validates required fields, numeric values, series lengths, table column consistency, and optional axis/trend metadata. Existing legacy `line`, `scatter`, `quadratic`, and `geometry` formats remain supported. The user has confirmed that Mock 3 visuals render correctly in spot checks; exhaustive manual visual QC is not required at this checkpoint.
 
 No authentication, database, access-control, subscription/payment, dashboard/navigation, deployment configuration, or unrelated API/Redux work was changed for Batch F.
 
+## Batch G — 2D geometry/math visuals
+
+**Status: IMPLEMENTED / CURRENT CHECKPOINT.**
+
+Batch G extends the Batch E architecture with structured validation and shared rendering for:
+
+- `right_triangle`
+- `general_triangle`
+- `circle`
+- `parabola`
+- `linear_function_graph`
+- `coordinate_shape`
+
+The registry validates the required geometry/math parameters and basic internal consistency, including positive dimensions, triangle inequality/angle constraints where fully specified, valid ranges, and numeric coordinate pairs. The existing Math figure quality gate now accepts the six Phase G families only within appropriate Math domains. The shared `MathVisualStimulus` renders the six canonical types directly from their structured parameters.
+
+Number lines remain deferred and were not added to the Batch G runtime gate. 3D solids and future multi-source tables remain Batch H work.
+
+Legacy figure formats remain supported. No new visualization library, AI-drawn production asset, parallel renderer, or unrelated application subsystem was introduced.
+
 ## Remaining approved batches
 
-- **G — 2D geometry/math visuals:** pending. Do not implement yet.
-- **H — 3D + future multi-source architecture:** pending. Do not implement yet.
+- **H — 3D + future multi-source architecture:** pending.
 - **I — Math integration + mathematical QC:** pending.
 - **J — Figure validation + originality/uniqueness:** pending.
 - **K — Calibration corpus + assessment calibration:** pending.
 - **L — End-to-end generation/QC/storage/adapter test:** pending and is the hard gate before production-volume generation.
 - **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until Batch L passes.
 
-The 20 final production mocks and private calibration corpus are not being created by Batch F.
+The 20 final production mocks and private calibration corpus are not being created by Batch G.
 
-## Batch F verification checkpoint
+## Batch G implementation verification checkpoint
 
-Relevant source files were inspected before implementation: `src/data/sat/questionSchema.js`, `src/data/sat/mockContent/figureRegistry.js`, `src/data/sat/mockContent/figureQualityGate.js`, `src/data/sat/mockContent/mathBankFactoryV2.js`, and `src/components/sat/MathVisualStimulus.js`.
+Relevant source files were inspected before implementation: `src/data/sat/questionSchema.js`, `src/data/sat/mockContent/figureRegistry.js`, `src/data/sat/mockContent/figureQualityGate.js`, and `src/components/sat/MathVisualStimulus.js`. Existing figure formats and the shared renderer were preserved rather than replaced.
 
-The existing Math bank continues to use its legacy figure formats, so Batch F adds canonical support without rewriting existing mock content. Final production build/runtime verification is delegated to the controlled Render deployment triggered by the main-branch commits; public student verification remains limited to affected behavior after deployment.
+The current implementation remains limited to question generation/storage/rendering scope. Authentication, database, access control, payment/subscription, dashboard/navigation, deployment configuration, and unrelated Redux/API code were not changed.
+
+Final build/runtime verification is delegated to the controlled deployment triggered by the main-branch commits; public student verification should remain limited to affected visual behavior after deployment.
