@@ -31,21 +31,25 @@ A failed mock is corrected or regenerated before the sequence advances. A failed
 
 ## Current production checkpoint
 
-**SAT Series A Mocks 1–6 are accepted and stored as canonical runtime production records.**
+**SAT Series A Mocks 1–10 are accepted and stored as canonical runtime production records.**
 
-Mock 5 was accepted after cross-mock comparison against the complete accepted Series A baseline of Mocks 1–4. Mock 6 was then generated only after Mocks 1–5 were accepted and was checked against all five earlier mocks for R&W context/prompt uniqueness, Math application uniqueness, figure-data uniqueness, and series-level figure originality, together with the established figure-quality/Math mathematical QC, canonical schema, and storage round-trip gates.
+Mock 10 was accepted only after Mocks 1–9 were accepted and was checked against the complete accepted Series A baseline for R&W context/prompt uniqueness, Math application uniqueness, exact figure-data uniqueness, and series-level figure originality, together with the established figure-quality/Math mathematical QC, canonical schema, 196-record count, and storage round-trip gates.
 
-Mock 6 uses:
+Mock 10 uses:
 
-- test key: `SAT6`
-- test ID: `sat-series-a-mock-06`
+- test key: `SAT10`
+- test ID: `sat-series-a-mock-10`
 - variant: `sat-series-a`
-- assessment number: `6`
-- deterministic seed: `1006`
+- assessment number: `10`
+- deterministic seed: `1010`
 
-**Next production target: SAT Series A Mock 7 (`SAT7` → `sat-series-a-mock-07`).**
+The accepted production mocks remain separate from the legacy public corpus. Mock 10 is not exposed publicly.
 
-The accepted production mocks remain separate from the legacy public corpus. Mock 6 is not exposed publicly.
+## Next production target
+
+**PSAT Mock 1 (`PSAT1`).**
+
+PSAT production begins only after the SAT Series A Mock 10 checkpoint is preserved. PSAT Mock 1 must pass the same one-at-a-time production discipline: generation, independent QC, figure/math/originality validation, mock-level checks, cross-mock comparison against all previously accepted production mocks where applicable, canonical storage, and Render deployment acceptance before PSAT Mock 2 begins.
 
 ## Final corpus gate
 
@@ -76,4 +80,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–6 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is SAT Series A Mock 7.**
+**Batch M is active. SAT Series A Mocks 1–10 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is PSAT Mock 1.**
