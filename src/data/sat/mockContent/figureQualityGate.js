@@ -1,3 +1,5 @@
+import { validateStructuredFigure } from './figureRegistry';
+
 const ALLOWED = new Set(["line", "scatter", "quadratic", "geometry"]);
 
 function stable(value) {
@@ -14,6 +16,8 @@ function validateMockFigures(mock) {
     if (!question.figure) return question;
     const visualVariant = String(question.questionId || "question").replace(/[^a-zA-Z0-9_-]/g, "-");
     const figure = { ...question.figure, visualVariant };
+    const structural = validateStructuredFigure(figure);
+    if (!structural.valid) throw new Error(`Invalid structured Math figure ${question.questionId}: ${structural.errors.join(' ')}`);
     const signature = stable(figure);
     if (seen.has(signature)) throw new Error(`Duplicate Math figure detected after visual-variant normalization: ${question.questionId}`);
     seen.add(signature);
