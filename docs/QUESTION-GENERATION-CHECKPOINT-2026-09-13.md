@@ -62,7 +62,7 @@ The Render build completed successfully and is live. Batch L does **not** create
 
 ## Batch M — Production generation
 
-**Status:** **ACTIVE / SAT SERIES A MOCK 5 ACCEPTED AND STORED.**
+**Status:** **ACTIVE / SAT SERIES A MOCK 6 ACCEPTED AND STORED.**
 
 The exact production sequence is fixed and must not be reordered:
 
@@ -75,33 +75,33 @@ Mocks are generated and accepted one at a time within that sequence. A mock must
 
 ### SAT Series A production checkpoint
 
-**Mocks 1–5 are now accepted and stored as canonical runtime production records.**
+**Mocks 1–6 are now accepted and stored as canonical runtime production records.**
 
-Mock 5 uses the established production identity/order:
+Mock 6 uses the established production identity/order:
 
-- test key: `SAT5`
-- test ID: `sat-series-a-mock-05`
+- test key: `SAT6`
+- test ID: `sat-series-a-mock-06`
 - variant: `sat-series-a`
-- assessment number: `5`
-- deterministic generation seed: `1005`
+- assessment number: `6`
+- deterministic generation seed: `1006`
 
-Mock 5 was generated only after accepted Mocks 1–4. Its cross-mock gate compares against all four accepted Series A mocks for R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and series-level figure originality. It also preserves the established figure-quality/Mathematical-QC path, canonical schema validation, 196-record count, and JSON storage round-trip validation.
+Mock 6 was generated only after accepted Mocks 1–5. Its cross-mock gate compares against all five accepted Series A mocks for R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and series-level figure originality. It also preserves the established figure-quality/Mathematical-QC path, canonical schema validation, 196-record count, and JSON storage round-trip validation.
 
-The accepted production mocks remain separate from the legacy public corpus. Mock 5 is **not exposed through the public website**.
+The accepted production mocks remain separate from the legacy public corpus. Mock 6 is **not exposed through the public website**.
 
 ### Deployment acceptance
 
-Batch M Mock 5 implementation was deployed through Render AutoDeploy after the GitHub commit `4c11789c115eabd5d79773febbb29c781e82ffe3` (`Batch M: Store accepted SAT Series A Mock 5`).
+Batch M Mock 6 implementation was deployed through Render AutoDeploy after the GitHub commit `aa4ea958c4973e8e93ca0b8e30f40b5174f4f822` (`Batch M: Store accepted SAT Series A Mock 6`).
 
-Render deployment: `dep-daj677hnb5bc73dbil30` — **LIVE**.
+Render deployment: `dep-daj6kd9nb5bc73dbs1q0` — **LIVE**.
 
 The successful Render build is the acceptance gate for this production step.
 
 ### Next production target
 
-**SAT Series A Mock 6 (`SAT6` → `sat-series-a-mock-06`).**
+**SAT Series A Mock 7 (`SAT7` → `sat-series-a-mock-07`).**
 
-Do not begin Mock 6 until the accepted Mock 5 checkpoint is preserved. Do not expose or replace the legacy public corpus with the Batch M production records.
+Do not begin Mock 7 until the accepted Mock 6 checkpoint is preserved. Do not expose or replace the legacy public corpus with the Batch M production records.
 
 ## Production-generation gate
 
@@ -109,6 +109,6 @@ Before production-volume generation advances, the Batch L end-to-end gate remain
 
 ## Closure decision
 
-**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–5 are accepted; the next production-generation target is SAT Series A Mock 6.**
+**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–6 are accepted; the next production-generation target is SAT Series A Mock 7.**
 
 Do not begin production-volume generation outside the controlled Batch M sequence. Do not replace the existing live corpus until the final 20-mock corpus gate has passed.
