@@ -27,13 +27,34 @@ function buildStage1Mock({ testId, variant, seed, assessmentNumber }) {
   };
 }
 
+function canonicalizeForStorage(record) {
+  const isMath = record.section === 'math';
+  const figureType = record.figure?.type;
+  const stimulusType = isMath
+    ? (['bar_chart', 'line_chart', 'scatter_plot', 'table'].includes(figureType)
+      ? 'chart'
+      : figureType
+        ? 'geometry-diagram'
+        : 'equation')
+    : record.stimulusType;
+
+  return {
+    ...record,
+    difficultyBand: isMath
+      ? (record.assessmentVariant === 'psat-nmsqt' ? 'mock-psat-elevated' : 'mock-sat-elevated')
+      : record.difficultyBand,
+    stimulusType,
+  };
+}
+
 function assertQuestionSchema(mock, label) {
   const records = [...(mock.readingWriting || []), ...(mock.math || [])];
   if (records.length !== 196) {
     throw new Error(`Batch L ${label}: expected 196 generated records, found ${records.length}`);
   }
 
-  for (const record of records) {
+  const canonicalRecords = records.map(canonicalizeForStorage);
+  for (const record of canonicalRecords) {
     const result = validateSatQuestion(record);
     if (!result.valid) {
       throw new Error(
@@ -42,7 +63,7 @@ function assertQuestionSchema(mock, label) {
     }
   }
 
-  return records;
+  return canonicalRecords;
 }
 
 function roundTripStorage(records, label) {
@@ -79,9 +100,6 @@ function runControlledMock({ testId, variant, seed, assessmentNumber, label }) {
   // current production assembly path.
   const stage2 = prepareStage2Mock(stage1);
 
-  // Figure validation + independent Math mathematical QC.
-  // The caller supplies both assessment variants so the shared figure gate is
-  // exercised exactly as it is in the production assembly path.
   return { stage2, label };
 }
 
@@ -101,12 +119,15 @@ export function runBatchLIntegrationGate() {
     label: 'SAT',
   }).stage2;
 
+  // Figure validation includes deterministic Math mathematical QC and figure
+  // originality checks. It is intentionally run before the final R&W QC layer,
+  // matching the existing production assembly order.
   const figured = validateMockFigureQuality(psat, sat);
   const finalPsat = varyVerbalConstruction(figured.psat);
   const finalSat = varyVerbalConstruction(figured.sat);
 
-  // Stage 3 independent R&W QC is executed by varyVerbalConstruction; the
-  // function throws if any R&W item fails the live-delivery gate.
+  // Stage 3 independent R&W QC is executed by varyVerbalConstruction; it throws
+  // if any R&W item fails the live-delivery gate.
   const psatRecords = assertQuestionSchema(finalPsat, 'PSAT');
   const satRecords = assertQuestionSchema(finalSat, 'SAT');
 
