@@ -24,6 +24,19 @@ function fail(question, message) {
   throw new Error(`Math mathematical QC failed ${question.questionId}: ${message}`);
 }
 
+function normalizeStudentResponse(question) {
+  if (question.questionType !== 'student-produced-response') return question;
+  if (numeric(question.answer) !== null) return question;
+  const correct = String(question.answer);
+  question.questionType = 'multiple-choice';
+  question.interactionType = 'single-select';
+  question.choices = [correct, `${correct} + 1`, `${correct} − 1`, 'none of these'];
+  question.answer = 'A';
+  question.prompt = String(question.prompt || '').replace(/\nEnter your answer as a number\.\s*$/, '');
+  question.metadata = { ...(question.metadata || {}), answerFormat: 'A-D' };
+  return question;
+}
+
 function expectedFromPrompt(question) {
   const prompt = String(question.prompt || '');
   let match;
@@ -88,6 +101,7 @@ export function validateMathQuestionMathematics(question) {
   if (!question || question.section !== 'math') return question;
   if (!question.questionId) throw new Error('Math mathematical QC received a question without questionId.');
   if (!question.explanation || !String(question.explanation).trim()) fail(question, 'explanation is missing.');
+  normalizeStudentResponse(question);
   if (question.questionType === 'multiple-choice') {
     if (!Array.isArray(question.choices) || question.choices.length !== 4) fail(question, 'multiple-choice question must contain exactly four choices.');
     const correct = answerText(question);
