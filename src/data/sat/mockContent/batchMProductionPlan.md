@@ -2,25 +2,36 @@
 
 Batch M is the controlled production stage for the 20-mock SAT/PSAT-style corpus.
 
+## Production sequence
+
+The final corpus is produced in this exact order:
+
+1. **SAT Mocks — Series A: Tests 1–10**
+2. **PSAT Mocks: Tests 1–10**
+3. **SAT Mocks — Series B: Tests 11–20**
+4. **Final collective verification across all 20 mocks**
+
+The SAT Series B navigation page is `/SATMocksSeriesB`. It is a release shell only until Tests 11–20 have actually been generated, validated, stored, and accepted. It must not fabricate question data, scores, progress, or payment-success states.
+
 ## Generation rule
 
-Mocks are produced and accepted **one mock at a time**. Each mock must pass the applicable generation and QC gates before the next mock is accepted.
+Mocks are produced and accepted **one mock at a time within the sequence above**. Each mock must pass the applicable generation and QC gates before the next mock is accepted.
 
-The sequence is:
+For each mock:
 
 1. Build mock blueprint.
 2. Generate R&W and Math content.
 3. Run independent QC and figure/originality validation.
 4. Run mock-level checks.
-5. Compare against previously accepted mocks for cross-mock uniqueness and diversity.
+5. Compare against all previously accepted mocks for cross-mock uniqueness and diversity.
 6. Store the accepted mock in the canonical production representation.
-7. Proceed to the next mock.
+7. Only then advance to the next mock in the sequence.
 
 A failed mock is corrected or regenerated before the sequence advances. A failed check must not be bypassed merely to keep production moving.
 
 ## Final corpus gate
 
-After Mock 20 is accepted, run a collective 20-mock corpus QC covering:
+After SAT Series B Mock 20 is accepted, run a collective 20-mock corpus QC covering:
 
 - schema and answer-format integrity
 - domain/skill distribution
@@ -35,6 +46,8 @@ After Mock 20 is accepted, run a collective 20-mock corpus QC covering:
 - storage/serialization integrity
 - compatibility with the existing SAT content path
 
+The final corpus gate must consider the 10 SAT Series A mocks, 10 PSAT mocks, and 10 SAT Series B mocks together where cross-corpus uniqueness or distribution rules apply.
+
 ## Production safety
 
 Batch M must not replace or delete the legacy SAT content path until the new corpus has passed the complete corpus-level gate.
@@ -45,4 +58,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-Batch M is planned but must only begin after Batch L has passed and the production generation run has been explicitly started.
+Batch M is now the active production batch, but the production corpus itself has **not** been generated yet. The next implementation step is the controlled production-generation controller/checkpoint mechanism, starting with SAT Series A Mock 1.
