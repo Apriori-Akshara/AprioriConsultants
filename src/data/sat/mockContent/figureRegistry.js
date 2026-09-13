@@ -25,7 +25,20 @@ function isObject(value) {
 }
 
 function isFiniteNumber(value) {
-  return typeof value === 'number' && Number.isFinite(value);
+  return Number.isFinite(Number(value));
+}
+
+function validateLegacyFigure(rawType, figure, errors) {
+  if (rawType === 'line') {
+    if (!Array.isArray(figure.x) || !Array.isArray(figure.y)) errors.push('Legacy line figures require x and y arrays.');
+  }
+  if (rawType === 'scatter') {
+    if (!Array.isArray(figure.points)) errors.push('Legacy scatter figures require a points array.');
+  }
+  if (rawType === 'quadratic') {
+    if (!isFiniteNumber(figure.a) || !isFiniteNumber(figure.b) || !isFiniteNumber(figure.c)) errors.push('Legacy quadratic figures require numeric a, b and c.');
+  }
+  if (rawType === 'geometry' && !isObject(figure.values || {})) errors.push('Legacy geometry figures require a values object.');
 }
 
 function validateStructuredFigure(figure) {
@@ -40,33 +53,37 @@ function validateStructuredFigure(figure) {
   }
 
   const errors = [];
-  for (const field of spec.required) {
-    if (!(field in figure)) errors.push(`Missing figure field: ${field}.`);
-  }
-
-  if (canonicalType === 'scatter_plot') {
-    if (!Array.isArray(figure.points)) errors.push('scatter_plot.points must be an array.');
-    if (Array.isArray(figure.points) && figure.points.some((point) => !isObject(point) || !isFiniteNumber(Number(point.x)) || !isFiniteNumber(Number(point.y)))) {
-      errors.push('scatter_plot.points must contain numeric x/y pairs.');
+  if (Object.prototype.hasOwnProperty.call(LEGACY_ALIASES, rawType)) {
+    validateLegacyFigure(rawType, figure, errors);
+  } else {
+    for (const field of spec.required) {
+      if (!(field in figure)) errors.push(`Missing figure field: ${field}.`);
     }
-  }
 
-  if (canonicalType === 'line_chart' || canonicalType === 'bar_chart') {
-    if (!Array.isArray(figure.x_labels)) errors.push(`${canonicalType}.x_labels must be an array.`);
-    if (!Array.isArray(figure.series) || !figure.series.length) errors.push(`${canonicalType}.series must be a non-empty array.`);
-    if (Array.isArray(figure.series)) {
-      figure.series.forEach((series, index) => {
-        if (!isObject(series) || !Array.isArray(series.values)) errors.push(`${canonicalType}.series[${index}] must contain a values array.`);
-      });
+    if (canonicalType === 'scatter_plot') {
+      if (!Array.isArray(figure.points)) errors.push('scatter_plot.points must be an array.');
+      if (Array.isArray(figure.points) && figure.points.some((point) => !isObject(point) || !isFiniteNumber(point.x) || !isFiniteNumber(point.y))) {
+        errors.push('scatter_plot.points must contain numeric x/y pairs.');
+      }
     }
-  }
 
-  if (canonicalType === 'number_line' && !Number.isFinite(Number(figure.min))) errors.push('number_line.min must be numeric.');
-  if (canonicalType === 'number_line' && !Number.isFinite(Number(figure.max))) errors.push('number_line.max must be numeric.');
-  if (canonicalType === 'circle' && !Number.isFinite(Number(figure.radius))) errors.push('circle.radius must be numeric.');
-  if (canonicalType === 'parabola' && typeof figure.equation !== 'string') errors.push('parabola.equation must be a string.');
-  if (canonicalType === 'linear_function_graph' && !Number.isFinite(Number(figure.slope))) errors.push('linear_function_graph.slope must be numeric.');
-  if (canonicalType === 'linear_function_graph' && !Number.isFinite(Number(figure.y_intercept))) errors.push('linear_function_graph.y_intercept must be numeric.');
+    if (canonicalType === 'line_chart' || canonicalType === 'bar_chart') {
+      if (!Array.isArray(figure.x_labels)) errors.push(`${canonicalType}.x_labels must be an array.`);
+      if (!Array.isArray(figure.series) || !figure.series.length) errors.push(`${canonicalType}.series must be a non-empty array.`);
+      if (Array.isArray(figure.series)) {
+        figure.series.forEach((series, index) => {
+          if (!isObject(series) || !Array.isArray(series.values)) errors.push(`${canonicalType}.series[${index}] must contain a values array.`);
+        });
+      }
+    }
+
+    if (canonicalType === 'number_line' && !isFiniteNumber(figure.min)) errors.push('number_line.min must be numeric.');
+    if (canonicalType === 'number_line' && !isFiniteNumber(figure.max)) errors.push('number_line.max must be numeric.');
+    if (canonicalType === 'circle' && !isFiniteNumber(figure.radius)) errors.push('circle.radius must be numeric.');
+    if (canonicalType === 'parabola' && typeof figure.equation !== 'string') errors.push('parabola.equation must be a string.');
+    if (canonicalType === 'linear_function_graph' && !isFiniteNumber(figure.slope)) errors.push('linear_function_graph.slope must be numeric.');
+    if (canonicalType === 'linear_function_graph' && !isFiniteNumber(figure.y_intercept)) errors.push('linear_function_graph.y_intercept must be numeric.');
+  }
 
   return { valid: errors.length === 0, errors, canonicalType, future: Boolean(spec.future) };
 }
