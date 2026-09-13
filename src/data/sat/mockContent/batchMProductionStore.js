@@ -9,6 +9,7 @@
 import { runBatchMFirstProductionGate } from './batchMFirstProductionGate';
 import { runBatchMSecondProductionGate } from './batchMSecondProductionGate';
 import { runBatchMThirdProductionGate } from './batchMThirdProductionGate';
+import { runBatchMFourthProductionGate } from './batchMFourthProductionGate';
 
 const FIRST_PRODUCTION_RESULT = runBatchMFirstProductionGate();
 
@@ -37,25 +38,40 @@ if (!THIRD_PRODUCTION_RESULT?.passed || !THIRD_PRODUCTION_RESULT?.productionMock
 
 export const SAT_SERIES_A_MOCK_03_PRODUCTION = THIRD_PRODUCTION_RESULT.productionMock;
 
+const FOURTH_PRODUCTION_RESULT = runBatchMFourthProductionGate([
+  SAT_SERIES_A_MOCK_01_PRODUCTION,
+  SAT_SERIES_A_MOCK_02_PRODUCTION,
+  SAT_SERIES_A_MOCK_03_PRODUCTION,
+]);
+
+if (!FOURTH_PRODUCTION_RESULT?.passed || !FOURTH_PRODUCTION_RESULT?.productionMock) {
+  throw new Error('Batch M SAT4: accepted production mock was not returned by the production gate');
+}
+
+export const SAT_SERIES_A_MOCK_04_PRODUCTION = FOURTH_PRODUCTION_RESULT.productionMock;
+
 export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
   acceptedTestKeys: [
     FIRST_PRODUCTION_RESULT.testKey,
     SECOND_PRODUCTION_RESULT.testKey,
     THIRD_PRODUCTION_RESULT.testKey,
+    FOURTH_PRODUCTION_RESULT.testKey,
   ],
   acceptedTestIds: [
     FIRST_PRODUCTION_RESULT.testId,
     SECOND_PRODUCTION_RESULT.testId,
     THIRD_PRODUCTION_RESULT.testId,
+    FOURTH_PRODUCTION_RESULT.testId,
   ],
   questionCounts: [
     FIRST_PRODUCTION_RESULT.questionCount,
     SECOND_PRODUCTION_RESULT.questionCount,
     THIRD_PRODUCTION_RESULT.questionCount,
+    FOURTH_PRODUCTION_RESULT.questionCount,
   ],
-  status: THIRD_PRODUCTION_RESULT.status,
+  status: FOURTH_PRODUCTION_RESULT.status,
   storageMode: 'canonical-runtime-records',
-  nextTestKey: 'SAT4',
+  nextTestKey: 'SAT5',
 });
 
-export default SAT_SERIES_A_MOCK_03_PRODUCTION;
+export default SAT_SERIES_A_MOCK_04_PRODUCTION;
