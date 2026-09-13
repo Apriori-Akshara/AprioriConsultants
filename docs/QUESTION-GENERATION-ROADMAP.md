@@ -1,16 +1,14 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current checkpoint  
+**Status:** Approved implementation plan / current Batch M production checkpoint  
 **Scope:** Question generation, question storage, and figure/question rendering only  
-**Production target:** 20 complete original SAT/PSAT-style mocks
+**Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
 
 ## Taxonomy rule
 
-For this project, the implementation sequence is called **Batches A–M**. “Phase” is a legacy synonym and should not be used for new work. Future AI sessions, commits, checkpoints, and status reports should use **Batch A, Batch B, … Batch M** consistently.
+For this project, the implementation sequence is called **Batches A–M**. “Phase” is a legacy synonym and should not be used for new work. Future AI sessions, commits, checkpoints, and status reports should use Batch A, Batch B, … Batch M consistently.
 
 This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-CHECKPOINT-2026-09-13.md` records the detailed checkpoint state, while `docs/QUESTION-BANK-MAINTENANCE.md` records maintenance rules.
-
----
 
 ## Current implementation status
 
@@ -27,12 +25,10 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | I | Math integration + mathematical QC | COMPLETE / LIVE |
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
-| L | Controlled end-to-end generation/QC/storage/adapter test | **COMPLETE / LIVE** |
-| M | Production generation of 20 mocks + corpus-level QC | **NEXT / PENDING** |
+| L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
+| M | Production generation + corpus-level QC | ACTIVE |
 
-**Batch M is now the only remaining approved implementation batch.**
-
----
+**Batch M is the only remaining approved implementation batch.**
 
 ## 1. Core architecture
 
@@ -43,8 +39,6 @@ The content system uses:
 The existing SAT/adaptive engine remains the delivery engine. New work is restricted to generation, storage, validation, and figure rendering.
 
 The canonical question contract must remain compatible with useful legacy fields. Existing fields must not be silently deleted.
-
----
 
 ## 2. R&W construction standard
 
@@ -67,8 +61,6 @@ Distractors must correspond to plausible student-error profiles such as true-but
 
 R&W evidence maps retain target evidence, supporting evidence, required inference, correct reasoning, and distractor reasoning. Cross-text items design the relationship first. Rhetorical synthesis uses source notes → communication goal → answer options. Quantitative evidence uses underlying dataset → claim/context → structured visual → question → answer.
 
----
-
 ## 3. Figure implementation
 
 Production figures are structured parameter objects rendered by code. Do not use AI-drawn production figures, ASCII art, or opaque raw SVG as the source of truth.
@@ -76,19 +68,15 @@ Production figures are structured parameter objects rendered by code. Do not use
 **Batch F:** bar charts, line charts, scatter plots, tables.  
 **Batch G:** right triangles, general triangles, circles, parabolas, linear-function graphs, coordinate shapes.  
 **Batch H:** 3D solids; reserve multi-source tables/data displays for future use.  
-**Deferred:** number lines are part of the broader taxonomy but were intentionally not implemented in Batch G.
+**Deferred:** number lines remain deliberately deferred.
 
 Every live figure must have deterministic parameters that QC can validate against the question and answer.
-
----
 
 ## 4. Math standard
 
 Math uses the same blueprint → draft → independent QC architecture and preserves protections against repeated parameter combinations, repeated constructions, disguised numerical substitution, repeated graph/table data, and prohibited figure reuse.
 
 Mathematical QC must independently verify mathematical correctness. Unsupported constructions must be flagged rather than silently “proved” by a generic solver.
-
----
 
 ## 5. Independent QC standard
 
@@ -105,11 +93,9 @@ The QC system checks, as applicable:
 10. PSAT content ceiling
 11. originality and duplication
 
-Failed items may receive limited correction/retry attempts; repeated failure of the same check should trigger specification/generator improvement rather than indefinite retries. Only items meeting the applicable passed QC gates are eligible for live delivery.
+Failed items may receive limited correction/retry attempts; repeated failure of the same check should trigger specification/generator improvement rather than indefinite retries. Only items meeting the applicable passed QC gates are eligible for production acceptance.
 
 Batch D provides deterministic R&W independent QC. Batch I provides deterministic Math mathematical QC. Batch J provides strengthened figure relationship and originality QC.
-
----
 
 ## 6. Calibration corpus
 
@@ -119,68 +105,30 @@ The private calibration corpus records structural characteristics such as source
 
 **Batch K established the private calibration boundary and adapter.** Actual private/legal anchor files are an operational input to K and are deliberately not stored in the public repository.
 
----
-
 ## 7. Approved implementation batches
 
-### Batch A — Canonical schema + compatibility foundation
-**Status: COMPLETE.** Reconciled the new specification with the existing question model without deleting useful legacy fields.
+### Batches A–L
 
-### Batch B — Blueprint engine
-**Status: COMPLETE.** Implemented structured pre-generation blueprints.
+**Status: COMPLETE.** Batches A–L established the schema, blueprint, R&W construction/QC, figure system, Math integration/QC, originality controls, calibration boundary, and controlled end-to-end gate. These completed batches must not be repeated or reopened unless a real production defect requires it.
 
-### Batch C — R&W source/passage/question construction
-**Status: COMPLETE.** Implemented dedicated source-family, rhetorical, evidence, and cognitive-demand construction.
+### Batch M — Production generation for the controlled corpus
 
-### Batch D — R&W distractor + evidence map + independent QC
-**Status: COMPLETE / LIVE.** The current R&W path applies the Batch D independent QC gate before live delivery.
+**Status: ACTIVE.** The fixed production sequence is:
 
-### Batch E — Figure framework + rendering foundation
-**Status: COMPLETE / LIVE.** Compatibility corrections were deployed in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
+1. SAT Series A Mocks 1–10 — **accepted**
+2. PSAT Mocks 1–10 — **accepted**
+3. SAT Series B Mocks 11–20 — **next**
+4. Final collective corpus-level QC — **pending until Mock 20**
 
-### Batch F — Basic data visuals
-**Status: COMPLETE / LIVE.** Implemented bar charts, line charts, scatter plots, and tables. Mock 3 visuals were confirmed by public spot checks.
+Mocks are produced one at a time. The next mock starts only after the prior mock has passed its generation/QC/storage gates and Render deployment acceptance.
 
-### Batch G — 2D geometry/math visuals
-**Status: COMPLETE / LIVE.** Implemented right triangles, general triangles, circles, parabolas, linear-function graphs, and coordinate shapes. Number lines remain deferred.
+### Accepted PSAT10 checkpoint
 
-### Batch H — 3D + future multi-source architecture
-**Status: COMPLETE / VERIFIED.** Implemented deterministic 3D solids and reserved the extensible multi-source table architecture. Supported solids include cube, rectangular prism/cuboid, cylinder, sphere, and cone. `multi_source_table` remains future-only.
+PSAT10 is accepted and Render-LIVE. Its production identity is `PSAT10` / `psat-mock-10`, variant `psat-nmsqt`, assessment number `10`, deterministic seed `2010`, with 196 validated records and `canonical-runtime-records` storage. Implementation commits are `781cb832d9984f2ab78ed29648cd2a0a92dcac94` and `cbeeb1c6c20a756e10c184ae774fbf9293550d90`.
 
-### Batch I — Math integration + mathematical QC
-**Status: COMPLETE / LIVE.** Integrated Math generation into the figure-quality path and added independent deterministic mathematical QC, including conservative handling of unsupported constructions.
+### Next target
 
-### Batch J — Figure validation + originality/uniqueness
-**Status: COMPLETE / LIVE.** Final runtime commit: `a27ffb1f5af4faaf7360b224e87ea1d652069bd8`.
-
-### Batch K — Calibration corpus + assessment calibration
-**Status: COMPLETE / READY FOR PRIVATE ANCHOR POPULATION.** `src/data/sat/mockContent/calibrationCorpus.js` provides metadata validation, local/private corpus loading through `SAT_CALIBRATION_CORPUS_DIR`, anchor selection, coverage summaries, and assessment target profiles. `internal-only/calibration-corpus/README.md` and `.gitignore` establish the private boundary. The public repository contains no official College Board anchor text.
-
-Actual private anchor population is an operational input to K, not a separate Batch L requirement. The K software/integration work is complete.
-
-### Batch L — Controlled end-to-end generation/QC/storage/adapter test
-**Status: COMPLETE / LIVE.**
-
-Implementation files:
-- `src/data/sat/mockContent/batchLIntegrationGate.js`
-- `src/data/sat/contentBank.js`
-
-The deterministic gate runs from the canonical content-bank load path and exercises a controlled SAT/PSAT pair through:
-1. Stage 1 blueprint/construction;
-2. Stage 2 draft/post-processing;
-3. figure validation and Math mathematical QC;
-4. Batch D independent R&W QC;
-5. mock-level and cross-mock QC;
-6. canonical schema adaptation;
-7. JSON storage serialization/restoration and revalidation;
-8. integration with the existing SAT content-bank load path.
-
-The gate throws on failure. The successful Render deployment for Batch L therefore confirms that the controlled end-to-end checks completed without an integration failure. The gate does not generate the final 20-mock production corpus.
-
-### Batch M — Production generation for 20 mocks + corpus-level QC
-**Status: NEXT / PENDING.** This is the only remaining approved implementation batch. It must generate the final original corpus only under the controlled production plan and validate every item, each mock, and the full 20-mock corpus.
-
----
+**SAT Series B Mock 11 (`SAT11`).** It must be compared against all 20 previously accepted production mocks. No new mock may be skipped, generated out of order, or exposed through the legacy public corpus before final corpus acceptance.
 
 ## 8. Scope protection
 
@@ -193,8 +141,6 @@ Do not modify unless a question-generation/storage/rendering dependency makes it
 - deployment configuration
 - unrelated Redux/API/auth code
 
----
-
 ## 9. Resume procedure
 
 At the beginning of a future session:
@@ -202,7 +148,8 @@ At the beginning of a future session:
 2. Read the relevant Parts 1–4 of `docs/SAT-PSAT-QUESTION-SPEC.md`.
 3. Read `docs/AI-UPDATE-INSTRUCTIONS.md`, including Stage 1, Stage 2, Stage 3, and Calibration Corpus guidance.
 4. Read `docs/QUESTION-GENERATION-CHECKPOINT-2026-09-13.md`.
-5. Check current git history/files only to identify the next unfinished **Batch**.
-6. Do not repeat completed audits or implementation.
-7. Continue in A→M order with deployment-safe checkpoints.
-8. **Batch M is now the next and final implementation batch.**
+5. Read `docs/QUESTION-BANK-MAINTENANCE.md` and `src/data/sat/mockContent/batchMProductionPlan.md`.
+6. Check current git history/files only to identify the next unfinished **Batch M production target**.
+7. Do not repeat completed audits or implementation.
+8. Continue one mock at a time with Render deployment acceptance after each accepted mock.
+9. **SAT Series B Mock 11 (`SAT11`) is now the next production target.**
