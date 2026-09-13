@@ -24,17 +24,21 @@ function fail(question, message) {
   throw new Error(`Math mathematical QC failed ${question.questionId}: ${message}`);
 }
 
-function normalizeStudentResponse(question) {
-  if (question.questionType !== 'student-produced-response') return question;
-  if (numeric(question.answer) !== null) return question;
+function normalizeStudentResponse(question, targetIndex = 0) {
+  if (question.questionType !== 'student-produced-response') return false;
+  if (numeric(question.answer) !== null) return false;
   const correct = String(question.answer);
+  const choices = [correct, `${correct} + 1`, `${correct} − 1`, 'none of these'];
+  const target = Math.max(0, Math.min(3, targetIndex));
+  const rotated = choices.slice(1);
+  rotated.splice(target, 0, correct);
   question.questionType = 'multiple-choice';
   question.interactionType = 'single-select';
-  question.choices = [correct, `${correct} + 1`, `${correct} − 1`, 'none of these'];
-  question.answer = 'A';
+  question.choices = rotated;
+  question.answer = String.fromCharCode(65 + target);
   question.prompt = String(question.prompt || '').replace(/\nEnter your answer as a number\.\s*$/, '');
   question.metadata = { ...(question.metadata || {}), answerFormat: 'A-D' };
-  return question;
+  return true;
 }
 
 function expectedFromPrompt(question) {
@@ -101,7 +105,6 @@ export function validateMathQuestionMathematics(question) {
   if (!question || question.section !== 'math') return question;
   if (!question.questionId) throw new Error('Math mathematical QC received a question without questionId.');
   if (!question.explanation || !String(question.explanation).trim()) fail(question, 'explanation is missing.');
-  normalizeStudentResponse(question);
   if (question.questionType === 'multiple-choice') {
     if (!Array.isArray(question.choices) || question.choices.length !== 4) fail(question, 'multiple-choice question must contain exactly four choices.');
     const correct = answerText(question);
@@ -122,7 +125,20 @@ export function validateMathQuestionMathematics(question) {
 
 export function validateMathBankMathematics(math) {
   if (!Array.isArray(math)) throw new Error('Math mathematical QC expected an array.');
-  math.forEach(validateMathQuestionMathematics);
+  const answerCounts = [0, 0, 0, 0];
+  math.forEach((question) => {
+    if (question?.section === 'math' && question.questionType === 'multiple-choice') {
+      const index = String(question.answer || '').charCodeAt(0) - 65;
+      if (index >= 0 && index < 4) answerCounts[index] += 1;
+    }
+  });
+  math.forEach((question) => {
+    if (question?.section === 'math' && question.questionType === 'student-produced-response' && numeric(question.answer) === null) {
+      const targetIndex = answerCounts.indexOf(Math.min(...answerCounts));
+      if (normalizeStudentResponse(question, targetIndex)) answerCounts[targetIndex] += 1;
+    }
+    validateMathQuestionMathematics(question);
+  });
   return math;
 }
 
