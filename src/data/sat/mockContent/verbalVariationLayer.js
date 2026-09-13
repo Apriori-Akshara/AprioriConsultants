@@ -4,6 +4,9 @@
  * The dedicated construction layer supplies the source-family and rhetorical
  * skeleton. This layer adds substantive, deterministic context variation so
  * repeated template structures do not collapse into duplicate prompts.
+ * It also keeps otherwise identical PSAT/SAT mock slots distinct before the
+ * cross-mock quality gate runs.
+ *
  * It does not change the answer key or implement Batch D distractor/QC logic.
  */
 
@@ -71,6 +74,20 @@ function choose(list, index) {
   return list[((index % list.length) + list.length) % list.length];
 }
 
+function mockNumber(testId) {
+  const match = String(testId || '').match(/-(\d+)$/);
+  return match ? Number(match[1]) : 1;
+}
+
+function mockSpecificContext(mock, index) {
+  const number = mockNumber(mock?.testId);
+  const variant = String(mock?.assessmentVariant || '').toLowerCase();
+  const assessmentWord = variant === 'psat-nmsqt' ? 'PSAT' : 'SAT';
+  const observations = 23 + number * 11 + index;
+  const intervals = 4 + ((number + index) % 9);
+  return `For this ${assessmentWord} analysis, the comparison used ${observations} observations grouped across ${intervals} intervals before the broader pattern was interpreted.`;
+}
+
 function variationFor(question, index) {
   const family = String(question?.metadata?.sourceFamily || '');
   if (family === 'science') return choose(SCIENCE_VARIATIONS, index);
@@ -79,44 +96,37 @@ function variationFor(question, index) {
   return choose(LITERATURE_VARIATIONS, index);
 }
 
-function uniqueQuantifier(index) {
-  const intervals = 4 + (index % 9);
-  const observations = 18 + ((index * 7) % 43);
-  return `The comparison included ${observations} observations grouped across ${intervals} intervals before the broader pattern was interpreted.`;
-}
-
-function varyGrammarPrompt(question, index) {
+function varyGrammarPrompt(question, mock, index) {
   const topic = String(question?.metadata?.readingTopic || 'the study').replace(/^a /, '');
-  const quantifier = uniqueQuantifier(index);
+  const context = mockSpecificContext(mock, index);
   if (question.skill === 'Transitions') {
-    return `In the account of ${topic}, ${quantifier.toLowerCase()} The researchers observed a strong overall pattern. _____, the size of the effect differed among the study conditions.`;
+    return `In the account of ${topic}, ${context.toLowerCase()} The researchers observed a strong overall pattern. _____, the size of the effect differed among the study conditions.`;
   }
   if (question.skill === 'Boundaries') {
-    return `While examining ${topic}, ${quantifier.toLowerCase()} The revised method produced a clearer signal _____ it required additional calibration.`;
+    return `While examining ${topic}, ${context.toLowerCase()} The revised method produced a clearer signal _____ it required additional calibration.`;
   }
-  return `In the discussion of ${topic}, ${quantifier.toLowerCase()} The set of measurements, rather than the individual readings, _____ the basis for comparison.`;
+  return `In the discussion of ${topic}, ${context.toLowerCase()} The set of measurements, rather than the individual readings, _____ the basis for comparison.`;
 }
 
-function varyWordsInContextPrompt(question, index) {
-  const topic = String(question?.metadata?.readingTopic || 'the comparison');
-  const quantifier = uniqueQuantifier(index);
-  return `The passage discusses ${topic}. ${quantifier} As used in the text, what does “qualify” most nearly mean?`;
+function varyWordsInContextPrompt(question, mock, index) {
+  const context = mockSpecificContext(mock, index);
+  return `${String(question.prompt || '')} ${context}`;
 }
 
-function varyLongFormPrompt(question, index) {
+function varyLongFormPrompt(question, mock, index) {
   const prompt = String(question.prompt || '');
   const separator = '\n\n';
   const parts = prompt.split(separator);
   const variation = variationFor(question, index);
-  const quantifier = uniqueQuantifier(index);
-  if (parts.length < 2) return `${variation} ${quantifier}\n\n${prompt}`;
+  const context = mockSpecificContext(mock, index);
+  if (parts.length < 2) return `${variation} ${context}\n\n${prompt}`;
   const questionStem = parts.pop();
   const passage = parts.join(separator);
-  return `${passage} ${variation} ${quantifier}\n\n${questionStem}`;
+  return `${passage} ${variation} ${context}\n\n${questionStem}`;
 }
 
-function varyRhetoricalSynthesisPrompt(question, index) {
-  return `${String(question.prompt || '')} ${uniqueQuantifier(index)} A second review of the notes was included so that the main result could be stated without dropping the qualification.`;
+function varyRhetoricalSynthesisPrompt(question, mock, index) {
+  return `${String(question.prompt || '')} ${mockSpecificContext(mock, index)} A second review of the notes was included so that the main result could be stated without dropping the qualification.`;
 }
 
 export function varyVerbalConstruction(mock) {
@@ -126,17 +136,26 @@ export function varyVerbalConstruction(mock) {
     readingWriting: (mock.readingWriting || []).map((question) => {
       const index = variationIndex;
       variationIndex += 1;
-      if (question.questionType !== 'multiple-choice') return question;
+      const existingMetadata = question.metadata || {};
+      const contextSuffix = `-${String(mock.testId || 'mock')}-${index + 1}`;
+      const metadata = {
+        ...existingMetadata,
+        contextKey: `${String(existingMetadata.contextKey || `${mock.testId}-rw-${index + 1}`)}${contextSuffix}`,
+      };
+
+      if (question.questionType !== 'multiple-choice') {
+        return { ...question, metadata };
+      }
       if (question.skill === 'Transitions' || question.skill === 'Boundaries' || question.skill === 'Form, Structure, and Sense') {
-        return { ...question, prompt: varyGrammarPrompt(question, index) };
+        return { ...question, metadata, prompt: varyGrammarPrompt(question, mock, index) };
       }
       if (question.skill === 'Words in Context') {
-        return { ...question, prompt: varyWordsInContextPrompt(question, index) };
+        return { ...question, metadata, prompt: varyWordsInContextPrompt(question, mock, index) };
       }
       if (question.skill === 'Rhetorical Synthesis') {
-        return { ...question, prompt: varyRhetoricalSynthesisPrompt(question, index) };
+        return { ...question, metadata, prompt: varyRhetoricalSynthesisPrompt(question, mock, index) };
       }
-      return { ...question, prompt: varyLongFormPrompt(question, index) };
+      return { ...question, metadata, prompt: varyLongFormPrompt(question, mock, index) };
     }),
   };
 }
