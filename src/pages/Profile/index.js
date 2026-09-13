@@ -19,6 +19,30 @@ import {
 } from 'react-icons/fa';
 import styles from './Profile.module.css';
 
+function mockFamilyLabel(testKey) {
+  return String(testKey || '').toUpperCase().startsWith('PSAT') ? 'PSAT/NMSQT' : 'Digital SAT';
+}
+
+function mockNumberLabel(testKey) {
+  const match = String(testKey || '').match(/(\d+)$/);
+  return match ? String(Number(match[1])).padStart(2, '0') : '01';
+}
+
+function mockTitle(testKey) {
+  return `${mockFamilyLabel(testKey)} Mock Test ${mockNumberLabel(testKey)}`;
+}
+
+function routeLabel(value) {
+  const route = String(value || 'standard').toLowerCase();
+  if (route === 'high') return 'Higher-difficulty Module 2';
+  if (route === 'low') return 'Lower-difficulty Module 2';
+  return 'Standard-difficulty Module 2';
+}
+
+function mockLibraryPath(testKey) {
+  return String(testKey || '').toUpperCase().startsWith('PSAT') ? '/PSATMocks' : '/SATMocks';
+}
+
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
   const sectionRef = useRef();
@@ -42,6 +66,8 @@ export default function Profile() {
     0
   );
   const latestMock = completedMocks[0] || null;
+  const latestMockFamily = mockFamilyLabel(latestMock?.test_key);
+  const latestMockPath = mockLibraryPath(latestMock?.test_key);
 
   const handleDownload = async () => {
     if (!sectionRef.current) return;
@@ -158,11 +184,11 @@ export default function Profile() {
               {latestMock ? (
                 <div className={styles.latestMockGrid}>
                   <div className={styles.latestMockIdentity}>
-                    <span className={styles.latestBadge}>{latestMock.test_key === 'PSAT1' ? 'P' : 'S'}</span>
+                    <span className={styles.latestBadge}>{latestMockFamily}</span>
                     <div>
                       <span className={styles.sectionLabel}>LATEST COMPLETED</span>
-                      <h3>{latestMock.test_key === 'PSAT1' ? 'PSAT Mock Test 01' : 'SAT Mock Test 01'}</h3>
-                      <p>Adaptive routes: {latestMock.section_scores?.adaptiveRoutes?.readingWriting || 'standard'} R&amp;W · {latestMock.section_scores?.adaptiveRoutes?.math || 'standard'} Math</p>
+                      <h3>{mockTitle(latestMock.test_key)}</h3>
+                      <p>Module 2 pathway: {routeLabel(latestMock.section_scores?.adaptiveRoutes?.readingWriting)} for Reading &amp; Writing · {routeLabel(latestMock.section_scores?.adaptiveRoutes?.math)} for Math.</p>
                     </div>
                   </div>
                   <div className={styles.latestScore}><strong>{Number(latestMock.section_scores?.accuracy || 0)}%</strong><span>overall accuracy</span></div>
@@ -176,7 +202,7 @@ export default function Profile() {
                   <div className={styles.emptyMockIcon}><FaClipboardCheck /></div>
                   <div>
                     <h3>Your mock results will appear here</h3>
-                    <p>Complete PSAT Mock 01 or SAT Mock 01 and this panel will become your live progress record.</p>
+                    <p>Complete a PSAT or SAT mock and this panel will become your live progress record.</p>
                   </div>
                   <Link href="/SATMocks" className={styles.fullButton}>Start a Mock <FaArrowRight /></Link>
                 </div>
@@ -214,8 +240,8 @@ export default function Profile() {
             <div className={styles.sideCardAccent}>
               <span className={`${styles.sectionLabel} ${styles.heroLabel}`}>RECOMMENDED NEXT</span>
               <h2>{latestMock ? 'Review your latest mock' : 'Start your first live mock'}</h2>
-              <p>{latestMock ? 'Your latest result is now recorded. Open the mock library to continue with the next available test.' : 'PSAT Mock 01 and SAT Mock 01 are now the first live adaptive experiences in the mock library.'}</p>
-              <Link href={latestMock ? '/SATMocks' : '/SATMocks'} className={styles.fullButton}>Open Mock Library <FaArrowRight /></Link>
+              <p>{latestMock ? 'Your latest result is now recorded. Open the appropriate mock library to continue with your next available test.' : 'PSAT Mock 01 and SAT Mock 01 are the first live adaptive experiences in the mock library.'}</p>
+              <Link href={latestMock ? latestMockPath : '/SATMocks'} className={styles.fullButton}>Open Mock Library <FaArrowRight /></Link>
             </div>
 
             <div className={styles.sideCard}>
