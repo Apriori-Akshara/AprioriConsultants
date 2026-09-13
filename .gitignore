@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Private SAT calibration corpus: never commit official anchor text or answer content.
+/internal-only/calibration-corpus/*
+!/internal-only/calibration-corpus/README.md
