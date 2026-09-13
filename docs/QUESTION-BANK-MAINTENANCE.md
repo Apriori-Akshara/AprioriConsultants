@@ -31,7 +31,7 @@ Each mock is generated, independently QC-checked, cross-compared with previously
 
 **Status: COMPLETE / LIVE.**
 
-Batch E established the structured figure registry/normalization and shared Math visual rendering foundation. Compatibility corrections were deployed successfully in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20c277e87c322c`.
+Batch E established the structured figure registry/normalization and shared Math visual rendering foundation. Compatibility corrections were deployed successfully in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
 
 ## Batch F — Basic data visuals
 
@@ -83,7 +83,7 @@ The gate throws on failure. The successful Render deployment therefore confirms 
 
 ## Batch M — Controlled production generation
 
-**Status: ACTIVE / SAT SERIES A MOCKS 1–6 ACCEPTED.**
+**Status: ACTIVE / SAT SERIES A MOCKS 1–10 ACCEPTED.**
 
 `src/data/sat/mockContent/batchMProductionController.js` establishes the deterministic production sequence and checkpoint helpers. Production records remain separate from the legacy public corpus.
 
@@ -94,17 +94,21 @@ The gate throws on failure. The successful Render deployment therefore confirms 
 - SAT Series A Mock 3 — accepted and stored.
 - SAT Series A Mock 4 — accepted and stored.
 - SAT Series A Mock 5 — accepted and stored.
-- **SAT Series A Mock 6 — accepted and stored.**
+- SAT Series A Mock 6 — accepted and stored.
+- SAT Series A Mock 7 — accepted and stored.
+- SAT Series A Mock 8 — accepted and stored.
+- SAT Series A Mock 9 — accepted and stored.
+- **SAT Series A Mock 10 — accepted and stored.**
 
-Mock 6 uses `SAT6` → `sat-series-a-mock-06`, assessment number `6`, and deterministic seed `1006`. It is generated only after accepted Mocks 1–5.
+Mock 10 uses `SAT10` → `sat-series-a-mock-10`, assessment number `10`, and deterministic seed `1010`. It is generated only after accepted Mocks 1–9.
 
-Mock 6's production gate checks cross-mock R&W context/prompt uniqueness, Math application uniqueness, exact figure-data uniqueness, figure originality, established figure-quality/Math mathematical QC, canonical schema integrity, 196-record count, and JSON storage round-trip integrity against the complete accepted Mock 1–5 baseline.
+Mock 10's production gate checks cross-mock R&W context/prompt uniqueness, Math application uniqueness, exact figure-data uniqueness, figure originality, established figure-quality/Math mathematical QC, canonical schema integrity, 196-record count, and JSON storage round-trip integrity against the complete accepted Mock 1–9 baseline.
 
 ### Current next target
 
-**SAT Series A Mock 7 (`SAT7` → `sat-series-a-mock-07`).**
+**PSAT Mock 1 (`PSAT1`).**
 
-The sequence must not advance until Mock 6 is accepted and stored. Mock 6 is not exposed through the public website.
+The SAT Series A checkpoint is complete. The PSAT production sequence must begin with PSAT Mock 1 and continue one mock at a time. Each PSAT mock must pass generation, independent QC, figure/math/originality validation, mock-level checks, cross-mock comparison against previously accepted production mocks where applicable, canonical storage, and Render deployment acceptance before the next PSAT mock begins.
 
 ## Production safety
 
@@ -116,4 +120,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–6 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is SAT Series A Mock 7.**
+**Batch M is active. SAT Series A Mocks 1–10 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is PSAT Mock 1.**
