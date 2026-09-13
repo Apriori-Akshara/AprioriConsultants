@@ -107,11 +107,12 @@ function varyLongFormPrompt(question, index) {
   const prompt = String(question.prompt || '');
   const separator = '\n\n';
   const parts = prompt.split(separator);
-  if (parts.length < 2) return `${variationFor(question, index)} ${uniqueQuantifier(index)}\n\n${prompt}`;
+  const variation = variationFor(question, index);
+  const quantifier = uniqueQuantifier(index);
+  if (parts.length < 2) return `${variation} ${quantifier}\n\n${prompt}`;
   const questionStem = parts.pop();
   const passage = parts.join(separator);
-  const variation = variationFor(question, index);
-  return `${passage} ${variation}\n\n${questionStem}`;
+  return `${passage} ${variation} ${quantifier}\n\n${questionStem}`;
 }
 
 function varyRhetoricalSynthesisPrompt(question, index) {
