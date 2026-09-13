@@ -117,6 +117,36 @@
   font-weight: 750;
 }
 
+.mockButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  width: 100%;
+}
+
+.mockButton {
+  flex: 1 1 150px;
+  min-width: 0;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid #b8cde8;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #245cae;
+  font-size: 0.84rem;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.mockButton:hover {
+  background: #f7faff;
+  border-color: #7fa5d4;
+  transform: translateY(-1px);
+}
+
 .adminDashboard {
   display: flex;
   align-items: center;
@@ -158,5 +188,13 @@
   .coursesContainer {
     width: 92vw;
     padding: 1.4rem 1rem;
+  }
+
+  .mockButtons {
+    flex-direction: column;
+  }
+
+  .mockButton {
+    width: 100%;
   }
 }
