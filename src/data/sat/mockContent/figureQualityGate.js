@@ -1,5 +1,6 @@
 import { validateStructuredFigure } from './figureRegistry';
 import { validateMathBankMathematics } from './mathMathematicalQC';
+import { validateFigureOriginalityBatch } from './figureOriginalityQC';
 
 const ALLOWED = new Set(['line','line_chart','scatter','scatter_plot','bar_chart','table','quadratic','parabola','geometry','right_triangle','general_triangle','circle','linear_function_graph','coordinate_shape','3d_solid']);
 
@@ -36,7 +37,6 @@ function validateMockFigures(mock) {
     if (question.section !== 'math') throw new Error(`Figure assigned outside Math: ${question.questionId}`);
     if (!ALLOWED.has(figure.type)) throw new Error(`Unsupported figure type ${figure.type}: ${question.questionId}`);
     if (question.metadata?.figurePurpose !== 'question-essential') throw new Error(`Math figure is not marked question-essential: ${question.questionId}`);
-
     const geometryTypes = ['geometry','table','right_triangle','general_triangle','circle','coordinate_shape','3d_solid'];
     const dataTypes = ['scatter','scatter_plot','line','line_chart','bar_chart','table'];
     const advancedTypes = ['quadratic','parabola','line','line_chart','bar_chart','table','coordinate_shape'];
@@ -47,12 +47,11 @@ function validateMockFigures(mock) {
     if (question.domain === 'Algebra' && !algebraTypes.includes(figure.type)) throw new Error(`Algebra question has mismatched figure: ${question.questionId}`);
     return { ...question, figure };
   };
-
   const readingWriting = (mock.readingWriting || []).map((question) => {
     if (question.figure) throw new Error(`R&W question must not use a Math figure: ${question.questionId}`);
     return question;
   });
-  const math = (mock.math || []).map(normalize);
+  const math = validateFigureOriginalityBatch((mock.math || []).map(normalize));
   validateMathBankMathematics(math);
   return { ...mock, readingWriting, math, figureQuality: { count: math.filter((question) => question.figure).length, typeCounts } };
 }
