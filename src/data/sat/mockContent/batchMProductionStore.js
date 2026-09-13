@@ -11,6 +11,7 @@ import { runBatchMSecondProductionGate } from './batchMSecondProductionGate';
 import { runBatchMThirdProductionGate } from './batchMThirdProductionGate';
 import { runBatchMFourthProductionGate } from './batchMFourthProductionGate';
 import { runBatchMFifthProductionGate } from './batchMFifthProductionGate';
+import { runBatchMSixthProductionGate } from './batchMSixthProductionGate';
 
 const FIRST_PRODUCTION_RESULT = runBatchMFirstProductionGate();
 
@@ -64,6 +65,20 @@ if (!FIFTH_PRODUCTION_RESULT?.passed || !FIFTH_PRODUCTION_RESULT?.productionMock
 
 export const SAT_SERIES_A_MOCK_05_PRODUCTION = FIFTH_PRODUCTION_RESULT.productionMock;
 
+const SIXTH_PRODUCTION_RESULT = runBatchMSixthProductionGate([
+  SAT_SERIES_A_MOCK_01_PRODUCTION,
+  SAT_SERIES_A_MOCK_02_PRODUCTION,
+  SAT_SERIES_A_MOCK_03_PRODUCTION,
+  SAT_SERIES_A_MOCK_04_PRODUCTION,
+  SAT_SERIES_A_MOCK_05_PRODUCTION,
+]);
+
+if (!SIXTH_PRODUCTION_RESULT?.passed || !SIXTH_PRODUCTION_RESULT?.productionMock) {
+  throw new Error('Batch M SAT6: accepted production mock was not returned by the production gate');
+}
+
+export const SAT_SERIES_A_MOCK_06_PRODUCTION = SIXTH_PRODUCTION_RESULT.productionMock;
+
 export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
   acceptedTestKeys: [
     FIRST_PRODUCTION_RESULT.testKey,
@@ -71,6 +86,7 @@ export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
     THIRD_PRODUCTION_RESULT.testKey,
     FOURTH_PRODUCTION_RESULT.testKey,
     FIFTH_PRODUCTION_RESULT.testKey,
+    SIXTH_PRODUCTION_RESULT.testKey,
   ],
   acceptedTestIds: [
     FIRST_PRODUCTION_RESULT.testId,
@@ -78,6 +94,7 @@ export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
     THIRD_PRODUCTION_RESULT.testId,
     FOURTH_PRODUCTION_RESULT.testId,
     FIFTH_PRODUCTION_RESULT.testId,
+    SIXTH_PRODUCTION_RESULT.testId,
   ],
   questionCounts: [
     FIRST_PRODUCTION_RESULT.questionCount,
@@ -85,10 +102,11 @@ export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
     THIRD_PRODUCTION_RESULT.questionCount,
     FOURTH_PRODUCTION_RESULT.questionCount,
     FIFTH_PRODUCTION_RESULT.questionCount,
+    SIXTH_PRODUCTION_RESULT.questionCount,
   ],
-  status: FIFTH_PRODUCTION_RESULT.status,
+  status: SIXTH_PRODUCTION_RESULT.status,
   storageMode: 'canonical-runtime-records',
-  nextTestKey: 'SAT6',
+  nextTestKey: 'SAT7',
 });
 
-export default SAT_SERIES_A_MOCK_05_PRODUCTION;
+export default SAT_SERIES_A_MOCK_06_PRODUCTION;
