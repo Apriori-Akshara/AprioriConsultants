@@ -12,8 +12,8 @@ This document records the approved implementation sequence so future AI sessions
 
 - **A–H:** completed foundations / implemented and live as recorded below.
 - **I — Math integration + mathematical QC:** **COMPLETE / LIVE.** The integrated Math figure path now performs deterministic mathematical QC and rejects unsupported/incorrect deterministic cases rather than silently correcting them. The temporary same-mock duplicate-figure rejection was removed because identical figure structures are allowed across distinct questions; cross-mock figure originality remains a series-level concern.
-- **J — Figure validation + originality/uniqueness:** **IN PROGRESS — CURRENT CHECKPOINT.** A deterministic figure-originality QC foundation has been added and integrated into the figure-quality path. It validates chart/scatter/table/coordinate data shape and records a normalized figure originality fingerprint while preserving question-level reuse rules. The next J increment is series-level originality strengthening and validation of figure/question relationships across the available mock series.
-- **K — Calibration corpus + assessment calibration:** pending.
+- **J — Figure validation + originality/uniqueness:** **COMPLETE / LIVE.** The J audit strengthened figure-specific normalization, exact figure-data detection, and figure/question relationship validation. Same-mock structural reuse remains allowed; exact figure-data reuse across different mocks is rejected by the series-level J validator, alongside the broader mock-content uniqueness gate.
+- **K — Calibration corpus + assessment calibration:** **NEXT / PENDING.**
 - **L — End-to-end generation/QC/storage/adapter test:** pending and remains the hard gate before production-volume generation.
 - **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until L passes.
 
@@ -255,13 +255,17 @@ Bring the Math generators into the new pipeline and strengthen independent mathe
 
 Validate visual correctness and run item, passage, construction, dataset, and figure uniqueness checks.
 
-**Status: IN PROGRESS / CURRENT CHECKPOINT.** Added `src/data/sat/mockContent/figureOriginalityQC.js`, a deterministic figure-validation/originality layer that checks chart/scatter/table/coordinate data shape and records a normalized originality fingerprint. It is integrated into `figureQualityGate.js`. Series-level uniqueness already exists in the broader mock-content quality gate; the remaining J work is to strengthen its figure-specific normalization and relationship checks without forbidding legitimate reuse within a mock.
+**Status: COMPLETE / LIVE.** The Phase J audit found the existing figure-originality layer useful but too coarse. The final J increment added explicit figure/question relationship validation, separate structure and exact-data fingerprints, and a series-level validator that rejects exact figure-data reuse across different mocks while allowing different data within the same construction family and allowing legitimate same-mock structural reuse. The broader mock-content quality gate remains in place for cross-mock question/prompt/construction/figure uniqueness.
+
+Final J runtime commit: `a27ffb1f5af4faaf7360b224e87ea1d652069bd8` — `Batch J: Strengthen figure originality and relationship QC`.
+
+**J is formally closed at this checkpoint.**
 
 ### K — Calibration corpus + assessment calibration
 
 Set up and wire the private calibration corpus and use it to tune generation toward the target assessment characteristics.
 
-**Pending.**
+**NEXT / PENDING.**
 
 ### L — End-to-end generation/QC/storage/adapter test
 
@@ -311,4 +315,4 @@ At the beginning of the next session:
 6. Implement the next batch in A→M order, with deployment-safe checkpoints.
 7. Do not start Batch M until Batch L passes.
 
-**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = COMPLETE and LIVE. Batch H = IMPLEMENTED. Batch I = COMPLETE/LIVE. Batch J = IN PROGRESS.** Number-line rendering remains deferred. The private calibration corpus and final 20 production mocks remain gated behind K and L.
+**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = COMPLETE and LIVE. Batch H = IMPLEMENTED. Batch I = COMPLETE/LIVE. Batch J = COMPLETE/LIVE. Batch K = NEXT/PENDING.** Number-line rendering remains deferred. The private calibration corpus and final 20 production mocks remain gated behind K and L.
