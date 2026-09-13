@@ -329,6 +329,9 @@ export function buildProductionMock({ testId, variant, seed = 0 }) {
   return { testId, assessmentVariant: variant, questionCount: 108, bankQuestionCount: 196, readingWriting, math: [] };
 }
 
+export const PSAT_MOCK_01_CONTENT = buildProductionMock({ testId: 'psat-mock-01', variant: 'psat-nmsqt', seed: 0 });
+export const SAT_MOCK_01_CONTENT = buildProductionMock({ testId: 'sat-mock-01', variant: 'sat-series-a', seed: 1 });
+
 export { SOURCE_FAMILIES, RHETORICAL_STRUCTURES, EVIDENCE_RELATIONSHIPS, COGNITIVE_OPERATIONS };
 
-export default { buildProductionMock };
+export default { PSAT_MOCK_01_CONTENT, SAT_MOCK_01_CONTENT, buildProductionMock };
