@@ -4,44 +4,53 @@
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 20 complete original SAT/PSAT-style mocks
 
-This document records the approved implementation sequence so future AI sessions can resume directly at the next unfinished batch rather than repeating the audit/planning process.
+## Taxonomy rule
+
+For this project, the implementation sequence is called **Batches A–M**. “Phase” is a legacy synonym and should not be used for new work. Future AI sessions, commits, checkpoints, and status reports should use **Batch A, Batch B, … Batch M** consistently.
+
+This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-CHECKPOINT-2026-09-13.md` records the detailed checkpoint state, while `docs/QUESTION-BANK-MAINTENANCE.md` records maintenance rules.
 
 ---
 
 ## Current implementation status
 
-- **A–H:** completed foundations / implemented and live as recorded below.
-- **I — Math integration + mathematical QC:** **COMPLETE / LIVE.** The integrated Math figure path now performs deterministic mathematical QC and rejects unsupported/incorrect deterministic cases rather than silently correcting them. The temporary same-mock duplicate-figure rejection was removed because identical figure structures are allowed across distinct questions; cross-mock figure originality remains a series-level concern.
-- **J — Figure validation + originality/uniqueness:** **COMPLETE / LIVE.** The J audit strengthened figure-specific normalization, exact figure-data detection, and figure/question relationship validation. Same-mock structural reuse remains allowed; exact figure-data reuse across different mocks is rejected by the series-level J validator, alongside the broader mock-content uniqueness gate.
-- **K — Calibration corpus + assessment calibration:** **NEXT / PENDING.**
-- **L — End-to-end generation/QC/storage/adapter test:** pending and remains the hard gate before production-volume generation.
-- **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until L passes.
+| Batch | Area | Status |
+|---|---|---|
+| A | Canonical schema + compatibility | COMPLETE |
+| B | Blueprint engine | COMPLETE |
+| C | R&W source/passage/question construction | COMPLETE |
+| D | R&W distractor/evidence/QC | COMPLETE / LIVE |
+| E | Figure framework + rendering foundation | COMPLETE / LIVE |
+| F | Basic data visuals | COMPLETE / LIVE |
+| G | 2D geometry/math visuals | COMPLETE / LIVE |
+| H | 3D solids + future multi-source architecture | COMPLETE / VERIFIED |
+| I | Math integration + mathematical QC | COMPLETE / LIVE |
+| J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
+| K | Calibration corpus + assessment calibration | **COMPLETE / READY FOR PRIVATE ANCHOR POPULATION** |
+| L | Controlled end-to-end generation/QC/storage/adapter test | **NEXT / PENDING — HARD GATE** |
+| M | Production generation of 20 mocks + corpus-level QC | PENDING — BLOCKED BY L |
 
-No final 20-mock production corpus or private calibration corpus is being created during J.
+No final 20-mock production corpus is generated before Batch L passes.
 
 ---
 
-## 1. Core Architecture
+## 1. Core architecture
 
-The content system will use:
+The content system uses:
 
 **Stage 1 Blueprint → Stage 2 Draft → Stage 3 Independent QC Review → Canonical Storage → Existing SAT Engine**
 
-The existing SAT/adaptive engine remains the delivery engine. The new work improves the content-generation, validation, storage, and rendering layers around it.
+The existing SAT/adaptive engine remains the delivery engine. New work is restricted to generation, storage, validation, and figure rendering.
 
-The new canonical question contract must be reconciled with the existing repository model through a compatibility adapter. Existing useful fields must not be silently deleted.
+The canonical question contract must remain compatible with useful legacy fields. Existing fields must not be silently deleted.
 
 ---
 
-## 2. Verbal / Reading & Writing Standard
+## 2. R&W construction standard
 
-The current R&W generator must be upgraded from generic paragraph-plus-question generation to a dedicated Digital SAT-style item-construction process.
-
-### Blueprint controls
-
-Before drafting, select as applicable:
-- R&W domain and skill
-- easy/medium/hard difficulty
+Before drafting, the blueprint controls as applicable:
+- domain and skill
+- difficulty
 - cognitive operation
 - source family
 - text type
@@ -52,114 +61,40 @@ Before drafting, select as applicable:
 - passage length
 - figure/data requirements
 
-### Source families
+Source families include literature, history/social science, humanities, and science. Passages must vary in syntax, rhetorical structure, sentence rhythm, information density, perspective, evidence structure, and implicitness without using obscure vocabulary or unnecessary length to create difficulty.
 
-**Literature:** character, setting, narrator perspective, conflict, reflection, literary interpretation.
+Distractors must correspond to plausible student-error profiles such as true-but-nonresponsive, incorrect inference, contradicted interpretation, overly broad/narrow interpretation, reversed relationship, or example-for-claim confusion.
 
-**History/Social Science:** historical development, social change, movements, policy, economic/social behavior, historical argument.
-
-**Humanities:** art history, architecture, archaeology, philosophy, linguistics, anthropology, music/cultural criticism.
-
-**Science:** experiments, observational studies, competing hypotheses, ecological/behavioral research, biology, astronomy, environmental/materials research.
-
-Passages must vary in syntax, rhetorical structure, sentence rhythm, information density, perspective, evidence structure, and implicitness. Do not create difficulty through obscure vocabulary or unnecessary length.
-
-### Distractors
-
-Distractors are built from explicit plausible student-error profiles, such as:
-- true but nonresponsive statement
-- correct observation but incorrect inference
-- plausible interpretation contradicted by evidence
-- overly broad interpretation
-- overly narrow interpretation
-- reversed relationship
-- example confused with main claim
-
-### Evidence map
-
-R&W items should retain internal evidence information for QC:
-- target evidence
-- supporting evidence
-- required inference
-- correct reasoning
-- distractor reasoning
-
-### Cross-text items
-
-Design the relationship first — agreement, contrast, qualification, extension, competing interpretation, etc. — then construct the passages and question around it.
-
-### Rhetorical synthesis
-
-Construct:
-
-**source notes → communication goal → synthesis answer options**
-
-The correct option must use the relevant notes to fulfill the stated goal.
-
-### Quantitative evidence
-
-Construct:
-
-**underlying dataset → claim/context → structured table/graph → question → answer**
-
-The visual is evidence, not decoration.
+R&W evidence maps retain target evidence, supporting evidence, required inference, correct reasoning, and distractor reasoning. Cross-text items design the relationship first. Rhetorical synthesis uses source notes → communication goal → answer options. Quantitative evidence uses underlying dataset → claim/context → structured visual → question → answer.
 
 ---
 
-## 3. Figure Implementation
+## 3. Figure implementation
 
-All figures are structured parameter objects rendered by code. Never use AI-drawn production figures, ASCII art, or opaque raw SVG as the source of truth.
+Production figures are structured parameter objects rendered by code. Do not use AI-drawn production figures, ASCII art, or opaque raw SVG as the source of truth.
 
-### Required figure sequence
+**Batch F:** bar charts, line charts, scatter plots, tables.  
+**Batch G:** right triangles, general triangles, circles, parabolas, linear-function graphs, coordinate shapes.  
+**Batch H:** 3D solids; reserve multi-source tables/data displays for future use.  
+**Deferred:** number lines are part of the broader taxonomy but were intentionally not implemented in Batch G.
 
-**Batch F**
-1. Bar charts
-2. Line charts
-3. Scatter plots
-4. Tables
-
-**Batch G**
-5. Right triangles
-6. General triangles
-7. Circles
-8. Parabolas
-9. Linear-function graphs
-10. Coordinate shapes
-
-**Batch H**
-11. 3D solids
-
-Also reserve the architecture for:
-
-12. Future multi-source tables / multi-source data displays.
-
-Number lines remain part of the broader taxonomy but are **not implemented in Batch G** and remain deferred to a later approved increment.
-
-Every figure must have deterministic parameters that QC can recompute and validate against the answer.
+Every live figure must have deterministic parameters that QC can validate against the question and answer.
 
 ---
 
-## 4. Math Standard
+## 4. Math standard
 
-Math will use the same blueprint → draft → independent QC architecture.
+Math uses the same blueprint → draft → independent QC architecture and preserves protections against repeated parameter combinations, repeated constructions, disguised numerical substitution, repeated graph/table data, and prohibited figure reuse.
 
-Preserve and extend existing protections against:
-- repeated parameter combinations
-- repeated mathematical constructions
-- disguised numerical substitution
-- repeated graph/table data
-- prohibited figure reuse
-
-Math QC must independently verify mathematical correctness.
+Mathematical QC must independently verify mathematical correctness. Unsupported constructions must be flagged rather than silently “proved” by a generic solver.
 
 ---
 
-## 5. Independent QC
+## 5. Independent QC standard
 
-A fresh QC stage must check:
-
-1. schema/answer format
-2. passage or stimulus length
+The QC system checks, as applicable:
+1. schema and answer format
+2. passage/stimulus length
 3. exactly one defensible answer
 4. difficulty and cognitive demand
 5. distractor quality
@@ -168,122 +103,109 @@ A fresh QC stage must check:
 8. figure/data consistency
 9. source/style realism
 10. PSAT content ceiling
-11. originality and prohibited duplication
+11. originality and duplication
 
-A failed item may receive 2–3 correction attempts. Repeated failures on the same check should trigger a prompt/specification improvement rather than indefinite retries.
+Failed items may receive limited correction/retry attempts; repeated failure of the same check should trigger specification/generator improvement rather than indefinite retries. Only items meeting the applicable passed QC gates are eligible for live delivery.
 
-Only `metadata.qc_status = "passed"` items are eligible for live delivery.
-
-The current Batch D implementation provides this R&W QC stage as a deterministic internal reviewer because the repository does not currently contain an external AI-generation/reviewer service. It does not weaken the delivery gate or introduce a new runtime dependency.
+Batch D provides deterministic R&W independent QC in the current repository. Batch I provides deterministic Math mathematical QC. Batch J provides strengthened figure relationship and originality QC.
 
 ---
 
-## 6. Calibration Corpus
+## 6. Calibration corpus
 
-Set up the private calibration corpus before production-volume generation.
+Calibration references may be used internally to study assessment characteristics, style, difficulty, source complexity, and question construction. Official material must not be copied, closely paraphrased, or shipped as production content.
 
-Official College Board material may be used internally as a calibration reference for assessment characteristics, style, difficulty, source complexity, and question construction. Do not copy, closely paraphrase, or ship official content as production content.
+The private calibration corpus records structural characteristics such as source family, domain/skill, passage length, rhetorical pattern, question construction, difficulty, cognitive demand, distractor behavior, and figure/data type.
 
-The calibration corpus should record structural characteristics such as:
-- source family
-- domain/skill
-- passage length
-- rhetorical pattern
-- question construction
-- difficulty
-- cognitive demand
-- distractor behavior
-- figure/data type
+**Batch K established the private calibration boundary and adapter.** Actual private/legal anchor files are an operational input and are deliberately not stored in the public repository.
 
 ---
 
-## 7. Approved Implementation Batches
+## 7. Approved implementation batches
 
-### A — Canonical schema + compatibility foundation
-
+### Batch A — Canonical schema + compatibility foundation
 Reconcile the new specification with the existing question model without deleting useful legacy fields.
 
-### B — Blueprint engine
+**Status: COMPLETE.**
 
+### Batch B — Blueprint engine
 Implement structured pre-generation blueprints.
 
-### C — Verbal source/passage/question construction
+**Status: COMPLETE.**
 
-Implement the dedicated R&W source-family, rhetorical, evidence, and cognitive-demand construction system.
+### Batch C — R&W source/passage/question construction
+Implement dedicated source-family, rhetorical, evidence, and cognitive-demand construction.
 
-### D — Verbal distractor + evidence map + independent QC
+**Status: COMPLETE.**
 
+### Batch D — R&W distractor + evidence map + independent QC
 Implement misconception-based distractors, internal evidence maps, rationale support, and independent QC.
 
-**Completed and verified at the current repository checkpoint:** the Batch C R&W path records Batch D distractor architecture and evidence maps, performs a fresh independent deterministic QC review, allows up to two correction/retry passes for Batch D-owned metadata defects, blocks live return unless `metadata.qc_status = "passed"`, and has passed public-site functional spot checks.
+**Status: COMPLETE / LIVE.** The current R&W path applies the Batch D independent QC gate before live delivery.
 
-### E — Figure framework + rendering foundation
+### Batch E — Figure framework + rendering foundation
+Implement structured figure objects and shared rendering foundation.
 
-Implement structured figure objects and rendering foundation.
+**Status: COMPLETE / LIVE.** Compatibility corrections were deployed in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
 
-**Status: COMPLETE and live.** Compatibility corrections were deployed successfully in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
-
-### F — Basic data visuals
-
+### Batch F — Basic data visuals
 Implement bar charts, line charts, scatter plots, and tables.
 
-**Status: COMPLETE / VERIFIED BY LIVE SPOT CHECKS.** The four Phase F families use structured data, deterministic validation, and the shared rendering path. Legacy `line`, `scatter`, `quadratic`, and `geometry` formats remain compatible. The user has confirmed that Mock 3 visuals render correctly in spot checks; exhaustive manual visual QC is not required at this checkpoint.
+**Status: COMPLETE / LIVE.** Mock 3 visuals were confirmed by public spot checks; exhaustive manual visual QC is not required at this checkpoint.
 
-### G — 2D geometry/math visuals
-
+### Batch G — 2D geometry/math visuals
 Implement right triangles, general triangles, circles, parabolas, linear-function graphs, and coordinate shapes.
 
-**Status: COMPLETE and live.** The Batch G implementation extends the existing figure registry and quality gate and connects all six approved Phase G families to the existing `MathVisualStimulus` rendering path. Number lines are intentionally not part of this implementation.
+**Status: COMPLETE / LIVE.** Number lines are intentionally deferred.
 
-### H — 3D + future multi-source architecture
+### Batch H — 3D + future multi-source architecture
+Implement deterministic 3D solids and reserve the extensible multi-source table architecture.
 
-Implement 3D solids and reserve the extensible multi-source table architecture.
+**Status: COMPLETE / VERIFIED.** Supported solids include cube, rectangular prism/cuboid, cylinder, sphere, and cone. `multi_source_table` remains future-only and is not live-enabled.
 
-**Status: IMPLEMENTED / CURRENT CHECKPOINT.** The `3d_solid` contract is validated in the shared figure registry and rendered deterministically through the shared Math visual entry point. The reserved `multi_source_table` contract is structurally validated but intentionally remains future-only and is not rendered or enabled for live delivery.
+### Batch I — Math integration + mathematical QC
+Bring Math generation into the new pipeline and strengthen independent mathematical verification and construction diversity.
 
-The existing Math visual renderer is preserved through `MathVisualStimulusCore`, with the new `ThreeDSolidFigure` component handling 3D solids. Supported 3D solid families include rectangular prisms/cuboids, cubes, cylinders, spheres, and cones.
+**Status: COMPLETE / LIVE.** The final live correction stabilized nonnumeric legacy SPR normalization and answer-position handling in commit `bdaecfb1e35dbfdc2279e62cdd2961d065f5916`.
 
-No production 3D corpus is generated during Batch H. Batch I integrates Math generation and independent mathematical QC; Batch J strengthens figure validation and originality/uniqueness.
-
-### I — Math integration + mathematical QC
-
-Bring the Math generators into the new pipeline and strengthen independent mathematical verification and construction diversity.
-
-**Status: COMPLETE / LIVE.** The current figure-quality path integrates deterministic Math mathematical QC and canonicalizes selected legacy Math figures before validation. The earlier overly strict same-mock duplicate-figure rejection was corrected; distinct questions may share the same structural figure parameters inside one mock. Mathematical QC remains conservative and rejects deterministic inconsistencies rather than silently correcting them.
-
-### J — Figure validation + originality/uniqueness
-
+### Batch J — Figure validation + originality/uniqueness
 Validate visual correctness and run item, passage, construction, dataset, and figure uniqueness checks.
 
-**Status: COMPLETE / LIVE.** The Phase J audit found the existing figure-originality layer useful but too coarse. The final J increment added explicit figure/question relationship validation, separate structure and exact-data fingerprints, and a series-level validator that rejects exact figure-data reuse across different mocks while allowing different data within the same construction family and allowing legitimate same-mock structural reuse. The broader mock-content quality gate remains in place for cross-mock question/prompt/construction/figure uniqueness.
+**Status: COMPLETE / LIVE.** Final runtime commit: `a27ffb1f5af4faaf7360b224e87ea1d652069bd8`.
 
-Final J runtime commit: `a27ffb1f5af4faaf7360b224e87ea1d652069bd8` — `Batch J: Strengthen figure originality and relationship QC`.
+### Batch K — Calibration corpus + assessment calibration
+Set up the private calibration corpus boundary, metadata validation, local/private loading, anchor selection, coverage summaries, and assessment-oriented target profiles.
 
-**J is formally closed at this checkpoint.**
+**Status: COMPLETE / READY FOR PRIVATE ANCHOR POPULATION.**
 
-### K — Calibration corpus + assessment calibration
+Implementation: `src/data/sat/mockContent/calibrationCorpus.js`. The private boundary is documented by `internal-only/calibration-corpus/README.md` and protected by `.gitignore`. The public repository contains no official College Board anchor text. The adapter returns an empty corpus when `SAT_CALIBRATION_CORPUS_DIR` is not configured, so the live application is unchanged by the absence of private anchors.
 
-Set up and wire the private calibration corpus and use it to tune generation toward the target assessment characteristics.
+Actual private anchor population is an operational input, not a separate Batch L. If a later private calibration run exposes a concrete defect, that defect can be corrected in the relevant batch without reopening K as a whole.
 
-**NEXT / PENDING.**
+### Batch L — Controlled end-to-end generation/QC/storage/adapter test
+Generate a small deterministic control sample through the complete content pipeline and verify:
+- Stage 1 blueprint/construction
+- Stage 2 draft/post-processing
+- Stage 3 independent R&W QC
+- deterministic Math mathematical QC
+- figure validation/originality
+- mock-level and cross-mock QC
+- canonical schema adaptation
+- storage serialization/round-trip integrity
+- compatibility with the existing SAT content path
 
-### L — End-to-end generation/QC/storage/adapter test
+**Status: NEXT / PENDING — HARD GATE.** This batch must not create the final 20 production mocks.
 
-Generate a controlled sample across R&W, Math, difficulty bands, question types, cross-text, rhetorical synthesis, quantitative evidence, figures, geometry, and student-produced response. Verify the complete pipeline through the existing engine.
+### Batch M — Production generation for 20 mocks + corpus-level QC
+Generate the full original corpus only after Batch L passes. Validate each item, each mock, and the complete 20-mock corpus.
 
-**Pending.**
-
-### M — Production generation for 20 mocks + corpus-level QC
-
-Only after Batch L passes. Generate the full original corpus and validate individual items, each mock, and the full 20-mock corpus.
-
-**Pending. Hard gate: Batch M must not begin until Batch L passes.**
+**Status: PENDING. HARD-GATED BY BATCH L.**
 
 ---
 
-## 8. Scope Protection
+## 8. Scope protection
 
-Do not modify during this project unless a question-generation/storage/rendering dependency makes it unavoidable:
+Do not modify unless a question-generation/storage/rendering dependency makes it unavoidable:
 - authentication
 - registration/email verification
 - subscription/payment/access rules
@@ -294,25 +216,16 @@ Do not modify during this project unless a question-generation/storage/rendering
 
 ---
 
-## 9. Resume Procedure for Future AI Sessions
+## 9. Resume procedure
 
-At the beginning of the next session:
+At the beginning of a future session:
+1. Read this roadmap.
+2. Read the relevant Parts 1–4 of `docs/SAT-PSAT-QUESTION-SPEC.md`.
+3. Read `docs/AI-UPDATE-INSTRUCTIONS.md`, including Stage 1, Stage 2, Stage 3, and Calibration Corpus guidance.
+4. Read `docs/QUESTION-GENERATION-CHECKPOINT-2026-09-13.md`.
+5. Check current git history/files only to identify the next unfinished **Batch**.
+6. Do not repeat completed audits or implementation.
+7. Continue in A→M order with deployment-safe checkpoints.
+8. **Do not begin Batch M until Batch L passes.**
 
-1. Read `docs/QUESTION-GENERATION-ROADMAP.md`.
-2. Read the relevant parts of `docs/SAT-PSAT-QUESTION-SPEC.md`:
-   - Part 1 — Test Structure, Domains, and Difficulty
-   - Part 2 — Item Data Schema
-   - Part 3 — Figure Taxonomy
-   - Part 4 — Generation Architecture and Quality Requirements
-3. Read `docs/AI-UPDATE-INSTRUCTIONS.md`, especially:
-   - THE TASK
-   - Stage 1 Prompt — Blueprint
-   - Stage 2 Prompt — Draft
-   - Stage 3 Prompt — QC Review
-   - Calibration Corpus
-4. Check git history/current files only to identify the next unfinished batch.
-5. Do not repeat the completed audit or planning unless the repository has materially changed.
-6. Implement the next batch in A→M order, with deployment-safe checkpoints.
-7. Do not start Batch M until Batch L passes.
-
-**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = COMPLETE and LIVE. Batch H = IMPLEMENTED. Batch I = COMPLETE/LIVE. Batch J = COMPLETE/LIVE. Batch K = NEXT/PENDING.** Number-line rendering remains deferred. The private calibration corpus and final 20 production mocks remain gated behind K and L.
+**Current checkpoint:** **Batches A–J complete; Batch K complete; Batch L is the next implementation; Batch M remains blocked until L passes.**
