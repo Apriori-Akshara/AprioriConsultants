@@ -12,12 +12,14 @@ const FIGURE_SPECS = Object.freeze({
   coordinate_shape: Object.freeze({ required: ['vertices', 'shape_name', 'show_gridlines'] }),
   '3d_solid': Object.freeze({ required: ['solid_type', 'dimensions', 'labels'] }),
   multi_source_table: Object.freeze({ required: ['sources'], future: true }),
+  geometry: Object.freeze({ required: [] }),
 });
 
 const LEGACY_ALIASES = Object.freeze({
   line: 'line_chart',
   scatter: 'scatter_plot',
   quadratic: 'parabola',
+  geometry: 'geometry',
 });
 
 function isObject(value) {
