@@ -179,6 +179,14 @@ function ParabolaFigure({ figure, title }) {
   </ChartFrame>;
 }
 
+function QuadraticFigure({ figure, title }) {
+  const a = Number(figure.a); const b = Number(figure.b); const c = Number(figure.c);
+  const formatSigned = (value) => (value >= 0 ? `+${value}` : `${value}`);
+  const equation = `y=${a}x^2${formatSigned(b)}x${formatSigned(c)}`;
+  const xRange = Array.isArray(figure.x_range) && figure.x_range.length === 2 ? figure.x_range : [-10, 10];
+  return <ParabolaFigure figure={{ ...figure, equation, x_range: xRange }} title={title} />;
+}
+
 function LinearFunctionFigure({ figure, title }) {
   const slope = Number(figure.slope); const intercept = Number(figure.y_intercept); const [start, end] = figure.x_range.map(Number);
   const points = [[start, slope * start + intercept], [end, slope * end + intercept]];
