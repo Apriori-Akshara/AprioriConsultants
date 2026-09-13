@@ -106,20 +106,21 @@ All figures are structured parameter objects rendered by code. Never use AI-draw
 4. Tables
 
 **Batch G**
-5. Number lines
-6. Right triangles
-7. General triangles
-8. Circles
-9. Parabolas
-10. Linear-function graphs
-11. Coordinate shapes
+5. Right triangles
+6. General triangles
+7. Circles
+8. Parabolas
+9. Linear-function graphs
+10. Coordinate shapes
 
 **Batch H**
-12. 3D solids
+11. 3D solids
 
 Also reserve the architecture for:
 
-13. Future multi-source tables / multi-source data displays.
+12. Future multi-source tables / multi-source data displays.
+
+Number lines remain part of the broader taxonomy but are **not implemented in Batch G** and remain deferred to a later approved increment.
 
 Every figure must have deterministic parameters that QC can recompute and validate against the answer.
 
@@ -213,13 +214,13 @@ Implement structured figure objects and rendering foundation.
 
 Implement bar charts, line charts, scatter plots, and tables.
 
-**Status: COMPLETE / CURRENTLY VERIFIED BY LIVE SPOT CHECKS.** The four Phase F families use structured data, deterministic validation, and the shared rendering path. Legacy `line`, `scatter`, `quadratic`, and `geometry` formats remain compatible. The user has confirmed that Mock 3 visuals render correctly in spot checks; exhaustive manual visual QC is not required at this checkpoint.
+**Status: COMPLETE / VERIFIED BY LIVE SPOT CHECKS.** The four Phase F families use structured data, deterministic validation, and the shared rendering path. Legacy `line`, `scatter`, `quadratic`, and `geometry` formats remain compatible. The user has confirmed that Mock 3 visuals render correctly in spot checks; exhaustive manual visual QC is not required at this checkpoint.
 
 ### G — 2D geometry/math visuals
 
-Implement number lines, right triangles, general triangles, circles, parabolas, linear-function graphs, and coordinate shapes.
+Implement right triangles, general triangles, circles, parabolas, linear-function graphs, and coordinate shapes.
 
-**Status: IMPLEMENTED / CURRENT CHECKPOINT.** The Batch G implementation extends the existing figure registry and quality gate and connects all seven Phase G families to the existing `MathVisualStimulus` rendering path. Number-line implementation is included here because the approved figure taxonomy places it immediately before the 2D geometry families in the figure sequence. No new visualization library or parallel renderer was introduced.
+**Status: IMPLEMENTED / CURRENT CHECKPOINT.** The Batch G implementation extends the existing figure registry and quality gate and connects all six approved Phase G families to the existing `MathVisualStimulus` rendering path. Number lines are intentionally not part of this implementation. No new visualization library or parallel renderer was introduced.
 
 ### H — 3D + future multi-source architecture
 
@@ -295,7 +296,7 @@ At the beginning of the next session:
 
 **Previous planning checkpoint:** Batch D was fully verified based on implementation and public-site functional spot checks, and Batch E established the structured figure registry/rendering foundation.
 
-**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = IMPLEMENTED/CURRENT.** Batch F provides structured support and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`. Batch G extends the same architecture to `number_line`, `right_triangle`, `general_triangle`, `circle`, `parabola`, `linear_function_graph`, and `coordinate_shape`, while retaining the legacy figure formats.
+**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = IMPLEMENTED/CURRENT.** Batch F provides structured support and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`. Batch G extends the same architecture to `right_triangle`, `general_triangle`, `circle`, `parabola`, `linear_function_graph`, and `coordinate_shape`, while retaining the legacy figure formats. Number-line rendering remains deferred.
 
 **Remaining:** Batch H, I, J, K, L, and M are pending. Batch M remains hard-gated on Batch L. Do not create the 20 final production mocks or the calibration corpus during Batch G.
 
