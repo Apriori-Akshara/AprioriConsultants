@@ -2,7 +2,7 @@ import { validateStructuredFigure } from './figureRegistry';
 
 const ALLOWED = new Set([
   'line', 'line_chart', 'scatter', 'scatter_plot', 'bar_chart', 'table',
-  'quadratic', 'parabola', 'geometry', 'number_line',
+  'quadratic', 'parabola', 'geometry',
   'right_triangle', 'general_triangle', 'circle', 'linear_function_graph',
   'coordinate_shape',
 ]);
@@ -32,7 +32,7 @@ function validateMockFigures(mock) {
     if (!ALLOWED.has(figure.type)) throw new Error(`Unsupported figure type ${figure.type}: ${question.questionId}`);
     if (question.metadata?.figurePurpose !== 'question-essential') throw new Error(`Math figure is not marked question-essential: ${question.questionId}`);
 
-    const geometryTypes = ['geometry', 'table', 'right_triangle', 'general_triangle', 'circle', 'coordinate_shape', 'number_line'];
+    const geometryTypes = ['geometry', 'table', 'right_triangle', 'general_triangle', 'circle', 'coordinate_shape'];
     const dataTypes = ['scatter', 'scatter_plot', 'line', 'line_chart', 'bar_chart', 'table'];
     const advancedTypes = ['quadratic', 'parabola', 'line', 'line_chart', 'bar_chart', 'table', 'coordinate_shape'];
     const algebraTypes = ['line', 'line_chart', 'bar_chart', 'table', 'coordinate_shape'];
