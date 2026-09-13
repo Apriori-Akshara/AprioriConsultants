@@ -1,7 +1,7 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / resume checkpoint
-**Scope:** Question generation, question storage, and figure/question rendering only
+**Status:** Approved implementation plan / resume checkpoint  
+**Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 20 complete original SAT/PSAT-style mocks
 
 This document records the approved implementation sequence so future AI sessions can resume directly at the next unfinished batch rather than repeating the audit/planning process.
@@ -277,6 +277,10 @@ At the beginning of the next session:
 6. Implement the next batch in A→M order, with deployment-safe checkpoints.
 7. Do not start Batch M until Batch L passes.
 
-**Current planning checkpoint:** Batch D is fully verified based on implementation and public-site functional spot checks. The current implementation has established the structured figure registry/rendering foundation for **Batch E**. Do not begin Batch F until the Batch E verification gate is accepted.
+**Previous planning checkpoint:** Batch D was fully verified based on implementation and public-site functional spot checks, and Batch E established the structured figure registry/rendering foundation.
+
+**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = IMPLEMENTED/CURRENT.** The current Batch F implementation provides structured registry validation and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`, while retaining the legacy `line`, `scatter`, `quadratic`, and `geometry` formats. Number-line rendering remains intentionally deferred to the next figure-framework increment because the current approved implementation request is limited to the four basic data-visual types above.
+
+**Remaining:** Batch G, H, I, J, K, L, and M are pending. Batch M remains hard-gated on Batch L. Do not create the 20 final production mocks or the calibration corpus during Batch F.
 
 ---
