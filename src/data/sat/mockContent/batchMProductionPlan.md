@@ -31,15 +31,21 @@ A failed mock is corrected or regenerated before the sequence advances. A failed
 
 ## Current production checkpoint
 
-**SAT Series A Mocks 1–4 are accepted and stored as canonical runtime production records.**
+**SAT Series A Mocks 1–5 are accepted and stored as canonical runtime production records.**
 
-Mock 4 was accepted only after cross-mock comparison against the complete accepted Series A baseline of Mocks 1–3, including R&W context/prompt uniqueness, Math application uniqueness, figure-data uniqueness, figure-originality validation, canonical schema integrity, and storage round-trip integrity.
+Mock 4 was accepted after cross-mock comparison against the complete accepted Series A baseline of Mocks 1–3. Mock 5 was then generated only after Mocks 1–4 were accepted and was checked against all four earlier mocks for R&W context/prompt uniqueness, Math application uniqueness, figure-data uniqueness, and series-level figure originality, together with the established figure-quality/Math mathematical QC, canonical schema, and storage round-trip gates.
 
-**Next production target: SAT Series A Mock 5 (SAT5).**
+Mock 5 uses:
 
-The next implementation must add Mock 5 as the next sequential production gate and extend canonical runtime storage to accepted Mocks 1–5. It must not expose Mock 5 publicly or replace the legacy public corpus.
+- test key: `SAT5`
+- test ID: `sat-series-a-mock-05`
+- variant: `sat-series-a`
+- assessment number: `5`
+- deterministic seed: `1005`
 
-The accepted production mocks remain separate from the legacy public corpus until the complete production corpus passes the final collective gate.
+**Next production target: SAT Series A Mock 6 (`SAT6` → `sat-series-a-mock-06`).**
+
+The accepted production mocks remain separate from the legacy public corpus. Mock 5 is not exposed publicly.
 
 ## Final corpus gate
 
@@ -70,4 +76,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–4 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is SAT Series A Mock 5.**
+**Batch M is active. SAT Series A Mocks 1–5 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is SAT Series A Mock 6.**
