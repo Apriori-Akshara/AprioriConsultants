@@ -19,7 +19,7 @@
 .statCard small { margin-top:.3rem; font-size:.7rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .contentGrid { display:grid; grid-template-columns:minmax(0,2.1fr) minmax(300px,.9fr); gap:1.4rem; }
 .mainColumn,.sideColumn { display:flex; flex-direction:column; gap:1.2rem; }
-.sideColumn { padding-top:5.55rem; }
+.sideColumn { padding-top:2.95rem; }
 .sectionHeading { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:.1rem; }
 .sectionLabel { color:#6b7c91; }
 .sectionHeading h2 { margin:.35rem 0 0; color:#1b416f; font-size:1.4rem; }
@@ -38,7 +38,7 @@
 .pathCard p,.sideCard p,.sideCardAccent p,.performanceCard p { margin:0; color:#637286; font-size:.82rem; line-height:1.6; }
 .pathMeta { display:flex; gap:.4rem; flex-wrap:wrap; margin-top:1rem; }
 .pathMeta span { padding:.28rem .5rem; background:#f3f6fa; border-radius:6px; color:#6e7d91; font-size:.65rem; font-weight:700; }
-.pathLink { display:flex; align-items:center; justify-content:center; gap:.4rem; width:max-content; margin:1rem auto 0; color:#245fae; font-size:.78rem; font-weight:800; }
+.pathLink { display:flex; align-items:center; justify-content:center; gap:.4rem; width:100%; margin:1rem 0 0; color:#245fae; font-size:.78rem; font-weight:800; }
 .mockProgressPanel { padding:1.25rem; border:1px solid #dfe6ef; background:#fff; box-shadow:0 9px 22px rgba(30,64,120,.05); }
 .latestMockGrid { display:grid; grid-template-columns:minmax(0,1.55fr) .65fr 1fr; gap:1rem; align-items:center; }
 .latestMockIdentity { display:flex; align-items:flex-start; gap:.9rem; min-width:0; }
