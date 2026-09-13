@@ -37,7 +37,7 @@ No authentication, database, access-control, subscription/payment, dashboard/nav
 
 ## Batch G — 2D geometry/math visuals
 
-**Status: IMPLEMENTED / CURRENT CHECKPOINT.**
+**Status: COMPLETE and live.**
 
 Batch G extends the Batch E architecture with structured validation and shared rendering for:
 
@@ -48,27 +48,38 @@ Batch G extends the Batch E architecture with structured validation and shared r
 - `linear_function_graph`
 - `coordinate_shape`
 
-The registry validates the required geometry/math parameters and basic internal consistency, including positive dimensions, triangle inequality/angle constraints where fully specified, valid ranges, and numeric coordinate pairs. The existing Math figure quality gate now accepts the six Phase G families only within appropriate Math domains. The shared `MathVisualStimulus` renders the six canonical types directly from their structured parameters.
+The registry validates the required geometry/math parameters and basic internal consistency, including positive dimensions, triangle inequality/angle constraints where fully specified, valid ranges, and numeric coordinate pairs. The existing Math figure quality gate accepts the six Phase G families only within appropriate Math domains. The shared `MathVisualStimulus` renders the six canonical types directly from their structured parameters.
 
-Number lines remain deferred and were not added to the Batch G runtime gate. 3D solids and future multi-source tables remain Batch H work.
+Number lines remain deferred and were not added to the Batch G runtime gate. 3D solids and future multi-source tables are Batch H architecture.
 
-Legacy figure formats remain supported. No new visualization library, AI-drawn production asset, parallel renderer, or unrelated application subsystem was introduced.
+Legacy figure formats remain supported. No new visualization library, AI-drawn production asset, or unrelated application subsystem was introduced.
+
+## Batch H — 3D + future multi-source architecture
+
+**Status: IMPLEMENTED / CURRENT CHECKPOINT.**
+
+Batch H implements the approved `3d_solid` structured figure contract from the specification: `solid_type`, positive numeric `dimensions`, and `labels`. The shared Math visual entry point now routes 3D solids to a deterministic code-rendered SVG component supporting rectangular prisms/cuboids, cubes, cylinders, spheres, and cones without introducing a new visualization dependency.
+
+The future `multi_source_table` contract is reserved in the figure registry and now has structural validation for `sources`, including source titles, headers, rows, and row/header width consistency. It is intentionally **not rendered or enabled for live delivery** because it belongs to the future GMAT Data Insights architecture described by the specification.
+
+The existing Math renderer was split into a small entry-point wrapper plus `MathVisualStimulusCore` so the new 3D renderer could be added without replacing the established Phase E–G rendering behavior. Existing legacy and Phase F/G renderers remain available through the core.
+
+No production 3D question corpus was generated in Batch H. The figures remain structured parameters rendered by code; no AI-drawn production figures or raw SVG source data were introduced.
 
 ## Remaining approved batches
 
-- **H — 3D + future multi-source architecture:** pending.
 - **I — Math integration + mathematical QC:** pending.
 - **J — Figure validation + originality/uniqueness:** pending.
 - **K — Calibration corpus + assessment calibration:** pending.
 - **L — End-to-end generation/QC/storage/adapter test:** pending and is the hard gate before production-volume generation.
 - **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until Batch L passes.
 
-The 20 final production mocks and private calibration corpus are not being created by Batch G.
+The 20 final production mocks and private calibration corpus are not being created by Batch H.
 
-## Batch G implementation verification checkpoint
+## Batch H implementation verification checkpoint
 
-Relevant source files were inspected before implementation: `src/data/sat/questionSchema.js`, `src/data/sat/mockContent/figureRegistry.js`, `src/data/sat/mockContent/figureQualityGate.js`, and `src/components/sat/MathVisualStimulus.js`. Existing figure formats and the shared renderer were preserved rather than replaced.
+Relevant current source files were inspected before implementation: `docs/QUESTION-GENERATION-ROADMAP.md`, `docs/SAT-PSAT-QUESTION-SPEC.md`, `src/data/sat/mockContent/figureRegistry.js`, `src/data/sat/mockContent/figureQualityGate.js`, and `src/components/sat/MathVisualStimulus.js`. The existing renderer behavior was preserved through `MathVisualStimulusCore`, with the new `ThreeDSolidFigure` added at the shared entry point.
 
 The current implementation remains limited to question generation/storage/rendering scope. Authentication, database, access control, payment/subscription, dashboard/navigation, deployment configuration, and unrelated Redux/API code were not changed.
 
-Final build/runtime verification is delegated to the controlled deployment triggered by the main-branch commits; public student verification should remain limited to affected visual behavior after deployment.
+Final build/runtime verification is delegated to the controlled deployment triggered by the main-branch Batch H commits. Public student verification should remain limited to affected visual behavior after deployment.
