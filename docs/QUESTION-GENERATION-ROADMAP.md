@@ -1,10 +1,23 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / resume checkpoint  
+**Status:** Approved implementation plan / current checkpoint  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 20 complete original SAT/PSAT-style mocks
 
 This document records the approved implementation sequence so future AI sessions can resume directly at the next unfinished batch rather than repeating the audit/planning process.
+
+---
+
+## Current implementation status
+
+- **A–H:** completed foundations / implemented and live as recorded below.
+- **I — Math integration + mathematical QC:** **COMPLETE / LIVE.** The integrated Math figure path now performs deterministic mathematical QC and rejects unsupported/incorrect deterministic cases rather than silently correcting them. The temporary same-mock duplicate-figure rejection was removed because identical figure structures are allowed across distinct questions; cross-mock figure originality remains a series-level concern.
+- **J — Figure validation + originality/uniqueness:** **IN PROGRESS — CURRENT CHECKPOINT.** A deterministic figure-originality QC foundation has been added and integrated into the figure-quality path. It validates chart/scatter/table/coordinate data shape and records a normalized figure originality fingerprint while preserving question-level reuse rules. The next J increment is series-level originality strengthening and validation of figure/question relationships across the available mock series.
+- **K — Calibration corpus + assessment calibration:** pending.
+- **L — End-to-end generation/QC/storage/adapter test:** pending and remains the hard gate before production-volume generation.
+- **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until L passes.
+
+No final 20-mock production corpus or private calibration corpus is being created during J.
 
 ---
 
@@ -230,19 +243,19 @@ Implement 3D solids and reserve the extensible multi-source table architecture.
 
 The existing Math visual renderer is preserved through `MathVisualStimulusCore`, with the new `ThreeDSolidFigure` component handling 3D solids. Supported 3D solid families include rectangular prisms/cuboids, cubes, cylinders, spheres, and cones.
 
-No production 3D corpus is generated during Batch H. Batch I will integrate Math generation and independent mathematical QC; Batch J will strengthen figure validation and originality/uniqueness.
+No production 3D corpus is generated during Batch H. Batch I integrates Math generation and independent mathematical QC; Batch J strengthens figure validation and originality/uniqueness.
 
 ### I — Math integration + mathematical QC
 
 Bring the Math generators into the new pipeline and strengthen independent mathematical verification and construction diversity.
 
-**Pending.**
+**Status: COMPLETE / LIVE.** The current figure-quality path integrates deterministic Math mathematical QC and canonicalizes selected legacy Math figures before validation. The earlier overly strict same-mock duplicate-figure rejection was corrected; distinct questions may share the same structural figure parameters inside one mock. Mathematical QC remains conservative and rejects deterministic inconsistencies rather than silently correcting them.
 
 ### J — Figure validation + originality/uniqueness
 
 Validate visual correctness and run item, passage, construction, dataset, and figure uniqueness checks.
 
-**Pending.**
+**Status: IN PROGRESS / CURRENT CHECKPOINT.** Added `src/data/sat/mockContent/figureOriginalityQC.js`, a deterministic figure-validation/originality layer that checks chart/scatter/table/coordinate data shape and records a normalized originality fingerprint. It is integrated into `figureQualityGate.js`. Series-level uniqueness already exists in the broader mock-content quality gate; the remaining J work is to strengthen its figure-specific normalization and relationship checks without forbidding legitimate reuse within a mock.
 
 ### K — Calibration corpus + assessment calibration
 
@@ -298,6 +311,4 @@ At the beginning of the next session:
 6. Implement the next batch in A→M order, with deployment-safe checkpoints.
 7. Do not start Batch M until Batch L passes.
 
-**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = COMPLETE and LIVE. Batch H = IMPLEMENTED/CURRENT.** Batch F provides structured support and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`. Batch G extends the same architecture to `right_triangle`, `general_triangle`, `circle`, `parabola`, `linear_function_graph`, and `coordinate_shape`, while retaining the legacy figure formats. Batch H adds deterministic `3d_solid` rendering and reserves validated `multi_source_table` data structures for future use. Number-line rendering remains deferred.
-
-**Remaining:** Batch I, J, K, L, and M are pending. Batch M remains hard-gated on Batch L. Do not create the 20 final production mocks or the calibration corpus during Batch H.
+**Current implementation checkpoint:** **Batch E = COMPLETE and LIVE. Batch F = COMPLETE. Batch G = COMPLETE and LIVE. Batch H = IMPLEMENTED. Batch I = COMPLETE/LIVE. Batch J = IN PROGRESS.** Number-line rendering remains deferred. The private calibration corpus and final 20 production mocks remain gated behind K and L.
