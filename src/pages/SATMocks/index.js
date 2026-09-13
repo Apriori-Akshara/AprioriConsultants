@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { getVerifiedSatServerAccessState } from '../../lib/sat/satAccess'
 import { getSatLoginUrl } from '../../lib/sat/satLogin'
-import { getSatTestAccess } from '../../lib/sat/testAccess'
 
 import styles from '../../styles/SATMocks.module.css'
 
@@ -16,24 +15,18 @@ export async function getServerSideProps(context) {
     return { redirect: { destination: getSatLoginUrl('/SATMocks'), permanent: false } }
   }
 
-  const userId = accessState.user?.id || null
-  const testAccess = {}
-  for (const testNumber of tests) testAccess[testNumber] = await getSatTestAccess(userId, testNumber)
-  return { props: { testAccess } }
+  return { props: {} }
 }
 
 function Meta({ value, label }) {
   return <div className={styles.metaItem}><span className={styles.metaIcon}>✓</span><span>{value}</span><strong>{label}</strong></div>
 }
 
-function MockCard({ track, testNumber, attempt }) {
-  const isPsat = track === 'PSAT'
-  const routeKey = `${track}${testNumber}`
-  const title = `${isPsat ? 'PSAT/NMSQT' : 'SAT'} Mock Test ${String(testNumber).padStart(2, '0')}`
-  const label = `${isPsat ? 'PSAT / NMSQT' : 'SAT'} · MOCK ${String(testNumber).padStart(2, '0')}`
-  const description = isPsat
-    ? `Original PSAT/NMSQT-style adaptive practice with timed modules, persistent progress, scoring, and reporting.`
-    : `Original Digital SAT-style adaptive practice with timed modules, persistent progress, scoring, and reporting.`
+function MockCard({ testNumber, attempt }) {
+  const routeKey = `SAT${testNumber}`
+  const title = `SAT Mock Test ${String(testNumber).padStart(2, '0')}`
+  const label = `SAT · MOCK ${String(testNumber).padStart(2, '0')}`
+  const description = 'Original Digital SAT-style adaptive practice with timed modules, persistent progress, scoring, and reporting.'
 
   const status = attempt?.status === 'in-progress' ? 'In Progress' : attempt?.status === 'completed' ? 'Completed' : 'Ready'
   const actionLabel = status === 'In Progress'
@@ -46,7 +39,7 @@ function MockCard({ track, testNumber, attempt }) {
     <article className={`${styles.testCard} ${styles.testCardIncluded}`}>
       <div className={styles.testCardTop}>
         <div className={styles.testIdentity}>
-          <div className={styles.testIcon}>{isPsat ? 'P' : 'S'}</div>
+          <div className={styles.testIcon}>S</div>
           <div>
             <span className={styles.testNumber}>{label}</span>
             <h3>{title}</h3>
@@ -79,10 +72,11 @@ export default function SATMocks() {
       .catch(() => null)
   }, [])
 
-  const completedCount = progress.completed?.length || 0
-  const inProgressCount = (progress.attempts || []).filter((item) => item.status === 'in-progress').length
+  const completedCount = progress.completed?.filter((item) => String(item?.test_key || '').startsWith('SAT')).length || 0
+  const inProgressCount = (progress.attempts || []).filter((item) => item.status === 'in-progress' && String(item?.test_key || '').startsWith('SAT')).length
   const bestAccuracy = useMemo(() => {
     const values = (progress.completed || [])
+      .filter((item) => String(item?.test_key || '').startsWith('SAT'))
       .map((item) => Number(item.section_scores?.accuracy))
       .filter(Number.isFinite)
     return values.length ? Math.max(...values) : 0
@@ -92,7 +86,7 @@ export default function SATMocks() {
     const grouped = {}
     for (const item of progress.attempts || []) {
       const key = String(item?.test_key || '')
-      if (!key) continue
+      if (!key.startsWith('SAT')) continue
       const existing = grouped[key]
       if (!existing || item.status === 'in-progress' || new Date(item.updated_at || 0).getTime() > new Date(existing.updated_at || 0).getTime()) {
         grouped[key] = item
@@ -109,32 +103,17 @@ export default function SATMocks() {
         <section className={styles.hero}>
           <div>
             <span className={styles.eyebrow}>APRIORI TEST LAB</span>
-            <h1>PSAT &amp; SAT Mock Tests</h1>
-            <p>Twenty full-length adaptive practice forms with timed modules, persistent attempts, scoring, and a progress trail that carries into your student dashboard.</p>
+            <h1>SAT Mock Tests</h1>
+            <p>Ten full-length Digital SAT-style adaptive practice forms with timed modules, persistent attempts, scoring, and a progress trail that carries into your student dashboard.</p>
           </div>
-          <div className={styles.heroBadge}><span>20</span><small>Live Mocks</small></div>
+          <div className={styles.heroBadge}><span>10</span><small>Live Mocks</small></div>
         </section>
 
         <section className={styles.summaryGrid}>
-          <div className={styles.summaryCard}><span className={styles.summaryLabel}>TESTS COMPLETED</span><strong>{completedCount}</strong><p>Completed PSAT/SAT attempts saved to your account</p></div>
-          <div className={styles.summaryCard}><span className={styles.summaryLabel}>IN PROGRESS</span><strong>{inProgressCount}</strong><p>PSAT/SAT mocks with an active saved attempt</p></div>
-          <div className={styles.summaryCard}><span className={styles.summaryLabel}>BEST ACCURACY</span><strong>{bestAccuracy}%</strong><p>Highest completed mock accuracy so far</p></div>
-          <div className={styles.summaryCard}><span className={styles.summaryLabel}>FULL LIBRARY</span><strong>20</strong><p>10 PSAT/NMSQT forms + 10 Digital SAT forms</p></div>
-        </section>
-
-        <section className={styles.sectionHeader}>
-          <div>
-            <span className={styles.sectionEyebrow}>PSAT / NMSQT</span>
-            <h2>Ten PSAT mock tests are available</h2>
-            <p>All ten PSAT/NMSQT forms use the shared validated adaptive execution engine, persistent progress, scoring, and reporting.</p>
-          </div>
-          <Link href="/SATMocks/results" className={styles.actionButton}>View Performance Reports</Link>
-        </section>
-
-        <section className={styles.testGrid}>
-          {tests.map((testNumber) => (
-            <MockCard key={`PSAT${testNumber}`} track="PSAT" testNumber={testNumber} attempt={attemptFor(`PSAT${testNumber}`)} />
-          ))}
+          <div className={styles.summaryCard}><span className={styles.summaryLabel}>TESTS COMPLETED</span><strong>{completedCount}</strong><p>Completed SAT attempts saved to your account</p></div>
+          <div className={styles.summaryCard}><span className={styles.summaryLabel}>IN PROGRESS</span><strong>{inProgressCount}</strong><p>SAT mocks with an active saved attempt</p></div>
+          <div className={styles.summaryCard}><span className={styles.summaryLabel}>BEST ACCURACY</span><strong>{bestAccuracy}%</strong><p>Highest completed SAT mock accuracy so far</p></div>
+          <div className={styles.summaryCard}><span className={styles.summaryLabel}>FULL LIBRARY</span><strong>10</strong><p>10 Digital SAT mock forms</p></div>
         </section>
 
         <section className={styles.sectionHeader}>
@@ -143,16 +122,17 @@ export default function SATMocks() {
             <h2>Ten SAT mock tests are available</h2>
             <p>All ten Digital SAT forms use the same single student account and the shared validated adaptive execution engine.</p>
           </div>
+          <Link href="/SATMocks/results" className={styles.actionButton}>View Performance Reports</Link>
         </section>
 
         <section className={styles.testGrid}>
           {tests.map((testNumber) => (
-            <MockCard key={`SAT${testNumber}`} track="SAT" testNumber={testNumber} attempt={attemptFor(`SAT${testNumber}`)} />
+            <MockCard key={`SAT${testNumber}`} testNumber={testNumber} attempt={attemptFor(`SAT${testNumber}`)} />
           ))}
         </section>
 
         <div className={styles.dashboardFooterNote}>
-          <p>All PSAT/SAT mock attempts are saved against the same verified student account and reflected in the Profile dashboard.</p>
+          <p>All SAT mock attempts are saved against the same verified student account and reflected in the Profile dashboard.</p>
           <Link href="/Profile">View Progress Dashboard</Link>
         </div>
       </div>
