@@ -19,13 +19,14 @@
 .statCard small { margin-top:.3rem; font-size:.7rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .contentGrid { display:grid; grid-template-columns:minmax(0,2.1fr) minmax(300px,.9fr); gap:1.4rem; }
 .mainColumn,.sideColumn { display:flex; flex-direction:column; gap:1.2rem; }
+.sideColumn { padding-top:3.3rem; }
 .sectionHeading { display:flex; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:.1rem; }
 .sectionLabel { color:#6b7c91; }
 .sectionHeading h2 { margin:.35rem 0 0; color:#1b416f; font-size:1.4rem; }
 .sectionHint { color:#7b899b; font-size:.78rem; font-weight:650; }
 .sectionAction { display:inline-flex; align-items:center; gap:.4rem; color:#245fae; font-size:.78rem; font-weight:800; text-decoration:none; }
 .pathGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
-.pathCard,.performanceCard,.sideCard,.sideCardAccent { border-radius:15px; text-decoration:none; }
+.pathCard,.performanceCard,.sideCard,.sideCardAccent,.mockProgressPanel { border-radius:15px; text-decoration:none; }
 .pathCard { min-height:265px; padding:1.3rem; border:1px solid #dfe6ef; background:#fff; box-shadow:0 9px 22px rgba(30,64,120,.05); transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease; }
 .pathCard:hover { transform:translateY(-4px); border-color:#a9c2e1; box-shadow:0 14px 30px rgba(30,64,120,.09); }
 .featuredPath { background:linear-gradient(145deg,#f1f7ff 0%,#e5effd 100%); border-color:#b7cdeb; }
@@ -38,6 +39,23 @@
 .pathMeta { display:flex; gap:.4rem; flex-wrap:wrap; margin-top:1rem; }
 .pathMeta span { padding:.28rem .5rem; background:#f3f6fa; border-radius:6px; color:#6e7d91; font-size:.65rem; font-weight:700; }
 .pathLink { display:inline-flex; align-items:center; gap:.4rem; margin-top:1rem; color:#245fae; font-size:.78rem; font-weight:800; }
+.mockProgressPanel { padding:1.25rem; border:1px solid #dfe6ef; background:#fff; box-shadow:0 9px 22px rgba(30,64,120,.05); }
+.latestMockGrid { display:grid; grid-template-columns:minmax(0,1.55fr) .65fr 1fr; gap:1rem; align-items:center; }
+.latestMockIdentity { display:flex; align-items:flex-start; gap:.9rem; min-width:0; }
+.latestBadge { display:grid; place-items:center; flex:0 0 auto; min-width:78px; height:64px; padding:0 .55rem; border-radius:14px; background:#e5effd; color:#2c67b4; font-size:.68rem; font-weight:850; letter-spacing:.04em; text-align:center; }
+.latestMockIdentity h3 { margin:.35rem 0 .35rem; color:#1b416f; font-size:1.05rem; }
+.latestMockIdentity p { margin:0; color:#637286; font-size:.78rem; line-height:1.55; }
+.latestScore { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:86px; padding:1rem; border-left:1px solid #edf1f5; border-right:1px solid #edf1f5; }
+.latestScore strong { color:#173b6b; font-size:2rem; line-height:1; }
+.latestScore span { margin-top:.35rem; color:#738196; font-size:.72rem; font-weight:700; text-align:center; }
+.latestBreakdown { display:grid; gap:.65rem; }
+.latestBreakdown span { display:flex; justify-content:space-between; gap:.75rem; padding:.7rem .8rem; border-radius:10px; background:#f5f8fc; color:#637286; font-size:.76rem; }
+.latestBreakdown strong { color:#1b416f; }
+.emptyMockState { display:grid; grid-template-columns:auto 1fr auto; gap:1rem; align-items:center; }
+.emptyMockIcon { display:grid; place-items:center; width:48px; height:48px; border-radius:12px; background:#e5effd; color:#2c67b4; }
+.emptyMockState h3 { margin:0 0 .25rem; color:#1b416f; font-size:1rem; }
+.emptyMockState p { margin:0; color:#637286; font-size:.8rem; line-height:1.55; }
+.mockProgressPanel .fullButton { width:auto; min-width:180px; margin-top:0; }
 .performanceGrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
 .performanceCard { display:flex; gap:.9rem; padding:1.1rem; border:1px solid #dfe6ef; background:#fff; }
 .performanceIcon { flex:0 0 auto; color:#376fae; margin-top:.2rem; }
@@ -48,6 +66,7 @@
 .sideCardAccent h2 { margin-top:.55rem; color:#fff; font-size:1.35rem; }
 .sideCardAccent p { color:rgba(255,255,255,.88); }
 .fullButton { width:100%; margin-top:1.1rem; background:#fff; color:#245ea8; }
+.sideCardAccent .fullButton { width:min(86%,290px); margin:1.1rem auto 0; }
 .sideCard { padding:1.35rem; background:#fff; border:1px solid #dfe6ef; box-shadow:0 8px 22px rgba(30,64,120,.05); }
 .sideCardIcon { margin-bottom:.95rem; }
 .sideCard h3 { font-size:1rem; }
@@ -56,5 +75,6 @@
 .roadmapItem strong { color:#3169ad; font-size:.8rem; }
 .roadmapItem span { color:#53657b; font-size:.8rem; font-weight:700; }
 .futureTag { display:inline-block; margin-top:.9rem; padding:.32rem .55rem; border-radius:999px; background:#eef3f8; color:#68778a; font-size:.65rem; font-weight:800; }
-@media (max-width:1100px) { .quickStats,.pathGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } .contentGrid { grid-template-columns:1fr; } }
+@media (max-width:1100px) { .quickStats,.pathGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } .contentGrid { grid-template-columns:1fr; } .sideColumn { padding-top:0; } }
+@media (max-width:900px) { .latestMockGrid { grid-template-columns:1fr; } .latestScore { border-left:0; border-right:0; border-top:1px solid #edf1f5; border-bottom:1px solid #edf1f5; align-items:flex-start; } .emptyMockState { grid-template-columns:auto 1fr; } .emptyMockState .fullButton { grid-column:1/-1; width:100%; } }
 @media (max-width:760px) { .profilePage { padding:1.2rem 3vw 3rem; } .dashboardHero { flex-direction:column; align-items:flex-start; padding:1.5rem; } .heroActions { width:100%; } .primaryButton,.secondaryButton { flex:1; } .quickStats,.pathGrid,.performanceGrid { grid-template-columns:1fr; } .sectionHeading { align-items:flex-start; flex-direction:column; } }
