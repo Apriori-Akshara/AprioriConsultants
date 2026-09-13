@@ -107,14 +107,111 @@ function TableFigure({ figure, title }) {
   </div>;
 }
 
-function QuadraticFigure({ figure, title }) {
-  const a = Number(figure.a || 1); const b = Number(figure.b || 0); const c = Number(figure.c || 0);
-  const points = Array.from({ length: 11 }, (_, index) => { const x = -5 + index; return [x, a * x * x + b * x + c]; });
+function RightTriangleFigure({ figure, title }) {
+  const a = Number(figure.leg_a); const b = Number(figure.leg_b); const hypotenuse = Math.hypot(a, b);
+  const unknown = String(figure.unknown_side);
+  const displayed = unknown === 'c' ? hypotenuse : unknown === 'a' ? a : b;
+  const labels = figure.labels || {};
+  return <div className={styles.figureBox} aria-label={title}>
+    <div className={styles.figureTitle}>{title}</div>
+    <svg viewBox="0 0 580 250" role="img">
+      <polygon points="145,195 425,195 145,55" className={styles.shape} />
+      {figure.show_right_angle_marker !== false && <polyline points="145,175 165,175 165,195" className={styles.dash} fill="none" />}
+      <text x="270" y="220">{labels.a || `a = ${a}`}</text>
+      <text x="110" y="130" textAnchor="end">{labels.b || `b = ${b}`}</text>
+      <text x="285" y="120">{labels.c || `c = ${displayed}`}</text>
+    </svg>
+  </div>;
+}
+
+function GeneralTriangleFigure({ figure, title }) {
+  const sides = figure.side_lengths || [];
+  const labels = figure.labels || {};
+  const base = Number(sides[0] || 8); const left = Number(sides[1] || 7); const right = Number(sides[2] || 6);
+  const x = (base * base + left * left - right * right) / (2 * base);
+  const y = Math.sqrt(Math.max(0, left * left - x * x));
+  const scale = 230 / Math.max(base, x + 0.01);
+  const bx = 155; const by = 195; const cx = bx + base * scale; const ax = bx + x * scale; const ay = by - y * scale;
+  return <div className={styles.figureBox} aria-label={title}>
+    <div className={styles.figureTitle}>{title}</div>
+    <svg viewBox="0 0 580 250" role="img">
+      <polygon points={`${bx},${by} ${cx},${by} ${ax},${ay}`} className={styles.shape} />
+      <text x={(bx + cx) / 2} y="220">{labels.a || (sides[0] != null ? `a = ${sides[0]}` : 'a')}</text>
+      <text x={ax - 18} y={(ay + by) / 2}>{labels.b || (sides[1] != null ? `b = ${sides[1]}` : 'b')}</text>
+      <text x={(ax + cx) / 2 + 8} y={(ay + by) / 2}>{labels.c || (sides[2] != null ? `c = ${sides[2]}` : 'c')}</text>
+      {(figure.angles || []).map((angle, index) => angle != null ? <text key={index} x={[bx + 12, ax, cx - 20][index]} y={[by - 12, ay + 18, by - 12][index]}>{angle}°</text> : null)}
+    </svg>
+  </div>;
+}
+
+function CircleFigure({ figure, title }) {
+  const radius = Number(figure.radius); const labels = figure.labels || {};
+  return <div className={styles.figureBox} aria-label={title}>
+    <div className={styles.figureTitle}>{title}</div>
+    <svg viewBox="0 0 580 250" role="img">
+      <circle cx="290" cy="125" r="82" className={styles.shape} />
+      <line x1="290" y1="125" x2="372" y2="125" className={styles.dash} />
+      <text x="320" y="116">{labels.radius || `r = ${radius}`}</text>
+      <text x="290" y="145" textAnchor="middle">{figure.center_label}</text>
+      {figure.inscribed_angle != null && <text x="120" y="70">inscribed angle = {figure.inscribed_angle}°</text>}
+      {figure.central_angle != null && <text x="360" y="70">central angle = {figure.central_angle}°</text>}
+      {figure.chord && <line x1="220" y1="80" x2="360" y2="80" className={styles.shape} />}
+    </svg>
+  </div>;
+}
+
+function parseParabolaEquation(equation) {
+  const text = String(equation).replace(/\s+/g, '').toLowerCase().replace(/^y=/, '');
+  const match = text.match(/^([+-]?(?:\d+(?:\.\d+)?)?)x\^2([+-](?:\d+(?:\.\d+)?)?)x([+-](?:\d+(?:\.\d+)?))$/);
+  if (!match) return { a: 1, b: 0, c: 0 };
+  return { a: match[1] === '' || match[1] === '+' ? 1 : match[1] === '-' ? -1 : Number(match[1]), b: Number(match[2] || 0), c: Number(match[3] || 0) };
+}
+
+function ParabolaFigure({ figure, title }) {
+  const { a, b, c } = parseParabolaEquation(figure.equation);
+  const [start, end] = figure.x_range.map(Number);
+  const points = Array.from({ length: 41 }, (_, index) => { const x = start + ((end - start) * index) / 40; return [x, a * x * x + b * x + c]; });
   const scaled = scaleXY(points);
-  const n = variantNumber(figure.visualVariant);
+  const vertexX = -b / (2 * a); const vertexY = a * vertexX * vertexX + b * vertexX + c;
   return <ChartFrame title={title}>
-    <polyline points={scaled.map(([x, y]) => `${x},${y}`).join(" ")} className={styles.graphLine} fill="none" strokeDasharray={n % 4 === 0 ? "6 3" : undefined} />
+    <polyline points={scaled.map(([x, y]) => `${x},${y}`).join(' ')} className={styles.graphLine} fill="none" />
+    {figure.highlight_vertex && <circle cx={scaleXY([[vertexX, vertexY]])[0][0]} cy={scaleXY([[vertexX, vertexY]])[0][1]} r="6" className={styles.graphPoint} />}
   </ChartFrame>;
+}
+
+function LinearFunctionFigure({ figure, title }) {
+  const slope = Number(figure.slope); const intercept = Number(figure.y_intercept); const [start, end] = figure.x_range.map(Number);
+  const points = [[start, slope * start + intercept], [end, slope * end + intercept]];
+  const scaled = scaleXY(points);
+  return <ChartFrame title={title}>
+    <line x1={scaled[0][0]} y1={scaled[0][1]} x2={scaled[1][0]} y2={scaled[1][1]} className={styles.graphLine} />
+    {(figure.highlight_points || []).map((point, index) => {
+      const x = Number(point.x); const y = Number(point.y);
+      const scaledPoint = scaleXY([...points, [x, y]]).at(-1);
+      return <circle key={index} cx={scaledPoint[0]} cy={scaledPoint[1]} r="5" className={styles.graphPoint} />;
+    })}
+  </ChartFrame>;
+}
+
+function CoordinateShapeFigure({ figure, title }) {
+  const vertices = figure.vertices.map(([x, y]) => [Number(x), Number(y)]);
+  const scaled = scaleXY(vertices, 420, 155);
+  const polygon = scaled.map(([x, y]) => `${x + 40},${y + 30}`).join(' ');
+  const xs = vertices.map((point) => point[0]); const ys = vertices.map((point) => point[1]);
+  const [minX, maxX] = numericExtent(xs); const [minY, maxY] = numericExtent(ys);
+  const grid = [];
+  if (figure.show_gridlines) {
+    for (let x = Math.ceil(minX); x <= Math.floor(maxX); x += 1) grid.push(<line key={`x-${x}`} x1={40 + ((x - minX) / (maxX - minX || 1)) * 420} y1="30" x2={40 + ((x - minX) / (maxX - minX || 1)) * 420} y2="185" className={styles.gridline} />);
+    for (let y = Math.ceil(minY); y <= Math.floor(maxY); y += 1) grid.push(<line key={`y-${y}`} x1="40" y1={185 - ((y - minY) / (maxY - minY || 1)) * 155} x2="460" y2={185 - ((y - minY) / (maxY - minY || 1)) * 155} className={styles.gridline} />);
+  }
+  return <div className={styles.figureBox} aria-label={title}>
+    <div className={styles.figureTitle}>{title}</div>
+    <svg viewBox="0 0 580 250" role="img">
+      {grid}
+      <polygon points={polygon} className={styles.shape} />
+      {vertices.map(([x, y], index) => <text key={index} x={scaled[index][0] + 44} y={scaled[index][1] + 26}>({x}, {y})</text>)}
+    </svg>
+  </div>;
 }
 
 function GeometryFigure({ figure, title }) {
@@ -140,7 +237,12 @@ const LEGACY_RENDERERS = {
   scatter_plot: ScatterFigure,
   table: TableFigure,
   quadratic: QuadraticFigure,
-  parabola: QuadraticFigure,
+  parabola: ParabolaFigure,
+  right_triangle: RightTriangleFigure,
+  general_triangle: GeneralTriangleFigure,
+  circle: CircleFigure,
+  linear_function_graph: LinearFunctionFigure,
+  coordinate_shape: CoordinateShapeFigure,
   geometry: GeometryFigure,
 };
 
