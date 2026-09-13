@@ -41,12 +41,24 @@ function expectedFromPrompt(question) {
   if (match) return Math.log(Number(match[2])) / Math.log(Number(match[1]));
   match = prompt.match(/f\(x\) = \(x − (\d+(?:\.\d+)?)\)² \+ (\d+(?:\.\d+)?).*?minimum/i);
   if (match) return Number(match[2]);
-  match = prompt.match(/\((\d+(?:\.\d+)?)x² − \d+x \+ k = 0, the equation has exactly one real solution/i);
-  if (match) return null;
+  match = prompt.match(/For (\d+(?:\.\d+)?)x² − (\d+(?:\.\d+)?)x \+ k = 0, the equation has exactly one real solution/i);
+  if (match) {
+    const a = Number(match[1]);
+    const b = Number(match[2]);
+    return (b * b) / (4 * a);
+  }
   match = prompt.match(/survey includes (\d+(?:\.\d+)?) responses\. (\d+(?:\.\d+)?)%/i);
   if (match) return Number(match[1]) * Number(match[2]) / 100;
   match = prompt.match(/first quartile (\d+(?:\.\d+)?) and third quartile (\d+(?:\.\d+)?)/i);
   if (match) return Number(match[2]) - Number(match[1]);
+  match = prompt.match(/Group A has (\d+(?:\.\d+)?) observations with mean (\d+(?:\.\d+)?); Group B has (\d+(?:\.\d+)?) observations with mean (\d+(?:\.\d+)?).*?combined mean/i);
+  if (match) {
+    const n1 = Number(match[1]);
+    const m1 = Number(match[2]);
+    const n2 = Number(match[3]);
+    const m2 = Number(match[4]);
+    return Number(((n1 * m1 + n2 * m2) / (n1 + n2)).toFixed(2));
+  }
   match = prompt.match(/triangle has base (\d+(?:\.\d+)?) and height (\d+(?:\.\d+)?).*?area/i);
   if (match) return Number(match[1]) * Number(match[2]) / 2;
   match = prompt.match(/circle has radius (\d+(?:\.\d+)?).*?area/i);
@@ -81,7 +93,10 @@ export function validateMathQuestionMathematics(question) {
     const correct = answerText(question);
     if (correct === null || correct === undefined) fail(question, 'answer does not resolve to a choice.');
   }
-  if (question.questionType === 'student-produced-response' && question.metadata?.answerFormat !== 'numeric') fail(question, 'student-produced-response must use numeric answer format.');
+  if (question.questionType === 'student-produced-response') {
+    if (question.metadata?.answerFormat !== 'numeric') fail(question, 'student-produced-response must use numeric answer format.');
+    if (numeric(answerText(question)) === null) fail(question, 'student-produced-response answer must be numeric.');
+  }
   const expected = expectedFromPrompt(question);
   if (expected !== null) {
     const actual = answerText(question);
