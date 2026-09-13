@@ -12,7 +12,30 @@ QC checkpoint: Verbal/R&W independent QC begins in Batch D. Math/Quant independe
 
 Approved sequence: A schema, B blueprint, C Verbal construction, D Verbal distractor/evidence/QC, E figure framework, F basic visuals, G 2D geometry, H 3D/future multi-source, I Math integration/QC, J figure/originality, K calibration, L end-to-end test, M 20-mock production and corpus QC.
 
-Current checkpoint: Batch D is fully verified for the current R&W delivery path: misconception-based distractor architecture and internal evidence maps are attached, a fresh deterministic independent QC review runs, up to two correction/retry passes are allowed for Batch D-owned defects, `metadata.qc_status = "passed"` is enforced as the live-delivery gate, and public-site functional spot checks passed. The approved College Board calibration reference corpus and per-mock human-readable canonical files are still future architecture work; calibration is a Batch K activity and full per-mock corpus production is gated through Batch L before Batch M.
+## Batch I — Math integration + mathematical QC
+
+**Status: COMPLETE / LIVE.**
+
+The Math figure-quality path integrates deterministic mathematical QC and canonicalizes selected legacy Math figures before validation. Mathematical inconsistencies are rejected rather than silently corrected. A same-mock duplicate-figure rejection discovered during deployment was removed because distinct questions may legitimately share the same figure structure; cross-mock figure uniqueness remains a separate series-level rule.
+
+## Batch J — Figure validation + originality/uniqueness
+
+**Status: IN PROGRESS / CURRENT CHECKPOINT.**
+
+Added `src/data/sat/mockContent/figureOriginalityQC.js` and integrated it into `figureQualityGate.js`.
+
+The J foundation now:
+- validates chart labels/series widths and numeric chart data;
+- validates scatter-point structure and numeric coordinates;
+- validates table headers/rows and row widths;
+- rejects duplicate vertices in coordinate shapes;
+- generates a deterministic normalized figure originality fingerprint;
+- stores that fingerprint as `metadata.figureOriginalityFingerprint` for Math figures;
+- preserves legitimate repeated figure structures within a single mock.
+
+The existing `mockContentQualityGate.js` already performs series-level exact Math figure-data uniqueness across mocks, alongside question/prompt/construction/originality checks. The remaining J work is to strengthen figure-specific normalization and figure/question relationship validation without incorrectly rejecting legitimate reuse within a mock.
+
+No final 20-mock production corpus or private calibration corpus is being created during J.
 
 ## Batch E — Figure framework + rendering foundation
 
@@ -24,62 +47,27 @@ Batch E established the structured figure registry/normalization and shared Math
 
 **Status: COMPLETE.**
 
-Batch F established structured support and shared rendering for:
-
-- `bar_chart`
-- `line_chart`
-- `scatter_plot`
-- `table`
-
-The structured registry validates required fields, numeric values, series lengths, table column consistency, and optional axis/trend metadata. Existing legacy `line`, `scatter`, `quadratic`, and `geometry` formats remain supported. The user has confirmed that Mock 3 visuals render correctly in spot checks; exhaustive manual visual QC is not required at this checkpoint.
-
-No authentication, database, access-control, subscription/payment, dashboard/navigation, deployment configuration, or unrelated API/Redux work was changed for Batch F.
+Batch F established structured support and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`. Legacy `line`, `scatter`, `quadratic`, and `geometry` formats remain supported. Mock 3 visuals were confirmed by public spot checks.
 
 ## Batch G — 2D geometry/math visuals
 
 **Status: COMPLETE and live.**
 
-Batch G extends the Batch E architecture with structured validation and shared rendering for:
-
-- `right_triangle`
-- `general_triangle`
-- `circle`
-- `parabola`
-- `linear_function_graph`
-- `coordinate_shape`
-
-The registry validates the required geometry/math parameters and basic internal consistency, including positive dimensions, triangle inequality/angle constraints where fully specified, valid ranges, and numeric coordinate pairs. The existing Math figure quality gate accepts the six Phase G families only within appropriate Math domains. The shared `MathVisualStimulus` renders the six canonical types directly from their structured parameters.
-
-Number lines remain deferred and were not added to the Batch G runtime gate. 3D solids and future multi-source tables are Batch H architecture.
-
-Legacy figure formats remain supported. No new visualization library, AI-drawn production asset, or unrelated application subsystem was introduced.
+Batch G established structured validation and shared rendering for `right_triangle`, `general_triangle`, `circle`, `parabola`, `linear_function_graph`, and `coordinate_shape`. Number lines remain deferred.
 
 ## Batch H — 3D + future multi-source architecture
 
-**Status: IMPLEMENTED / CURRENT CHECKPOINT.**
+**Status: IMPLEMENTED / publicly verified.**
 
-Batch H implements the approved `3d_solid` structured figure contract from the specification: `solid_type`, positive numeric `dimensions`, and `labels`. The shared Math visual entry point now routes 3D solids to a deterministic code-rendered SVG component supporting rectangular prisms/cuboids, cubes, cylinders, spheres, and cones without introducing a new visualization dependency.
+Batch H implements the `3d_solid` structured figure contract and deterministic rendering for cube, rectangular prism/cuboid, cylinder, sphere, and cone. `multi_source_table` is structurally reserved but remains future-only and is not live-enabled.
 
-The future `multi_source_table` contract is reserved in the figure registry and now has structural validation for `sources`, including source titles, headers, rows, and row/header width consistency. It is intentionally **not rendered or enabled for live delivery** because it belongs to the future GMAT Data Insights architecture described by the specification.
-
-The existing Math renderer was split into a small entry-point wrapper plus `MathVisualStimulusCore` so the new 3D renderer could be added without replacing the established Phase E–G rendering behavior. Existing legacy and Phase F/G renderers remain available through the core.
-
-No production 3D question corpus was generated in Batch H. The figures remain structured parameters rendered by code; no AI-drawn production figures or raw SVG source data were introduced.
+The existing renderer behavior was preserved through `MathVisualStimulusCore`; no new visualization dependency or unrelated application subsystem was introduced.
 
 ## Remaining approved batches
 
-- **I — Math integration + mathematical QC:** pending.
-- **J — Figure validation + originality/uniqueness:** pending.
+- **J — Figure validation + originality/uniqueness:** in progress as described above.
 - **K — Calibration corpus + assessment calibration:** pending.
 - **L — End-to-end generation/QC/storage/adapter test:** pending and is the hard gate before production-volume generation.
 - **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until Batch L passes.
 
-The 20 final production mocks and private calibration corpus are not being created by Batch H.
-
-## Batch H implementation verification checkpoint
-
-Relevant current source files were inspected before implementation: `docs/QUESTION-GENERATION-ROADMAP.md`, `docs/SAT-PSAT-QUESTION-SPEC.md`, `src/data/sat/mockContent/figureRegistry.js`, `src/data/sat/mockContent/figureQualityGate.js`, and `src/components/sat/MathVisualStimulus.js`. The existing renderer behavior was preserved through `MathVisualStimulusCore`, with the new `ThreeDSolidFigure` added at the shared entry point.
-
-The current implementation remains limited to question generation/storage/rendering scope. Authentication, database, access control, payment/subscription, dashboard/navigation, deployment configuration, and unrelated Redux/API code were not changed.
-
-Final build/runtime verification is delegated to the controlled deployment triggered by the main-branch Batch H commits. Public student verification should remain limited to affected visual behavior after deployment.
+Authentication, database, access control, payment/subscription, dashboard/navigation, deployment configuration, and unrelated Redux/API work remain outside this project scope.
