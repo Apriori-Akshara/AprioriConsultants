@@ -1,11 +1,4 @@
-/**
- * Batch M — canonical runtime store for accepted production mocks.
- *
- * This store is intentionally separate from the legacy public corpus. A mock
- * is exposed here only after the production gate has generated it and all
- * established QC plus canonical serialization checks have passed.
- */
-
+/** Batch M canonical runtime store. */
 import { runBatchMFirstProductionGate } from './batchMFirstProductionGate';
 import { runBatchMSecondProductionGate } from './batchMSecondProductionGate';
 import { runBatchMThirdProductionGate } from './batchMThirdProductionGate';
@@ -13,119 +6,36 @@ import { runBatchMFourthProductionGate } from './batchMFourthProductionGate';
 import { runBatchMFifthProductionGate } from './batchMFifthProductionGate';
 import { runBatchMSixthProductionGate } from './batchMSixthProductionGate';
 import { runBatchMSeventhProductionGate } from './batchMSeventhProductionGate';
+import { runBatchMEighthProductionGate } from './batchMEighthProductionGate';
 
 const FIRST_PRODUCTION_RESULT = runBatchMFirstProductionGate();
-
-if (!FIRST_PRODUCTION_RESULT?.passed || !FIRST_PRODUCTION_RESULT?.productionMock) {
-  throw new Error('Batch M SAT1: accepted production mock was not returned by the production gate');
-}
-
+if (!FIRST_PRODUCTION_RESULT?.passed || !FIRST_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT1: accepted production mock was not returned by the production gate');
 export const SAT_SERIES_A_MOCK_01_PRODUCTION = FIRST_PRODUCTION_RESULT.productionMock;
-
 const SECOND_PRODUCTION_RESULT = runBatchMSecondProductionGate(SAT_SERIES_A_MOCK_01_PRODUCTION);
-
-if (!SECOND_PRODUCTION_RESULT?.passed || !SECOND_PRODUCTION_RESULT?.productionMock) {
-  throw new Error('Batch M SAT2: accepted production mock was not returned by the production gate');
-}
-
+if (!SECOND_PRODUCTION_RESULT?.passed || !SECOND_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT2: accepted production mock was not returned by the production gate');
 export const SAT_SERIES_A_MOCK_02_PRODUCTION = SECOND_PRODUCTION_RESULT.productionMock;
-
-const THIRD_PRODUCTION_RESULT = runBatchMThirdProductionGate([
-  SAT_SERIES_A_MOCK_01_PRODUCTION,
-  SAT_SERIES_A_MOCK_02_PRODUCTION,
-]);
-
-if (!THIRD_PRODUCTION_RESULT?.passed || !THIRD_PRODUCTION_RESULT?.productionMock) {
-  throw new Error('Batch M SAT3: accepted production mock was not returned by the production gate');
-}
-
+const THIRD_PRODUCTION_RESULT = runBatchMThirdProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION]);
+if (!THIRD_PRODUCTION_RESULT?.passed || !THIRD_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT3: accepted production mock was not returned by the production gate');
 export const SAT_SERIES_A_MOCK_03_PRODUCTION = THIRD_PRODUCTION_RESULT.productionMock;
-
-const FOURTH_PRODUCTION_RESULT = runBatchMFourthProductionGate([
-  SAT_SERIES_A_MOCK_01_PRODUCTION,
-  SAT_SERIES_A_MOCK_02_PRODUCTION,
-  SAT_SERIES_A_MOCK_03_PRODUCTION,
-]);
-
-if (!FOURTH_PRODUCTION_RESULT?.passed || !FOURTH_PRODUCTION_RESULT?.productionMock) {
-  throw new Error('Batch M SAT4: accepted production mock was not returned by the production gate');
-}
-
+const FOURTH_PRODUCTION_RESULT = runBatchMFourthProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION]);
+if (!FOURTH_PRODUCTION_RESULT?.passed || !FOURTH_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT4: accepted production mock was not returned by the production gate');
 export const SAT_SERIES_A_MOCK_04_PRODUCTION = FOURTH_PRODUCTION_RESULT.productionMock;
-
-const FIFTH_PRODUCTION_RESULT = runBatchMFifthProductionGate([
-  SAT_SERIES_A_MOCK_01_PRODUCTION,
-  SAT_SERIES_A_MOCK_02_PRODUCTION,
-  SAT_SERIES_A_MOCK_03_PRODUCTION,
-  SAT_SERIES_A_MOCK_04_PRODUCTION,
-]);
-
-if (!FIFTH_PRODUCTION_RESULT?.passed || !FIFTH_PRODUCTION_RESULT?.productionMock) {
-  throw new Error('Batch M SAT5: accepted production mock was not returned by the production gate');
-}
-
+const FIFTH_PRODUCTION_RESULT = runBatchMFifthProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION, SAT_SERIES_A_MOCK_04_PRODUCTION]);
+if (!FIFTH_PRODUCTION_RESULT?.passed || !FIFTH_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT5: accepted production mock was not returned by the production gate');
 export const SAT_SERIES_A_MOCK_05_PRODUCTION = FIFTH_PRODUCTION_RESULT.productionMock;
-
-const SIXTH_PRODUCTION_RESULT = runBatchMSixthProductionGate([
-  SAT_SERIES_A_MOCK_01_PRODUCTION,
-  SAT_SERIES_A_MOCK_02_PRODUCTION,
-  SAT_SERIES_A_MOCK_03_PRODUCTION,
-  SAT_SERIES_A_MOCK_04_PRODUCTION,
-  SAT_SERIES_A_MOCK_05_PRODUCTION,
-]);
-
-if (!SIXTH_PRODUCTION_RESULT?.passed || !SIXTH_PRODUCTION_RESULT?.productionMock) {
-  throw new Error('Batch M SAT6: accepted production mock was not returned by the production gate');
-}
-
+const SIXTH_PRODUCTION_RESULT = runBatchMSixthProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION, SAT_SERIES_A_MOCK_04_PRODUCTION, SAT_SERIES_A_MOCK_05_PRODUCTION]);
+if (!SIXTH_PRODUCTION_RESULT?.passed || !SIXTH_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT6: accepted production mock was not returned by the production gate');
 export const SAT_SERIES_A_MOCK_06_PRODUCTION = SIXTH_PRODUCTION_RESULT.productionMock;
-
-const SEVENTH_PRODUCTION_RESULT = runBatchMSeventhProductionGate([
-  SAT_SERIES_A_MOCK_01_PRODUCTION,
-  SAT_SERIES_A_MOCK_02_PRODUCTION,
-  SAT_SERIES_A_MOCK_03_PRODUCTION,
-  SAT_SERIES_A_MOCK_04_PRODUCTION,
-  SAT_SERIES_A_MOCK_05_PRODUCTION,
-  SAT_SERIES_A_MOCK_06_PRODUCTION,
-]);
-
-if (!SEVENTH_PRODUCTION_RESULT?.passed || !SEVENTH_PRODUCTION_RESULT?.productionMock) {
-  throw new Error('Batch M SAT7: accepted production mock was not returned by the production gate');
-}
-
+const SEVENTH_PRODUCTION_RESULT = runBatchMSeventhProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION, SAT_SERIES_A_MOCK_04_PRODUCTION, SAT_SERIES_A_MOCK_05_PRODUCTION, SAT_SERIES_A_MOCK_06_PRODUCTION]);
+if (!SEVENTH_PRODUCTION_RESULT?.passed || !SEVENTH_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT7: accepted production mock was not returned by the production gate');
 export const SAT_SERIES_A_MOCK_07_PRODUCTION = SEVENTH_PRODUCTION_RESULT.productionMock;
-
+const EIGHTH_PRODUCTION_RESULT = runBatchMEighthProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION, SAT_SERIES_A_MOCK_04_PRODUCTION, SAT_SERIES_A_MOCK_05_PRODUCTION, SAT_SERIES_A_MOCK_06_PRODUCTION, SAT_SERIES_A_MOCK_07_PRODUCTION]);
+if (!EIGHTH_PRODUCTION_RESULT?.passed || !EIGHTH_PRODUCTION_RESULT?.productionMock) throw new Error('Batch M SAT8: accepted production mock was not returned by the production gate');
+export const SAT_SERIES_A_MOCK_08_PRODUCTION = EIGHTH_PRODUCTION_RESULT.productionMock;
 export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
-  acceptedTestKeys: [
-    FIRST_PRODUCTION_RESULT.testKey,
-    SECOND_PRODUCTION_RESULT.testKey,
-    THIRD_PRODUCTION_RESULT.testKey,
-    FOURTH_PRODUCTION_RESULT.testKey,
-    FIFTH_PRODUCTION_RESULT.testKey,
-    SIXTH_PRODUCTION_RESULT.testKey,
-    SEVENTH_PRODUCTION_RESULT.testKey,
-  ],
-  acceptedTestIds: [
-    FIRST_PRODUCTION_RESULT.testId,
-    SECOND_PRODUCTION_RESULT.testId,
-    THIRD_PRODUCTION_RESULT.testId,
-    FOURTH_PRODUCTION_RESULT.testId,
-    FIFTH_PRODUCTION_RESULT.testId,
-    SIXTH_PRODUCTION_RESULT.testId,
-    SEVENTH_PRODUCTION_RESULT.testId,
-  ],
-  questionCounts: [
-    FIRST_PRODUCTION_RESULT.questionCount,
-    SECOND_PRODUCTION_RESULT.questionCount,
-    THIRD_PRODUCTION_RESULT.questionCount,
-    FOURTH_PRODUCTION_RESULT.questionCount,
-    FIFTH_PRODUCTION_RESULT.questionCount,
-    SIXTH_PRODUCTION_RESULT.questionCount,
-    SEVENTH_PRODUCTION_RESULT.questionCount,
-  ],
-  status: SEVENTH_PRODUCTION_RESULT.status,
-  storageMode: 'canonical-runtime-records',
-  nextTestKey: 'SAT8',
+ acceptedTestKeys: [FIRST_PRODUCTION_RESULT.testKey, SECOND_PRODUCTION_RESULT.testKey, THIRD_PRODUCTION_RESULT.testKey, FOURTH_PRODUCTION_RESULT.testKey, FIFTH_PRODUCTION_RESULT.testKey, SIXTH_PRODUCTION_RESULT.testKey, SEVENTH_PRODUCTION_RESULT.testKey, EIGHTH_PRODUCTION_RESULT.testKey],
+ acceptedTestIds: [FIRST_PRODUCTION_RESULT.testId, SECOND_PRODUCTION_RESULT.testId, THIRD_PRODUCTION_RESULT.testId, FOURTH_PRODUCTION_RESULT.testId, FIFTH_PRODUCTION_RESULT.testId, SIXTH_PRODUCTION_RESULT.testId, SEVENTH_PRODUCTION_RESULT.testId, EIGHTH_PRODUCTION_RESULT.testId],
+ questionCounts: [FIRST_PRODUCTION_RESULT.questionCount, SECOND_PRODUCTION_RESULT.questionCount, THIRD_PRODUCTION_RESULT.questionCount, FOURTH_PRODUCTION_RESULT.questionCount, FIFTH_PRODUCTION_RESULT.questionCount, SIXTH_PRODUCTION_RESULT.questionCount, SEVENTH_PRODUCTION_RESULT.questionCount, EIGHTH_PRODUCTION_RESULT.questionCount],
+ status: EIGHTH_PRODUCTION_RESULT.status, storageMode: 'canonical-runtime-records', nextTestKey: 'SAT9',
 });
-
-export default SAT_SERIES_A_MOCK_07_PRODUCTION;
+export default SAT_SERIES_A_MOCK_08_PRODUCTION;
