@@ -83,7 +83,7 @@ The gate throws on failure. The successful Render deployment therefore confirms 
 
 ## Batch M — Controlled production generation
 
-**Status: ACTIVE / SAT SERIES A MOCKS 1–5 ACCEPTED.**
+**Status: ACTIVE / SAT SERIES A MOCKS 1–6 ACCEPTED.**
 
 `src/data/sat/mockContent/batchMProductionController.js` establishes the deterministic production sequence and checkpoint helpers. Production records remain separate from the legacy public corpus.
 
@@ -93,17 +93,18 @@ The gate throws on failure. The successful Render deployment therefore confirms 
 - SAT Series A Mock 2 — accepted and stored.
 - SAT Series A Mock 3 — accepted and stored.
 - SAT Series A Mock 4 — accepted and stored.
-- **SAT Series A Mock 5 — accepted and stored.**
+- SAT Series A Mock 5 — accepted and stored.
+- **SAT Series A Mock 6 — accepted and stored.**
 
-Mock 5 uses `SAT5` → `sat-series-a-mock-05`, assessment number `5`, and deterministic seed `1005`. It is generated only after accepted Mocks 1–4.
+Mock 6 uses `SAT6` → `sat-series-a-mock-06`, assessment number `6`, and deterministic seed `1006`. It is generated only after accepted Mocks 1–5.
 
-Mock 5's production gate checks cross-mock R&W context/prompt uniqueness, Math application uniqueness, exact figure-data uniqueness, figure originality, established figure-quality/Math mathematical QC, canonical schema integrity, 196-record count, and JSON storage round-trip integrity against the complete accepted Mock 1–4 baseline.
+Mock 6's production gate checks cross-mock R&W context/prompt uniqueness, Math application uniqueness, exact figure-data uniqueness, figure originality, established figure-quality/Math mathematical QC, canonical schema integrity, 196-record count, and JSON storage round-trip integrity against the complete accepted Mock 1–5 baseline.
 
 ### Current next target
 
-**SAT Series A Mock 6 (`SAT6` → `sat-series-a-mock-06`).**
+**SAT Series A Mock 7 (`SAT7` → `sat-series-a-mock-07`).**
 
-The sequence must not advance until Mock 5 is accepted and stored. Mock 5 is not exposed through the public website.
+The sequence must not advance until Mock 6 is accepted and stored. Mock 6 is not exposed through the public website.
 
 ## Production safety
 
@@ -115,4 +116,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–5 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is SAT Series A Mock 6.**
+**Batch M is active. SAT Series A Mocks 1–6 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is SAT Series A Mock 7.**
