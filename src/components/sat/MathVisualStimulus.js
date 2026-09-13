@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../styles/SATMockTest.module.css";
+import { normalizeMathFigure } from "../../data/sat/mockContent/figureRegistry";
 
 function variantNumber(value) {
   return String(value || "visual").split("").reduce((sum, char) => sum + char.charCodeAt(0), 0);
@@ -74,12 +75,23 @@ function GeometryFigure({ figure, title }) {
   return <div className={styles.figureBox} aria-label={title}><div className={styles.figureTitle}>{title}</div><svg viewBox="0 0 580 250" role="img"><polygon points="120,195 290,45 460,195" className={styles.shape} /><line x1="290" y1="45" x2="290" y2="195" className={styles.dash} /><text x="255" y="220">base = {base}</text><text x="300" y="125">h = {height}</text></svg></div>;
 }
 
+const LEGACY_RENDERERS = {
+  line: LineFigure,
+  line_chart: LineFigure,
+  scatter: ScatterFigure,
+  scatter_plot: ScatterFigure,
+  quadratic: QuadraticFigure,
+  parabola: QuadraticFigure,
+  geometry: GeometryFigure,
+};
+
 export default function MathVisualStimulus({ figure, skill = "Math" }) {
   if (!figure) return null;
-  const title = figure.title || `${skill} — question-specific visual`;
-  if (figure.type === "line") return <LineFigure figure={figure} title={title} />;
-  if (figure.type === "scatter") return <ScatterFigure figure={figure} title={title} />;
-  if (figure.type === "quadratic") return <QuadraticFigure figure={figure} title={title} />;
-  if (figure.type === "geometry") return <GeometryFigure figure={figure} title={title} />;
-  return null;
+  const normalized = normalizeMathFigure(figure);
+  if (!normalized) return null;
+  const rendererType = normalized.type || normalized.figureType;
+  const Renderer = LEGACY_RENDERERS[rendererType] || LEGACY_RENDERERS[normalized.figureType];
+  if (!Renderer) return null;
+  const title = normalized.title || `${skill} — question-specific visual`;
+  return <Renderer figure={normalized} title={title} />;
 }
