@@ -1,11 +1,9 @@
 /**
  * Batch M — SAT Series A Mock 1 production gate.
  *
- * This is the first controlled production-generation step. It generates only
- * SAT Series A Mock 1, runs the established end-to-end gates, then verifies
- * that the production identity survives canonical storage round-trip.
- *
- * It intentionally does not publish or replace the live question corpus.
+ * Generates only SAT Series A Mock 1, runs the established end-to-end gates,
+ * and returns the accepted canonical production mock. It does not publish or
+ * replace the legacy live corpus.
  */
 
 import { buildProductionMock } from './verbalConstruction';
@@ -102,27 +100,17 @@ export function runBatchMFirstProductionGate() {
   if (!TARGET) throw new Error('Batch M SAT1: production target is missing');
   assertBatchMProductionOrder([]);
 
-  // Stage 1: controlled SAT Series A Mock 1 generation.
   const stage1 = buildSatSeriesAMock01();
-
-  // Stage 2: existing deterministic post-processing.
   const stage2 = prepareStage2Mock(stage1);
-
-  // Established figure + mathematical QC path. Passing the same mock through
-  // both slots is intentional here: originality is checked within the mock,
-  // while cross-mock comparison begins when Mock 2 is introduced.
   const figured = validateMockFigureQuality(stage2, stage2);
-
-  // Stage 3: existing independent R&W construction/QC layer.
   const finalMock = varyVerbalConstruction(figured.sat);
 
-  // Validate using the established legacy identity before switching to the
-  // production SAT Series A namespace. This avoids changing the legacy gate's
-  // historical identity contract solely for this first production checkpoint.
+  // Validate with the established legacy identity before moving into the new
+  // Series A namespace; the legacy gate's identity contract remains unchanged.
   validateMockContent(finalMock);
 
   const productionMock = standardizeProductionIdentity(finalMock);
-  assertCanonicalRoundTrip(productionMock);
+  const restoredRecords = assertCanonicalRoundTrip(productionMock);
 
   return {
     passed: true,
@@ -130,7 +118,11 @@ export function runBatchMFirstProductionGate() {
     testId: productionMock.testId,
     assessment: productionMock.assessmentVariant,
     questionCount: productionMock.readingWriting.length + productionMock.math.length,
-    status: 'generated-and-qc-passed-not-published',
+    status: 'generated-and-qc-passed-accepted',
+    productionMock: {
+      ...productionMock,
+      storageRecords: restoredRecords,
+    },
   };
 }
 
