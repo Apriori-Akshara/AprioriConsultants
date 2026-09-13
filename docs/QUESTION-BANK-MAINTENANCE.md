@@ -2,68 +2,78 @@
 
 Approved September 13, 2026.
 
+## Taxonomy rule
+
+This project uses **Batch A–M** as its single implementation taxonomy. “Phase” is a legacy synonym and should not be used for new work. Future maintenance notes, checkpoints, commits, and AI sessions should use **Batch** consistently.
+
 The 20-mock production corpus will have one human-readable text file per mock, ordered by section, module, and question number. Each question has a stable item_id and records its domain, skill, difficulty, question type, content, answer, rationale, QC status, and figure/data references.
 
 The human-readable mock files are the canonical editable source. Production JS/JSON question data is synchronized from them; do not maintain two independent hand-edited copies.
 
 Question correction workflow: identify mock + section + module + question + item_id; edit the canonical entry; validate; synchronize; run relevant QC; run cross-mock uniqueness checks; test runtime behavior when affected.
 
-QC checkpoint: Verbal/R&W independent QC begins in Batch D. Math/Quant independent mathematical QC begins in Batch I. Figure and originality validation was strengthened and closed in Batch J. Calibration infrastructure is established in Batch K.
+## Approved implementation sequence
 
-Approved sequence: A schema, B blueprint, C Verbal construction, D Verbal distractor/evidence/QC, E figure framework, F basic visuals, G 2D geometry, H 3D/future multi-source, I Math integration/QC, J figure/originality, K calibration, L end-to-end test, M 20-mock production and corpus QC.
-
-## Batch I — Math integration + mathematical QC
-
-**Status: COMPLETE / LIVE.**
-
-The Math figure-quality path integrates deterministic mathematical QC and canonicalizes selected legacy Math figures before validation. Mathematical inconsistencies are rejected rather than silently corrected. A same-mock duplicate-figure rejection discovered during deployment was removed because distinct questions may legitimately share the same figure structure; cross-mock figure uniqueness remains a separate series-level rule.
-
-## Batch J — Figure validation + originality/uniqueness
-
-**Status: COMPLETE / LIVE.**
-
-Added and strengthened `src/data/sat/mockContent/figureOriginalityQC.js` and integrated it into the figure-quality path. J validates figure data shape, figure/question relationships, normalized construction fingerprints, exact figure-data fingerprints, and cross-mock exact-data reuse while preserving legitimate same-mock structural reuse.
-
-## Batch K — Calibration corpus + assessment calibration
-
-**Status: IMPLEMENTED / READY FOR PRIVATE ANCHOR POPULATION.**
-
-Added `src/data/sat/mockContent/calibrationCorpus.js` as the private calibration-corpus adapter. It validates metadata-only calibration records, supports domain/difficulty anchor selection, summarizes corpus coverage, and provides assessment-oriented target profiles. Added `internal-only/calibration-corpus/README.md` and repository ignore rules so official/retired anchor text is never committed to the public repository.
-
-The repository deliberately contains **no official College Board anchor text**. The adapter reads a local/private corpus through `SAT_CALIBRATION_CORPUS_DIR`; when that variable is absent, it returns an empty corpus and does not affect the live application. This is the correct copyright boundary for a public repository. Actual private anchor population is an operational input and is not fabricated by the implementation.
-
-No final 20-mock production corpus is created during K.
+A schema → B blueprint → C R&W construction → D R&W distractor/evidence/QC → E figure framework → F basic visuals → G 2D geometry → H 3D/future multi-source → I Math integration/QC → J figure/originality → K calibration → L end-to-end test → M 20-mock production and corpus QC.
 
 ## Batch E — Figure framework + rendering foundation
 
-**Status: COMPLETE and live.**
+**Status: COMPLETE / LIVE.**
 
 Batch E established the structured figure registry/normalization and shared Math visual rendering foundation. Compatibility corrections were deployed successfully in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
 
-## Batch F — Basic Data Visuals
+## Batch F — Basic data visuals
 
-**Status: COMPLETE.**
+**Status: COMPLETE / LIVE.**
 
 Batch F established structured support and shared rendering for `bar_chart`, `line_chart`, `scatter_plot`, and `table`. Legacy `line`, `scatter`, `quadratic`, and `geometry` formats remain supported. Mock 3 visuals were confirmed by public spot checks.
 
 ## Batch G — 2D geometry/math visuals
 
-**Status: COMPLETE and live.**
+**Status: COMPLETE / LIVE.**
 
 Batch G established structured validation and shared rendering for `right_triangle`, `general_triangle`, `circle`, `parabola`, `linear_function_graph`, and `coordinate_shape`. Number lines remain deferred.
 
 ## Batch H — 3D + future multi-source architecture
 
-**Status: IMPLEMENTED / publicly verified.**
+**Status: COMPLETE / publicly verified.**
 
 Batch H implements the `3d_solid` structured figure contract and deterministic rendering for cube, rectangular prism/cuboid, cylinder, sphere, and cone. `multi_source_table` is structurally reserved but remains future-only and is not live-enabled.
 
 The existing renderer behavior was preserved through `MathVisualStimulusCore`; no new visualization dependency or unrelated application subsystem was introduced.
 
+## Batch I — Math integration + mathematical QC
+
+**Status: COMPLETE / LIVE.**
+
+The Math figure-quality path integrates deterministic mathematical QC and canonicalizes selected legacy Math figures before validation. Mathematical inconsistencies are rejected rather than silently corrected. Same-mock structural figure reuse is allowed; cross-mock originality remains a series-level rule.
+
+## Batch J — Figure validation + originality/uniqueness
+
+**Status: COMPLETE / LIVE.**
+
+`src/data/sat/mockContent/figureOriginalityQC.js` validates figure data shape, figure/question relationships, normalized construction fingerprints, exact figure-data fingerprints, and cross-mock exact-data reuse while preserving legitimate same-mock structural reuse.
+
+## Batch K — Calibration corpus + assessment calibration
+
+**Status: COMPLETE / READY FOR PRIVATE ANCHOR POPULATION.**
+
+`src/data/sat/mockContent/calibrationCorpus.js` provides metadata validation, local/private corpus loading through `SAT_CALIBRATION_CORPUS_DIR`, domain/difficulty anchor selection, corpus summaries, and assessment-oriented target profiles. `internal-only/calibration-corpus/README.md` and `.gitignore` establish the private boundary.
+
+The public repository contains no official College Board anchor text. Actual private/legal anchor population is an operational input to K and may be supplied later in a private environment. It is not fabricated by the implementation and is not a prerequisite for the K software gate.
+
+## Batch L — Controlled end-to-end generation/QC/storage/adapter test
+
+**Status: COMPLETE / LIVE.**
+
+Batch L adds `src/data/sat/mockContent/batchLIntegrationGate.js` and executes it from the canonical `src/data/sat/contentBank.js` load path. The controlled gate exercises a deterministic SAT/PSAT pair through Stage 1 construction, Stage 2 post-processing, figure validation and Math mathematical QC, Batch D independent R&W QC, mock-level/cross-mock QC, canonical schema adaptation, and JSON storage round-trip validation.
+
+The gate throws on failure. The successful Render deployment therefore confirms that the controlled end-to-end checks completed without an integration failure. No final 20-mock production corpus is generated by L.
+
 ## Remaining approved batches
 
-- **K — Calibration corpus + assessment calibration:** implemented infrastructure; private anchor population remains an operational input.
-- **L — End-to-end generation/QC/storage/adapter test:** pending and is the hard gate before production-volume generation.
-- **M — Production generation for 20 mocks + corpus-level QC:** pending; cannot begin until Batch L passes.
+- **Batch M — Production generation for 20 mocks + corpus-level QC:** next and final production-generation batch.
+
+Batch M must validate every generated item, each mock, and the complete 20-mock corpus. Production-volume generation must not be performed outside the controlled Batch M plan.
 
 Authentication, database, access control, payment/subscription, dashboard/navigation, deployment configuration, and unrelated Redux/API work remain outside this project scope.
