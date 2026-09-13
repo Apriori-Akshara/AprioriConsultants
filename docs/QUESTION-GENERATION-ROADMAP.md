@@ -26,11 +26,11 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | H | 3D solids + future multi-source architecture | COMPLETE / VERIFIED |
 | I | Math integration + mathematical QC | COMPLETE / LIVE |
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
-| K | Calibration corpus + assessment calibration | **COMPLETE / READY FOR PRIVATE ANCHOR POPULATION** |
-| L | Controlled end-to-end generation/QC/storage/adapter test | **NEXT / PENDING — HARD GATE** |
-| M | Production generation of 20 mocks + corpus-level QC | PENDING — BLOCKED BY L |
+| K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
+| L | Controlled end-to-end generation/QC/storage/adapter test | **COMPLETE / LIVE** |
+| M | Production generation of 20 mocks + corpus-level QC | **NEXT / PENDING** |
 
-No final 20-mock production corpus is generated before Batch L passes.
+**Batch M is now the only remaining approved implementation batch.**
 
 ---
 
@@ -107,7 +107,7 @@ The QC system checks, as applicable:
 
 Failed items may receive limited correction/retry attempts; repeated failure of the same check should trigger specification/generator improvement rather than indefinite retries. Only items meeting the applicable passed QC gates are eligible for live delivery.
 
-Batch D provides deterministic R&W independent QC in the current repository. Batch I provides deterministic Math mathematical QC. Batch J provides strengthened figure relationship and originality QC.
+Batch D provides deterministic R&W independent QC. Batch I provides deterministic Math mathematical QC. Batch J provides strengthened figure relationship and originality QC.
 
 ---
 
@@ -117,89 +117,68 @@ Calibration references may be used internally to study assessment characteristic
 
 The private calibration corpus records structural characteristics such as source family, domain/skill, passage length, rhetorical pattern, question construction, difficulty, cognitive demand, distractor behavior, and figure/data type.
 
-**Batch K established the private calibration boundary and adapter.** Actual private/legal anchor files are an operational input and are deliberately not stored in the public repository.
+**Batch K established the private calibration boundary and adapter.** Actual private/legal anchor files are an operational input to K and are deliberately not stored in the public repository.
 
 ---
 
 ## 7. Approved implementation batches
 
 ### Batch A — Canonical schema + compatibility foundation
-Reconcile the new specification with the existing question model without deleting useful legacy fields.
-
-**Status: COMPLETE.**
+**Status: COMPLETE.** Reconciled the new specification with the existing question model without deleting useful legacy fields.
 
 ### Batch B — Blueprint engine
-Implement structured pre-generation blueprints.
-
-**Status: COMPLETE.**
+**Status: COMPLETE.** Implemented structured pre-generation blueprints.
 
 ### Batch C — R&W source/passage/question construction
-Implement dedicated source-family, rhetorical, evidence, and cognitive-demand construction.
-
-**Status: COMPLETE.**
+**Status: COMPLETE.** Implemented dedicated source-family, rhetorical, evidence, and cognitive-demand construction.
 
 ### Batch D — R&W distractor + evidence map + independent QC
-Implement misconception-based distractors, internal evidence maps, rationale support, and independent QC.
-
 **Status: COMPLETE / LIVE.** The current R&W path applies the Batch D independent QC gate before live delivery.
 
 ### Batch E — Figure framework + rendering foundation
-Implement structured figure objects and shared rendering foundation.
-
 **Status: COMPLETE / LIVE.** Compatibility corrections were deployed in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
 
 ### Batch F — Basic data visuals
-Implement bar charts, line charts, scatter plots, and tables.
-
-**Status: COMPLETE / LIVE.** Mock 3 visuals were confirmed by public spot checks; exhaustive manual visual QC is not required at this checkpoint.
+**Status: COMPLETE / LIVE.** Implemented bar charts, line charts, scatter plots, and tables. Mock 3 visuals were confirmed by public spot checks.
 
 ### Batch G — 2D geometry/math visuals
-Implement right triangles, general triangles, circles, parabolas, linear-function graphs, and coordinate shapes.
-
-**Status: COMPLETE / LIVE.** Number lines are intentionally deferred.
+**Status: COMPLETE / LIVE.** Implemented right triangles, general triangles, circles, parabolas, linear-function graphs, and coordinate shapes. Number lines remain deferred.
 
 ### Batch H — 3D + future multi-source architecture
-Implement deterministic 3D solids and reserve the extensible multi-source table architecture.
-
-**Status: COMPLETE / VERIFIED.** Supported solids include cube, rectangular prism/cuboid, cylinder, sphere, and cone. `multi_source_table` remains future-only and is not live-enabled.
+**Status: COMPLETE / VERIFIED.** Implemented deterministic 3D solids and reserved the extensible multi-source table architecture. Supported solids include cube, rectangular prism/cuboid, cylinder, sphere, and cone. `multi_source_table` remains future-only.
 
 ### Batch I — Math integration + mathematical QC
-Bring Math generation into the new pipeline and strengthen independent mathematical verification and construction diversity.
-
-**Status: COMPLETE / LIVE.** The final live correction stabilized nonnumeric legacy SPR normalization and answer-position handling in commit `bdaecfb1e35dbfdc2279e62cdd2961d065f5916`.
+**Status: COMPLETE / LIVE.** Integrated Math generation into the figure-quality path and added independent deterministic mathematical QC, including conservative handling of unsupported constructions.
 
 ### Batch J — Figure validation + originality/uniqueness
-Validate visual correctness and run item, passage, construction, dataset, and figure uniqueness checks.
-
 **Status: COMPLETE / LIVE.** Final runtime commit: `a27ffb1f5af4faaf7360b224e87ea1d652069bd8`.
 
 ### Batch K — Calibration corpus + assessment calibration
-Set up the private calibration corpus boundary, metadata validation, local/private loading, anchor selection, coverage summaries, and assessment-oriented target profiles.
+**Status: COMPLETE / READY FOR PRIVATE ANCHOR POPULATION.** `src/data/sat/mockContent/calibrationCorpus.js` provides metadata validation, local/private corpus loading through `SAT_CALIBRATION_CORPUS_DIR`, anchor selection, coverage summaries, and assessment target profiles. `internal-only/calibration-corpus/README.md` and `.gitignore` establish the private boundary. The public repository contains no official College Board anchor text.
 
-**Status: COMPLETE / READY FOR PRIVATE ANCHOR POPULATION.**
-
-Implementation: `src/data/sat/mockContent/calibrationCorpus.js`. The private boundary is documented by `internal-only/calibration-corpus/README.md` and protected by `.gitignore`. The public repository contains no official College Board anchor text. The adapter returns an empty corpus when `SAT_CALIBRATION_CORPUS_DIR` is not configured, so the live application is unchanged by the absence of private anchors.
-
-Actual private anchor population is an operational input, not a separate Batch L. If a later private calibration run exposes a concrete defect, that defect can be corrected in the relevant batch without reopening K as a whole.
+Actual private anchor population is an operational input to K, not a separate Batch L requirement. The K software/integration work is complete.
 
 ### Batch L — Controlled end-to-end generation/QC/storage/adapter test
-Generate a small deterministic control sample through the complete content pipeline and verify:
-- Stage 1 blueprint/construction
-- Stage 2 draft/post-processing
-- Stage 3 independent R&W QC
-- deterministic Math mathematical QC
-- figure validation/originality
-- mock-level and cross-mock QC
-- canonical schema adaptation
-- storage serialization/round-trip integrity
-- compatibility with the existing SAT content path
+**Status: COMPLETE / LIVE.**
 
-**Status: NEXT / PENDING — HARD GATE.** This batch must not create the final 20 production mocks.
+Implementation files:
+- `src/data/sat/mockContent/batchLIntegrationGate.js`
+- `src/data/sat/contentBank.js`
+
+The deterministic gate runs from the canonical content-bank load path and exercises a controlled SAT/PSAT pair through:
+1. Stage 1 blueprint/construction;
+2. Stage 2 draft/post-processing;
+3. figure validation and Math mathematical QC;
+4. Batch D independent R&W QC;
+5. mock-level and cross-mock QC;
+6. canonical schema adaptation;
+7. JSON storage serialization/restoration and revalidation;
+8. integration with the existing SAT content-bank load path.
+
+The gate throws on failure. The successful Render deployment for Batch L therefore confirms that the controlled end-to-end checks completed without an integration failure. The gate does not generate the final 20-mock production corpus.
 
 ### Batch M — Production generation for 20 mocks + corpus-level QC
-Generate the full original corpus only after Batch L passes. Validate each item, each mock, and the complete 20-mock corpus.
-
-**Status: PENDING. HARD-GATED BY BATCH L.**
+**Status: NEXT / PENDING.** This is the only remaining approved implementation batch. It must generate the final original corpus only under the controlled production plan and validate every item, each mock, and the full 20-mock corpus.
 
 ---
 
@@ -226,6 +205,4 @@ At the beginning of a future session:
 5. Check current git history/files only to identify the next unfinished **Batch**.
 6. Do not repeat completed audits or implementation.
 7. Continue in A→M order with deployment-safe checkpoints.
-8. **Do not begin Batch M until Batch L passes.**
-
-**Current checkpoint:** **Batches A–J complete; Batch K complete; Batch L is the next implementation; Batch M remains blocked until L passes.**
+8. **Batch M is now the next and final implementation batch.**
