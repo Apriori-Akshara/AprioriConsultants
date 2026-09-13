@@ -31,7 +31,7 @@ Each mock is generated, independently QC-checked, cross-compared with previously
 
 **Status: COMPLETE / LIVE.**
 
-Batch E established the structured figure registry/normalization and shared Math visual rendering foundation. Compatibility corrections were deployed successfully in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20ac277e87c322c`.
+Batch E established the structured figure registry/normalization and shared Math visual rendering foundation. Compatibility corrections were deployed successfully in commits `60e1693ee29fc7a32ac78d09f97eaf1cbfbb5ce1` and `649a2d4baba31424dd12846fa20c277e87c322c`.
 
 ## Batch F — Basic data visuals
 
@@ -83,10 +83,36 @@ The gate throws on failure. The successful Render deployment therefore confirms 
 
 ## Batch M — Controlled production generation
 
-**Status: ACTIVE / PRODUCTION CORPUS NOT YET GENERATED.**
+**Status: ACTIVE / SAT SERIES A MOCKS 1–5 ACCEPTED.**
 
-`src/data/sat/mockContent/batchMProductionController.js` establishes the deterministic production sequence and checkpoint helpers. It does not generate or publish production questions by itself.
+`src/data/sat/mockContent/batchMProductionController.js` establishes the deterministic production sequence and checkpoint helpers. Production records remain separate from the legacy public corpus.
 
-Production must proceed strictly as SAT Series A 1–10 → PSAT 1–10 → SAT Series B 11–20 → final collective 20-mock QC. The next production-generation action starts with SAT Series A Mock 1 only after the controlled runner is implemented and validated.
+### Accepted production checkpoints
 
-Authentication, database, access control, payment/subscription, dashboard/navigation, deployment configuration, and unrelated Redux/API work remain outside this project scope, except for the specifically requested SAT Series B navigation shell.
+- SAT Series A Mock 1 — accepted and stored.
+- SAT Series A Mock 2 — accepted and stored.
+- SAT Series A Mock 3 — accepted and stored.
+- SAT Series A Mock 4 — accepted and stored.
+- **SAT Series A Mock 5 — accepted and stored.**
+
+Mock 5 uses `SAT5` → `sat-series-a-mock-05`, assessment number `5`, and deterministic seed `1005`. It is generated only after accepted Mocks 1–4.
+
+Mock 5's production gate checks cross-mock R&W context/prompt uniqueness, Math application uniqueness, exact figure-data uniqueness, figure originality, established figure-quality/Math mathematical QC, canonical schema integrity, 196-record count, and JSON storage round-trip integrity against the complete accepted Mock 1–4 baseline.
+
+### Current next target
+
+**SAT Series A Mock 6 (`SAT6` → `sat-series-a-mock-06`).**
+
+The sequence must not advance until Mock 5 is accepted and stored. Mock 5 is not exposed through the public website.
+
+## Production safety
+
+Batch M must not replace or delete the legacy SAT content path until the new corpus has passed the complete corpus-level gate.
+
+Do not commit a partially generated production corpus as if it were complete. Production generation is checkpointed so that an individual mock can be regenerated without silently changing previously accepted mocks.
+
+Private calibration anchors, if authorized and supplied, may inform calibration work through the Batch K private boundary. They are not copied into production content or the public repository.
+
+## Status
+
+**Batch M is active. SAT Series A Mocks 1–5 generation, QC, cross-mock acceptance, and canonical runtime storage checkpoints are complete. The next production target is SAT Series A Mock 6.**
