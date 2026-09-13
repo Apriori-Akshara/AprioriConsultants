@@ -134,7 +134,6 @@ export default function Profile() {
                 <span className={styles.sectionLabel}>YOUR SAT PATH</span>
                 <h2>Prepare with purpose</h2>
               </div>
-              <span className={styles.sectionHint}>Foundation → Advanced → Mocks</span>
             </div>
 
             <div className={styles.pathGrid}>
