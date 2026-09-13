@@ -71,6 +71,56 @@ function validateTable(figure, errors) {
   }
 }
 
+function validateRightTriangle(figure, errors) {
+  if (!isFiniteNumber(figure.leg_a) || Number(figure.leg_a) <= 0) errors.push('right_triangle.leg_a must be a positive number.');
+  if (!isFiniteNumber(figure.leg_b) || Number(figure.leg_b) <= 0) errors.push('right_triangle.leg_b must be a positive number.');
+  if (!isObject(figure.labels)) errors.push('right_triangle.labels must be an object.');
+  if (!['a', 'b', 'c'].includes(String(figure.unknown_side))) errors.push('right_triangle.unknown_side must be a, b, or c.');
+  if (figure.show_right_angle_marker !== undefined && typeof figure.show_right_angle_marker !== 'boolean') errors.push('right_triangle.show_right_angle_marker must be boolean when provided.');
+}
+
+function validateGeneralTriangle(figure, errors) {
+  if (!Array.isArray(figure.side_lengths) || figure.side_lengths.length !== 3) errors.push('general_triangle.side_lengths must contain exactly three entries.');
+  if (!Array.isArray(figure.angles) || figure.angles.length !== 3) errors.push('general_triangle.angles must contain exactly three entries.');
+  if (!isObject(figure.labels)) errors.push('general_triangle.labels must be an object.');
+  const sides = Array.isArray(figure.side_lengths) ? figure.side_lengths : [];
+  const knownSides = sides.filter((value) => value !== null && value !== undefined).map(Number);
+  if (knownSides.some((value) => !Number.isFinite(value) || value <= 0)) errors.push('general_triangle.side_lengths must contain positive numbers or null.');
+  if (knownSides.length === 3 && !(knownSides[0] + knownSides[1] > knownSides[2] && knownSides[0] + knownSides[2] > knownSides[1] && knownSides[1] + knownSides[2] > knownSides[0])) errors.push('general_triangle.side_lengths violate the triangle inequality.');
+  const angles = Array.isArray(figure.angles) ? figure.angles : [];
+  const knownAngles = angles.filter((value) => value !== null && value !== undefined).map(Number);
+  if (knownAngles.some((value) => !Number.isFinite(value) || value <= 0 || value >= 180)) errors.push('general_triangle.angles must contain values between 0 and 180 degrees or null.');
+  if (knownAngles.length === 3 && Math.abs(knownAngles.reduce((sum, value) => sum + value, 0) - 180) > 1e-9) errors.push('general_triangle.angles must sum to 180 degrees.');
+}
+
+function validateCircle(figure, errors) {
+  if (!isFiniteNumber(figure.radius) || Number(figure.radius) <= 0) errors.push('circle.radius must be a positive number.');
+  if (typeof figure.center_label !== 'string' || !figure.center_label.trim()) errors.push('circle.center_label must be a non-empty string.');
+  for (const field of ['inscribed_angle', 'central_angle']) if (figure[field] !== undefined && (!isFiniteNumber(figure[field]) || Number(figure[field]) <= 0 || Number(figure[field]) >= 180)) errors.push(`circle.${field} must be an angle between 0 and 180 degrees when provided.`);
+  if (figure.chord !== undefined && !isObject(figure.chord)) errors.push('circle.chord must be an object when provided.');
+  if (figure.labels !== undefined && !isObject(figure.labels)) errors.push('circle.labels must be an object when provided.');
+}
+
+function validateParabola(figure, errors) {
+  if (typeof figure.equation !== 'string' || !figure.equation.trim()) errors.push('parabola.equation must be a non-empty string.');
+  if (!Array.isArray(figure.x_range) || figure.x_range.length !== 2 || !figure.x_range.every(isFiniteNumber) || Number(figure.x_range[0]) >= Number(figure.x_range[1])) errors.push('parabola.x_range must be two increasing numeric values.');
+  for (const field of ['highlight_vertex', 'highlight_roots']) if (figure[field] !== undefined && typeof figure[field] !== 'boolean') errors.push(`parabola.${field} must be boolean when provided.`);
+}
+
+function validateLinearGraph(figure, errors) {
+  if (!isFiniteNumber(figure.slope)) errors.push('linear_function_graph.slope must be numeric.');
+  if (!isFiniteNumber(figure.y_intercept)) errors.push('linear_function_graph.y_intercept must be numeric.');
+  if (!Array.isArray(figure.x_range) || figure.x_range.length !== 2 || !figure.x_range.every(isFiniteNumber) || Number(figure.x_range[0]) >= Number(figure.x_range[1])) errors.push('linear_function_graph.x_range must be two increasing numeric values.');
+  if (figure.highlight_points !== undefined && (!Array.isArray(figure.highlight_points) || figure.highlight_points.some((point) => !isObject(point) || !isFiniteNumber(point.x) || !isFiniteNumber(point.y)))) errors.push('linear_function_graph.highlight_points must contain numeric x/y objects when provided.');
+}
+
+function validateCoordinateShape(figure, errors) {
+  if (!Array.isArray(figure.vertices) || figure.vertices.length < 3) errors.push('coordinate_shape.vertices must contain at least three vertices.');
+  if (Array.isArray(figure.vertices) && figure.vertices.some((point) => !Array.isArray(point) || point.length !== 2 || !point.every(isFiniteNumber))) errors.push('coordinate_shape.vertices must contain numeric [x, y] pairs.');
+  if (typeof figure.shape_name !== 'string' || !figure.shape_name.trim()) errors.push('coordinate_shape.shape_name must be a non-empty string.');
+  if (typeof figure.show_gridlines !== 'boolean') errors.push('coordinate_shape.show_gridlines must be boolean.');
+}
+
 function validateLegacyFigure(rawType, figure, errors) {
   if (rawType === 'line') {
     if (!Array.isArray(figure.x) || !Array.isArray(figure.y)) errors.push('Legacy line figures require x and y arrays.');
@@ -112,10 +162,12 @@ function validateStructuredFigure(figure) {
       if (!isFiniteNumber(figure.max)) errors.push('number_line.max must be numeric.');
       if (isFiniteNumber(figure.min) && isFiniteNumber(figure.max) && Number(figure.min) >= Number(figure.max)) errors.push('number_line.min must be less than max.');
     }
-    if (canonicalType === 'circle' && !isFiniteNumber(figure.radius)) errors.push('circle.radius must be numeric.');
-    if (canonicalType === 'parabola' && typeof figure.equation !== 'string') errors.push('parabola.equation must be a string.');
-    if (canonicalType === 'linear_function_graph' && !isFiniteNumber(figure.slope)) errors.push('linear_function_graph.slope must be numeric.');
-    if (canonicalType === 'linear_function_graph' && !isFiniteNumber(figure.y_intercept)) errors.push('linear_function_graph.y_intercept must be numeric.');
+    if (canonicalType === 'right_triangle') validateRightTriangle(figure, errors);
+    if (canonicalType === 'general_triangle') validateGeneralTriangle(figure, errors);
+    if (canonicalType === 'circle') validateCircle(figure, errors);
+    if (canonicalType === 'parabola') validateParabola(figure, errors);
+    if (canonicalType === 'linear_function_graph') validateLinearGraph(figure, errors);
+    if (canonicalType === 'coordinate_shape') validateCoordinateShape(figure, errors);
   }
   return { valid: errors.length === 0, errors, canonicalType, future: Boolean(spec.future) };
 }
