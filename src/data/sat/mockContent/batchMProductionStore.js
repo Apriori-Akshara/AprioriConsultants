@@ -12,6 +12,7 @@ import { runBatchMThirdProductionGate } from './batchMThirdProductionGate';
 import { runBatchMFourthProductionGate } from './batchMFourthProductionGate';
 import { runBatchMFifthProductionGate } from './batchMFifthProductionGate';
 import { runBatchMSixthProductionGate } from './batchMSixthProductionGate';
+import { runBatchMSeventhProductionGate } from './batchMSeventhProductionGate';
 
 const FIRST_PRODUCTION_RESULT = runBatchMFirstProductionGate();
 
@@ -79,6 +80,21 @@ if (!SIXTH_PRODUCTION_RESULT?.passed || !SIXTH_PRODUCTION_RESULT?.productionMock
 
 export const SAT_SERIES_A_MOCK_06_PRODUCTION = SIXTH_PRODUCTION_RESULT.productionMock;
 
+const SEVENTH_PRODUCTION_RESULT = runBatchMSeventhProductionGate([
+  SAT_SERIES_A_MOCK_01_PRODUCTION,
+  SAT_SERIES_A_MOCK_02_PRODUCTION,
+  SAT_SERIES_A_MOCK_03_PRODUCTION,
+  SAT_SERIES_A_MOCK_04_PRODUCTION,
+  SAT_SERIES_A_MOCK_05_PRODUCTION,
+  SAT_SERIES_A_MOCK_06_PRODUCTION,
+]);
+
+if (!SEVENTH_PRODUCTION_RESULT?.passed || !SEVENTH_PRODUCTION_RESULT?.productionMock) {
+  throw new Error('Batch M SAT7: accepted production mock was not returned by the production gate');
+}
+
+export const SAT_SERIES_A_MOCK_07_PRODUCTION = SEVENTH_PRODUCTION_RESULT.productionMock;
+
 export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
   acceptedTestKeys: [
     FIRST_PRODUCTION_RESULT.testKey,
@@ -87,6 +103,7 @@ export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
     FOURTH_PRODUCTION_RESULT.testKey,
     FIFTH_PRODUCTION_RESULT.testKey,
     SIXTH_PRODUCTION_RESULT.testKey,
+    SEVENTH_PRODUCTION_RESULT.testKey,
   ],
   acceptedTestIds: [
     FIRST_PRODUCTION_RESULT.testId,
@@ -95,6 +112,7 @@ export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
     FOURTH_PRODUCTION_RESULT.testId,
     FIFTH_PRODUCTION_RESULT.testId,
     SIXTH_PRODUCTION_RESULT.testId,
+    SEVENTH_PRODUCTION_RESULT.testId,
   ],
   questionCounts: [
     FIRST_PRODUCTION_RESULT.questionCount,
@@ -103,10 +121,11 @@ export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
     FOURTH_PRODUCTION_RESULT.questionCount,
     FIFTH_PRODUCTION_RESULT.questionCount,
     SIXTH_PRODUCTION_RESULT.questionCount,
+    SEVENTH_PRODUCTION_RESULT.questionCount,
   ],
-  status: SIXTH_PRODUCTION_RESULT.status,
+  status: SEVENTH_PRODUCTION_RESULT.status,
   storageMode: 'canonical-runtime-records',
-  nextTestKey: 'SAT7',
+  nextTestKey: 'SAT8',
 });
 
-export default SAT_SERIES_A_MOCK_06_PRODUCTION;
+export default SAT_SERIES_A_MOCK_07_PRODUCTION;
