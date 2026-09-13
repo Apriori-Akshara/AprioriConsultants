@@ -24,7 +24,15 @@ export const SAT_INTERACTION_TYPES = ["single-select", "student-produced-respons
 export const SAT_STIMULUS_TYPES = ["short-passage", "paired-passage", "notes", "table", "chart", "graph", "equation", "geometry-diagram", "none"];
 export const SAT_CALCULATOR_MODES = ["not-applicable", "allowed", "recommended", "required"];
 export const SAT_STATUS_LABELS = ["draft", "validated", "assembly-ready", "published", "retired"];
-export const SAT_FIGURE_TYPES = ["scatterplot", "line-graph", "bar-chart", "histogram", "table", "box-plot", "coordinate-plane", "number-line", "triangle", "right-triangle", "circle", "polygon", "composite-geometry", "angle-diagram", "quadratic-graph", "transformation"];
+
+// Canonical structured figure types from the figure registry, plus legacy names
+// that remain valid while the existing Math bank is migrated incrementally.
+export const SAT_FIGURE_TYPES = [
+  "bar_chart", "line_chart", "scatter_plot", "table", "number_line",
+  "right_triangle", "general_triangle", "circle", "parabola", "linear_function_graph",
+  "coordinate_shape", "3d_solid", "multi_source_table", "geometry",
+  "line", "scatter", "quadratic",
+];
 
 export const createEmptyQuestion = () => ({
   contentId: "", version: 1, product: "sat", questionId: "", testId: "",
