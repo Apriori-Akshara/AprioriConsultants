@@ -1,4 +1,4 @@
-import { buildRepresentativeBatchMRemediationCandidates } from '../src/data/sat/mockContent/batchMRemediationCandidateFactory';
+import { buildRepresentativeBatchMRemediationCandidates } from '../src/data/sat/mockContent/batchMRemediationCandidateFactory.js';
 
 const result = buildRepresentativeBatchMRemediationCandidates({
   rwCount: 40,
