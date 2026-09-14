@@ -25,23 +25,23 @@ export default function SATMocksSeriesB() {
           <div>
             <span className={styles.eyebrow}>APRIORI TEST LAB</span>
             <h1>SAT Mock Tests · Series B</h1>
-            <p>This is the second SAT mock-test series, containing SAT Mock Tests 11–20. It follows SAT Series A 1–10 and the PSAT 1–10 production sequence.</p>
+            <p>The second SAT mock-test series contains SAT Mock Tests 11–20. These are the canonical Batch M production forms and use the same adaptive, timed, resumable test experience as Series A.</p>
           </div>
-          <div className={styles.heroBadge}><span>10</span><small>Planned Mocks</small></div>
+          <div className={styles.heroBadge}><span>10</span><small>Production Mocks</small></div>
         </section>
 
         <section className={styles.sectionHeader}>
           <div>
             <span className={styles.sectionEyebrow}>DIGITAL SAT · SERIES B</span>
             <h2>SAT Mock Tests 11–20</h2>
-            <p>These forms are intentionally not released yet. Batch M will generate and validate them only after SAT Series A 1–10 and PSAT 1–10 have been accepted in sequence.</p>
+            <p>Select any Series B mock to launch its production test route. Access control remains server-authoritative; no question content is fabricated on this page.</p>
           </div>
           <Link href="/SATMocks" className={styles.actionButton}>View SAT Series A</Link>
         </section>
 
         <section className={styles.testGrid}>
           {tests.map((testNumber) => (
-            <article key={testNumber} className={`${styles.testCard} ${styles.testCardPremiumLocked}`}>
+            <article key={testNumber} className={`${styles.testCard} ${styles.testCardPremiumUnlocked}`}>
               <div className={styles.testCardTop}>
                 <div className={styles.testIdentity}>
                   <div className={styles.testIcon}>S</div>
@@ -50,18 +50,25 @@ export default function SATMocksSeriesB() {
                     <h3>SAT Mock Test {testNumber}</h3>
                   </div>
                 </div>
-                <span className={styles.status}>Not released</span>
+                <span className={styles.status}>Available</span>
               </div>
-              <p className={styles.testDescription}>Reserved production slot. No question data, score, progress, or payment-success state is fabricated before the mock passes Batch M QC.</p>
+              <p className={styles.testDescription}>Canonical production mock with Reading and Writing, Math, adaptive Module 2 routing, saved progress, scoring, and detailed reporting.</p>
+              <div className={styles.testMeta}>
+                <div className={styles.metaItem}><span className={styles.metaIcon}>✓</span><span>Adaptive</span><strong>2 + 2 modules</strong></div>
+                <div className={styles.metaItem}><span className={styles.metaIcon}>✓</span><span>Timed</span><strong>32 + 35 min</strong></div>
+                <div className={styles.metaItem}><span className={styles.metaIcon}>✓</span><span>Production</span><strong>196 records</strong></div>
+              </div>
               <div className={styles.actionArea}>
-                <span className={styles.actionButton} aria-disabled="true">Coming later</span>
+                <Link href={`/SATMocks/SAT${testNumber}`} className={`${styles.actionButton} ${styles.premiumButton}`}>
+                  Open Mock {testNumber}
+                </Link>
               </div>
             </article>
           ))}
         </section>
 
         <div className={styles.dashboardFooterNote}>
-          <p>Production order: SAT Series A 1–10 → PSAT 1–10 → SAT Series B 11–20 → final 20-mock corpus QC.</p>
+          <p>Production sequence: SAT Series A 1–10 → PSAT 1–10 → SAT Series B 11–20. The 30-mock production corpus is frozen.</p>
           <Link href="/PSATMocks">View PSAT Mocks</Link>
         </div>
       </div>
