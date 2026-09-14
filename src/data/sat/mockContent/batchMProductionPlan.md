@@ -32,50 +32,50 @@ A failed mock is corrected or regenerated before the sequence advances. A failed
 
 ## Current production checkpoint
 
-**SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–17 are accepted and stored as canonical runtime production records. SAT17 has also passed the Render acceptance gate and is confirmed LIVE. SAT18 is the active target.**
+**SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–19 are accepted and stored as canonical runtime production records. SAT19 has also passed the Render acceptance gate and is confirmed LIVE. SAT20 is the active target.**
 
 ### Accepted SAT Series B checkpoints
 
-SAT11 through SAT17 are accepted and Render-LIVE. Their production identities are controller-defined, each has 196 validated records, and each remains stored separately from the legacy public corpus.
+SAT11 through SAT19 are accepted and Render-LIVE. Their production identities are controller-defined, each has 196 validated records, and each remains stored separately from the legacy public corpus.
 
-SAT17:
-- test key: `SAT17`
-- test ID: `sat-series-b-mock-17`
+SAT19:
+- test key: `SAT19`
+- test ID: `sat-series-b-mock-19`
 - variant: `sat-series-b`
-- assessment number: `17`
-- deterministic seed: `1017`
-- cross-mock baseline: all 26 earlier accepted production mocks
+- assessment number: `19`
+- deterministic seed: `1019`
+- cross-mock baseline: all 28 earlier accepted production mocks
 - canonical storage mode: `canonical-runtime-records`
 - validated question count: `196`
 
 Implementation merge commit:
-- `36bba2a7e9cbb397bf85d4c3cf3b6ebe220bd48b` — `Batch M: Add SAT17 production gate and canonical storage`
+- `27eab860df800e0a254c33a2e29b080312dd6da1` — `Batch M: Add SAT19 production gate and canonical storage`
 
-**Render acceptance:** User-confirmed LIVE for SAT17.
+**Render acceptance:** User-confirmed LIVE for SAT19.
 
-## Current production target — SAT18
+## Current production target — SAT20
 
-**SAT Series B Mock 18 (`SAT18`) is the active production target.**
+**SAT Series B Mock 20 (`SAT20`) is the active production target.**
 
-SAT18 uses the controller-defined identity:
+SAT20 uses the controller-defined identity:
 
-- test key: `SAT18`
-- test ID: `sat-series-b-mock-18`
+- test key: `SAT20`
+- test ID: `sat-series-b-mock-20`
 - variant: `sat-series-b`
-- assessment number: `18`
-- deterministic seed: `1018`
-- cross-mock baseline: all 27 previously accepted production mocks
+- assessment number: `20`
+- deterministic seed: `1020`
+- cross-mock baseline: all 29 previously accepted production mocks
 - canonical storage mode: `canonical-runtime-records`
 - validated question count: `196` required by the production gate
 
-SAT18 is implemented through:
+SAT20 is implemented through:
 
-- `src/data/sat/mockContent/batchMSAT18ProductionGate.js`
+- `src/data/sat/mockContent/batchMSAT20ProductionGate.js`
 - `src/data/sat/mockContent/batchMProductionStore.js`
 
-The SAT18 gate preserves the established generation, Stage 2 post-processing, figure quality, Math mathematical QC through the existing mock-quality path, R&W variation, cross-mock uniqueness, figure originality, canonical schema, 196-record, and JSON storage round-trip checks.
+The SAT20 gate preserves the established generation, Stage 2 post-processing, figure quality, Math mathematical QC through the existing mock-quality path, R&W variation, cross-mock uniqueness, figure originality, canonical schema, 196-record, and JSON storage round-trip checks.
 
-SAT18 must not be considered accepted until its Render deployment is confirmed LIVE.
+SAT20 must not be considered accepted until its Render deployment is confirmed LIVE.
 
 The accepted Batch M production records remain separate from the legacy public corpus. They must not replace or be exposed through the legacy public corpus until the final corpus gate passes.
 
@@ -108,4 +108,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT17 are accepted. SAT18 is the active production target.**
+**Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT19 are accepted. SAT20 is the active production target.**
