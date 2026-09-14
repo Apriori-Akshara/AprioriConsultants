@@ -1,3 +1,4 @@
+import * as legacyEngine from './adaptiveMockEngine';
 import { getSeriesBMock, validateSeriesBMockRuntime } from './productionMockRuntime';
 
 function normalizeModuleKey(value) {
@@ -11,6 +12,10 @@ function normalizeMockKey(value) {
   if (!match) return null;
   const family = match[1] === 'TEST' ? 'SAT' : match[1];
   return `${family}${Number(match[2])}`;
+}
+
+function isSeriesB(key) {
+  return Boolean(key && key.startsWith('SAT') && Number(key.slice(3)) >= 11 && Number(key.slice(3)) <= 20);
 }
 
 function moduleQuestions(content, section, module) {
@@ -38,7 +43,7 @@ function validateProductionMock(mock) {
   }
 }
 
-function createProductionAdaptivePlan(testKey, mock) {
+function createSeriesBPlan(testKey, mock) {
   validateSeriesBMockRuntime(mock);
   validateProductionMock(mock);
   const rw1 = moduleQuestions(mock, 'reading-writing', 'module-1');
@@ -145,27 +150,26 @@ function buildClientSafeTestFromPlan(plan) {
 
 export function getMockDefinition(testKey) {
   const key = normalizeMockKey(testKey);
-  return key && key.startsWith('SAT') && Number(key.slice(3)) >= 11 ? getSeriesBMock(key) : null;
+  if (!isSeriesB(key)) return legacyEngine.getMockDefinition(key);
+  return getSeriesBMock(key);
 }
 
 export function createAdaptivePlan(testKey) {
   const key = normalizeMockKey(testKey);
-  if (!key || !key.startsWith('SAT') || Number(key.slice(3)) < 11) return null;
+  if (!key) return null;
+  if (!isSeriesB(key)) return legacyEngine.createAdaptivePlan(key);
   const mock = getSeriesBMock(key);
-  return mock ? createProductionAdaptivePlan(key, mock) : null;
+  return mock ? createSeriesBPlan(key, mock) : null;
 }
 
 export function getModuleForRoute(plan, sectionKey, moduleIndex, route) {
-  const section = plan?.sections?.find((item) => item.key === sectionKey);
-  if (!section) return null;
-  if (moduleIndex === 0) return section.modules.find((module) => module.key === 'module-1') || null;
-  if (!['standard', 'high', 'low'].includes(String(route || ''))) return null;
-  const key = `module-2-${route}`;
-  return section.modules.find((module) => module.key === key && module.route === route) || null;
+  return legacyEngine.getModuleForRoute(plan, sectionKey, moduleIndex, route);
 }
 
 export function buildClientSafeTest(testKey) {
-  const plan = createAdaptivePlan(testKey);
+  const key = normalizeMockKey(testKey);
+  if (!isSeriesB(key)) return legacyEngine.buildClientSafeTest(key);
+  const plan = createAdaptivePlan(key);
   return plan ? buildClientSafeTestFromPlan(plan) : null;
 }
 
