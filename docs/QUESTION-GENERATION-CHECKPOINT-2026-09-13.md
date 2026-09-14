@@ -146,3 +146,11 @@ SAT11–SAT20 remain frozen and their public-site verification will be completed
 7. Final Batch M release acceptance
 
 No SAT21 or additional production target is planned.
+
+## Representative QC execution checkpoint — September 14, 2026
+
+The representative QC command was successfully reached locally, but execution stopped at Node ESM module resolution before any R&W/Math quality evaluation was produced. Two candidate-only remediated generators were confirmed to contain relative imports without explicit `.js` extensions.
+
+`verbalConstructionRemediated.js` has been corrected and committed in `023f5da099e6c0a3baf2964a101b976f5bc7aa55`.
+
+`mathBankFactoryRemediated.js` still requires the same narrow extension correction. The production/frozen corpus remains unchanged. The representative content-quality verdict is therefore still **not yet assessed by the execution harness**; the active next action is local synchronization followed by another `npm run qc:batch-m-remediation` run.
