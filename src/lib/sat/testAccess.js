@@ -18,7 +18,7 @@ export function normalizeTestNumber(testNumber) {
 export function normalizeAssessmentFamily(value) {
   const family = String(value || "").trim().toLowerCase();
   if (family === "psat" || family === "psat-nmsqt") return "psat";
-  if (family === "sat" || family === "sat-series-a") return "sat";
+  if (family === "sat" || family === "sat-series-a" || family === "sat-series-b") return "sat";
   return null;
 }
 
@@ -94,8 +94,7 @@ export async function getSatTestAccess(userId, testNumber, assessmentFamily = "s
 
   if (number >= 11 && number <= 20) {
     if (family !== "sat") return { allowed: false, reason: "not_configured", testNumber: number, assessmentFamily: family, premiumRequired: false, internalUnlock: false };
-    const unlocked = await hasInternalUnlock(userId, family, number);
-    return unlocked ? { allowed: true, reason: "internal_unlock", testNumber: number, assessmentFamily: family, premiumRequired: false, internalUnlock: true } : { allowed: false, reason: "internal_unlock_required", testNumber: number, assessmentFamily: family, premiumRequired: false, internalUnlock: false };
+    return { allowed: true, reason: "released_series_b", testNumber: number, assessmentFamily: family, premiumRequired: false, internalUnlock: false };
   }
 
   if (number >= 8 && number <= 10 && await hasInternalUnlock(userId, family, number)) {
