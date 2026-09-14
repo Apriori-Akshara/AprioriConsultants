@@ -1,12 +1,12 @@
 # Question Bank Maintenance Checkpoint
 
-Approved September 13, 2026.
+Approved September 14, 2026.
 
 ## Taxonomy rule
 
 This project uses **Batch A–M** as its single implementation taxonomy. “Phase” is a legacy synonym and should not be used for new work.
 
-The 20-mock production corpus is built as one controlled Batch M sequence. Production records use stable mock/item identities and canonical runtime storage; the legacy public corpus remains separate until final corpus acceptance.
+The 30-mock production corpus is built as one controlled Batch M sequence. Production records use stable mock/item identities and canonical runtime storage; the legacy public corpus remains separate until final release approval.
 
 ## Approved implementation sequence
 
@@ -16,14 +16,15 @@ A schema → B blueprint → C R&W construction → D R&W distractor/evidence/QC
 
 1. **SAT Series A — Mocks 1–10** — accepted
 2. **PSAT — Mocks 1–10** — accepted
-3. **SAT Series B — Mocks 11–20** — next
-4. **Final collective QC across the complete production corpus**
+3. **SAT Series B — Mocks 11–20** — accepted
+4. **Final collective QC across the complete production corpus** — passed
+5. **Production-store cleanliness checkpoint** — passed
 
-Each mock is generated, independently QC-checked, cross-compared with previously accepted mocks, stored, and deployed to Render before the next mock is accepted. The SAT Series B navigation page is `/SATMocksSeriesB`; it is a release shell until the corresponding production mocks exist and pass QC.
+Each mock was generated, independently QC-checked, cross-compared with previously accepted mocks, stored, and deployed to Render before the next mock was accepted. No additional production target remains.
 
 ## Batch M — Controlled production generation
 
-**Status: ACTIVE / SAT SERIES A MOCKS 1–10 AND PSAT MOCKS 1–10 ACCEPTED.**
+**Status: COMPLETE.**
 
 ### Accepted production checkpoints
 
@@ -46,35 +47,45 @@ Each mock is generated, independently QC-checked, cross-compared with previously
 - PSAT Mock 7 — accepted and stored.
 - PSAT Mock 8 — accepted and stored.
 - PSAT Mock 9 — accepted and stored.
-- **PSAT Mock 10 — accepted and stored; Render LIVE confirmed.**
+- PSAT Mock 10 — accepted and stored.
+- SAT Series B Mock 11 — accepted and stored.
+- SAT Series B Mock 12 — accepted and stored.
+- SAT Series B Mock 13 — accepted and stored.
+- SAT Series B Mock 14 — accepted and stored.
+- SAT Series B Mock 15 — accepted and stored.
+- SAT Series B Mock 16 — accepted and stored.
+- SAT Series B Mock 17 — accepted and stored.
+- SAT Series B Mock 18 — accepted and stored.
+- SAT Series B Mock 19 — accepted and stored.
+- SAT Series B Mock 20 — accepted and stored; Render LIVE confirmed.
 
-### PSAT Mock 10 record
+Each accepted production mock contains 196 validated records. The final collective gate verifies exactly 30 mocks and 5,880 total records, canonical schema integrity, global question-ID uniqueness, applicable R&W/Math/figure uniqueness, figure originality, identity/order, and storage round-trip integrity.
 
-- test key: `PSAT10`
-- test ID: `psat-mock-10`
-- variant: `psat-nmsqt`
-- assessment number: `10`
-- deterministic seed: `2010`
-- canonical storage mode: `canonical-runtime-records`
-- validated question count: `196`
-- implementation commits: `781cb832d9984f2ab78ed29648cd2a0a92dcac94` and `cbeeb1c6c20a756e10c184ae774fbf9293550d90`
+## Production-store cleanliness checkpoint
 
-PSAT10 was accepted only after SAT1–SAT10 and PSAT1–PSAT9. Its production gate checked cross-mock R&W context/prompt uniqueness, Math application uniqueness, exact figure-data uniqueness, figure originality, figure-quality/Math QC, canonical schema integrity, 196-record count, and JSON storage round-trip integrity.
+The canonical production store is now explicitly checkpointed as clean:
+
+- `BATCH_M_ACCEPTED_PRODUCTION_CORPUS` contains exactly the frozen 30 production mocks.
+- The corpus order matches the authoritative `BATCH_M_PRODUCTION_SEQUENCE`.
+- The store exports no SAT21 production target.
+- The final collective verification runs against the exported frozen corpus.
+- The production corpus remains separate from the legacy public corpus.
+- `nextTestKey` is `null`; there is no remaining Batch M generation target.
+
+This is a release checkpoint, not permission to mutate the corpus. Any correction after this point must be an explicitly recorded corpus change followed by the affected individual gates and the final collective gate again.
 
 ## Current next target
 
-**SAT Series B Mock 11 (`SAT11`).**
-
-SAT11 must be generated only after preserving the 20-mock accepted checkpoint above. It must be checked against all 20 previously accepted production mocks and must pass the same generation, independent QC, figure/math/originality, mock-level, canonical-storage, and Render acceptance gates.
+**Step 4 — maintenance/spec safeguard verification.** After that verification passes, begin the planned public website inspection of all 30 production mocks. Do not generate SAT21.
 
 ## Production safety
 
-Batch M must not replace or delete the legacy SAT content path until the complete corpus-level gate passes.
+Batch M must not replace or delete the legacy SAT content path until release approval is complete.
 
-Do not commit a partially generated production corpus as if it were complete. Production generation is checkpointed so an individual mock can be regenerated without silently changing previously accepted mocks.
+Do not commit a partially generated production corpus as if it were complete. Do not silently regenerate or replace an accepted mock after the corpus freeze. Any post-freeze correction must be explicitly recorded and re-verified.
 
 Private calibration anchors, if authorized and supplied, are not copied into production content or the public repository.
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–10 and PSAT Mocks 1–10 are accepted, QC-checked, canonically stored, and deployment-accepted. The next production target is SAT Series B Mock 11 (`SAT11`).**
+**Batch M production generation, collective corpus verification, and production-store cleanliness checkpoint are complete. The next task is maintenance/spec safeguard verification, followed by public website inspection.**
