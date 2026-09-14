@@ -45,7 +45,7 @@ const WIC_TARGETS = {
     ['anchor', 'provide a stable reference for'], ['fracture', 'divide or disrupt'], ['amplify', 'make more noticeable or pronounced'], ['temper', 'make less extreme'],
   ],
   rhetorical: [
-    ['qualify', 'limit a claim so that it is more precise'], ['concede', 'acknowledge a point that may seem to oppose the main claim'], ['underscore', 'emphasize'], ['distinguish', 'show a meaningful difference between'],
+    ['clarify', 'make a claim or distinction more precise'], ['concede', 'acknowledge a point that may seem to oppose the main claim'], ['underscore', 'emphasize'], ['distinguish', 'show a meaningful difference between'],
   ],
   contextual: [
     ['trace', 'follow the development or origin of'], ['channel', 'direct toward a particular course'], ['yield', 'produce or result in'], ['register', 'show or record'],
@@ -222,14 +222,15 @@ function makeSynthesis(index) {
 }
 
 function makeCrossText(index) {
-  const relation = pick(CROSS_RELATIONSHIPS, Math.floor(index / 2));
+  const crossTextOrdinal = Math.floor(index / SECTIONS.length);
+  const relation = pick(CROSS_RELATIONSHIPS, crossTextOrdinal);
   const firstFamily = pick(FAMILY_KEYS, index * 2 + 1);
   let secondFamily = pick(FAMILY_KEYS, index * 2 + 3);
   if (secondFamily === firstFamily) secondFamily = FAMILY_KEYS[(FAMILY_KEYS.indexOf(secondFamily) + 1) % FAMILY_KEYS.length];
   const first = sourcePair(firstFamily, index, hashIndex(index, 29, 4));
   const second = sourcePair(secondFamily, index + 1, hashIndex(index, 31, 4));
-  const form = pick(CROSS_QUESTION_FORMS, index);
-  const lens = pick(CROSS_LENSES, Math.floor(index / CROSS_QUESTION_FORMS.length));
+  const form = pick(CROSS_QUESTION_FORMS, crossTextOrdinal);
+  const lens = pick(CROSS_LENSES, crossTextOrdinal);
   const correct = relation.correct;
   const errors = relation.errors.map((text, errorIndex) => {
     const pattern = pick(ERROR_PATTERNS, index + errorIndex);
