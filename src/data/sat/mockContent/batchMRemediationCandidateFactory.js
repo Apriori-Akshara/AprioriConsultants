@@ -31,15 +31,19 @@ function circleDistractors(answer, index) {
 
 function replaceMathDistractors(question, index) {
   if (question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
-  const answerIndex = String(question.answer).charCodeAt(0) - 65;
-  if (answerIndex < 0 || answerIndex > 3) return question;
-  const correct = question.choices[answerIndex];
-  const circle = circleDistractors(correct, index);
-  const numeric = circle || numericDistractors(correct, index);
-  if (!numeric || numeric.length < 3) return question;
-  const choices = [...numeric];
-  choices.splice((index + 1) % 4, 0, correct);
-  return { ...question, choices: choices.slice(0, 4) };
+  const oldAnswerIndex = String(question.answer).charCodeAt(0) - 65;
+  if (oldAnswerIndex < 0 || oldAnswerIndex > 3) return question;
+  const correct = question.choices[oldAnswerIndex];
+  const distractors = circleDistractors(correct, index) || numericDistractors(correct, index);
+  if (!distractors || distractors.length < 3) return question;
+  const target = (index + 1) % 4;
+  const choices = [...distractors];
+  choices.splice(target, 0, correct);
+  return {
+    ...question,
+    choices: choices.slice(0, 4),
+    answer: String.fromCharCode(65 + target),
+  };
 }
 
 function enrichShortSECPrompt(question) {
