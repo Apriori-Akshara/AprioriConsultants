@@ -6,9 +6,9 @@
  * frozen production store.
  */
 
-import { generateRemediatedRWCandidates } from './verbalConstructionRemediated';
-import { generateRemediatedMathCandidates } from './mathBankFactoryRemediated';
-import { evaluateContentQualityBatch } from './batchMContentQualityGate';
+import { generateRemediatedRWCandidates } from './verbalConstructionRemediated.js';
+import { generateRemediatedMathCandidates } from './mathBankFactoryRemediated.js';
+import { evaluateContentQualityBatch } from './batchMContentQualityGate.js';
 
 function numericDistractors(answer, index) {
   const value = Number(answer);
