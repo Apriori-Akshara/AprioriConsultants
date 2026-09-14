@@ -11,6 +11,10 @@ const RW_SKILLS = new Set([
   'Transitions', 'Boundaries', 'Form, Structure, and Sense',
 ]);
 
+const SHORT_STIMULUS_RW_SKILLS = new Set([
+  'Transitions', 'Boundaries', 'Form, Structure, and Sense',
+]);
+
 const MATH_DOMAINS = new Set([
   'Algebra', 'Advanced Math', 'Problem-Solving and Data Analysis', 'Geometry and Trigonometry',
 ]);
@@ -65,7 +69,17 @@ function evaluateDifficulty(question, notes) {
   if (!['easy', 'medium', 'hard'].includes(difficulty)) notes.push('difficulty-missing-or-invalid');
   if (difficulty === 'hard' && ![...features].some((feature) => HARD_FEATURES.has(feature))) notes.push('hard-label-without-demand-feature');
   if (difficulty === 'easy' && features.has('multi-step')) notes.push('easy-label-conflicts-with-multi-step');
-  if (difficulty === 'medium' && wordCount(question?.prompt) < 25) notes.push('medium-item-too-thin');
+
+  if (difficulty === 'medium') {
+    if (question?.section === 'reading-writing') {
+      const skill = String(question?.skill || '');
+      if (!SHORT_STIMULUS_RW_SKILLS.has(skill) && wordCount(question?.prompt) < 25) {
+        notes.push('medium-item-too-thin');
+      }
+    } else if (question?.section === 'math' && wordCount(question?.prompt) < 18) {
+      notes.push('medium-item-too-thin');
+    }
+  }
 }
 
 function evaluateRW(question, notes) {
@@ -73,11 +87,18 @@ function evaluateRW(question, notes) {
   const answerIndex = String(question?.answer || '').charCodeAt(0) - 65;
   const stimulus = String(question?.prompt || '');
   const metadata = question?.metadata || {};
-  if (!RW_SKILLS.has(String(question?.skill || ''))) notes.push('unsupported-rw-skill');
+  const skill = String(question?.skill || '');
+  if (!RW_SKILLS.has(skill)) notes.push('unsupported-rw-skill');
   if (choices.length !== 4) notes.push('rw-choice-count');
   if (answerIndex < 0 || answerIndex > 3) notes.push('rw-answer-key');
+
   const stimulusWords = wordCount(stimulus);
-  if (stimulusWords < 25 || stimulusWords > 150) notes.push('rw-stimulus-length');
+  if (SHORT_STIMULUS_RW_SKILLS.has(skill)) {
+    if (stimulusWords < 8 || stimulusWords > 80) notes.push('rw-stimulus-length');
+  } else if (stimulusWords < 25 || stimulusWords > 150) {
+    notes.push('rw-stimulus-length');
+  }
+
   if (includesGeneric(stimulus, GENERIC_RW_PHRASES).length >= 2) notes.push('rw-template-density');
   if (new Set(choices).size !== 4) notes.push('rw-duplicate-choice');
   if (answerIndex >= 0 && answerIndex < choices.length) {
