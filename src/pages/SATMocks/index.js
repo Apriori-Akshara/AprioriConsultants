@@ -131,6 +131,20 @@ export default function SATMocks() {
           ))}
         </section>
 
+        <section className={styles.premiumBanner} aria-label="SAT Test Series B">
+          <div>
+            <span className={styles.premiumBannerEyebrow}>DIGITAL SAT · SERIES B</span>
+            <h2>Test Series B · SAT Mocks 11–20</h2>
+            <p>Continue your SAT practice with the second production series, containing ten additional validated Digital SAT-style mock tests.</p>
+            <div className={styles.premiumBannerFeatures}>
+              <span>10 additional mocks</span>
+              <span>Adaptive practice</span>
+              <span>Detailed reporting</span>
+            </div>
+          </div>
+          <Link href="/SATMocksSeriesB" className={styles.premiumBannerButton}>Open Test Series B</Link>
+        </section>
+
         <div className={styles.dashboardFooterNote}>
           <p>All SAT mock attempts are saved against the same verified student account and reflected in the Profile dashboard.</p>
           <Link href="/Profile">View Progress Dashboard</Link>
