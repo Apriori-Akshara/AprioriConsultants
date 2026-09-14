@@ -13,6 +13,16 @@ export const SAT_MATH_DOMAINS = ["algebra", "advanced-math", "problem-solving-an
 export const SAT_QUESTION_TYPES = ["multiple-choice", "student-produced-response"];
 export const SAT_ASSESSMENT_FAMILIES = ["psat", "sat"];
 export const SAT_ASSESSMENT_VARIANTS = ["psat-nmsqt", "sat-series-a", "sat-series-b"];
+
+const LEGACY_MATH_DIFFICULTY_BANDS = [
+  ...SAT_DIFFICULTIES.map((difficulty) => `math-module-1-${difficulty}`),
+  ...SAT_DIFFICULTIES.map((difficulty) => `math-module-2-${difficulty}`),
+  ...SAT_DIFFICULTIES.map((difficulty) => `math-high-${difficulty}`),
+  ...SAT_DIFFICULTIES.map((difficulty) => `math-standard-${difficulty}`),
+  ...SAT_DIFFICULTIES.map((difficulty) => `math-low-${difficulty}`),
+  ...SAT_DIFFICULTIES.map((difficulty) => `math-m1-${difficulty}`),
+];
+
 export const SAT_PROGRESSION_BANDS = [
   ...Array.from({ length: 5 }, (_, i) => `foundation-set-${String(i + 1).padStart(2, "0")}`),
   ...Array.from({ length: 10 }, (_, i) => `advanced-set-${String(i + 1).padStart(2, "0")}`),
@@ -21,11 +31,25 @@ export const SAT_PROGRESSION_BANDS = [
   // Legacy R&W construction marker retained for compatibility with the
   // frozen production corpus; it is not a replacement for question.difficulty.
   "rw-originality",
+  // Legacy Math construction bands retained because Series A, PSAT, and
+  // Series B were generated through the established Math factory using these
+  // module/route-specific labels. The canonical `difficulty` field remains
+  // the authoritative easy/medium/hard classification.
+  ...LEGACY_MATH_DIFFICULTY_BANDS,
 ];
+
 export const SAT_COGNITIVE_DEMANDS = ["recall", "apply", "analyze", "reason", "synthesize", "evaluate"];
 export const SAT_INTERACTION_TYPES = ["single-select", "student-produced-response"];
-export const SAT_STIMULUS_TYPES = ["short-passage", "paired-passage", "notes", "table", "chart", "graph", "equation", "geometry-diagram", "none"];
-export const SAT_CALCULATOR_MODES = ["not-applicable", "allowed", "recommended", "required"];
+
+export const SAT_STIMULUS_TYPES = [
+  "short-passage", "paired-passage", "notes", "table", "chart", "graph", "equation",
+  "geometry-diagram", "numeric-text", "none",
+];
+
+export const SAT_CALCULATOR_MODES = [
+  "not-applicable", "allowed", "recommended", "required", "either",
+];
+
 export const SAT_STATUS_LABELS = ["draft", "validated", "assembly-ready", "published", "retired"];
 
 // Canonical structured figure types from the figure registry, plus legacy names
