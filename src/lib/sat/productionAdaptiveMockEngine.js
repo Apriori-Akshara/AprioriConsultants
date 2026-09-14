@@ -1,5 +1,14 @@
-import * as legacyEngine from './adaptiveMockEngine';
 import { getSeriesBMock, validateSeriesBMockRuntime } from './productionMockRuntime';
+
+let legacyEngine = null;
+
+function getLegacyEngine() {
+  if (!legacyEngine) {
+    // eslint-disable-next-line global-require
+    legacyEngine = require('./adaptiveMockEngine');
+  }
+  return legacyEngine;
+}
 
 function normalizeModuleKey(value) {
   const normalized = String(value || '').toLowerCase();
@@ -150,25 +159,30 @@ function buildClientSafeTestFromPlan(plan) {
 
 export function getMockDefinition(testKey) {
   const key = normalizeMockKey(testKey);
-  if (!isSeriesB(key)) return legacyEngine.getMockDefinition(key);
+  if (!isSeriesB(key)) return getLegacyEngine().getMockDefinition(key);
   return getSeriesBMock(key);
 }
 
 export function createAdaptivePlan(testKey) {
   const key = normalizeMockKey(testKey);
   if (!key) return null;
-  if (!isSeriesB(key)) return legacyEngine.createAdaptivePlan(key);
+  if (!isSeriesB(key)) return getLegacyEngine().createAdaptivePlan(key);
   const mock = getSeriesBMock(key);
   return mock ? createSeriesBPlan(key, mock) : null;
 }
 
 export function getModuleForRoute(plan, sectionKey, moduleIndex, route) {
-  return legacyEngine.getModuleForRoute(plan, sectionKey, moduleIndex, route);
+  const section = plan?.sections?.find((item) => item.key === sectionKey);
+  if (!section) return null;
+  if (moduleIndex === 0) return section.modules.find((module) => module.key === 'module-1') || null;
+  if (!['standard', 'high', 'low'].includes(String(route || ''))) return null;
+  const key = `module-2-${route}`;
+  return section.modules.find((module) => module.key === key && module.route === route) || null;
 }
 
 export function buildClientSafeTest(testKey) {
   const key = normalizeMockKey(testKey);
-  if (!isSeriesB(key)) return legacyEngine.buildClientSafeTest(key);
+  if (!isSeriesB(key)) return getLegacyEngine().buildClientSafeTest(key);
   const plan = createAdaptivePlan(key);
   return plan ? buildClientSafeTestFromPlan(plan) : null;
 }
