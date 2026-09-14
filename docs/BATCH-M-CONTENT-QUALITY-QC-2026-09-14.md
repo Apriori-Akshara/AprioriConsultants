@@ -1,7 +1,7 @@
 # Batch M Content-Quality QC — September 14, 2026
 
 **Scope:** SAT Series A Mocks 1–10 and PSAT Mocks 1–10 only  
-**Status:** AUDIT COMPLETE — **QUALITY HOLD**; remediation gate and replacement blueprint implemented  
+**Status:** **REMEDIATION CONSTRUCTION LAYER IMPLEMENTED — REPRESENTATIVE QC NEXT**  
 **Corpus boundary:** Frozen; no SAT21 and no wholesale regeneration authorized
 
 ## 1. Purpose
@@ -76,7 +76,7 @@ The principal problems are:
 
 ## 5. Remediation implementation — first sub-step complete
 
-Two non-mutating remediation assets have now been added.
+Two non-mutating remediation assets were added first.
 
 ### A. Candidate content-quality gate
 
@@ -84,29 +84,53 @@ Two non-mutating remediation assets have now been added.
 
 Commit: `95cde6158caad859513e1f77fc9581ca447c0932`
 
-This gate evaluates replacement candidates for generic/template density, difficulty-label conflicts, R&W stimulus/blueprint structure, fixed Words-in-Context targeting, Cross-Text/Rhetorical Synthesis structure, answer-choice quality, Math hard-item reasoning, generic numerical distractors, figure purpose, and section/domain/skill validity.
-
-It returns an explicit pass/fail, severity, checks, score, and `productionMutation: false`.
-
 ### B. Replacement construction blueprint
 
 `src/data/sat/mockContent/batchMRemediationBlueprint.js`
 
 Commit: `1e74726bdd31ea4321517677152f0ca3e74a477f`
 
-This defines the construction families to use for targeted replacements, including richer R&W source/construction families, Math reasoning constructions, explicit difficulty requirements, PSAT ceiling rules, and the 25–30% Math student-produced-response target.
+Both files remain outside `batchMProductionStore.js` and cannot silently mutate the frozen corpus.
 
-Both files are intentionally **not imported into `batchMProductionStore.js`**. They therefore cannot silently regenerate, reorder, mutate, or replace the frozen 30-mock corpus.
+## 6. Remediation implementation — construction layer complete
 
-## 6. Important boundary
+The next implementation sub-step has now been completed with three candidate-only assets.
 
-The remediation layer is now in place, but this does **not** mean the production corpus has been repaired.
+### A. R&W remediated construction layer
 
-The frozen SAT1–SAT10 and PSAT1–PSAT10 records have not been changed. SAT11–SAT20 have not been changed. No public runtime corpus has been regenerated as part of this step.
+`src/data/sat/mockContent/verbalConstructionRemediated.js`
 
-The next implementation sub-step is to upgrade the actual R&W and Math construction layers for controlled replacement candidates and then run representative candidates through the new content-quality gate before any post-freeze production change is considered.
+Commit: `39cef8e6c89f67d37d2903472b71eee69fdfe664`
 
-## 7. Re-gating requirement
+This introduces distinct source situations, varied R&W construction families, contextual Words-in-Context targets, relationship-first Cross-Text construction, explicit Rhetorical Synthesis goals, broader SEC construction sets, and reasoning-based difficulty features.
+
+### B. Math remediated construction layer
+
+`src/data/sat/mockContent/mathBankFactoryRemediated.js`
+
+Commit: `34b17bff0522ca9498e64868bae9b3f133c38b67`
+
+This introduces multi-stage/context-dependent Algebra, parameter/representation reasoning in Advanced Math, data interpretation and transformation tasks, composite/similarity/circle/right-triangle reasoning, explicit hard-item reasoning features, PSAT ceiling metadata, and a 25% SPR starting construction target.
+
+### C. Representative candidate/QC bridge
+
+`src/data/sat/mockContent/batchMRemediationCandidateFactory.js`
+
+Latest commit: `97f39960d7dc6208453bd800486d4d6609291fe3d`
+
+This candidate-only bridge applies remediation-specific distractor construction to Math candidates, supplies adequate SEC context, and sends the combined R&W/Math candidate set through `batchMContentQualityGate.js`.
+
+It explicitly returns `productionMutation: false` and `releaseEligible: false`.
+
+## 7. Current implementation boundary
+
+The construction remediation is implemented, but the production corpus has **not** been repaired yet.
+
+The frozen SAT1–SAT10 and PSAT1–PSAT10 records have not been changed. SAT11–SAT20 have not been changed. No public runtime corpus has been regenerated as part of this remediation work.
+
+The next step is **representative candidate QC**: generate a representative R&W/Math candidate set from the new construction layers, confirm the strengthened content-quality gate passes the intended candidates, and reject/iterate any construction families that still fail.
+
+## 8. Re-gating requirement after representative QC
 
 After remediation is proven on representative candidates:
 
@@ -119,8 +143,8 @@ After remediation is proven on representative candidates:
 
 **Do not regenerate the entire 30-mock corpus and do not create SAT21.**
 
-## 8. Release decision at this checkpoint
+## 9. Release decision at this checkpoint
 
 **Decision: HOLD.**
 
-SAT1–SAT10 and PSAT1–PSAT10 remain blocked from final collective content-quality calibration until the construction remediation is proven. SAT11–SAT20 remain frozen and their public verification remains deferred.
+SAT1–SAT10 and PSAT1–PSAT10 remain blocked from final collective content-quality calibration until representative construction QC passes. SAT11–SAT20 remain frozen and their public verification remains deferred.
