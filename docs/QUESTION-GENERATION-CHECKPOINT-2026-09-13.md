@@ -1,6 +1,6 @@
 # Question Generation Checkpoint — September 14, 2026
 
-**Status:** Batch M production generation, final collective corpus verification, production-store cleanliness verification, and maintenance/spec safeguard verification COMPLETE.
+**Status:** Batch M production generation, final collective corpus verification, production-store cleanliness verification, and maintenance/spec safeguard verification COMPLETE; release/content-quality verification PENDING.
 
 ## Batch M production rule
 
@@ -71,6 +71,94 @@ After this checkpoint:
 - do not expose the new corpus through the legacy public corpus without explicit release approval;
 - any required correction must be explicitly recorded as a corpus change and re-verified.
 
-## Next step — public website inspection
+## New Batch M release/content-quality sequence
 
-Maintenance/spec safeguard verification is complete. The next task is the planned public website inspection of all 30 production mocks. This is a presentation and delivery check, not permission to regenerate production content.
+Batch M production generation and corpus-level technical gates are complete, but **Batch M is not considered fully complete until these remaining checkpoints are completed:**
+
+### 1. Public website release verification — user-facing check
+
+The user inspects only `https://www.aprioriconsultants.org`.
+
+The inspection covers:
+
+- all 30 production mocks open;
+- R&W content displays;
+- Math content displays;
+- figures/charts/tables display;
+- no obvious missing content, broken visuals, overlap, clipping, or major layout defects;
+- representative mobile/responsive checks.
+
+The user does not perform technical/code/database/corpus QC and does not need to solve every question.
+
+### 2. Technical release QC — internal project check
+
+After the user's public-site findings are reported, technical QC will diagnose every reported issue against the relevant generation, storage, rendering, and frozen production-corpus implementation.
+
+Only genuine defects will be corrected. Scope remains limited to question generation, storage, and rendering. Authentication, payments, entitlements, dashboard, Redux, and unrelated functionality must not be modified.
+
+### 3. SAT/PSAT content-quality QC — R&W and Math
+
+This is a distinct post-production quality checkpoint. Existing structural/originality/math/figure gates establish technical validity; they do not by themselves certify that questions are genuinely SAT/PSAT-level.
+
+R&W calibration will evaluate, as applicable:
+
+- source/passage complexity and information density;
+- question construction and reasoning demand;
+- skill/domain fit;
+- evidence alignment;
+- distractor quality and plausible student-error profiles;
+- wording and answer-choice construction;
+- Digital SAT-style realism;
+- difficulty distribution and quality consistency.
+
+Math calibration will evaluate, as applicable:
+
+- mathematical reasoning demand and difficulty;
+- skill/domain balance;
+- multi-step reasoning;
+- representation quality, including graphs/tables/figures;
+- distractor quality;
+- numerical/parameter diversity;
+- Digital SAT-style realism;
+- difficulty distribution and quality consistency.
+
+The assessment must use the approved SAT/PSAT specification and permitted calibration references without copying or closely paraphrasing official material.
+
+### 4. 30-mock cross-corpus calibration
+
+The complete frozen corpus will be evaluated collectively for:
+
+- difficulty consistency and distribution;
+- R&W and Math skill/domain balance;
+- construction diversity;
+- conceptual/construction repetition beyond existing originality gates;
+- appropriate SAT versus PSAT calibration;
+- overall coherence of the 30-mock product.
+
+This is a separate quality assessment from structural/originality QC.
+
+### 5. Targeted remediation, only if necessary
+
+Do not regenerate the corpus wholesale for isolated defects. If a genuine defect requires a production-corpus change, the change must be explicitly recorded, affected individual production gates rerun, and the final collective corpus gate rerun.
+
+The frozen production boundary remains exactly 30 mocks. No SAT21 or additional production target may be created.
+
+### 6. Final end-to-end student-experience acceptance
+
+The final acceptance check will verify the student-facing journey through the existing architecture: launch → instructions → adaptive test-taking → completion → scoring/results → detailed report.
+
+This is distinct from both question-content QC and the public visual inspection.
+
+### 7. Final Batch M acceptance
+
+Batch M may be declared fully complete only when the public website check, technical release QC, R&W/Math content-quality calibration, 30-mock cross-corpus calibration, any required remediation/re-gates, and final student-experience acceptance are complete.
+
+## Important interpretation
+
+Passing the existing generation, structural, originality, mathematical, figure, storage, and collective corpus gates does **not** by itself mean that the questions have been certified as authentic SAT/PSAT-level content. The new R&W/Math content-quality calibration and 30-mock cross-corpus calibration are the formal checkpoints for that judgment.
+
+Any post-freeze corpus correction is exceptional and must be explicitly recorded and fully re-verified. No silent regeneration or replacement is permitted.
+
+## Next step
+
+**User public website inspection of all 30 production mocks.** After the inspection report, perform the technical release QC, then proceed to SAT/PSAT content-quality calibration and cross-corpus calibration. Do not generate SAT21.
