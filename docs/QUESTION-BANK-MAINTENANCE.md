@@ -20,6 +20,7 @@ A schema → B blueprint → C R&W construction → D R&W distractor/evidence/QC
 4. **Final collective QC across the complete production corpus** — passed
 5. **Production-store cleanliness checkpoint** — passed
 6. **Maintenance/spec safeguard verification** — passed
+7. **SAT/PSAT content-quality QC** — **complete with quality hold**
 
 Each mock was generated, independently QC-checked, cross-compared with previously accepted mocks, stored, and deployed to Render before the next mock was accepted. No additional production target remains.
 
@@ -27,7 +28,7 @@ Each mock was generated, independently QC-checked, cross-compared with previousl
 
 **Status: COMPLETE / FROZEN.**
 
-All 30 production mocks remain accepted and stored. SAT11–SAT20 are deployed in the live Series B runtime, but their public-site inspection has been intentionally deferred because the next active project step is SAT/PSAT content-quality QC and the user is not currently available to inspect Mocks 11–20.
+All 30 production mocks remain accepted and stored. SAT11–SAT20 are deployed in the live Series B runtime, but their public-site inspection has been intentionally deferred because the next active project step is content-quality remediation and the user is not currently available to inspect Mocks 11–20.
 
 Deferred verification must not be interpreted as rejection or acceptance of the user-facing presentation of SAT11–SAT20. The inspection remains an explicit later release checkpoint.
 
@@ -47,29 +48,65 @@ This is a release checkpoint, not permission to mutate the corpus. Any correctio
 
 The production corpus is frozen, but **Batch M is not considered fully complete until all remaining release and quality checkpoints are complete.**
 
-### Active checkpoint — SAT/PSAT content-quality QC
+### SAT/PSAT content-quality QC — complete with quality hold
 
-The immediate next task is a formal content-quality review of **SAT Series A Mocks 1–10 and PSAT Mocks 1–10**.
+The formal content-quality review of **SAT Series A Mocks 1–10 and PSAT Mocks 1–10** has been completed.
 
-This review must determine whether the generated questions genuinely match the intended Digital SAT/PSAT level and complexity, rather than merely passing technical/schema/originality/math/figure gates.
+Detailed findings are recorded in `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md`.
 
-**R&W review:** source/passage complexity, information density, syntax and rhetorical structure, question construction, reasoning demand, skill/domain fit, evidence alignment, answer defensibility, distractor quality, wording, answer-choice construction, Digital SAT-style realism, and difficulty/quality distribution.
+**Decision: QUALITY HOLD.** The affected SAT/PSAT content is technically valid but is not sufficiently authentic in source complexity, reasoning demand, distractor quality, construction diversity, and difficulty calibration to proceed to final cross-corpus quality acceptance.
 
-**Math review:** mathematical reasoning demand, difficulty, skill/domain balance, multi-step reasoning, representation quality, graphs/tables/figures, distractor quality, numerical/parameter diversity, construction diversity, Digital SAT-style realism, and difficulty/quality distribution.
+The most important systemic findings are:
 
-The review must separately assess SAT calibration and the PSAT content ceiling and must not use copied or closely paraphrased official questions.
+- R&W passages and question constructions are overly template-driven.
+- R&W evidence and distractor relationships are often metadata-driven rather than substantively item-specific.
+- R&W difficulty is position-based rather than reliably derived from reasoning demand.
+- Math relies too heavily on direct substitution and familiar formula application.
+- Math hard items are not consistently hard in the required reasoning sense.
+- Math distractors are frequently generic numeric offsets rather than authentic student-error constructions.
+- Math student-produced-response generation is approximately 20%, below the specified 25–30% target.
+- The PSAT variant does not yet demonstrate a sufficiently independent ceiling relative to SAT.
 
-### After A/PSAT content-quality QC
+The existing technical gates therefore cannot be treated as a substitute for content-quality certification.
 
-1. Targeted remediation and re-gating, only where genuine defects are found.
-2. 30-mock cross-corpus calibration for difficulty, skill/domain balance, construction diversity, repetition, SAT-vs-PSAT calibration, and overall realism/coherence.
-3. Public verification of SAT11–SAT20, which is currently deferred and remains outstanding.
-4. Final end-to-end student-experience acceptance.
-5. Final Batch M release acceptance.
+### Active next checkpoint — generator/content-quality remediation
+
+The next task is **not another mock and not public verification of SAT11–SAT20**. It is remediation of the construction and content-quality layers so that representative items can meet the approved standard before any frozen production records are changed.
+
+Required remediation areas:
+
+1. R&W source/passage diversity and information density;
+2. item-specific evidence construction;
+3. contextual Words in Context variation;
+4. relationship-first Cross-Text construction;
+5. authentic Rhetorical Synthesis notes and communication goals;
+6. broader Standard English Conventions constructions;
+7. difficulty based on actual cognitive demand;
+8. semantic distractor validation;
+9. broader Math reasoning and construction diversity;
+10. genuine multi-step/strategic hard Math items;
+11. realistic mathematical distractors;
+12. representation-driven Math items;
+13. 25–30% Math student-produced-response items;
+14. explicit SAT-versus-PSAT ceiling controls.
+
+### After remediation
+
+1. Validate representative corrected items through the strengthened content-quality gate.
+2. Replace only genuinely affected production items in SAT1–SAT10 and PSAT1–PSAT10.
+3. Record every post-freeze corpus change by mock/question ID.
+4. Rerun affected individual production gates.
+5. Rerun the final collective 30-mock corpus gate.
+6. Perform 30-mock cross-corpus calibration.
+7. Perform public verification of SAT11–SAT20, which remains deferred and outstanding.
+8. Perform final end-to-end student-experience acceptance.
+9. Finalize Batch M release acceptance.
 
 ## Targeted remediation and re-gating
 
-Do not regenerate the corpus wholesale for isolated defects. If a genuine defect requires a production-corpus change:
+Do not regenerate the corpus wholesale for isolated defects. Because the current content-quality findings are systemic, remediation must first improve the generator/construction gates; production replacement then remains item-specific.
+
+If a genuine production-corpus change is required:
 
 1. explicitly record the corpus change;
 2. rerun the affected individual production gates;
@@ -89,4 +126,4 @@ No SAT21 or additional production target may be created.
 
 ## Current status
 
-**Batch M production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The 30-mock corpus is frozen. SAT11–SAT20 are deployed but user-facing verification is deferred. The active next step is SAT1–SAT10 and PSAT1–PSAT10 content-quality QC, followed by cross-corpus calibration and the deferred Series B verification.**
+**Batch M production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The 30-mock corpus is frozen. The SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete with a QUALITY HOLD. Generator/content-quality remediation is the active next step. SAT11–SAT20 are deployed but user-facing verification is deferred.**
