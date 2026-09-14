@@ -124,11 +124,11 @@ Mocks are produced one at a time. The next mock starts only after the prior mock
 
 ### Current accepted checkpoint
 
-SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–17 are accepted and Render-LIVE. Each accepted production mock contains 196 validated records and remains separate from the legacy public corpus.
+SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–19 are accepted and Render-LIVE. Each accepted production mock contains 196 validated records and remains separate from the legacy public corpus.
 
 ### Next target
 
-**SAT Series B Mock 18 (`SAT18`).** It must be compared against all 27 previously accepted production mocks. No new mock may be skipped, generated out of order, or exposed through the legacy public corpus before final corpus acceptance.
+**SAT Series B Mock 20 (`SAT20`).** It must be compared against all 29 previously accepted production mocks. No new mock may be skipped, generated out of order, or exposed through the legacy public corpus before final corpus acceptance.
 
 ## 8. Scope protection
 
@@ -152,4 +152,4 @@ At the beginning of a future session:
 6. Check current git history/files only to identify the next unfinished **Batch M production target**.
 7. Do not repeat completed audits or implementation.
 8. Continue one mock at a time with Render deployment acceptance after each accepted mock.
-9. **SAT Series B Mock 18 (`SAT18`) is now the next production target.**
+9. **SAT Series B Mock 20 (`SAT20`) is now the active production target.**
