@@ -50,11 +50,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/records (\d+) units .*?increases by (\d+) units each month\. After (\d+) months.*?after (\d+) months/i);
     if (match) {
       const [, baseline, rate, knownMonths, requestedMonths] = match.map(Number);
-      return uniqueNumericStrings([
-        baseline,
-        rate * requestedMonths,
-        baseline + rate * (knownMonths + 1),
-      ], answer);
+      return uniqueNumericStrings([baseline, rate * requestedMonths, baseline + rate * (knownMonths + 1)], answer);
     }
   }
 
@@ -62,11 +58,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/fixed fee of \$(\d+) plus \$(\d+) per unit\. A customer paid \$(\d+)/i);
     if (match) {
       const [, fixed, cost, total] = match.map(Number);
-      return uniqueNumericStrings([
-        Math.floor(total / cost),
-        Math.floor((total - fixed - cost) / cost),
-        Math.floor(total / (cost + 1)),
-      ], answer);
+      return uniqueNumericStrings([Math.floor(total / cost), Math.floor((total - fixed - cost) / cost), Math.floor(total / (cost + 1))], answer);
     }
   }
 
@@ -82,11 +74,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/(\d+)x \+ (\d+) ≤ (\d+)/);
     if (match) {
       const [, coefficient, constant, rhs] = match.map(Number);
-      return uniqueNumericStrings([
-        Math.floor(rhs / coefficient),
-        Math.floor((rhs - constant) / (coefficient + 1)),
-        Math.ceil((rhs - constant) / (coefficient - 1)),
-      ], answer);
+      return uniqueNumericStrings([Math.floor(rhs / coefficient), Math.floor((rhs - constant) / (coefficient + 1)), Math.ceil((rhs - constant) / (coefficient - 1))], answer);
     }
   }
 
@@ -98,9 +86,7 @@ function constructionSpecificMathDistractors(question, index) {
     }
   }
 
-  if (skill === 'Equivalent exponential representations') {
-    return uniqueNumericStrings([2, -2, 3], answer);
-  }
+  if (skill === 'Equivalent exponential representations') return uniqueNumericStrings([2, -2, 3], answer);
 
   if (skill === 'Quadratic functions') {
     const match = prompt.match(/f\(x\) = \(x − (\d+)\)² \+ (\d+).*?x = (\d+) and f\(x\) = (\d+)/i);
@@ -135,11 +121,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/Group A contains (\d+) observations with mean (\d+); Group B contains (\d+) observations with mean (\d+)/i);
     if (match) {
       const [, groupA, meanA, groupB, meanB] = match.map(Number);
-      return uniqueNumericStrings([
-        Number(((meanA + meanB) / 2).toFixed(2)),
-        meanA,
-        meanB,
-      ], answer);
+      return uniqueNumericStrings([Number(((meanA + meanB) / 2).toFixed(2)), meanA, meanB], answer);
     }
   }
 
@@ -155,11 +137,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/garden is (\d+) meters by (\d+) meters\. A rectangular section (\d+) meters by (\d+) meters is removed/i);
     if (match) {
       const [, outer, height, inner, removedHeight] = match.map(Number);
-      return uniqueNumericStrings([
-        outer * height,
-        inner * removedHeight,
-        outer * height + inner * removedHeight,
-      ], answer);
+      return uniqueNumericStrings([outer * height, inner * removedHeight, outer * height + inner * removedHeight], answer);
     }
   }
 
@@ -167,11 +145,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/ratio (\d+):1.*?smaller figure is (\d+).*?area (\d+)/i);
     if (match) {
       const [, scale, smallLength, smallArea] = match.map(Number);
-      return uniqueNumericStrings([
-        smallArea * scale,
-        smallArea + scale,
-        smallLength * scale,
-      ], answer);
+      return uniqueNumericStrings([smallArea * scale, smallArea + scale, smallLength * scale], answer);
     }
   }
 
@@ -179,11 +153,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/circle has radius (\d+)/i);
     if (match) {
       const radius = Number(match[1]);
-      return uniqueNumericStrings([
-        radius * radius,
-        3 * radius + 9,
-        2 * radius,
-      ].map((value) => `${value}π`), answer);
+      return uniqueNumericStrings([radius * radius, 3 * radius + 9, 2 * radius].map((value) => `${value}π`), answer);
     }
   }
 
@@ -191,11 +161,13 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/one leg of (\d+) and hypotenuse of (\d+)/i);
     if (match) {
       const [, leg, hyp] = match.map(Number);
-      return uniqueNumericStrings([
-        hyp - leg,
-        hyp + leg,
-        leg,
-      ].map((value) => Number(value.toFixed(2))), answer);
+      const correctValue = Number(answer);
+      const rawCandidates = [hyp - leg, hyp + leg, leg + 2, hyp + 2, Math.max(1, leg - 2), hyp + 3, leg + 3];
+      const filtered = rawCandidates.filter((value) => {
+        if (!Number.isFinite(value) || value === correctValue) return false;
+        return ![correctValue + 1, correctValue - 1, correctValue * 2].includes(value);
+      });
+      return uniqueNumericStrings(filtered.map((value) => Number(value.toFixed(2))), answer).slice(0, 3);
     }
   }
 
@@ -212,74 +184,20 @@ function replaceMathDistractors(question, index) {
   const target = (index + 1) % 4;
   const choices = [...distractors];
   choices.splice(target, 0, correct);
-  return {
-    ...question,
-    choices: choices.slice(0, 4),
-    answer: String.fromCharCode(65 + target),
-  };
+  return {...question, choices: choices.slice(0, 4), answer: String.fromCharCode(65 + target)};
 }
 
 const RW_FALLBACKS = {
-  'Central Ideas and Details': [
-    'The passage mainly catalogs background events without explaining their significance.',
-    'The author questions whether the observations can be compared across settings.',
-    'The passage focuses on a proposal that the evidence ultimately rejects.',
-    'The author describes a procedure but does not interpret its result.',
-  ],
-  Inferences: [
-    'The text suggests that the outcome would remain unchanged under every condition.',
-    'The observations establish a conclusion that the passage explicitly rules out.',
-    'The passage provides no basis for comparing the two conditions.',
-    'The author states the conclusion as a certainty rather than an inference.',
-  ],
-  'Command of Evidence': [
-    'A historical summary supplies background but does not test the interpretation.',
-    'A statement of the researchers’ interest describes motivation rather than evidence.',
-    'An unrelated observation comes from a setting the passage does not discuss.',
-    'A broad generalization extends the claim beyond the evidence presented.',
-  ],
-  'Words in Context': [
-    'to remove a condition that limits the claim',
-    'to repeat an observation without interpreting it',
-    'to describe a result as impossible to measure',
-    'to replace the original meaning with its opposite',
-  ],
-  'Text Structure and Purpose': [
-    'To provide unrelated background that the passage never uses.',
-    'To introduce a claim and then contradict it without explanation.',
-    'To list several facts without showing how they connect.',
-    'To shift from the topic to an unrelated historical episode.',
-  ],
-  'Cross-Text Connections': [
-    'The passages discuss unrelated subjects and therefore cannot be compared.',
-    'The second passage rejects every observation described in the first.',
-    'The authors reach identical conclusions regardless of the evidence.',
-    'The passages rely entirely on personal opinion rather than observations.',
-  ],
-  'Rhetorical Synthesis': [
-    'The student should mention the topic without stating what the evidence showed.',
-    'The student should generalize the finding to every possible setting.',
-    'The student should omit the qualification so the statement is more forceful.',
-    'The student should describe the research process without communicating its result.',
-  ],
-  Transitions: [
-    'Consequently,',
-    'For instance,',
-    'Meanwhile,',
-    'In contrast,',
-  ],
-  Boundaries: [
-    '; nevertheless,',
-    ', although',
-    '; meanwhile,',
-    'because',
-  ],
-  'Form, Structure, and Sense': [
-    'would appear',
-    'were showing',
-    'has remained',
-    'to have shown',
-  ],
+  'Central Ideas and Details': ['The passage mainly catalogs background events without explaining their significance.', 'The author questions whether the observations can be compared across settings.', 'The passage focuses on a proposal that the evidence ultimately rejects.', 'The author describes a procedure but does not interpret its result.'],
+  Inferences: ['The text suggests that the outcome would remain unchanged under every condition.', 'The observations establish a conclusion that the passage explicitly rules out.', 'The passage provides no basis for comparing the two conditions.', 'The author states the conclusion as a certainty rather than an inference.'],
+  'Command of Evidence': ['A historical summary supplies background but does not test the interpretation.', 'A statement of the researchers’ interest describes motivation rather than evidence.', 'An unrelated observation comes from a setting the passage does not discuss.', 'A broad generalization extends the claim beyond the evidence presented.'],
+  'Words in Context': ['to remove a condition that limits the claim', 'to repeat an observation without interpreting it', 'to describe a result as impossible to measure', 'to replace the original meaning with its opposite'],
+  'Text Structure and Purpose': ['To provide unrelated background that the passage never uses.', 'To introduce a claim and then contradict it without explanation.', 'To list several facts without showing how they connect.', 'To shift from the topic to an unrelated historical episode.'],
+  'Cross-Text Connections': ['The passages discuss unrelated subjects and therefore cannot be compared.', 'The second passage rejects every observation described in the first.', 'The authors reach identical conclusions regardless of the evidence.', 'The passages rely entirely on personal opinion rather than observations.'],
+  'Rhetorical Synthesis': ['The student should mention the topic without stating what the evidence showed.', 'The student should generalize the finding to every possible setting.', 'The student should omit the qualification so the statement is more forceful.', 'The student should describe the research process without communicating its result.'],
+  Transitions: ['Consequently,', 'For instance,', 'Meanwhile,', 'In contrast,'],
+  Boundaries: ['; nevertheless,', ', although', '; meanwhile,', 'because'],
+  'Form, Structure, and Sense': ['would appear', 'were showing', 'has remained', 'to have shown'],
 };
 
 function repairRWDistractors(question, index) {
@@ -290,7 +208,6 @@ function repairRWDistractors(question, index) {
   const current = [...question.choices];
   const needsRepair = current.some((choice, choiceIndex) => choiceIndex !== answerIndex && overlap(correct, choice) > 0.9);
   if (!needsRepair) return question;
-
   const fallbackPool = RW_FALLBACKS[question.skill] || [];
   let fallbackIndex = index % Math.max(1, fallbackPool.length);
   for (let choiceIndex = 0; choiceIndex < current.length; choiceIndex += 1) {
@@ -315,41 +232,23 @@ function alignDifficulty(question) {
   if (question.section !== 'math' || question.difficulty !== 'easy') return question;
   const features = new Set(question.metadata?.difficultyFeatures || []);
   if (!features.has('multi-step') && !features.has('strategic-choice')) return question;
-  return {
-    ...question,
-    difficulty: 'medium',
-    difficultyBand: `${question.assessmentVariant || 'sat'}-${question.adaptiveRoute || 'standard'}-medium`,
-    estimatedTimeSeconds: Math.max(Number(question.estimatedTimeSeconds) || 0, 90),
-  };
+  return {...question, difficulty: 'medium', difficultyBand: `${question.assessmentVariant || 'sat'}-${question.adaptiveRoute || 'standard'}-medium`, estimatedTimeSeconds: Math.max(Number(question.estimatedTimeSeconds) || 0, 90)};
 }
 
 function enrichShortSECPrompt(question) {
   if (question.section !== 'reading-writing') return question;
   if (!['Transitions', 'Boundaries', 'Form, Structure, and Sense'].includes(question.skill)) return question;
-  return {
-    ...question,
-    prompt: `The following sentence appears in a research report about how a revised method affected the study results. ${question.prompt}`,
-  };
+  return {...question, prompt: `The following sentence appears in a research report about how a revised method affected the study results. ${question.prompt}`};
 }
 
 export function buildRepresentativeBatchMRemediationCandidates(options = {}) {
   const rwResult = generateRemediatedRWCandidates({ count: options.rwCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
   const mathResult = generateRemediatedMathCandidates({ count: options.mathCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
-
   const readingWriting = rwResult.candidates.map((candidate, index) => repairRWDistractors(candidate, index));
   const math = mathResult.candidates.map((candidate, index) => alignDifficulty(replaceMathDistractors(candidate, index), index));
   const candidates = [...readingWriting, ...math];
   const quality = evaluateContentQualityBatch(candidates);
-
-  return {
-    candidates,
-    quality,
-    readingWritingCount: readingWriting.length,
-    mathCount: math.length,
-    mathStudentProducedResponsePercent: mathResult.studentProducedResponsePercent,
-    productionMutation: false,
-    releaseEligible: false,
-  };
+  return {candidates, quality, readingWritingCount: readingWriting.length, mathCount: math.length, mathStudentProducedResponsePercent: mathResult.studentProducedResponsePercent, productionMutation: false, releaseEligible: false};
 }
 
 export default buildRepresentativeBatchMRemediationCandidates;
