@@ -18,7 +18,7 @@ const summary = {
 
 console.log(JSON.stringify(summary, null, 2));
 
-if (!result.quality.pass) {
+if (!result.quality.passed) {
   console.error('Batch M representative remediation QC FAILED.');
   process.exitCode = 1;
 } else {
