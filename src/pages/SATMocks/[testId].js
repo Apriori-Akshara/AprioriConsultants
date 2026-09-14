@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { getVerifiedSatServerAccessState } from "../../lib/sat/satAccess";
 import { getSatLoginUrl } from "../../lib/sat/satLogin";
 import { getSatTestAccess } from "../../lib/sat/testAccess";
-import { normalizeMockKey, getModuleForRoute } from "../../lib/sat/adaptiveMockEngine";
+import { normalizeMockKey, getModuleForRoute } from "../../lib/sat/productionAdaptiveMockEngine";
 import MathVisualStimulus from "../../components/sat/MathVisualStimulus";
 import styles from "../../styles/SATMockTest.module.css";
 
