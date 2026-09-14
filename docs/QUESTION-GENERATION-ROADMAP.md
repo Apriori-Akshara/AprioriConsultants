@@ -1,6 +1,6 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current Batch M content-quality checkpoint  
+**Status:** Approved implementation plan / current Batch M content-quality remediation checkpoint  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
 
@@ -16,19 +16,19 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 |---|---|---|
 | A | Canonical schema + compatibility | COMPLETE |
 | B | Blueprint engine | COMPLETE |
-| C | R&W source/passage/question construction | COMPLETE |
-| D | R&W distractor/evidence/QC | COMPLETE / LIVE |
+| C | R&W source/passage/question construction | COMPLETE — **quality remediation required** |
+| D | R&W distractor/evidence/QC | COMPLETE / LIVE — **content-quality gate insufficient; remediation required** |
 | E | Figure framework + rendering foundation | COMPLETE / LIVE |
 | F | Basic data visuals | COMPLETE / LIVE |
 | G | 2D geometry/math visuals | COMPLETE / LIVE |
 | H | 3D solids + future multi-source architecture | COMPLETE / VERIFIED |
-| I | Math integration + mathematical QC | COMPLETE / LIVE |
+| I | Math integration + mathematical QC | COMPLETE / LIVE — **content-quality remediation required** |
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | COMPLETE — production, collective technical gates, and store checkpoint complete; content-quality/release verification pending |
+| M | Production generation + corpus-level QC | PRODUCTION COMPLETE / **CONTENT-QUALITY HOLD — REMEDIATION ACTIVE** |
 
-**Batch M production generation is complete and frozen. The active remaining work is content-quality calibration and release verification, not further production generation.**
+**Batch M production generation is complete and frozen. The formal SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete and found systemic assessment-quality weaknesses. The active remaining work is generator/content-quality remediation, controlled replacement where necessary, re-gating, cross-corpus calibration, and release verification.**
 
 ## 1. Core architecture
 
@@ -61,6 +61,8 @@ Distractors must correspond to plausible student-error profiles such as true-but
 
 R&W evidence maps retain target evidence, supporting evidence, required inference, correct reasoning, and distractor reasoning. Cross-text items design the relationship first. Rhetorical synthesis uses source notes → communication goal → answer options. Quantitative evidence uses underlying dataset → claim/context → structured visual → question → answer.
 
+**Content-quality audit finding:** the current implementation does not yet meet this construction standard consistently. Its topic, passage, stem, distractor, and rhetorical templates are too repetitive, and the existing deterministic QC checks metadata coherence more reliably than substantive assessment quality.
+
 ## 3. Figure implementation
 
 Production figures are structured parameter objects rendered by code. Do not use AI-drawn production figures, ASCII art, or opaque raw SVG as the source of truth.
@@ -77,6 +79,8 @@ Every live figure must have deterministic parameters that QC can validate agains
 Math uses the same blueprint → draft → independent QC architecture and preserves protections against repeated parameter combinations, repeated constructions, disguised numerical substitution, repeated graph/table data, and prohibited figure reuse.
 
 Mathematical QC must independently verify mathematical correctness. Unsupported constructions must be flagged rather than silently “proved” by a generic solver.
+
+**Content-quality audit finding:** numerical diversity has improved, but construction diversity and reasoning demand remain insufficient. Too many current items are direct substitution or familiar formula applications, hard labels do not reliably correspond to hard reasoning, and distractors are frequently generic numeric offsets.
 
 ## 5. Independent QC standard
 
@@ -97,6 +101,8 @@ Failed items may receive limited correction/retry attempts; repeated failure of 
 
 Batch D provides deterministic R&W independent QC. Batch I provides deterministic Math mathematical QC. Batch J provides strengthened figure relationship and originality QC.
 
+**Remediation requirement:** content-quality QC must become capable of rejecting generic or formulaic items even when schema and internal metadata are valid. Difficulty must be assessed from actual reasoning demand, and distractors must be evaluated semantically rather than only by attached misconception labels.
+
 ## 6. Calibration corpus
 
 Calibration references may be used internally to study assessment characteristics, style, difficulty, source complexity, and question construction. Official material must not be copied, closely paraphrased, or shipped as production content.
@@ -109,18 +115,19 @@ The private calibration corpus records structural characteristics such as source
 
 ### Batches A–L
 
-**Status: COMPLETE.** Batches A–L established the schema, blueprint, R&W construction/QC, figure system, Math integration/QC, originality controls, calibration boundary, and controlled end-to-end gate. These completed batches must not be repeated or reopened unless a real production defect requires it.
+**Status: COMPLETE, with content-quality remediation required in the generation/QC layers identified by the Batch M audit.** Batches A–L established the schema, blueprint, R&W construction/QC, figure system, Math integration/QC, originality controls, calibration boundary, and controlled end-to-end gate. These completed batches must not be repeated wholesale; only genuine production-quality defects should reopen the relevant generation/QC dependency.
 
 ### Batch M — Production generation for the controlled corpus
 
-**Status: PRODUCTION COMPLETE / QUALITY RELEASE PENDING.** The fixed production sequence was:
+**Status: PRODUCTION COMPLETE / QUALITY HOLD.** The fixed production sequence was:
 
-1. SAT Series A Mocks 1–10 — accepted
-2. PSAT Mocks 1–10 — accepted
+1. SAT Series A Mocks 1–10 — accepted technically
+2. PSAT Mocks 1–10 — accepted technically
 3. SAT Series B Mocks 11–20 — accepted and deployed; public inspection deferred
-4. Final collective corpus-level QC — passed
+4. Final collective corpus-level QC — passed technically
 5. Production-store cleanliness checkpoint — passed
 6. Maintenance/spec safeguard verification — passed
+7. SAT/PSAT content-quality QC — **complete; quality hold**
 
 Mocks were produced one at a time. Each mock passed its generation/QC/storage gates and Render deployment acceptance before the next mock was accepted. No further production target is authorized.
 
@@ -132,18 +139,28 @@ SAT11–SAT20 are deployed in the live Series B runtime, but the user-facing ins
 
 The canonical store contains exactly the frozen 30-mock sequence, with no SAT21 target.
 
+### Content-quality audit result
+
+The formal audit of SAT1–SAT10 and PSAT1–PSAT10 is recorded in `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md`.
+
+**Result: QUALITY HOLD.** The current production content is technically valid but not sufficiently authentic in R&W source complexity, reasoning demand, evidence construction, distractor quality, Math reasoning diversity, hard-item calibration, and SAT-versus-PSAT calibration.
+
+The Math generator also produces approximately 20% student-produced-response items, below the approved 25–30% target.
+
 ### Next target
 
-**SAT1–SAT10 and PSAT1–PSAT10 content-quality QC.** This review determines whether the generated R&W and Math questions actually match the intended Digital SAT/PSAT level, complexity, reasoning demand, distractor quality, representation quality, and difficulty distribution.
+**Generator/content-quality remediation.**
 
-After that review:
+The remediation must improve the construction and content-quality gates before any frozen production content is replaced. Once representative remediation samples pass:
 
-1. apply targeted remediation only where genuine content defects are found;
-2. rerun affected production gates and the final collective gate for any corpus changes;
-3. perform 30-mock cross-corpus calibration;
-4. complete the deferred public verification of SAT11–SAT20;
-5. perform final end-to-end student-experience acceptance;
-6. finalize Batch M release acceptance.
+1. replace only genuinely affected SAT1–SAT10 and PSAT1–PSAT10 items;
+2. record every post-freeze corpus change by mock/question ID;
+3. rerun affected individual production gates;
+4. rerun the final collective corpus gate;
+5. perform 30-mock cross-corpus calibration;
+6. complete the deferred public verification of SAT11–SAT20;
+7. perform final end-to-end student-experience acceptance;
+8. finalize Batch M release acceptance.
 
 No SAT21 or additional production target may be created.
 
@@ -167,6 +184,7 @@ At the beginning of a future session:
 4. Read `docs/QUESTION-GENERATION-CHECKPOINT-2026-09-13.md`.
 5. Read `docs/QUESTION-BANK-MAINTENANCE.md` and `src/data/sat/mockContent/batchMProductionPlan.md`.
 6. Read `docs/BATCH-M-PRODUCTION-CORPUS-MANIFEST.md` to identify the frozen 30-mock inventory.
-7. Do not repeat completed audits or mock generation.
-8. Start with SAT1–SAT10 and PSAT1–PSAT10 content-quality QC; do not create SAT21.
-9. Treat SAT11–SAT20 public verification as deferred work that must be completed later.
+7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the completed audit findings and remediation requirements.
+8. Do not repeat completed audits or mock generation.
+9. Start with generator/content-quality remediation; do not create SAT21.
+10. Treat SAT11–SAT20 public verification as deferred work that must be completed later.
