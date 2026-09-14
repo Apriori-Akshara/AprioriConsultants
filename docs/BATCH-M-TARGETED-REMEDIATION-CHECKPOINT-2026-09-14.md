@@ -1,8 +1,8 @@
 # Batch M Targeted Remediation Checkpoint — September 14, 2026
 
-**Status:** IN PROGRESS — production replacement not authorized
-**Branch:** `batch-m-rw-generator-remediation-2026-09-14`
-**PR:** #23 — `Batch M: remediate production-scale R&W and Math candidate diversity`
+**Status:** IN PROGRESS — production replacement not authorized  
+**Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
+**PR:** #23 — `Batch M: remediate production-scale R&W and Math candidate diversity`  
 **Scope:** candidate-generation, storage-contract, and content-quality QC layers only
 
 ## 1. Current stopping point
@@ -58,7 +58,7 @@ Failure breakdown:
 - `Form, Structure, and Sense`: 72 `rw-choice-near-duplicate`
 - `Boundaries`: 72 `rw-choice-near-duplicate`
 
-Representative inspection established that the 144 grammar failures were false positives from the generic semantic-overlap rule rather than evidence that the items were invalid. Example valid constructs included punctuation alternatives such as `; however,`, `, however`, and verb-form alternatives such as `affected`, `affecting`, and `has affected`.
+Representative inspection established that the 144 grammar failures were false positives from the generic semantic-overlap rule rather than evidence that the items were invalid. Example valid constructs included punctuation alternatives such as `; however,`, `, however` and verb-form alternatives such as `affected`, `affecting`, and `has affected`.
 
 After the skill-aware QC correction and WIC target correction, the dry run advanced past the content-quality gate.
 
@@ -122,7 +122,51 @@ After the Cross-Text change:
 
 During this project, additional QC work was performed in the earlier local repository folder because production-scale run commands could not be executed directly through GitHub. Those files are not to be copied or merged blindly. If the remediation branch later shows material discrepancies after the targeted fixes, compare the relevant older file(s) against the current GitHub branch and recover only verified missing work.
 
-## 8. Production boundary
+## 8. Post-launch manual question-bank override system — approved for later implementation
+
+A **manual question authoring/replacement system** is approved as a post-launch enhancement. It is intentionally **not part of the current Batch M release path** and must not be introduced until the first 10 SAT + 10 PSAT student-facing mocks are complete, fully QC-passed, calibrated, and accepted.
+
+The later manual system will allow an explicitly human-authored question to be assigned to an exact target such as:
+
+**Mock → section → module → question/slot → replacement question ID**
+
+Manual content should support clear statuses such as:
+
+- `AUTO` — generated through the normal remediation pipeline;
+- `MANUAL-REVIEW` — manually supplied but awaiting review;
+- `MANUAL-APPROVED` — explicitly approved for the designated production slot.
+
+The manual path may override appropriate content-quality heuristics after explicit human approval, but it must **never bypass structural/safety validation** such as schema validity, required fields, answer-key validity, choice-count requirements, valid figure/data structures, unique IDs, valid Math structure, rendering integrity, and exact-target mapping.
+
+### Release-path isolation requirement
+
+When the manual system is implemented, the current release path must remain unchanged by default:
+
+1. The existing `AUTO` generation path remains the default.
+2. Existing automated QC gates continue to run unchanged for automatically generated questions.
+3. Manual questions enter through a separate explicit authoring/replacement path.
+4. Manual override is opt-in and target-specific; it must not silently change another mock/question.
+5. Manual-approved records are recorded separately and do not alter the remediation generator's rules.
+6. The current production corpus and release pipeline remain the source of truth unless a specific `MANUAL-APPROVED` replacement is explicitly assigned and accepted.
+7. The new workflow must be tested outside the live student-facing release path before production activation.
+
+### Non-coder authoring instructions and templates
+
+The future manual question system must include a **brief, precise instruction guide written in simple language** for the user, without requiring coding knowledge.
+
+It must include approximately **5–6 ready-to-use templates** explaining how to edit or replace a question in the question bank, including examples for common R&W and Math situations. Templates should cover, at minimum, a standard multiple-choice replacement, an R&W passage/question replacement, a Rhetorical Synthesis/notes replacement, a grammar/punctuation replacement, a Math multiple-choice replacement, and a Math figure/rendering replacement.
+
+The guide must also provide simple plain-language instructions for **Math rendering/figure requests** the user may need to enter into the question bank, for example describing what the figure should show, labels, axes/values, relationships, and what the figure must communicate. The goal is that the user can describe or edit question content without directly editing JavaScript or other code.
+
+The future manual system must preserve the same canonical question contract used by production and must produce a clear success/error message explaining any missing information before a manual question can be accepted.
+
+## 9. Private reference/calibration corpus
+
+The project will use a private reference corpus containing real SAT/PSAT reference material only for internal study of assessment characteristics. It is not production content and must not be copied, closely paraphrased, or shipped in the student-facing mocks.
+
+The private reference corpus should be established before final cross-corpus calibration of the completed 20 student-facing mocks. It should inform calibration of source complexity, question construction, reasoning demand, distractor behavior, figure/data usage, and SAT-versus-PSAT characteristics.
+
+## 10. Production boundary
 
 All remediation files remain candidate-only. The frozen production corpus has not been mutated by this work. No production replacement is authorized until the complete SAT + PSAT production-scale dry run passes every required gate.
 
