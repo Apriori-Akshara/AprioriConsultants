@@ -54,7 +54,7 @@ Batch L exercised a controlled SAT/PSAT pair through generation, post-processing
 
 ## Batch M — Production generation
 
-**Status:** **ACTIVE / SAT SERIES A MOCKS 1–10, PSAT MOCKS 1–10, AND SAT SERIES B MOCKS 11–15 ACCEPTED AND STORED. SAT16 IN PROGRESS.**
+**Status:** **ACTIVE / SAT SERIES A MOCKS 1–10, PSAT MOCKS 1–10, AND SAT SERIES B MOCKS 11–16 ACCEPTED AND STORED. SAT17 IN PROGRESS.**
 
 The exact production sequence is fixed and must not be reordered:
 
@@ -65,143 +65,50 @@ The exact production sequence is fixed and must not be reordered:
 
 Mocks are generated and accepted one at a time. A mock must pass generation, independent QC, figure/math/originality checks, mock-level checks, cross-mock checks against all previously accepted mocks, canonical storage validation, and Render deployment acceptance before the next mock begins.
 
-### Accepted production checkpoint — SAT Series A
-
-**SAT Mocks 1–10 are accepted and stored as canonical runtime production records.** Mock 10 uses `SAT10` → `sat-series-a-mock-10`, variant `sat-series-a`, assessment number `10`, deterministic seed `1010`. Its production gate checked the complete accepted Series A baseline for R&W context/prompt reuse, Math application reuse, exact figure-data reuse, figure originality, figure quality, Math mathematical QC, schema integrity, 196-record count, and storage round-trip integrity.
-
-### Accepted production checkpoint — PSAT
-
-**PSAT Mocks 1–10 are accepted and stored as canonical runtime production records.**
-
-PSAT Mock 10 uses:
-
-- test key: `PSAT10`
-- test ID: `psat-mock-10`
-- variant: `psat-nmsqt`
-- assessment number: `10`
-- deterministic generation seed: `2010`
-- validated mock size: 196 records
-- storage mode: `canonical-runtime-records`
-
-Implementation commits:
-- `781cb832d9984f2ab78ed29648cd2a0a92dcac94` — `Batch M: Add PSAT Mock 10 production gate`
-- `cbeeb1c6c20a756e10c184ae774fbf9293550d90` — `Batch M: Store accepted PSAT Mock 10`
-
-**Render acceptance:** User-confirmed LIVE for PSAT10. This closes the PSAT10 production acceptance gate.
-
-### Accepted production checkpoint — SAT Series B Mock 11
-
-**SAT11 is accepted and stored as a canonical runtime production record.** User-confirmed Render-LIVE acceptance closes the SAT11 deployment gate.
-
-SAT11 uses:
-
-- test key: `SAT11`
-- test ID: `sat-series-b-mock-11`
-- variant: `sat-series-b`
-- assessment number: `11`
-- deterministic seed: `1011`
-- validated mock size: `196` records
-- storage mode: `canonical-runtime-records`
-- cross-mock baseline: all accepted SAT1–SAT10 and PSAT1–PSAT10 records
-
-Implementation commit:
-- `35f14dea6e22f361c3eaf8befcf4d9c56ea4840a` — `Batch M: Add SAT11 production gate and canonical storage`
-
-**Render acceptance:** User-confirmed LIVE for SAT11. This closes the SAT11 production acceptance gate.
-
-### Accepted production checkpoint — SAT Series B Mock 12
-
-**SAT12 is accepted and stored as a canonical runtime production record.** User-confirmed Render-LIVE acceptance closes the SAT12 deployment gate.
-
-SAT12 uses:
-
-- test key: `SAT12`
-- test ID: `sat-series-b-mock-12`
-- variant: `sat-series-b`
-- assessment number: `12`
-- deterministic seed: `1012`
-- validated mock size: `196` records
-- storage mode: `canonical-runtime-records`
-- cross-mock baseline: all accepted SAT1–SAT10, PSAT1–PSAT10, and SAT11 records
-
-Implementation commit:
-- `5df098e878dbe2d77127ecfe2487a3d1216f4b36` — `Batch M: Add SAT12 production gate and canonical storage`
-
-**Render acceptance:** User-confirmed LIVE for SAT12. This closes the SAT12 production acceptance gate.
-
-### Accepted production checkpoint — SAT Series B Mock 13
-
-**SAT13 is accepted and stored as a canonical runtime production record.** User-confirmed Render-LIVE acceptance closes the SAT13 deployment gate.
-
-SAT13 uses:
-
-- test key: `SAT13`
-- test ID: `sat-series-b-mock-13`
-- variant: `sat-series-b`
-- assessment number: `13`
-- deterministic seed: `1013`
-- validated mock size: `196` records
-- storage mode: `canonical-runtime-records`
-- cross-mock baseline: all accepted SAT1–SAT10, PSAT1–PSAT10, SAT11, and SAT12 records
-
-Implementation commit:
-- `1d8557c3eaab25725761d9d87f57caf52114bfff` — `Batch M: Add SAT13 production gate and canonical storage`
-
-**Render acceptance:** User-confirmed LIVE for SAT13. This closes the SAT13 production acceptance gate.
-
-### Accepted production checkpoint — SAT Series B Mock 14
-
-**SAT14 is accepted and stored as a canonical runtime production record.** User-confirmed Render-LIVE acceptance closes the SAT14 deployment gate.
-
-SAT14 uses:
-
-- test key: `SAT14`
-- test ID: `sat-series-b-mock-14`
-- variant: `sat-series-b`
-- assessment number: `14`
-- deterministic seed: `1014`
-- validated mock size: `196` records
-- storage mode: `canonical-runtime-records`
-- cross-mock baseline: all accepted SAT1–SAT10, PSAT1–PSAT10, SAT11, SAT12, and SAT13 records
-
-Implementation commit:
-- `0e70da4c744f8560565f9f90999a70cc0d79bf51` — `Batch M: Add SAT14 production gate and canonical storage`
-
-**Render acceptance:** User-confirmed LIVE for SAT14. This closes the SAT14 production acceptance gate.
-
 ### Accepted production checkpoint — SAT Series B Mock 15
 
 **SAT15 is accepted and stored as a canonical runtime production record.** User-confirmed Render-LIVE acceptance closes the SAT15 deployment gate.
 
-SAT15 uses:
-
-- test key: `SAT15`
-- test ID: `sat-series-b-mock-15`
-- variant: `sat-series-b`
-- assessment number: `15`
-- deterministic generation seed: `1015`
-- validated mock size: `196` records
-- storage mode: `canonical-runtime-records`
-- cross-mock baseline: all accepted SAT1–SAT10, PSAT1–PSAT10, SAT11, SAT12, SAT13, and SAT14 records
+SAT15 uses `SAT15` / `sat-series-b-mock-15`, variant `sat-series-b`, assessment number `15`, deterministic generation seed `1015`, 196 validated records, and canonical runtime storage. Its cross-mock baseline was all accepted SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT14 records.
 
 Implementation commit:
 - `f7e870878b0ca3cf2d4d859f8866b7740698f452` — `Batch M: Add SAT15 production gate and canonical storage`
 
-**Render acceptance:** User-confirmed LIVE for SAT15. This closes the SAT15 production acceptance gate.
+**Render acceptance:** User-confirmed LIVE for SAT15.
 
-### Current production target — SAT Series B Mock 16
+### Accepted production checkpoint — SAT Series B Mock 16
 
-**SAT Series B Mock 16 (`SAT16`) is the active production target.** It is generated only after the accepted SAT1–SAT10, PSAT1–PSAT10, SAT11, SAT12, SAT13, SAT14, and SAT15 baselines. The SAT16 gate compares R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and figure originality against all 25 previously accepted mocks and preserves the established figure-quality, Math mathematical-QC, canonical-schema, 196-record, and storage round-trip gates.
+**SAT16 is accepted and stored as a canonical runtime production record.** User-confirmed Render-LIVE acceptance closes the SAT16 deployment gate.
 
-SAT16 uses the controller-defined identity:
+SAT16 uses:
 
 - test key: `SAT16`
 - test ID: `sat-series-b-mock-16`
 - variant: `sat-series-b`
 - assessment number: `16`
 - deterministic generation seed: `1016`
+- validated mock size: `196` records
+- storage mode: `canonical-runtime-records`
+- cross-mock baseline: all accepted SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT15 records
 
-SAT16 must not be considered accepted until its Render deployment is confirmed LIVE.
+Implementation merge commit:
+- `a27fdaa59f96296e1d1d467b24110fa09a56fa18` — `Batch M: Add SAT16 production gate and canonical storage`
+
+**Render acceptance:** User-confirmed LIVE for SAT16. This closes the SAT16 production acceptance gate.
+
+### Current production target — SAT Series B Mock 17
+
+**SAT Series B Mock 17 (`SAT17`) is the active production target.** It is generated only after the accepted SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT16 baselines. The SAT17 gate compares R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and figure originality against all 26 previously accepted mocks and preserves the established figure-quality, Math mathematical-QC, canonical-schema, 196-record, and storage round-trip gates.
+
+SAT17 uses the controller-defined identity:
+
+- test key: `SAT17`
+- test ID: `sat-series-b-mock-17`
+- variant: `sat-series-b`
+- assessment number: `17`
+- deterministic generation seed: `1017`
+
+SAT17 must not be considered accepted until its Render deployment is confirmed LIVE.
 
 The accepted Batch M production records remain separate from the legacy public corpus. They must not replace or be exposed through the legacy public corpus until the final corpus gate passes.
 
@@ -211,4 +118,4 @@ After each accepted mock, the production corpus must remain recoverable without 
 
 ## Closure decision
 
-**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT15 are accepted. SAT16 is the current implementation target. Do not advance to SAT17 until SAT16 passes all gates and Render-LIVE acceptance. Do not replace the existing live corpus until the final corpus gate has passed.**
+**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT16 are accepted. SAT17 is the current implementation target. Do not advance to SAT18 until SAT17 passes all gates and Render-LIVE acceptance. Do not replace the existing live corpus until the final corpus gate has passed.**
