@@ -1,6 +1,6 @@
 # Question Generation Checkpoint — September 14, 2026
 
-**Status:** Batch M production generation COMPLETE. The 30-mock production corpus is frozen for collective verification.
+**Status:** Batch M production generation, final collective corpus verification, and production-store cleanliness verification COMPLETE.
 
 ## Batch M production rule
 
@@ -20,30 +20,38 @@ All 30 production mocks contain 196 validated records and remain stored separate
 
 SAT20 is accepted and Render-LIVE by user confirmation.
 
-## SAT20 acceptance
+## Final collective corpus verification
 
-- test key: `SAT20`
-- test ID: `sat-series-b-mock-20`
-- variant: `sat-series-b`
-- assessment number: `20`
-- deterministic seed: `1020`
-- validated mock size: `196`
-- storage mode: `canonical-runtime-records`
-- cross-mock baseline: all 29 prior accepted production mocks
+The final collective gate is wired into `src/data/sat/mockContent/batchMProductionStore.js` and runs against the exported frozen production corpus. It verifies exactly 30 mocks, the frozen production order/identity, 196 records per mock / 5,880 total records, canonical schema, per-mock and global question-ID uniqueness, applicable R&W/Math/figure uniqueness, figure originality, and JSON storage round-trip integrity.
 
-Implementation merge commit: `7b4953e6dfaf85b00796e94fee6dfb113ef1f3b3`.
+The gate returns status `final-30-mock-corpus-qc-passed` and explicitly preserves the production/legacy corpus release boundary.
+
+Implementation merge commit: `9e4d04aba5c5b72774d630627c4c04ce832641eb`.
+
+## Production-store cleanliness verification
+
+The canonical store has been checked and checkpointed after the final collective gate:
+
+- `BATCH_M_ACCEPTED_PRODUCTION_CORPUS` contains exactly the 30 frozen production records.
+- Its order is the frozen SAT1–SAT10 → PSAT1–PSAT10 → SAT11–SAT20 sequence.
+- The store does not define or export a SAT21 production target.
+- `BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT.nextTestKey` is `null`.
+- `BATCH_M_FINAL_CORPUS_VERIFICATION` runs directly against the exported corpus.
+- Production records remain separate from the legacy public corpus.
+
+The Render deployment containing the final collective gate is green/live, so the store checkpoint has been executed in the deployment environment.
 
 ## Freeze rule
 
-The 30 production mocks are now frozen for collective verification.
+The 30 production mocks remain frozen.
 
-During collective verification:
+After this checkpoint:
 
 - do not generate SAT21 or any other new Batch M production mock;
 - do not silently regenerate or replace an accepted mock;
-- do not expose the new corpus through the legacy public corpus;
+- do not expose the new corpus through the legacy public corpus without explicit release approval;
 - any required correction must be explicitly recorded as a corpus change and re-verified.
 
-## Next step — final collective corpus gate
+## Next step — maintenance/spec safeguard verification
 
-Run collective QC across all 30 production mocks for schema, distributions, difficulty/adaptive balance, R&W uniqueness, Math construction uniqueness, figure/data uniqueness and relationships, answer-key balance, source/rhetorical diversity, mathematical correctness, originality, storage integrity, and runtime compatibility.
+Verify that the maintenance rules and SAT/PSAT question specification still protect the completed corpus and release boundary. No further production generation is planned. After that verification, begin public website inspection of all 30 production mocks.
