@@ -1,48 +1,49 @@
-# Question Generation Checkpoint — September 13, 2026
+# Question Generation Checkpoint — September 14, 2026
 
-**Status:** Batch M active. SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT19 are accepted and Render-LIVE. SAT20 is the current production target.
+**Status:** Batch M production generation COMPLETE. The 30-mock production corpus is frozen for collective verification.
 
 ## Batch M production rule
 
-Mocks are generated one at a time. Each mock must pass generation, independent QC, figure/math/originality checks, mock-level checks, cross-mock uniqueness against all previously accepted mocks, canonical storage validation, and Render deployment acceptance before the next mock begins.
+Mocks were generated one at a time. Each mock passed its applicable generation, independent QC, figure/math/originality, mock-level, cross-mock uniqueness, canonical storage, and Render deployment acceptance gates before the next mock was accepted.
 
-## Accepted SAT19
+## Frozen 30-mock corpus
 
-SAT19 is accepted and Render-LIVE.
+The complete approved production corpus is exactly:
 
-- test key: `SAT19`
-- test ID: `sat-series-b-mock-19`
-- variant: `sat-series-b`
-- assessment number: `19`
-- deterministic seed: `1019`
-- validated mock size: `196`
-- storage mode: `canonical-runtime-records`
-- cross-mock baseline: all 28 prior accepted production mocks
+- SAT Series A: SAT1–SAT10
+- PSAT: PSAT1–PSAT10
+- SAT Series B: SAT11–SAT20
 
-Implementation merge commit: `27eab860df800e0a254c33a2e29b080312dd6da1`.
+The authoritative inventory is `docs/BATCH-M-PRODUCTION-CORPUS-MANIFEST.md`.
 
-## Current target — SAT20
+All 30 production mocks contain 196 validated records and remain stored separately from the legacy public corpus.
 
-SAT20 is the active production target.
+SAT20 is accepted and Render-LIVE by user confirmation.
+
+## SAT20 acceptance
 
 - test key: `SAT20`
 - test ID: `sat-series-b-mock-20`
 - variant: `sat-series-b`
 - assessment number: `20`
 - deterministic seed: `1020`
-- required validated mock size: `196`
-- cross-mock baseline: all 29 accepted production mocks
+- validated mock size: `196`
+- storage mode: `canonical-runtime-records`
+- cross-mock baseline: all 29 prior accepted production mocks
 
-Implementation files:
-- `src/data/sat/mockContent/batchMSAT20ProductionGate.js`
-- `src/data/sat/mockContent/batchMProductionStore.js`
+Implementation merge commit: `7b4953e6dfaf85b00796e94fee6dfb113ef1f3b3`.
 
-The SAT20 gate preserves the established generation, Stage 2, figure quality, Math QC, R&W variation, cross-mock uniqueness, figure originality, canonical schema, 196-record, and JSON round-trip checks.
+## Freeze rule
 
-SAT20 must not be considered accepted until Render-LIVE acceptance.
+The 30 production mocks are now frozen for collective verification.
 
-The Batch M production records remain separate from the legacy public corpus until the final 30-mock corpus gate passes.
+During collective verification:
 
-## Final corpus gate
+- do not generate SAT21 or any other new Batch M production mock;
+- do not silently regenerate or replace an accepted mock;
+- do not expose the new corpus through the legacy public corpus;
+- any required correction must be explicitly recorded as a corpus change and re-verified.
 
-After SAT20, run collective QC across all 30 production mocks for schema, distributions, difficulty/adaptive balance, R&W uniqueness, Math construction uniqueness, figure/data uniqueness and relationships, answer-key balance, source/rhetorical diversity, mathematical correctness, originality, storage integrity, and runtime compatibility.
+## Next step — final collective corpus gate
+
+Run collective QC across all 30 production mocks for schema, distributions, difficulty/adaptive balance, R&W uniqueness, Math construction uniqueness, figure/data uniqueness and relationships, answer-key balance, source/rhetorical diversity, mathematical correctness, originality, storage integrity, and runtime compatibility.
