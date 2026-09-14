@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { getVerifiedSatServerAccessState } from "../../lib/sat/satAccess";
 import { getSatLoginUrl } from "../../lib/sat/satLogin";
 import { getSatTestAccess } from "../../lib/sat/testAccess";
-import { buildClientSafeTest, normalizeMockKey, getModuleForRoute } from "../../lib/sat/adaptiveMockEngine";
+import { normalizeMockKey, getModuleForRoute } from "../../lib/sat/adaptiveMockEngine";
 import MathVisualStimulus from "../../components/sat/MathVisualStimulus";
 import styles from "../../styles/SATMockTest.module.css";
 
@@ -31,9 +31,11 @@ export async function getServerSideProps(context) {
 
   const testKey = normalizeMockKey(String(context.params.testId || ""));
   if (!testKey) return { notFound: true };
-  const satNumber = testKey === "SAT1" ? 1 : testKey === "SAT2" ? 2 : null;
-  const access = satNumber ? await getSatTestAccess(accessState.user?.id, satNumber) : { allowed: true };
-  if (!access.allowed) return { redirect: { destination: `/SATMocks/purchase?test=${satNumber}`, permanent: false } };
+  const satNumber = testKey.startsWith("SAT") ? Number(testKey.slice(3)) : null;
+  const assessmentFamily = testKey.startsWith("PSAT") ? "psat" : testKey.startsWith("SAT") ? "sat" : null;
+  const access = satNumber ? await getSatTestAccess(accessState.user?.id, satNumber, assessmentFamily) : { allowed: false };
+  if (!access.allowed) return { redirect: { destination: "/SATMocksSeriesB", permanent: false } };
+  const { buildClientSafeTest } = await import("../../lib/sat/productionAdaptiveMockEngine");
   const test = buildClientSafeTest(testKey);
   if (!test) return { notFound: true };
   return { props: { test } };
