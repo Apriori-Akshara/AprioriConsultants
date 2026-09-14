@@ -18,6 +18,9 @@ export const SAT_PROGRESSION_BANDS = [
   ...Array.from({ length: 10 }, (_, i) => `advanced-set-${String(i + 1).padStart(2, "0")}`),
   "mock-psat-elevated",
   "mock-sat-elevated",
+  // Legacy R&W construction marker retained for compatibility with the
+  // frozen production corpus; it is not a replacement for question.difficulty.
+  "rw-originality",
 ];
 export const SAT_COGNITIVE_DEMANDS = ["recall", "apply", "analyze", "reason", "synthesize", "evaluate"];
 export const SAT_INTERACTION_TYPES = ["single-select", "student-produced-response"];
