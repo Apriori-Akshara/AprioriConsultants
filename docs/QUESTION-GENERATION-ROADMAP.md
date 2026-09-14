@@ -26,7 +26,7 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | ACTIVE |
+| M | Production generation + corpus-level QC | ACTIVE — generation COMPLETE; collective QC PENDING |
 
 **Batch M is the only remaining approved implementation batch.**
 
@@ -113,22 +113,24 @@ The private calibration corpus records structural characteristics such as source
 
 ### Batch M — Production generation for the controlled corpus
 
-**Status: ACTIVE.** The fixed production sequence is:
+**Status: GENERATION COMPLETE; COLLECTIVE QC PENDING.** The fixed production sequence is:
 
 1. SAT Series A Mocks 1–10 — **accepted**
 2. PSAT Mocks 1–10 — **accepted**
-3. SAT Series B Mocks 11–20 — **active**
-4. Final collective corpus-level QC — **pending until Mock 20**
+3. SAT Series B Mocks 11–20 — **accepted**
+4. Final collective corpus-level QC — **next**
 
-Mocks are produced one at a time. The next mock starts only after the prior mock has passed its generation/QC/storage gates and Render deployment acceptance.
+Mocks were produced one at a time. Each mock passed its generation/QC/storage gates and Render deployment acceptance before the next mock was accepted.
 
-### Current accepted checkpoint
+### Frozen production checkpoint
 
-SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–19 are accepted and Render-LIVE. Each accepted production mock contains 196 validated records and remains separate from the legacy public corpus.
+SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–20 are accepted and Render-LIVE. Each accepted production mock contains 196 validated records and remains separate from the legacy public corpus.
+
+The authoritative frozen inventory is `docs/BATCH-M-PRODUCTION-CORPUS-MANIFEST.md`.
 
 ### Next target
 
-**SAT Series B Mock 20 (`SAT20`).** It must be compared against all 29 previously accepted production mocks. No new mock may be skipped, generated out of order, or exposed through the legacy public corpus before final corpus acceptance.
+**Final collective corpus-level QC across all 30 production mocks.** There is no SAT21 production target in Batch M.
 
 ## 8. Scope protection
 
@@ -149,7 +151,7 @@ At the beginning of a future session:
 3. Read `docs/AI-UPDATE-INSTRUCTIONS.md`, including Stage 1, Stage 2, Stage 3, and Calibration Corpus guidance.
 4. Read `docs/QUESTION-GENERATION-CHECKPOINT-2026-09-13.md`.
 5. Read `docs/QUESTION-BANK-MAINTENANCE.md` and `src/data/sat/mockContent/batchMProductionPlan.md`.
-6. Check current git history/files only to identify the next unfinished **Batch M production target**.
-7. Do not repeat completed audits or implementation.
-8. Continue one mock at a time with Render deployment acceptance after each accepted mock.
-9. **SAT Series B Mock 20 (`SAT20`) is now the active production target.**
+6. Read `docs/BATCH-M-PRODUCTION-CORPUS-MANIFEST.md` to identify the frozen 30-mock inventory.
+7. Check current git history/files only to identify the next unfinished Batch M task.
+8. Do not repeat completed audits or mock generation.
+9. Continue with the final collective corpus-level QC; do not create SAT21.
