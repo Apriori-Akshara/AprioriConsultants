@@ -116,7 +116,7 @@ This introduces multi-stage/context-dependent Algebra, parameter/representation 
 
 `src/data/sat/mockContent/batchMRemediationCandidateFactory.js`
 
-Latest commit: `97f39960d7dc6208453bd800486d4d6609291fe3d`
+Latest commit: `97f39960d7dc6208453bd80078d4d6609291fe3d`
 
 This candidate-only bridge applies remediation-specific distractor construction to Math candidates, supplies adequate SEC context, and sends the combined R&W/Math candidate set through `batchMContentQualityGate.js`.
 
