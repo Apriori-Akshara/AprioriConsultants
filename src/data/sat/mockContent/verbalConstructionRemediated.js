@@ -77,6 +77,33 @@ const CROSS_RELATIONSHIPS = [
   { name: 'competing-interpretation', stem: 'Which statement best characterizes the two authors’ interpretations?', correct: 'The authors consider related evidence but give different weight to the conditions that could explain the observed result.', errors: ['Both authors accept exactly the same explanation and use no qualification.', 'One author discusses evidence while the other makes a claim with no connection to the topic.', 'The authors disagree only about a minor wording choice and otherwise present the same interpretation.'] },
 ];
 
+const CROSS_QUESTION_FORMS = [
+  'Which choice best characterizes the relationship between the two passages?',
+  'Which choice most accurately describes the connection between the authors’ claims?',
+  'How do the passages relate to one another in their treatment of the evidence?',
+  'Which statement best explains what the two passages have in common or how they differ?',
+  'Which choice best describes the way the second passage relates to the first?',
+  'What is the most accurate comparison of the authors’ interpretations?',
+  'Which choice best captures the relationship between the observations presented in the passages?',
+  'How should the relationship between the two passages be understood?',
+  'Which statement most precisely describes how the passages treat the issue?',
+  'What does a comparison of the two passages reveal about their interpretations?',
+  'Which choice best identifies the relationship that the two passages establish?',
+  'How does the second passage relate to the interpretation developed in the first?'
+];
+
+const CROSS_LENSES = [
+  'the conditions each author treats as important',
+  'the evidence each author uses to support an interpretation',
+  'the scope each author gives to the observed pattern',
+  'the explanation each author offers for the observed result',
+  'the qualification each author places on the main observation',
+  'the way each passage connects evidence with its conclusion',
+  'the significance each author assigns to the relevant condition',
+  'the implication each passage draws from the evidence',
+  'the point at which the two interpretations converge or diverge'
+];
+
 const SYNTHESIS_GOALS = [
   { label: 'research brief', goal: 'summarize the finding and retain the condition that limits its interpretation', lead: 'A research brief should distinguish the observed pattern from an unrestricted claim.' },
   { label: 'public explanation', goal: 'explain the finding clearly for a general audience without overstating its scope', lead: 'A public explanation should state the useful finding while preserving its most important qualification.' },
@@ -149,9 +176,7 @@ function makeEvidenceQuestion(stimulus, index) {
     ['Which additional evidence would best distinguish the passage’s interpretation from a competing explanation?', 'The same pattern appears when the proposed condition changes while the competing condition is held comparable.', 'The researchers report that the study attracted substantial attention from other scholars.', 'A later article summarizes the topic without reporting new observations.', 'A participant recalls an earlier event but cannot identify the relevant conditions.'],
   ];
   const set = pick(evidenceSets, index);
-  const target = hashIndex(index, 3, 4);
-  const rotated = rotateChoices([set[1], set[2], set[3], set[4]], target);
-  return { prompt: `${stimulus}\n\n${set[0]}`, ...rotated };
+  return { prompt: `${stimulus}\n\n${set[0]}`, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(index, 3, 4)) };
 }
 
 function makeWIC(index, stimulus) {
@@ -168,10 +193,12 @@ function makeWIC(index, stimulus) {
     'remove the distinction between the two conditions',
     'refer only to the author’s personal reaction to the topic',
   ];
-  const distractorA = pick(alternatives, index + 1);
-  const distractorB = pick(alternatives, index + 3);
-  const distractorC = pick(alternatives, index + 5);
-  const rotated = rotateChoices([meaning, distractorA, distractorB, distractorC], hashIndex(index, 17, 4));
+  const rotated = rotateChoices([
+    meaning,
+    pick(alternatives, index + 1),
+    pick(alternatives, index + 3),
+    pick(alternatives, index + 5),
+  ], hashIndex(index, 17, 4));
   return { prompt: `${contextualSentence}\n\nIn this context, the word “${word}” most nearly means which of the following?`, targetWord: word, ...rotated };
 }
 
@@ -182,17 +209,16 @@ function makeSynthesis(index) {
   const notes = [
     `Research notes — topic: ${pair[0]}`,
     `Evidence: ${pair[1]}`,
-    `Implication: the evidence is informative but depends on the condition described in the notes.`,
+    'Implication: the evidence is informative but depends on the condition described in the notes.',
     `Communication goal: ${goal.goal}.`,
   ];
   const correct = `${goal.lead} ${pair[1]} The result should therefore be interpreted in light of the condition described in the notes.`;
   const distractors = [
     `${pair[0]} The finding can therefore be treated as universal regardless of the condition described in the notes.`,
-    `The study concerns an important topic, so the specific evidence is unnecessary when communicating its conclusion.`,
+    'The study concerns an important topic, so the specific evidence is unnecessary when communicating its conclusion.',
     `${pair[1]} Because the result was observed, no alternative explanation or limiting condition needs to be considered.`,
   ];
-  const rotated = rotateChoices([correct, ...distractors], hashIndex(index, 23, 4));
-  return { prompt: `${notes.join(' ')}\n\nThe student is preparing a ${goal.label}. Which choice best accomplishes the stated communication goal?`, ...rotated };
+  return { prompt: `${notes.join(' ')}\n\nThe student is preparing a ${goal.label}. Which choice best accomplishes the stated communication goal?`, ...rotateChoices([correct, ...distractors], hashIndex(index, 23, 4)) };
 }
 
 function makeCrossText(index) {
@@ -202,23 +228,16 @@ function makeCrossText(index) {
   if (secondFamily === firstFamily) secondFamily = FAMILY_KEYS[(FAMILY_KEYS.indexOf(secondFamily) + 1) % FAMILY_KEYS.length];
   const first = sourcePair(firstFamily, index, hashIndex(index, 29, 4));
   const second = sourcePair(secondFamily, index + 1, hashIndex(index, 31, 4));
-  const lens = pick([
-    'focus on how each author interprets the observed condition',
-    'compare what each passage treats as the important limitation',
-    'consider how the second observation affects the first interpretation',
-    'distinguish the evidence each passage uses to support its conclusion',
-    'identify what the two authors imply about the scope of the pattern',
-    'compare the explanations offered for the same broad phenomenon',
-  ], Math.floor(index / 5) + index);
+  const form = pick(CROSS_QUESTION_FORMS, index);
+  const lens = pick(CROSS_LENSES, Math.floor(index / CROSS_QUESTION_FORMS.length));
   const correct = relation.correct;
   const errors = relation.errors.map((text, errorIndex) => {
     const pattern = pick(ERROR_PATTERNS, index + errorIndex);
     return `${text} This reflects a ${pattern[0]} error: ${pattern[1]}.`;
   });
-  const rotated = rotateChoices([correct, ...errors], hashIndex(index, 37, 4));
   return {
-    prompt: `Passage 1: ${first[0]} ${first[1]}\n\nPassage 2: ${second[0]} ${second[1]}\n\nThe question asks you to ${lens}. ${relation.stem}`,
-    ...rotated,
+    prompt: `Passage 1: ${first[0]} ${first[1]}\n\nPassage 2: ${second[0]} ${second[1]}\n\nWhen comparing ${lens}, ${form}`,
+    ...rotateChoices([correct, ...errors], hashIndex(index, 37, 4)),
     crossTextRelationship: relation.name,
   };
 }
@@ -244,7 +263,6 @@ function makeReasoningTask(plan, stimulus, index) {
   const sets = taskFamilies[plan.skill];
   const set = sets ? pick(sets, index) : null;
   if (set) return { prompt: `${stimulus}\n\n${set[0]}`, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(index, 41, 4)) };
-
   const generic = [
     'The text presents a finding while distinguishing the evidence from a broader conclusion.',
     'The text establishes that the finding applies without exception.',
