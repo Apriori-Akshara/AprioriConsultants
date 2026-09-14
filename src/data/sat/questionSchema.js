@@ -28,22 +28,19 @@ export const SAT_PROGRESSION_BANDS = [
   ...Array.from({ length: 10 }, (_, i) => `advanced-set-${String(i + 1).padStart(2, "0")}`),
   "mock-psat-elevated",
   "mock-sat-elevated",
-  // Legacy R&W construction marker retained for compatibility with the
-  // frozen production corpus; it is not a replacement for question.difficulty.
   "rw-originality",
-  // Legacy Math construction bands retained because Series A, PSAT, and
-  // Series B were generated through the established Math factory using these
-  // module/route-specific labels. The canonical `difficulty` field remains
-  // the authoritative easy/medium/hard classification.
   ...LEGACY_MATH_DIFFICULTY_BANDS,
 ];
 
 export const SAT_COGNITIVE_DEMANDS = ["recall", "apply", "analyze", "reason", "synthesize", "evaluate"];
 export const SAT_INTERACTION_TYPES = ["single-select", "student-produced-response"];
 
+// The established production Math factory derives stimulusType from the
+// generated figure's type. Keep the generator vocabulary valid at the
+// canonical boundary rather than rewriting the frozen production corpus.
 export const SAT_STIMULUS_TYPES = [
   "short-passage", "paired-passage", "notes", "table", "chart", "graph", "equation",
-  "geometry-diagram", "numeric-text", "none",
+  "geometry-diagram", "numeric-text", "none", "geometry", "line", "scatter", "quadratic",
 ];
 
 export const SAT_CALCULATOR_MODES = [
