@@ -8,8 +8,8 @@ The final corpus is produced in this exact order:
 
 1. **SAT Mocks — Series A: Tests 1–10** — accepted
 2. **PSAT Mocks: Tests 1–10** — accepted
-3. **SAT Mocks — Series B: Tests 11–20** — next
-4. **Final collective verification across the full production corpus**
+3. **SAT Mocks — Series B: Tests 11–20** — active
+4. **Final collective verification across the full 30-mock production corpus**
 
 The SAT Series B navigation page is `/SATMocksSeriesB`. It is a release shell only until Tests 11–20 have actually been generated, validated, stored, and accepted. It must not fabricate question data, scores, progress, or payment-success states.
 
@@ -32,7 +32,7 @@ A failed mock is corrected or regenerated before the sequence advances. A failed
 
 ## Current production checkpoint
 
-**SAT Series A Mocks 1–10 and PSAT Mocks 1–10 are accepted and stored as canonical runtime production records. PSAT10 has also passed the Render acceptance gate and is confirmed LIVE.**
+**SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mock 11 are accepted and stored as canonical runtime production records. SAT11 has also passed the Render acceptance gate and is confirmed LIVE. SAT12 is the active target.**
 
 ### PSAT10 record
 
@@ -48,11 +48,41 @@ Implementation commits:
 - `781cb832d9984f2ab78ed29648cd2a0a92dcac94` — `Batch M: Add PSAT Mock 10 production gate`
 - `cbeeb1c6c20a756e10c184ae774fbf9293550d90` — `Batch M: Store accepted PSAT Mock 10`
 
-## Next production target
+**Render acceptance:** User-confirmed LIVE for PSAT10.
 
-**SAT Series B Mock 11 (`SAT11`).**
+### SAT11 record
 
-SAT11 must be generated and accepted only after comparison against all 20 previously accepted mocks: SAT Series A 1–10 and PSAT 1–10. It must preserve the same generation, independent QC, figure/math/originality validation, mock-level checks, canonical storage, and Render acceptance discipline.
+- test key: `SAT11`
+- test ID: `sat-series-b-mock-11`
+- variant: `sat-series-b`
+- assessment number: `11`
+- deterministic seed: `1011`
+- canonical storage mode: `canonical-runtime-records`
+- validated question count: `196`
+- cross-mock baseline: SAT1–SAT10 and PSAT1–PSAT10
+
+Implementation commit:
+- `35f14dea6e22f361c3eaf8befcf4d9c56ea4840a` — `Batch M: Add SAT11 production gate and canonical storage`
+
+**Render acceptance:** User-confirmed LIVE for SAT11.
+
+## Current production target — SAT12
+
+**SAT Series B Mock 12 (`SAT12`) is the active production target.**
+
+SAT12 uses the controller-defined identity:
+
+- test key: `SAT12`
+- test ID: `sat-series-b-mock-12`
+- variant: `sat-series-b`
+- assessment number: `12`
+- deterministic seed: `1012`
+
+SAT12 must be compared against all **21** previously accepted production mocks: SAT1–SAT10, PSAT1–PSAT10, and SAT11. It must preserve the established generation, independent QC, figure/math/originality validation, mock-level checks, canonical storage, and Render acceptance discipline.
+
+SAT12 must not be considered accepted until its Render deployment is confirmed LIVE.
+
+The accepted Batch M production records remain separate from the legacy public corpus. They must not replace or be exposed through the legacy public corpus until the final corpus gate passes.
 
 ## Final corpus gate
 
@@ -71,7 +101,7 @@ After SAT Series B Mock 20 is accepted, run collective corpus QC covering:
 - storage/serialization integrity
 - compatibility with the existing SAT content path
 
-The final corpus gate must consider all production mocks together wherever cross-corpus uniqueness or distribution rules apply.
+The final corpus gate must consider all **30 production mocks** together wherever cross-corpus uniqueness or distribution rules apply.
 
 ## Production safety
 
@@ -83,4 +113,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–10 and PSAT Mocks 1–10 are accepted. PSAT10 is Render-LIVE. The next production target is SAT Series B Mock 11 (`SAT11`).**
+**Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11 are accepted. SAT12 is the next production target.**
