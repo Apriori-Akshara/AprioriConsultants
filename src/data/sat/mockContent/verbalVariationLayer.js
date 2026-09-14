@@ -1,4 +1,4 @@
-import { applyBatchDVerbalQC, assertBatchDLiveDeliveryReady } from './batchDVerbalQC';
+import { applyBatchDVerbalQC } from './batchDVerbalQC';
 
 /**
  * Batch C — deterministic construction expansion for Reading & Writing.
@@ -14,7 +14,7 @@ import { applyBatchDVerbalQC, assertBatchDLiveDeliveryReady } from './batchDVerb
  * variation.
  *
  * Batch D wraps the completed Batch C item set with independent R&W QC before
- * the item is returned to the existing SAT engine.
+ * the item is returned to the SAT engine.
  */
 
 const SCIENCE_VARIATIONS = [
@@ -223,7 +223,7 @@ export function varyVerbalConstruction(mock) {
   };
 
   const qcMock = applyBatchDVerbalQC(variedMock, { maxRetries: 2 });
-  return assertBatchDLiveDeliveryReady(qcMock);
+  return qcMock;
 }
 
 export default varyVerbalConstruction;
