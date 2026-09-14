@@ -32,7 +32,7 @@ A failed mock is corrected or regenerated before the sequence advances. A failed
 
 ## Current production checkpoint
 
-**SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–12 are accepted and stored as canonical runtime production records. SAT12 has also passed the Render acceptance gate and is confirmed LIVE. SAT13 is the active target.**
+**SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–13 are accepted and stored as canonical runtime production records. SAT13 has also passed the Render acceptance gate and is confirmed LIVE. SAT14 is the active target.**
 
 ### PSAT10 record
 
@@ -82,21 +82,37 @@ Implementation commit:
 
 **Render acceptance:** User-confirmed LIVE for SAT12.
 
-## Current production target — SAT13
-
-**SAT Series B Mock 13 (`SAT13`) is the active production target.**
-
-SAT13 uses the controller-defined identity:
+### SAT13 record
 
 - test key: `SAT13`
 - test ID: `sat-series-b-mock-13`
 - variant: `sat-series-b`
 - assessment number: `13`
 - deterministic seed: `1013`
+- canonical storage mode: `canonical-runtime-records`
+- validated question count: `196`
+- cross-mock baseline: SAT1–SAT10, PSAT1–PSAT10, SAT11, and SAT12
 
-SAT13 must be compared against all **22** previously accepted production mocks: SAT1–SAT10, PSAT1–PSAT10, SAT11, and SAT12. It must preserve the established generation, independent QC, figure/math/originality validation, mock-level checks, canonical storage, and Render acceptance discipline.
+Implementation commit:
+- `1d8557c3eaab25725761d9d87f57caf52114bfff` — `Batch M: Add SAT13 production gate and canonical storage`
 
-SAT13 must not be considered accepted until its Render deployment is confirmed LIVE.
+**Render acceptance:** User-confirmed LIVE for SAT13.
+
+## Current production target — SAT14
+
+**SAT Series B Mock 14 (`SAT14`) is the active production target.**
+
+SAT14 uses the controller-defined identity:
+
+- test key: `SAT14`
+- test ID: `sat-series-b-mock-14`
+- variant: `sat-series-b`
+- assessment number: `14`
+- deterministic seed: `1014`
+
+SAT14 must be compared against all **23** previously accepted production mocks: SAT1–SAT10, PSAT1–PSAT10, SAT11, SAT12, and SAT13. It must preserve the established generation, independent QC, figure/math/originality validation, mock-level checks, canonical storage, and Render acceptance discipline.
+
+SAT14 must not be considered accepted until its Render deployment is confirmed LIVE.
 
 The accepted Batch M production records remain separate from the legacy public corpus. They must not replace or be exposed through the legacy public corpus until the final corpus gate passes.
 
@@ -129,4 +145,4 @@ Private calibration anchors, if authorized and supplied, may inform calibration 
 
 ## Status
 
-**Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT12 are accepted. SAT13 is the next production target.**
+**Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT13 are accepted. SAT14 is the next production target.**
