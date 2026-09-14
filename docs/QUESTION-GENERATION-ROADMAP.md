@@ -117,18 +117,22 @@ The private calibration corpus records structural characteristics such as source
 
 1. SAT Series A Mocks 1–10 — **accepted**
 2. PSAT Mocks 1–10 — **accepted**
-3. SAT Series B Mocks 11–20 — **next**
+3. SAT Series B Mocks 11–20 — **active; SAT15 accepted, SAT16 active**
 4. Final collective corpus-level QC — **pending until Mock 20**
 
 Mocks are produced one at a time. The next mock starts only after the prior mock has passed its generation/QC/storage gates and Render deployment acceptance.
 
-### Accepted PSAT10 checkpoint
+### Accepted SAT Series B checkpoints
 
-PSAT10 is accepted and Render-LIVE. Its production identity is `PSAT10` / `psat-mock-10`, variant `psat-nmsqt`, assessment number `10`, deterministic seed `2010`, with 196 validated records and `canonical-runtime-records` storage. Implementation commits are `781cb832d9984f2ab78ed29648cd2a0a92dcac94` and `cbeeb1c6c20a756e10c184ae774fbf9293550d90`.
+SAT11, SAT12, SAT13, SAT14, and SAT15 are accepted and Render-LIVE. Each contains 196 validated records and uses canonical runtime storage. SAT15 uses `SAT15` / `sat-series-b-mock-15`, variant `sat-series-b`, assessment number `15`, deterministic seed `1015`, and was accepted only after comparison against the 24 previously accepted production mocks.
 
-### Next target
+### Current target — SAT Series B Mock 16
 
-**SAT Series B Mock 11 (`SAT11`).** It must be compared against all 20 previously accepted production mocks. No new mock may be skipped, generated out of order, or exposed through the legacy public corpus before final corpus acceptance.
+**SAT Series B Mock 16 (`SAT16`) is the active production target.** It uses `SAT16` / `sat-series-b-mock-16`, variant `sat-series-b`, assessment number `16`, deterministic seed `1016`, and must be compared against all 25 previously accepted production mocks. Its production gate preserves the established generation, independent QC, figure/math/originality validation, mock-level checks, canonical storage, 196-record count, and storage round-trip discipline.
+
+SAT16 must not be considered accepted until its Render deployment is confirmed LIVE.
+
+No new mock may be skipped, generated out of order, or exposed through the legacy public corpus before final corpus acceptance.
 
 ## 8. Scope protection
 
@@ -152,4 +156,4 @@ At the beginning of a future session:
 6. Check current git history/files only to identify the next unfinished **Batch M production target**.
 7. Do not repeat completed audits or implementation.
 8. Continue one mock at a time with Render deployment acceptance after each accepted mock.
-9. **SAT Series B Mock 11 (`SAT11`) is now the next production target.**
+9. **SAT Series B Mock 16 (`SAT16`) is now the active production target.**
