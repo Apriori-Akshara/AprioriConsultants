@@ -1,6 +1,6 @@
 # Question Generation Checkpoint — September 14, 2026
 
-**Status:** Batch M production generation, final collective corpus verification, production-store cleanliness verification, and maintenance/spec safeguard verification COMPLETE; content-quality QC is now the active next step.
+**Status:** Batch M production generation, final collective corpus verification, production-store cleanliness verification, and maintenance/spec safeguard verification COMPLETE; SAT/PSAT content-quality QC is COMPLETE with a **QUALITY HOLD**; generator/content-quality remediation is now the active next step.
 
 ## Batch M production rule
 
@@ -69,50 +69,62 @@ After this checkpoint:
 - do not expose the new corpus through the legacy public corpus without explicit release approval;
 - any required correction must be explicitly recorded as a corpus change and re-verified.
 
-## Active next step — SAT/PSAT content-quality QC
+## Content-quality QC — completed with quality hold
 
-The project is now moving to the formal **R&W and Math content-quality calibration** checkpoint before final cross-corpus calibration.
+The formal R&W and Math content-quality audit of **SAT Series A Mocks 1–10 and PSAT Mocks 1–10** is complete.
 
-The first scope of this review is deliberately **SAT Series A Mocks 1–10 and PSAT Mocks 1–10**. The purpose is to establish that these already-generated production mocks meet the intended Digital SAT/PSAT level, complexity, reasoning demand, and construction quality before the final collective quality decision.
+Detailed findings are recorded in:
 
-### R&W content-quality QC
+`docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md`
 
-Assess, as applicable:
+### Decision
 
-- source/passage complexity and information density;
-- syntax, rhetorical structure, evidence structure, and realistic source characteristics;
-- question construction and reasoning demand;
-- domain/skill fit;
-- evidence alignment;
-- exactly one defensible answer;
-- distractor quality and plausible student-error profiles;
-- wording and answer-choice construction;
-- Digital SAT-style realism;
-- difficulty distribution and quality consistency;
-- PSAT content ceiling and appropriate calibration relative to SAT.
+**QUALITY HOLD — SAT1–SAT10 and PSAT1–PSAT10 are not ready for final cross-corpus calibration or release-quality acceptance.**
 
-### Math content-quality QC
+The audit found systemic construction-quality problems rather than a small number of isolated weak items. The current generator produces technically valid records, but the R&W construction is too templated and the Math construction is too formulaic to establish authentic Digital SAT/PSAT level, reasoning demand, distractor quality, and difficulty calibration.
 
-Assess, as applicable:
+Key systemic findings:
 
-- mathematical reasoning demand and difficulty;
-- skill/domain balance;
-- multi-step reasoning and cognitive demand;
-- representation quality, including graphs/tables/figures;
-- distractor quality and plausible student-error profiles;
-- numerical and parameter diversity;
-- construction diversity and authentic SAT-style framing;
-- Digital SAT-style realism;
-- difficulty distribution and quality consistency;
-- appropriate PSAT ceiling relative to SAT.
+- R&W source/passage construction is highly repetitive and synthetic.
+- R&W reasoning and evidence relationships are often generic rather than item-specific.
+- R&W distractor architecture is recorded, but the current deterministic QC does not substantively verify that each distractor represents the claimed student error.
+- R&W difficulty is assigned from a repeating position-based cycle rather than from actual reasoning demand.
+- Math contains too much direct substitution and familiar one-step calculation for a production corpus intended to model SAT reasoning.
+- Math hard labels do not reliably correspond to genuinely hard reasoning.
+- Math distractors frequently use generic numeric offsets rather than realistic mathematical-error profiles.
+- Math student-produced-response generation is approximately 20%, below the specification target of roughly 25–30%.
+- The current implementation does not establish a sufficiently independent PSAT ceiling; PSAT parameterization alone is not enough to certify calibration.
 
-The assessment must use the approved SAT/PSAT specification and permitted calibration references without copying or closely paraphrasing official material.
+This is a **content-quality gate failure**, not a storage/corpus-boundary failure. The 30-mock production boundary remains intact.
 
-The goal is **not** to certify that every generated question is acceptable merely because the technical gates passed. It is to determine whether the content actually reaches the intended assessment level and to identify targeted remediation where it does not.
+## Required remediation before content replacement
 
-### Cross-corpus step after A/PSAT QC
+The next implementation target is **generator/content-quality remediation**, not another production mock.
 
-After SAT1–SAT10 and PSAT1–PSAT10 content-quality QC is complete, perform the 30-mock cross-corpus calibration covering:
+The remediation must strengthen:
+
+1. R&W source and passage diversity;
+2. item-specific evidence relationships and reasoning;
+3. Words in Context contextual variation;
+4. relationship-first Cross-Text construction;
+5. authentic Rhetorical Synthesis notes/goals;
+6. broader Standard English Conventions constructions;
+7. difficulty calibration based on actual cognitive demand;
+8. semantic distractor quality rather than metadata-only misconception labels;
+9. Math reasoning and construction diversity;
+10. strategic and multi-step hard Math items;
+11. authentic mathematical distractors;
+12. representation-driven Math items;
+13. 25–30% Math student-produced-response items;
+14. explicit SAT-versus-PSAT ceiling controls.
+
+After remediation is proven on representative samples, only the genuinely affected production items may be replaced. Every post-freeze change must be recorded by mock/question ID and must rerun the affected production gates plus the final collective corpus gate.
+
+## Cross-corpus step after remediation
+
+The 30-mock cross-corpus calibration remains **blocked** until the SAT1–SAT10 and PSAT1–PSAT10 content-quality hold is cleared.
+
+Once cleared, the cross-corpus review must cover:
 
 - difficulty consistency and distribution;
 - R&W and Math skill/domain balance;
@@ -121,19 +133,16 @@ After SAT1–SAT10 and PSAT1–PSAT10 content-quality QC is complete, perform th
 - SAT versus PSAT calibration;
 - overall coherence and realism of the complete 30-mock product.
 
-SAT11–SAT20 will remain frozen and their public-site verification will be completed later. No new production mocks are authorized.
-
-## Targeted remediation rule
-
-Do not regenerate the corpus wholesale for isolated defects. If a genuine defect requires a production-corpus change, explicitly record the change, rerun the affected individual production gates, and rerun the final collective corpus gate before acceptance.
+SAT11–SAT20 remain frozen and their public-site verification will be completed later. No new production mocks are authorized.
 
 ## Final release sequence
 
-1. SAT1–SAT10 and PSAT1–PSAT10 content-quality QC — **NEXT**
-2. Targeted remediation/re-gating if necessary
-3. 30-mock cross-corpus calibration
-4. Public verification of SAT11–SAT20 and any remaining user-facing verification
-5. Final end-to-end student-experience acceptance
-6. Final Batch M release acceptance
+1. ~~SAT1–SAT10 and PSAT1–PSAT10 content-quality QC~~ — **COMPLETE: QUALITY HOLD**
+2. **Generator/content-quality remediation — ACTIVE NEXT STEP**
+3. Targeted production replacement and re-gating, only where required
+4. 30-mock cross-corpus calibration
+5. Public verification of SAT11–SAT20 and any remaining user-facing verification
+6. Final end-to-end student-experience acceptance
+7. Final Batch M release acceptance
 
 No SAT21 or additional production target is planned.
