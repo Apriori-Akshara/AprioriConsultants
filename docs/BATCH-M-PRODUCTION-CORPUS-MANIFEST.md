@@ -1,6 +1,6 @@
 # Batch M Production Corpus Manifest
 
-**Status:** FROZEN — RELEASE/CONTENT-QUALITY VERIFICATION PENDING  
+**Status:** FROZEN — CONTENT-QUALITY HOLD / RELEASE VERIFICATION PENDING  
 **Date:** September 14, 2026  
 **Scope:** Batch M production question corpus only
 
@@ -86,19 +86,30 @@ The following rules are mandatory after the Batch M freeze:
 
 The safeguards are consistent with the SAT/PSAT Question Specification and AI generation instructions: canonical schema remains protected; only QC-passed items are eligible; structured figures remain the source of truth; independent QC, originality, mathematical, storage, and corpus-level gates remain mandatory; and official calibration material remains an internal reference only.
 
+## Content-quality QC status
+
+The formal SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete.
+
+**Decision: QUALITY HOLD.** The audit found systemic weaknesses in R&W source complexity, reasoning demand, distractor quality, construction diversity, Math reasoning diversity, hard-item calibration, and SAT-versus-PSAT calibration. Math student-produced-response generation is also approximately 20%, below the specified 25–30% target.
+
+Detailed findings and remediation requirements are recorded in `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md`.
+
+This finding does not authorize wholesale regeneration. The production corpus remains frozen until a corrected construction/content-quality layer is proven and any required post-freeze replacements are explicitly recorded and re-gated.
+
 ## Remaining Batch M release sequence
 
-1. **Public website inspection — user responsibility:** inspect only `https://www.aprioriconsultants.org`; verify all 30 mocks open, R&W/Math content displays, figures/charts/tables display, there are no obvious missing/broken/overlapping/clipped elements, and representative responsive/mobile views work. The user does not perform technical QC or solve every question.
-2. **Technical release QC — project responsibility:** diagnose every reported issue against generation/storage/rendering and correct only genuine defects within scope.
-3. **R&W content-quality QC:** assess source/passage complexity, question construction, reasoning demand, skill/domain fit, evidence alignment, distractor quality, wording, Digital SAT realism, and difficulty/quality distribution.
-4. **Math content-quality QC:** assess mathematical reasoning demand, difficulty, skill/domain balance, multi-step reasoning, representation quality, distractor quality, numerical/parameter diversity, Digital SAT realism, and difficulty/quality distribution.
-5. **30-mock cross-corpus calibration:** assess difficulty consistency, skill/domain balance, construction diversity, conceptual/construction repetition, SAT/PSAT calibration, and overall corpus coherence.
-6. **Targeted remediation/re-gating if necessary:** explicitly record any corpus change; rerun affected production gates and the final collective gate; never regenerate wholesale for isolated defects.
-7. **Final end-to-end student acceptance:** verify launch → instructions → adaptive test-taking → completion → scoring/results → detailed report using the existing architecture.
-8. **Final Batch M acceptance:** only after all preceding checkpoints pass.
+1. **Generator/content-quality remediation — active:** strengthen R&W and Math construction, semantic distractor validation, difficulty calibration, and SAT-versus-PSAT controls.
+2. **Targeted production replacement/re-gating:** replace only genuinely affected SAT1–SAT10 and PSAT1–PSAT10 items; record every changed mock/question ID; rerun affected individual gates and the final collective gate.
+3. **30-mock cross-corpus calibration:** assess difficulty consistency, skill/domain balance, construction diversity, conceptual/construction repetition, SAT/PSAT calibration, and overall corpus coherence.
+4. **Public website inspection — user responsibility:** after the content-quality hold is cleared, inspect only `https://www.aprioriconsultants.org`; verify all 30 mocks open, R&W/Math content displays, figures/charts/tables display, there are no obvious missing/broken/overlapping/clipped elements, and representative responsive/mobile views work. The user does not perform technical QC or solve every question.
+5. **Technical release QC — project responsibility:** diagnose every reported issue against generation/storage/rendering and correct only genuine defects within scope.
+6. **Final end-to-end student acceptance:** verify launch → instructions → adaptive test-taking → completion → scoring/results → detailed report using the existing architecture.
+7. **Final Batch M acceptance:** only after all preceding checkpoints pass.
+
+SAT11–SAT20 remain deployed but their public-site verification is deliberately deferred until the later release checkpoint. No SAT21 or additional production mock is planned.
 
 ## Current status
 
-**Production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The corpus remains frozen at exactly 30 mocks. Batch M release and final content-quality acceptance are pending.**
+**Production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The corpus remains frozen at exactly 30 mocks. SAT1–SAT10 and PSAT1–PSAT10 content-quality QC is complete with a QUALITY HOLD. Generator/content-quality remediation is active. SAT11–SAT20 are deployed but user-facing verification is deferred.**
 
 No SAT21 or additional production mock is planned.
