@@ -1,6 +1,6 @@
 # Question Generation Checkpoint — September 14, 2026
 
-**Status:** Batch M production generation, final collective corpus verification, and production-store cleanliness verification COMPLETE.
+**Status:** Batch M production generation, final collective corpus verification, production-store cleanliness verification, and maintenance/spec safeguard verification COMPLETE.
 
 ## Batch M production rule
 
@@ -41,6 +41,25 @@ The canonical store has been checked and checkpointed after the final collective
 
 The Render deployment containing the final collective gate is green/live, so the store checkpoint has been executed in the deployment environment.
 
+## Maintenance/spec safeguard verification
+
+Step 4 is complete. The maintenance rules and SAT/PSAT specification were reviewed together with the production checkpoint and frozen corpus manifest.
+
+The safeguards now explicitly preserve:
+
+- the canonical question schema and existing compatible fields;
+- the rule that only QC-passed items are eligible for live delivery;
+- structured figure parameters as the production visual source of truth;
+- independent R&W, mathematical, figure/originality, storage, and collective corpus verification;
+- the private calibration boundary and prohibition on copying official calibration material into production/public files;
+- the frozen 30-mock production boundary;
+- the separation between Batch M production records and the legacy public corpus;
+- the prohibition on SAT21 or any other new Batch M production target;
+- explicit recording and re-verification of any post-freeze correction; and
+- separation of website/release approval from content-generation acceptance.
+
+The safeguard checkpoint is documented in `docs/BATCH-M-PRODUCTION-CORPUS-MANIFEST.md` and `docs/QUESTION-BANK-MAINTENANCE.md`.
+
 ## Freeze rule
 
 The 30 production mocks remain frozen.
@@ -52,6 +71,6 @@ After this checkpoint:
 - do not expose the new corpus through the legacy public corpus without explicit release approval;
 - any required correction must be explicitly recorded as a corpus change and re-verified.
 
-## Next step — maintenance/spec safeguard verification
+## Next step — public website inspection
 
-Verify that the maintenance rules and SAT/PSAT question specification still protect the completed corpus and release boundary. No further production generation is planned. After that verification, begin public website inspection of all 30 production mocks.
+Maintenance/spec safeguard verification is complete. The next task is the planned public website inspection of all 30 production mocks. This is a presentation and delivery check, not permission to regenerate production content.
