@@ -1,28 +1,4 @@
-import {
-  SAT_SERIES_B_MOCK_11_PRODUCTION,
-  SAT_SERIES_B_MOCK_12_PRODUCTION,
-  SAT_SERIES_B_MOCK_13_PRODUCTION,
-  SAT_SERIES_B_MOCK_14_PRODUCTION,
-  SAT_SERIES_B_MOCK_15_PRODUCTION,
-  SAT_SERIES_B_MOCK_16_PRODUCTION,
-  SAT_SERIES_B_MOCK_17_PRODUCTION,
-  SAT_SERIES_B_MOCK_18_PRODUCTION,
-  SAT_SERIES_B_MOCK_19_PRODUCTION,
-  SAT_SERIES_B_MOCK_20_PRODUCTION,
-} from '../../data/sat/mockContent/batchMProductionStore';
-
-const SERIES_B = Object.freeze({
-  SAT11: SAT_SERIES_B_MOCK_11_PRODUCTION,
-  SAT12: SAT_SERIES_B_MOCK_12_PRODUCTION,
-  SAT13: SAT_SERIES_B_MOCK_13_PRODUCTION,
-  SAT14: SAT_SERIES_B_MOCK_14_PRODUCTION,
-  SAT15: SAT_SERIES_B_MOCK_15_PRODUCTION,
-  SAT16: SAT_SERIES_B_MOCK_16_PRODUCTION,
-  SAT17: SAT_SERIES_B_MOCK_17_PRODUCTION,
-  SAT18: SAT_SERIES_B_MOCK_18_PRODUCTION,
-  SAT19: SAT_SERIES_B_MOCK_19_PRODUCTION,
-  SAT20: SAT_SERIES_B_MOCK_20_PRODUCTION,
-});
+import { getSeriesBMock, validateSeriesBMockRuntime } from './productionMockRuntime';
 
 function normalizeModuleKey(value) {
   const normalized = String(value || '').toLowerCase();
@@ -63,6 +39,7 @@ function validateProductionMock(mock) {
 }
 
 function createProductionAdaptivePlan(testKey, mock) {
+  validateSeriesBMockRuntime(mock);
   validateProductionMock(mock);
   const rw1 = moduleQuestions(mock, 'reading-writing', 'module-1');
   const rw2 = moduleQuestions(mock, 'reading-writing', 'module-2');
@@ -168,14 +145,14 @@ function buildClientSafeTestFromPlan(plan) {
 
 export function getMockDefinition(testKey) {
   const key = normalizeMockKey(testKey);
-  return SERIES_B[key] || null;
+  return key && key.startsWith('SAT') && Number(key.slice(3)) >= 11 ? getSeriesBMock(key) : null;
 }
 
 export function createAdaptivePlan(testKey) {
   const key = normalizeMockKey(testKey);
-  if (!key) return null;
-  if (SERIES_B[key]) return createProductionAdaptivePlan(key, SERIES_B[key]);
-  return null;
+  if (!key || !key.startsWith('SAT') || Number(key.slice(3)) < 11) return null;
+  const mock = getSeriesBMock(key);
+  return mock ? createProductionAdaptivePlan(key, mock) : null;
 }
 
 export function getModuleForRoute(plan, sectionKey, moduleIndex, route) {
