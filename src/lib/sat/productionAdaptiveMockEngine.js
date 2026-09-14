@@ -1,12 +1,4 @@
 import {
-  createAdaptivePlan as createLegacyAdaptivePlan,
-  getModuleForRoute,
-  normalizeMockKey,
-  scoreModule,
-  chooseModule2Route,
-  flattenModule,
-} from './adaptiveMockEngine';
-import {
   SAT_SERIES_B_MOCK_11_PRODUCTION,
   SAT_SERIES_B_MOCK_12_PRODUCTION,
   SAT_SERIES_B_MOCK_13_PRODUCTION,
@@ -35,6 +27,14 @@ const SERIES_B = Object.freeze({
 function normalizeModuleKey(value) {
   const normalized = String(value || '').toLowerCase();
   return normalized.endsWith('module-1') ? 'module-1' : normalized.endsWith('module-2') ? 'module-2' : normalized;
+}
+
+function normalizeMockKey(value) {
+  const normalized = String(value || '').trim().toUpperCase().replace(/_/g, '');
+  const match = normalized.match(/^(PSAT|SAT|TEST)(?:-?0?([1-9]|1[0-9]|20))$/);
+  if (!match) return null;
+  const family = match[1] === 'TEST' ? 'SAT' : match[1];
+  return `${family}${Number(match[2])}`;
 }
 
 function moduleQuestions(content, section, module) {
@@ -92,6 +92,39 @@ function createProductionAdaptivePlan(testKey, mock) {
   };
 }
 
+function answersMatch(question, suppliedAnswer) {
+  const supplied = String(suppliedAnswer ?? '').trim();
+  if (!supplied) return false;
+  const correct = String(question.answer ?? '').trim();
+  if (/^[A-D]$/i.test(correct) && Array.isArray(question.choices)) {
+    const correctChoice = question.choices[correct.toUpperCase().charCodeAt(0) - 65];
+    return supplied.toUpperCase() === correct.toUpperCase() || supplied === String(correctChoice ?? '').trim();
+  }
+  return supplied.toUpperCase() === correct.toUpperCase();
+}
+
+function scoreModule(questions, answers) {
+  let correct = 0;
+  let answered = 0;
+  questions.forEach((question) => {
+    const answer = answers?.[question.questionId];
+    if (answer !== undefined && answer !== null && String(answer).trim() !== '') {
+      answered += 1;
+      if (answersMatch(question, answer)) correct += 1;
+    }
+  });
+  const total = questions.length;
+  return { correct, answered, total, accuracy: total ? Math.round((correct / total) * 100) : 0 };
+}
+
+function chooseModule2Route(module1Questions, answers) {
+  const result = scoreModule(module1Questions, answers);
+  const ratio = result.total ? result.correct / result.total : 0;
+  if (ratio >= 0.75) return 'high';
+  if (ratio <= 0.45) return 'low';
+  return 'standard';
+}
+
 function displaySafePrompt(value) {
   let prompt = String(value || '');
   prompt = prompt.replace(/\s*For this (?:PSAT\/NMSQT|PSAT|SAT) form, the comparison uses \d+ observation sites\.\s*/gi, ' ');
@@ -142,7 +175,16 @@ export function createAdaptivePlan(testKey) {
   const key = normalizeMockKey(testKey);
   if (!key) return null;
   if (SERIES_B[key]) return createProductionAdaptivePlan(key, SERIES_B[key]);
-  return createLegacyAdaptivePlan(key);
+  return null;
+}
+
+export function getModuleForRoute(plan, sectionKey, moduleIndex, route) {
+  const section = plan?.sections?.find((item) => item.key === sectionKey);
+  if (!section) return null;
+  if (moduleIndex === 0) return section.modules.find((module) => module.key === 'module-1') || null;
+  if (!['standard', 'high', 'low'].includes(String(route || ''))) return null;
+  const key = `module-2-${route}`;
+  return section.modules.find((module) => module.key === key && module.route === route) || null;
 }
 
 export function buildClientSafeTest(testKey) {
@@ -150,7 +192,11 @@ export function buildClientSafeTest(testKey) {
   return plan ? buildClientSafeTestFromPlan(plan) : null;
 }
 
-export { getModuleForRoute, normalizeMockKey, scoreModule, chooseModule2Route, flattenModule };
+export function flattenModule(module) {
+  return module?.questions || [];
+}
+
+export { normalizeMockKey, scoreModule, chooseModule2Route };
 
 export default {
   getMockDefinition,
