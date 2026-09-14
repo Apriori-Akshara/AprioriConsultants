@@ -1,14 +1,14 @@
 # Batch M Production Corpus Manifest
 
-**Status:** FROZEN FOR COLLECTIVE VERIFICATION
-**Date:** September 14, 2026
+**Status:** FROZEN — SAFEGUARD VERIFICATION COMPLETE  
+**Date:** September 14, 2026  
 **Scope:** Batch M production question corpus only
 
 ## Purpose
 
-This manifest freezes the approved Batch M production sequence before the final collective corpus verification. It is an inventory checkpoint, not a replacement for the individual generation/QC gates.
+This manifest is the authoritative inventory of the approved Batch M production corpus. It is an inventory and release-boundary checkpoint, not a replacement for the individual generation/QC gates or the final collective corpus gate.
 
-No new production mock is to be generated, and no previously accepted production mock is to be silently regenerated or replaced, during the collective verification stage.
+No new production mock is authorized, and no previously accepted production mock may be silently regenerated or replaced after this freeze.
 
 ## Frozen production corpus
 
@@ -61,8 +61,32 @@ The complete production corpus contains exactly **30 mocks** in this order:
 
 ## Acceptance boundary
 
-SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20 are the complete approved Batch M production sequence. SAT20 has passed its individual production gate and is confirmed Render-LIVE.
+SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20 are the complete approved Batch M production sequence. SAT20 passed its individual production gate and the complete corpus subsequently passed the collective verification gate.
 
-The corpus is now **frozen for collective verification**. The next production activity is the final 30-mock corpus-level verification; there is no SAT21 production target in Batch M.
+The canonical production store contains exactly this frozen sequence. It does not define or export a SAT21 production target. `nextTestKey` is `null`.
 
-The production records remain separate from the legacy public corpus until collective verification and final release approval are complete.
+The final collective verification runs against the exported frozen production corpus and preserves the boundary between the production corpus and the legacy public corpus.
+
+## Maintenance and release safeguards
+
+The following rules are mandatory after the Batch M freeze:
+
+1. **No new Batch M target:** do not create SAT21 or any other Batch M production mock.
+2. **No silent replacement:** do not regenerate, replace, reorder, or mutate an accepted mock without recording the corpus change.
+3. **Correction protocol:** any post-freeze correction must rerun the affected individual production gates and the final collective corpus gate before acceptance.
+4. **Legacy boundary:** do not replace, delete, or silently merge the legacy public corpus with Batch M production records without explicit release approval.
+5. **Calibration boundary:** private calibration anchors remain private and must never be copied into production content or the public repository.
+6. **Scope boundary:** authentication, registration/email verification, subscription/payment/access, dashboard, unrelated API/Redux code, and deployment configuration remain outside Batch M production changes unless a genuine question-generation/storage/rendering dependency requires otherwise.
+7. **Release gate:** passing generation/QC does not by itself authorize public release; website inspection and release approval remain separate checkpoints.
+
+## Verification status
+
+**Step 4 — maintenance/spec safeguard verification: COMPLETE.**
+
+The safeguards are consistent with the SAT/PSAT Question Specification and AI generation instructions: canonical schema remains protected; only QC-passed items are eligible; structured figures remain the source of truth; independent QC, originality, mathematical, storage, and corpus-level gates remain mandatory; and official calibration material remains an internal reference only.
+
+The 30-mock production corpus is frozen. No further Batch M production generation is planned.
+
+## Next step
+
+**Public website inspection of all 30 production mocks.**
