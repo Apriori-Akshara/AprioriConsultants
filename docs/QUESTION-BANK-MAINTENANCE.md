@@ -19,12 +19,13 @@ A schema → B blueprint → C R&W construction → D R&W distractor/evidence/QC
 3. **SAT Series B — Mocks 11–20** — accepted
 4. **Final collective QC across the complete production corpus** — passed
 5. **Production-store cleanliness checkpoint** — passed
+6. **Maintenance/spec safeguard verification** — passed
 
 Each mock was generated, independently QC-checked, cross-compared with previously accepted mocks, stored, and deployed to Render before the next mock was accepted. No additional production target remains.
 
 ## Batch M — Controlled production generation
 
-**Status: COMPLETE.**
+**Status: COMPLETE / FROZEN.**
 
 ### Accepted production checkpoints
 
@@ -68,24 +69,90 @@ The canonical production store is now explicitly checkpointed as clean:
 - `BATCH_M_ACCEPTED_PRODUCTION_CORPUS` contains exactly the frozen 30 production mocks.
 - The corpus order matches the authoritative `BATCH_M_PRODUCTION_SEQUENCE`.
 - The store exports no SAT21 production target.
-- The final collective verification runs against the exported frozen corpus.
-- The production corpus remains separate from the legacy public corpus.
 - `nextTestKey` is `null`; there is no remaining Batch M generation target.
 
 This is a release checkpoint, not permission to mutate the corpus. Any correction after this point must be an explicitly recorded corpus change followed by the affected individual gates and the final collective gate again.
 
-## Current next target
+## Batch M release and content-quality acceptance sequence
 
-**Step 4 — maintenance/spec safeguard verification.** After that verification passes, begin the planned public website inspection of all 30 production mocks. Do not generate SAT21.
+The production corpus is frozen, but **Batch M is not considered fully complete until all of the following checkpoints are complete:**
 
-## Production safety
+### 1. Public website release verification — user responsibility
 
-Batch M must not replace or delete the legacy SAT content path until release approval is complete.
+The user inspects only `https://www.aprioriconsultants.org` and does not perform technical/code/database/corpus QC.
 
-Do not commit a partially generated production corpus as if it were complete. Do not silently regenerate or replace an accepted mock after the corpus freeze. Any post-freeze correction must be explicitly recorded and re-verified.
+The inspection must cover:
 
-Private calibration anchors, if authorized and supplied, are not copied into production content or the public repository.
+- all 30 production mocks open;
+- R&W content displays;
+- Math content displays;
+- figures/charts/tables display;
+- no obvious missing content, broken visuals, overlap, clipping, or major layout defects;
+- representative mobile/responsive checks.
 
-## Status
+The user does not need to solve every question.
 
-**Batch M production generation, collective corpus verification, and production-store cleanliness checkpoint are complete. The next task is maintenance/spec safeguard verification, followed by public website inspection.**
+### 2. Technical release QC — project responsibility
+
+After the user reports the public-site findings, technical QC diagnoses each reported issue by inspecting the relevant generation, storage, rendering, and frozen production-corpus implementation.
+
+Only genuine defects are corrected. Scope remains question generation, storage, and rendering. Authentication, registration/email verification, payments, entitlements, dashboard, Redux, and unrelated functionality are not to be changed.
+
+### 3. SAT/PSAT content-quality QC — R&W and Math
+
+This is a distinct post-production checkpoint. Structural/schema/originality/math/figure gates establish technical validity but do not by themselves certify SAT/PSAT-level quality.
+
+**R&W review:** source/passage complexity, information density, question construction, reasoning demand, skill/domain fit, evidence alignment, distractor quality, wording, answer-choice construction, Digital SAT-style realism, and difficulty/quality distribution.
+
+**Math review:** mathematical reasoning demand, difficulty, skill/domain balance, multi-step reasoning, representation quality, graphs/tables/figures, distractor quality, numerical/parameter diversity, Digital SAT-style realism, and difficulty/quality distribution.
+
+The review uses the approved SAT/PSAT specification and permitted calibration references without copying or closely paraphrasing official material.
+
+### 4. 30-mock cross-corpus calibration
+
+Evaluate the entire frozen corpus collectively for:
+
+- difficulty consistency and distribution;
+- R&W and Math skill/domain balance;
+- construction diversity;
+- conceptual/construction repetition beyond existing originality gates;
+- appropriate SAT versus PSAT calibration;
+- overall coherence and realism of the 30-mock product.
+
+This is separate from structural/originality QC.
+
+### 5. Targeted remediation and re-gating
+
+Do not regenerate the corpus wholesale for isolated defects. If a genuine defect requires a production-corpus change:
+
+1. explicitly record the corpus change;
+2. rerun the affected individual production gates;
+3. rerun the final collective corpus gate;
+4. preserve the exact 30-mock boundary.
+
+No SAT21 or additional production target may be created.
+
+### 6. Final end-to-end student-experience acceptance
+
+Verify the complete student-facing journey using the existing architecture:
+
+**launch → instructions → adaptive test-taking → completion → scoring/results → detailed report**
+
+This is distinct from question-content QC and the public visual inspection.
+
+### 7. Final Batch M acceptance
+
+Batch M can be marked fully complete only after public website verification, technical release QC, R&W/Math content-quality calibration, 30-mock cross-corpus calibration, any required remediation/re-gates, and final student-experience acceptance are complete.
+
+## Post-freeze maintenance rules
+
+- No new Batch M target may be created.
+- No accepted mock may be silently regenerated, replaced, reordered, or mutated.
+- Any post-freeze correction must be explicitly recorded and fully re-verified.
+- Passing the existing production gates does not by itself certify authentic SAT/PSAT-level quality.
+- Private calibration anchors remain private and must never be copied into production content or the public repository.
+- The legacy public corpus remains separate until explicit release approval.
+
+## Current status
+
+**Batch M production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The 30-mock corpus is frozen. The next checkpoint is the user-only public website inspection, followed by technical release QC and SAT/PSAT content-quality/cross-corpus calibration.**
