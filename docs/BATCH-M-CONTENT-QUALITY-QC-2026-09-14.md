@@ -91,7 +91,7 @@ Commit: `1e74726bdd31ea4321517677152f0ca3e74a477f`
 ### C. R&W remediated construction layer
 
 `src/data/sat/mockContent/verbalConstructionRemediated.js`  
-Commit: `39cef8e6c89f67d37d2903472b71eee69fdfe664`
+Original remediation commit: `39cef8e6c89f67d37d2903472b71eee69fdfe664`  
 
 ### D. Math remediated construction layer
 
@@ -151,3 +151,24 @@ The required sequence is:
 **Decision: HOLD.**
 
 SAT1–SAT10 and PSAT1–PSAT10 remain blocked from final collective content-quality calibration until representative construction QC passes. SAT11–SAT20 remain frozen and their public verification remains deferred.
+
+## 10. Representative-QC execution checkpoint — September 14, 2026
+
+The first local execution attempt reached the representative QC runner, confirming that the harness is being invoked rather than failing at the npm-script layer. The runner then stopped during ESM module resolution.
+
+Two candidate-only remediated generators were found to contain local relative imports without explicit `.js` extensions:
+
+- `src/data/sat/mockContent/verbalConstructionRemediated.js`
+- `src/data/sat/mockContent/mathBankFactoryRemediated.js`
+
+The first corrective commit has now been applied to GitHub:
+
+- `023f5da099e6c0a3baf2964a101b976f5bc7aa55` — **Fix ESM extensions in Batch M remediated R&W generator**
+
+The candidate factory, content-quality gate, blueprint, and QC runner were inspected and their local relative imports already use explicit `.js` extensions or require no import change.
+
+The Math generator still requires the same narrow import-resolution correction before the representative QC can execute. No generator logic, question content, frozen production record, or production store has been changed as part of this execution fix.
+
+**Current checkpoint:** representative QC has **not** yet produced R&W/Math content-quality results. The quality verdict therefore remains **HOLD / NOT ASSESSED BY THIS RUN**. The user must synchronize the corrected candidate files locally and rerun `npm run qc:batch-m-remediation`; the complete output will determine the next remediation iteration.
+
+The production/frozen corpus remains unchanged and continues to be protected from remediation-candidate execution.
