@@ -54,7 +54,7 @@ Batch L exercised a controlled SAT/PSAT pair through generation, post-processing
 
 ## Batch M — Production generation
 
-**Status:** **ACTIVE / SAT SERIES A MOCKS 1–10, PSAT MOCKS 1–10, AND SAT SERIES B MOCKS 11–13 ACCEPTED AND STORED. SAT14 IN PROGRESS.**
+**Status:** **ACTIVE / SAT SERIES A MOCKS 1–10, PSAT MOCKS 1–10, AND SAT SERIES B MOCKS 11–14 ACCEPTED AND STORED. SAT15 IN PROGRESS.**
 
 The exact production sequence is fixed and must not be reordered:
 
@@ -149,19 +149,39 @@ Implementation commit:
 
 **Render acceptance:** User-confirmed LIVE for SAT13. This closes the SAT13 production acceptance gate.
 
-### Current production target — SAT Series B Mock 14
+### Accepted production checkpoint — SAT Series B Mock 14
 
-**SAT Series B Mock 14 (`SAT14`) is the active production target.** It is generated only after the accepted SAT1–SAT10, PSAT1–PSAT10, SAT11, SAT12, and SAT13 baselines. The SAT14 gate compares R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and figure originality against all 23 previously accepted mocks and preserves the established figure-quality, Math mathematical-QC, canonical-schema, 196-record, and storage round-trip gates.
+**SAT14 is accepted and stored as a canonical runtime production record.** User-confirmed Render-LIVE acceptance closes the SAT14 deployment gate.
 
-SAT14 uses the controller-defined identity:
+SAT14 uses:
 
 - test key: `SAT14`
 - test ID: `sat-series-b-mock-14`
 - variant: `sat-series-b`
 - assessment number: `14`
-- deterministic generation seed: `1014`
+- deterministic seed: `1014`
+- validated mock size: `196` records
+- storage mode: `canonical-runtime-records`
+- cross-mock baseline: all accepted SAT1–SAT10, PSAT1–PSAT10, SAT11, SAT12, and SAT13 records
 
-SAT14 must not be considered accepted until its Render deployment is confirmed LIVE.
+Implementation commit:
+- `0e70da4c744f8560565f9f90999a70cc0d79bf51` — `Batch M: Add SAT14 production gate and canonical storage`
+
+**Render acceptance:** User-confirmed LIVE for SAT14. This closes the SAT14 production acceptance gate.
+
+### Current production target — SAT Series B Mock 15
+
+**SAT Series B Mock 15 (`SAT15`) is the active production target.** It is generated only after the accepted SAT1–SAT10, PSAT1–PSAT10, SAT11, SAT12, SAT13, and SAT14 baselines. The SAT15 gate compares R&W context/prompt reuse, Math application reuse, exact figure-data reuse, and figure originality against all 24 previously accepted mocks and preserves the established figure-quality, Math mathematical-QC, canonical-schema, 196-record, and storage round-trip gates.
+
+SAT15 uses the controller-defined identity:
+
+- test key: `SAT15`
+- test ID: `sat-series-b-mock-15`
+- variant: `sat-series-b`
+- assessment number: `15`
+- deterministic generation seed: `1015`
+
+SAT15 must not be considered accepted until its Render deployment is confirmed LIVE.
 
 The accepted Batch M production records remain separate from the legacy public corpus. They must not replace or be exposed through the legacy public corpus until the final corpus gate passes.
 
@@ -171,4 +191,4 @@ After each accepted mock, the production corpus must remain recoverable without 
 
 ## Closure decision
 
-**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT13 are accepted. SAT14 is the current implementation target. Do not advance to SAT15 until SAT14 passes all gates and Render-LIVE acceptance. Do not replace the existing live corpus until the final corpus gate has passed.**
+**Batches A–L are complete. Batch M is active. SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT11–SAT14 are accepted. SAT15 is the current implementation target. Do not advance to SAT16 until SAT15 passes all gates and Render-LIVE acceptance. Do not replace the existing live corpus until the final corpus gate has passed.**
