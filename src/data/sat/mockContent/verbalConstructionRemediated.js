@@ -6,8 +6,8 @@
  * diversity that is materially different from the legacy Batch C layer.
  */
 
-import { RW_REMEDIATION_CONSTRUCTIONS, RW_SOURCE_BLUEPRINTS, DIFFICULTY_REQUIREMENTS } from './batchMRemediationBlueprint';
-import { evaluateContentQuality } from './batchMContentQualityGate';
+import { RW_REMEDIATION_CONSTRUCTIONS, RW_SOURCE_BLUEPRINTS, DIFFICULTY_REQUIREMENTS } from './batchMRemediationBlueprint.js';
+import { evaluateContentQuality } from './batchMContentQualityGate.js';
 
 const SOURCE_MATERIAL = {
   literature: [
