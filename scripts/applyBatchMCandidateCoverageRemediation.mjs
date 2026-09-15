@@ -49,10 +49,10 @@ if (!math.includes(marker)) {
   if (skill === 'Data models') {
     const x = [1, 2, 3, 4, 5];
     const y = x.map((value) => 8 + value * 3 + (o % 4));
-    const displayTypes = ['scatter', 'line_chart', 'bar_chart', 'table'];
+    const displayTypes = ['scatter_plot', 'line_chart', 'bar_chart', 'table'];
     const displayType = displayTypes[o % displayTypes.length];
     let figure;
-    if (displayType === 'scatter') figure = { type: 'scatter', values: { points: x.map((value, index) => [value, y[index]]) } };
+    if (displayType === 'scatter_plot') figure = { type: 'scatter_plot', values: { points: x.map((value, index) => [value, y[index]]) } };
     else if (displayType === 'line_chart') figure = { type: 'line_chart', x, y };
     else if (displayType === 'bar_chart') figure = { type: 'bar_chart', categories: x.map(String), values: y };
     else figure = { type: 'table', columns: ['x', 'y'], rows: x.map((value, index) => [value, y[index]]) };
@@ -65,7 +65,7 @@ if (!math.includes(marker)) {
     const hyp = Math.sqrt(leg * leg + other * other);
     return {
       ...question,
-      figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: other } },
+      figure: { type: 'right_triangle', values: { x: leg, y: other } },
       metadata: { ...question.metadata, hypotenuse: Number(hyp.toFixed(2)) },
     };
   }
@@ -79,10 +79,10 @@ if (!math.includes(marker)) {
       [4, base + 10 + (o % 6)],
       [5, base + 14 + (o % 7)],
     ];
-    const displayTypes = ['scatter', 'line_chart', 'bar_chart', 'table'];
+    const displayTypes = ['scatter_plot', 'line_chart', 'bar_chart', 'table'];
     const displayType = displayTypes[o % displayTypes.length];
     let figure;
-    if (displayType === 'scatter') figure = { type: 'scatter', points };
+    if (displayType === 'scatter_plot') figure = { type: 'scatter_plot', points };
     else if (displayType === 'line_chart') figure = { type: 'line_chart', x: points.map((point) => point[0]), y: points.map((point) => point[1]) };
     else if (displayType === 'bar_chart') figure = { type: 'bar_chart', categories: points.map((point) => String(point[0])), values: points.map((point) => point[1]) };
     else figure = { type: 'table', columns: ['x', 'y'], rows: points.map((point) => [point[0], point[1]]) };
@@ -92,43 +92,53 @@ if (!math.includes(marker)) {
   math = replaceOnce(math, '  return question;\n}\n\nfunction remapFigureCandidate', insertion + '  return question;\n}\n\nfunction remapFigureCandidate', 'Math strategic coverage insertion');
 }
 
-// The first remediation pass can already exist on the branch. This second,
-// separately marked pass targets the exact zero-coverage skill names reported
-// by the selection analysis and is intentionally idempotent.
 const strategicMarker = '// Batch M zero-coverage strategic figure remediation';
 if (!math.includes(strategicMarker)) {
   const insertion = `
   ${strategicMarker}
-  if (skill === 'Quadratic functions and representations') {
+  if (skill === 'Quadratic functions' || skill === 'Quadratic functions and representations') {
     const h = 2 + (o % 11);
     const k = 5 + (o % 37);
     const a = 1;
     const b = -2 * h;
     const c = h * h + k;
-    return { ...question, figure: { type: 'quadratic', a, b, c, values: { a, b, c } } };
+    return { ...question, figure: { type: 'parabola', a, b, c, values: { a, b, c } } };
   }
 
-  if (skill === 'Data models') {
+  if (skill === 'Scatterplot interpretation' || skill === 'Data models') {
     const x = [1, 2, 3, 4, 5];
     const y = x.map((value) => 8 + value * 3 + (o % 4));
     return { ...question, figure: { type: 'table', columns: ['x', 'y'], rows: x.map((value, index) => [value, y[index]]) } };
   }
 
-  if (skill === 'Right triangles') {
+  if (skill === 'Right-triangle relationships' || skill === 'Right triangles') {
     const leg = 6 + o;
     const other = 8 + (o % 9);
-    return { ...question, figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: other } } };
+    return { ...question, figure: { type: 'right_triangle', values: { x: leg, y: other } } };
   }
 `;
   math = replaceOnce(math, '  return question;\n}\n\nfunction remapFigureCandidate', insertion + '  return question;\n}\n\nfunction remapFigureCandidate', 'Exact zero-coverage skill remediation');
 }
 
-// Make the existing right-triangle construction structurally compatible with
-// the canonical figure validator while retaining its geometry shape metadata.
+const canonicalFigureMarker = '// Batch M canonical figure-type remediation';
+if (!math.includes(canonicalFigureMarker)) {
+  const insertion = `
+// Batch M canonical figure-type remediation
+math = math.replace(
+  "figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct } },",
+  "figure: { type: 'right_triangle', values: { x: leg, y: correct } },"
+);
 math = math.replace(
   "figure: { type: 'geometry', values: { shape: 'right-triangle', leg, hyp } },",
-  "figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct } },"
+  "figure: { type: 'right_triangle', values: { x: leg, y: hyp } },"
 );
+math = math.replace(
+  "type: 'quadratic',\n        a,",
+  "type: 'parabola',\n        a,"
+);
+`;
+  math += `\n${insertion}`;
+}
 
 fs.writeFileSync(mathPath, math);
 
