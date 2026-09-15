@@ -1,4 +1,5 @@
 name: Batch M targeted candidate selection
+# Batch M remediation rerun trigger: canonical figure-type correction.
 
 on:
   push:
@@ -69,19 +70,7 @@ jobs:
               severityCounts[item.severity] = (severityCounts[item.severity] || 0) + 1;
               for (const note of item.checks) noteCounts[note] = (noteCounts[note] || 0) + 1;
             }
-            console.log(JSON.stringify({
-              product,
-              candidateCount: result.candidates.length,
-              passed: quality.passed,
-              failedCount: quality.failedCount,
-              seriousFailureCount: quality.seriousFailureCount,
-              severityCounts,
-              noteCounts,
-              samples: result.candidates
-                .map((candidate, index) => ({ candidateIndex: index, questionId: candidate.questionId, section: candidate.section, skill: candidate.skill, domain: candidate.domain, difficulty: candidate.difficulty, verdict: quality.items[index].verdict, checks: quality.items[index].checks }))
-                .filter((item) => item.verdict !== 'pass')
-                .slice(0, 20),
-            }, null, 2));
+            console.log(JSON.stringify({ product, candidateCount: result.candidates.length, passed: quality.passed, failedCount: quality.failedCount, seriousFailureCount: quality.seriousFailureCount, severityCounts, noteCounts, samples: result.candidates.map((candidate, index) => ({ candidateIndex: index, questionId: candidate.questionId, section: candidate.section, skill: candidate.skill, domain: candidate.domain, difficulty: candidate.difficulty, verdict: quality.items[index].verdict, checks: quality.items[index].checks })).filter((item) => item.verdict !== 'pass').slice(0, 20) }, null, 2));
           }
           NODE
 
@@ -95,25 +84,13 @@ jobs:
           import fs from 'node:fs';
           const report = JSON.parse(fs.readFileSync('docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json', 'utf8'));
           if (report.affectedUniqueQuestionCount !== 2144) throw new Error(`Expected 2144 affected records, got ${report.affectedUniqueQuestionCount}`);
-          if (!Array.isArray(report.records) || report.records.length !== 2144) {
-            throw new Error(`Expected 2144 report records, got ${report.records?.length ?? 'missing'}`);
-          }
+          if (!Array.isArray(report.records) || report.records.length !== 2144) throw new Error(`Expected 2144 report records, got ${report.records?.length ?? 'missing'}`);
           if (report.productionMutation !== false) throw new Error('productionMutation must be false');
           if (report.releaseEligible !== false) throw new Error('releaseEligible must be false');
           if (report.replacementAuthorization !== 'NOT_AUTHORIZED') throw new Error('replacementAuthorization must remain NOT_AUTHORIZED');
           if (report.sat21Created !== false) throw new Error('sat21Created must be false');
-          if (!report.summary || typeof report.summary.selected !== 'number' || typeof report.summary.noEligibleCandidate !== 'number') {
-            throw new Error('Candidate-selection summary is missing required counts');
-          }
-          console.log(JSON.stringify({
-            affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
-            selectedCount: report.summary.selected,
-            noEligibleCandidateCount: report.summary.noEligibleCandidate,
-            productionMutation: report.productionMutation,
-            releaseEligible: report.releaseEligible,
-            replacementAuthorization: report.replacementAuthorization,
-            sat21Created: report.sat21Created
-          }, null, 2));
+          if (!report.summary || typeof report.summary.selected !== 'number' || typeof report.summary.noEligibleCandidate !== 'number') throw new Error('Candidate-selection summary is missing required counts');
+          console.log(JSON.stringify({ affectedUniqueQuestionCount: report.affectedUniqueQuestionCount, selectedCount: report.summary.selected, noEligibleCandidateCount: report.summary.noEligibleCandidate, productionMutation: report.productionMutation, releaseEligible: report.releaseEligible, replacementAuthorization: report.replacementAuthorization, sat21Created: report.sat21Created }, null, 2));
           NODE
 
       - name: Analyze candidate coverage gaps
@@ -131,15 +108,7 @@ jobs:
           if (report.releaseEligible !== false) throw new Error('releaseEligible must be false');
           if (report.replacementAuthorization !== 'NOT_AUTHORIZED') throw new Error('replacementAuthorization must remain NOT_AUTHORIZED');
           if (report.sat21Created !== false) throw new Error('sat21Created must be false');
-          console.log(JSON.stringify({
-            affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
-            noEligibleCandidateSkillGroups: report.noEligibleCandidateSkillCounts.length,
-            topMissingSkillGroups: report.noEligibleCandidateSkillCounts.slice(0, 20),
-            productionMutation: report.productionMutation,
-            releaseEligible: report.releaseEligible,
-            replacementAuthorization: report.replacementAuthorization,
-            sat21Created: report.sat21Created
-          }, null, 2));
+          console.log(JSON.stringify({ affectedUniqueQuestionCount: report.affectedUniqueQuestionCount, noEligibleCandidateSkillGroups: report.noEligibleCandidateSkillCounts.length, topMissingSkillGroups: report.noEligibleCandidateSkillCounts.slice(0, 20), productionMutation: report.productionMutation, releaseEligible: report.releaseEligible, replacementAuthorization: report.replacementAuthorization, sat21Created: report.sat21Created }, null, 2));
           NODE
 
       - name: Commit remediation and generated candidate reports
