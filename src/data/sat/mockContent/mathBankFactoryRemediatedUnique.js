@@ -114,6 +114,28 @@ function remapStrategicCandidate(question, occurrence) {
     return setNumericQuestion(question, prompt, 16, o);
   }
 
+
+  // Batch M zero-coverage strategic figure remediation
+  if (skill === 'Quadratic functions and representations') {
+    const h = 2 + (o % 11);
+    const k = 5 + (o % 37);
+    const a = 1;
+    const b = -2 * h;
+    const c = h * h + k;
+    return { ...question, figure: { type: 'quadratic', a, b, c, values: { a, b, c } } };
+  }
+
+  if (skill === 'Data models') {
+    const x = [1, 2, 3, 4, 5];
+    const y = x.map((value) => 8 + value * 3 + (o % 4));
+    return { ...question, figure: { type: 'table', columns: ['x', 'y'], rows: x.map((value, index) => [value, y[index]]) } };
+  }
+
+  if (skill === 'Right triangles') {
+    const leg = 6 + o;
+    const other = 8 + (o % 9);
+    return { ...question, figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: other } } };
+  }
   return question;
 }
 
