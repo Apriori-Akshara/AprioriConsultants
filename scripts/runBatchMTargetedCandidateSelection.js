@@ -25,8 +25,8 @@ const POOL_COUNTS = {
   // ceiling for high-volume skills such as Words in Context and Cross-Text.
   // The remediation pool now gives each skill enough distinct candidates to
   // satisfy the frozen target distribution without changing eligibility rules.
-  sat: { rw: 2500, math: 4500 },
-  psat: { rw: 2500, math: 4500 },
+  sat: { rw: 5000, math: 8000 },
+  psat: { rw: 5000, math: 8000 },
 };
 
 const SKILL_ALIASES = {
