@@ -23,8 +23,8 @@ math = replaceIfPresent(math, "type: 'scatter', points", "type: 'scatter_plot', 
 math = replaceIfPresent(
   math,
   "const prompt = `A function is f(x) = (x − ${h})² + ${k}. Another point on the graph has x = ${x} and f(x) = ${value}. What is the value of ${k}?`;\n    return setNumericQuestion(question, prompt, k, o);",
-  "const prompt = `A function is f(x) = (x − ${h})² + ${k}. Another point on the graph has x = ${x} and f(x) = ${value}. What is the value of ${k}?`;\n    const a = 1;\n    const b = -2 * h;\n    const c = h * h + k;\n    return { ...setNumericQuestion(question, prompt, k, o), figure: { type: 'parabola', a, b, c, values: { a, b, c } } };"
+  "const prompt = `The graph of f(x) = (x − ${h})² + ${k} is shown. What is the y-coordinate of the vertex of the graph?`;\n    const a = 1;\n    const b = -2 * h;\n    const c = h * h + k;\n    const remapped = setNumericQuestion(question, prompt, k, o);\n    return { ...remapped, metadata: { ...remapped.metadata, figurePurpose: 'question-essential' }, figure: { type: 'parabola', a, b, c, values: { a, b, c } } };"
 );
 fs.writeFileSync(mathPath, math);
 
-console.log(JSON.stringify({ applied: true, rerunnable: true, quadraticFigureRemediation: true, selectionPoolCounts: { sat: { rw: 2500, math: 4500 }, psat: { rw: 2500, math: 4500 } } }, null, 2));
+console.log(JSON.stringify({ applied: true, rerunnable: true, quadraticFigureRemediation: true, quadraticFigurePurpose: 'question-essential', selectionPoolCounts: { sat: { rw: 2500, math: 4500 }, psat: { rw: 2500, math: 4500 } } }, null, 2));
