@@ -8,6 +8,32 @@ function rotateChoices(choices, target) {
   return { choices: out, answer: String.fromCharCode(65 + target) };
 }
 
+function safeNumericDistractors(numericCorrect, occurrence) {
+  const forbidden = new Set([
+    numericCorrect + 1,
+    numericCorrect - 1,
+    numericCorrect * 2,
+  ].map((value) => Number(value)));
+  const candidates = [
+    numericCorrect + 3 + (occurrence % 5),
+    numericCorrect - 4 - (occurrence % 4),
+    numericCorrect + 7 + (occurrence % 6),
+    numericCorrect * 1.5 + 5 + (occurrence % 3),
+    numericCorrect - 8 - (occurrence % 5),
+    numericCorrect * 0.5 - 3 - (occurrence % 4),
+  ];
+
+  const selected = [];
+  for (const candidate of candidates) {
+    if (!Number.isFinite(candidate) || candidate === numericCorrect || forbidden.has(candidate)) continue;
+    if (selected.some((value) => value === candidate)) continue;
+    selected.push(candidate);
+    if (selected.length === 3) break;
+  }
+
+  return selected.map((value) => String(Number(value.toFixed(2))));
+}
+
 function setNumericQuestion(question, prompt, correct, occurrence) {
   const numericCorrect = Number(correct);
   if (!Number.isFinite(numericCorrect)) return { ...question, prompt };
@@ -16,11 +42,8 @@ function setNumericQuestion(question, prompt, correct, occurrence) {
     return { ...question, prompt: `${prompt}\nEnter your answer as a number.`, answer: String(numericCorrect) };
   }
 
-  const wrong = [
-    String(numericCorrect + 1),
-    String(Math.max(0, numericCorrect - 1)),
-    String(numericCorrect * 2),
-  ];
+  const wrong = safeNumericDistractors(numericCorrect, occurrence);
+  if (wrong.length < 3) return { ...question, prompt };
   const rotated = rotateChoices([String(numericCorrect), ...wrong], occurrence % 4);
   return { ...question, prompt, choices: rotated.choices, answer: rotated.answer };
 }
@@ -227,7 +250,13 @@ function rebalanceDifficultyAndInteraction(question, occurrence) {
     },
   };
 
-  const wantSpr = occurrence % 4 === 0;
+  const answerIndex = String(next.answer || 'A').charCodeAt(0) - 65;
+  const correctChoice = next.questionType === 'multiple-choice' && answerIndex >= 0
+    ? next.choices?.[answerIndex]
+    : next.answer;
+  const canBeSpr = next.questionType === 'student-produced-response'
+    || (next.questionType === 'multiple-choice' && isNumericAnswer(correctChoice));
+  const wantSpr = occurrence % 4 === 0 && canBeSpr;
   next = wantSpr ? toStudentProducedResponse(next) : toMultipleChoice(next, occurrence);
   return next;
 }
