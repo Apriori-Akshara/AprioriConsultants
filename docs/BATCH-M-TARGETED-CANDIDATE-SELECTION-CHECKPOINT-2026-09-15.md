@@ -6,7 +6,7 @@
 
 ## 1. Work completed in this stage
 
-The Batch M targeted candidate-selection stage has now been executed successfully in GitHub Actions, followed by an initial candidate-coverage remediation pass and a full rerun.
+The Batch M targeted candidate-selection stage has been executed successfully in GitHub Actions through the latest difficulty-coverage remediation pass.
 
 The implementation:
 
@@ -21,88 +21,89 @@ The implementation:
 - keeps all candidate decisions outside the production question store;
 - preserves the production freeze flags and does not create SAT21.
 
-## 2. Runtime validation completed
+## 2. Latest runtime validation
 
 GitHub Actions workflow:
 
 `.github/workflows/batch-m-targeted-candidate-selection.yml`
 
-The workflow was corrected to check out the exact triggering commit using `ref: ${{ github.sha }}` and to verify that the checked-out `HEAD` equals `GITHUB_SHA`.
+Latest workflow run: **#45**, run ID `34979999865`, triggered by commit `adce3014d186539adb879d24963ea2025a95d815`.
 
-The successful runtime execution completed all required stages, including candidate-pool quality diagnostics, exact replacement-candidate selection, coverage analysis, report validation, and generated-report commit.
+The workflow completed successfully. All required stages passed, including:
 
-The earlier successful implementation commits included:
+- candidate coverage remediation;
+- difficulty coverage remediation;
+- candidate-pool quality diagnostics;
+- exact replacement-candidate selection;
+- candidate-selection report verification;
+- coverage analysis and verification; and
+- generated-report commit.
 
-- `1fcad416ac84ec2b38bc1fbffe14bcbdea8344d9` — pin Batch M workflow to triggering commit
-- `176619ff15acae9cb321dc6d1ef0829d2d0f36a7` — decouple Batch M Math domain and skill coverage
-- `96fd6763616880c75470fdc859277420d8469d66` — repair Batch M Math interaction and distractors
-- `7c0753d1bedadea7ccaf443e4790d4b56ea2475f` — normalize Batch M Math interaction types
-- `bc2810c181b51d2c52a6fa316cc95fa3c245fc2b` — repair Batch M scatterplot SPR candidates
-- `a8e047aed86640c3810604b9b2b4b07ca89e8ac9` — guarantee non-generic Batch M Math distractors
+The successful workflow created commit `38833fd38f10d4e3509db25855166797fb671fb0` with message `fix: remediate Batch M candidate difficulty coverage`.
 
-The first candidate-coverage remediation pass expanded the R&W candidate pool and added figure-remediation constructions. The subsequent full rerun completed successfully and recorded its generated reports in the remediation branch.
+### Superseded failed run
+
+Workflow run **#44**, run ID `34979967746`, was triggered by commit `557075c382cf071093f527dfe14e5e8566714849` and failed only at the final Git push because another workflow run had already advanced the same branch. Its candidate selection and report verification had already completed successfully at **1,103 selected / 491 no eligible**. The failure was therefore a branch-update race, not a candidate-generation or validation failure, and it was superseded by successful run #45.
+
+No retry of the superseded failed run is required.
 
 ## 3. Current runtime candidate-selection result
 
-The latest successfully completed coverage report records:
+The latest successfully completed selection report records:
 
 - affected unique production records: **2,144**
-- selected candidates: **410**
-- no eligible candidate: **1,184**
+- selected candidates: **1,111**
+- no eligible candidate: **483**
 - SAT targets: **1,071**
 - PSAT targets: **1,073**
+- production mutation: **false**
+- release eligible: **false**
+- replacement authorization: **NOT_AUTHORIZED**
+- SAT21 created: **false**
 
-This improves the previous baseline of **371 selected / 1,223 no eligible** by **39 additional selected candidates** and **39 fewer no-eligible targets**.
+Compared with the immediately preceding verified result of **1,103 selected / 491 no eligible**, the difficulty-coverage remediation produced **8 additional selected candidates** and **8 fewer no-eligible targets**.
 
-Candidate coverage is therefore improving, but it is still not sufficient for downstream replacement approval.
+Compared with the earlier pre-remediation result of **371 selected / 1,223 no eligible**, the cumulative improvement is **740 additional selected candidates** and **740 fewer no-eligible targets**.
 
-## 4. Quality fixes required to reach the green runtime state
+The candidate pool quality diagnostic also passed for both SAT and PSAT: 13,000 generated candidates per product passed the content-quality gate with zero failed candidates and zero serious failures.
 
-During runtime validation, generator defects were identified and corrected before the successful candidate-selection runs:
+## 4. Difficulty-coverage remediation completed
 
-### Math interaction integrity
+The Math candidate factory now uses a broader deterministic difficulty lane of **30% easy / 50% medium / 20% hard** rather than the previous 25% easy / 50% medium / 25% hard lane.
 
-Some Scatterplot candidates had been converted to student-produced-response while retaining multiple-choice options. The generator was corrected so a candidate is converted to SPR only when it is structurally eligible for SPR. Non-numeric Scatterplot candidates remain valid multiple-choice items.
+This change was introduced to materially broaden source-skill difficulty coverage without weakening the difficulty eligibility gate or simply relabeling unsuitable questions.
 
-### Math distractor integrity
-
-Generic numeric distractors such as `+1`, `−1`, and `×2` were being produced by the remediated Math layer. The generator was corrected to choose non-generic distractors while preserving the original correct answer.
-
-### Initial coverage remediation
-
-The first remediation pass increased the R&W candidate pool from 900 to 2,500 per SAT/PSAT product and added Math figure constructions for the most visible zero/low-coverage families. The rerun showed a measurable improvement, but the remaining diagnostics demonstrate that additional construction-to-target alignment is required.
-
-These changes remain candidate-only remediation changes and do not mutate the frozen production corpus.
+The latest result confirms that the change improved candidate availability, but it did not eliminate the underlying difficulty bottleneck.
 
 ## 5. Current candidate coverage findings
 
-The latest successful report shows that the principal remaining blockers are still **candidate construction/target compatibility constraints**, not workflow execution failure.
+The latest coverage analysis reports **15** skill groups with remaining no-eligible candidates. The largest remaining groups are:
 
-The most important remaining groups include:
+- **Linear functions** — 135 targets; **41 selected; 94 no eligible; 30.37% coverage**
+- **Linear functions and representations** — 103 targets; **29 selected; 74 no eligible; 28.16% coverage**
+- **Linear representations** — 93 targets; **27 selected; 66 no eligible; 29.03% coverage**
+- **Words in Context** — 216 targets; **166 selected; 50 no eligible; 76.85% coverage**
+- **Linear equations** — 125 targets; **89 selected; 36 no eligible; 71.20% coverage**
+- **Geometry and measurement** — 70 targets; **38 selected; 32 no eligible; 54.29% coverage**
+- **Similarity and scaling** — 64 targets; **35 selected; 29 no eligible; 54.69% coverage**
+- **Weighted means** — 80 targets; **58 selected; 22 no eligible; 72.50% coverage**
+- **Right triangles** — 46 targets; **26 selected; 20 no eligible; 56.52% coverage**
+- **Measures of spread** — 68 targets; **50 selected; 18 no eligible; 73.53% coverage**
+- **Exponential equations** — 125 targets; **113 selected; 12 no eligible; 90.40% coverage**
+- **Quadratic functions and representations** — 137 targets; **125 selected; 12 no eligible; 91.24% coverage**
+- **Quadratic equations** — 95 targets; **87 selected; 8 no eligible; 91.58% coverage**
+- **Quadratic parameter reasoning** — 107 targets; **99 selected; 8 no eligible; 92.52% coverage**
+- **Percentages** — 60 targets; **58 selected; 2 no eligible; 96.67% coverage**
 
-- Quadratic functions and representations — 137 targets; **0 selected**
-- Words in Context — 216 targets; **83 selected**
-- Linear functions — 135 targets; **19 selected**
-- Linear equations — 125 targets; **18 selected**
-- Linear functions and representations — 103 targets; **14 selected**
-- Linear representations — 93 targets; **13 selected**
-- Exponential equations — 125 targets; **51 selected**
-- Geometry and measurement — 70 targets; **2 selected**
-- Similarity and scaling — 64 targets; **2 selected**
-- Quadratic parameter reasoning — 107 targets; **45 selected**
-- Quadratic equations — 95 targets; **40 selected**
-- Data models — 48 targets; **0 selected**
-- Right triangles — 46 targets; **2 selected**
+Across the full analysis, the dominant rejection causes remain:
 
-Repeated rejection causes remain:
+1. **difficulty mismatch** — 1,774
+2. **candidate reuse** — 1,284
+3. **question-type mismatch** — 433
 
-- difficulty mismatch
-- assessment-variant mismatch
-- candidate reuse
-- question-type mismatch
-- figure-required / figure-type mismatch
+The highest-volume remaining Math problems are therefore concentrated in the linear-function family, with difficulty mismatch as the dominant rejection reason. Candidate reuse is the second major constraint, while question-type compatibility is a smaller but recurring constraint.
 
-The latest rerun also confirms that simply adding a figure to a generator construction is not enough when the generator's source skill name or raw figure type does not align with the frozen target metadata. The next remediation work must therefore align the actual construction names and canonical figure types with the selection layer without weakening the eligibility rules.
+The R&W `Words in Context` group is now substantially improved, but candidate reuse remains its principal remaining blocker.
 
 ## 6. Production boundary
 
@@ -115,30 +116,35 @@ The following remain unchanged:
 
 No production question has been replaced, and no release to the frozen corpus has been performed.
 
-## 7. Next logical stage — targeted construction/figure alignment and rerun
+## 7. Next logical stage — construction-level difficulty and reuse remediation
 
-**Next step:** continue candidate coverage remediation by fixing the actual generator-side source constructions that still produce zero/very-low coverage, beginning with the confirmed Math figure/skill alignment failures and then the highest-volume R&W/Math groups.
+**Next step:** inspect and improve the actual generator-side constructions for the remaining high-volume difficulty/reuse bottlenecks, beginning with the three linear-function source families:
+
+- `Linear functions`
+- `Linear functions and representations`
+- `Linear representations`
 
 The next stage must:
 
-1. use the latest 410 selected / 1,184 no-eligible report as the baseline;
-2. inspect the actual generator construction names used by the candidate pool against the target-side skill aliases;
-3. align raw figure types with the frozen target metadata and the canonical figure-quality gate;
-4. preserve assessment-family/variant and PSAT ceiling rules;
-5. preserve difficulty requirements rather than relaxing them globally;
-6. preserve uniqueness/originality and candidate-reuse constraints;
-7. avoid relabeling candidates solely to improve counts;
-8. rerun the full candidate-selection workflow after each material generator correction;
-9. compare the new result against **410 selected / 1,184 no-eligible**;
-10. keep production frozen throughout.
+1. use the latest **1,111 selected / 483 no-eligible** result as the baseline;
+2. inspect the actual construction-level difficulty distribution for these source skills;
+3. identify why valid candidates are being rejected for target difficulty rather than weakening the difficulty gate;
+4. increase genuine difficulty diversity through construction design, not metadata relabeling;
+5. address candidate reuse where the same construction/fingerprint pool is being consumed across targets;
+6. preserve question-type compatibility and all figure requirements;
+7. preserve assessment-family/variant and PSAT ceiling rules;
+8. preserve uniqueness/originality and exact-content fingerprint safeguards;
+9. rerun the full candidate-selection workflow after each material generator correction;
+10. compare the new result against **1,111 selected / 483 no eligible**;
+11. keep production frozen throughout.
 
-Do **not** begin production replacement or approval until candidate coverage is materially resolved and the required downstream gates are satisfied.
+Do **not** begin production replacement or approval until candidate coverage is materially resolved and all downstream gates are satisfied.
 
 ## 8. Resume point for the next session
 
 Read only these documents/sections first:
 
-- this document, especially **§5 Current candidate coverage findings** and **§7 Next logical stage — targeted construction/figure alignment and rerun**;
+- this document, especially **§5 Current candidate coverage findings** and **§7 Next logical stage — construction-level difficulty and reuse remediation**;
 - `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — latest target/selection/rejection evidence;
 - `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact per-target candidate dispositions;
 - `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` — production boundary and downstream approval gates;
