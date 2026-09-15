@@ -7,7 +7,7 @@
 
 import { runImpactAudit } from './runBatchMProductionImpactAudit.js';
 
-const QUESTION_LEVEL_CLASSES = {
+export const QUESTION_LEVEL_CLASSES = {
   HIGH_CONFIDENCE_CONTENT_REVIEW: new Set([
     'rw-fixed-wic-target',
     'rw-template-density',
@@ -30,9 +30,9 @@ const QUESTION_LEVEL_CLASSES = {
   ]),
 };
 
-function classifyFinding(finding) {
+export function classifyFinding(finding) {
   if (!finding.questionId) {
-    return 'MOCK_LEVEL_DISTRIBUTION_REVIEW';
+    return ['MOCK_LEVEL_DISTRIBUTION_REVIEW'];
   }
 
   const flags = new Set(finding.flags || []);
@@ -45,7 +45,7 @@ function classifyFinding(finding) {
   return classes.length ? classes : ['UNCLASSIFIED_REVIEW'];
 }
 
-function buildQuestionClassification(findings) {
+export function buildQuestionClassification(findings) {
   const byQuestion = new Map();
 
   findings.filter((finding) => finding.questionId).forEach((finding) => {
@@ -66,18 +66,19 @@ function buildQuestionClassification(findings) {
     byQuestion.set(key, existing);
   });
 
-  return [...byQuestion.values()].map((item) => ({
-    ...item,
-    flags: [...item.flags].sort(),
-    classifications: [...item.classifications].sort(),
-  }));
+  return [...byQuestion.values()]
+    .map((item) => ({
+      ...item,
+      flags: [...item.flags].sort(),
+      classifications: [...item.classifications].sort(),
+    }))
+    .sort((a, b) => `${a.testKey}::${a.questionId}`.localeCompare(`${b.testKey}::${b.questionId}`));
 }
 
-function main() {
-  const audit = runImpactAudit();
+export function buildClassificationSummary(audit) {
   const questionClassifications = buildQuestionClassification(audit.findings);
-
   const classCounts = {};
+
   questionClassifications.forEach((item) => {
     item.classifications.forEach((classification) => {
       classCounts[classification] = (classCounts[classification] || 0) + 1;
@@ -86,7 +87,7 @@ function main() {
 
   const mockSprFindings = audit.findings.filter((finding) => !finding.questionId);
 
-  const summary = {
+  return {
     classificationType: 'read-only-production-impact-classification',
     auditedMocks: audit.auditedMocks,
     auditedQuestions: audit.auditedQuestions,
@@ -96,7 +97,17 @@ function main() {
     productionMutation: false,
     releaseEligible: false,
     status: 'IMPACT_CLASSIFICATION_COMPLETE',
+    questionClassifications,
+    mockSprFindings,
   };
+}
+
+export function runImpactClassification() {
+  return buildClassificationSummary(runImpactAudit());
+}
+
+function main() {
+  const summary = runImpactClassification();
 
   console.log('Batch M production impact classification complete.');
   console.log(`Audited mocks: ${summary.auditedMocks}`);
@@ -107,13 +118,13 @@ function main() {
   console.log(`releaseEligible: ${summary.releaseEligible}`);
   console.log('');
   console.log('Classification counts (unique question records; overlapping classes may count the same question more than once):');
-  Object.keys(classCounts).sort().forEach((classification) => {
-    console.log(`  ${classification}: ${classCounts[classification]}`);
+  Object.keys(summary.classificationCounts).sort().forEach((classification) => {
+    console.log(`  ${classification}: ${summary.classificationCounts[classification]}`);
   });
 
   console.log('');
   console.log('Mock-level SPR review:');
-  mockSprFindings.forEach((finding) => {
+  summary.mockSprFindings.forEach((finding) => {
     console.log(`  ${finding.testKey}: ${finding.flags.join(', ')}`);
   });
 
@@ -122,7 +133,18 @@ function main() {
   console.log('  No question is automatically approved for replacement.');
   console.log('  The classification identifies review groups only.');
   console.log('');
-  console.log(JSON.stringify(summary));
+  console.log(JSON.stringify({
+    classificationType: summary.classificationType,
+    auditedMocks: summary.auditedMocks,
+    auditedQuestions: summary.auditedQuestions,
+    affectedUniqueQuestionCount: summary.affectedUniqueQuestionCount,
+    mockLevelDistributionFindingCount: summary.mockLevelDistributionFindingCount,
+    classificationCounts: summary.classificationCounts,
+    productionMutation: summary.productionMutation,
+    releaseEligible: summary.releaseEligible,
+    status: summary.status,
+  }));
 }
 
-main();
+const isDirectExecution = import.meta.url === new URL(`file://${process.argv[1].replaceAll('\\', '/')}`).href;
+if (isDirectExecution) main();
