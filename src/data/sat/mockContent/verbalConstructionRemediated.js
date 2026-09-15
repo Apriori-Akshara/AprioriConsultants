@@ -113,6 +113,15 @@ const SYNTHESIS_GOALS = [
   { label: 'method summary', goal: 'state what the evidence shows and what the evidence does not establish', lead: 'A method summary should separate an observed result from conclusions the evidence cannot establish.' },
 ];
 
+const SYNTHESIS_CONTEXTS = [
+  { label: 'a short advisory memo for a project team', focus: 'help the team act on the finding without overstating what the evidence establishes' },
+  { label: 'a briefing note for community readers', focus: 'explain the useful finding while preserving the qualification that affects its scope' },
+  { label: 'an exhibit label for a public audience', focus: 'present the finding clearly while identifying the detail that changes its significance' },
+  { label: 'a methods note for another research group', focus: 'state what the evidence supports and what conclusion would go beyond it' },
+  { label: 'a recommendation to a program coordinator', focus: 'connect the evidence to a cautious recommendation rather than a universal rule' },
+  { label: 'a comparison paragraph in a research report', focus: 'make the relevant contrast or condition visible when interpreting the pattern' },
+];
+
 const WIC_FRAMES = [
   'The author uses the word to describe the practical effect of the change.',
   'Here, the word characterizes how the evidence affects the interpretation.',
@@ -203,14 +212,18 @@ function makeWIC(index, stimulus) {
 }
 
 function makeSynthesis(index) {
-  const family = pick(FAMILY_KEYS, index + 2);
-  const pair = sourcePair(family, index, 1);
-  const goal = pick(SYNTHESIS_GOALS, Math.floor(index / 3) + index);
+  const synthesisIndex = Math.max(0, Number(index) || 0);
+  const family = pick(FAMILY_KEYS, synthesisIndex + 2);
+  const pairOrdinal = Math.floor(synthesisIndex / FAMILY_KEYS.length);
+  const pair = sourcePair(family, pairOrdinal, 1);
+  const goal = pick(SYNTHESIS_GOALS, Math.floor(synthesisIndex / 3) + synthesisIndex);
+  const context = pick(SYNTHESIS_CONTEXTS, synthesisIndex);
   const notes = [
     `Research notes — topic: ${pair[0]}`,
     `Evidence: ${pair[1]}`,
     'Implication: the evidence is informative but depends on the condition described in the notes.',
     `Communication goal: ${goal.goal}.`,
+    `Audience context: ${context.focus}.`,
   ];
   const correct = `${goal.lead} ${pair[1]} The result should therefore be interpreted in light of the condition described in the notes.`;
   const distractors = [
@@ -218,7 +231,7 @@ function makeSynthesis(index) {
     'The study concerns an important topic, so the specific evidence is unnecessary when communicating its conclusion.',
     `${pair[1]} Because the result was observed, no alternative explanation or limiting condition needs to be considered.`,
   ];
-  return { prompt: `${notes.join(' ')}\n\nThe student is preparing a ${goal.label}. Which choice best accomplishes the stated communication goal?`, ...rotateChoices([correct, ...distractors], hashIndex(index, 23, 4)) };
+  return { prompt: `${notes.join(' ')}\n\nThe student is preparing ${context.label}. Which choice best accomplishes the stated communication goal?`, ...rotateChoices([correct, ...distractors], hashIndex(synthesisIndex, 23, 4)) };
 }
 
 function makeCrossText(index) {
@@ -325,7 +338,10 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
   if (plan.skill === 'Command of Evidence') result = makeEvidenceQuestion(stimulus, index);
   else if (plan.skill === 'Words in Context') result = makeWIC(index, stimulus);
   else if (plan.skill === 'Cross-Text Connections') result = makeCrossText(index);
-  else if (plan.skill === 'Rhetorical Synthesis') result = makeSynthesis(index);
+  else if (plan.skill === 'Rhetorical Synthesis') {
+    const synthesisOrdinal = Math.floor(index / SECTIONS.length);
+    result = makeSynthesis(synthesisOrdinal);
+  }
   else if (plan.skill === 'Transitions' || plan.skill === 'Boundaries' || plan.skill === 'Form, Structure, and Sense') result = makeSENTask(plan.skill, index);
   else result = makeReasoningTask(plan, stimulus, index);
 
