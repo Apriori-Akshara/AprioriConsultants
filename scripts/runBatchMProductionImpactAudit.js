@@ -126,8 +126,9 @@ function auditMock(mock, testKey) {
 
 function buildFirstTwentyProductionMocks() {
   const satResults = [];
-  satResults.push(runBatchMFirstProductionGate().productionMock);
-  satResults.push(runBatchMSecondProductionGate(satResults).productionMock);
+  const sat1 = runBatchMFirstProductionGate().productionMock;
+  satResults.push(sat1);
+  satResults.push(runBatchMSecondProductionGate(sat1).productionMock);
   satResults.push(runBatchMThirdProductionGate(satResults).productionMock);
   satResults.push(runBatchMFourthProductionGate(satResults).productionMock);
   satResults.push(runBatchMFifthProductionGate(satResults).productionMock);
