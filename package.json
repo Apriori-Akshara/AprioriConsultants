@@ -10,7 +10,8 @@
     "qc:batch-m-remediation": "node scripts/runBatchMRemediationQC.js",
     "qc:batch-m-targeted-replacement": "node scripts/runBatchMTargetedReplacementDryRun.js",
     "qc:batch-m-impact-audit": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMProductionImpactAudit.js",
-    "qc:batch-m-impact-classification": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMImpactClassification.js"
+    "qc:batch-m-impact-classification": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMImpactClassification.js",
+    "qc:batch-m-targeted-review-inventory": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReviewInventory.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
