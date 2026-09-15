@@ -190,6 +190,20 @@ const TEXT_STRUCTURE_QUESTION_FORMS = [
   'What structural role does the later condition play in the passage?'
 ];
 
+const REASONING_FOCUS_VARIANTS = [
+  'Consider the passage as a whole when selecting the best answer.',
+  'Base the answer on the passage’s complete development.',
+  'Pay particular attention to the condition introduced after the initial observation.',
+  'Consider what the later evidence adds to the initial observation.',
+  'Use the relationship between the observations as part of the evidence for your answer.',
+  'Distinguish the passage’s main point from its supporting details.',
+  'Consider how the final detail affects the meaning of the earlier point.',
+  'Base the answer on what the passage establishes rather than on assumptions beyond it.',
+  'Take the scope of the evidence into account when selecting the answer.',
+  'Consider the conclusion of the passage in light of the evidence it provides.',
+  'Use both the initial observation and the later qualification when evaluating the choices.'
+];
+
 const ERROR_PATTERNS = [
   ['true-but-nonresponsive', 'states a true detail that does not answer the question asked'],
   ['reversed-relationship', 'reverses which condition affects the observed result'],
@@ -353,7 +367,8 @@ function makeReasoningTask(plan, stimulus, index, reasoningOrdinal = index) {
         ? TEXT_STRUCTURE_QUESTION_FORMS
         : REASONING_QUESTION_FORMS;
     const questionIndex = reasoningOrdinal % promptForms.length;
-    const contextualPrompt = [stimulus, '', promptForms[questionIndex]].join('\n');
+    const focus = pick(REASONING_FOCUS_VARIANTS, Math.floor(reasoningOrdinal / promptForms.length));
+    const contextualPrompt = [stimulus, '', focus, promptForms[questionIndex]].join('\n');
     return { prompt: contextualPrompt, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(reasoningOrdinal, 41, 4)) };
   }
   const generic = [
@@ -362,7 +377,8 @@ function makeReasoningTask(plan, stimulus, index, reasoningOrdinal = index) {
     'The text discusses background information without interpreting the evidence.',
     'The text argues that the evidence cannot be compared across conditions.',
   ];
-  const genericPrompt = `${pick(REASONING_QUESTION_FORMS, reasoningOrdinal)}\n\nWhich choice best identifies the text’s main point?`;
+  const genericFocus = pick(REASONING_FOCUS_VARIANTS, Math.floor(reasoningOrdinal / REASONING_QUESTION_FORMS.length));
+  const genericPrompt = `${pick(REASONING_QUESTION_FORMS, reasoningOrdinal)} ${genericFocus}\n\nWhich choice best identifies the text’s main point?`;
   return { prompt: `${stimulus}\n\n${genericPrompt}`, ...rotateChoices(generic, hashIndex(reasoningOrdinal, 43, 4)) };
 }
 
