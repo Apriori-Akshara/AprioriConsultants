@@ -69,38 +69,54 @@ The most important systemic findings are:
 
 The existing technical gates therefore cannot be treated as a substitute for content-quality certification.
 
-### Active next checkpoint — generator/content-quality remediation
+### Active remediation state — September 15, 2026
 
-The next task is **not another mock and not public verification of SAT11–SAT20**. It is remediation of the construction and content-quality layers so that representative items can meet the approved standard before any frozen production records are changed.
+The read-only production impact, classification, targeted review inventory, and targeted replacement-preparation stages have all completed successfully for SAT1–SAT10 and PSAT1–PSAT10.
 
-Required remediation areas:
+- **2,144** unique affected production questions identified and inventoried.
+- **1,496** prepared as content-replacement records.
+- **98** prepared as content-replacement-plus-difficulty-calibration records.
+- **550** prepared as difficulty-calibration-and-possible-replacement records.
+- Remediation tracks: **1,356** Math distractor, **648** difficulty calibration, **216** R&W Words-in-Context, **22** R&W construction.
+- `productionMutation: false` throughout.
+- `releaseEligible: false` throughout.
+- `replacementAuthorization: NOT_AUTHORIZED` remains active.
 
-1. R&W source/passage diversity and information density;
-2. item-specific evidence construction;
-3. contextual Words in Context variation;
-4. relationship-first Cross-Text construction;
-5. authentic Rhetorical Synthesis notes and communication goals;
-6. broader Standard English Conventions constructions;
-7. difficulty based on actual cognitive demand;
-8. semantic distractor validation;
-9. broader Math reasoning and construction diversity;
-10. genuine multi-step/strategic hard Math items;
-11. realistic mathematical distractors;
-12. representation-driven Math items;
-13. 25–30% Math student-produced-response items;
-14. explicit SAT-versus-PSAT ceiling controls.
+Detailed records:
 
-### After remediation
+- `docs/BATCH-M-IMPACT-AUDIT-CHECKPOINT-2026-09-15.md`
+- `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`
+- `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
+- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md`
 
-1. Validate representative corrected items through the strengthened content-quality gate.
-2. Replace only genuinely affected production items in SAT1–SAT10 and PSAT1–PSAT10.
-3. Record every post-freeze corpus change by mock/question ID.
-4. Rerun affected individual production gates.
-5. Rerun the final collective 30-mock corpus gate.
-6. Perform 30-mock cross-corpus calibration.
-7. Perform public verification of SAT11–SAT20, which remains deferred and outstanding.
-8. Perform final end-to-end student-experience acceptance.
-9. Finalize Batch M release acceptance.
+### Active next checkpoint — replacement-candidate generation and controlled selection
+
+The next task is **not wholesale regeneration and not public verification of SAT11–SAT20**. It is generation and validation of replacement candidates against the exact prepared production IDs and remediation tracks.
+
+Candidate work must:
+
+1. remain outside the production store;
+2. preserve mock ownership, section, skill/domain, difficulty intent, figure/data requirements and SAT/PSAT ceiling;
+3. pass the strengthened content-quality gate;
+4. pass uniqueness/originality and cross-corpus collision controls;
+5. account for mock-level Math SPR distribution;
+6. map validated candidates deterministically to affected production IDs;
+7. distinguish content replacement, difficulty calibration, and combined remediation;
+8. produce a reviewable candidate-selection report;
+9. keep `productionMutation: false`, `releaseEligible: false`, and replacement authorization explicitly not granted until later gates.
+
+The existing `scripts/runBatchMTargetedReplacementDryRun.js` is a candidate-pool quality harness. It is not the production replacement mechanism because it does not itself map validated candidates to the 2,144 affected frozen IDs.
+
+### After candidate selection and authorization
+
+1. Explicitly authorize the selected replacements.
+2. Apply only the approved post-freeze corpus changes by mock/question ID.
+3. Rerun affected individual production gates.
+4. Rerun the final collective 30-mock corpus gate.
+5. Perform 30-mock cross-corpus calibration.
+6. Perform public verification of SAT11–SAT20, which remains deferred and outstanding.
+7. Perform final end-to-end student-experience acceptance.
+8. Finalize Batch M release acceptance.
 
 ## Targeted remediation and re-gating
 
@@ -140,7 +156,8 @@ The online GitHub version remains the baseline until the verified local form is 
 - Passing the existing production gates does not by itself certify authentic SAT/PSAT-level quality.
 - Private calibration anchors remain private and must never be copied into production content or the public repository.
 - The legacy public corpus remains separate until explicit release approval.
+- The 2,144-record targeted replacement preparation is a planning record only; it does not authorize replacement.
 
 ## Current status
 
-**Batch M production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The 30-mock corpus is frozen. The SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete with a QUALITY HOLD. Generator/content-quality remediation is the active next step. SAT11–SAT20 are deployed but user-facing verification is deferred.**
+**Batch M production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The 30-mock corpus is frozen. The SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete with a QUALITY HOLD. Impact identification, classification, targeted review inventory, and targeted replacement preparation are complete. The active next step is replacement-candidate generation and controlled selection. SAT11–SAT20 are deployed but user-facing verification is deferred.**
