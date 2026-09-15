@@ -15,6 +15,7 @@ permissions:
 jobs:
   candidate-selection:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout remediation branch
         uses: actions/checkout@v4
@@ -26,12 +27,31 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
 
-      - name: Repair and validate package lock
+      - name: Install dependencies from package.json
+        run: npm install --ignore-scripts --no-audit --no-fund --package-lock=false
+
+      - name: Verify required QC dependencies and command
         run: |
-          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-          npm ci --ignore-scripts --no-audit --no-fund
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          const required = ['pg', 'resend'];
+          for (const dependency of required) {
+            if (!pkg.dependencies?.[dependency]) {
+              throw new Error(`Required dependency ${dependency} is missing from package.json`);
+            }
+          }
+          const script = pkg.scripts?.['qc:batch-m-targeted-candidate-selection'];
+          if (!script) throw new Error('Batch M targeted candidate-selection npm command is missing');
+          console.log(JSON.stringify({
+            node: process.version,
+            pg: pkg.dependencies.pg,
+            resend: pkg.dependencies.resend,
+            candidateSelectionScript: script
+          }, null, 2));
+          NODE
+          node -e "require('pg'); require('resend'); console.log('QC dependencies load successfully')"
 
       - name: Run exact replacement-candidate selection
         run: npm run qc:batch-m-targeted-candidate-selection
@@ -64,14 +84,10 @@ jobs:
           }, null, 2));
           NODE
 
-      - name: Commit generated report and repaired lockfile
+      - name: Commit generated candidate-selection report
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package-lock.json docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
-          if git diff --cached --quiet; then
-            echo "No generated changes to commit"
-          else
-            git commit -m "chore: record Batch M candidate selection and sync lockfile"
-            git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
-          fi
+          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
+          git diff --cached --quiet || git commit -m "chore: record Batch M targeted candidate selection"
+          git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
