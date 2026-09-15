@@ -9,6 +9,7 @@ function replaceIfPresent(text, from, to) {
 
 let selection = fs.readFileSync(selectionPath, 'utf8');
 selection = replaceIfPresent(selection, "sat: { rw: 900, math: 4500 },\n  psat: { rw: 900, math: 4500 },", "sat: { rw: 2500, math: 4500 },\n  psat: { rw: 2500, math: 4500 },");
+selection = replaceIfPresent(selection, "const variant = product === 'sat' ? 'sat' : 'psat-nmsqt';", "const variant = product === 'sat' ? 'sat-series-a' : 'psat-nmsqt';");
 fs.writeFileSync(selectionPath, selection);
 
 let math = fs.readFileSync(mathPath, 'utf8');
@@ -27,4 +28,4 @@ math = replaceIfPresent(
 );
 fs.writeFileSync(mathPath, math);
 
-console.log(JSON.stringify({ applied: true, rerunnable: true, quadraticFigureRemediation: true, quadraticFigurePurpose: 'question-essential', selectionPoolCounts: { sat: { rw: 2500, math: 4500 }, psat: { rw: 2500, math: 4500 } } }, null, 2));
+console.log(JSON.stringify({ applied: true, rerunnable: true, quadraticFigureRemediation: true, quadraticFigurePurpose: 'question-essential', satAssessmentVariant: 'sat-series-a', selectionPoolCounts: { sat: { rw: 2500, math: 4500 }, psat: { rw: 2500, math: 4500 } } }, null, 2));
