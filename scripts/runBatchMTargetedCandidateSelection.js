@@ -25,6 +25,24 @@ const POOL_COUNTS = {
   psat: { rw: 900, math: 4500 },
 };
 
+const SKILL_ALIASES = {
+  'Linear relationships': ['Linear functions'],
+  'Systems of linear equations': ['Linear equations'],
+  'Equivalent linear representations': ['Linear representations', 'Linear functions and representations'],
+  'Quadratic parameter reasoning': ['Quadratic parameter reasoning'],
+  'Equivalent exponential representations': ['Exponential equations'],
+  'Quadratic functions': ['Quadratic functions and representations'],
+  'Quadratic discriminant': ['Quadratic equations'],
+  'Multi-stage percentages': ['Percentages'],
+  'Weighted means': ['Weighted means'],
+  'Scatterplot interpretation': ['Data models'],
+  'Statistical transformations': ['Measures of spread'],
+  'Composite area': ['Geometry and measurement'],
+  'Similarity and area': ['Similarity and scaling'],
+  'Circle relationships': ['Circle relationships'],
+  'Right-triangle relationships': ['Right triangles'],
+};
+
 function stable(value) {
   return JSON.stringify(value, Object.keys(value || {}).sort());
 }
@@ -132,11 +150,16 @@ function targetMetadata(target, productionIndex) {
   };
 }
 
+function skillMatches(candidateSkill, targetSkill) {
+  if (candidateSkill === targetSkill) return true;
+  return (SKILL_ALIASES[String(candidateSkill)] || []).includes(targetSkill);
+}
+
 function reasonList(candidate, meta, used, productionFingerprints) {
   const reasons = [];
 
   if (candidate.section !== meta.section) reasons.push('section-mismatch');
-  if (candidate.skill !== meta.skill) reasons.push('skill-mismatch');
+  if (!skillMatches(candidate.skill, meta.skill)) reasons.push('skill-mismatch');
   if (candidate.domain !== meta.domain) reasons.push('domain-mismatch');
   if (normalize(candidate.difficulty) !== normalize(meta.difficulty)) reasons.push('difficulty-mismatch');
   if (Boolean(candidate.figure) !== meta.figureRequired) {
@@ -240,7 +263,7 @@ function main() {
     const meta = targetMetadata(target, productionIndex);
     const calibrationOnly = target.remediationType === 'DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT';
     const compatible = pools[product].candidates.filter((item) => (
-      item.candidate.section === meta.section && item.candidate.skill === meta.skill
+      item.candidate.section === meta.section && skillMatches(item.candidate.skill, meta.skill)
     ));
     const eligibleItems = [];
     const considered = [];
@@ -296,8 +319,8 @@ function main() {
     releaseEligible: false,
     replacementAuthorization: 'NOT_AUTHORIZED',
     sat21Created: false,
-    selectionDeterminism: 'stable-order-plus-first-unused-compatible-candidate',
-    note: 'Candidate options are references into deterministic remediation-generator pools. No production question was mutated.',
+    selectionDeterminism: 'stable-order-plus-first-unused-compatible-candidate-with-skill-aliases',
+    note: 'Candidate options are references into deterministic remediation-generator pools. No production question was mutated. Skill aliases are selection-only compatibility mappings; candidate content and labels remain unchanged.',
   };
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
