@@ -25,6 +25,11 @@ function sortEntries(map) {
     .sort((a, b) => b.count - a.count || a.key.localeCompare(b.key));
 }
 
+function incrementNested(map, groupKey, reason) {
+  if (!map[groupKey]) map[groupKey] = {};
+  increment(map[groupKey], reason);
+}
+
 function main() {
   if (!fs.existsSync(INPUT)) throw new Error(`Missing candidate-selection report: ${INPUT}`);
 
@@ -42,6 +47,8 @@ function main() {
   const noCandidateBySection = {};
   const noCandidateByTest = {};
   const remediationCounts = {};
+  const rejectionReasons = {};
+  const rejectionReasonsBySkill = {};
 
   report.records.forEach((record) => {
     const key = `${record.section}:${record.skill}`;
@@ -54,6 +61,13 @@ function main() {
       increment(noCandidateCounts, key);
       increment(noCandidateBySection, record.section);
       increment(noCandidateByTest, record.testKey);
+
+      (record.options || []).forEach((option) => {
+        (option.reasons || []).forEach((reason) => {
+          increment(rejectionReasons, reason);
+          incrementNested(rejectionReasonsBySkill, key, reason);
+        });
+      });
     }
   });
 
@@ -69,12 +83,17 @@ function main() {
       coveragePercent: targetCounts[key]
         ? Number(((selectedCounts[key] || 0) / targetCounts[key] * 100).toFixed(2))
         : 0,
+      topRejectionReasons: sortEntries(rejectionReasonsBySkill[key] || {}).slice(0, 6),
     };
   });
 
+  const rejectionReasonsByMissingSkill = Object.entries(rejectionReasonsBySkill)
+    .map(([key, reasons]) => ({ key, reasons: sortEntries(reasons).slice(0, 10) }))
+    .sort((a, b) => a.key.localeCompare(b.key));
+
   const reportOut = {
     reportType: 'batch-m-targeted-candidate-coverage-analysis',
-    reportVersion: '2026-09-15.targeted-candidate-coverage.v1',
+    reportVersion: '2026-09-15.targeted-candidate-coverage.v2',
     sourceReport: path.relative(process.cwd(), INPUT),
     affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
     selectionSummary: report.summary,
@@ -84,12 +103,14 @@ function main() {
     noEligibleCandidateSkillCounts: missingSkillCoverage,
     noEligibleCandidateBySection: sortEntries(noCandidateBySection),
     noEligibleCandidateByTest: sortEntries(noCandidateByTest),
+    rejectionReasonCounts: sortEntries(rejectionReasons),
+    rejectionReasonsByMissingSkill,
     productionMutation: false,
     releaseEligible: false,
     replacementAuthorization: 'NOT_AUTHORIZED',
     sat21Created: false,
     status: 'CANDIDATE_COVERAGE_GAP_IDENTIFIED',
-    nextAction: 'Expand or refine remediation candidate generation only for missing section/skill combinations; do not authorize production replacement yet.',
+    nextAction: 'Use rejection-reason evidence to expand or refine remediation candidate generation only for the actual blocking filters; do not authorize production replacement yet.',
   };
 
   fs.mkdirSync(path.dirname(OUTPUT), { recursive: true });
@@ -100,6 +121,7 @@ function main() {
     selectedCount: report.summary.selected,
     noEligibleCandidateCount: report.summary.noEligibleCandidate,
     topMissingSkillGroups: missingSkillCoverage.slice(0, 20),
+    rejectionReasonCounts: reportOut.rejectionReasonCounts,
     productionMutation: false,
     releaseEligible: false,
     replacementAuthorization: 'NOT_AUTHORIZED',
