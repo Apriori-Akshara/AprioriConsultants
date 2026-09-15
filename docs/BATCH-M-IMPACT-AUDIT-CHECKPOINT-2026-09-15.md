@@ -1,8 +1,8 @@
 # Batch M Impact-Audit Checkpoint — September 15, 2026
 
-**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT COMPLETE; CLASSIFICATION COMPLETE; TARGETED REVIEW INVENTORY COMPLETE; TARGETED REPLACEMENT PREPARATION COMPLETE; PRODUCTION REPLACEMENT NOT AUTHORIZED  
+**Status:** TARGETED REPLACEMENT PREPARATION COMPLETE — CANDIDATE GENERATION / CONTROLLED SELECTION NEXT  
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
-**Scope:** Read-only identification, classification, inventory, and replacement-preparation planning for genuinely affected frozen production records before any targeted replacement  
+**Scope:** Read-only identification, classification, inventory, and targeted replacement preparation for frozen SAT1–SAT10 and PSAT1–PSAT10 records  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
 
 ## 1. Completed representative remediation QC
@@ -181,18 +181,31 @@ When content and difficulty findings overlap, the preparation assigns:
 
 Each prepared record retains the exact production `testKey` and `questionId`, original finding flags, skill/domain/difficulty metadata, remediation tracks, remediation instructions, and an explicit `replacementAuthorized: false` safeguard.
 
-The preparation report will be written to:
+The preparation report is:
 
 `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
+
+The user executed the preparation command successfully and obtained:
+
+- **2,144 affected unique questions prepared**
+- **1,496 CONTENT_REPLACEMENT**
+- **98 CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION**
+- **550 DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT**
+- **1,356 MATH_DISTRACTOR_REMEDIATION**
+- **648 DIFFICULTY_CALIBRATION**
+- **216 RW_WIC_REMEDIATION**
+- **22 RW_CONSTRUCTION_REMEDIATION**
+- `productionMutation: false`
+- `releaseEligible: false`
+- `replacementAuthorization: NOT_AUTHORIZED`
+- `status: TARGETED_REPLACEMENT_PREPARATION_READY`
 
 Implementation commits:
 
 - `e025241cc73550c0dd4b6c32323d6bfb4a968bda` — **Batch M: add read-only targeted replacement preparation**
 - `898e1d6e4f3495b47bc0581d6e252cb0ec1b9554` — **Batch M: add targeted replacement preparation command**
 
-This preparation stage does **not** generate replacement content, select a candidate for any specific production record, mutate production, approve release, or create SAT21.
-
-## 8. Production safety
+## 8. Current production safety boundary
 
 The following remain true:
 
@@ -202,19 +215,21 @@ The following remain true:
 - no release eligibility was granted;
 - no SAT21 target was created;
 - no wholesale regeneration was authorized;
-- the targeted replacement preparation does not authorize replacements.
+- targeted replacement preparation does not authorize replacements.
 
-## 9. Exact next local action
+## 9. Exact next logical step
 
-From the active Git-connected folder:
+**Replacement-candidate generation and controlled selection.**
 
-`D:\AprioriConsultants-Git`
+The next stage must generate candidate replacements against the exact prepared production IDs and remediation tracks; validate candidates through the strengthened content-quality gate and uniqueness/originality controls; account for mock-level Math SPR distribution; and create a deterministic candidate-selection report.
 
-after Fetch/Pull has synchronized the latest preparation implementation, run:
+Candidate work must remain outside the production store and must maintain:
 
-`npm run qc:batch-m-targeted-replacement-preparation`
+- `productionMutation: false`
+- `releaseEligible: false`
+- replacement authorization not granted
 
-This creates `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`. Do not edit or delete the generated report before the next review stage. Its result will be used to create the actual candidate-generation/selection plan while preserving the production freeze.
+The existing `scripts/runBatchMTargetedReplacementDryRun.js` is a candidate-pool quality harness. It does not itself map validated candidates to the 2,144 frozen production IDs and is not a production replacement mechanism.
 
 ## 10. Later mandatory gates
 
