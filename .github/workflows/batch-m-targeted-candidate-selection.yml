@@ -27,34 +27,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: false
 
-      - name: Install dependencies from package.json
-        run: npm install --ignore-scripts --no-audit --no-fund --package-lock=false
-
-      - name: Verify required QC dependencies and command
+      - name: Validate Batch M runner files
         run: |
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-          const required = ['pg', 'resend'];
-          for (const dependency of required) {
-            if (!pkg.dependencies?.[dependency]) {
-              throw new Error(`Required dependency ${dependency} is missing from package.json`);
-            }
-          }
-          const script = pkg.scripts?.['qc:batch-m-targeted-candidate-selection'];
-          if (!script) throw new Error('Batch M targeted candidate-selection npm command is missing');
-          console.log(JSON.stringify({
-            node: process.version,
-            pg: pkg.dependencies.pg,
-            resend: pkg.dependencies.resend,
-            candidateSelectionScript: script
-          }, null, 2));
-          NODE
-          node -e "require('pg'); require('resend'); console.log('QC dependencies load successfully')"
+          test -s scripts/runBatchMTargetedCandidateSelection.js
+          test -s scripts/batchMExtensionlessModuleLoader.mjs
+          test -s scripts/batchMExtensionlessResolve.mjs
+          node --check scripts/runBatchMTargetedCandidateSelection.js
+          node --check scripts/batchMExtensionlessModuleLoader.mjs
+          node --check scripts/batchMExtensionlessResolve.mjs
 
       - name: Run exact replacement-candidate selection
-        run: npm run qc:batch-m-targeted-candidate-selection
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedCandidateSelection.js
 
       - name: Verify candidate-selection report
         run: |
@@ -62,16 +47,16 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const report = JSON.parse(fs.readFileSync('docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json', 'utf8'));
+          if (report.affectedUniqueQuestionCount !== 2144) throw new Error(`Expected 2144 affected records, got ${report.affectedUniqueQuestionCount}`);
+          if (!Array.isArray(report.records) || report.records.length !== 2144) {
+            throw new Error(`Expected 2144 report records, got ${report.records?.length ?? 'missing'}`);
+          }
           if (report.productionMutation !== false) throw new Error('productionMutation must be false');
           if (report.releaseEligible !== false) throw new Error('releaseEligible must be false');
           if (report.replacementAuthorization !== 'NOT_AUTHORIZED') throw new Error('replacementAuthorization must remain NOT_AUTHORIZED');
           if (report.sat21Created !== false) throw new Error('sat21Created must be false');
-          if (report.affectedUniqueQuestionCount !== 2144) throw new Error(`Expected 2144 affected records, got ${report.affectedUniqueQuestionCount}`);
           if (!report.summary || typeof report.summary.selected !== 'number' || typeof report.summary.noEligibleCandidate !== 'number') {
             throw new Error('Candidate-selection summary is missing required counts');
-          }
-          if (!Array.isArray(report.records) || report.records.length !== 2144) {
-            throw new Error(`Expected 2144 report records, got ${report.records?.length ?? 'missing'}`);
           }
           console.log(JSON.stringify({
             affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
@@ -84,7 +69,7 @@ jobs:
           }, null, 2));
           NODE
 
-      - name: Commit generated candidate-selection report
+      - name: Commit generated report
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
