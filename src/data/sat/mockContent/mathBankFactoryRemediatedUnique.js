@@ -182,13 +182,17 @@ function remapFigureCandidate(question, occurrence) {
       [5, base + 14 + (o % 7)],
     ];
     const prompt = `A scatterplot has observed values ${points.map((point) => `(${point[0]}, ${point[1]})`).join(', ')}. A linear model is used to describe the trend. Which statement is best supported by the data?`;
-    const choices = [...(question.choices || [])];
-    const answerIndex = String(question.answer || 'A').charCodeAt(0) - 65;
-    const correct = answerIndex >= 0 && answerIndex < choices.length ? choices[answerIndex] : choices[0];
-    const distractors = choices.filter((_, index) => index !== answerIndex).slice(0, 3);
-    const rotated = rotateChoices([correct, ...distractors], o % 4);
+    const choices = [
+      'The response generally increases as the explanatory variable increases.',
+      'The response is exactly constant for every value.',
+      'The response must decrease whenever the explanatory variable increases.',
+      'The data establish that the explanatory variable causes every change in the response.',
+    ];
+    const rotated = rotateChoices(choices, o % 4);
     return {
       ...question,
+      questionType: 'multiple-choice',
+      interactionType: 'single-select',
       prompt,
       choices: rotated.choices,
       answer: rotated.answer,
