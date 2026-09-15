@@ -28,7 +28,10 @@ function figure(type, values) {
 function buildMath(index, options) {
   const { testId = 'SAT1', variant = 'sat', assessmentNumber = 1, module = 'math-module-1', route = 'standard' } = options;
   const domain = pick(DOMAINS, index);
-  const construction = pick(MATH_REMEDIATION_CONSTRUCTIONS[domain], index + 1);
+  // Domain and construction now cycle independently. Previously `index + 1`
+  // selected the same construction branch for every occurrence of a domain.
+  const constructionCycle = Math.floor(index / DOMAINS.length);
+  const construction = pick(MATH_REMEDIATION_CONSTRUCTIONS[domain], constructionCycle);
   const difficulty = pick(['easy', 'medium', 'medium', 'hard'], index + assessmentNumber);
   const hard = difficulty === 'hard';
   const spr = index % 4 === 0;
@@ -144,12 +147,11 @@ function buildMath(index, options) {
       features = ['data-interpretation', 'multi-step'];
     } else if (index % 4 === 2) {
       const points = [[1, 8 + index], [2, 11 + index], [3, 15 + index], [4, 18 + index], [5, 22 + index]];
-      const increase = points[4][1] - points[0][1];
       skill = 'Scatterplot interpretation';
       prompt = `A scatterplot has observed values ${points.map((point) => `(${point[0]}, ${point[1]})`).join(', ')}. A linear model is used to describe the trend. Which statement is best supported by the data?`;
       choices = ['The response generally increases as the explanatory variable increases.', 'The response is exactly constant for every value.', 'The response must decrease whenever the explanatory variable increases.', 'The data establish that the explanatory variable causes every change in the response.'];
       numericAnswer = null;
-      explanation = `The plotted values rise overall, although the increase is not perfectly uniform; the data alone do not establish causation.`;
+      explanation = 'The plotted values rise overall, although the increase is not perfectly uniform; the data alone do not establish causation.';
       fig = figure('scatter', { points });
       features = ['data-interpretation', 'representation-shift', 'evidence-synthesis'];
     } else {

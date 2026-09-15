@@ -2,8 +2,9 @@
  * Batch M remediation candidate generator for Reading & Writing.
  *
  * Candidate-only module. It is deliberately not imported by the frozen
- * production store. It creates replacement candidates with construction
- * diversity that is materially different from the legacy Batch C layer.
+ * production store. Construction is relationship/context first and uses
+ * deterministic variation pools so production-scale dry runs can exercise
+ * materially distinct, original candidates without mutating production.
  */
 
 import { RW_REMEDIATION_CONSTRUCTIONS, RW_SOURCE_BLUEPRINTS, DIFFICULTY_REQUIREMENTS } from './batchMRemediationBlueprint.js';
@@ -11,55 +12,43 @@ import { evaluateContentQuality } from './batchMContentQualityGate.js';
 
 const SOURCE_MATERIAL = {
   literature: [
-    ['The station clock had been repaired, but Mara still checked the kitchen clock before leaving.', 'When she later noticed that the station clock was running three minutes fast, her earlier caution seemed less like indecision and more like a response to an unreliable reference.'],
-    ['Jonas kept a box of his grandfather’s sketches unopened for years because he believed preserving it meant preserving the past.', 'After finding annotations that explained why several sketches were unfinished, he began to see the box not as a finished record but as evidence of choices still in progress.'],
-    ['A gardener removed a broken gate from the courtyard expecting the space to become easier to maintain.', 'Instead, neighbors began crossing through it and lingering there, changing the courtyard from a shortcut into an informal meeting place.'],
-    ['Leena initially regarded the faded sign outside the theater as an eyesore.', 'Once she learned that the lettering had been repainted by volunteers after each renovation, the sign became evidence of the building’s continuing local use.'],
+    ['Mara checks two clocks before leaving for a train because one has recently been unreliable.', 'When the station clock proves inaccurate again, her earlier caution is revealed as a response to evidence rather than indecision.'],
+    ['Jonas keeps his grandfather’s unfinished sketches in a box because he thinks preserving them means preserving a finished legacy.', 'Annotations later show that the unfinished sketches record revisions and abandoned choices, changing what the box represents to him.'],
+    ['A gardener removes a broken gate expecting the courtyard to become easier to maintain.', 'Neighbors begin crossing the open space and lingering there, so a maintenance decision unexpectedly changes how the courtyard is used.'],
+    ['Leena considers a faded theater sign an eyesore until she learns that volunteers repaint its lettering after renovations.', 'The sign then becomes evidence of repeated community involvement rather than simply an aging facade.'],
   ],
   'history-social-science': [
-    ['A city introduced staggered delivery hours to reduce congestion near its central market.', 'Traffic fell on the busiest streets, but merchants on smaller side streets reported a different pattern because deliveries shifted rather than disappeared.'],
-    ['A local newspaper campaign encouraged residents to use a newly expanded public library.', 'Membership increased most sharply in neighborhoods where the library also offered evening programs, suggesting that access alone did not explain the change.'],
-    ['A cooperative changed its purchasing policy after regional prices became less predictable.', 'The policy reduced exposure to short-term price swings, although members with different production schedules benefited by different amounts.'],
-    ['A neighborhood association formed after a rapid increase in apartment construction.', 'Its early meetings focused on street maintenance, but later records show that members used the organization to negotiate several unrelated community concerns.'],
+    ['A city staggers market deliveries to reduce congestion on its busiest streets.', 'Traffic falls there, while smaller side streets experience a different pattern because some deliveries have shifted rather than disappeared.'],
+    ['A library campaign promotes a newly expanded branch and tracks participation by neighborhood.', 'Membership rises most sharply where evening programs accompany the expansion, suggesting that access alone does not explain the pattern.'],
+    ['A cooperative changes its purchasing policy after regional prices become less predictable.', 'The change reduces exposure to short-term price swings, but members with different production schedules benefit by different amounts.'],
+    ['A neighborhood association forms after rapid apartment construction changes local conditions.', 'Its early meetings concern street maintenance, but later records show the group becoming a venue for several broader community negotiations.'],
   ],
   humanities: [
-    ['Acousticians comparing small performance spaces found that audiences did not judge clarity solely by measured reverberation time.', 'The results suggested that wall geometry and the position of the listener also influenced how clearly performers were heard.'],
-    ['Archaeologists had used repeated ceramic styles as evidence of a regional trade connection.', 'A newer comparison showed that the same styles could have spread through exchange networks that did not require a single central trading route.'],
-    ['Art historians studying a landscape tradition noticed a shift toward unusually saturated colors in paintings made after a regional exhibition opened.', 'The shift was strongest among artists who attended the exhibition, but it was not present in every work produced afterward.'],
-    ['A linguist comparing two related dialects found that speakers used several different expressions before making uncertain claims.', 'The expressions varied with audience and setting, indicating that uncertainty was communicated through more than a single grammatical feature.'],
+    ['Acousticians compare small performance spaces and find that audiences do not judge clarity from reverberation time alone.', 'Wall geometry and listener position also affect perceived clarity, so a single measured property cannot explain every judgment.'],
+    ['Archaeologists use repeated ceramic styles as evidence for a regional trade connection.', 'A newer comparison shows that the styles could have spread through several exchange networks rather than one central route.'],
+    ['Art historians notice unusually saturated colors in paintings made after a regional exhibition opens.', 'The shift is strongest among artists who attended the exhibition, although it does not appear in every later work.'],
+    ['A linguist compares two related dialects and finds several expressions used before uncertain claims.', 'The expressions vary with audience and setting, indicating that uncertainty is communicated through more than one grammatical feature.'],
   ],
   science: [
-    ['Researchers exposed seedlings to either continuous light or repeated short light intervals.', 'Both groups accumulated similar total exposure, but the intermittent treatment produced a different growth pattern, indicating that timing mattered as well as total duration.'],
-    ['A field study measured sediment movement before and after vegetation was restored along a riverbank.', 'Average movement declined after restoration, but the largest storms still produced substantial transport, limiting how broadly the result could be applied.'],
-    ['Engineers tested whether a coating changed the stability of a battery electrode during repeated charge cycles.', 'The coated electrodes retained capacity more consistently, although the benefit was smaller at the highest cycling temperature.'],
-    ['Biologists tracked migratory birds at several stopover sites while local food availability changed.', 'Birds shifted their arrival timing at some sites, but the response varied with the distance to the next available feeding area.'],
+    ['Researchers expose seedlings to continuous light or repeated short light intervals while holding total exposure similar.', 'The intermittent treatment produces a different growth pattern, indicating that timing matters in addition to total exposure.'],
+    ['A field study measures sediment movement before and after vegetation is restored along a riverbank.', 'Average movement declines, but the largest storms still transport substantial sediment, limiting how broadly the result can be applied.'],
+    ['Engineers test whether a coating changes battery-electrode stability during repeated charge cycles.', 'Coated electrodes retain capacity more consistently, although the benefit becomes smaller at the highest cycling temperature.'],
+    ['Biologists track migratory birds at several stopover sites while local food availability changes.', 'Arrival timing shifts at some sites, but the response varies with the distance to the next available feeding area.'],
   ],
 };
 
 const WIC_TARGETS = {
   technical: [
-    ['attenuate', 'reduce the strength of'],
-    ['constrain', 'limit the range of'],
-    ['mediate', 'influence an outcome through an intervening process'],
-    ['retain', 'continue to hold or preserve'],
+    ['attenuate', 'reduce the strength of'], ['constrain', 'limit the range of'], ['mediate', 'influence an outcome through an intervening process'], ['retain', 'continue to hold or preserve'],
   ],
   figurative: [
-    ['anchor', 'provide a stable reference for'],
-    ['fracture', 'divide or disrupt'],
-    ['amplify', 'make more noticeable or pronounced'],
-    ['temper', 'make less extreme'],
+    ['anchor', 'provide a stable reference for'], ['fracture', 'divide or disrupt'], ['amplify', 'make more noticeable or pronounced'], ['temper', 'make less extreme'],
   ],
   rhetorical: [
-    ['qualify', 'limit a claim so that it is more precise'],
-    ['concede', 'acknowledge a point that may seem to oppose the main claim'],
-    ['underscore', 'emphasize'],
-    ['distinguish', 'show a meaningful difference between'],
+    ['clarify', 'make a claim or distinction more precise'], ['concede', 'acknowledge a point that may seem to oppose the main claim'], ['underscore', 'emphasize'], ['distinguish', 'show a meaningful difference between'],
   ],
   contextual: [
-    ['trace', 'follow the development or origin of'],
-    ['channel', 'direct toward a particular course'],
-    ['yield', 'produce or result in'],
-    ['register', 'show or record'],
+    ['trace', 'follow the development or origin of'], ['channel', 'direct toward a particular course'], ['yield', 'produce or result in'], ['register', 'show or record'],
   ],
 };
 
@@ -77,119 +66,99 @@ const SECTIONS = [
 ];
 
 const DIFFICULTY_CYCLE = ['easy', 'medium', 'medium', 'hard'];
+const FAMILY_KEYS = Object.keys(SOURCE_MATERIAL);
+const WIC_FAMILY_KEYS = Object.keys(WIC_TARGETS);
+
+const CROSS_RELATIONSHIPS = [
+  { name: 'agreement', stem: 'Which statement best describes how the passages agree about the issue?', correct: 'Both passages identify a pattern but indicate that its meaning depends on the conditions in which it occurs.', errors: ['One passage claims the pattern never varies, whereas the other rejects the pattern entirely.', 'The passages discuss different subjects and therefore make no comparable observation.', 'Both passages treat a single observation as proof that no other explanation is possible.'] },
+  { name: 'qualified-agreement', stem: 'Which statement best describes the relationship between the passages?', correct: 'Both passages recognize a similar pattern, but each qualifies that pattern by identifying a condition that limits its scope.', errors: ['The second passage completely disproves the first by showing that the pattern never occurs.', 'The passages reach the same conclusion without identifying any condition that could affect it.', 'The first passage supplies historical background that the second passage explicitly treats as irrelevant.'] },
+  { name: 'contrast', stem: 'Which statement best describes a difference between the passages?', correct: 'The passages consider related observations but emphasize different explanations for why the observed pattern occurs.', errors: ['The passages use identical evidence to reach an identical explanation of the pattern.', 'The first passage reports no observation, while the second passage reports only an unsupported opinion.', 'The second passage repeats the first passage without adding a distinct interpretation.'] },
+  { name: 'extension', stem: 'How does the second passage build on the idea presented in the first?', correct: 'The second passage extends the first passage’s observation by showing how another condition or setting changes the interpretation.', errors: ['The second passage abandons the first passage’s evidence and replaces it with an unrelated claim.', 'The second passage proves that the first passage’s observation applies without qualification.', 'The second passage merely restates the first passage without introducing a new condition or implication.'] },
+  { name: 'competing-interpretation', stem: 'Which statement best characterizes the two authors’ interpretations?', correct: 'The authors consider related evidence but give different weight to the conditions that could explain the observed result.', errors: ['Both authors accept exactly the same explanation and use no qualification.', 'One author discusses evidence while the other makes a claim with no connection to the topic.', 'The authors disagree only about a minor wording choice and otherwise present the same interpretation.'] },
+];
+
+const CROSS_QUESTION_FORMS = [
+  'Which choice best characterizes the relationship between the two passages?',
+  'Which choice most accurately describes the connection between the authors’ claims?',
+  'How do the passages relate to one another in their treatment of the evidence?',
+  'Which statement best explains what the two passages have in common or how they differ?',
+  'Which choice best describes the way the second passage relates to the first?',
+  'What is the most accurate comparison of the authors’ interpretations?',
+  'Which choice best captures the relationship between the observations presented in the passages?',
+  'How should the relationship between the two passages be understood?',
+  'Which statement most precisely describes how the passages treat the issue?',
+  'What does a comparison of the two passages reveal about their interpretations?',
+  'Which choice best identifies the relationship that the two passages establish?',
+  'How does the second passage relate to the interpretation developed in the first?'
+];
+
+const CROSS_LENSES = [
+  'the conditions each author treats as important',
+  'the evidence each author uses to support an interpretation',
+  'the scope each author gives to the observed pattern',
+  'the explanation each author offers for the observed result',
+  'the qualification each author places on the main observation',
+  'the way each passage connects evidence with its conclusion',
+  'the significance each author assigns to the relevant condition',
+  'the implication each passage draws from the evidence',
+  'the point at which the two interpretations converge or diverge'
+];
+
+const SYNTHESIS_GOALS = [
+  { label: 'research brief', goal: 'summarize the finding and retain the condition that limits its interpretation', lead: 'A research brief should distinguish the observed pattern from an unrestricted claim.' },
+  { label: 'public explanation', goal: 'explain the finding clearly for a general audience without overstating its scope', lead: 'A public explanation should state the useful finding while preserving its most important qualification.' },
+  { label: 'comparison', goal: 'compare the observed pattern with the condition that changes how strongly it can be interpreted', lead: 'A comparison should make both the pattern and the relevant difference visible.' },
+  { label: 'recommendation', goal: 'present the finding in a way that supports a cautious recommendation', lead: 'A cautious recommendation should use the finding without treating a conditional result as universal.' },
+  { label: 'museum or program note', goal: 'communicate the finding while identifying the detail that changes its significance', lead: 'A concise program note should connect the main observation to the detail that changes its significance.' },
+  { label: 'method summary', goal: 'state what the evidence shows and what the evidence does not establish', lead: 'A method summary should separate an observed result from conclusions the evidence cannot establish.' },
+];
+
+const WIC_FRAMES = [
+  'The author uses the word to describe the practical effect of the change.',
+  'Here, the word characterizes how the evidence affects the interpretation.',
+  'In this passage, the word refers to the way one condition shapes the result.',
+  'The surrounding discussion uses the word to distinguish the observed result from a broader claim.',
+  'Here, the word describes the role of the feature in the author’s explanation.',
+  'The word is used to characterize what happens when the relevant condition changes.',
+  'In context, the word identifies a relationship between the observation and its consequence.',
+  'The author uses the word to specify the scope or direction of the reported effect.',
+];
+
+const ERROR_PATTERNS = [
+  ['true-but-nonresponsive', 'states a true detail that does not answer the question asked'],
+  ['reversed-relationship', 'reverses which condition affects the observed result'],
+  ['overgeneralization', 'extends a conditional finding beyond the evidence'],
+  ['narrowing-error', 'focuses on one detail while ignoring the broader relationship'],
+  ['example-for-claim', 'treats a supporting example as if it were the main claim'],
+  ['unsupported-causation', 'turns an observed association into an unsupported causal claim'],
+];
 
 function pick(list, index) {
   return list[((index % list.length) + list.length) % list.length];
 }
 
+function hashIndex(index, salt, length) {
+  const value = (index * 37 + salt * 101 + Math.floor(index / Math.max(1, length)) * 17) % length;
+  return value < 0 ? value + length : value;
+}
+
 function sourceFamily(index) {
-  return pick(Object.keys(SOURCE_MATERIAL), index * 3 + 1);
+  return pick(FAMILY_KEYS, index * 5 + 1);
+}
+
+function sourcePair(family, index, salt = 0) {
+  return pick(SOURCE_MATERIAL[family], index * 3 + salt);
 }
 
 function makeStimulus(family, index) {
-  const pair = pick(SOURCE_MATERIAL[family], index);
-  return `${pair[0]} ${pair[1]}`;
-}
-
-function makeEvidenceQuestion(stimulus, index) {
-  const choices = [
-    'A measurement collected after the relevant condition changed shows whether the observed pattern persisted.',
-    'A statement describing the researchers’ general interest in the topic establishes the mechanism directly.',
-    'A later observation from an unrelated setting proves that the original pattern always occurs.',
-    'A summary of the topic’s history establishes why the measured difference must have one cause.',
-  ];
-  const target = index % 4;
-  const correct = choices[0];
-  choices.splice(0, 1);
-  choices.splice(target, 0, correct);
-  return { choices, answer: String.fromCharCode(65 + target), prompt: `${stimulus}\n\nWhich finding would provide the strongest evidence for the interpretation presented in the text?` };
-}
-
-function makeWIC(index, stimulus) {
-  const family = pick(Object.keys(WIC_TARGETS), index);
-  const [word, meaning] = pick(WIC_TARGETS[family], Math.floor(index / 4));
-  const choices = [meaning, 'make the result more difficult to observe', 'remove every limitation from the claim', 'repeat an earlier observation without changing it'];
-  const target = (index + 1) % 4;
-  const correct = choices[0];
-  choices.splice(0, 1);
-  choices.splice(target, 0, correct);
-  return {
-    choices,
-    answer: String.fromCharCode(65 + target),
-    prompt: `${stimulus} In this context, the word “${word}” most nearly means which of the following?`,
-    targetWord: word,
-  };
-}
-
-function makeSynthesis(index) {
-  const family = pick(Object.keys(SOURCE_MATERIAL), index + 2);
-  const pair = pick(SOURCE_MATERIAL[family], index);
-  const notes = [
-    `Research focus: ${pair[0]}`,
-    `Finding: ${pair[1]}`,
-    'Qualification: the result varied when an important condition changed.',
-    'Goal: communicate the finding accurately without overstating its scope.',
-  ];
-  const choices = [
-    `${pair[1]} This result should therefore be interpreted in light of the condition that changed.`,
-    'The study was conducted by researchers who were interested in the topic.',
-    'The study produced observations that can be generalized to every possible setting.',
-    'The researchers collected several measurements before discussing the topic.',
-  ];
-  const target = (index + 2) % 4;
-  const correct = choices[0];
-  choices.splice(0, 1);
-  choices.splice(target, 0, correct);
-  return { prompt: `${notes.join(' ')}\n\nThe student wants to communicate the main finding while preserving its important qualification. Which choice best accomplishes this goal?`, choices, answer: String.fromCharCode(65 + target) };
-}
-
-function makeCrossText(index) {
-  const firstFamily = pick(Object.keys(SOURCE_MATERIAL), index);
-  const secondFamily = pick(Object.keys(SOURCE_MATERIAL), index + 1);
-  const first = pick(SOURCE_MATERIAL[firstFamily], index);
-  const second = pick(SOURCE_MATERIAL[secondFamily], index + 2);
-  const choices = [
-    'Both texts indicate that a broad pattern can depend on the conditions under which it is observed.',
-    'Both texts establish that a pattern remains identical whenever the setting changes.',
-    'The first text rejects measurement, whereas the second text relies only on personal opinion.',
-    'The two texts reach opposite conclusions because neither considers evidence from observations.',
-  ];
-  const target = (index + 3) % 4;
-  const correct = choices[0];
-  choices.splice(0, 1);
-  choices.splice(target, 0, correct);
-  return { prompt: `Passage 1: ${first[0]} ${first[1]}\n\nPassage 2: ${second[0]} ${second[1]}\n\nWhich statement best describes a relationship between the two passages?`, choices, answer: String.fromCharCode(65 + target) };
-}
-
-function makeSENTask(skill, index) {
-  if (skill === 'Transitions') {
-    const sets = [
-      ['The initial measurements showed a clear increase. _____, the increase was smaller when the temperature was higher.', ['However,', 'Therefore,', 'For example,', 'Likewise,'], 0],
-      ['The first model explains the overall trend. _____, the second model accounts for the unusually large values at the upper end.', ['In contrast,', 'For instance,', 'As a result,', 'Similarly,'], 0],
-      ['The researchers repeated the test under a second condition. _____, they compared the two sets of observations.', ['Next,', 'Nevertheless,', 'Instead,', 'For example,'], 0],
-      ['The result was consistent across three sites. _____, the fourth site showed a different response.', ['By contrast,', 'For example,', 'In addition,', 'Therefore,'], 0],
-    ];
-    const set = sets[index % sets.length];
-    return { prompt: set[0], choices: set[1], answer: 'A' };
-  }
-  if (skill === 'Boundaries') {
-    const sets = [
-      ['The revised method produced a clearer signal _____ it required additional calibration.', ['; however,', ', however', '; therefore,', ', therefore,'], 0],
-      ['The team changed the sampling interval _____ the original interval missed several short events.', ['because', '; because', ', because,', '; however,'], 0],
-      ['The archive was incomplete _____ researchers could still compare the surviving records.', ['but', '; but', ', but,', 'and;'], 0],
-      ['The estimate was reliable _____ only within the range represented by the data.', ['but', '; but', ', but,', ': but'], 0],
-    ];
-    const set = sets[index % sets.length];
-    return { prompt: set[0], choices: set[1], answer: 'A' };
-  }
-  const sets = [
-    ['The collection of measurements _____ the basis for comparison.', ['provides', 'provide', 'providing', 'have provided'], 0],
-    ['The researchers who repeated the test _____ the same trend.', ['observed', 'observes', 'observing', 'has observed'], 0],
-    ['The revised estimates, along with the original measurements, _____ included in the final table.', ['are', 'is', 'being', 'has been'], 0],
-    ['The report describes the conditions that _____ the response.', ['affected', 'affects', 'affecting', 'has affected'], 0],
-  ];
-  const set = sets[index % sets.length];
-  return { prompt: set[0], choices: set[1], answer: 'A' };
+  const pair = sourcePair(family, index);
+  const perspective = pick([
+    'The observation matters because the later detail changes how the initial decision is interpreted.',
+    'The second observation narrows the conclusion that could reasonably be drawn from the first.',
+    'The later evidence makes a previously plausible interpretation less complete.',
+    'The contrast between the two observations reveals why the initial evidence alone is insufficient.',
+  ], index + FAMILY_KEYS.indexOf(family));
+  return `${pair[0]} ${pair[1]} ${perspective}`;
 }
 
 function rotateChoices(choices, target) {
@@ -199,65 +168,178 @@ function rotateChoices(choices, target) {
   return { choices: out, answer: String.fromCharCode(65 + target) };
 }
 
+function makeEvidenceQuestion(stimulus, index) {
+  const evidenceSets = [
+    ['Which finding would most directly support the interpretation in the text?', 'A measurement collected under the changed condition shows whether the reported pattern persists.', 'A statement about why the researchers became interested in the topic explains the mechanism directly.', 'An observation from an unrelated setting proves that the pattern occurs without exception.', 'A historical summary shows that the topic has been discussed for many years.'],
+    ['Which finding would provide the strongest evidence for the claim made in the passage?', 'A second observation isolates the condition that the passage identifies as relevant to the result.', 'A participant describes a personal reaction without measuring the relevant condition.', 'A later study reports a similar topic but uses a different outcome measure.', 'A researcher explains that the original question was considered important.'],
+    ['Which result would most strengthen the author’s interpretation?', 'Measurements taken before and after the relevant change show the predicted difference while other conditions remain comparable.', 'A review lists several researchers who have studied the same broad topic.', 'A survey records interest in the topic without measuring the proposed relationship.', 'A separate example contains the same keyword but does not test the proposed explanation.'],
+    ['Which additional evidence would best distinguish the passage’s interpretation from a competing explanation?', 'The same pattern appears when the proposed condition changes while the competing condition is held comparable.', 'The researchers report that the study attracted substantial attention from other scholars.', 'A later article summarizes the topic without reporting new observations.', 'A participant recalls an earlier event but cannot identify the relevant conditions.'],
+  ];
+  const set = pick(evidenceSets, index);
+  return { prompt: `${stimulus}\n\n${set[0]}`, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(index, 3, 4)) };
+}
+
+function makeWIC(index, stimulus) {
+  const family = pick(WIC_FAMILY_KEYS, index * 7 + 1);
+  const targetIndex = hashIndex(index, 11 + WIC_FAMILY_KEYS.indexOf(family), WIC_TARGETS[family].length);
+  const [word, meaning] = WIC_TARGETS[family][targetIndex];
+  const frame = pick(WIC_FRAMES, Math.floor(index / 4) + targetIndex + 2);
+  const contextualSentence = `${stimulus} ${frame}`;
+  const alternatives = [
+    'make the reported result disappear entirely',
+    'repeat the earlier observation without changing its meaning',
+    'make the claim apply equally in every possible setting',
+    'describe a cause that the passage never identifies',
+    'remove the distinction between the two conditions',
+    'refer only to the author’s personal reaction to the topic',
+  ];
+  const rotated = rotateChoices([
+    meaning,
+    pick(alternatives, index + 1),
+    pick(alternatives, index + 3),
+    pick(alternatives, index + 5),
+  ], hashIndex(index, 17, 4));
+  return { prompt: `${contextualSentence}\n\nIn this context, the word “${word}” most nearly means which of the following?`, targetWord: word, ...rotated };
+}
+
+function makeSynthesis(index) {
+  const family = pick(FAMILY_KEYS, index + 2);
+  const pair = sourcePair(family, index, 1);
+  const goal = pick(SYNTHESIS_GOALS, Math.floor(index / 3) + index);
+  const notes = [
+    `Research notes — topic: ${pair[0]}`,
+    `Evidence: ${pair[1]}`,
+    'Implication: the evidence is informative but depends on the condition described in the notes.',
+    `Communication goal: ${goal.goal}.`,
+  ];
+  const correct = `${goal.lead} ${pair[1]} The result should therefore be interpreted in light of the condition described in the notes.`;
+  const distractors = [
+    `${pair[0]} The finding can therefore be treated as universal regardless of the condition described in the notes.`,
+    'The study concerns an important topic, so the specific evidence is unnecessary when communicating its conclusion.',
+    `${pair[1]} Because the result was observed, no alternative explanation or limiting condition needs to be considered.`,
+  ];
+  return { prompt: `${notes.join(' ')}\n\nThe student is preparing a ${goal.label}. Which choice best accomplishes the stated communication goal?`, ...rotateChoices([correct, ...distractors], hashIndex(index, 23, 4)) };
+}
+
+function makeCrossText(index) {
+  const crossTextOrdinal = Math.floor(index / SECTIONS.length);
+  const relation = pick(CROSS_RELATIONSHIPS, crossTextOrdinal);
+  const totalSourcePairs = FAMILY_KEYS.length * SOURCE_MATERIAL[FAMILY_KEYS[0]].length;
+  const sourceOrdinal = crossTextOrdinal % totalSourcePairs;
+  const sourceFamilySpan = SOURCE_MATERIAL[FAMILY_KEYS[0]].length;
+  const firstFamilyIndex = Math.floor(sourceOrdinal / sourceFamilySpan);
+  const firstFamily = FAMILY_KEYS[firstFamilyIndex];
+  const first = sourcePair(firstFamily, firstFamilyIndex, sourceOrdinal % sourceFamilySpan);
+  let secondSourceOrdinal = (sourceOrdinal * 5 + 7) % totalSourcePairs;
+  let secondFamilyIndex = Math.floor(secondSourceOrdinal / sourceFamilySpan);
+  if (secondFamilyIndex === firstFamilyIndex) {
+    secondSourceOrdinal = (secondSourceOrdinal + sourceFamilySpan) % totalSourcePairs;
+    secondFamilyIndex = Math.floor(secondSourceOrdinal / sourceFamilySpan);
+  }
+  const secondFamily = FAMILY_KEYS[secondFamilyIndex];
+  const second = sourcePair(secondFamily, secondFamilyIndex, secondSourceOrdinal % sourceFamilySpan);
+  const form = pick(CROSS_QUESTION_FORMS, crossTextOrdinal);
+  const lens = pick(CROSS_LENSES, crossTextOrdinal);
+  const correct = relation.correct;
+  const errors = relation.errors.map((text, errorIndex) => {
+    const pattern = pick(ERROR_PATTERNS, index + errorIndex);
+    return `${text} This reflects a ${pattern[0]} error: ${pattern[1]}.`;
+  });
+  return {
+    prompt: `Passage 1: ${first[0]} ${first[1]}\n\nPassage 2: ${second[0]} ${second[1]}\n\nWhen comparing ${lens}, ${form}`,
+    ...rotateChoices([correct, ...errors], hashIndex(index, 37, 4)),
+    crossTextRelationship: relation.name,
+  };
+}
+
+function makeReasoningTask(plan, stimulus, index) {
+  const taskFamilies = {
+    'Central Ideas and Details': [
+      ['Which choice best states the central idea of the text?', 'The later evidence changes how the initial observation should be interpreted.', 'The passage argues that the initial observation has no value.', 'The passage focuses on an unrelated history of the topic.', 'The later evidence confirms every possible explanation of the initial observation.'],
+      ['Which choice best describes what the text establishes?', 'The observed result is meaningful, but the later condition limits how broadly it should be interpreted.', 'The observed result proves that one cause is responsible in every setting.', 'The later condition makes the initial observation impossible to evaluate.', 'The passage presents background information without drawing any conclusion from it.'],
+      ['Which choice best captures the development of the text?', 'An initial observation is reconsidered after evidence reveals an important condition.', 'A general claim is introduced and then replaced by an unrelated example.', 'A historical detail is presented without any connection to the main observation.', 'A single result is repeated several times without being qualified.'],
+    ],
+    Inferences: [
+      ['Which inference is best supported by the text?', 'The condition identified in the second observation likely helps explain why the initial pattern was not uniform.', 'The initial pattern must occur in every setting because it was observed once.', 'The later observation proves that the initial measurement was collected incorrectly.', 'The evidence shows that no factor can influence the reported result.'],
+      ['What can most reasonably be inferred from the passage?', 'A conclusion based only on the first observation would overlook information supplied by the later observation.', 'The later observation eliminates every possible interpretation of the first observation.', 'The author believes that the reported pattern has no measurable effect.', 'The two observations cannot be compared because they concern the same topic.'],
+      ['The passage most strongly suggests that', 'the apparent pattern is more conditional than it first appears.', 'the reported pattern is entirely independent of context.', 'the later evidence is less relevant than the initial claim.', 'the author has rejected the use of observations as evidence.'],
+    ],
+    'Text Structure and Purpose': [
+      ['Why does the author include the second sentence?', 'To qualify the first observation by introducing evidence that changes its interpretation.', 'To replace the first observation with a completely unrelated claim.', 'To provide historical background that the author never uses.', 'To repeat the first observation without adding information.'],
+      ['What is the primary function of the latter part of the passage?', 'It narrows the scope of the initial claim by identifying a relevant condition.', 'It shifts the discussion to a topic unrelated to the initial observation.', 'It supplies a definition that contradicts every earlier statement.', 'It summarizes a source that the passage never otherwise discusses.'],
+      ['How does the second observation contribute to the passage?', 'It turns a simple observation into a more qualified interpretation.', 'It demonstrates that the first observation was entirely fabricated.', 'It introduces an unrelated historical example.', 'It repeats the first observation without changing its significance.'],
+    ],
+  };
+  const sets = taskFamilies[plan.skill];
+  const set = sets ? pick(sets, index) : null;
+  if (set) return { prompt: `${stimulus}\n\n${set[0]}`, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(index, 41, 4)) };
+  const generic = [
+    'The text presents a finding while distinguishing the evidence from a broader conclusion.',
+    'The text establishes that the finding applies without exception.',
+    'The text discusses background information without interpreting the evidence.',
+    'The text argues that the evidence cannot be compared across conditions.',
+  ];
+  return { prompt: `${stimulus}\n\nWhich choice best states the main idea of the text?`, ...rotateChoices(generic, hashIndex(index, 43, 4)) };
+}
+
+function makeSENTask(skill, index) {
+  const transitionSets = [
+    ['The initial measurements showed a clear increase. _____, the increase was smaller when the temperature was higher.', ['However,', 'Therefore,', 'For example,', 'Likewise,']],
+    ['The first model explains the overall trend. _____, the second model accounts for unusually large values at the upper end.', ['In contrast,', 'For instance,', 'As a result,', 'Similarly,']],
+    ['The researchers repeated the test under a second condition. _____, they compared the two sets of observations.', ['Next,', 'Nevertheless,', 'Instead,', 'For example,']],
+    ['The result was consistent across three sites. _____, the fourth site showed a different response.', ['By contrast,', 'For example,', 'In addition,', 'Therefore,']],
+    ['The first estimate was useful for comparison. _____, the revised estimate accounted for an additional source of variation.', ['In addition,', 'For example,', 'Instead,', 'Likewise,']],
+    ['The archive preserves most of the original records. _____, several years are missing from the sequence.', ['Nevertheless,', 'For example,', 'Similarly,', 'Therefore,']],
+  ];
+  const boundarySets = [
+    ['The revised method produced a clearer signal _____ it required additional calibration.', ['; however,', ', however', '; therefore,', ', therefore,']],
+    ['The team changed the sampling interval _____ the original interval missed several short events.', ['because', '; because', ', because,', '; however,']],
+    ['The archive was incomplete _____ researchers could still compare the surviving records.', ['but', '; but', ', but,', 'and;']],
+    ['The estimate was reliable _____ only within the range represented by the data.', ['but', '; but', ', but,', ': but']],
+    ['The new observations were useful _____ they did not resolve every uncertainty.', ['although', '; although', ', although,', ': although']],
+    ['The researchers repeated the measurement _____ the first trial had produced an unexpected result.', ['because', '; because', ', because,', '; although,']],
+  ];
+  const grammarSets = [
+    ['The collection of measurements _____ the basis for comparison.', ['provides', 'provide', 'providing', 'have provided']],
+    ['The researchers who repeated the test _____ the same trend.', ['observed', 'observes', 'observing', 'has observed']],
+    ['The revised estimates, along with the original measurements, _____ included in the final table.', ['are', 'is', 'being', 'has been']],
+    ['The report describes the conditions that _____ the response.', ['affected', 'affects', 'affecting', 'has affected']],
+    ['The set of observations _____ a useful comparison across sites.', ['provides', 'provide', 'providing', 'have provided']],
+    ['The instruments used by the research team _____ calibrated before each trial.', ['were', 'was', 'being', 'has been']],
+  ];
+  const sets = skill === 'Transitions' ? transitionSets : skill === 'Boundaries' ? boundarySets : grammarSets;
+  const set = pick(sets, index);
+  return { prompt: set[0], ...rotateChoices(set[1], hashIndex(index, 47, 4)) };
+}
+
 function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'reading-writing-module-1' }) {
   const plan = pick(SECTIONS, index);
   const family = sourceFamily(index);
-  const construction = pick(RW_REMEDIATION_CONSTRUCTIONS[plan.skill], index + 2);
-  const difficulty = pick(DIFFICULTY_CYCLE, index + 1);
+  const construction = pick(RW_REMEDIATION_CONSTRUCTIONS[plan.skill], index + Math.floor(index / SECTIONS.length));
+  const difficulty = pick(DIFFICULTY_CYCLE, index + Math.floor(index / 7));
   const stimulus = makeStimulus(family, index);
-  let prompt = stimulus;
-  let choices;
-  let answer;
+  let result;
   let targetWord = null;
+  let crossTextRelationship = null;
 
-  if (plan.skill === 'Command of Evidence') {
-    ({ prompt, choices, answer } = makeEvidenceQuestion(stimulus, index));
-  } else if (plan.skill === 'Words in Context') {
-    ({ prompt, choices, answer, targetWord } = makeWIC(index, stimulus));
-  } else if (plan.skill === 'Cross-Text Connections') {
-    ({ prompt, choices, answer } = makeCrossText(index));
-  } else if (plan.skill === 'Rhetorical Synthesis') {
-    ({ prompt, choices, answer } = makeSynthesis(index));
-  } else if (plan.skill === 'Transitions' || plan.skill === 'Boundaries' || plan.skill === 'Form, Structure, and Sense') {
-    ({ prompt, choices, answer } = makeSENTask(plan.skill, index));
-  } else if (plan.skill === 'Inferences') {
-    choices = [
-      'The result is likely influenced by the condition that changed between observations.',
-      'The result must be identical under all possible conditions.',
-      'The observations prove that only one factor can explain the result.',
-      'The observations are too limited to support any comparison at all.',
-    ];
-    ({ choices, answer } = rotateChoices(choices, (index + 1) % 4));
-    prompt = `${stimulus}\n\nWhich inference is best supported by the text?`;
-  } else if (plan.skill === 'Text Structure and Purpose') {
-    choices = [
-      'To introduce a finding and then narrow its interpretation by identifying an important condition.',
-      'To replace the main finding with an unrelated historical detail.',
-      'To provide background that the author explicitly says is irrelevant.',
-      'To repeat the opening claim without adding or limiting information.',
-    ];
-    ({ choices, answer } = rotateChoices(choices, (index + 2) % 4));
-    prompt = `${stimulus}\n\nWhy does the author include the second sentence in relation to the first?`;
-  } else {
-    choices = [
-      'The text presents a finding while distinguishing the evidence from a broader claim.',
-      'The text establishes that the finding applies without exception.',
-      'The text focuses entirely on background information and avoids an interpretation.',
-      'The text argues that the evidence cannot be compared across conditions.',
-    ];
-    ({ choices, answer } = rotateChoices(choices, index % 4));
-    prompt = `${stimulus}\n\nWhich choice best states the main idea of the text?`;
-  }
+  if (plan.skill === 'Command of Evidence') result = makeEvidenceQuestion(stimulus, index);
+  else if (plan.skill === 'Words in Context') result = makeWIC(index, stimulus);
+  else if (plan.skill === 'Cross-Text Connections') result = makeCrossText(index);
+  else if (plan.skill === 'Rhetorical Synthesis') result = makeSynthesis(index);
+  else if (plan.skill === 'Transitions' || plan.skill === 'Boundaries' || plan.skill === 'Form, Structure, and Sense') result = makeSENTask(plan.skill, index);
+  else result = makeReasoningTask(plan, stimulus, index);
 
+  targetWord = result.targetWord || null;
+  crossTextRelationship = result.crossTextRelationship || null;
   const difficultyFeatures = difficulty === 'hard'
     ? ['multi-step', 'strategic-choice', 'evidence-synthesis']
     : difficulty === 'medium'
       ? ['careful-interpretation']
       : [];
   const id = `${testId}-rw-rem-${String(index + 1).padStart(3, '0')}`;
-  const record = {
+  return {
     contentId: id,
-    version: 7,
+    version: 8,
     product: 'sat',
     questionId: id,
     testId,
@@ -283,17 +365,17 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
     calculatorRequired: false,
     referenceSheetRelevant: false,
     passageId: plan.skill === 'Rhetorical Synthesis' ? null : `${testId}-rem-passage-${String(index + 1).padStart(3, '0')}`,
-    prompt,
-    choices,
-    answer,
+    prompt: result.prompt,
+    choices: result.choices,
+    answer: result.answer,
     explanation: targetWord
       ? `In context, “${targetWord}” is used with the meaning represented by the keyed choice.`
-      : 'The keyed choice matches the item-specific evidence, rhetorical relationship, or grammatical constraint established by the construction.',
+      : 'The keyed choice matches the item-specific evidence, rhetorical relationship, communication goal, or grammatical constraint established by the construction.',
     figure: null,
     isOperational: false,
     adaptiveRoute: null,
     originalityFingerprint: `batch-m-rem-${variant}-${testId}-${index}-${family}-${construction}`,
-    conceptFingerprint: `${plan.domain}-${plan.skill}-${family}-${index}`,
+    conceptFingerprint: `${plan.domain}-${plan.skill}-${family}-${construction}-${index}`,
     tags: [variant, 'batch-m-remediation-candidate', 'apriori-original', `source-${family}`],
     lessonIds: [],
     sourceType: 'apriori-original',
@@ -302,18 +384,19 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
     releaseEligibility: false,
     metadata: {
       sourceFamily: family,
-      sourceBlueprint: pick(RW_SOURCE_BLUEPRINTS[family], index),
+      sourceBlueprint: pick(RW_SOURCE_BLUEPRINTS[family], index * 2 + 1),
       rhetoricalStructure: construction,
-      evidenceRelationship: pick(['direct-support', 'qualified-support', 'contrast', 'inference', 'example-to-claim'], index + 1),
+      evidenceRelationship: crossTextRelationship || pick(['direct-support', 'qualified-support', 'contrast', 'inference', 'example-to-claim'], index + 1),
       cognitiveOperation: plan.operation,
       difficultyFeatures,
       difficultyRequirements: DIFFICULTY_REQUIREMENTS[difficulty],
       targetWord,
+      crossTextRelationship,
+      candidateConstructionIndex: index,
       candidateOnly: true,
       productionMutation: false,
     },
   };
-  return record;
 }
 
 export function generateRemediatedRWCandidates(options = {}) {

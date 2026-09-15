@@ -1,7 +1,7 @@
 # Batch M Content-Quality QC — September 14, 2026
 
 **Scope:** SAT Series A Mocks 1–10 and PSAT Mocks 1–10 only  
-**Status:** **REPRESENTATIVE REMEDIATION QC PASSED — TARGETED PRODUCTION IMPACT IDENTIFICATION NEXT**  
+**Status:** **TARGETED REPLACEMENT PREPARATION COMPLETE — CANDIDATE GENERATION / CONTROLLED SELECTION NEXT**  
 **Corpus boundary:** Frozen; no SAT21 and no wholesale regeneration authorized
 
 ## 1. Purpose
@@ -12,9 +12,9 @@ The question is whether the generated items actually resemble the intended Digit
 
 ## 2. Overall verdict
 
-The original frozen SAT1–SAT10 and PSAT1–PSAT10 production content remains under a **QUALITY HOLD** for final release acceptance. However, the remediation construction layer has now cleared its representative candidate-quality gate.
+The original frozen SAT1–SAT10 and PSAT1–PSAT10 production content remains under a **QUALITY HOLD** for final release acceptance. The remediation construction layer has cleared its representative candidate-quality gate, and the subsequent read-only impact/classification/inventory/preparation sequence is now complete.
 
-The successful remediation gate does **not** by itself certify the frozen production corpus or authorize wholesale replacement. It establishes that the corrected candidate construction/QC path can produce a representative set meeting the strengthened content-quality gate.
+The successful remediation gate does **not** certify the frozen production corpus or authorize replacement. It establishes that the corrected candidate construction/QC path can produce a representative set meeting the strengthened content-quality gate, while the production impact sequence identifies the exact frozen records requiring remediation planning.
 
 ## 3. Systemic findings
 
@@ -67,7 +67,7 @@ The principal problems identified were:
 
 - broader reasoning templates across all four domains;
 - genuinely multi-step and strategic hard items;
-- contexts that affect the mathematics rather than merely decorate it;
+- contexts that affect the mathematics rather than merely decorate them;
 - distractors tied to concrete mathematical errors;
 - stronger representation-based tasks;
 - approximately 25–30% student-produced-response items;
@@ -110,23 +110,9 @@ The bridge applies remediation-specific Math distractor construction, R&W distra
 
 The bridge continues to return `productionMutation: false` and `releaseEligible: false`.
 
-## 6. Representative QC execution harness
+## 6. Representative remediation QC — FINAL RESULT
 
-`scripts/runBatchMRemediationQC.js` executes the representative candidate gate.
-
-GitHub commit:
-
-`be0aa6b6f4a63f26f6c5da6b940a00ffad71e7af` — **Fix Batch M representative QC runner pass property**
-
-`package.json` exposes:
-
-`npm run qc:batch-m-remediation`
-
-The runner generates **40 R&W + 40 Math candidate items for SAT1** and sends the complete set through the strengthened content-quality gate. It also reports Math student-produced-response percentage.
-
-## 7. Representative remediation QC — FINAL RESULT
-
-The representative candidate run was executed locally after the remediation and now passes:
+The representative candidate run was executed locally after the remediation and passes:
 
 - **80 evaluated**
 - **80 passed**
@@ -139,17 +125,100 @@ The representative candidate run was executed locally after the remediation and 
 - **productionMutation: false**
 - **releaseEligible: false**
 
-The QC runner now reports:
+The runner reports:
 
 `Batch M representative remediation QC PASSED.`
 
 The `MODULE_TYPELESS_PACKAGE_JSON` message observed during local execution is a Node warning and is not a content-quality failure. No package change is required for this checkpoint.
 
-## 8. Production boundary after representative pass
+## 7. Read-only production impact and classification sequence — COMPLETE
 
-The representative pass does **not** mutate or authorize mutation of accepted production records.
+The corrected read-only impact audit covered:
 
-The frozen corpus remains exactly:
+- SAT1–SAT10
+- PSAT1–PSAT10
+- 20 mocks
+- 3,920 questions
+
+It identified **2,144 unique affected question records** and **2,164 total findings**. No production mutation occurred and release eligibility remained false.
+
+The impact findings were:
+
+| Finding | Count |
+|---|---:|
+| `math-generic-numeric-distractor` | 1,356 |
+| `hard-label-without-demand-feature` | 648 |
+| `rw-fixed-wic-target` | 216 |
+| `rw-template-density` | 22 |
+| `math-spr-distribution-outside-25-30-percent` | 20 mock-level findings |
+
+The classification and inventory stages then assigned the affected records to deterministic review groups and exact IDs.
+
+Supporting records:
+
+- `docs/BATCH-M-IMPACT-AUDIT-CHECKPOINT-2026-09-15.md`
+- `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`
+
+## 8. Targeted replacement preparation — COMPLETE
+
+The preparation command was executed successfully from `D:\AprioriConsultants-Git`:
+
+`npm run qc:batch-m-targeted-replacement-preparation`
+
+Result:
+
+- **2,144 affected unique questions prepared**
+- `productionMutation: false`
+- `releaseEligible: false`
+- `replacementAuthorization: NOT_AUTHORIZED`
+- `status: TARGETED_REPLACEMENT_PREPARATION_READY`
+
+Remediation types:
+
+| Remediation type | Count |
+|---|---:|
+| CONTENT_REPLACEMENT | 1,496 |
+| CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION | 98 |
+| DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT | 550 |
+
+Remediation tracks:
+
+| Track | Count |
+|---|---:|
+| MATH_DISTRACTOR_REMEDIATION | 1,356 |
+| DIFFICULTY_CALIBRATION | 648 |
+| RW_WIC_REMEDIATION | 216 |
+| RW_CONSTRUCTION_REMEDIATION | 22 |
+
+Track counts overlap because a question may require more than one remediation track.
+
+The generated preparation report is:
+
+`docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
+
+This report is a planning record only. It does not approve or perform replacement.
+
+## 9. Active next step — replacement-candidate generation and controlled selection
+
+The next step is to generate candidate replacements against the exact prepared production IDs and remediation tracks.
+
+Candidate generation/selection must:
+
+1. remain candidate-only and outside the production store;
+2. preserve mock identity, section, skill/domain, difficulty intent, figure/data requirements and SAT-versus-PSAT ceiling as applicable;
+3. pass the strengthened content-quality gate;
+4. pass uniqueness/originality and cross-corpus collision controls;
+5. account for mock-level Math SPR distribution;
+6. map validated candidates deterministically to affected production IDs;
+7. distinguish content replacement, difficulty calibration, and combined remediation;
+8. produce a reviewable candidate-selection report;
+9. keep `productionMutation: false`, `releaseEligible: false`, and replacement authorization explicitly not granted until later approval gates.
+
+The existing `scripts/runBatchMTargetedReplacementDryRun.js` remains a candidate-pool quality harness. It does not itself map validated candidates to the 2,144 frozen production records and is not a production replacement mechanism.
+
+## 10. Production boundary and later gates
+
+The frozen corpus remains:
 
 - SAT1–SAT10
 - PSAT1–PSAT10
@@ -157,34 +226,26 @@ The frozen corpus remains exactly:
 
 No SAT21 exists or is authorized. No wholesale regeneration is authorized.
 
-## 9. Next required action — production impact identification
+After candidate selection and explicit later authorization:
 
-The next step is a **read-only audit of the frozen production corpus** to identify genuinely affected questions before any replacement is attempted.
+1. apply only approved item-level replacements;
+2. record every post-freeze change by mock/question ID;
+3. rerun affected individual production gates;
+4. rerun the final collective 30-mock corpus gate;
+5. perform 30-mock cross-corpus calibration;
+6. complete deferred public verification of SAT11–SAT20;
+7. perform final end-to-end student acceptance;
+8. finalize Batch M release acceptance.
 
-The audit must identify exact mock/question IDs where the documented content-quality defects are evidenced, including where applicable:
-
-1. R&W construction/template weaknesses;
-2. R&W semantic distractor weakness;
-3. insufficient reasoning demand;
-4. difficulty-label conflicts;
-5. Math generic numeric distractors;
-6. formulaic/direct-substitution construction patterns;
-7. insufficient Math reasoning features;
-8. Math SPR distribution issues;
-9. SAT-versus-PSAT ceiling concerns.
-
-The impact audit must be read-only. It must not mutate the production store.
-
-After the affected IDs are identified, only those records may enter the targeted replacement process. Each post-freeze replacement must be recorded by mock/question ID and must rerun the affected mock gates plus the final collective 30-mock corpus gate.
-
-## 10. Release decision at this checkpoint
+## 11. Release decision at this checkpoint
 
 **Decision: QUALITY HOLD remains for the frozen production corpus.**
 
 **Representative remediation decision: PASS.**
 
-The construction/QC remediation is proven on the representative candidate set, but the frozen production corpus has not yet undergone targeted impact identification or replacement/re-gating.
+**Targeted impact identification: COMPLETE.**  
+**Targeted review inventory: COMPLETE.**  
+**Targeted replacement preparation: COMPLETE.**  
+**Replacement authorization: NOT AUTHORIZED.**
 
-The 30-mock cross-corpus calibration remains blocked until targeted production remediation is complete and re-verified.
-
-**Do not regenerate the entire 30-mock corpus and do not create SAT21.**
+The next active project task is replacement-candidate generation and controlled selection. Do not regenerate the entire 30-mock corpus and do not create SAT21.

@@ -15,6 +15,8 @@ const SHORT_STIMULUS_RW_SKILLS = new Set([
   'Transitions', 'Boundaries', 'Form, Structure, and Sense',
 ]);
 
+const GRAMMAR_RW_SKILLS = new Set(['Transitions', 'Boundaries', 'Form, Structure, and Sense']);
+
 const MATH_DOMAINS = new Set([
   'Algebra', 'Advanced Math', 'Problem-Solving and Data Analysis', 'Geometry and Trigonometry',
 ]);
@@ -101,7 +103,7 @@ function evaluateRW(question, notes) {
 
   if (includesGeneric(stimulus, GENERIC_RW_PHRASES).length >= 2) notes.push('rw-template-density');
   if (new Set(choices).size !== 4) notes.push('rw-duplicate-choice');
-  if (answerIndex >= 0 && answerIndex < choices.length) {
+  if (answerIndex >= 0 && answerIndex < choices.length && !GRAMMAR_RW_SKILLS.has(skill)) {
     const correct = choices[answerIndex];
     const maxWrongOverlap = Math.max(...choices.filter((_, index) => index !== answerIndex).map((choice) => overlap(correct, choice)), 0);
     if (maxWrongOverlap > 0.9) notes.push('rw-choice-near-duplicate');
