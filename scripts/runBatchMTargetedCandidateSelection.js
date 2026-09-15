@@ -155,12 +155,17 @@ function skillMatches(candidateSkill, targetSkill) {
   return (SKILL_ALIASES[String(candidateSkill)] || []).includes(targetSkill);
 }
 
+function domainMatches(candidate, meta) {
+  if (candidate.domain === meta.domain) return true;
+  return candidate.section === 'math' && skillMatches(candidate.skill, meta.skill);
+}
+
 function reasonList(candidate, meta, used, productionFingerprints) {
   const reasons = [];
 
   if (candidate.section !== meta.section) reasons.push('section-mismatch');
   if (!skillMatches(candidate.skill, meta.skill)) reasons.push('skill-mismatch');
-  if (candidate.domain !== meta.domain) reasons.push('domain-mismatch');
+  if (!domainMatches(candidate, meta)) reasons.push('domain-mismatch');
   if (normalize(candidate.difficulty) !== normalize(meta.difficulty)) reasons.push('difficulty-mismatch');
   if (Boolean(candidate.figure) !== meta.figureRequired) {
     reasons.push(meta.figureRequired ? 'figure-required' : 'unexpected-figure');
