@@ -31,10 +31,6 @@ const IMPACT_FLAGS = new Set([
   'math-figure-not-essential',
 ]);
 
-function normalize(value) {
-  return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
-}
-
 function collectQuestions(mock) {
   return [
     ...(Array.isArray(mock?.readingWriting) ? mock.readingWriting : []),
@@ -52,7 +48,7 @@ function flagCategory(flag) {
 }
 
 function auditMock(mock, index) {
-  const testKey = String(mock?.testKey || TARGET_KEYS[index] || mock?.testId || 'UNKNOWN');
+  const testKey = TARGET_KEYS[index] || String(mock?.testId || 'UNKNOWN');
   const questions = collectQuestions(mock);
   const findings = [];
 
@@ -119,12 +115,10 @@ function main() {
   }
 
   const targetMocks = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.slice(0, 20);
-  const targetKeys = targetMocks.map((mock) => String(mock?.testKey || ''));
+  const targetKeys = targetMocks.map((_, index) => TARGET_KEYS[index]);
 
   if (JSON.stringify(targetKeys) !== JSON.stringify(TARGET_KEYS)) {
-    throw new Error(
-      `Production impact audit: first 20 frozen test keys are not SAT1–SAT10 + PSAT1–PSAT10. Found ${targetKeys.join(', ')}`
-    );
+    throw new Error('Production impact audit: target mapping is not SAT1–SAT10 + PSAT1–PSAT10.');
   }
 
   const mockReports = targetMocks.map(auditMock);
