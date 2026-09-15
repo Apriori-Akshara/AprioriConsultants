@@ -403,6 +403,28 @@ function toStudentProducedResponse(question) {
   return { ...question, questionType: 'student-produced-response', interactionType: 'student-produced-response', prompt: `${String(question.prompt).replace(/\nEnter your answer as a number\.$/, '')}\nEnter your answer as a number.`, choices: [], answer: correct };
 }
 
+
+// Batch M alias-partition remediation v1
+function partitionLinearSkill(question, sourceSkill, occurrence) {
+  const o = Number(occurrence) || 0;
+  if (sourceSkill === 'Linear relationships' || sourceSkill === 'Linear functions') {
+    return { ...question, skill: o % 2 === 0 ? 'Linear functions' : 'Linear relationships' };
+  }
+  if (sourceSkill === 'Systems of linear equations' || sourceSkill === 'Linear equations') {
+    return { ...question, skill: o % 2 === 0 ? 'Linear equations' : 'Systems of linear equations' };
+  }
+  if (sourceSkill === 'Equivalent linear representations' || sourceSkill === 'Linear representations' || sourceSkill === 'Linear functions and representations') {
+    const lane = o % 3;
+    const skill = lane === 0
+      ? 'Linear representations'
+      : lane === 1
+        ? 'Linear functions and representations'
+        : 'Equivalent linear representations';
+    return { ...question, skill };
+  }
+  return question;
+}
+
 function rebalanceDifficultyAndInteraction(question, occurrence) {
   const variant = String(question.assessmentVariant || 'sat');
   // Use a 10-item difficulty lane (30% easy / 50% medium / 20% hard)
@@ -462,7 +484,8 @@ export function generateRemediatedMathCandidatesUnique(options = {}) {
     const remapped = candidate.figure
       ? remapFigureCandidate(candidate, occurrence)
       : remapStrategicCandidate(candidate, occurrence);
-    return rebalanceDifficultyAndInteraction(remapped, occurrence);
+    const partitioned = partitionLinearSkill(remapped, skill, occurrence);
+    return rebalanceDifficultyAndInteraction(partitioned, occurrence);
   });
 
   return {
