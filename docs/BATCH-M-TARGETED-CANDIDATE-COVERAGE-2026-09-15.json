@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 1103,
-    "noEligibleCandidate": 491,
+    "selected": 1111,
+    "noEligibleCandidate": 483,
     "sat": 1071,
     "psat": 1073
   },
@@ -138,20 +138,24 @@
       "count": 99
     },
     {
+      "key": "math:Linear equations",
+      "count": 89
+    },
+    {
       "key": "math:Quadratic equations",
       "count": 87
     },
     {
+      "key": "math:Percentages",
+      "count": 58
+    },
+    {
       "key": "math:Weighted means",
-      "count": 80
+      "count": 58
     },
     {
       "key": "math:Measures of spread",
-      "count": 68
-    },
-    {
-      "key": "math:Percentages",
-      "count": 60
+      "count": 50
     },
     {
       "key": "math:Data models",
@@ -160,10 +164,6 @@
     {
       "key": "math:Linear functions",
       "count": 41
-    },
-    {
-      "key": "math:Linear equations",
-      "count": 39
     },
     {
       "key": "math:Geometry and measurement",
@@ -209,33 +209,11 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 184
+          "count": 272
         },
         {
           "key": "question-type-mismatch",
           "count": 94
-        }
-      ]
-    },
-    {
-      "section": "math",
-      "skill": "Linear equations",
-      "noEligibleCandidateCount": 86,
-      "targetCount": 125,
-      "selectedCount": 39,
-      "coveragePercent": 31.2,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 258
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 170
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 86
         }
       ]
     },
@@ -253,7 +231,7 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 146
+          "count": 218
         },
         {
           "key": "question-type-mismatch",
@@ -275,7 +253,7 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 128
+          "count": 192
         },
         {
           "key": "question-type-mismatch",
@@ -298,6 +276,28 @@
         {
           "key": "difficulty-mismatch",
           "count": 150
+        }
+      ]
+    },
+    {
+      "section": "math",
+      "skill": "Linear equations",
+      "noEligibleCandidateCount": 36,
+      "targetCount": 125,
+      "selectedCount": 89,
+      "coveragePercent": 71.2,
+      "topRejectionReasons": [
+        {
+          "key": "candidate-reuse",
+          "count": 108
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 36
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 36
         }
       ]
     },
@@ -347,6 +347,28 @@
     },
     {
       "section": "math",
+      "skill": "Weighted means",
+      "noEligibleCandidateCount": 22,
+      "targetCount": 80,
+      "selectedCount": 58,
+      "coveragePercent": 72.5,
+      "topRejectionReasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 88
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 66
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 22
+        }
+      ]
+    },
+    {
+      "section": "math",
       "skill": "Right triangles",
       "noEligibleCandidateCount": 20,
       "targetCount": 46,
@@ -364,6 +386,28 @@
         {
           "key": "question-type-mismatch",
           "count": 20
+        }
+      ]
+    },
+    {
+      "section": "math",
+      "skill": "Measures of spread",
+      "noEligibleCandidateCount": 18,
+      "targetCount": 68,
+      "selectedCount": 50,
+      "coveragePercent": 73.53,
+      "topRejectionReasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 72
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 18
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 18
         }
       ]
     },
@@ -403,7 +447,7 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 35
+          "count": 12
         },
         {
           "key": "question-type-mismatch",
@@ -447,11 +491,33 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 24
+          "count": 8
         },
         {
           "key": "question-type-mismatch",
           "count": 8
+        }
+      ]
+    },
+    {
+      "section": "math",
+      "skill": "Percentages",
+      "noEligibleCandidateCount": 2,
+      "targetCount": 60,
+      "selectedCount": 58,
+      "coveragePercent": 96.67,
+      "topRejectionReasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 8
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 6
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 2
         }
       ]
     }
@@ -459,7 +525,7 @@
   "noEligibleCandidateBySection": [
     {
       "key": "math",
-      "count": 441
+      "count": 433
     },
     {
       "key": "reading-writing",
@@ -468,98 +534,98 @@
   ],
   "noEligibleCandidateByTest": [
     {
-      "key": "PSAT8",
-      "count": 32
-    },
-    {
-      "key": "PSAT1",
-      "count": 31
-    },
-    {
-      "key": "PSAT2",
-      "count": 30
-    },
-    {
-      "key": "PSAT6",
-      "count": 30
-    },
-    {
-      "key": "PSAT3",
-      "count": 28
-    },
-    {
-      "key": "PSAT4",
-      "count": 28
-    },
-    {
-      "key": "PSAT5",
-      "count": 28
-    },
-    {
-      "key": "PSAT7",
-      "count": 28
-    },
-    {
-      "key": "PSAT9",
-      "count": 27
-    },
-    {
       "key": "SAT5",
-      "count": 27
-    },
-    {
-      "key": "PSAT10",
-      "count": 26
-    },
-    {
-      "key": "SAT10",
-      "count": 26
+      "count": 33
     },
     {
       "key": "SAT3",
-      "count": 26
+      "count": 31
     },
     {
       "key": "SAT8",
-      "count": 26
+      "count": 31
     },
     {
-      "key": "SAT1",
-      "count": 17
+      "key": "PSAT8",
+      "count": 28
+    },
+    {
+      "key": "PSAT1",
+      "count": 27
+    },
+    {
+      "key": "PSAT2",
+      "count": 27
+    },
+    {
+      "key": "PSAT3",
+      "count": 25
+    },
+    {
+      "key": "PSAT4",
+      "count": 25
+    },
+    {
+      "key": "PSAT6",
+      "count": 25
+    },
+    {
+      "key": "PSAT5",
+      "count": 23
+    },
+    {
+      "key": "PSAT7",
+      "count": 23
+    },
+    {
+      "key": "SAT10",
+      "count": 23
     },
     {
       "key": "SAT6",
-      "count": 17
-    },
-    {
-      "key": "SAT2",
-      "count": 16
-    },
-    {
-      "key": "SAT4",
-      "count": 16
-    },
-    {
-      "key": "SAT7",
-      "count": 16
+      "count": 23
     },
     {
       "key": "SAT9",
-      "count": 16
+      "count": 23
+    },
+    {
+      "key": "PSAT10",
+      "count": 21
+    },
+    {
+      "key": "PSAT9",
+      "count": 21
+    },
+    {
+      "key": "SAT4",
+      "count": 21
+    },
+    {
+      "key": "SAT7",
+      "count": 21
+    },
+    {
+      "key": "SAT2",
+      "count": 19
+    },
+    {
+      "key": "SAT1",
+      "count": 13
     }
   ],
   "rejectionReasonCounts": [
     {
       "key": "difficulty-mismatch",
-      "count": 1828
+      "count": 1774
     },
     {
       "key": "candidate-reuse",
-      "count": 1071
+      "count": 1284
     },
     {
       "key": "question-type-mismatch",
-      "count": 441
+      "count": 433
     }
   ],
   "rejectionReasonsByMissingSkill": [
@@ -601,16 +667,16 @@
       "key": "math:Linear equations",
       "reasons": [
         {
-          "key": "difficulty-mismatch",
-          "count": 258
+          "key": "candidate-reuse",
+          "count": 108
         },
         {
-          "key": "candidate-reuse",
-          "count": 170
+          "key": "difficulty-mismatch",
+          "count": 36
         },
         {
           "key": "question-type-mismatch",
-          "count": 86
+          "count": 36
         }
       ]
     },
@@ -623,7 +689,7 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 184
+          "count": 272
         },
         {
           "key": "question-type-mismatch",
@@ -640,7 +706,7 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 146
+          "count": 218
         },
         {
           "key": "question-type-mismatch",
@@ -657,11 +723,45 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 128
+          "count": 192
         },
         {
           "key": "question-type-mismatch",
           "count": 66
+        }
+      ]
+    },
+    {
+      "key": "math:Measures of spread",
+      "reasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 72
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 18
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "key": "math:Percentages",
+      "reasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 8
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 6
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 2
         }
       ]
     },
@@ -691,7 +791,7 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 35
+          "count": 12
         },
         {
           "key": "question-type-mismatch",
@@ -708,7 +808,7 @@
         },
         {
           "key": "candidate-reuse",
-          "count": 24
+          "count": 8
         },
         {
           "key": "question-type-mismatch",
@@ -747,6 +847,23 @@
         {
           "key": "question-type-mismatch",
           "count": 29
+        }
+      ]
+    },
+    {
+      "key": "math:Weighted means",
+      "reasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 88
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 66
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 22
         }
       ]
     },

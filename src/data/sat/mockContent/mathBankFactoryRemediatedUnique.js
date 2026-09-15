@@ -295,7 +295,11 @@ function toStudentProducedResponse(question) {
 
 function rebalanceDifficultyAndInteraction(question, occurrence) {
   const variant = String(question.assessmentVariant || 'sat');
-  let difficulty = ['easy', 'medium', 'medium', 'hard'][occurrence % 4];
+  // Use a 10-item difficulty lane (30% easy / 50% medium / 20% hard)
+  // so each source skill has materially broader coverage of the frozen
+  // target difficulty distribution without weakening the difficulty gate.
+  const difficultyLane = ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'];
+  let difficulty = difficultyLane[occurrence % difficultyLane.length];
   if (variant === 'psat-nmsqt' && difficulty === 'hard' && ['Advanced Math', 'Geometry and Trigonometry'].includes(question.domain)) {
     difficulty = 'medium';
   }
