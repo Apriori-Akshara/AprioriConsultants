@@ -50,7 +50,7 @@ const newTargets = `const WIC_TARGETS = {
     ['concede', 'acknowledge a point that may seem to oppose the main claim'],
     ['underscore', 'emphasize'],
     ['distinguish', 'show a meaningful difference between'],
-    ['qualify', 'limit or modify the scope of a claim'],
+    ['moderate', 'make a claim or statement less absolute'],
     ['acknowledge', 'recognize a point without necessarily accepting its full implication'],
     ['frame', 'present an issue from a particular perspective'],
     ['invoke', 'refer to an idea or example for a particular purpose'],
