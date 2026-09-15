@@ -2,121 +2,115 @@ import fs from 'node:fs';
 
 const targetPath = 'src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js';
 const text = fs.readFileSync(targetPath, 'utf8');
-
 const marker = "  if (skill === 'Linear inequalities') {";
 
-const insertion = `  // Batch M construction-level remediation for the persistent linear-family gaps.
-  // These branches change the mathematical construction, not merely the label or difficulty,
-  // while retaining the existing numeric question-type conversion and uniqueness gates.
-  if (skill === 'Linear relationships' || skill === 'Linear functions') {
-    const variant = o % 4;
-    if (variant === 0) {
-      const slope = 2 + (o % 7);
-      const intercept = 9 + (o % 23);
-      const x = 4 + (o % 9);
-      const correct = slope;
-      const prompt = \\`A delivery service charges a fixed fee of \\${intercept} dollars plus \\${slope} dollars per mile. The total cost C is a linear function of the number of miles m. What is the rate of change of C with respect to m?\\`;
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    if (variant === 1) {
-      const x1 = 2 + (o % 8);
-      const slope = 3 + (o % 6);
-      const y1 = 11 + (o % 19);
-      const x2 = x1 + 5 + (o % 4);
-      const y2 = y1 + slope * (x2 - x1);
-      const x3 = x2 + 2 + (o % 5);
-      const correct = y2 + slope * (x3 - x2);
-      const prompt = \\`A linear relationship passes through the points (\\${x1}, \\${y1}) and (\\${x2}, \\${y2}). What is the value of y when x = \\${x3}?\\`;
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    if (variant === 2) {
-      const slope = 2 + (o % 5);
-      const intercept = 14 + (o % 17);
-      const target = 50 + (o % 31);
-      const correct = Math.ceil((target - intercept) / slope);
-      const prompt = \\`A linear model is given by y = \\${slope}x + \\${intercept}. For what smallest whole-number value of x is y at least \\${target}?\\`;
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    const start = 18 + (o % 21);
-    const change = 4 + (o % 6);
-    const periods = 3 + (o % 7);
-    const correct = start + change * periods;
-    const prompt = \\`A quantity starts at \\${start} units and increases by \\${change} units during each of the next \\${periods} equal intervals. Assuming the relationship remains linear, what is the quantity after those intervals?\\`;
-    return setNumericQuestion(question, prompt, correct, o);
-  }
+const insertion = [
+  "  // Batch M construction-level remediation for persistent linear-family gaps.",
+  "  if (skill === 'Linear relationships' || skill === 'Linear functions') {",
+  "    const variant = o % 4;",
+  "    if (variant === 0) {",
+  "      const slope = 2 + (o % 7);",
+  "      const intercept = 9 + (o % 23);",
+  "      const prompt = 'A delivery service charges a fixed fee of ' + intercept + ' dollars plus ' + slope + ' dollars per mile. The total cost C is a linear function of the number of miles m. What is the rate of change of C with respect to m?';",
+  "      return setNumericQuestion(question, prompt, slope, o);",
+  "    }",
+  "    if (variant === 1) {",
+  "      const x1 = 2 + (o % 8);",
+  "      const slope = 3 + (o % 6);",
+  "      const y1 = 11 + (o % 19);",
+  "      const x2 = x1 + 5 + (o % 4);",
+  "      const y2 = y1 + slope * (x2 - x1);",
+  "      const x3 = x2 + 2 + (o % 5);",
+  "      const correct = y2 + slope * (x3 - x2);",
+  "      const prompt = 'A linear relationship passes through the points (' + x1 + ', ' + y1 + ') and (' + x2 + ', ' + y2 + '). What is the value of y when x = ' + x3 + '?';",
+  "      return setNumericQuestion(question, prompt, correct, o);",
+  "    }",
+  "    if (variant === 2) {",
+  "      const slope = 2 + (o % 5);",
+  "      const intercept = 14 + (o % 17);",
+  "      const target = 50 + (o % 31);",
+  "      const correct = Math.ceil((target - intercept) / slope);",
+  "      const prompt = 'A linear model is given by y = ' + slope + 'x + ' + intercept + '. For what smallest whole-number value of x is y at least ' + target + '?';",
+  "      return setNumericQuestion(question, prompt, correct, o);",
+  "    }",
+  "    const start = 18 + (o % 21);",
+  "    const change = 4 + (o % 6);",
+  "    const periods = 3 + (o % 7);",
+  "    const correct = start + change * periods;",
+  "    const prompt = 'A quantity starts at ' + start + ' units and increases by ' + change + ' units during each of the next ' + periods + ' equal intervals. Assuming the relationship remains linear, what is the quantity after those intervals?';",
+  "    return setNumericQuestion(question, prompt, correct, o);",
+  "  }",
+  "",
+  "  if (skill === 'Systems of linear equations' || skill === 'Linear equations') {",
+  "    const variant = o % 4;",
+  "    const a = 2 + (o % 5);",
+  "    const b = 1 + (o % 4);",
+  "    const x = 3 + (o % 9);",
+  "    const y = 5 + ((o * 3) % 8);",
+  "    if (variant === 0) {",
+  "      const c1 = a * x + b * y;",
+  "      const c2 = (a + 1) * x + (b + 2) * y;",
+  "      const prompt = 'The solution to the system of equations ' + a + 'x + ' + b + 'y = ' + c1 + ' and ' + (a + 1) + 'x + ' + (b + 2) + 'y = ' + c2 + ' is (x, y). What is the value of x?';",
+  "      return setNumericQuestion(question, prompt, x, o);",
+  "    }",
+  "    if (variant === 1) {",
+  "      const c1 = a * x - b * y;",
+  "      const c2 = (a + 2) * x - (b + 1) * y;",
+  "      const prompt = 'The solution to the system ' + a + 'x - ' + b + 'y = ' + c1 + ' and ' + (a + 2) + 'x - ' + (b + 1) + 'y = ' + c2 + ' is (x, y). What is x + y?';",
+  "      return setNumericQuestion(question, prompt, x + y, o);",
+  "    }",
+  "    if (variant === 2) {",
+  "      const c1 = a * x + b * y;",
+  "      const c2 = (a + 2) * x + (b - 1) * y;",
+  "      const prompt = 'Two quantities x and y satisfy ' + a + 'x + ' + b + 'y = ' + c1 + ' and ' + (a + 2) + 'x + ' + (b - 1) + 'y = ' + c2 + '. What is the value of y?';",
+  "      return setNumericQuestion(question, prompt, y, o);",
+  "    }",
+  "    const c1 = a * x + b * y;",
+  "    const c2 = (a + 3) * x + (b + 1) * y;",
+  "    const prompt = 'A pair (x, y) satisfies ' + a + 'x + ' + b + 'y = ' + c1 + '. A second condition is ' + (a + 3) + 'x + ' + (b + 1) + 'y = ' + c2 + '. What is the value of x - y?';",
+  "    return setNumericQuestion(question, prompt, x - y, o);",
+  "  }",
+  "",
+  "  if (skill === 'Equivalent linear representations' || skill === 'Linear representations' || skill === 'Linear functions and representations') {",
+  "    const variant = o % 4;",
+  "    if (variant === 0) {",
+  "      const slope = 2 + (o % 6);",
+  "      const intercept = 7 + (o % 19);",
+  "      const x = 4 + (o % 8);",
+  "      const correct = slope * x + intercept;",
+  "      const prompt = 'A line is represented by y = ' + slope + 'x + ' + intercept + '. A table gives the same linear relationship. What y-value belongs in the table when x = ' + x + '?';",
+  "      return setNumericQuestion(question, prompt, correct, o);",
+  "    }",
+  "    if (variant === 1) {",
+  "      const x1 = 1 + (o % 7);",
+  "      const y1 = 8 + (o % 17);",
+  "      const slope = 2 + (o % 5);",
+  "      const x2 = x1 + 4 + (o % 4);",
+  "      const y2 = y1 + slope * (x2 - x1);",
+  "      const prompt = 'A line passes through (' + x1 + ', ' + y1 + ') and (' + x2 + ', ' + y2 + '). Which numerical value represents the slope of the line?';",
+  "      return setNumericQuestion(question, prompt, slope, o);",
+  "    }",
+  "    if (variant === 2) {",
+  "      const slope = 3 + (o % 5);",
+  "      const intercept = 10 + (o % 21);",
+  "      const target = 55 + (o % 25);",
+  "      const correct = (target - intercept) / slope;",
+  "      const prompt = 'A linear relationship has equation y = ' + slope + 'x + ' + intercept + '. What value of x gives y = ' + target + '?';",
+  "      return setNumericQuestion(question, prompt, correct, o);",
+  "    }",
+  "    const slope = 2 + (o % 6);",
+  "    const x1 = 2 + (o % 6);",
+  "    const y1 = 12 + (o % 18);",
+  "    const x2 = x1 + 3 + (o % 5);",
+  "    const y2 = y1 + slope * (x2 - x1);",
+  "    const intercept = y1 - slope * x1;",
+  "    const prompt = 'A linear relationship passes through (' + x1 + ', ' + y1 + ') and (' + x2 + ', ' + y2 + '). When written as y = mx + b, what is the value of b?';",
+  "    return setNumericQuestion(question, prompt, intercept, o);",
+  "  }",
+  "",
+].join('\\n');
 
-  if (skill === 'Systems of linear equations' || skill === 'Linear equations') {
-    const variant = o % 4;
-    const a = 2 + (o % 5);
-    const b = 1 + (o % 4);
-    const x = 3 + (o % 9);
-    const y = 5 + ((o * 3) % 8);
-    if (variant === 0) {
-      const c1 = a * x + b * y;
-      const c2 = (a + 1) * x + (b + 2) * y;
-      const prompt = \\`The solution to the system of equations \\${a}x + \\${b}y = \\${c1} and \\${a + 1}x + \\${b + 2}y = \\${c2} is (x, y). What is the value of x?\\`;
-      return setNumericQuestion(question, prompt, x, o);
-    }
-    if (variant === 1) {
-      const c1 = a * x - b * y;
-      const c2 = (a + 2) * x - (b + 1) * y;
-      const prompt = \\`The solution to the system \\${a}x − \\${b}y = \\${c1} and \\${a + 2}x − \\${b + 1}y = \\${c2} is (x, y). What is x + y?\\`;
-      return setNumericQuestion(question, prompt, x + y, o);
-    }
-    if (variant === 2) {
-      const c1 = a * x + b * y;
-      const c2 = (a + 2) * x + (b - 1) * y;
-      const prompt = \\`Two quantities x and y satisfy \\${a}x + \\${b}y = \\${c1} and \\${a + 2}x + \\${b - 1}y = \\${c2}. What is the value of y?\\`;
-      return setNumericQuestion(question, prompt, y, o);
-    }
-    const c1 = a * x + b * y;
-    const c2 = (a + 3) * x + (b + 1) * y;
-    const prompt = \\`A pair (x, y) satisfies \\${a}x + \\${b}y = \\${c1}. A second condition is \\${a + 3}x + \\${b + 1}y = \\${c2}. What is the value of x − y?\\`;
-    return setNumericQuestion(question, prompt, x - y, o);
-  }
-
-  if (skill === 'Equivalent linear representations' || skill === 'Linear representations' || skill === 'Linear functions and representations') {
-    const variant = o % 4;
-    if (variant === 0) {
-      const slope = 2 + (o % 6);
-      const intercept = 7 + (o % 19);
-      const x = 4 + (o % 8);
-      const correct = slope * x + intercept;
-      const prompt = \\`A line is represented by y = \\${slope}x + \\${intercept}. A table gives the same linear relationship. What y-value belongs in the table when x = \\${x}?\\`;
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    if (variant === 1) {
-      const x1 = 1 + (o % 7);
-      const y1 = 8 + (o % 17);
-      const slope = 2 + (o % 5);
-      const x2 = x1 + 4 + (o % 4);
-      const y2 = y1 + slope * (x2 - x1);
-      const correct = slope;
-      const prompt = \\`A line passes through (\\${x1}, \\${y1}) and (\\${x2}, \\${y2}). Which numerical value represents the slope of the line?\\`;
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    if (variant === 2) {
-      const slope = 3 + (o % 5);
-      const intercept = 10 + (o % 21);
-      const target = 55 + (o % 25);
-      const correct = (target - intercept) / slope;
-      const prompt = \\`A linear relationship has equation y = \\${slope}x + \\${intercept}. What value of x gives y = \\${target}?\\`;
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    const slope = 2 + (o % 6);
-    const x1 = 2 + (o % 6);
-    const y1 = 12 + (o % 18);
-    const x2 = x1 + 3 + (o % 5);
-    const y2 = y1 + slope * (x2 - x1);
-    const intercept = y1 - slope * x1;
-    const correct = intercept;
-    const prompt = \\`A linear relationship passes through (\\${x1}, \\${y1}) and (\\${x2}, \\${y2}). When written as y = mx + b, what is the value of b?\\`;
-    return setNumericQuestion(question, prompt, correct, o);
-  }
-
-`;
-
-if (text.includes(insertion)) {
+if (text.includes("// Batch M construction-level remediation for persistent linear-family gaps.")) {
   console.log(JSON.stringify({ applied: false, rerunnable: true, alreadyApplied: true }, null, 2));
 } else if (text.includes(marker)) {
   fs.writeFileSync(targetPath, text.replace(marker, insertion + marker), 'utf8');
