@@ -6,6 +6,7 @@ on:
       - batch-m-rw-generator-remediation-2026-09-14
     paths-ignore:
       - docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
+      - package-lock.json
   workflow_dispatch:
 
 permissions:
@@ -27,8 +28,10 @@ jobs:
           node-version: 24
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Repair and validate package lock
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Run exact replacement-candidate selection
         run: npm run qc:batch-m-targeted-candidate-selection
@@ -61,10 +64,14 @@ jobs:
           }, null, 2));
           NODE
 
-      - name: Commit generated report
+      - name: Commit generated report and repaired lockfile
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
-          git diff --cached --quiet || git commit -m "chore: record Batch M targeted candidate selection"
-          git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
+          git add package-lock.json docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit"
+          else
+            git commit -m "chore: record Batch M candidate selection and sync lockfile"
+            git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
+          fi
