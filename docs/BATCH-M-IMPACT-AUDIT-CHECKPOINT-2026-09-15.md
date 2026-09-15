@@ -40,7 +40,7 @@ The runner:
 
 - reads the canonical Batch M production corpus;
 - verifies that the frozen corpus still contains exactly 30 mocks;
-- audits only the first 20 targets and verifies they are exactly SAT1–SAT10 + PSAT1–PSAT10;
+- audits only the first 20 targets and maps them by the authoritative frozen order to SAT1–SAT10 + PSAT1–PSAT10;
 - evaluates each frozen question against the strengthened Batch M content-quality checks;
 - records only exact mock/question IDs and defect flags rather than printing full question text;
 - reports Math student-produced-response percentage per mock and flags values outside the approved 25–30% target;
@@ -93,6 +93,9 @@ After the audit produces the affected ID list, the next stage is to review that 
 - `6f1698a088d10a99d80d535d025ad7b90426564` — Batch M: add read-only audit module resolver
 - `4579b4bd740b942f04df860194ed80b5d12e2f01` — Batch M: implement frozen-corpus impact audit
 - `72cd466f9f7960ba2c07bca08841d1d9d67bcea8` — Batch M: add production impact audit command
+- `d6fedf04e26729ea340144e83cca8f137867a5f8` — Batch M: correct frozen-corpus key mapping in impact audit
+
+The final correction is the current audit-runner version and must be included when synchronizing the active working copy.
 
 ## 7. Exact next local action
 
