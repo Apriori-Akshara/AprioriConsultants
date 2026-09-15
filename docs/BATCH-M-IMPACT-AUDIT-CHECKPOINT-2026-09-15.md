@@ -1,8 +1,8 @@
 # Batch M Impact-Audit Checkpoint — September 15, 2026
 
-**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT COMPLETE; TARGETED REPLACEMENT NOT YET AUTHORIZED  
+**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT COMPLETE; CLASSIFICATION IMPLEMENTED; TARGETED REPLACEMENT NOT YET AUTHORIZED  
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
-**Scope:** Read-only identification of genuinely affected frozen production records before targeted replacement  
+**Scope:** Read-only identification and classification of genuinely affected frozen production records before targeted replacement  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
 
 ## 1. Completed representative remediation QC
@@ -46,6 +46,8 @@ The runner:
 - asserts `productionMutation === false` for each evaluation;
 - reports `releaseEligible: false`;
 - does not write to the production store.
+
+The audit runner now also exports its read-only audit/build functions so the classification stage can reuse the exact same first-20 production target construction rather than creating a second independent audit implementation.
 
 ### First harness correction
 
@@ -95,20 +97,34 @@ The impact audit is an **identification pass**, not a final replacement decision
 
 The audit did not mutate production content and did not grant release eligibility.
 
-## 5. Audit categories
+## 5. First post-audit step — classification implementation
 
-The audit maps applicable findings into:
+The first post-audit step is now implemented as a separate read-only command:
 
-- R&W construction/content
-- Difficulty/reasoning demand
-- Math construction/content
-- Math SPR distribution
+`scripts/runBatchMImpactClassification.js`
 
-The audit does not weaken any QC rule to increase the pass count. It is an identification/reporting step only.
+Package command:
+
+`npm run qc:batch-m-impact-classification`
+
+The classifier reuses the exact first-20 impact-audit construction and groups question-level findings into review classes:
+
+1. **HIGH_CONFIDENCE_CONTENT_REVIEW** — findings that are strong candidates for targeted content review, including fixed R&W Words-in-Context targets, R&W template-density findings, and Math generic numeric distractor findings.
+2. **DIFFICULTY_CALIBRATION_REVIEW** — findings where difficulty/reasoning demand needs review, including hard labels without demand features and conflicting difficulty features.
+3. **STRUCTURAL_REVIEW** — Cross-Text/Rhetorical Synthesis structure, incomplete blueprint metadata, figure-purpose, and related structural findings when present.
+4. **MOCK_LEVEL_DISTRIBUTION_REVIEW** — mock-level Math SPR distribution findings.
+
+A single question may belong to more than one review class when multiple independent findings are present. The classifier does **not** approve, replace, delete, reorder, or release any production question.
+
+Implementation commits:
+
+- `20f027d067a511c32cd09d651c441751a87b80d2` — **Batch M: expose read-only impact audit for classification**
+- `7473d352a83ecbc37049ca37d6bcf5f3100ff7fa` — **Batch M: add read-only impact classification report**
+- `291da494ee41c43b67336bd63bf1c7f94791ffcb` — **Batch M: add impact classification command**
 
 ## 6. Node warning
 
-The completed run emitted:
+The completed impact-audit run emitted:
 
 `MODULE_TYPELESS_PACKAGE_JSON`
 
@@ -119,28 +135,33 @@ This is a Node module-type warning for the audit script and did **not** fail the
 The following remain true:
 
 - production corpus remains frozen;
-- no accepted question was replaced by the audit;
+- no accepted question was replaced by the audit or classification implementation;
 - no production question was deleted or reordered;
 - no release eligibility was granted;
 - no SAT21 target was created;
 - no wholesale regeneration was authorized.
 
-## 8. Earlier implementation commits recorded
+## 8. Exact next local action
 
-- `12cb37e2d30d52f6b7a2d61ce893231df3c4c744` — Batch M: add read-only audit module loader
-- `6f1698a088d10a99d80d535d025ad7b90426564` — Batch M: add read-only audit module resolver
-- `4579b4bd740b942f04df860194ed80b5d12e2f01` — Batch M: implement frozen-corpus impact audit
-- `72cd466f9f7960ba2c07bca08841d1d9d67bcea8` — Batch M: add production impact audit command
-- `d6fedf04e26729ea340144e83cca8f137867a5f8` — Batch M: correct frozen-corpus key mapping in impact audit
-- `00baaa23389e6265a82bc48ebf47d1dd920ce6e5` — Batch M: isolate impact audit to first 20 production targets
-- `a1ddd0888ab7ffd38a60951462542e371580f2a1` — Batch M: correct impact audit SAT2 baseline argument
+From the active Git-connected folder:
 
-## 9. Next required stage
+`D:\AprioriConsultants-Git`
 
-**Targeted replacement/review preparation.**
+after Fetch/Pull has synchronized the latest classification implementation, run:
 
-The 2,144 affected-question figure must be treated as a candidate impact set produced by the current deterministic audit. Before any replacement occurs, the findings must be reviewed/classified so only genuinely affected records enter the targeted replacement/re-gating process.
+`npm run qc:batch-m-impact-classification`
 
-After targeted replacement, affected-mock gates and the final collective 30-mock corpus gate remain mandatory before 30-mock calibration and final release verification.
+The classification result must be recorded before any targeted production replacement is attempted or discussed as an approved replacement set.
+
+## 9. Later mandatory gates
+
+After classification and any subsequently authorized targeted replacements:
+
+1. rerun affected individual mock gates;
+2. rerun the final collective 30-mock corpus gate;
+3. perform 30-mock cross-corpus calibration;
+4. complete deferred public verification of SAT11–SAT20;
+5. perform final end-to-end student acceptance;
+6. finalize Batch M release acceptance.
 
 No SAT21 or additional production target may be created.
