@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 1111,
-    "noEligibleCandidate": 483,
+    "selected": 1098,
+    "noEligibleCandidate": 496,
     "sat": 1071,
     "psat": 1073
   },
@@ -138,12 +138,12 @@
       "count": 99
     },
     {
-      "key": "math:Linear equations",
-      "count": 89
-    },
-    {
       "key": "math:Quadratic equations",
       "count": 87
+    },
+    {
+      "key": "math:Linear equations",
+      "count": 76
     },
     {
       "key": "math:Percentages",
@@ -282,22 +282,22 @@
     {
       "section": "math",
       "skill": "Linear equations",
-      "noEligibleCandidateCount": 36,
+      "noEligibleCandidateCount": 49,
       "targetCount": 125,
-      "selectedCount": 89,
-      "coveragePercent": 71.2,
+      "selectedCount": 76,
+      "coveragePercent": 60.8,
       "topRejectionReasons": [
         {
           "key": "candidate-reuse",
-          "count": 108
+          "count": 147
         },
         {
           "key": "difficulty-mismatch",
-          "count": 36
+          "count": 49
         },
         {
           "key": "question-type-mismatch",
-          "count": 36
+          "count": 49
         }
       ]
     },
@@ -525,7 +525,7 @@
   "noEligibleCandidateBySection": [
     {
       "key": "math",
-      "count": 433
+      "count": 446
     },
     {
       "key": "reading-writing",
@@ -558,6 +558,14 @@
       "count": 27
     },
     {
+      "key": "PSAT9",
+      "count": 27
+    },
+    {
+      "key": "SAT10",
+      "count": 26
+    },
+    {
       "key": "PSAT3",
       "count": 25
     },
@@ -578,10 +586,6 @@
       "count": 23
     },
     {
-      "key": "SAT10",
-      "count": 23
-    },
-    {
       "key": "SAT6",
       "count": 23
     },
@@ -591,10 +595,6 @@
     },
     {
       "key": "PSAT10",
-      "count": 21
-    },
-    {
-      "key": "PSAT9",
       "count": 21
     },
     {
@@ -611,21 +611,21 @@
     },
     {
       "key": "SAT1",
-      "count": 13
+      "count": 17
     }
   ],
   "rejectionReasonCounts": [
     {
       "key": "difficulty-mismatch",
-      "count": 1774
+      "count": 1787
     },
     {
       "key": "candidate-reuse",
-      "count": 1284
+      "count": 1323
     },
     {
       "key": "question-type-mismatch",
-      "count": 433
+      "count": 446
     }
   ],
   "rejectionReasonsByMissingSkill": [
@@ -668,15 +668,15 @@
       "reasons": [
         {
           "key": "candidate-reuse",
-          "count": 108
+          "count": 147
         },
         {
           "key": "difficulty-mismatch",
-          "count": 36
+          "count": 49
         },
         {
           "key": "question-type-mismatch",
-          "count": 36
+          "count": 49
         }
       ]
     },
