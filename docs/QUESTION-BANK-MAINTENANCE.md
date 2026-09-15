@@ -115,6 +115,23 @@ If a genuine production-corpus change is required:
 
 No SAT21 or additional production target may be created.
 
+## Working-copy rule for GitHub Desktop and legacy backup
+
+There are two local project folders used during this project and they must not be treated as interchangeable:
+
+- **Active authoritative working copy:** `AprioriConsultants-Git` — the GitHub Desktop-connected local repository used for current Batch M remediation work since September 14, 2026. Current branch work, edits, commits, pushes, pulls, and QC commands must be performed here unless explicitly stated otherwise.
+- **Older backup/reference copy:** `AprioriConsultants` — the pre-GitHub-Desktop local folder retained as a backup and historical reference. It may contain legitimate earlier changes that were never synchronized to the online repository.
+
+The backup copy is not authoritative for current work. Do not run the current Batch M QC from it and do not copy/merge files from it blindly. When a material discrepancy is found, compare the specific file against the active Git-connected copy and the online branch, then recover only verified work.
+
+Before running any Git/npm command for the current Batch M task, first confirm the command prompt is in the active `AprioriConsultants-Git` folder and confirm the intended branch with `git branch --show-current`.
+
+## Known synchronization discrepancy — targeted dry-run runner
+
+`scripts/runBatchMTargetedReplacementDryRun.js` exists in a stronger local form than the version currently recorded online. The shared/local form adds explicit candidate-only assertions (`productionMutation === false`, `releaseEligible === false`), minimum pool-size checks, clearer per-gate reporting, and a final dry-run status block. The discrepancy is recorded so it is not mistaken for an accidental file loss.
+
+The online GitHub version remains the baseline until the verified local form is deliberately synchronized and committed. The two versions must not be silently allowed to diverge.
+
 ## Post-freeze maintenance rules
 
 - No new Batch M target may be created.
