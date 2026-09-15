@@ -1,6 +1,6 @@
 {
   "reportType": "batch-m-targeted-candidate-coverage-analysis",
-  "reportVersion": "2026-09-15.targeted-candidate-coverage.v1",
+  "reportVersion": "2026-09-15.targeted-candidate-coverage.v2",
   "sourceReport": "docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json",
   "affectedUniqueQuestionCount": 2144,
   "selectionSummary": {
@@ -149,7 +149,21 @@
       "noEligibleCandidateCount": 170,
       "targetCount": 216,
       "selectedCount": 46,
-      "coveragePercent": 21.3
+      "coveragePercent": 21.3,
+      "topRejectionReasons": [
+        {
+          "key": "candidate-reuse",
+          "count": 680
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 432
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 415
+        }
+      ]
     },
     {
       "section": "math",
@@ -157,7 +171,8 @@
       "noEligibleCandidateCount": 137,
       "targetCount": 137,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -165,7 +180,8 @@
       "noEligibleCandidateCount": 125,
       "targetCount": 125,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -173,7 +189,25 @@
       "noEligibleCandidateCount": 116,
       "targetCount": 135,
       "selectedCount": 19,
-      "coveragePercent": 14.07
+      "coveragePercent": 14.07,
+      "topRejectionReasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 398
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 276
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 228
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 116
+        }
+      ]
     },
     {
       "section": "math",
@@ -181,7 +215,8 @@
       "noEligibleCandidateCount": 107,
       "targetCount": 107,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -189,7 +224,8 @@
       "noEligibleCandidateCount": 103,
       "targetCount": 103,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -197,7 +233,8 @@
       "noEligibleCandidateCount": 95,
       "targetCount": 95,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -205,7 +242,8 @@
       "noEligibleCandidateCount": 93,
       "targetCount": 93,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -213,7 +251,8 @@
       "noEligibleCandidateCount": 80,
       "targetCount": 80,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -221,7 +260,25 @@
       "noEligibleCandidateCount": 74,
       "targetCount": 125,
       "selectedCount": 51,
-      "coveragePercent": 40.8
+      "coveragePercent": 40.8,
+      "topRejectionReasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 248
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 160
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 138
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 74
+        }
+      ]
     },
     {
       "section": "math",
@@ -229,7 +286,8 @@
       "noEligibleCandidateCount": 70,
       "targetCount": 70,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -237,7 +295,8 @@
       "noEligibleCandidateCount": 68,
       "targetCount": 68,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -245,7 +304,8 @@
       "noEligibleCandidateCount": 64,
       "targetCount": 64,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -253,7 +313,8 @@
       "noEligibleCandidateCount": 60,
       "targetCount": 60,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": []
     },
     {
       "section": "math",
@@ -261,7 +322,21 @@
       "noEligibleCandidateCount": 48,
       "targetCount": 48,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": [
+        {
+          "key": "figure-type-mismatch",
+          "count": 192
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 120
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 88
+        }
+      ]
     },
     {
       "section": "math",
@@ -269,7 +344,25 @@
       "noEligibleCandidateCount": 46,
       "targetCount": 46,
       "selectedCount": 0,
-      "coveragePercent": 0
+      "coveragePercent": 0,
+      "topRejectionReasons": [
+        {
+          "key": "figure-type-mismatch",
+          "count": 184
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 148
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 96
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 46
+        }
+      ]
     },
     {
       "section": "reading-writing",
@@ -277,7 +370,21 @@
       "noEligibleCandidateCount": 6,
       "targetCount": 90,
       "selectedCount": 6,
-      "coveragePercent": 6.67
+      "coveragePercent": 6.67,
+      "topRejectionReasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 24
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 18
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 12
+        }
+      ]
     },
     {
       "section": "reading-writing",
@@ -285,7 +392,21 @@
       "noEligibleCandidateCount": 5,
       "targetCount": 94,
       "selectedCount": 5,
-      "coveragePercent": 5.32
+      "coveragePercent": 5.32,
+      "topRejectionReasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 20
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 20
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 14
+        }
+      ]
     }
   ],
   "noEligibleCandidateBySection": [
@@ -380,10 +501,165 @@
       "count": 59
     }
   ],
+  "rejectionReasonCounts": [
+    {
+      "key": "difficulty-mismatch",
+      "count": 1251
+    },
+    {
+      "key": "assessment-variant-mismatch",
+      "count": 1184
+    },
+    {
+      "key": "candidate-reuse",
+      "count": 1100
+    },
+    {
+      "key": "figure-type-mismatch",
+      "count": 376
+    },
+    {
+      "key": "question-type-mismatch",
+      "count": 236
+    }
+  ],
+  "rejectionReasonsByMissingSkill": [
+    {
+      "key": "math:Data models",
+      "reasons": [
+        {
+          "key": "figure-type-mismatch",
+          "count": 192
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 120
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 88
+        }
+      ]
+    },
+    {
+      "key": "math:Exponential equations",
+      "reasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 248
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 160
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 138
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 74
+        }
+      ]
+    },
+    {
+      "key": "math:Linear functions",
+      "reasons": [
+        {
+          "key": "difficulty-mismatch",
+          "count": 398
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 276
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 228
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 116
+        }
+      ]
+    },
+    {
+      "key": "math:Right triangles",
+      "reasons": [
+        {
+          "key": "figure-type-mismatch",
+          "count": 184
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 148
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 96
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 46
+        }
+      ]
+    },
+    {
+      "key": "reading-writing:Cross-Text Connections",
+      "reasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 20
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 20
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "key": "reading-writing:Inferences",
+      "reasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 24
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 18
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "key": "reading-writing:Words in Context",
+      "reasons": [
+        {
+          "key": "candidate-reuse",
+          "count": 680
+        },
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 432
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 415
+        }
+      ]
+    }
+  ],
   "productionMutation": false,
   "releaseEligible": false,
   "replacementAuthorization": "NOT_AUTHORIZED",
   "sat21Created": false,
   "status": "CANDIDATE_COVERAGE_GAP_IDENTIFIED",
-  "nextAction": "Expand or refine remediation candidate generation only for missing section/skill combinations; do not authorize production replacement yet."
+  "nextAction": "Use rejection-reason evidence to expand or refine remediation candidate generation only for the actual blocking filters; do not authorize production replacement yet."
 }
