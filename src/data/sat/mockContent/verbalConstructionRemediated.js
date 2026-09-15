@@ -145,6 +145,51 @@ const WIC_CONTEXTS = [
   'The context makes the term’s meaning specific to the pattern being described rather than to the topic in general.',
 ];
 
+const REASONING_QUESTION_FORMS = [
+  'Which choice best states the central idea of the text?',
+  'Which choice best describes what the text establishes?',
+  'Which choice best captures the development of the text?',
+  'Which choice best summarizes the passage’s main point?',
+  'Which statement most accurately reflects the text’s central claim?',
+  'Which choice best expresses the conclusion supported by the passage?',
+  'Which choice most precisely describes the main idea developed in the text?',
+  'What is the best summary of the text’s central point?',
+  'Which statement best represents what the passage shows?',
+  'Which choice most accurately captures the passage’s overall conclusion?',
+  'What conclusion about the text is best supported by the information presented?',
+  'Which choice best characterizes the principal idea established by the passage?'
+];
+
+const INFERENCE_QUESTION_FORMS = [
+  'Which inference is best supported by the text?',
+  'What can most reasonably be inferred from the passage?',
+  'The passage most strongly suggests that',
+  'Which conclusion is most directly supported by the information in the text?',
+  'What does the passage most strongly imply about the reported result?',
+  'Which inference follows most logically from the evidence presented?',
+  'What can a reader most reasonably conclude from the passage?',
+  'Which statement is most strongly supported as an inference from the text?',
+  'The evidence in the passage most strongly supports which conclusion?',
+  'Which conclusion can be drawn most reasonably from the passage?',
+  'What does the evidence most clearly imply?',
+  'Which inference best accounts for the information presented in the text?'
+];
+
+const TEXT_STRUCTURE_QUESTION_FORMS = [
+  'Why does the author include the second sentence?',
+  'What is the primary function of the latter part of the passage?',
+  'How does the second observation contribute to the passage?',
+  'What role does the later evidence play in the text?',
+  'Why does the author introduce the second observation at this point?',
+  'How does the passage’s later detail affect its overall structure?',
+  'What is the main purpose of the passage’s final observation?',
+  'How does the second part of the text support the author’s purpose?',
+  'What function does the later evidence serve in the development of the passage?',
+  'Why does the author shift from the initial observation to the later detail?',
+  'How does the final observation change the way the earlier point is understood?',
+  'What structural role does the later condition play in the passage?'
+];
+
 const ERROR_PATTERNS = [
   ['true-but-nonresponsive', 'states a true detail that does not answer the question asked'],
   ['reversed-relationship', 'reverses which condition affects the observed result'],
@@ -281,7 +326,7 @@ function makeCrossText(index) {
   };
 }
 
-function makeReasoningTask(plan, stimulus, index) {
+function makeReasoningTask(plan, stimulus, index, reasoningOrdinal = index) {
   const taskFamilies = {
     'Central Ideas and Details': [
       ['Which choice best states the central idea of the text?', 'The later evidence changes how the initial observation should be interpreted.', 'The passage argues that the initial observation has no value.', 'The passage focuses on an unrelated history of the topic.', 'The later evidence confirms every possible explanation of the initial observation.'],
@@ -300,15 +345,25 @@ function makeReasoningTask(plan, stimulus, index) {
     ],
   };
   const sets = taskFamilies[plan.skill];
-  const set = sets ? pick(sets, index) : null;
-  if (set) return { prompt: `${stimulus}\n\n${set[0]}`, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(index, 41, 4)) };
+  if (sets) {
+    const set = pick(sets, reasoningOrdinal);
+    const promptForms = plan.skill === 'Inferences'
+      ? INFERENCE_QUESTION_FORMS
+      : plan.skill === 'Text Structure and Purpose'
+        ? TEXT_STRUCTURE_QUESTION_FORMS
+        : REASONING_QUESTION_FORMS;
+    const questionIndex = reasoningOrdinal % promptForms.length;
+    const contextualPrompt = [stimulus, '', promptForms[questionIndex]].join('\n');
+    return { prompt: contextualPrompt, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(reasoningOrdinal, 41, 4)) };
+  }
   const generic = [
     'The text presents a finding while distinguishing the evidence from a broader conclusion.',
     'The text establishes that the finding applies without exception.',
     'The text discusses background information without interpreting the evidence.',
     'The text argues that the evidence cannot be compared across conditions.',
   ];
-  return { prompt: `${stimulus}\n\nWhich choice best states the main idea of the text?`, ...rotateChoices(generic, hashIndex(index, 43, 4)) };
+  const genericPrompt = `${pick(REASONING_QUESTION_FORMS, reasoningOrdinal)}\n\nWhich choice best identifies the text’s main point?`;
+  return { prompt: `${stimulus}\n\n${genericPrompt}`, ...rotateChoices(generic, hashIndex(reasoningOrdinal, 43, 4)) };
 }
 
 function makeSENTask(skill, index) {
@@ -347,6 +402,7 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
   const construction = pick(RW_REMEDIATION_CONSTRUCTIONS[plan.skill], index + Math.floor(index / SECTIONS.length));
   const difficulty = pick(DIFFICULTY_CYCLE, index + Math.floor(index / 7));
   const stimulus = makeStimulus(family, index);
+  const reasoningOrdinal = Math.floor(index / SECTIONS.length);
   let result;
   let targetWord = null;
   let crossTextRelationship = null;
@@ -363,7 +419,7 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
     result = makeSynthesis(synthesisOrdinal);
   }
   else if (plan.skill === 'Transitions' || plan.skill === 'Boundaries' || plan.skill === 'Form, Structure, and Sense') result = makeSENTask(plan.skill, index);
-  else result = makeReasoningTask(plan, stimulus, index);
+  else result = makeReasoningTask(plan, stimulus, index, reasoningOrdinal);
 
   targetWord = result.targetWord || null;
   crossTextRelationship = result.crossTextRelationship || null;
