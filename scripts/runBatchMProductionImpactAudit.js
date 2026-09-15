@@ -29,12 +29,12 @@ import { runBatchMPSATNinthProductionGate } from '../src/data/sat/mockContent/ba
 import { runBatchMPSATTenthProductionGate } from '../src/data/sat/mockContent/batchMPSATTenthProductionGate.js';
 import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
 
-const TARGET_KEYS = [
+export const TARGET_KEYS = [
   ...Array.from({ length: 10 }, (_, index) => `SAT${index + 1}`),
   ...Array.from({ length: 10 }, (_, index) => `PSAT${index + 1}`),
 ];
 
-const IMPACT_FLAGS = new Set([
+export const IMPACT_FLAGS = new Set([
   'rw-template-density',
   'rw-choice-near-duplicate',
   'rw-fixed-wic-target',
@@ -51,7 +51,7 @@ const IMPACT_FLAGS = new Set([
   'math-figure-not-essential',
 ]);
 
-function flagCategory(flag) {
+export function flagCategory(flag) {
   if (flag.startsWith('rw-')) return 'R&W construction/content';
   if (flag.includes('difficulty') || flag.includes('multi-step') || flag === 'medium-item-too-thin') {
     return 'Difficulty/reasoning demand';
@@ -67,7 +67,7 @@ function collectQuestions(mock) {
   ];
 }
 
-function auditMock(mock, testKey) {
+export function auditMock(mock, testKey) {
   const questions = collectQuestions(mock);
   const findings = [];
 
@@ -124,7 +124,7 @@ function auditMock(mock, testKey) {
   };
 }
 
-function buildFirstTwentyProductionMocks() {
+export function buildFirstTwentyProductionMocks() {
   const satResults = [];
   const sat1 = runBatchMFirstProductionGate().productionMock;
   satResults.push(sat1);
@@ -163,7 +163,7 @@ function buildFirstTwentyProductionMocks() {
   return [...satResults, ...psatResults];
 }
 
-function main() {
+export function runImpactAudit() {
   const targetMocks = buildFirstTwentyProductionMocks();
 
   if (targetMocks.length !== 20) {
@@ -185,7 +185,7 @@ function main() {
     });
   });
 
-  const summary = {
+  return {
     auditType: 'read-only-production-impact-audit',
     auditedMocks: targetMocks.length,
     auditedMockKeys: TARGET_KEYS,
@@ -196,7 +196,13 @@ function main() {
     productionMutation: false,
     releaseEligible: false,
     status: 'IMPACT_IDENTIFICATION_COMPLETE',
+    mockReports,
+    findings,
   };
+}
+
+function main() {
+  const summary = runImpactAudit();
 
   console.log('Batch M production impact audit complete.');
   console.log(`Audited mocks: ${summary.auditedMocks}`);
@@ -208,15 +214,16 @@ function main() {
   console.log('');
   console.log('Finding counts:');
 
-  const flags = Object.keys(flagCounts).sort();
+  const flags = Object.keys(summary.flagCounts).sort();
   if (!flags.length) {
     console.log('  none');
   } else {
-    flags.forEach((flag) => console.log(`  ${flag}: ${flagCounts[flag]}`));
+    flags.forEach((flag) => console.log(`  ${flag}: ${summary.flagCounts[flag]}`));
   }
 
   console.log('');
   console.log('Affected question IDs:');
+  const affectedQuestionFindings = summary.findings.filter((finding) => finding.questionId);
   if (!affectedQuestionFindings.length) {
     console.log('  none');
   } else {
@@ -227,12 +234,24 @@ function main() {
 
   console.log('');
   console.log('Mock SPR distribution:');
-  mockReports.forEach((report) => {
+  summary.mockReports.forEach((report) => {
     console.log(`  ${report.testKey}: ${report.sprPercent}% (${report.sprCount}/${report.mathCount})`);
   });
 
   console.log('');
-  console.log(JSON.stringify(summary));
+  console.log(JSON.stringify({
+    auditType: summary.auditType,
+    auditedMocks: summary.auditedMocks,
+    auditedMockKeys: summary.auditedMockKeys,
+    auditedQuestions: summary.auditedQuestions,
+    affectedUniqueQuestionCount: summary.affectedUniqueQuestionCount,
+    findingCount: summary.findingCount,
+    flagCounts: summary.flagCounts,
+    productionMutation: summary.productionMutation,
+    releaseEligible: summary.releaseEligible,
+    status: summary.status,
+  }));
 }
 
-main();
+const isDirectExecution = import.meta.url === new URL(`file://${process.argv[1].replaceAll('\\', '/')}`).href;
+if (isDirectExecution) main();
