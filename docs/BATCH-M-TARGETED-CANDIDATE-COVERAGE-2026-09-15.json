@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 408,
-    "noEligibleCandidate": 1186,
+    "selected": 410,
+    "noEligibleCandidate": 1184,
     "sat": 1071,
     "psat": 1073
   },
@@ -175,6 +175,10 @@
     },
     {
       "key": "math:Geometry and measurement",
+      "count": 2
+    },
+    {
+      "key": "math:Right triangles",
       "count": 2
     },
     {
@@ -490,15 +494,11 @@
     {
       "section": "math",
       "skill": "Right triangles",
-      "noEligibleCandidateCount": 46,
+      "noEligibleCandidateCount": 44,
       "targetCount": 46,
-      "selectedCount": 0,
-      "coveragePercent": 0,
+      "selectedCount": 2,
+      "coveragePercent": 4.35,
       "topRejectionReasons": [
-        {
-          "key": "figure-type-mismatch",
-          "count": 184
-        },
         {
           "key": "difficulty-mismatch",
           "count": 148
@@ -508,8 +508,12 @@
           "count": 96
         },
         {
+          "key": "candidate-reuse",
+          "count": 93
+        },
+        {
           "key": "question-type-mismatch",
-          "count": 46
+          "count": 44
         }
       ]
     },
@@ -639,7 +643,7 @@
   "noEligibleCandidateBySection": [
     {
       "key": "math",
-      "count": 1042
+      "count": 1040
     },
     {
       "key": "reading-writing",
@@ -700,20 +704,16 @@
       "count": 40
     },
     {
-      "key": "PSAT2",
-      "count": 39
-    },
-    {
       "key": "PSAT3",
       "count": 39
     },
     {
-      "key": "PSAT6",
-      "count": 37
+      "key": "PSAT2",
+      "count": 38
     },
     {
-      "key": "PSAT10",
-      "count": 36
+      "key": "PSAT6",
+      "count": 37
     },
     {
       "key": "PSAT4",
@@ -722,6 +722,10 @@
     {
       "key": "PSAT9",
       "count": 36
+    },
+    {
+      "key": "PSAT10",
+      "count": 35
     },
     {
       "key": "PSAT7",
@@ -739,11 +743,11 @@
     },
     {
       "key": "candidate-reuse",
-      "count": 2257
+      "count": 2350
     },
     {
       "key": "question-type-mismatch",
-      "count": 994
+      "count": 992
     },
     {
       "key": "figure-required",
@@ -751,7 +755,7 @@
     },
     {
       "key": "figure-type-mismatch",
-      "count": 376
+      "count": 192
     }
   ],
   "rejectionReasonsByMissingSkill": [
@@ -1007,10 +1011,6 @@
       "key": "math:Right triangles",
       "reasons": [
         {
-          "key": "figure-type-mismatch",
-          "count": 184
-        },
-        {
           "key": "difficulty-mismatch",
           "count": 148
         },
@@ -1019,8 +1019,12 @@
           "count": 96
         },
         {
+          "key": "candidate-reuse",
+          "count": 93
+        },
+        {
           "key": "question-type-mismatch",
-          "count": 46
+          "count": 44
         }
       ]
     },

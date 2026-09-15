@@ -1,3 +1,4 @@
+// Batch M canonical figure-type remediation
 import { generateRemediatedMathCandidates as generateBaseMathCandidates } from './mathBankFactoryRemediated.js';
 import { DIFFICULTY_REQUIREMENTS, PSAT_CEILING_RULES } from './batchMRemediationBlueprint.js';
 
@@ -190,7 +191,7 @@ function remapFigureCandidate(question, occurrence) {
     const prompt = `A right triangle has one leg of ${leg} and hypotenuse of ${hyp}. What is the length of the other leg?`;
     return {
       ...setNumericQuestion(question, prompt, correct, o),
-      figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct } },
+      figure: { type: 'right_triangle', values: { x: leg, y: correct } },
     };
   }
 
@@ -233,7 +234,7 @@ function remapFigureCandidate(question, occurrence) {
     return {
       ...question,
       figure: {
-        type: 'quadratic',
+        type: 'parabola',
         a,
         b,
         c,
