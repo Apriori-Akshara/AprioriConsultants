@@ -68,7 +68,7 @@ const newTargets = `const WIC_TARGETS = {
 };`;
 
 if (!source.includes(oldTargets)) throw new Error('Expected WIC_TARGETS block not found.');
-let updated = source.replace(oldTargets, `${newTargets}\n\n${marker}`);
+let updated = source.replace(oldTargets, newTargets + '\n\n' + marker);
 
 const oldBuild = `  else if (plan.skill === 'Words in Context') {
     const wicOrdinal = Math.floor(index / SECTIONS.length);
