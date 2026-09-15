@@ -45,6 +45,40 @@ jobs:
           node --check scripts/batchMExtensionlessModuleLoader.mjs
           node --check scripts/batchMExtensionlessResolve.mjs
 
+      - name: Diagnose candidate-pool quality failures
+        run: |
+          node --import ./scripts/batchMExtensionlessModuleLoader.mjs --input-type=module <<'NODE'
+          import { buildRepresentativeBatchMRemediationCandidates } from './src/data/sat/mockContent/batchMRemediationCandidateFactory.js';
+          import { evaluateContentQualityBatch } from './src/data/sat/mockContent/batchMContentQualityGate.js';
+          for (const [product, variant, testId] of [
+            ['sat', 'sat', 'SAT1'],
+            ['psat', 'psat-nmsqt', 'PSAT1'],
+          ]) {
+            const result = buildRepresentativeBatchMRemediationCandidates({ rwCount: 900, mathCount: 4500, testId, variant });
+            const quality = evaluateContentQualityBatch(result.candidates);
+            const noteCounts = {};
+            const severityCounts = {};
+            for (const item of quality.items) {
+              if (item.verdict === 'pass') continue;
+              severityCounts[item.severity] = (severityCounts[item.severity] || 0) + 1;
+              for (const note of item.checks) noteCounts[note] = (noteCounts[note] || 0) + 1;
+            }
+            console.log(JSON.stringify({
+              product,
+              candidateCount: result.candidates.length,
+              passed: quality.passed,
+              failedCount: quality.failedCount,
+              seriousFailureCount: quality.seriousFailureCount,
+              severityCounts,
+              noteCounts,
+              samples: result.candidates
+                .map((candidate, index) => ({ candidateIndex: index, questionId: candidate.questionId, section: candidate.section, skill: candidate.skill, domain: candidate.domain, difficulty: candidate.difficulty, verdict: quality.items[index].verdict, checks: quality.items[index].checks }))
+                .filter((item) => item.verdict !== 'pass')
+                .slice(0, 20),
+            }, null, 2));
+          }
+          NODE
+
       - name: Run exact replacement-candidate selection
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedCandidateSelection.js
 
