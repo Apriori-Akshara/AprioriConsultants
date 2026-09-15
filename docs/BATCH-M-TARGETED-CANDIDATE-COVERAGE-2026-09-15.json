@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 410,
-    "noEligibleCandidate": 1184,
+    "selected": 436,
+    "noEligibleCandidate": 1158,
     "sat": 1071,
     "psat": 1073
   },
@@ -148,6 +148,10 @@
     {
       "key": "math:Percentages",
       "count": 32
+    },
+    {
+      "key": "math:Data models",
+      "count": 26
     },
     {
       "key": "math:Linear functions",
@@ -471,28 +475,6 @@
     },
     {
       "section": "math",
-      "skill": "Data models",
-      "noEligibleCandidateCount": 48,
-      "targetCount": 48,
-      "selectedCount": 0,
-      "coveragePercent": 0,
-      "topRejectionReasons": [
-        {
-          "key": "figure-type-mismatch",
-          "count": 192
-        },
-        {
-          "key": "difficulty-mismatch",
-          "count": 132
-        },
-        {
-          "key": "assessment-variant-mismatch",
-          "count": 88
-        }
-      ]
-    },
-    {
-      "section": "math",
       "skill": "Right triangles",
       "noEligibleCandidateCount": 44,
       "targetCount": 46,
@@ -596,6 +578,28 @@
       ]
     },
     {
+      "section": "math",
+      "skill": "Data models",
+      "noEligibleCandidateCount": 22,
+      "targetCount": 48,
+      "selectedCount": 26,
+      "coveragePercent": 54.17,
+      "topRejectionReasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 88
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 66
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 60
+        }
+      ]
+    },
+    {
       "section": "reading-writing",
       "skill": "Inferences",
       "noEligibleCandidateCount": 6,
@@ -643,7 +647,7 @@
   "noEligibleCandidateBySection": [
     {
       "key": "math",
-      "count": 1040
+      "count": 1014
     },
     {
       "key": "reading-writing",
@@ -693,49 +697,49 @@
     },
     {
       "key": "PSAT5",
-      "count": 48
+      "count": 46
     },
     {
       "key": "PSAT8",
-      "count": 44
+      "count": 42
     },
     {
       "key": "PSAT1",
-      "count": 40
+      "count": 36
     },
     {
       "key": "PSAT3",
-      "count": 39
-    },
-    {
-      "key": "PSAT2",
-      "count": 38
+      "count": 36
     },
     {
       "key": "PSAT6",
-      "count": 37
+      "count": 35
+    },
+    {
+      "key": "PSAT2",
+      "count": 34
     },
     {
       "key": "PSAT4",
-      "count": 36
-    },
-    {
-      "key": "PSAT9",
-      "count": 36
-    },
-    {
-      "key": "PSAT10",
-      "count": 35
+      "count": 34
     },
     {
       "key": "PSAT7",
-      "count": 35
+      "count": 34
+    },
+    {
+      "key": "PSAT9",
+      "count": 34
+    },
+    {
+      "key": "PSAT10",
+      "count": 31
     }
   ],
   "rejectionReasonCounts": [
     {
       "key": "difficulty-mismatch",
-      "count": 3265
+      "count": 3193
     },
     {
       "key": "assessment-variant-mismatch",
@@ -743,7 +747,7 @@
     },
     {
       "key": "candidate-reuse",
-      "count": 2350
+      "count": 2416
     },
     {
       "key": "question-type-mismatch",
@@ -752,10 +756,6 @@
     {
       "key": "figure-required",
       "count": 548
-    },
-    {
-      "key": "figure-type-mismatch",
-      "count": 192
     }
   ],
   "rejectionReasonsByMissingSkill": [
@@ -763,16 +763,16 @@
       "key": "math:Data models",
       "reasons": [
         {
-          "key": "figure-type-mismatch",
-          "count": 192
+          "key": "assessment-variant-mismatch",
+          "count": 88
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 66
         },
         {
           "key": "difficulty-mismatch",
-          "count": 132
-        },
-        {
-          "key": "assessment-variant-mismatch",
-          "count": 88
+          "count": 60
         }
       ]
     },

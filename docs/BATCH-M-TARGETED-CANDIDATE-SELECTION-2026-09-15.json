@@ -18,8 +18,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 410,
-    "noEligibleCandidate": 1184,
+    "selected": 436,
+    "noEligibleCandidate": 1158,
     "sat": 1071,
     "psat": 1073
   },
@@ -935,13 +935,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2556:ab3a8877d72e8468",
+          "poolIndex": 2556,
+          "fingerprint": "ab3a8877d72e8468",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2620:7250f15af6fa474e",
+          "poolIndex": 2620,
+          "fingerprint": "7250f15af6fa474e",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -950,32 +979,12 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2556:ab3a8877d72e8468"
     },
     {
       "testKey": "PSAT1",
@@ -1948,13 +1957,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2684:f607b8be16a67ad4",
+          "poolIndex": 2684,
+          "fingerprint": "f607b8be16a67ad4",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2748:fe63dfc2149f2e57",
+          "poolIndex": 2748,
+          "fingerprint": "fe63dfc2149f2e57",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -1963,32 +2001,12 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2684:f607b8be16a67ad4"
     },
     {
       "testKey": "PSAT1",
@@ -3057,31 +3075,42 @@
       },
       "options": [
         {
-          "candidateKey": "psat:2508:7bd24264db000590",
-          "poolIndex": 2508,
-          "fingerprint": "7bd24264db000590",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
           "candidateKey": "psat:2524:d1f606cd8056c1ca",
           "poolIndex": 2524,
           "fingerprint": "d1f606cd8056c1ca",
-          "verdict": "rejected",
+          "verdict": "eligible",
           "reasons": [
-            "figure-type-mismatch"
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
           ]
         },
         {
           "candidateKey": "psat:2540:0ba79098407e29ae",
           "poolIndex": 2540,
           "fingerprint": "0ba79098407e29ae",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2508:7bd24264db000590",
+          "poolIndex": 2508,
+          "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -3091,12 +3120,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2524:d1f606cd8056c1ca"
     },
     {
       "testKey": "PSAT1",
@@ -4331,13 +4360,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2812:aef66ec5b3c7f5b3",
+          "poolIndex": 2812,
+          "fingerprint": "aef66ec5b3c7f5b3",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2876:f38acc8feaab0cb1",
+          "poolIndex": 2876,
+          "fingerprint": "f38acc8feaab0cb1",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -4347,31 +4405,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2812:aef66ec5b3c7f5b3"
     },
     {
       "testKey": "PSAT1",
@@ -8460,13 +8499,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2940:9796f9bbe7882123",
+          "poolIndex": 2940,
+          "fingerprint": "9796f9bbe7882123",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3004:c61f18cb49239d59",
+          "poolIndex": 3004,
+          "fingerprint": "c61f18cb49239d59",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -8476,31 +8544,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2940:9796f9bbe7882123"
     },
     {
       "testKey": "PSAT10",
@@ -9550,13 +9599,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3068:b516683cf585505d",
+          "poolIndex": 3068,
+          "fingerprint": "b516683cf585505d",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3132:bb4d5917f565f013",
+          "poolIndex": 3132,
+          "fingerprint": "bb4d5917f565f013",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -9566,31 +9644,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3068:b516683cf585505d"
     },
     {
       "testKey": "PSAT10",
@@ -10679,13 +10738,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2588:35cfc3ebd12ef4bb",
+          "poolIndex": 2588,
+          "fingerprint": "35cfc3ebd12ef4bb",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2604:8e0a8c5b6b673f14",
+          "poolIndex": 2604,
+          "fingerprint": "8e0a8c5b6b673f14",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -10694,31 +10782,12 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2588:35cfc3ebd12ef4bb"
     },
     {
       "testKey": "PSAT10",
@@ -11691,13 +11760,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3196:3c65e07ca188c4c0",
+          "poolIndex": 3196,
+          "fingerprint": "3c65e07ca188c4c0",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3260:19da74fac65e1d8f",
+          "poolIndex": 3260,
+          "fingerprint": "19da74fac65e1d8f",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -11707,31 +11805,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3196:3c65e07ca188c4c0"
     },
     {
       "testKey": "PSAT10",
@@ -14987,13 +15066,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3324:db3f2bb9b585a4ad",
+          "poolIndex": 3324,
+          "fingerprint": "db3f2bb9b585a4ad",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3388:5f7055d2af29c08b",
+          "poolIndex": 3388,
+          "fingerprint": "5f7055d2af29c08b",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -15003,31 +15111,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3324:db3f2bb9b585a4ad"
     },
     {
       "testKey": "PSAT2",
@@ -15198,13 +15287,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3452:cd29649751118208",
+          "poolIndex": 3452,
+          "fingerprint": "cd29649751118208",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3516:d72e40da1099de78",
+          "poolIndex": 3516,
+          "fingerprint": "d72e40da1099de78",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -15214,31 +15332,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3452:cd29649751118208"
     },
     {
       "testKey": "PSAT2",
@@ -16287,13 +16386,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3580:ac491a80c1dac077",
+          "poolIndex": 3580,
+          "fingerprint": "ac491a80c1dac077",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3644:ea0b811e0030f661",
+          "poolIndex": 3644,
+          "fingerprint": "ea0b811e0030f661",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -16303,31 +16431,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3580:ac491a80c1dac077"
     },
     {
       "testKey": "PSAT2",
@@ -18481,13 +18590,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3708:fc5f04508eb5bc5a",
+          "poolIndex": 3708,
+          "fingerprint": "fc5f04508eb5bc5a",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3772:13bd6e7eec651607",
+          "poolIndex": 3772,
+          "fingerprint": "13bd6e7eec651607",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -18497,31 +18635,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3708:fc5f04508eb5bc5a"
     },
     {
       "testKey": "PSAT2",
@@ -22795,13 +22914,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3836:759b1c6e9263fd24",
+          "poolIndex": 3836,
+          "fingerprint": "759b1c6e9263fd24",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:3900:3488b2e622042655",
+          "poolIndex": 3900,
+          "fingerprint": "3488b2e622042655",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -22811,31 +22959,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3836:759b1c6e9263fd24"
     },
     {
       "testKey": "PSAT3",
@@ -23882,13 +24011,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:3964:5f99c4dc801d2c96",
+          "poolIndex": 3964,
+          "fingerprint": "5f99c4dc801d2c96",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4028:e342815a74c3189e",
+          "poolIndex": 4028,
+          "fingerprint": "e342815a74c3189e",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -23898,31 +24056,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:3964:5f99c4dc801d2c96"
     },
     {
       "testKey": "PSAT3",
@@ -26024,13 +26163,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4092:42cf9b7f97dbf188",
+          "poolIndex": 4092,
+          "fingerprint": "42cf9b7f97dbf188",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4156:637f55e8c5853f0d",
+          "poolIndex": 4156,
+          "fingerprint": "637f55e8c5853f0d",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -26040,31 +26208,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4092:42cf9b7f97dbf188"
     },
     {
       "testKey": "PSAT3",
@@ -29573,13 +29722,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4220:0fb7e81db14c215f",
+          "poolIndex": 4220,
+          "fingerprint": "0fb7e81db14c215f",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4284:69d2b9da38803ca1",
+          "poolIndex": 4284,
+          "fingerprint": "69d2b9da38803ca1",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -29589,31 +29767,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4220:0fb7e81db14c215f"
     },
     {
       "testKey": "PSAT4",
@@ -30651,13 +30810,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4348:395d5644b9235661",
+          "poolIndex": 4348,
+          "fingerprint": "395d5644b9235661",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4412:eecb19e439950506",
+          "poolIndex": 4412,
+          "fingerprint": "eecb19e439950506",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -30667,31 +30855,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4348:395d5644b9235661"
     },
     {
       "testKey": "PSAT4",
@@ -36952,13 +37121,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4476:7ada8a9f50624c8b",
+          "poolIndex": 4476,
+          "fingerprint": "7ada8a9f50624c8b",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4540:a91b7ec49338a107",
+          "poolIndex": 4540,
+          "fingerprint": "a91b7ec49338a107",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -36968,31 +37166,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4476:7ada8a9f50624c8b"
     },
     {
       "testKey": "PSAT5",
@@ -38036,13 +38215,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4604:9c237f05f441fe1f",
+          "poolIndex": 4604,
+          "fingerprint": "9c237f05f441fe1f",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4668:1660035215f340d6",
+          "poolIndex": 4668,
+          "fingerprint": "1660035215f340d6",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -38052,31 +38260,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4604:9c237f05f441fe1f"
     },
     {
       "testKey": "PSAT5",
@@ -43479,13 +43668,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4732:2582fc7befbb6f30",
+          "poolIndex": 4732,
+          "fingerprint": "2582fc7befbb6f30",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4796:2ffafe4344adba8e",
+          "poolIndex": 4796,
+          "fingerprint": "2ffafe4344adba8e",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -43495,31 +43713,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4732:2582fc7befbb6f30"
     },
     {
       "testKey": "PSAT6",
@@ -45991,13 +46190,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2652:8da8e426537cc7e8",
+          "poolIndex": 2652,
+          "fingerprint": "8da8e426537cc7e8",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2668:fcca0e39c885443c",
+          "poolIndex": 2668,
+          "fingerprint": "fcca0e39c885443c",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -46006,31 +46234,12 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2652:8da8e426537cc7e8"
     },
     {
       "testKey": "PSAT6",
@@ -53505,13 +53714,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2716:fa7c7520c08d20f0",
+          "poolIndex": 2716,
+          "fingerprint": "fa7c7520c08d20f0",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2732:f06ed9851e2ca777",
+          "poolIndex": 2732,
+          "fingerprint": "f06ed9851e2ca777",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -53520,31 +53758,12 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2716:fa7c7520c08d20f0"
     },
     {
       "testKey": "PSAT7",
@@ -60705,13 +60924,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2780:a80c764a030bcb7b",
+          "poolIndex": 2780,
+          "fingerprint": "a80c764a030bcb7b",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2796:51c03d2617bf0597",
+          "poolIndex": 2796,
+          "fingerprint": "51c03d2617bf0597",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -60720,31 +60968,12 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2780:a80c764a030bcb7b"
     },
     {
       "testKey": "PSAT8",
@@ -61945,13 +62174,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4860:5c6ca3c74c309594",
+          "poolIndex": 4860,
+          "fingerprint": "5c6ca3c74c309594",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:4924:4470b98ce6c5e28d",
+          "poolIndex": 4924,
+          "fingerprint": "4470b98ce6c5e28d",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -61961,31 +62219,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4860:5c6ca3c74c309594"
     },
     {
       "testKey": "PSAT8",
@@ -67173,13 +67412,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:2844:a3279edfb63af5f9",
+          "poolIndex": 2844,
+          "fingerprint": "a3279edfb63af5f9",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:2860:a8dbcbbd51f324aa",
+          "poolIndex": 2860,
+          "fingerprint": "a8dbcbbd51f324aa",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -67188,31 +67456,12 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:2844:a3279edfb63af5f9"
     },
     {
       "testKey": "PSAT9",
@@ -68390,13 +68639,42 @@
       },
       "options": [
         {
+          "candidateKey": "psat:4988:ffa6c5afddbc628e",
+          "poolIndex": 4988,
+          "fingerprint": "ffa6c5afddbc628e",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
+          "candidateKey": "psat:5052:92bc639b02617ff5",
+          "poolIndex": 5052,
+          "fingerprint": "92bc639b02617ff5",
+          "verdict": "eligible",
+          "reasons": [
+            "section-match",
+            "skill-match",
+            "domain-match",
+            "difficulty-match",
+            "assessment-match",
+            "originality-match",
+            "not-reused"
+          ]
+        },
+        {
           "candidateKey": "psat:2508:7bd24264db000590",
           "poolIndex": 2508,
           "fingerprint": "7bd24264db000590",
           "verdict": "rejected",
           "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
+            "difficulty-mismatch"
           ]
         },
         {
@@ -68406,31 +68684,12 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2540:0ba79098407e29ae",
-          "poolIndex": 2540,
-          "fingerprint": "0ba79098407e29ae",
-          "verdict": "rejected",
-          "reasons": [
-            "difficulty-mismatch",
-            "figure-type-mismatch"
-          ]
-        },
-        {
-          "candidateKey": "psat:2556:ab3a8877d72e8468",
-          "poolIndex": 2556,
-          "fingerprint": "ab3a8877d72e8468",
-          "verdict": "rejected",
-          "reasons": [
-            "figure-type-mismatch"
+            "candidate-reuse"
           ]
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": null
+      "selectedCandidateKey": "psat:4988:ffa6c5afddbc628e"
     },
     {
       "testKey": "PSAT9",
@@ -72418,7 +72677,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -72429,8 +72687,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -72440,8 +72698,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -72450,8 +72708,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -73407,7 +73665,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -73418,8 +73675,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -73429,8 +73686,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -73439,8 +73696,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -74533,7 +74790,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -74543,8 +74799,8 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -74553,8 +74809,8 @@
           "fingerprint": "0ba79098407e29ae",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -74564,8 +74820,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -75781,7 +76037,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -75792,8 +76047,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -75803,8 +76058,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -75813,8 +76068,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -80887,7 +81142,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -80898,8 +81152,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -80909,8 +81163,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -80919,8 +81173,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -82005,7 +82259,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -82015,8 +82268,8 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -82025,8 +82278,8 @@
           "fingerprint": "0ba79098407e29ae",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -82036,8 +82289,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -82991,7 +83244,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -83002,8 +83254,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -83013,8 +83265,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -83023,8 +83275,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -87451,7 +87703,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -87462,8 +87713,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -87473,8 +87724,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -87483,8 +87734,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -89618,7 +89869,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -89629,8 +89879,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -89640,8 +89890,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -89650,8 +89900,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -93866,7 +94116,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -93877,8 +94126,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -93888,8 +94137,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -93898,8 +94147,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -94918,7 +95167,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -94929,8 +95177,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -94940,8 +95188,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -94950,8 +95198,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -97023,7 +97271,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -97034,8 +97281,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -97045,8 +97292,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -97055,8 +97302,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -100521,7 +100768,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -100532,8 +100778,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -100543,8 +100789,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -100553,8 +100799,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -101575,7 +101821,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -101586,8 +101831,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -101597,8 +101842,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -101607,8 +101852,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -107673,7 +107918,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -107684,8 +107928,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -107695,8 +107939,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -107705,8 +107949,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -108731,7 +108975,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -108742,8 +108985,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -108753,8 +108996,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -108763,8 +109006,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -116691,7 +116934,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -116701,8 +116943,8 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -116711,8 +116953,8 @@
           "fingerprint": "0ba79098407e29ae",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -116722,8 +116964,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -124031,7 +124273,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -124041,8 +124282,8 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -124051,8 +124292,8 @@
           "fingerprint": "0ba79098407e29ae",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -124062,8 +124303,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -131108,7 +131349,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -131118,8 +131358,8 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -131128,8 +131368,8 @@
           "fingerprint": "0ba79098407e29ae",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -131139,8 +131379,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -132291,7 +132531,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -132302,8 +132541,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -132313,8 +132552,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -132323,8 +132562,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -137508,7 +137747,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -137518,8 +137756,8 @@
           "fingerprint": "d1f606cd8056c1ca",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -137528,8 +137766,8 @@
           "fingerprint": "0ba79098407e29ae",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -137539,8 +137777,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],
@@ -138691,7 +138929,6 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
             "assessment-variant-mismatch"
           ]
         },
@@ -138702,8 +138939,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -138713,8 +138950,8 @@
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         },
         {
@@ -138723,8 +138960,8 @@
           "fingerprint": "ab3a8877d72e8468",
           "verdict": "rejected",
           "reasons": [
-            "figure-type-mismatch",
-            "assessment-variant-mismatch"
+            "assessment-variant-mismatch",
+            "candidate-reuse"
           ]
         }
       ],

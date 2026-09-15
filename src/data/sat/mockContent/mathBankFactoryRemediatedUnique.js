@@ -117,13 +117,13 @@ function remapStrategicCandidate(question, occurrence) {
 
 
   // Batch M zero-coverage strategic figure remediation
-  if (skill === 'Quadratic functions and representations') {
+  if (skill === 'Quadratic functions' || skill === 'Quadratic functions and representations') {
     const h = 2 + (o % 11);
     const k = 5 + (o % 37);
     const a = 1;
     const b = -2 * h;
     const c = h * h + k;
-    return { ...question, figure: { type: 'quadratic', a, b, c, values: { a, b, c } } };
+    return { ...question, figure: { type: 'parabola', a, b, c, values: { a, b, c } } };
   }
 
   if (skill === 'Data models') {
@@ -219,7 +219,7 @@ function remapFigureCandidate(question, occurrence) {
       prompt,
       choices: rotated.choices,
       answer: rotated.answer,
-      figure: { type: 'scatter', values: { points } },
+      figure: { type: 'scatter_plot', values: { points } },
     };
   }
 
@@ -252,10 +252,10 @@ function remapFigureCandidate(question, occurrence) {
       [4, base + 10 + (o % 6)],
       [5, base + 14 + (o % 7)],
     ];
-    const displayTypes = ['scatter', 'line_chart', 'bar_chart', 'table'];
+    const displayTypes = ['scatter_plot', 'line_chart', 'bar_chart', 'table'];
     const displayType = displayTypes[o % displayTypes.length];
     let figure;
-    if (displayType === 'scatter') figure = { type: 'scatter', points };
+    if (displayType === 'scatter') figure = { type: 'scatter_plot', points };
     else if (displayType === 'line_chart') figure = { type: 'line_chart', x: points.map((point) => point[0]), y: points.map((point) => point[1]) };
     else if (displayType === 'bar_chart') figure = { type: 'bar_chart', categories: points.map((point) => String(point[0])), values: points.map((point) => point[1]) };
     else figure = { type: 'table', columns: ['x', 'y'], rows: points.map((point) => [point[0], point[1]]) };
