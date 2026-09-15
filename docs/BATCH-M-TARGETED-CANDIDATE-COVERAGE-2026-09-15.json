@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 108,
-    "noEligibleCandidate": 1486,
+    "selected": 127,
+    "noEligibleCandidate": 1467,
     "sat": 1071,
     "psat": 1073
   },
@@ -130,6 +130,10 @@
       "count": 46
     },
     {
+      "key": "math:Linear functions",
+      "count": 19
+    },
+    {
       "key": "reading-writing:Inferences",
       "count": 6
     },
@@ -157,19 +161,19 @@
     },
     {
       "section": "math",
-      "skill": "Linear functions",
-      "noEligibleCandidateCount": 135,
-      "targetCount": 135,
-      "selectedCount": 0,
-      "coveragePercent": 0
-    },
-    {
-      "section": "math",
       "skill": "Linear equations",
       "noEligibleCandidateCount": 125,
       "targetCount": 125,
       "selectedCount": 0,
       "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Linear functions",
+      "noEligibleCandidateCount": 116,
+      "targetCount": 135,
+      "selectedCount": 19,
+      "coveragePercent": 14.07
     },
     {
       "section": "math",
@@ -287,7 +291,7 @@
   "noEligibleCandidateBySection": [
     {
       "key": "math",
-      "count": 1305
+      "count": 1286
     },
     {
       "key": "reading-writing",
@@ -336,44 +340,44 @@
       "count": 77
     },
     {
-      "key": "PSAT3",
-      "count": 74
-    },
-    {
       "key": "PSAT5",
-      "count": 74
+      "count": 73
     },
     {
       "key": "PSAT9",
-      "count": 74
+      "count": 73
     },
     {
-      "key": "PSAT8",
+      "key": "PSAT3",
       "count": 72
     },
     {
-      "key": "PSAT7",
-      "count": 71
-    },
-    {
-      "key": "PSAT6",
+      "key": "PSAT8",
       "count": 70
     },
     {
+      "key": "PSAT7",
+      "count": 69
+    },
+    {
+      "key": "PSAT6",
+      "count": 67
+    },
+    {
       "key": "PSAT10",
-      "count": 66
+      "count": 64
     },
     {
       "key": "PSAT1",
-      "count": 64
+      "count": 63
     },
     {
       "key": "PSAT2",
-      "count": 64
+      "count": 61
     },
     {
       "key": "PSAT4",
-      "count": 61
+      "count": 59
     }
   ],
   "productionMutation": false,
