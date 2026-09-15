@@ -7,7 +7,7 @@
  */
 
 import { generateRemediatedRWCandidates } from './verbalConstructionRemediated.js';
-import { generateRemediatedMathCandidates } from './mathBankFactoryRemediated.js';
+import { generateRemediatedMathCandidatesUnique } from './mathBankFactoryRemediatedUnique.js';
 import { evaluateContentQualityBatch } from './batchMContentQualityGate.js';
 
 function normalize(value) {
@@ -259,7 +259,7 @@ function alignDifficulty(question) {
 
 export function buildRepresentativeBatchMRemediationCandidates(options = {}) {
   const rwResult = generateRemediatedRWCandidates({ count: options.rwCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
-  const mathResult = generateRemediatedMathCandidates({ count: options.mathCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
+  const mathResult = generateRemediatedMathCandidatesUnique({ count: options.mathCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
   const skillOccurrences = {};
   const readingWriting = rwResult.candidates.map((candidate, index) => {
     const occurrence = skillOccurrences[candidate.skill] || 0;
@@ -270,7 +270,7 @@ export function buildRepresentativeBatchMRemediationCandidates(options = {}) {
   const math = mathResult.candidates.map((candidate, index) => alignDifficulty(replaceMathDistractors(candidate, index), index));
   const candidates = [...readingWriting, ...math];
   const quality = evaluateContentQualityBatch(candidates);
-  return {candidates, quality, readingWritingCount: readingWriting.length, mathCount: math.length, mathStudentProducedResponsePercent: mathResult.studentProducedResponsePercent, productionMutation: false, releaseEligible: false};
+  return { candidates, quality, readingWritingCount: readingWriting.length, mathCount: math.length, mathStudentProducedResponsePercent: mathResult.studentProducedResponsePercent, productionMutation: false, releaseEligible: false };
 }
 
 export default buildRepresentativeBatchMRemediationCandidates;
