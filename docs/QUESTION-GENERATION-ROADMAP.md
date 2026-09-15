@@ -1,6 +1,6 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current Batch M content-quality remediation checkpoint  
+**Status:** Approved implementation plan / current Batch M targeted-remediation checkpoint  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
 
@@ -28,7 +28,7 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
 | M | Production generation + corpus-level QC | PRODUCTION COMPLETE / **CONTENT-QUALITY HOLD — TARGETED REMEDIATION ACTIVE** |
 
-**Batch M production generation is complete and frozen. The formal SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete and found systemic assessment-quality weaknesses. The active remaining work is targeted candidate generation/selection, controlled replacement where later authorized, re-gating, cross-corpus calibration, and release verification.**
+**Batch M production generation is complete and frozen. The formal SAT1–SAT10 and PSAT1–PSAT10 content-quality audit found systemic assessment-quality weaknesses. The targeted remediation candidate-pool stage has now passed its full SAT and PSAT quality/uniqueness gates. The active remaining work is exact candidate generation and controlled selection for affected production IDs, later authorized replacement, re-gating, cross-corpus calibration, and release verification.**
 
 ## 1. Core architecture
 
@@ -149,13 +149,15 @@ The Math generator also produces approximately 20% student-produced-response ite
 
 ### Post-audit targeted remediation status — September 15, 2026
 
-The frozen production impact and remediation-preparation sequence is now complete for SAT1–SAT10 and PSAT1–PSAT10.
+The frozen production impact, remediation-preparation, and candidate-pool validation sequence is now complete for SAT1–SAT10 and PSAT1–PSAT10.
 
 - 2,144 unique affected production questions identified.
 - 2,144 unique affected questions inventoried with exact IDs and reasons.
 - 2,144 unique affected questions assigned a read-only remediation plan.
-- Remediation types: 1,496 content replacement; 98 content replacement + difficulty calibration; 550 difficulty calibration and possible replacement.
-- Remediation tracks: 1,356 Math distractor remediation; 648 difficulty calibration; 216 R&W Words-in-Context remediation; 22 R&W construction remediation.
+- Candidate-pool dry run now passes for both SAT and PSAT.
+- SAT R&W pool: 1,080; Math pool: 1,100; SPR: 25.00%.
+- PSAT R&W pool: 1,080; Math pool: 1,100; SPR: 25.00%.
+- SAT and PSAT quality/uniqueness gates pass for all required R&W and Math buckets.
 - `productionMutation: false` throughout these stages.
 - `releaseEligible: false` throughout these stages.
 - `replacementAuthorization: NOT_AUTHORIZED` remains the active boundary.
@@ -166,12 +168,13 @@ Supporting records:
 - `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`
 - `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
 - `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md`
+- `docs/BATCH-M-TARGETED-REPLACEMENT-DRY-RUN-CHECKPOINT-2026-09-15.md`
 
 ### Next target
 
-**Replacement-candidate generation and controlled selection.**
+**Exact replacement-candidate generation and controlled selection.**
 
-The next stage is to generate candidate replacements against the exact affected production IDs and prepared remediation tracks, validate those candidates through the strengthened content-quality gate and uniqueness/originality constraints, and produce a deterministic candidate-selection report. This stage must remain outside the production store and must not grant replacement authorization by itself.
+The next stage is to generate candidate replacements against the exact affected production `testKey + questionId` records and prepared remediation tracks, validate those candidates through the strengthened content-quality gate and uniqueness/originality constraints, and produce a deterministic candidate-selection report showing eligible and rejected options for each affected record. This stage must remain outside the production store and must not grant replacement authorization by itself.
 
 After candidates are validated and later authorized:
 
@@ -183,6 +186,14 @@ After candidates are validated and later authorized:
 6. complete the deferred public verification of SAT11–SAT20;
 7. perform final end-to-end student-experience acceptance;
 8. finalize Batch M release acceptance.
+
+### Remediation branch promotion boundary
+
+The generator-remediation branch `batch-m-rw-generator-remediation-2026-09-14` is currently **9 commits ahead of `main` and 0 behind**. The outstanding commits contain the validated candidate-generator remediation changes. They are deliberately not promoted to `main` yet.
+
+The current candidate-pool pass is necessary but not sufficient for promotion. Promotion to `main` should occur later, after exact candidate-generation/controlled-selection work and the downstream approval/validation gates establish that the remediation implementation is ready for source-of-truth status. The branch synchronization merge from `main` is historical and should not be promoted independently.
+
+The latest documentation state is recorded on `main`; this does not promote the remediation implementation.
 
 No SAT21 or additional production target may be created.
 
@@ -207,7 +218,7 @@ At the beginning of a future session:
 5. Read `docs/QUESTION-BANK-MAINTENANCE.md` and `src/data/sat/mockContent/batchMProductionPlan.md`.
 6. Read `docs/BATCH-M-PRODUCTION-CORPUS-MANIFEST.md` to identify the frozen 30-mock inventory.
 7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the completed audit findings and remediation requirements.
-8. Read `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` for the current remediation-preparation state.
-9. Do not repeat completed audits, classifications, inventories, or preparation.
-10. Start with replacement-candidate generation and controlled selection; do not create SAT21.
+8. Read `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` for the current remediation state.
+9. Do not repeat completed audits, classifications, inventories, preparation, or candidate-pool remediation.
+10. Start with exact replacement-candidate generation and controlled selection; do not create SAT21.
 11. Treat SAT11–SAT20 public verification as deferred work that must be completed later.
