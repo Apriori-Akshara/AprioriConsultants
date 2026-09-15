@@ -133,6 +133,18 @@ const WIC_FRAMES = [
   'The author uses the word to specify the scope or direction of the reported effect.',
 ];
 
+const WIC_CONTEXTS = [
+  'The nearby discussion treats the term as part of the author’s explanation rather than as an isolated fact.',
+  'The term helps distinguish the observed result from a broader conclusion the passage does not establish.',
+  'The surrounding evidence makes the meaning depend on the condition described in the passage.',
+  'The author uses the term to connect the immediate observation with its larger implication.',
+  'The context contrasts the relevant effect with a different possible interpretation.',
+  'The passage uses the term to mark how the evidence should be understood within its limits.',
+  'The term contributes to a qualification that keeps the author’s conclusion appropriately narrow.',
+  'The surrounding sentence shows that the term refers to a relationship, not merely to a surface feature.',
+  'The context makes the term’s meaning specific to the pattern being described rather than to the topic in general.',
+];
+
 const ERROR_PATTERNS = [
   ['true-but-nonresponsive', 'states a true detail that does not answer the question asked'],
   ['reversed-relationship', 'reverses which condition affects the observed result'],
@@ -189,11 +201,15 @@ function makeEvidenceQuestion(stimulus, index) {
 }
 
 function makeWIC(index, stimulus) {
-  const family = pick(WIC_FAMILY_KEYS, index * 7 + 1);
-  const targetIndex = hashIndex(index, 11 + WIC_FAMILY_KEYS.indexOf(family), WIC_TARGETS[family].length);
+  const wicIndex = Math.max(0, Number(index) || 0);
+  const family = pick(WIC_FAMILY_KEYS, wicIndex);
+  const familyIndex = WIC_FAMILY_KEYS.indexOf(family);
+  const pairOrdinal = Math.floor(wicIndex / WIC_FAMILY_KEYS.length);
+  const targetIndex = (pairOrdinal + familyIndex) % WIC_TARGETS[family].length;
   const [word, meaning] = WIC_TARGETS[family][targetIndex];
-  const frame = pick(WIC_FRAMES, Math.floor(index / 4) + targetIndex + 2);
-  const contextualSentence = `${stimulus} ${frame}`;
+  const frame = pick(WIC_FRAMES, Math.floor(pairOrdinal / 2) + targetIndex + 2);
+  const context = pick(WIC_CONTEXTS, wicIndex);
+  const contextualSentence = `${stimulus} ${frame} ${context}`;
   const alternatives = [
     'make the reported result disappear entirely',
     'repeat the earlier observation without changing its meaning',
@@ -204,10 +220,10 @@ function makeWIC(index, stimulus) {
   ];
   const rotated = rotateChoices([
     meaning,
-    pick(alternatives, index + 1),
-    pick(alternatives, index + 3),
-    pick(alternatives, index + 5),
-  ], hashIndex(index, 17, 4));
+    pick(alternatives, wicIndex + 1),
+    pick(alternatives, wicIndex + 3),
+    pick(alternatives, wicIndex + 5),
+  ], hashIndex(wicIndex, 17, 4));
   return { prompt: `${contextualSentence}\n\nIn this context, the word “${word}” most nearly means which of the following?`, targetWord: word, ...rotated };
 }
 
@@ -336,7 +352,11 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
   let crossTextRelationship = null;
 
   if (plan.skill === 'Command of Evidence') result = makeEvidenceQuestion(stimulus, index);
-  else if (plan.skill === 'Words in Context') result = makeWIC(index, stimulus);
+  else if (plan.skill === 'Words in Context') {
+    const wicOrdinal = Math.floor(index / SECTIONS.length);
+    const wicFamily = sourceFamily(wicOrdinal);
+    result = makeWIC(wicOrdinal, makeStimulus(wicFamily, wicOrdinal));
+  }
   else if (plan.skill === 'Cross-Text Connections') result = makeCrossText(index);
   else if (plan.skill === 'Rhetorical Synthesis') {
     const synthesisOrdinal = Math.floor(index / SECTIONS.length);
