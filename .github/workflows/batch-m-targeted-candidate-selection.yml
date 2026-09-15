@@ -1,5 +1,5 @@
 name: Batch M targeted candidate selection
-# Batch M remediation rerun trigger: canonical figure-type correction.
+# Batch M remediation rerun trigger: targeted difficulty-coverage correction.
 
 on:
   push:
@@ -41,6 +41,13 @@ jobs:
           git diff --check
           node --check scripts/applyBatchMCandidateCoverageRemediation.mjs
 
+      - name: Apply difficulty coverage remediation
+        run: |
+          node scripts/applyBatchMDifficultyCoverageRemediation.mjs
+          git diff --check
+          node --check scripts/applyBatchMDifficultyCoverageRemediation.mjs
+          node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
+
       - name: Validate Batch M runner files
         run: |
           test -s scripts/runBatchMTargetedCandidateSelection.js
@@ -61,7 +68,7 @@ jobs:
             ['sat', 'sat', 'SAT1'],
             ['psat', 'psat-nmsqt', 'PSAT1'],
           ]) {
-            const result = buildRepresentativeBatchMRemediationCandidates({ rwCount: 2500, mathCount: 4500, testId, variant });
+            const result = buildRepresentativeBatchMRemediationCandidates({ rwCount: 5000, mathCount: 8000, testId, variant });
             const quality = evaluateContentQualityBatch(result.candidates);
             const noteCounts = {};
             const severityCounts = {};
@@ -115,6 +122,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: remediate Batch M candidate coverage bottlenecks"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "fix: remediate Batch M candidate difficulty coverage"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
