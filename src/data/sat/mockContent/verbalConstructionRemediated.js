@@ -39,18 +39,48 @@ const SOURCE_MATERIAL = {
 
 const WIC_TARGETS = {
   technical: [
-    ['attenuate', 'reduce the strength of'], ['constrain', 'limit the range of'], ['mediate', 'influence an outcome through an intervening process'], ['retain', 'continue to hold or preserve'],
+    ['attenuate', 'reduce the strength of'],
+    ['constrain', 'limit the range of'],
+    ['mediate', 'influence an outcome through an intervening process'],
+    ['retain', 'continue to hold or preserve'],
+    ['diminish', 'make or become less pronounced'],
+    ['stabilize', 'make less likely to change abruptly'],
+    ['modulate', 'adjust the degree or intensity of'],
+    ['sustain', 'maintain over a period of time'],
   ],
   figurative: [
-    ['anchor', 'provide a stable reference for'], ['fracture', 'divide or disrupt'], ['amplify', 'make more noticeable or pronounced'], ['temper', 'make less extreme'],
+    ['anchor', 'provide a stable reference for'],
+    ['fracture', 'divide or disrupt'],
+    ['amplify', 'make more noticeable or pronounced'],
+    ['temper', 'make less extreme'],
+    ['illuminate', 'make an idea or issue easier to understand'],
+    ['echo', 'repeat or reflect an idea or quality'],
+    ['unsettle', 'disturb an established expectation or assumption'],
+    ['reinforce', 'make an existing impression or idea stronger'],
   ],
   rhetorical: [
-    ['clarify', 'make a claim or distinction more precise'], ['concede', 'acknowledge a point that may seem to oppose the main claim'], ['underscore', 'emphasize'], ['distinguish', 'show a meaningful difference between'],
+    ['clarify', 'make a claim or distinction more precise'],
+    ['concede', 'acknowledge a point that may seem to oppose the main claim'],
+    ['underscore', 'emphasize'],
+    ['distinguish', 'show a meaningful difference between'],
+    ['moderate', 'make a claim or statement less absolute'],
+    ['acknowledge', 'recognize a point without necessarily accepting its full implication'],
+    ['frame', 'present an issue from a particular perspective'],
+    ['invoke', 'refer to an idea or example for a particular purpose'],
   ],
   contextual: [
-    ['trace', 'follow the development or origin of'], ['channel', 'direct toward a particular course'], ['yield', 'produce or result in'], ['register', 'show or record'],
+    ['trace', 'follow the development or origin of'],
+    ['channel', 'direct toward a particular course'],
+    ['yield', 'produce or result in'],
+    ['register', 'show or record'],
+    ['derive', 'obtain from a particular source or process'],
+    ['encounter', 'come into contact with or experience'],
+    ['retain', 'continue to have within a particular setting'],
+    ['reflect', 'show or express a condition or pattern'],
   ],
 };
+
+// Batch M Words in Context diversity remediation v1
 
 const SECTIONS = [
   { skill: 'Central Ideas and Details', domain: 'information-and-ideas', operation: 'identify' },
@@ -426,8 +456,8 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
   if (plan.skill === 'Command of Evidence') result = makeEvidenceQuestion(stimulus, index);
   else if (plan.skill === 'Words in Context') {
     const wicOrdinal = Math.floor(index / SECTIONS.length);
-    const wicFamily = sourceFamily(wicOrdinal);
-    result = makeWIC(wicOrdinal, makeStimulus(wicFamily, wicOrdinal));
+    const wicFamily = FAMILY_KEYS[Math.floor(wicOrdinal / 3) % FAMILY_KEYS.length];
+    result = makeWIC(wicOrdinal, makeStimulus(wicFamily, wicOrdinal + index));
   }
   else if (plan.skill === 'Cross-Text Connections') result = makeCrossText(index);
   else if (plan.skill === 'Rhetorical Synthesis') {
