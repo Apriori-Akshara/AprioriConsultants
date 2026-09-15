@@ -34,16 +34,7 @@ if (!math.includes(marker)) {
     const a = 1;
     const b = -2 * h;
     const c = h * h + k;
-    return {
-      ...question,
-      figure: {
-        type: 'quadratic',
-        a,
-        b,
-        c,
-        values: { a, b, c },
-      },
-    };
+    return { ...question, figure: { type: 'parabola', a, b, c, values: { a, b, c } } };
   }
 
   if (skill === 'Data models') {
@@ -63,22 +54,12 @@ if (!math.includes(marker)) {
     const leg = 6 + o;
     const other = 8 + (o % 9);
     const hyp = Math.sqrt(leg * leg + other * other);
-    return {
-      ...question,
-      figure: { type: 'right_triangle', values: { x: leg, y: other } },
-      metadata: { ...question.metadata, hypotenuse: Number(hyp.toFixed(2)) },
-    };
+    return { ...question, figure: { type: 'right_triangle', values: { x: leg, y: other } }, metadata: { ...question.metadata, hypotenuse: Number(hyp.toFixed(2)) } };
   }
 
   if (skill === 'Scatterplot interpretation') {
     const base = 8 + o;
-    const points = [
-      [1, base],
-      [2, base + 3 + (o % 4)],
-      [3, base + 7 + (o % 5)],
-      [4, base + 10 + (o % 6)],
-      [5, base + 14 + (o % 7)],
-    ];
+    const points = [[1, base], [2, base + 3 + (o % 4)], [3, base + 7 + (o % 5)], [4, base + 10 + (o % 6)], [5, base + 14 + (o % 7)]];
     const displayTypes = ['scatter_plot', 'line_chart', 'bar_chart', 'table'];
     const displayType = displayTypes[o % displayTypes.length];
     let figure;
@@ -122,22 +103,19 @@ if (!math.includes(strategicMarker)) {
 
 const canonicalFigureMarker = '// Batch M canonical figure-type remediation';
 if (!math.includes(canonicalFigureMarker)) {
-  const insertion = `
-// Batch M canonical figure-type remediation
-math = math.replace(
-  "figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct } },",
-  "figure: { type: 'right_triangle', values: { x: leg, y: correct } },"
-);
-math = math.replace(
-  "figure: { type: 'geometry', values: { shape: 'right-triangle', leg, hyp } },",
-  "figure: { type: 'right_triangle', values: { x: leg, y: hyp } },"
-);
-math = math.replace(
-  "type: 'quadratic',\n        a,",
-  "type: 'parabola',\n        a,"
-);
-`;
-  math += `\n${insertion}`;
+  math = `${canonicalFigureMarker}\n${math}`;
+  math = math.replace(
+    "figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct } },",
+    "figure: { type: 'right_triangle', values: { x: leg, y: correct } },"
+  );
+  math = math.replace(
+    "figure: { type: 'geometry', values: { shape: 'right-triangle', leg, hyp } },",
+    "figure: { type: 'right_triangle', values: { x: leg, y: hyp } },"
+  );
+  math = math.replace(
+    "type: 'quadratic',\n        a,",
+    "type: 'parabola',\n        a,"
+  );
 }
 
 fs.writeFileSync(mathPath, math);
