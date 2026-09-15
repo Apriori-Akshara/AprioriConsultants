@@ -3,125 +3,47 @@ import fs from 'node:fs';
 const selectionPath = 'scripts/runBatchMTargetedCandidateSelection.js';
 const mathPath = 'src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js';
 
-function replaceOnce(text, needle, replacement, label) {
-  const count = text.split(needle).length - 1;
-  if (count === 0) throw new Error(`${label}: expected source text was not found.`);
-  if (count > 1) throw new Error(`${label}: source text occurred ${count} times; refusing ambiguous patch.`);
-  return text.replace(needle, replacement);
+function requireReplace(text, from, to, label) {
+  if (!text.includes(from)) throw new Error(`${label}: expected source text was not found.`);
+  return text.replaceAll(from, to);
 }
 
 let selection = fs.readFileSync(selectionPath, 'utf8');
-if (!selection.includes('rw: 2500')) {
-  selection = replaceOnce(selection, 'const POOL_COUNTS = {\n  sat: { rw: 900, math: 4500 },\n  psat: { rw: 900, math: 4500 },\n};', `const POOL_COUNTS = {
-  // R&W was previously capped at 900 candidates, which created an artificial
-  // ceiling for high-volume skills such as Words in Context and Cross-Text.
-  // The remediation pool now gives each skill enough distinct candidates to
-  // satisfy the frozen target distribution without changing eligibility rules.
-  sat: { rw: 2500, math: 4500 },
-  psat: { rw: 2500, math: 4500 },
-};`, 'R&W pool-count remediation');
-  fs.writeFileSync(selectionPath, selection);
-}
+selection = selection.replaceAll(
+  "sat: { rw: 900, math: 4500 },\n  psat: { rw: 900, math: 4500 },",
+  "sat: { rw: 2500, math: 4500 },\n  psat: { rw: 2500, math: 4500 },"
+);
+fs.writeFileSync(selectionPath, selection);
 
 let math = fs.readFileSync(mathPath, 'utf8');
-const marker = "// Batch M coverage remediation: figure variants for zero/low-coverage target families.";
-if (!math.includes(marker)) {
-  const insertion = `
-  ${marker}
-  if (skill === 'Quadratic functions and representations' || skill === 'Quadratic functions') {
-    const h = 2 + (o % 11);
-    const k = 5 + (o % 37);
-    const a = 1;
-    const b = -2 * h;
-    const c = h * h + k;
-    return { ...question, figure: { type: 'parabola', a, b, c, values: { a, b, c } } };
-  }
 
-  if (skill === 'Data models') {
-    const x = [1, 2, 3, 4, 5];
-    const y = x.map((value) => 8 + value * 3 + (o % 4));
-    const displayTypes = ['scatter_plot', 'line_chart', 'bar_chart', 'table'];
-    const displayType = displayTypes[o % displayTypes.length];
-    let figure;
-    if (displayType === 'scatter_plot') figure = { type: 'scatter_plot', values: { points: x.map((value, index) => [value, y[index]]) } };
-    else if (displayType === 'line_chart') figure = { type: 'line_chart', x, y };
-    else if (displayType === 'bar_chart') figure = { type: 'bar_chart', categories: x.map(String), values: y };
-    else figure = { type: 'table', columns: ['x', 'y'], rows: x.map((value, index) => [value, y[index]]) };
-    return { ...question, figure };
-  }
+// The generator's actual construction names are used here; the target-side
+// skill aliases are handled by the selection runner.
+math = requireReplace(
+  math,
+  "if (skill === 'Quadratic functions and representations')",
+  "if (skill === 'Quadratic functions' || skill === 'Quadratic functions and representations')",
+  'quadratic skill alias'
+);
 
-  if (skill === 'Right triangles') {
-    const leg = 6 + o;
-    const other = 8 + (o % 9);
-    const hyp = Math.sqrt(leg * leg + other * other);
-    return { ...question, figure: { type: 'right_triangle', values: { x: leg, y: other } }, metadata: { ...question.metadata, hypotenuse: Number(hyp.toFixed(2)) } };
-  }
-
-  if (skill === 'Scatterplot interpretation') {
-    const base = 8 + o;
-    const points = [[1, base], [2, base + 3 + (o % 4)], [3, base + 7 + (o % 5)], [4, base + 10 + (o % 6)], [5, base + 14 + (o % 7)]];
-    const displayTypes = ['scatter_plot', 'line_chart', 'bar_chart', 'table'];
-    const displayType = displayTypes[o % displayTypes.length];
-    let figure;
-    if (displayType === 'scatter_plot') figure = { type: 'scatter_plot', points };
-    else if (displayType === 'line_chart') figure = { type: 'line_chart', x: points.map((point) => point[0]), y: points.map((point) => point[1]) };
-    else if (displayType === 'bar_chart') figure = { type: 'bar_chart', categories: points.map((point) => String(point[0])), values: points.map((point) => point[1]) };
-    else figure = { type: 'table', columns: ['x', 'y'], rows: points.map((point) => [point[0], point[1]]) };
-    return { ...question, figure };
-  }
-`;
-  math = replaceOnce(math, '  return question;\n}\n\nfunction remapFigureCandidate', insertion + '  return question;\n}\n\nfunction remapFigureCandidate', 'Math strategic coverage insertion');
-}
-
-const strategicMarker = '// Batch M zero-coverage strategic figure remediation';
-if (!math.includes(strategicMarker)) {
-  const insertion = `
-  ${strategicMarker}
-  if (skill === 'Quadratic functions' || skill === 'Quadratic functions and representations') {
-    const h = 2 + (o % 11);
-    const k = 5 + (o % 37);
-    const a = 1;
-    const b = -2 * h;
-    const c = h * h + k;
-    return { ...question, figure: { type: 'parabola', a, b, c, values: { a, b, c } } };
-  }
-
-  if (skill === 'Scatterplot interpretation' || skill === 'Data models') {
-    const x = [1, 2, 3, 4, 5];
-    const y = x.map((value) => 8 + value * 3 + (o % 4));
-    return { ...question, figure: { type: 'table', columns: ['x', 'y'], rows: x.map((value, index) => [value, y[index]]) } };
-  }
-
-  if (skill === 'Right-triangle relationships' || skill === 'Right triangles') {
-    const leg = 6 + o;
-    const other = 8 + (o % 9);
-    return { ...question, figure: { type: 'right_triangle', values: { x: leg, y: other } } };
-  }
-`;
-  math = replaceOnce(math, '  return question;\n}\n\nfunction remapFigureCandidate', insertion + '  return question;\n}\n\nfunction remapFigureCandidate', 'Exact zero-coverage skill remediation');
-}
-
-const canonicalFigureMarker = '// Batch M canonical figure-type remediation';
-if (!math.includes(canonicalFigureMarker)) {
-  math = `${canonicalFigureMarker}\n${math}`;
-  math = math.replace(
-    "figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct } },",
-    "figure: { type: 'right_triangle', values: { x: leg, y: correct } },"
-  );
-  math = math.replace(
-    "figure: { type: 'geometry', values: { shape: 'right-triangle', leg, hyp } },",
-    "figure: { type: 'right_triangle', values: { x: leg, y: hyp } },"
-  );
-  math = math.replace(
-    "type: 'quadratic',\n        a,",
-    "type: 'parabola',\n        a,"
-  );
-}
+// Selection compares raw figure types to the frozen target metadata, so use
+// the canonical display type rather than the pre-canonical internal type.
+math = math.replaceAll("type: 'quadratic'", "type: 'parabola'");
+math = math.replaceAll("type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct }", "type: 'right_triangle', values: { x: leg, y: correct }");
+math = math.replaceAll("type: 'geometry', values: { shape: 'right-triangle', leg, hyp }", "type: 'right_triangle', values: { x: leg, y: hyp }");
+math = math.replaceAll("const displayTypes = ['scatter', 'line_chart', 'bar_chart', 'table'];", "const displayTypes = ['scatter_plot', 'line_chart', 'bar_chart', 'table'];");
+math = math.replaceAll("type: 'scatter', values: { points", "type: 'scatter_plot', values: { points");
+math = math.replaceAll("type: 'scatter', points", "type: 'scatter_plot', points");
 
 fs.writeFileSync(mathPath, math);
 
 console.log(JSON.stringify({
   applied: true,
   selectionPoolCounts: { sat: { rw: 2500, math: 4500 }, psat: { rw: 2500, math: 4500 } },
-  mathCoverageFixes: ['quadratic-figure-candidates', 'data-model-figure-variants', 'right-triangle-figure-structure'],
+  mathCoverageFixes: [
+    'quadratic-source-skill-figure-remediation',
+    'quadratic-canonical-figure-type',
+    'data-model-canonical-figure-type',
+    'right-triangle-canonical-figure-type',
+  ],
 }, null, 2));
