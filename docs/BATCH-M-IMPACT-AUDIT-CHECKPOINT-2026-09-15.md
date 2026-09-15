@@ -38,10 +38,9 @@ SAT11–SAT20 are not part of this impact audit. Their public inspection remains
 
 The runner:
 
-- reads the canonical Batch M production corpus;
-- verifies that the frozen corpus still contains exactly 30 mocks;
-- audits only the first 20 targets and maps them by the authoritative frozen order to SAT1–SAT10 + PSAT1–PSAT10;
-- evaluates each frozen question against the strengthened Batch M content-quality checks;
+- builds only the first 20 production targets directly from the SAT1–SAT10 and PSAT1–PSAT10 production gates;
+- deliberately does **not** import `batchMProductionStore.js`, because that module eagerly executes SAT11–SAT20 during module initialization and can fail on the unrelated SAT11 identity contract before the intended first-20 impact audit runs;
+- evaluates each targeted frozen production question against the strengthened Batch M content-quality checks;
 - records only exact mock/question IDs and defect flags rather than printing full question text;
 - reports Math student-produced-response percentage per mock and flags values outside the approved 25–30% target;
 - asserts `productionMutation === false` for each evaluation;
@@ -50,7 +49,7 @@ The runner:
 
 ### Read-only module-resolution support
 
-The frozen production store uses extensionless local imports. To make the audit runnable without changing those production files, the audit command uses a dedicated ESM resolver hook:
+The production gates use extensionless local imports. To make the audit runnable without changing those production files, the audit command uses a dedicated ESM resolver hook:
 
 - `scripts/batchMExtensionlessModuleLoader.mjs`
 - `scripts/batchMExtensionlessResolve.mjs`
@@ -59,11 +58,37 @@ These files are tooling-only and do not alter production question content or pro
 
 ### Package command
 
-`package.json` now exposes:
+`package.json` exposes:
 
 `npm run qc:batch-m-impact-audit`
 
-## 4. Audit categories
+## 4. First execution finding and correction
+
+The first execution of the audit command failed before the impact audit began:
+
+`Error: SAT/PSAT mock content quality gate failed: sat-mock-11: invalid mock identity`
+
+Cause: the initial audit runner imported `batchMProductionStore.js`, which eagerly constructs the entire 30-mock frozen corpus. That caused SAT11–SAT20 production gates to execute even though the approved impact-audit scope is only SAT1–SAT10 and PSAT1–PSAT10.
+
+This was an **audit-runner isolation defect**, not a result of the representative remediation QC and not evidence that the first-20 target records failed the impact audit.
+
+The runner was corrected to call only the 20 relevant production gates sequentially and to exclude `batchMProductionStore.js` from its imports.
+
+Correction commit:
+
+`00baaa23389e6265a82bc48ebf47d1dd920ce6e5` — **Batch M: isolate impact audit to first 20 production targets**
+
+## 5. Earlier implementation commits recorded
+
+- `12cb37e2d30d52f6b7a2d61ce893231df3c4c744` — Batch M: add read-only audit module loader
+- `6f1698a088d10a99d80d535d025ad7b90426564` — Batch M: add read-only audit module resolver
+- `4579b4bd740b942f04df860194ed80b5d12e2f01` — Batch M: implement frozen-corpus impact audit
+- `72cd466f9f7960ba2c07bca08841d1d9d67bcea8` — Batch M: add production impact audit command
+- `d6fedf04e26729ea340144e83cca8f137867a5f8` — Batch M: correct frozen-corpus key mapping in impact audit
+
+The `00baaa...` correction is now the current audit-runner version.
+
+## 6. Audit categories
 
 The audit maps applicable findings into these categories:
 
@@ -74,7 +99,7 @@ The audit maps applicable findings into these categories:
 
 The audit does not weaken any QC rule to increase the pass count. It is an identification/reporting step only.
 
-## 5. Production safety
+## 7. Production safety
 
 The following remain true:
 
@@ -87,23 +112,13 @@ The following remain true:
 
 After the audit produces the affected ID list, the next stage is to review that list and enter only genuinely affected records into the targeted replacement/re-gating process.
 
-## 6. Commits recorded
-
-- `12cb37e2d30d52f6b7a2d61ce893231df3c4c744` — Batch M: add read-only audit module loader
-- `6f1698a088d10a99d80d535d025ad7b90426564` — Batch M: add read-only audit module resolver
-- `4579b4bd740b942f04df860194ed80b5d12e2f01` — Batch M: implement frozen-corpus impact audit
-- `72cd466f9f7960ba2c07bca08841d1d9d67bcea8` — Batch M: add production impact audit command
-- `d6fedf04e26729ea340144e83cca8f137867a5f8` — Batch M: correct frozen-corpus key mapping in impact audit
-
-The final correction is the current audit-runner version and must be included when synchronizing the active working copy.
-
-## 7. Exact next local action
+## 8. Exact next local action
 
 From the active Git-connected folder:
 
 `D:\AprioriConsultants-Git`
 
-after Fetch/Pull has synchronized these commits, run:
+after Fetch/Pull has synchronized the latest audit correction, run:
 
 `npm run qc:batch-m-impact-audit`
 
