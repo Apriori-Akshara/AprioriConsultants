@@ -1,0 +1,319 @@
+/**
+ * Batch M — exact replacement-candidate generation and controlled selection.
+ *
+ * Candidate-only. Maps the prepared 2,144 frozen production records to
+ * deterministic remediation-generator candidates without mutating production.
+ */
+
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { buildTargetedReplacementPreparation } from './runBatchMTargetedReplacementPreparation.js';
+import { buildRepresentativeBatchMRemediationCandidates } from '../src/data/sat/mockContent/batchMRemediationCandidateFactory.js';
+import { evaluateContentQualityBatch } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
+import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+
+const OUT = path.resolve(process.cwd(), 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json');
+const REPORT_VERSION = '2026-09-15.targeted-candidate-selection.v1';
+const TARGET_KEYS = new Set([
+  'SAT1', 'SAT2', 'SAT3', 'SAT4', 'SAT5', 'SAT6', 'SAT7', 'SAT8', 'SAT9', 'SAT10',
+  'PSAT1', 'PSAT2', 'PSAT3', 'PSAT4', 'PSAT5', 'PSAT6', 'PSAT7', 'PSAT8', 'PSAT9', 'PSAT10',
+]);
+
+// Sized to provide deterministic alternatives while remaining comfortably above
+// the maximum number of replacement records in any compatible construction.
+const POOL_COUNTS = {
+  sat: { rw: 900, math: 4500 },
+  psat: { rw: 900, math: 4500 },
+};
+
+function stable(value) {
+  return JSON.stringify(value, Object.keys(value || {}).sort());
+}
+
+function normalize(value) {
+  return String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function hash(value) {
+  return crypto.createHash('sha256').update(String(value)).digest('hex').slice(0, 16);
+}
+
+function fingerprint(question) {
+  return hash(stable({
+    section: question.section,
+    prompt: normalize(question.prompt),
+    choices: (question.choices || []).map(normalize),
+    answer: normalize(question.answer),
+    figure: question.figure || null,
+    domain: question.domain,
+    skill: question.skill,
+    difficulty: question.difficulty,
+  }));
+}
+
+function questionId(question) {
+  return question?.questionId || question?.id || question?.contentId || null;
+}
+
+function isQuestion(value) {
+  return value && typeof value === 'object'
+    && typeof value.prompt === 'string'
+    && typeof value.section === 'string'
+    && Boolean(questionId(value));
+}
+
+function deriveTestKey(mock) {
+  if (mock?.testKey) return mock.testKey;
+  const match = String(mock?.testId || '').match(/(?:mock-)?(\d+)$/i);
+  if (!match) return null;
+  const prefix = String(mock.testId).toLowerCase().startsWith('psat') ? 'PSAT' : 'SAT';
+  return `${prefix}${Number(match[1])}`;
+}
+
+function collectQuestions(value, testKey, out = [], seen = new Set()) {
+  if (!value || typeof value !== 'object' || seen.has(value)) return out;
+  seen.add(value);
+
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectQuestions(item, testKey, out, seen));
+    return out;
+  }
+
+  if (isQuestion(value)) out.push({ ...value, __testKey: testKey });
+
+  Object.entries(value).forEach(([key, child]) => {
+    if (key === 'figure' || key === 'metadata' || key === 'choices') return;
+    collectQuestions(child, testKey, out, seen);
+  });
+
+  return out;
+}
+
+function buildProductionQuestionIndex() {
+  const index = new Map();
+
+  BATCH_M_ACCEPTED_PRODUCTION_CORPUS.forEach((mock) => {
+    const testKey = deriveTestKey(mock);
+    if (!testKey || !TARGET_KEYS.has(testKey)) return;
+
+    collectQuestions(mock, testKey).forEach((question) => {
+      index.set(`${testKey}:${questionId(question)}`, question);
+    });
+  });
+
+  return index;
+}
+
+function candidateShape(candidate, poolIndex, product) {
+  return {
+    candidate,
+    poolIndex,
+    product,
+    fingerprint: fingerprint(candidate),
+  };
+}
+
+function targetMetadata(target, productionIndex) {
+  const production = productionIndex.get(`${target.testKey}:${target.questionId}`);
+  if (!production) {
+    throw new Error(`Missing frozen production question for ${target.testKey}:${target.questionId}`);
+  }
+
+  return {
+    section: target.section,
+    skill: target.skill,
+    domain: target.domain,
+    difficulty: target.difficulty,
+    assessmentFamily: production.assessmentFamily,
+    assessmentVariant: production.assessmentVariant,
+    figureRequired: Boolean(production.figure),
+    figureType: production.figure?.type || null,
+    module: production.module || null,
+    questionType: production.questionType || null,
+  };
+}
+
+function reasonList(candidate, meta, used, productionFingerprints) {
+  const reasons = [];
+
+  if (candidate.section !== meta.section) reasons.push('section-mismatch');
+  if (candidate.skill !== meta.skill) reasons.push('skill-mismatch');
+  if (candidate.domain !== meta.domain) reasons.push('domain-mismatch');
+  if (normalize(candidate.difficulty) !== normalize(meta.difficulty)) reasons.push('difficulty-mismatch');
+  if (Boolean(candidate.figure) !== meta.figureRequired) {
+    reasons.push(meta.figureRequired ? 'figure-required' : 'unexpected-figure');
+  }
+  if (meta.figureType && candidate.figure?.type && candidate.figure.type !== meta.figureType) {
+    reasons.push('figure-type-mismatch');
+  }
+  if (meta.questionType && candidate.questionType !== meta.questionType) reasons.push('question-type-mismatch');
+  if (candidate.assessmentFamily !== meta.assessmentFamily) reasons.push('assessment-family-mismatch');
+  if (candidate.assessmentVariant !== meta.assessmentVariant) reasons.push('assessment-variant-mismatch');
+
+  const fp = fingerprint(candidate);
+  if (productionFingerprints.has(fp)) reasons.push('production-content-duplicate');
+  if (used.has(fp)) reasons.push('candidate-reuse');
+
+  return reasons;
+}
+
+function compact(item, reasons) {
+  return {
+    candidateKey: `${item.product}:${item.poolIndex}:${item.fingerprint}`,
+    poolIndex: item.poolIndex,
+    fingerprint: item.fingerprint,
+    verdict: reasons.length ? 'rejected' : 'eligible',
+    reasons: reasons.length
+      ? reasons
+      : [
+          'section-match',
+          'skill-match',
+          'domain-match',
+          'difficulty-match',
+          'assessment-match',
+          'originality-match',
+          'not-reused',
+        ],
+  };
+}
+
+function buildPools() {
+  const pools = {};
+
+  for (const product of ['sat', 'psat']) {
+    const variant = product === 'sat' ? 'sat' : 'psat-nmsqt';
+    const testId = product === 'sat' ? 'SAT1' : 'PSAT1';
+    const result = buildRepresentativeBatchMRemediationCandidates({
+      rwCount: POOL_COUNTS[product].rw,
+      mathCount: POOL_COUNTS[product].math,
+      testId,
+      variant,
+    });
+
+    if (!result?.candidates?.length) throw new Error(`${product}: remediation candidate pool is empty`);
+
+    const quality = evaluateContentQualityBatch(result.candidates);
+    if (!quality?.passed) {
+      throw new Error(`${product}: targeted candidate pool failed strengthened content-quality gate`);
+    }
+
+    pools[product] = {
+      candidates: result.candidates.map((candidate, index) => candidateShape(candidate, index, product)),
+      quality,
+    };
+  }
+
+  return pools;
+}
+
+function main() {
+  const preparation = buildTargetedReplacementPreparation();
+  if (preparation.affectedUniqueQuestionCount !== 2144) {
+    throw new Error(`Expected 2144 affected records; found ${preparation.affectedUniqueQuestionCount}`);
+  }
+
+  const productionIndex = buildProductionQuestionIndex();
+  const productionFingerprints = new Set();
+  productionIndex.forEach((question) => productionFingerprints.add(fingerprint(question)));
+
+  const pools = buildPools();
+  const targets = preparation.questions.filter((question) => TARGET_KEYS.has(question.testKey));
+  const used = new Set();
+  const records = [];
+  const summary = {
+    total: targets.length,
+    contentReplacement: 0,
+    contentPlusDifficulty: 0,
+    difficultyCalibration: 0,
+    selected: 0,
+    noEligibleCandidate: 0,
+    sat: 0,
+    psat: 0,
+  };
+
+  for (const target of targets) {
+    const product = target.testKey.startsWith('PSAT') ? 'psat' : 'sat';
+    summary[product] += 1;
+    if (target.remediationType === 'CONTENT_REPLACEMENT') summary.contentReplacement += 1;
+    if (target.remediationType === 'CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION') summary.contentPlusDifficulty += 1;
+    if (target.remediationType === 'DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT') summary.difficultyCalibration += 1;
+
+    const meta = targetMetadata(target, productionIndex);
+    const calibrationOnly = target.remediationType === 'DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT';
+    const compatible = pools[product].candidates.filter((item) => (
+      item.candidate.section === meta.section && item.candidate.skill === meta.skill
+    ));
+    const eligibleItems = [];
+    const considered = [];
+
+    for (const item of compatible) {
+      const reasons = reasonList(item.candidate, meta, used, productionFingerprints);
+
+      if (!reasons.length && !calibrationOnly && eligibleItems.length < 2) {
+        eligibleItems.push(item);
+        used.add(item.fingerprint);
+      }
+
+      if (considered.length < 4 && (reasons.length || eligibleItems.every((entry) => entry.fingerprint !== item.fingerprint))) {
+        considered.push(compact(item, reasons));
+      }
+
+      if (eligibleItems.length >= 2 && considered.length >= 4) break;
+    }
+
+    if (!eligibleItems.length && !calibrationOnly) summary.noEligibleCandidate += 1;
+    else if (!calibrationOnly) summary.selected += 1;
+
+    records.push({
+      testKey: target.testKey,
+      questionId: target.questionId,
+      section: target.section,
+      skill: target.skill,
+      remediationType: target.remediationType,
+      candidateSelection: target.candidateSelection,
+      targetMetadata: meta,
+      options: [
+        ...eligibleItems.map((item) => compact(item, [])),
+        ...considered.filter((item) => !eligibleItems.some((entry) => entry.fingerprint === item.fingerprint)),
+      ].slice(0, 4),
+      selectionDisposition: calibrationOnly
+        ? 'CALIBRATION_FIRST_NO_REPLACEMENT_SELECTED'
+        : 'REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL',
+      selectedCandidateKey: eligibleItems[0]
+        ? `${eligibleItems[0].product}:${eligibleItems[0].poolIndex}:${eligibleItems[0].fingerprint}`
+        : null,
+    });
+  }
+
+  const report = {
+    reportType: 'batch-m-targeted-replacement-candidate-selection',
+    reportVersion: REPORT_VERSION,
+    generatedFrom: 'targeted-replacement-preparation',
+    affectedUniqueQuestionCount: targets.length,
+    poolCounts: POOL_COUNTS,
+    summary,
+    records,
+    productionMutation: false,
+    releaseEligible: false,
+    replacementAuthorization: 'NOT_AUTHORIZED',
+    sat21Created: false,
+    selectionDeterminism: 'stable-order-plus-first-unused-compatible-candidate',
+    note: 'Candidate options are references into deterministic remediation-generator pools. No production question was mutated.',
+  };
+
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  fs.writeFileSync(OUT, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+
+  console.log(JSON.stringify({
+    reportType: report.reportType,
+    affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
+    summary: report.summary,
+    productionMutation: false,
+    releaseEligible: false,
+    replacementAuthorization: 'NOT_AUTHORIZED',
+    reportPath: path.relative(process.cwd(), OUT),
+  }, null, 2));
+}
+
+main();
