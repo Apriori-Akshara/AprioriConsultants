@@ -228,6 +228,28 @@ function repairRWDistractors(question, index) {
   return { ...question, choices: current };
 }
 
+const REASONING_PROMPT_VARIANTS = [
+  'Use the evidence in the passage to determine the best answer.',
+  'Consider the complete relationship described in the passage.',
+  'Base the answer on the evidence rather than a general assumption.',
+  'Pay attention to the condition that limits the reported result.',
+  'Consider how the later information qualifies the earlier observation.',
+  'Distinguish the strongest evidence from details that are merely related.',
+  'Use the passage’s specific evidence when selecting the answer.',
+  'Consider what the passage establishes and what it does not establish.',
+  'Take the scope of the evidence into account when evaluating the choices.',
+  'Consider the author’s evidence as a whole rather than one isolated detail.',
+  'Use the relationship among the observations to evaluate the answer choices.',
+  'Consider the final qualification before selecting the answer.'
+];
+
+function enrichReasoningPrompt(question, occurrence) {
+  if (question.section !== 'reading-writing') return question;
+  if (!['Command of Evidence', 'Transitions', 'Boundaries', 'Form, Structure, and Sense'].includes(question.skill)) return question;
+  const focus = REASONING_PROMPT_VARIANTS[occurrence % REASONING_PROMPT_VARIANTS.length];
+  return { ...question, prompt: `${focus}\n\n${question.prompt}` };
+}
+
 function alignDifficulty(question) {
   if (question.section !== 'math' || question.difficulty !== 'easy') return question;
   const features = new Set(question.metadata?.difficultyFeatures || []);
@@ -235,16 +257,16 @@ function alignDifficulty(question) {
   return {...question, difficulty: 'medium', difficultyBand: `${question.assessmentVariant || 'sat'}-${question.adaptiveRoute || 'standard'}-medium`, estimatedTimeSeconds: Math.max(Number(question.estimatedTimeSeconds) || 0, 90)};
 }
 
-function enrichShortSECPrompt(question) {
-  if (question.section !== 'reading-writing') return question;
-  if (!['Transitions', 'Boundaries', 'Form, Structure, and Sense'].includes(question.skill)) return question;
-  return {...question, prompt: `The following sentence appears in a research report about how a revised method affected the study results. ${question.prompt}`};
-}
-
 export function buildRepresentativeBatchMRemediationCandidates(options = {}) {
   const rwResult = generateRemediatedRWCandidates({ count: options.rwCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
   const mathResult = generateRemediatedMathCandidates({ count: options.mathCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
-  const readingWriting = rwResult.candidates.map((candidate, index) => repairRWDistractors(candidate, index));
+  const skillOccurrences = {};
+  const readingWriting = rwResult.candidates.map((candidate, index) => {
+    const occurrence = skillOccurrences[candidate.skill] || 0;
+    skillOccurrences[candidate.skill] = occurrence + 1;
+    const repaired = repairRWDistractors(candidate, index);
+    return enrichReasoningPrompt(repaired, occurrence);
+  });
   const math = mathResult.candidates.map((candidate, index) => alignDifficulty(replaceMathDistractors(candidate, index), index));
   const candidates = [...readingWriting, ...math];
   const quality = evaluateContentQualityBatch(candidates);
