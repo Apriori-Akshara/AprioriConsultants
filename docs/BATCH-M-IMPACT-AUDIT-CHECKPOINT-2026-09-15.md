@@ -1,8 +1,8 @@
 # Batch M Impact-Audit Checkpoint — September 15, 2026
 
-**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT COMPLETE; CLASSIFICATION COMPLETE; TARGETED REVIEW INVENTORY IMPLEMENTED; TARGETED REPLACEMENT NOT YET AUTHORIZED  
+**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT COMPLETE; CLASSIFICATION COMPLETE; TARGETED REVIEW INVENTORY COMPLETE; TARGETED REPLACEMENT PREPARATION COMPLETE; PRODUCTION REPLACEMENT NOT AUTHORIZED  
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
-**Scope:** Read-only identification, classification, and inventory of genuinely affected frozen production records before targeted replacement  
+**Scope:** Read-only identification, classification, inventory, and replacement-preparation planning for genuinely affected frozen production records before any targeted replacement  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
 
 ## 1. Completed representative remediation QC
@@ -124,64 +124,101 @@ Implementation commits:
 - `291da494ee41c43b67336bd63bf1c7f94791ffcb` — **Batch M: add impact classification command**
 - `5a3860295c1ae870c2f544b140fef0f2e6097b0c` — **Batch M: expose reusable impact classification helpers**
 
-## 6. Next-step implementation — targeted review inventory
+## 6. Targeted review inventory — completed
 
-The next approved step is now implemented as a **read-only targeted review inventory**. Its purpose is to convert the classification into a deterministic review package containing:
+The next approved step was a **read-only targeted review inventory** converting the classification into a deterministic package of exact affected records.
 
-- exact `testKey` + `questionId` for every affected question;
-- section, skill, domain, and difficulty metadata available from the production record;
-- all impact flags attached to the question;
-- all applicable review classes;
-- a deterministic review bucket distinguishing high-confidence content review, difficulty-only review, high-confidence + difficulty overlap, structural review, and other review;
-- per-mock affected-question counts by review bucket;
-- per-section affected counts;
-- finding-flag counts;
-- the 20 mock-level SPR findings;
-- explicit `productionMutation: false`, `releaseEligible: false`, and `replacementAuthorization: NOT_AUTHORIZED`.
-
-Implementation files:
+Implementation files/command:
 
 - `scripts/runBatchMTargetedReviewInventory.js`
-- package command: `npm run qc:batch-m-targeted-review-inventory`
+- `npm run qc:batch-m-targeted-review-inventory`
 
-Implementation commits:
+The user executed the command successfully from `D:\AprioriConsultants-Git`.
 
-- `6fb2ccfb4565f14f94b81c0b2837fcce46682c02` — **Batch M: add read-only targeted review inventory**
-- `b104a54087b1f97fe6d2a7523f11c21e5bdb8488` — **Batch M: add targeted review inventory command**
+Result:
 
-The inventory command writes the exact review package to:
+- **20 mocks**
+- **3,920 questions**
+- **2,144 affected unique questions inventoried**
+- **1,496 HIGH_CONFIDENCE_CONTENT_REVIEW** bucket
+- **550 DIFFICULTY_CALIBRATION_REVIEW** bucket
+- **98 HIGH_CONFIDENCE_PLUS_DIFFICULTY** bucket
+- `productionMutation: false`
+- `releaseEligible: false`
+- `replacementAuthorization: NOT_AUTHORIZED`
+- `status: TARGETED_REVIEW_INVENTORY_READY`
+
+The inventory report is:
 
 `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`
 
-The JSON report is intentionally metadata-only: it does not copy production question text or answer content. It is an audit/review record, not a production mutation.
+The generated inventory is metadata-only and contains exact mock/question IDs, flags, review classes, and review-bucket membership. It does not alter or replace production records.
 
-## 7. Production safety
+## 7. Targeted replacement preparation — completed
+
+The next step is now implemented as a **read-only targeted replacement preparation** layer. Its purpose is to turn every affected question in the inventory into an explicit remediation plan without yet generating or selecting a production replacement.
+
+Implementation file:
+
+`scripts/runBatchMTargetedReplacementPreparation.js`
+
+Package command:
+
+`npm run qc:batch-m-targeted-replacement-preparation`
+
+The preparation layer assigns each affected record to a deterministic remediation type based only on the documented impact flags:
+
+| Finding | Remediation type | Track |
+|---|---|---|
+| `math-generic-numeric-distractor` | `CONTENT_REPLACEMENT` | `MATH_DISTRACTOR_REMEDIATION` |
+| `rw-fixed-wic-target` | `CONTENT_REPLACEMENT` | `RW_WIC_REMEDIATION` |
+| `rw-template-density` | `CONTENT_REPLACEMENT` | `RW_CONSTRUCTION_REMEDIATION` |
+| `hard-label-without-demand-feature` | `DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT` | `DIFFICULTY_CALIBRATION` |
+
+When content and difficulty findings overlap, the preparation assigns:
+
+`CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION`
+
+Each prepared record retains the exact production `testKey` and `questionId`, original finding flags, skill/domain/difficulty metadata, remediation tracks, remediation instructions, and an explicit `replacementAuthorized: false` safeguard.
+
+The preparation report will be written to:
+
+`docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
+
+Implementation commits:
+
+- `e025241cc73550c0dd4b6c32323d6bfb4a968bda` — **Batch M: add read-only targeted replacement preparation**
+- `898e1d6e4f3495b47bc0581d6e252cb0ec1b9554` — **Batch M: add targeted replacement preparation command**
+
+This preparation stage does **not** generate replacement content, select a candidate for any specific production record, mutate production, approve release, or create SAT21.
+
+## 8. Production safety
 
 The following remain true:
 
 - production corpus remains frozen;
-- no accepted question was replaced by the audit, classification, or inventory preparation;
+- no accepted question was replaced by the audit, classification, inventory, or preparation stages;
 - no production question was deleted or reordered;
 - no release eligibility was granted;
 - no SAT21 target was created;
 - no wholesale regeneration was authorized;
-- the targeted review inventory does not authorize replacements.
+- the targeted replacement preparation does not authorize replacements.
 
-## 8. Exact next local action
+## 9. Exact next local action
 
 From the active Git-connected folder:
 
 `D:\AprioriConsultants-Git`
 
-after Fetch/Pull has synchronized the latest inventory implementation, run:
+after Fetch/Pull has synchronized the latest preparation implementation, run:
 
-`npm run qc:batch-m-targeted-review-inventory`
+`npm run qc:batch-m-targeted-replacement-preparation`
 
-This creates `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`. Do not edit or delete that generated report before the next review stage. Its result will be used to determine the exact candidate-review buckets and overlap before any targeted replacement is authorized.
+This creates `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`. Do not edit or delete the generated report before the next review stage. Its result will be used to create the actual candidate-generation/selection plan while preserving the production freeze.
 
-## 9. Later mandatory gates
+## 10. Later mandatory gates
 
-After targeted review and any subsequently authorized targeted replacements:
+After candidate generation/selection and any subsequently authorized targeted replacements:
 
 1. rerun affected individual mock gates;
 2. rerun the final collective 30-mock corpus gate;
