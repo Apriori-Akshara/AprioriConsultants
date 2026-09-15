@@ -1,0 +1,381 @@
+{
+  "reportType": "batch-m-targeted-candidate-coverage-analysis",
+  "reportVersion": "2026-09-15.targeted-candidate-coverage.v1",
+  "sourceReport": "docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json",
+  "affectedUniqueQuestionCount": 2144,
+  "selectionSummary": {
+    "total": 2144,
+    "contentReplacement": 1496,
+    "contentPlusDifficulty": 98,
+    "difficultyCalibration": 550,
+    "selected": 57,
+    "noEligibleCandidate": 1537,
+    "sat": 1071,
+    "psat": 1073
+  },
+  "remediationCounts": {
+    "CONTENT_REPLACEMENT": 1496,
+    "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT": 550,
+    "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION": 98
+  },
+  "targetSkillCounts": [
+    {
+      "key": "reading-writing:Words in Context",
+      "count": 216
+    },
+    {
+      "key": "math:Quadratic functions and representations",
+      "count": 137
+    },
+    {
+      "key": "math:Linear functions",
+      "count": 135
+    },
+    {
+      "key": "math:Exponential equations",
+      "count": 125
+    },
+    {
+      "key": "math:Linear equations",
+      "count": 125
+    },
+    {
+      "key": "math:Quadratic parameter reasoning",
+      "count": 107
+    },
+    {
+      "key": "math:Linear functions and representations",
+      "count": 103
+    },
+    {
+      "key": "math:Quadratic equations",
+      "count": 95
+    },
+    {
+      "key": "reading-writing:Cross-Text Connections",
+      "count": 94
+    },
+    {
+      "key": "math:Linear representations",
+      "count": 93
+    },
+    {
+      "key": "reading-writing:Inferences",
+      "count": 90
+    },
+    {
+      "key": "reading-writing:Form, Structure, and Sense",
+      "count": 88
+    },
+    {
+      "key": "reading-writing:Transitions",
+      "count": 84
+    },
+    {
+      "key": "math:Weighted means",
+      "count": 80
+    },
+    {
+      "key": "math:Geometry and measurement",
+      "count": 70
+    },
+    {
+      "key": "math:Measures of spread",
+      "count": 68
+    },
+    {
+      "key": "math:Similarity and scaling",
+      "count": 64
+    },
+    {
+      "key": "math:Percentages",
+      "count": 60
+    },
+    {
+      "key": "math:Data models",
+      "count": 48
+    },
+    {
+      "key": "math:Right triangles",
+      "count": 46
+    },
+    {
+      "key": "reading-writing:Boundaries",
+      "count": 44
+    },
+    {
+      "key": "reading-writing:Command of Evidence",
+      "count": 44
+    },
+    {
+      "key": "reading-writing:Rhetorical Synthesis",
+      "count": 44
+    },
+    {
+      "key": "reading-writing:Central Ideas and Details",
+      "count": 42
+    },
+    {
+      "key": "reading-writing:Text Structure and Purpose",
+      "count": 42
+    }
+  ],
+  "selectedSkillCounts": [
+    {
+      "key": "reading-writing:Words in Context",
+      "count": 46
+    },
+    {
+      "key": "reading-writing:Inferences",
+      "count": 6
+    },
+    {
+      "key": "reading-writing:Cross-Text Connections",
+      "count": 5
+    }
+  ],
+  "noEligibleCandidateSkillCounts": [
+    {
+      "section": "reading-writing",
+      "skill": "Words in Context",
+      "noEligibleCandidateCount": 170,
+      "targetCount": 216,
+      "selectedCount": 46,
+      "coveragePercent": 21.3
+    },
+    {
+      "section": "math",
+      "skill": "Quadratic functions and representations",
+      "noEligibleCandidateCount": 137,
+      "targetCount": 137,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Linear functions",
+      "noEligibleCandidateCount": 135,
+      "targetCount": 135,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Exponential equations",
+      "noEligibleCandidateCount": 125,
+      "targetCount": 125,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Linear equations",
+      "noEligibleCandidateCount": 125,
+      "targetCount": 125,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Quadratic parameter reasoning",
+      "noEligibleCandidateCount": 107,
+      "targetCount": 107,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Linear functions and representations",
+      "noEligibleCandidateCount": 103,
+      "targetCount": 103,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Quadratic equations",
+      "noEligibleCandidateCount": 95,
+      "targetCount": 95,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Linear representations",
+      "noEligibleCandidateCount": 93,
+      "targetCount": 93,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Weighted means",
+      "noEligibleCandidateCount": 80,
+      "targetCount": 80,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Geometry and measurement",
+      "noEligibleCandidateCount": 70,
+      "targetCount": 70,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Measures of spread",
+      "noEligibleCandidateCount": 68,
+      "targetCount": 68,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Similarity and scaling",
+      "noEligibleCandidateCount": 64,
+      "targetCount": 64,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Percentages",
+      "noEligibleCandidateCount": 60,
+      "targetCount": 60,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Data models",
+      "noEligibleCandidateCount": 48,
+      "targetCount": 48,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "math",
+      "skill": "Right triangles",
+      "noEligibleCandidateCount": 46,
+      "targetCount": 46,
+      "selectedCount": 0,
+      "coveragePercent": 0
+    },
+    {
+      "section": "reading-writing",
+      "skill": "Inferences",
+      "noEligibleCandidateCount": 6,
+      "targetCount": 90,
+      "selectedCount": 6,
+      "coveragePercent": 6.67
+    },
+    {
+      "section": "reading-writing",
+      "skill": "Cross-Text Connections",
+      "noEligibleCandidateCount": 5,
+      "targetCount": 94,
+      "selectedCount": 5,
+      "coveragePercent": 5.32
+    }
+  ],
+  "noEligibleCandidateBySection": [
+    {
+      "key": "math",
+      "count": 1356
+    },
+    {
+      "key": "reading-writing",
+      "count": 181
+    }
+  ],
+  "noEligibleCandidateByTest": [
+    {
+      "key": "SAT2",
+      "count": 83
+    },
+    {
+      "key": "SAT6",
+      "count": 83
+    },
+    {
+      "key": "PSAT3",
+      "count": 80
+    },
+    {
+      "key": "SAT1",
+      "count": 80
+    },
+    {
+      "key": "SAT10",
+      "count": 80
+    },
+    {
+      "key": "SAT3",
+      "count": 80
+    },
+    {
+      "key": "PSAT5",
+      "count": 79
+    },
+    {
+      "key": "SAT4",
+      "count": 79
+    },
+    {
+      "key": "SAT5",
+      "count": 79
+    },
+    {
+      "key": "SAT7",
+      "count": 78
+    },
+    {
+      "key": "PSAT8",
+      "count": 77
+    },
+    {
+      "key": "PSAT9",
+      "count": 77
+    },
+    {
+      "key": "SAT8",
+      "count": 77
+    },
+    {
+      "key": "SAT9",
+      "count": 77
+    },
+    {
+      "key": "PSAT7",
+      "count": 76
+    },
+    {
+      "key": "PSAT6",
+      "count": 75
+    },
+    {
+      "key": "PSAT10",
+      "count": 70
+    },
+    {
+      "key": "PSAT2",
+      "count": 70
+    },
+    {
+      "key": "PSAT1",
+      "count": 69
+    },
+    {
+      "key": "PSAT4",
+      "count": 68
+    }
+  ],
+  "productionMutation": false,
+  "releaseEligible": false,
+  "replacementAuthorization": "NOT_AUTHORIZED",
+  "sat21Created": false,
+  "status": "CANDIDATE_COVERAGE_GAP_IDENTIFIED",
+  "nextAction": "Expand or refine remediation candidate generation only for missing section/skill combinations; do not authorize production replacement yet."
+}
