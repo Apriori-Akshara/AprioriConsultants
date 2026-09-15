@@ -168,7 +168,7 @@ function remapFigureCandidate(question, occurrence) {
     const prompt = `A right triangle has one leg of ${leg} and hypotenuse of ${hyp}. What is the length of the other leg?`;
     return {
       ...setNumericQuestion(question, prompt, correct, o),
-      figure: { type: 'geometry', values: { shape: 'right-triangle', leg, hyp } },
+      figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: correct } },
     };
   }
 
@@ -200,6 +200,44 @@ function remapFigureCandidate(question, occurrence) {
     };
   }
 
+
+  // Batch M coverage remediation: figure variants for zero/low-coverage target families.
+  if (skill === 'Quadratic functions') {
+    const h = 2 + (o % 11);
+    const k = 5 + (o % 37);
+    const a = 1;
+    const b = -2 * h;
+    const c = h * h + k;
+    return {
+      ...question,
+      figure: {
+        type: 'quadratic',
+        a,
+        b,
+        c,
+        values: { a, b, c },
+      },
+    };
+  }
+
+  if (skill === 'Scatterplot interpretation') {
+    const base = 8 + o;
+    const points = [
+      [1, base],
+      [2, base + 3 + (o % 4)],
+      [3, base + 7 + (o % 5)],
+      [4, base + 10 + (o % 6)],
+      [5, base + 14 + (o % 7)],
+    ];
+    const displayTypes = ['scatter', 'line_chart', 'bar_chart', 'table'];
+    const displayType = displayTypes[o % displayTypes.length];
+    let figure;
+    if (displayType === 'scatter') figure = { type: 'scatter', points };
+    else if (displayType === 'line_chart') figure = { type: 'line_chart', x: points.map((point) => point[0]), y: points.map((point) => point[1]) };
+    else if (displayType === 'bar_chart') figure = { type: 'bar_chart', categories: points.map((point) => String(point[0])), values: points.map((point) => point[1]) };
+    else figure = { type: 'table', columns: ['x', 'y'], rows: points.map((point) => [point[0], point[1]]) };
+    return { ...question, figure };
+  }
   return question;
 }
 

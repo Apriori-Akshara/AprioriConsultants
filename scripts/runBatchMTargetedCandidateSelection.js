@@ -21,8 +21,12 @@ const TARGET_KEYS = new Set([
 ]);
 
 const POOL_COUNTS = {
-  sat: { rw: 900, math: 4500 },
-  psat: { rw: 900, math: 4500 },
+  // R&W was previously capped at 900 candidates, which created an artificial
+  // ceiling for high-volume skills such as Words in Context and Cross-Text.
+  // The remediation pool now gives each skill enough distinct candidates to
+  // satisfy the frozen target distribution without changing eligibility rules.
+  sat: { rw: 2500, math: 4500 },
+  psat: { rw: 2500, math: 4500 },
 };
 
 const SKILL_ALIASES = {
