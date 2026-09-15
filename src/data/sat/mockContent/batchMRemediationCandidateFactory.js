@@ -41,6 +41,19 @@ function numericFallbackDistractors(answer, index) {
   ], answer).slice(0, 3);
 }
 
+function nonGenericNumericDistractors(values, correct) {
+  const numericCorrect = Number(correct);
+  if (!Number.isFinite(numericCorrect)) return values.map((value) => String(value));
+  const generic = new Set([numericCorrect + 1, numericCorrect - 1, numericCorrect * 2]);
+  return [...new Set(values
+    .map((value) => String(value))
+    .filter((value) => value !== String(correct))
+    .filter((value) => {
+      const numeric = Number(value);
+      return !Number.isFinite(numeric) || !generic.has(numeric);
+    }))];
+}
+
 function constructionSpecificMathDistractors(question, index) {
   const prompt = String(question.prompt || '');
   const skill = String(question.skill || '');
@@ -50,7 +63,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/records (\d+) units .*?increases by (\d+) units each month\. After (\d+) months.*?after (\d+) months/i);
     if (match) {
       const [, baseline, rate, knownMonths, requestedMonths] = match.map(Number);
-      return uniqueNumericStrings([baseline, rate * requestedMonths, baseline + rate * (knownMonths + 1)], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([baseline, rate * requestedMonths, baseline + rate * (knownMonths + 1)], answer), answer);
     }
   }
 
@@ -58,7 +71,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/fixed fee of \$(\d+) plus \$(\d+) per unit\. A customer paid \$(\d+)/i);
     if (match) {
       const [, fixed, cost, total] = match.map(Number);
-      return uniqueNumericStrings([Math.floor(total / cost), Math.floor((total - fixed - cost) / cost), Math.floor(total / (cost + 1))], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([Math.floor(total / cost), Math.floor((total - fixed - cost) / cost), Math.floor(total / (cost + 1))], answer), answer);
     }
   }
 
@@ -66,7 +79,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/passes through \((\d+), (\d+)\) and \((\d+), (\d+)\).*?y = (\d+)x \+ b/i);
     if (match) {
       const [, x1, y1, x2, y2, slope] = match.map(Number);
-      return uniqueNumericStrings([slope, y1, y2], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([slope, y1, y2], answer), answer);
     }
   }
 
@@ -74,7 +87,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/(\d+)x \+ (\d+) ≤ (\d+)/);
     if (match) {
       const [, coefficient, constant, rhs] = match.map(Number);
-      return uniqueNumericStrings([Math.floor(rhs / coefficient), Math.floor((rhs - constant) / (coefficient + 1)), Math.ceil((rhs - constant) / (coefficient - 1))], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([Math.floor(rhs / coefficient), Math.floor((rhs - constant) / (coefficient + 1)), Math.ceil((rhs - constant) / (coefficient - 1))], answer), answer);
     }
   }
 
@@ -82,17 +95,17 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/roots (\d+) and (\d+).*?x² − (\d+)x \+ k/i);
     if (match) {
       const [, root, other, sum] = match.map(Number);
-      return uniqueNumericStrings([sum, Math.abs(other - root), root + other + 1], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([sum, Math.abs(other - root), root + other + 1], answer), answer);
     }
   }
 
-  if (skill === 'Equivalent exponential representations') return uniqueNumericStrings([2, -2, 3], answer);
+  if (skill === 'Equivalent exponential representations') return nonGenericNumericDistractors(uniqueNumericStrings([2, -2, 3], answer), answer);
 
   if (skill === 'Quadratic functions') {
     const match = prompt.match(/f\(x\) = \(x − (\d+)\)² \+ (\d+).*?x = (\d+) and f\(x\) = (\d+)/i);
     if (match) {
       const [, h, k, x, value] = match.map(Number);
-      return uniqueNumericStrings([(x - h) ** 2, value, k + 3], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([(x - h) ** 2, value, k + 3], answer), answer);
     }
   }
 
@@ -101,7 +114,7 @@ function constructionSpecificMathDistractors(question, index) {
     if (match) {
       const [, a, coefficientH] = match.map(Number);
       const h = coefficientH / (2 * a);
-      return uniqueNumericStrings([2 * a * h, a * h, h * h], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([2 * a * h, a * h, h * h], answer), answer);
     }
   }
 
@@ -109,11 +122,11 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/starts at (\d+)\. It increases by (\d+)% and then decreases by (\d+)%/i);
     if (match) {
       const [, original, first, second] = match.map(Number);
-      return uniqueNumericStrings([
+      return nonGenericNumericDistractors(uniqueNumericStrings([
         original * (1 + (first - second) / 100),
         original * (1 + (first + second) / 100),
         original * (1 + first / 100) * (1 + second / 100),
-      ].map((value) => Number(value.toFixed(2))), answer);
+      ].map((value) => Number(value.toFixed(2))), answer), answer);
     }
   }
 
@@ -121,7 +134,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/Group A contains (\d+) observations with mean (\d+); Group B contains (\d+) observations with mean (\d+)/i);
     if (match) {
       const [, groupA, meanA, groupB, meanB] = match.map(Number);
-      return uniqueNumericStrings([Number(((meanA + meanB) / 2).toFixed(2)), meanA, meanB], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([Number(((meanA + meanB) / 2).toFixed(2)), meanA, meanB], answer), answer);
     }
   }
 
@@ -129,7 +142,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/first quartile (\d+) and third quartile (\d+)\. Every value .*? increased by (\d+)/i);
     if (match) {
       const [, q1, q3, shift] = match.map(Number);
-      return uniqueNumericStrings([q3 + shift, q1 + shift, q3 - q1 + shift], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([q3 + shift, q1 + shift, q3 - q1 + shift], answer), answer);
     }
   }
 
@@ -137,7 +150,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/garden is (\d+) meters by (\d+) meters\. A rectangular section (\d+) meters by (\d+) meters is removed/i);
     if (match) {
       const [, outer, height, inner, removedHeight] = match.map(Number);
-      return uniqueNumericStrings([outer * height, inner * removedHeight, outer * height + inner * removedHeight], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([outer * height, inner * removedHeight, outer * height + inner * removedHeight], answer), answer);
     }
   }
 
@@ -145,7 +158,7 @@ function constructionSpecificMathDistractors(question, index) {
     const match = prompt.match(/ratio (\d+):1.*?smaller figure is (\d+).*?area (\d+)/i);
     if (match) {
       const [, scale, smallLength, smallArea] = match.map(Number);
-      return uniqueNumericStrings([smallArea * scale, smallArea + scale, smallLength * scale], answer);
+      return nonGenericNumericDistractors(uniqueNumericStrings([smallArea * scale, smallArea + scale, smallLength * scale], answer), answer);
     }
   }
 
@@ -167,7 +180,7 @@ function constructionSpecificMathDistractors(question, index) {
         if (!Number.isFinite(value) || value === correctValue) return false;
         return ![correctValue + 1, correctValue - 1, correctValue * 2].includes(value);
       });
-      return uniqueNumericStrings(filtered.map((value) => Number(value.toFixed(2))), answer).slice(0, 3);
+      return nonGenericNumericDistractors(uniqueNumericStrings(filtered.map((value) => Number(value.toFixed(2))), answer), answer);
     }
   }
 
@@ -179,10 +192,19 @@ function replaceMathDistractors(question, index) {
   const oldAnswerIndex = String(question.answer).charCodeAt(0) - 65;
   if (oldAnswerIndex < 0 || oldAnswerIndex > 3) return question;
   const correct = question.choices[oldAnswerIndex];
-  const distractors = constructionSpecificMathDistractors(question, index);
+  let distractors = constructionSpecificMathDistractors(question, index);
+
+  if (distractors && Number.isFinite(Number(correct))) {
+    distractors = nonGenericNumericDistractors(distractors, correct);
+  }
+
+  if ((!distractors || distractors.length < 3) && Number.isFinite(Number(correct))) {
+    distractors = nonGenericNumericDistractors(numericFallbackDistractors(correct, index) || [], correct);
+  }
+
   if (!distractors || distractors.length < 3) return question;
   const target = (index + 1) % 4;
-  const choices = [...distractors];
+  const choices = [...distractors.slice(0, 3)];
   choices.splice(target, 0, correct);
   return {...question, choices: choices.slice(0, 4), answer: String.fromCharCode(65 + target)};
 }
