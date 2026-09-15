@@ -212,7 +212,7 @@ function buildPools() {
   const pools = {};
 
   for (const product of ['sat', 'psat']) {
-    const variant = product === 'sat' ? 'sat' : 'psat-nmsqt';
+    const variant = product === 'sat' ? 'sat-series-a' : 'psat-nmsqt';
     const testId = product === 'sat' ? 'SAT1' : 'PSAT1';
     const result = buildRepresentativeBatchMRemediationCandidates({
       rwCount: POOL_COUNTS[product].rw,
