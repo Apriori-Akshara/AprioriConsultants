@@ -11,7 +11,7 @@ import crypto from 'node:crypto';
 import { buildTargetedReplacementPreparation } from './runBatchMTargetedReplacementPreparation.js';
 import { buildRepresentativeBatchMRemediationCandidates } from '../src/data/sat/mockContent/batchMRemediationCandidateFactory.js';
 import { evaluateContentQualityBatch } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
-import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import { BATCH_M_TARGETED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMTargetedProductionCorpus.js';
 
 const OUT = path.resolve(process.cwd(), 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json');
 const REPORT_VERSION = '2026-09-15.targeted-candidate-selection.v1';
@@ -20,8 +20,6 @@ const TARGET_KEYS = new Set([
   'PSAT1', 'PSAT2', 'PSAT3', 'PSAT4', 'PSAT5', 'PSAT6', 'PSAT7', 'PSAT8', 'PSAT9', 'PSAT10',
 ]);
 
-// Sized to provide deterministic alternatives while remaining comfortably above
-// the maximum number of replacement records in any compatible construction.
 const POOL_COUNTS = {
   sat: { rw: 900, math: 4500 },
   psat: { rw: 900, math: 4500 },
@@ -93,7 +91,7 @@ function collectQuestions(value, testKey, out = [], seen = new Set()) {
 function buildProductionQuestionIndex() {
   const index = new Map();
 
-  BATCH_M_ACCEPTED_PRODUCTION_CORPUS.forEach((mock) => {
+  BATCH_M_TARGETED_PRODUCTION_CORPUS.forEach((mock) => {
     const testKey = deriveTestKey(mock);
     if (!testKey || !TARGET_KEYS.has(testKey)) return;
 
