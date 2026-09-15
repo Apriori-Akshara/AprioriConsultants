@@ -79,7 +79,7 @@ function remapStrategicCandidate(question, occurrence) {
     return setNumericQuestion(question, prompt, 0, o);
   }
 
-  if (skill === 'Quadratic functions') {
+  if (skill === 'Quadratic functions' || skill === 'Quadratic functions and representations') {
     const h = 2 + o;
     const k = 5 + (o % 37);
     const x = h + 3;
@@ -225,7 +225,7 @@ function remapFigureCandidate(question, occurrence) {
 
 
   // Batch M coverage remediation: figure variants for zero/low-coverage target families.
-  if (skill === 'Quadratic functions') {
+  if (skill === 'Quadratic functions' || skill === 'Quadratic functions and representations') {
     const h = 2 + (o % 11);
     const k = 5 + (o % 37);
     const a = 1;
