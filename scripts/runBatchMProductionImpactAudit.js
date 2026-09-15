@@ -1,12 +1,32 @@
 /**
  * Batch M — read-only production impact audit.
  *
- * Inspects the frozen SAT1–SAT10 and PSAT1–PSAT10 production records only.
+ * Inspects only the frozen SAT1–SAT10 and PSAT1–PSAT10 production records.
+ * It intentionally does NOT import batchMProductionStore.js because that module
+ * eagerly executes SAT11–SAT20 as part of its module initialization.
  * It never mutates production records and never makes a release decision.
- * The output is intentionally question-ID based; it does not print full item text.
  */
 
-import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import { runBatchMFirstProductionGate } from '../src/data/sat/mockContent/batchMFirstProductionGate.js';
+import { runBatchMSecondProductionGate } from '../src/data/sat/mockContent/batchMSecondProductionGate.js';
+import { runBatchMThirdProductionGate } from '../src/data/sat/mockContent/batchMThirdProductionGate.js';
+import { runBatchMFourthProductionGate } from '../src/data/sat/mockContent/batchMFourthProductionGate.js';
+import { runBatchMFifthProductionGate } from '../src/data/sat/mockContent/batchMFifthProductionGate.js';
+import { runBatchMSixthProductionGate } from '../src/data/sat/mockContent/batchMSixthProductionGate.js';
+import { runBatchMSeventhProductionGate } from '../src/data/sat/mockContent/batchMSeventhProductionGate.js';
+import { runBatchMEighthProductionGate } from '../src/data/sat/mockContent/batchMEighthProductionGate.js';
+import { runBatchMNinthProductionGate } from '../src/data/sat/mockContent/batchMNinthProductionGate.js';
+import { runBatchMTenthProductionGate } from '../src/data/sat/mockContent/batchMTenthProductionGate.js';
+import { runBatchMPSATFirstProductionGate } from '../src/data/sat/mockContent/batchMPSATFirstProductionGate.js';
+import { runBatchMPSATSecondProductionGate } from '../src/data/sat/mockContent/batchMPSATSecondProductionGate.js';
+import { runBatchMPSATThirdProductionGate } from '../src/data/sat/mockContent/batchMPSATThirdProductionGate.js';
+import { runBatchMPSATFourthProductionGate } from '../src/data/sat/mockContent/batchMPSATFourthProductionGate.js';
+import { runBatchMPSATFifthProductionGate } from '../src/data/sat/mockContent/batchMPSATFifthProductionGate.js';
+import { runBatchMPSATSixthProductionGate } from '../src/data/sat/mockContent/batchMPSATSixthProductionGate.js';
+import { runBatchMPSATSeventhProductionGate } from '../src/data/sat/mockContent/batchMPSATSeventhProductionGate.js';
+import { runBatchMPSATEighthProductionGate } from '../src/data/sat/mockContent/batchMPSATEighthProductionGate.js';
+import { runBatchMPSATNinthProductionGate } from '../src/data/sat/mockContent/batchMPSATNinthProductionGate.js';
+import { runBatchMPSATTenthProductionGate } from '../src/data/sat/mockContent/batchMPSATTenthProductionGate.js';
 import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
 
 const TARGET_KEYS = [
@@ -31,13 +51,6 @@ const IMPACT_FLAGS = new Set([
   'math-figure-not-essential',
 ]);
 
-function collectQuestions(mock) {
-  return [
-    ...(Array.isArray(mock?.readingWriting) ? mock.readingWriting : []),
-    ...(Array.isArray(mock?.math) ? mock.math : []),
-  ];
-}
-
 function flagCategory(flag) {
   if (flag.startsWith('rw-')) return 'R&W construction/content';
   if (flag.includes('difficulty') || flag.includes('multi-step') || flag === 'medium-item-too-thin') {
@@ -47,8 +60,14 @@ function flagCategory(flag) {
   return 'Other';
 }
 
-function auditMock(mock, index) {
-  const testKey = TARGET_KEYS[index] || String(mock?.testId || 'UNKNOWN');
+function collectQuestions(mock) {
+  return [
+    ...(Array.isArray(mock?.readingWriting) ? mock.readingWriting : []),
+    ...(Array.isArray(mock?.math) ? mock.math : []),
+  ];
+}
+
+function auditMock(mock, testKey) {
   const questions = collectQuestions(mock);
   const findings = [];
 
@@ -105,23 +124,52 @@ function auditMock(mock, index) {
   };
 }
 
+function buildFirstTwentyProductionMocks() {
+  const satResults = [];
+  satResults.push(runBatchMFirstProductionGate().productionMock);
+  satResults.push(runBatchMSecondProductionGate(satResults).productionMock);
+  satResults.push(runBatchMThirdProductionGate(satResults).productionMock);
+  satResults.push(runBatchMFourthProductionGate(satResults).productionMock);
+  satResults.push(runBatchMFifthProductionGate(satResults).productionMock);
+  satResults.push(runBatchMSixthProductionGate(satResults).productionMock);
+  satResults.push(runBatchMSeventhProductionGate(satResults).productionMock);
+  satResults.push(runBatchMEighthProductionGate(satResults).productionMock);
+  satResults.push(runBatchMNinthProductionGate(satResults).productionMock);
+  satResults.push(runBatchMTenthProductionGate(satResults).productionMock);
+
+  const allPrior = [...satResults];
+  const psatResults = [];
+  psatResults.push(runBatchMPSATFirstProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[0]);
+  psatResults.push(runBatchMPSATSecondProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[1]);
+  psatResults.push(runBatchMPSATThirdProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[2]);
+  psatResults.push(runBatchMPSATFourthProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[3]);
+  psatResults.push(runBatchMPSATFifthProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[4]);
+  psatResults.push(runBatchMPSATSixthProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[5]);
+  psatResults.push(runBatchMPSATSeventhProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[6]);
+  psatResults.push(runBatchMPSATEighthProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[7]);
+  psatResults.push(runBatchMPSATNinthProductionGate(allPrior).productionMock);
+  allPrior.push(psatResults[8]);
+  psatResults.push(runBatchMPSATTenthProductionGate(allPrior).productionMock);
+
+  return [...satResults, ...psatResults];
+}
+
 function main() {
-  if (!Array.isArray(BATCH_M_ACCEPTED_PRODUCTION_CORPUS)) {
-    throw new Error('Production impact audit: frozen production corpus is not an array.');
+  const targetMocks = buildFirstTwentyProductionMocks();
+
+  if (targetMocks.length !== 20) {
+    throw new Error(`Production impact audit: expected 20 targeted mocks, found ${targetMocks.length}.`);
   }
 
-  if (BATCH_M_ACCEPTED_PRODUCTION_CORPUS.length !== 30) {
-    throw new Error(`Production impact audit: expected frozen corpus length 30, found ${BATCH_M_ACCEPTED_PRODUCTION_CORPUS.length}.`);
-  }
-
-  const targetMocks = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.slice(0, 20);
-  const targetKeys = targetMocks.map((_, index) => TARGET_KEYS[index]);
-
-  if (JSON.stringify(targetKeys) !== JSON.stringify(TARGET_KEYS)) {
-    throw new Error('Production impact audit: target mapping is not SAT1–SAT10 + PSAT1–PSAT10.');
-  }
-
-  const mockReports = targetMocks.map(auditMock);
+  const mockReports = targetMocks.map((mock, index) => auditMock(mock, TARGET_KEYS[index]));
   const findings = mockReports.flatMap((report) => report.findings);
   const affectedQuestionFindings = findings.filter((finding) => finding.questionId);
 
@@ -139,7 +187,7 @@ function main() {
   const summary = {
     auditType: 'read-only-production-impact-audit',
     auditedMocks: targetMocks.length,
-    auditedMockKeys: targetKeys,
+    auditedMockKeys: TARGET_KEYS,
     auditedQuestions: mockReports.reduce((sum, report) => sum + report.questionCount, 0),
     affectedUniqueQuestionCount: uniqueQuestions.size,
     findingCount: findings.length,
