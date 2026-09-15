@@ -250,6 +250,13 @@ function rebalanceDifficultyAndInteraction(question, occurrence) {
     },
   };
 
+  if (next.questionType === 'student-produced-response' && Array.isArray(next.choices) && next.choices.length === 4) {
+    const existingAnswerIndex = String(next.answer || '').charCodeAt(0) - 65;
+    if (existingAnswerIndex >= 0 && existingAnswerIndex < 4) {
+      next = { ...next, questionType: 'multiple-choice', interactionType: 'single-select' };
+    }
+  }
+
   const answerIndex = String(next.answer || 'A').charCodeAt(0) - 65;
   const correctChoice = next.questionType === 'multiple-choice' && answerIndex >= 0
     ? next.choices?.[answerIndex]
