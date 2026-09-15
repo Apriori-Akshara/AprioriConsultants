@@ -56,6 +56,13 @@ jobs:
           node --check scripts/applyBatchMLinearDifficultyReuseRemediation.mjs
           node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
 
+      - name: Apply linear alias partition remediation
+        run: |
+          node scripts/applyBatchMAliasPartitionRemediation.mjs
+          git diff --check
+          node --check scripts/applyBatchMAliasPartitionRemediation.mjs
+          node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
+
       - name: Apply difficulty coverage remediation
         run: |
           node scripts/applyBatchMDifficultyCoverageRemediation.mjs
@@ -137,6 +144,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: remediate Batch M linear construction coverage"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "fix: remediate Batch M linear alias overlap"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
