@@ -54,6 +54,29 @@ function nonGenericNumericDistractors(values, correct) {
     }))];
 }
 
+function guaranteedNumericDistractors(correct, index, existing = []) {
+  const numericCorrect = Number(correct);
+  if (!Number.isFinite(numericCorrect)) return existing.map((value) => String(value));
+  const used = new Set(existing.map((value) => String(value)));
+  const generic = new Set([numericCorrect + 1, numericCorrect - 1, numericCorrect * 2]);
+  const out = [...existing].map((value) => String(value));
+
+  let step = 3 + (index % 7);
+  let attempt = 0;
+  while (out.length < 3 && attempt < 40) {
+    const direction = attempt % 2 === 0 ? 1 : -1;
+    const candidate = Number((numericCorrect + direction * (step + Math.floor(attempt / 2))).toFixed(2));
+    const text = String(candidate);
+    if (Number.isFinite(candidate) && candidate !== numericCorrect && !generic.has(candidate) && !used.has(text)) {
+      used.add(text);
+      out.push(text);
+    }
+    step += 1;
+    attempt += 1;
+  }
+  return out.slice(0, 3);
+}
+
 function constructionSpecificMathDistractors(question, index) {
   const prompt = String(question.prompt || '');
   const skill = String(question.skill || '');
@@ -200,6 +223,10 @@ function replaceMathDistractors(question, index) {
 
   if ((!distractors || distractors.length < 3) && Number.isFinite(Number(correct))) {
     distractors = nonGenericNumericDistractors(numericFallbackDistractors(correct, index) || [], correct);
+  }
+
+  if (Number.isFinite(Number(correct))) {
+    distractors = guaranteedNumericDistractors(correct, index, distractors || []);
   }
 
   if (!distractors || distractors.length < 3) return question;
