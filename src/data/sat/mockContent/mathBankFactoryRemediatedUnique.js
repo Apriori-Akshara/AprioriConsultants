@@ -1,4 +1,5 @@
 import { generateRemediatedMathCandidates as generateBaseMathCandidates } from './mathBankFactoryRemediated.js';
+import { DIFFICULTY_REQUIREMENTS, PSAT_CEILING_RULES } from './batchMRemediationBlueprint.js';
 
 function rotateChoices(choices, target) {
   const out = [...choices];
@@ -175,6 +176,62 @@ function remapFigureCandidate(question, occurrence) {
   return question;
 }
 
+function isNumericAnswer(value) {
+  return /^-?\d+(?:\.\d+)?$/.test(String(value ?? '').trim())
+    || /^-?\d+(?:\.\d+)?π$/.test(String(value ?? '').trim());
+}
+
+function toMultipleChoice(question, occurrence) {
+  if (question.questionType !== 'student-produced-response' || !isNumericAnswer(question.answer)) return question;
+  const answerText = String(question.answer);
+  const numeric = Number(answerText.replace(/π$/, ''));
+  const suffix = answerText.endsWith('π') ? 'π' : '';
+  if (!Number.isFinite(numeric)) return question;
+  const distractors = [numeric + 1, Math.max(0, numeric - 1), numeric * 2].map((value) => `${Number(value.toFixed(2))}${suffix}`);
+  const rotated = rotateChoices([answerText, ...distractors], occurrence % 4);
+  return { ...question, questionType: 'multiple-choice', interactionType: 'single-select', prompt: String(question.prompt).replace(/\nEnter your answer as a number\.$/, ''), choices: rotated.choices, answer: rotated.answer };
+}
+
+function toStudentProducedResponse(question) {
+  if (question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
+  const answerIndex = String(question.answer || 'A').charCodeAt(0) - 65;
+  if (answerIndex < 0 || answerIndex > 3) return question;
+  const correct = question.choices[answerIndex];
+  if (!isNumericAnswer(correct)) return question;
+  return { ...question, questionType: 'student-produced-response', interactionType: 'student-produced-response', prompt: `${String(question.prompt).replace(/\nEnter your answer as a number\.$/, '')}\nEnter your answer as a number.`, choices: [], answer: correct };
+}
+
+function rebalanceDifficultyAndInteraction(question, occurrence) {
+  const variant = String(question.assessmentVariant || 'sat');
+  let difficulty = ['easy', 'medium', 'medium', 'hard'][occurrence % 4];
+  if (variant === 'psat-nmsqt' && difficulty === 'hard' && ['Advanced Math', 'Geometry and Trigonometry'].includes(question.domain)) {
+    difficulty = 'medium';
+  }
+  const features = new Set(question.metadata?.difficultyFeatures || []);
+  if (difficulty === 'medium') features.add('careful-interpretation');
+  if (difficulty === 'hard') {
+    features.add('multi-step');
+    features.add('strategic-choice');
+  }
+  let next = {
+    ...question,
+    difficulty,
+    difficultyBand: `${variant}-${question.adaptiveRoute || 'standard'}-${difficulty}`,
+    cognitiveDemand: difficulty === 'easy' ? 'apply' : 'analyze',
+    estimatedTimeSeconds: difficulty === 'hard' ? 105 : difficulty === 'medium' ? 90 : 75,
+    metadata: {
+      ...question.metadata,
+      difficultyFeatures: [...features],
+      difficultyRequirements: DIFFICULTY_REQUIREMENTS[difficulty],
+      psatCeiling: variant === 'psat-nmsqt' ? PSAT_CEILING_RULES : question.metadata?.psatCeiling || null,
+    },
+  };
+
+  const wantSpr = occurrence % 4 === 0;
+  next = wantSpr ? toStudentProducedResponse(next) : toMultipleChoice(next, occurrence);
+  return next;
+}
+
 export function generateRemediatedMathCandidatesUnique(options = {}) {
   const result = generateBaseMathCandidates(options);
   const skillOccurrences = {};
@@ -183,8 +240,10 @@ export function generateRemediatedMathCandidatesUnique(options = {}) {
     const skill = String(candidate.skill || '');
     const occurrence = skillOccurrences[skill] || 0;
     skillOccurrences[skill] = occurrence + 1;
-    if (candidate.figure) return remapFigureCandidate(candidate, occurrence);
-    return remapStrategicCandidate(candidate, occurrence);
+    const remapped = candidate.figure
+      ? remapFigureCandidate(candidate, occurrence)
+      : remapStrategicCandidate(candidate, occurrence);
+    return rebalanceDifficultyAndInteraction(remapped, occurrence);
   });
 
   return {
