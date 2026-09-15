@@ -28,7 +28,7 @@ const marker = "// Batch M coverage remediation: figure variants for zero/low-co
 if (!math.includes(marker)) {
   const insertion = `
   ${marker}
-  if (skill === 'Quadratic functions') {
+  if (skill === 'Quadratic functions and representations' || skill === 'Quadratic functions') {
     const h = 2 + (o % 11);
     const k = 5 + (o % 37);
     const a = 1;
@@ -43,6 +43,30 @@ if (!math.includes(marker)) {
         c,
         values: { a, b, c },
       },
+    };
+  }
+
+  if (skill === 'Data models') {
+    const x = [1, 2, 3, 4, 5];
+    const y = x.map((value) => 8 + value * 3 + (o % 4));
+    const displayTypes = ['scatter', 'line_chart', 'bar_chart', 'table'];
+    const displayType = displayTypes[o % displayTypes.length];
+    let figure;
+    if (displayType === 'scatter') figure = { type: 'scatter', values: { points: x.map((value, index) => [value, y[index]]) } };
+    else if (displayType === 'line_chart') figure = { type: 'line_chart', x, y };
+    else if (displayType === 'bar_chart') figure = { type: 'bar_chart', categories: x.map(String), values: y };
+    else figure = { type: 'table', columns: ['x', 'y'], rows: x.map((value, index) => [value, y[index]]) };
+    return { ...question, figure };
+  }
+
+  if (skill === 'Right triangles') {
+    const leg = 6 + o;
+    const other = 8 + (o % 9);
+    const hyp = Math.sqrt(leg * leg + other * other);
+    return {
+      ...question,
+      figure: { type: 'geometry', values: { shape: 'right-triangle', x: leg, y: other } },
+      metadata: { ...question.metadata, hypotenuse: Number(hyp.toFixed(2)) },
     };
   }
 
@@ -65,7 +89,7 @@ if (!math.includes(marker)) {
     return { ...question, figure };
   }
 `;
-  math = replaceOnce(math, '  return question;\n}\n\nfunction isNumericAnswer', insertion + '  return question;\n}\n\nfunction isNumericAnswer', 'Math figure-coverage insertion');
+  math = replaceOnce(math, '  return question;\n}\n\nfunction remapFigureCandidate', insertion + '  return question;\n}\n\nfunction remapFigureCandidate', 'Math strategic coverage insertion');
 }
 
 // Make the existing right-triangle construction structurally compatible with
