@@ -6,6 +6,7 @@ on:
       - batch-m-rw-generator-remediation-2026-09-14
     paths-ignore:
       - docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
+      - docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
       - package-lock.json
   workflow_dispatch:
 
@@ -31,9 +32,11 @@ jobs:
       - name: Validate Batch M runner files
         run: |
           test -s scripts/runBatchMTargetedCandidateSelection.js
+          test -s scripts/runBatchMTargetedCandidateCoverageAnalysis.js
           test -s scripts/batchMExtensionlessModuleLoader.mjs
           test -s scripts/batchMExtensionlessResolve.mjs
           node --check scripts/runBatchMTargetedCandidateSelection.js
+          node --check scripts/runBatchMTargetedCandidateCoverageAnalysis.js
           node --check scripts/batchMExtensionlessModuleLoader.mjs
           node --check scripts/batchMExtensionlessResolve.mjs
 
@@ -68,10 +71,36 @@ jobs:
           }, null, 2));
           NODE
 
-      - name: Commit generated report
+      - name: Analyze candidate coverage gaps
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedCandidateCoverageAnalysis.js
+
+      - name: Verify candidate coverage report
+        run: |
+          test -s docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const report = JSON.parse(fs.readFileSync('docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json', 'utf8'));
+          if (report.affectedUniqueQuestionCount !== 2144) throw new Error(`Expected 2144 affected records, got ${report.affectedUniqueQuestionCount}`);
+          if (!Array.isArray(report.noEligibleCandidateSkillCounts)) throw new Error('Missing no-eligible-candidate skill coverage analysis');
+          if (report.productionMutation !== false) throw new Error('productionMutation must be false');
+          if (report.releaseEligible !== false) throw new Error('releaseEligible must be false');
+          if (report.replacementAuthorization !== 'NOT_AUTHORIZED') throw new Error('replacementAuthorization must remain NOT_AUTHORIZED');
+          if (report.sat21Created !== false) throw new Error('sat21Created must be false');
+          console.log(JSON.stringify({
+            affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
+            noEligibleCandidateSkillGroups: report.noEligibleCandidateSkillCounts.length,
+            topMissingSkillGroups: report.noEligibleCandidateSkillCounts.slice(0, 20),
+            productionMutation: report.productionMutation,
+            releaseEligible: report.releaseEligible,
+            replacementAuthorization: report.replacementAuthorization,
+            sat21Created: report.sat21Created
+          }, null, 2));
+          NODE
+
+      - name: Commit generated candidate reports
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
-          git diff --cached --quiet || git commit -m "chore: record Batch M targeted candidate selection"
+          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "chore: record Batch M candidate coverage analysis"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
