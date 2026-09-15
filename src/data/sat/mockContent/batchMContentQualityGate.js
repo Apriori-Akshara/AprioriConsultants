@@ -109,6 +109,7 @@ function evaluateRW(question, notes) {
     if (maxWrongOverlap > 0.9) notes.push('rw-choice-near-duplicate');
   }
   if (!metadata.sourceFamily || !metadata.rhetoricalStructure || !metadata.cognitiveOperation) notes.push('rw-blueprint-metadata-incomplete');
+  if (question?.skill === 'Words in Context' && /qualify/i.test(question.prompt)) notes.push('rw-fixed-wic-target');
   if (question?.skill === 'Cross-Text Connections' && !/passage 2/i.test(stimulus)) notes.push('rw-cross-text-structure-missing');
   if (question?.skill === 'Rhetorical Synthesis' && !/goal:/i.test(stimulus)) notes.push('rw-synthesis-goal-missing');
 }
