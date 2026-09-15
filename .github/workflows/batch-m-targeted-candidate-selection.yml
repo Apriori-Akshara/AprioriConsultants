@@ -34,6 +34,12 @@ jobs:
         with:
           node-version: 24
 
+      - name: Apply candidate coverage remediation
+        run: |
+          node scripts/applyBatchMCandidateCoverageRemediation.mjs
+          git diff --check
+          node --check scripts/applyBatchMCandidateCoverageRemediation.mjs
+
       - name: Validate Batch M runner files
         run: |
           test -s scripts/runBatchMTargetedCandidateSelection.js
@@ -54,7 +60,7 @@ jobs:
             ['sat', 'sat', 'SAT1'],
             ['psat', 'psat-nmsqt', 'PSAT1'],
           ]) {
-            const result = buildRepresentativeBatchMRemediationCandidates({ rwCount: 900, mathCount: 4500, testId, variant });
+            const result = buildRepresentativeBatchMRemediationCandidates({ rwCount: 2500, mathCount: 4500, testId, variant });
             const quality = evaluateContentQualityBatch(result.candidates);
             const noteCounts = {};
             const severityCounts = {};
@@ -136,10 +142,10 @@ jobs:
           }, null, 2));
           NODE
 
-      - name: Commit generated candidate reports
+      - name: Commit remediation and generated candidate reports
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "chore: record Batch M candidate coverage analysis"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "fix: remediate Batch M candidate coverage bottlenecks"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
