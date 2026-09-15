@@ -5,8 +5,8 @@
  * cannot alter the frozen production corpus by itself.
  */
 
-import { MATH_REMEDIATION_CONSTRUCTIONS, DIFFICULTY_REQUIREMENTS, PSAT_CEILING_RULES, MATH_SPR_TARGET } from './batchMRemediationBlueprint';
-import { evaluateContentQuality } from './batchMContentQualityGate';
+import { MATH_REMEDIATION_CONSTRUCTIONS, DIFFICULTY_REQUIREMENTS, PSAT_CEILING_RULES, MATH_SPR_TARGET } from './batchMRemediationBlueprint.js';
+import { evaluateContentQuality } from './batchMContentQualityGate.js';
 
 const DOMAINS = Object.keys(MATH_REMEDIATION_CONSTRUCTIONS);
 
