@@ -2,6 +2,7 @@ name: Batch M targeted candidate selection
 # Batch M remediation rerun trigger: targeted linear-construction correction.
 # Rerun requested after the latest linear-construction occurrence-scope fix.
 # Rerun requested after the latest Words in Context diversity remediation.
+# Rerun requested after correcting the Words in Context remediation script.
 
 on:
   push:
