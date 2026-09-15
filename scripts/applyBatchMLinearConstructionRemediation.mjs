@@ -2,9 +2,11 @@ import fs from 'node:fs';
 
 const targetPath = 'src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js';
 const text = fs.readFileSync(targetPath, 'utf8');
-const anchor = "  const o = Number(occurrence) || 0;\n\n  if (skill === 'Linear inequalities') {";
+const marker = "  if (skill === 'Linear inequalities') {";
 
 const insertion = `  // Batch M construction-level remediation for persistent linear-family gaps.
+  const o = Number(occurrence) || 0;
+
   if (skill === 'Linear relationships' || skill === 'Linear functions') {
     const variant = o % 4;
     if (variant === 0) {
@@ -107,13 +109,14 @@ const insertion = `  // Batch M construction-level remediation for persistent li
     return setNumericQuestion(question, prompt, intercept, o);
   }
 
-  if (skill === 'Linear inequalities') {`;
+  // Preserve the existing strategic construction branches below.
+`;
 
 if (text.includes('// Batch M construction-level remediation for persistent linear-family gaps.')) {
   console.log(JSON.stringify({ applied: false, rerunnable: true, alreadyApplied: true }, null, 2));
-} else if (text.includes(anchor)) {
-  fs.writeFileSync(targetPath, text.replace(anchor, insertion), 'utf8');
+} else if (text.includes(marker)) {
+  fs.writeFileSync(targetPath, text.replace(marker, insertion + marker), 'utf8');
   console.log(JSON.stringify({ applied: true, rerunnable: true, constructionFamilies: ['Linear relationships', 'Systems of linear equations', 'Equivalent linear representations'] }, null, 2));
 } else {
-  throw new Error('Expected remapStrategicCandidate anchor was not found; refusing an unsafe patch.');
+  throw new Error('Expected remapStrategicCandidate marker was not found; refusing an unsafe patch.');
 }
