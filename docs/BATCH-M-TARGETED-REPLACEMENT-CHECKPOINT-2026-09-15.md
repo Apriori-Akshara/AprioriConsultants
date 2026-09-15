@@ -1,19 +1,20 @@
 # Batch M Targeted Replacement Checkpoint — September 15, 2026
 
-**Status:** TARGETED REPLACEMENT PREPARATION COMPLETE — CANDIDATE GENERATION / CONTROLLED SELECTION NEXT  
+**Status:** TARGETED CANDIDATE-SELECTION RUNTIME VALIDATED — CANDIDATE COVERAGE REMEDIATION NEXT  
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
-**Scope:** Read-only preparation for targeted remediation of frozen SAT1–SAT10 and PSAT1–PSAT10 production records  
+**Scope:** Read-only preparation and candidate selection for targeted remediation of frozen SAT1–SAT10 and PSAT1–PSAT10 production records  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
 
 ## 1. Completed remediation sequence
 
-The Batch M post-audit sequence has now completed these read-only stages:
+The Batch M post-audit sequence has completed these read-only stages:
 
 1. Representative remediation QC — PASS.
 2. First-20 production impact identification — COMPLETE.
 3. Impact classification — COMPLETE.
 4. Targeted review inventory — COMPLETE.
 5. Targeted replacement preparation — COMPLETE.
+6. Targeted candidate generation and controlled selection — RUNTIME VALIDATED.
 
 No step above mutated the frozen production corpus.
 
@@ -79,37 +80,63 @@ The generated preparation report is:
 
 `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
 
-## 5. Interpretation boundary
+## 5. Completed targeted candidate generation and controlled selection
 
-The preparation report is a remediation plan, not a replacement authorization.
+The candidate-selection implementation is now runtime validated through GitHub Actions.
 
-It identifies what kind of remediation each affected record requires, but it does not automatically select or approve a replacement question. Existing production questions remain frozen exactly as stored.
+The successful pipeline:
 
-No question may be replaced merely because it appears in the 2,144-record inventory.
+- generated candidates from the remediated R&W and Math factories;
+- applied the strengthened Batch M content-quality gate;
+- filtered by target section/skill/domain/difficulty/variant/question-type/figure requirements;
+- enforced production-content and candidate-reuse uniqueness checks;
+- produced deterministic candidate-selection and coverage reports;
+- preserved the production freeze throughout.
 
-## 6. Next logical step — replacement-candidate generation and controlled selection
+The workflow now checks out the exact triggering commit and verifies the checked-out `HEAD` equals `GITHUB_SHA`, preventing branch-head drift from producing misleading runtime results.
 
-The next implementation stage is to generate **candidate replacements specifically for the prepared remediation tracks** and evaluate them before any production mutation.
+Validated baseline:
 
-That stage must:
+- **2,144 affected records**
+- **371 selected candidates**
+- **1,223 no-eligible-candidate records**
 
-1. generate candidates against the exact affected mock/question remediation metadata;
-2. preserve the existing mock identity, section, skill/domain, difficulty intent, figure/data requirements, and SAT-versus-PSAT ceiling as applicable;
-3. apply the strengthened content-quality gate before a candidate can enter the selection pool;
-4. enforce within-mock and cross-corpus uniqueness/originality constraints;
-5. verify Math SPR implications at mock level;
-6. distinguish candidates requiring content replacement from those requiring difficulty calibration only;
-7. keep candidates outside the production store;
-8. produce a deterministic candidate-selection report mapping each affected production ID to zero or more validated candidate options and the reasons each option is eligible or rejected;
-9. keep `productionMutation: false`, `releaseEligible: false`, and replacement authorization explicitly not granted until later approval gates.
+Reports:
 
-The existing `scripts/runBatchMTargetedReplacementDryRun.js` is a **candidate-pool quality harness**. It does not by itself map validated candidates to the 2,144 frozen production records and therefore is not a production replacement mechanism.
+- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json`
+- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json`
 
-## 7. Mandatory gates after candidate preparation
+## 6. Interpretation boundary
+
+The candidate-selection report is a controlled remediation-selection artifact, not a production replacement authorization.
+
+A selected candidate is eligible for downstream review only. It is not production-approved merely because it passes the candidate-selection gate.
+
+No question may be replaced merely because it appears in the 2,144-record inventory or because a candidate has been selected.
+
+## 7. Current blocker and next logical step — candidate coverage remediation
+
+The runtime pipeline is now green. The remaining problem is **candidate coverage**, with 371/2,144 targets currently receiving a selected candidate and 1,223/2,144 remaining without an eligible candidate.
+
+The next implementation stage is to remediate the candidate-generation/pool gaps identified by the coverage report, starting with the highest-impact zero/low-coverage groups.
+
+Primary remaining causes include:
+
+- difficulty mismatch;
+- assessment-variant mismatch;
+- candidate reuse;
+- question-type mismatch;
+- figure-required or figure-type mismatch.
+
+This stage must improve the actual candidate pool rather than relax the selection gate merely to increase counts. The strengthened content-quality gate, uniqueness/originality rules, assessment-family rules, figure requirements, and PSAT ceilings must remain intact.
+
+After each material generator correction, the complete candidate-selection workflow must be rerun and the resulting coverage compared against the current 371-selected / 1,223-no-eligible baseline.
+
+## 8. Mandatory gates after candidate coverage is resolved
 
 Before any frozen production record is changed:
 
-1. candidate-generation/selection report must be complete;
+1. candidate-generation/selection report must meet the required coverage threshold;
 2. replacement authorization must be explicitly established;
 3. selected candidates must pass the applicable individual quality gates;
 4. exact post-freeze changes must be recorded by `testKey + questionId`;
@@ -122,15 +149,14 @@ Before any frozen production record is changed:
 
 No SAT21 or additional production target may be created.
 
-## 8. Resume point for the next session
+## 9. Resume point for the next session
 
-Future sessions should read this checkpoint together with:
+Read only:
 
-- `docs/QUESTION-GENERATION-ROADMAP.md`
-- `docs/QUESTION-BANK-MAINTENANCE.md`
-- `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md`
-- `docs/BATCH-M-IMPACT-AUDIT-CHECKPOINT-2026-09-15.md`
-- `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`
-- `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
+- this document, especially **§7 Current blocker and next logical step — candidate coverage remediation**;
+- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md` — runtime status and implementation history;
+- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — current coverage and rejection evidence;
+- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact per-target candidate dispositions;
+- `docs/QUESTION-GENERATION-ROADMAP.md` — only the section governing the current Batch M remediation stage.
 
-Do not repeat the completed impact audit, classification, inventory, or preparation stages unless a real repository discrepancy requires verification.
+Do not repeat the impact audit, inventory, replacement preparation, workflow repair, or already-green runtime execution unless a real repository discrepancy is found.
