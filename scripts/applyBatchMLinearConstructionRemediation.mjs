@@ -5,7 +5,6 @@ const text = fs.readFileSync(targetPath, 'utf8');
 const marker = "  if (skill === 'Linear inequalities') {";
 
 const insertion = `  // Batch M construction-level remediation for persistent linear-family gaps.
-  const o = Number(occurrence) || 0;
 
   if (skill === 'Linear relationships' || skill === 'Linear functions') {
     const variant = o % 4;
