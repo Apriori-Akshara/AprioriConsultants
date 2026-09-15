@@ -175,16 +175,49 @@ function remapFigureCandidate(question, occurrence) {
   return question;
 }
 
+function canonicalizeSkill(question, occurrence) {
+  const skill = String(question.skill || '');
+  const o = Number(occurrence) || 0;
+  const canonical = {
+    'Linear relationships': ['Linear equations', 'Linear functions'],
+    'Systems of linear equations': ['Linear equations'],
+    'Equivalent linear representations': ['Linear representations', 'Linear functions and representations'],
+    'Linear inequalities': ['Linear equations'],
+    'Quadratic parameter reasoning': ['Quadratic parameter reasoning'],
+    'Equivalent exponential representations': ['Exponential equations'],
+    'Quadratic functions': ['Quadratic functions and representations'],
+    'Quadratic discriminant': ['Quadratic equations'],
+    'Multi-stage percentages': ['Percentages'],
+    'Weighted means': ['Weighted means'],
+    'Scatterplot interpretation': ['Data models'],
+    'Statistical transformations': ['Measures of spread'],
+    'Composite area': ['Geometry and measurement'],
+    'Similarity and area': ['Similarity and scaling'],
+    'Circle relationships': ['Circle relationships'],
+    'Right-triangle relationships': ['Right triangles'],
+  };
+  const options = canonical[skill];
+  if (!options) return question;
+  const canonicalSkill = options[o % options.length];
+  return {
+    ...question,
+    skill: canonicalSkill,
+    conceptId: `${String(question.domain || '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${canonicalSkill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+  };
+}
+
 export function generateRemediatedMathCandidatesUnique(options = {}) {
   const result = generateBaseMathCandidates(options);
   const skillOccurrences = {};
 
   const candidates = result.candidates.map((candidate) => {
-    const skill = String(candidate.skill || '');
-    const occurrence = skillOccurrences[skill] || 0;
-    skillOccurrences[skill] = occurrence + 1;
-    if (candidate.figure) return remapFigureCandidate(candidate, occurrence);
-    return remapStrategicCandidate(candidate, occurrence);
+    const originalSkill = String(candidate.skill || '');
+    const occurrence = skillOccurrences[originalSkill] || 0;
+    skillOccurrences[originalSkill] = occurrence + 1;
+    const remapped = candidate.figure
+      ? remapFigureCandidate(candidate, occurrence)
+      : remapStrategicCandidate(candidate, occurrence);
+    return canonicalizeSkill(remapped, occurrence);
   });
 
   return {
