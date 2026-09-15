@@ -84,8 +84,12 @@ function remapStrategicCandidate(question, occurrence) {
     const k = 5 + (o % 37);
     const x = h + 3;
     const value = 9 + k;
-    const prompt = `A function is f(x) = (x − ${h})² + ${k}. Another point on the graph has x = ${x} and f(x) = ${value}. What is the value of ${k}?`;
-    return setNumericQuestion(question, prompt, k, o);
+    const prompt = `The graph of f(x) = (x − ${h})² + ${k} is shown. What is the y-coordinate of the vertex of the graph?`;
+    const a = 1;
+    const b = -2 * h;
+    const c = h * h + k;
+    const remapped = setNumericQuestion(question, prompt, k, o);
+    return { ...remapped, metadata: { ...remapped.metadata, figurePurpose: 'question-essential' }, figure: { type: 'parabola', a, b, c, values: { a, b, c } } };
   }
 
   if (skill === 'Quadratic discriminant') {

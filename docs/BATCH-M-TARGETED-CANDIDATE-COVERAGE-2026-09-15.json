@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 436,
-    "noEligibleCandidate": 1158,
+    "selected": 492,
+    "noEligibleCandidate": 1102,
     "sat": 1071,
     "psat": 1073
   },
@@ -126,6 +126,10 @@
       "count": 83
     },
     {
+      "key": "math:Quadratic functions and representations",
+      "count": 56
+    },
+    {
       "key": "math:Exponential equations",
       "count": 51
     },
@@ -191,32 +195,6 @@
     }
   ],
   "noEligibleCandidateSkillCounts": [
-    {
-      "section": "math",
-      "skill": "Quadratic functions and representations",
-      "noEligibleCandidateCount": 137,
-      "targetCount": 137,
-      "selectedCount": 0,
-      "coveragePercent": 0,
-      "topRejectionReasons": [
-        {
-          "key": "figure-required",
-          "count": 548
-        },
-        {
-          "key": "assessment-variant-mismatch",
-          "count": 276
-        },
-        {
-          "key": "difficulty-mismatch",
-          "count": 256
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 137
-        }
-      ]
-    },
     {
       "section": "reading-writing",
       "skill": "Words in Context",
@@ -314,6 +292,32 @@
         {
           "key": "question-type-mismatch",
           "count": 89
+        }
+      ]
+    },
+    {
+      "section": "math",
+      "skill": "Quadratic functions and representations",
+      "noEligibleCandidateCount": 81,
+      "targetCount": 137,
+      "selectedCount": 56,
+      "coveragePercent": 40.88,
+      "topRejectionReasons": [
+        {
+          "key": "assessment-variant-mismatch",
+          "count": 276
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 200
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 173
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 81
         }
       ]
     },
@@ -647,7 +651,7 @@
   "noEligibleCandidateBySection": [
     {
       "key": "math",
-      "count": 1014
+      "count": 958
     },
     {
       "key": "reading-writing",
@@ -697,65 +701,61 @@
     },
     {
       "key": "PSAT5",
-      "count": 46
+      "count": 39
     },
     {
       "key": "PSAT8",
-      "count": 42
+      "count": 36
     },
     {
       "key": "PSAT1",
-      "count": 36
+      "count": 31
     },
     {
       "key": "PSAT3",
-      "count": 36
-    },
-    {
-      "key": "PSAT6",
-      "count": 35
+      "count": 31
     },
     {
       "key": "PSAT2",
-      "count": 34
+      "count": 30
+    },
+    {
+      "key": "PSAT6",
+      "count": 30
     },
     {
       "key": "PSAT4",
-      "count": 34
+      "count": 28
     },
     {
       "key": "PSAT7",
-      "count": 34
+      "count": 28
     },
     {
       "key": "PSAT9",
-      "count": 34
+      "count": 27
     },
     {
       "key": "PSAT10",
-      "count": 31
+      "count": 26
     }
   ],
   "rejectionReasonCounts": [
-    {
-      "key": "difficulty-mismatch",
-      "count": 3193
-    },
     {
       "key": "assessment-variant-mismatch",
       "count": 3184
     },
     {
+      "key": "difficulty-mismatch",
+      "count": 3137
+    },
+    {
       "key": "candidate-reuse",
-      "count": 2416
+      "count": 2589
     },
     {
       "key": "question-type-mismatch",
-      "count": 992
-    },
-    {
-      "key": "figure-required",
-      "count": 548
+      "count": 936
     }
   ],
   "rejectionReasonsByMissingSkill": [
@@ -969,20 +969,20 @@
       "key": "math:Quadratic functions and representations",
       "reasons": [
         {
-          "key": "figure-required",
-          "count": 548
-        },
-        {
           "key": "assessment-variant-mismatch",
           "count": 276
         },
         {
           "key": "difficulty-mismatch",
-          "count": 256
+          "count": 200
+        },
+        {
+          "key": "candidate-reuse",
+          "count": 173
         },
         {
           "key": "question-type-mismatch",
-          "count": 137
+          "count": 81
         }
       ]
     },
