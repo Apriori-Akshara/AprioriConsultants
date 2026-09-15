@@ -70,64 +70,6 @@ const newTargets = `const WIC_TARGETS = {
 if (!source.includes(oldTargets)) throw new Error('Expected WIC_TARGETS block not found.');
 let updated = source.replace(oldTargets, `${newTargets}\n\n${marker}`);
 
-const oldWic = `function makeWIC(index, stimulus) {
-  const wicIndex = Math.max(0, Number(index) || 0);
-  const family = pick(WIC_FAMILY_KEYS, wicIndex);
-  const familyIndex = WIC_FAMILY_KEYS.indexOf(family);
-  const pairOrdinal = Math.floor(wicIndex / WIC_FAMILY_KEYS.length);
-  const targetIndex = (pairOrdinal + familyIndex) % WIC_TARGETS[family].length;
-  const [word, meaning] = WIC_TARGETS[family][targetIndex];
-  const frame = pick(WIC_FRAMES, Math.floor(pairOrdinal / 2) + targetIndex + 2);
-  const context = pick(WIC_CONTEXTS, wicIndex);
-  const contextualSentence = \`${stimulus} \${frame} \${context}\`;
-  const alternatives = [
-    'make the reported result disappear entirely',
-    'repeat the earlier observation without changing its meaning',
-    'make the claim apply equally in every possible setting',
-    'describe a cause that the passage never identifies',
-    'remove the distinction between the two conditions',
-    'refer only to the author’s personal reaction to the topic',
-  ];
-  const rotated = rotateChoices([
-    meaning,
-    pick(alternatives, wicIndex + 1),
-    pick(alternatives, wicIndex + 3),
-    pick(alternatives, wicIndex + 5),
-  ], hashIndex(wicIndex, 17, 4));
-  return { prompt: \`${contextualSentence}\\n\\nIn this context, the word “\${word}” most nearly means which of the following?\`, targetWord: word, ...rotated };
-}`;
-
-const newWic = `function makeWIC(index, stimulus) {
-  const wicIndex = Math.max(0, Number(index) || 0);
-  const familyIndex = Math.floor(wicIndex / 3) % WIC_FAMILY_KEYS.length;
-  const family = WIC_FAMILY_KEYS[familyIndex];
-  const targetIndex = Math.floor(wicIndex / WIC_FAMILY_KEYS.length) % WIC_TARGETS[family].length;
-  const [word, meaning] = WIC_TARGETS[family][targetIndex];
-  const frame = pick(WIC_FRAMES, wicIndex + targetIndex * 2);
-  const context = pick(WIC_CONTEXTS, Math.floor(wicIndex / 2) + familyIndex);
-  const contextualSentence = \`${stimulus} \${frame} \${context}\`;
-  const alternatives = [
-    'make the reported result disappear entirely',
-    'repeat the earlier observation without changing its meaning',
-    'make the claim apply equally in every possible setting',
-    'describe a cause that the passage never identifies',
-    'remove the distinction between the two conditions',
-    'refer only to the author’s personal reaction to the topic',
-    'treat the observation as unrelated to the condition described',
-    'replace the evidence with a broader claim about the topic',
-  ];
-  const rotated = rotateChoices([
-    meaning,
-    pick(alternatives, wicIndex + targetIndex + 1),
-    pick(alternatives, wicIndex + familyIndex + 3),
-    pick(alternatives, wicIndex + targetIndex + familyIndex + 5),
-  ], hashIndex(wicIndex, 17, 4));
-  return { prompt: \`${contextualSentence}\\n\\nIn this context, the word “\${word}” most nearly means which of the following?\`, targetWord: word, ...rotated };
-}`;
-
-if (!updated.includes(oldWic)) throw new Error('Expected makeWIC block not found.');
-updated = updated.replace(oldWic, newWic);
-
 const oldBuild = `  else if (plan.skill === 'Words in Context') {
     const wicOrdinal = Math.floor(index / SECTIONS.length);
     const wicFamily = sourceFamily(wicOrdinal);
