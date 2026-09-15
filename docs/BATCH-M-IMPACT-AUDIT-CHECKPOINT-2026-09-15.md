@@ -1,6 +1,6 @@
 # Batch M Impact-Audit Checkpoint — September 15, 2026
 
-**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT IMPLEMENTED; EXECUTION NEXT
+**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT IMPLEMENTED; HARNESS CORRECTION IN PROGRESS
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`
 **Scope:** Read-only identification of genuinely affected frozen production records before targeted replacement
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
@@ -78,17 +78,39 @@ Correction commit:
 
 `00baaa23389e6265a82bc48ebf47d1dd920ce6e5` — **Batch M: isolate impact audit to first 20 production targets**
 
-## 5. Earlier implementation commits recorded
+## 5. Second execution finding and correction
+
+The second execution advanced to SAT2 but failed before completing the audit with:
+
+`Error: Batch M SAT2: accepted Mock 1 baseline is required`
+
+Cause: `runBatchMSecondProductionGate()` has a different input contract from SAT3 onward. SAT2 expects the SAT1 `productionMock` object directly; SAT3–SAT10 expect an array containing the previously accepted production mocks.
+
+This was another **audit-harness argument-shape defect**, not a production-content finding and not a representative remediation QC failure.
+
+Correction:
+
+- SAT1 is stored as `const sat1 = runBatchMFirstProductionGate().productionMock`;
+- SAT2 receives `sat1` directly;
+- SAT3–SAT10 continue to receive the accumulated `satResults` array;
+- PSAT1–PSAT10 continue to receive the accumulated prior-mock array required by their production gates.
+
+Correction commit:
+
+`a1ddd0888ab7ffd38a60951462542e371580f2a1` — **Batch M: correct impact audit SAT2 baseline argument**
+
+## 6. Earlier implementation commits recorded
 
 - `12cb37e2d30d52f6b7a2d61ce893231df3c4c744` — Batch M: add read-only audit module loader
 - `6f1698a088d10a99d80d535d025ad7b90426564` — Batch M: add read-only audit module resolver
 - `4579b4bd740b942f04df860194ed80b5d12e2f01` — Batch M: implement frozen-corpus impact audit
 - `72cd466f9f7960ba2c07bca08841d1d9d67bcea8` — Batch M: add production impact audit command
 - `d6fedf04e26729ea340144e83cca8f137867a5f8` — Batch M: correct frozen-corpus key mapping in impact audit
+- `a1ddd0888ab7ffd38a60951462542e371580f2a1` — Batch M: correct impact audit SAT2 baseline argument
 
-The `00baaa...` correction is now the current audit-runner version.
+The `a1ddd...` correction is now the current audit-runner version.
 
-## 6. Audit categories
+## 7. Audit categories
 
 The audit maps applicable findings into these categories:
 
@@ -99,7 +121,7 @@ The audit maps applicable findings into these categories:
 
 The audit does not weaken any QC rule to increase the pass count. It is an identification/reporting step only.
 
-## 7. Production safety
+## 8. Production safety
 
 The following remain true:
 
@@ -112,7 +134,7 @@ The following remain true:
 
 After the audit produces the affected ID list, the next stage is to review that list and enter only genuinely affected records into the targeted replacement/re-gating process.
 
-## 8. Exact next local action
+## 9. Exact next local action
 
 From the active Git-connected folder:
 
