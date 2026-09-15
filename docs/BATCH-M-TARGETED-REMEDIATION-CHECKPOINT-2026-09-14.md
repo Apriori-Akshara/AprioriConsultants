@@ -101,7 +101,15 @@ function makeCrossText(index) {
   const lens = pick(CROSS_LENSES, crossTextOrdinal);
 ```
 
-Do not weaken the uniqueness gate merely to make the dry run pass. The generator should produce genuinely distinct normalized prompts.
+**Follow-up verification finding:** the `crossTextOrdinal` logic above was already present on the active branch when work resumed. Testing showed it was not sufficient by itself to remove all 36 duplicate normalized prompts. The effective fix therefore retained the ordinal logic and added deterministic source-pair rotation inside `makeCrossText(index)`.
+
+Implemented commit:
+
+`6eca27bc972be4ca5e27d31a254b94caefe89672` — **Batch M: fix Cross-Text candidate prompt uniqueness**
+
+This commit changes only `src/data/sat/mockContent/verbalConstructionRemediated.js` and does not modify the production corpus.
+
+Do not weaken the uniqueness gate merely to make the dry run pass. The generator must produce genuinely distinct normalized prompts.
 
 ## 6. Exact next verification sequence
 
@@ -118,11 +126,55 @@ After the Cross-Text change:
 6. Continue through PSAT R&W and SAT/PSAT Math gates.
 7. Require all production-scale diversity, content-quality, uniqueness, and 25–30% SPR gates to pass before any production replacement discussion.
 
-## 7. Older desktop working folders
+## 7. Working-copy and backup-folder rule — IMPORTANT
+
+There are two local project folders on the desktop:
+
+### Active working copy — authoritative for current work
+
+`AprioriConsultants-Git`
+
+This is the local repository connected to the online GitHub repository through **GitHub Desktop**. Since September 14, 2026, this is the working copy used for the current Batch M remediation operations.
+
+All current edits, commits, pushes, pulls, QC commands, and branch-based work must be performed from this folder unless a future instruction explicitly states otherwise.
+
+The active remediation branch is:
+
+`batch-m-rw-generator-remediation-2026-09-14`
+
+### Older backup/reference copy — NOT authoritative
+
+`AprioriConsultants`
+
+This is the older local project folder used before GitHub Desktop was installed. It must be treated as a **backup/reference copy only**.
+
+It may contain legitimate earlier work that was not synchronized to the online GitHub repository. It must therefore be preserved and may be inspected when a material discrepancy is discovered, especially for a specific file identified in the checkpoint.
+
+**Do not copy, merge, or restore files from the backup folder blindly.** Any recovery must first be compared against the current active Git-connected copy and/or the online GitHub branch and must be explicitly verified before adoption.
+
+### Command-location rule
+
+Production-scale QC commands for the current Batch M task must be run from the active Git-connected working copy (`AprioriConsultants-Git`), not the older backup folder.
+
+Before running a command, verify that the Command Prompt path points to the active Git-connected folder and that `git branch --show-current` reports the intended remediation branch.
+
+## 8. Dry-run script synchronization discrepancy recorded
+
+The checked file:
+
+`scripts/runBatchMTargetedReplacementDryRun.js`
+
+was found to differ between the active/previous local working material and the online GitHub branch. The shared local version contains additional candidate-only assertions and clearer gate-by-gate reporting, including explicit checks that `productionMutation === false` and `releaseEligible === false` and explicit pool-size checks.
+
+The online GitHub copy did not yet contain those additional safeguards at the time of this checkpoint update.
+
+This discrepancy must be resolved before treating the Git-connected working copy and online repository as fully synchronized. The shared local file is **not to be discarded or overwritten from the backup copy without comparison**.
+
+## 9. Older desktop working folders
 
 During this project, additional QC work was performed in the earlier local repository folder because production-scale run commands could not be executed directly through GitHub. Those files are not to be copied or merged blindly. If the remediation branch later shows material discrepancies after the targeted fixes, compare the relevant older file(s) against the current GitHub branch and recover only verified missing work.
 
-## 8. Post-launch manual question-bank override system — approved for later implementation
+## 10. Post-launch manual question-bank override system — approved for later implementation
 
 A **manual question authoring/replacement system** is approved as a post-launch enhancement. It is intentionally **not part of the current Batch M release path** and must not be introduced until the first 10 SAT + 10 PSAT student-facing mocks are complete, fully QC-passed, calibrated, and accepted.
 
@@ -160,13 +212,13 @@ The guide must also provide simple plain-language instructions for **Math render
 
 The future manual system must preserve the same canonical question contract used by production and must produce a clear success/error message explaining any missing information before a manual question can be accepted.
 
-## 9. Private reference/calibration corpus
+## 11. Private reference/calibration corpus
 
 The project will use a private reference corpus containing real SAT/PSAT reference material only for internal study of assessment characteristics. It is not production content and must not be copied, closely paraphrased, or shipped in the student-facing mocks.
 
 The private reference corpus should be established before final cross-corpus calibration of the completed 20 student-facing mocks. It should inform calibration of source complexity, question construction, reasoning demand, distractor behavior, figure/data usage, and SAT-versus-PSAT characteristics.
 
-## 10. Production boundary
+## 12. Production boundary
 
 All remediation files remain candidate-only. The frozen production corpus has not been mutated by this work. No production replacement is authorized until the complete SAT + PSAT production-scale dry run passes every required gate.
 
