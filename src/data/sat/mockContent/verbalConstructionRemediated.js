@@ -224,11 +224,20 @@ function makeSynthesis(index) {
 function makeCrossText(index) {
   const crossTextOrdinal = Math.floor(index / SECTIONS.length);
   const relation = pick(CROSS_RELATIONSHIPS, crossTextOrdinal);
-  const firstFamily = pick(FAMILY_KEYS, index * 2 + 1);
-  let secondFamily = pick(FAMILY_KEYS, index * 2 + 3);
-  if (secondFamily === firstFamily) secondFamily = FAMILY_KEYS[(FAMILY_KEYS.indexOf(secondFamily) + 1) % FAMILY_KEYS.length];
-  const first = sourcePair(firstFamily, index, hashIndex(index, 29, 4));
-  const second = sourcePair(secondFamily, index + 1, hashIndex(index, 31, 4));
+  const totalSourcePairs = FAMILY_KEYS.length * SOURCE_MATERIAL[FAMILY_KEYS[0]].length;
+  const sourceOrdinal = crossTextOrdinal % totalSourcePairs;
+  const sourceFamilySpan = SOURCE_MATERIAL[FAMILY_KEYS[0]].length;
+  const firstFamilyIndex = Math.floor(sourceOrdinal / sourceFamilySpan);
+  const firstFamily = FAMILY_KEYS[firstFamilyIndex];
+  const first = sourcePair(firstFamily, firstFamilyIndex, sourceOrdinal % sourceFamilySpan);
+  let secondSourceOrdinal = (sourceOrdinal * 5 + 7) % totalSourcePairs;
+  let secondFamilyIndex = Math.floor(secondSourceOrdinal / sourceFamilySpan);
+  if (secondFamilyIndex === firstFamilyIndex) {
+    secondSourceOrdinal = (secondSourceOrdinal + sourceFamilySpan) % totalSourcePairs;
+    secondFamilyIndex = Math.floor(secondSourceOrdinal / sourceFamilySpan);
+  }
+  const secondFamily = FAMILY_KEYS[secondFamilyIndex];
+  const second = sourcePair(secondFamily, secondFamilyIndex, secondSourceOrdinal % sourceFamilySpan);
   const form = pick(CROSS_QUESTION_FORMS, crossTextOrdinal);
   const lens = pick(CROSS_LENSES, crossTextOrdinal);
   const correct = relation.correct;
