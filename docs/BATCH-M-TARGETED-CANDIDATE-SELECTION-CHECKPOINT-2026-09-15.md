@@ -6,7 +6,7 @@
 
 ## 1. Work completed in this stage
 
-The Batch M targeted candidate-selection stage has been executed successfully in GitHub Actions through the latest difficulty-coverage remediation pass.
+The Batch M targeted candidate-selection stage has been executed successfully through the Words in Context diversity remediation and its corrective WIC impact-guard pass.
 
 The implementation:
 
@@ -27,11 +27,15 @@ GitHub Actions workflow:
 
 `.github/workflows/batch-m-targeted-candidate-selection.yml`
 
-Latest workflow run: **#45**, run ID `34979999865`, triggered by commit `adce3014d186539adb879d24963ea2025a95d815`.
+Latest successful workflow run: **#67**, run ID `34991832679`, triggered by commit `95607eeb0f5975a1e241eb18c2a8b1bbe05932db` (`fix: restore Batch M WIC impact guard`).
 
 The workflow completed successfully. All required stages passed, including:
 
 - candidate coverage remediation;
+- linear construction remediation;
+- linear difficulty/reuse remediation;
+- linear alias partition remediation;
+- Words in Context remediation;
 - difficulty coverage remediation;
 - candidate-pool quality diagnostics;
 - exact replacement-candidate selection;
@@ -39,11 +43,13 @@ The workflow completed successfully. All required stages passed, including:
 - coverage analysis and verification; and
 - generated-report commit.
 
-The successful workflow created commit `38833fd38f10d4e3509db25855166797fb671fb0` with message `fix: remediate Batch M candidate difficulty coverage`.
+The workflow generated the candidate/report update commit `d1b7068` (`fix: remediate Batch M Words in Context diversity`) after the successful selection run.
 
 ### Superseded failed run
 
-Workflow run **#44**, run ID `34979967746`, was triggered by commit `557075c382cf071093f527dfe14e5e8566714849` and failed only at the final Git push because another workflow run had already advanced the same branch. Its candidate selection and report verification had already completed successfully at **1,103 selected / 491 no eligible**. The failure was therefore a branch-update race, not a candidate-generation or validation failure, and it was superseded by successful run #45.
+The immediately preceding workflow run **#66**, run ID `34990151284`, failed during exact replacement-candidate selection because the temporary WIC quality-gate change reduced the frozen affected-record inventory from 2,144 to 2,014. This was a scope-preservation failure, not a production mutation or candidate-pool failure.
+
+The corrective pass restored the legacy WIC impact guard while replacing the newly added `qualify` candidate target with `moderate`. The next run returned the frozen inventory to exactly 2,144 and completed green.
 
 No retry of the superseded failed run is required.
 
@@ -61,19 +67,15 @@ The latest successfully completed selection report records:
 - replacement authorization: **NOT_AUTHORIZED**
 - SAT21 created: **false**
 
-Compared with the immediately preceding verified result of **1,103 selected / 491 no eligible**, the difficulty-coverage remediation produced **8 additional selected candidates** and **8 fewer no-eligible targets**.
+The result is **unchanged from the prior verified 1,111 selected / 483 no-eligible baseline**. Therefore, the WIC diversity correction successfully restored the frozen impact inventory and workflow integrity, but did not materially increase overall candidate coverage.
 
-Compared with the earlier pre-remediation result of **371 selected / 1,223 no eligible**, the cumulative improvement is **740 additional selected candidates** and **740 fewer no-eligible targets**.
+The candidate-pool quality diagnostic passed for both SAT and PSAT: **13,000 generated candidates per product**, with zero failed candidates and zero serious failures.
 
-The candidate pool quality diagnostic also passed for both SAT and PSAT: 13,000 generated candidates per product passed the content-quality gate with zero failed candidates and zero serious failures.
+## 4. Difficulty and WIC remediation status
 
-## 4. Difficulty-coverage remediation completed
+The Math candidate factory continues to use the broader deterministic difficulty lane of **30% easy / 50% medium / 20% hard** rather than the previous 25% easy / 50% medium / 25% hard lane. This improved the earlier result from 1,103/491 to 1,111/483, but the latest rerun shows that the remaining difficulty bottleneck is not resolved.
 
-The Math candidate factory now uses a broader deterministic difficulty lane of **30% easy / 50% medium / 20% hard** rather than the previous 25% easy / 50% medium / 25% hard lane.
-
-This change was introduced to materially broaden source-skill difficulty coverage without weakening the difficulty eligibility gate or simply relabeling unsuitable questions.
-
-The latest result confirms that the change improved candidate availability, but it did not eliminate the underlying difficulty bottleneck.
+The Words in Context remediation expanded the candidate vocabulary and stimulus/family variation while preserving the frozen production-impact inventory. The latest coverage analysis shows **166 selected / 50 no-eligible** WIC targets, with candidate reuse as the leading blocker for that skill. The WIC remediation therefore improved candidate diversity at the generator level but did not materially improve the final global selection count.
 
 ## 5. Current candidate coverage findings
 
@@ -101,9 +103,9 @@ Across the full analysis, the dominant rejection causes remain:
 2. **candidate reuse** — 1,284
 3. **question-type mismatch** — 433
 
-The highest-volume remaining Math problems are therefore concentrated in the linear-function family, with difficulty mismatch as the dominant rejection reason. Candidate reuse is the second major constraint, while question-type compatibility is a smaller but recurring constraint.
+The highest-volume remaining Math problems are concentrated in the linear-function family, with difficulty mismatch as the dominant rejection reason. Candidate reuse is the second major constraint, while question-type compatibility is a smaller but recurring constraint.
 
-The R&W `Words in Context` group is now substantially improved, but candidate reuse remains its principal remaining blocker.
+The R&W `Words in Context` group is now substantially improved in coverage relative to the earlier state, but candidate reuse remains its principal remaining blocker.
 
 ## 6. Production boundary
 
@@ -124,13 +126,15 @@ No production question has been replaced, and no release to the frozen corpus ha
 - `Linear functions and representations`
 - `Linear representations`
 
+This is a **diagnosis-and-construction** stage, not a production replacement stage.
+
 The next stage must:
 
 1. use the latest **1,111 selected / 483 no-eligible** result as the baseline;
 2. inspect the actual construction-level difficulty distribution for these source skills;
 3. identify why valid candidates are being rejected for target difficulty rather than weakening the difficulty gate;
 4. increase genuine difficulty diversity through construction design, not metadata relabeling;
-5. address candidate reuse where the same construction/fingerprint pool is being consumed across targets;
+5. identify why candidate fingerprints are being reused across targets and expand construction variation where needed;
 6. preserve question-type compatibility and all figure requirements;
 7. preserve assessment-family/variant and PSAT ceiling rules;
 8. preserve uniqueness/originality and exact-content fingerprint safeguards;
