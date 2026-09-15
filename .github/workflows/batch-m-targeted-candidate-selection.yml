@@ -1,5 +1,5 @@
 name: Batch M targeted candidate selection
-# Batch M remediation rerun trigger: targeted difficulty-coverage correction.
+# Batch M remediation rerun trigger: targeted linear-construction correction.
 
 on:
   push:
@@ -40,6 +40,13 @@ jobs:
           node scripts/applyBatchMCandidateCoverageRemediation.mjs
           git diff --check
           node --check scripts/applyBatchMCandidateCoverageRemediation.mjs
+
+      - name: Apply linear construction remediation
+        run: |
+          node scripts/applyBatchMLinearConstructionRemediation.mjs
+          git diff --check
+          node --check scripts/applyBatchMLinearConstructionRemediation.mjs
+          node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
 
       - name: Apply difficulty coverage remediation
         run: |
@@ -122,6 +129,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: remediate Batch M candidate difficulty coverage"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "fix: remediate Batch M linear construction coverage"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
