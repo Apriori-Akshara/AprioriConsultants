@@ -1,8 +1,8 @@
 # Batch M Impact-Audit Checkpoint — September 15, 2026
 
-**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT COMPLETE; CLASSIFICATION IMPLEMENTED; TARGETED REPLACEMENT NOT YET AUTHORIZED  
+**Status:** REPRESENTATIVE REMEDIATION QC PASSED — IMPACT AUDIT COMPLETE; CLASSIFICATION COMPLETE; TARGETED REVIEW INVENTORY IMPLEMENTED; TARGETED REPLACEMENT NOT YET AUTHORIZED  
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
-**Scope:** Read-only identification and classification of genuinely affected frozen production records before targeted replacement  
+**Scope:** Read-only identification, classification, and inventory of genuinely affected frozen production records before targeted replacement  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
 
 ## 1. Completed representative remediation QC
@@ -47,22 +47,11 @@ The runner:
 - reports `releaseEligible: false`;
 - does not write to the production store.
 
-The audit runner now also exports its read-only audit/build functions so the classification stage can reuse the exact same first-20 production target construction rather than creating a second independent audit implementation.
+The audit runner also exports its read-only audit/build functions so the classification stage can reuse the exact same first-20 production target construction rather than creating a second independent audit implementation.
 
-### First harness correction
+### Harness corrections
 
-The first execution initially imported `batchMProductionStore.js`, causing unrelated SAT11–SAT20 generation to execute and fail at `sat-mock-11: invalid mock identity`. This was an audit-runner isolation defect, not a production-content finding.
-
-Correction commit:
-
-`00baaa23389e6265a82bc48ebf47d1dd920ce6e5` — **Batch M: isolate impact audit to first 20 production targets**
-
-### Second harness correction
-
-The second execution reached SAT2 but failed because `runBatchMSecondProductionGate()` expects the SAT1 `productionMock` directly, whereas SAT3–SAT10 expect an accumulated array of prior production mocks.
-
-Correction commit:
-
+`00baaa23389e6265a82bc48ebf47d1dd920ce6e5` — **Batch M: isolate impact audit to first 20 production targets**  
 `a1ddd0888ab7ffd38a60951462542e371580f2a1` — **Batch M: correct impact audit SAT2 baseline argument**
 
 ## 4. Final impact-audit result
@@ -97,9 +86,9 @@ The impact audit is an **identification pass**, not a final replacement decision
 
 The audit did not mutate production content and did not grant release eligibility.
 
-## 5. First post-audit step — classification implementation
+## 5. Classification implementation and completed user run
 
-The first post-audit step is now implemented as a separate read-only command:
+The first post-audit step was implemented as a separate read-only command:
 
 `scripts/runBatchMImpactClassification.js`
 
@@ -109,37 +98,74 @@ Package command:
 
 The classifier reuses the exact first-20 impact-audit construction and groups question-level findings into review classes:
 
-1. **HIGH_CONFIDENCE_CONTENT_REVIEW** — findings that are strong candidates for targeted content review, including fixed R&W Words-in-Context targets, R&W template-density findings, and Math generic numeric distractor findings.
-2. **DIFFICULTY_CALIBRATION_REVIEW** — findings where difficulty/reasoning demand needs review, including hard labels without demand features and conflicting difficulty features.
+1. **HIGH_CONFIDENCE_CONTENT_REVIEW** — fixed R&W Words-in-Context targets, R&W template-density findings, and Math generic numeric distractor findings.
+2. **DIFFICULTY_CALIBRATION_REVIEW** — hard labels without demand features and conflicting difficulty/reasoning features.
 3. **STRUCTURAL_REVIEW** — Cross-Text/Rhetorical Synthesis structure, incomplete blueprint metadata, figure-purpose, and related structural findings when present.
 4. **MOCK_LEVEL_DISTRIBUTION_REVIEW** — mock-level Math SPR distribution findings.
 
-A single question may belong to more than one review class when multiple independent findings are present. The classifier does **not** approve, replace, delete, reorder, or release any production question.
+The user executed the command from `D:\AprioriConsultants-Git` and the classification completed successfully:
+
+- **20 mocks**
+- **3,920 questions**
+- **2,144 affected unique questions classified**
+- **1,594 HIGH_CONFIDENCE_CONTENT_REVIEW** assignments
+- **648 DIFFICULTY_CALIBRATION_REVIEW** assignments
+- **20 mock-level SPR findings**
+- `productionMutation: false`
+- `releaseEligible: false`
+- `status: IMPACT_CLASSIFICATION_COMPLETE`
+
+The class counts are overlapping; a single question may belong to more than one review class. No question was automatically approved for replacement.
 
 Implementation commits:
 
 - `20f027d067a511c32cd09d651c441751a87b80d2` — **Batch M: expose read-only impact audit for classification**
 - `7473d352a83ecbc37049ca37d6bcf5f3100ff7fa` — **Batch M: add read-only impact classification report**
 - `291da494ee41c43b67336bd63bf1c7f94791ffcb` — **Batch M: add impact classification command**
+- `5a3860295c1ae870c2f544b140fef0f2e6097b0c` — **Batch M: expose reusable impact classification helpers**
 
-## 6. Node warning
+## 6. Next-step implementation — targeted review inventory
 
-The completed impact-audit run emitted:
+The next approved step is now implemented as a **read-only targeted review inventory**. Its purpose is to convert the classification into a deterministic review package containing:
 
-`MODULE_TYPELESS_PACKAGE_JSON`
+- exact `testKey` + `questionId` for every affected question;
+- section, skill, domain, and difficulty metadata available from the production record;
+- all impact flags attached to the question;
+- all applicable review classes;
+- a deterministic review bucket distinguishing high-confidence content review, difficulty-only review, high-confidence + difficulty overlap, structural review, and other review;
+- per-mock affected-question counts by review bucket;
+- per-section affected counts;
+- finding-flag counts;
+- the 20 mock-level SPR findings;
+- explicit `productionMutation: false`, `releaseEligible: false`, and `replacementAuthorization: NOT_AUTHORIZED`.
 
-This is a Node module-type warning for the audit script and did **not** fail the audit. No production content change is required for this warning at this checkpoint.
+Implementation files:
+
+- `scripts/runBatchMTargetedReviewInventory.js`
+- package command: `npm run qc:batch-m-targeted-review-inventory`
+
+Implementation commits:
+
+- `6fb2ccfb4565f14f94b81c0b2837fcce46682c02` — **Batch M: add read-only targeted review inventory**
+- `b104a54087b1f97fe6d2a7523f11c21e5bdb8488` — **Batch M: add targeted review inventory command**
+
+The inventory command writes the exact review package to:
+
+`docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`
+
+The JSON report is intentionally metadata-only: it does not copy production question text or answer content. It is an audit/review record, not a production mutation.
 
 ## 7. Production safety
 
 The following remain true:
 
 - production corpus remains frozen;
-- no accepted question was replaced by the audit or classification implementation;
+- no accepted question was replaced by the audit, classification, or inventory preparation;
 - no production question was deleted or reordered;
 - no release eligibility was granted;
 - no SAT21 target was created;
-- no wholesale regeneration was authorized.
+- no wholesale regeneration was authorized;
+- the targeted review inventory does not authorize replacements.
 
 ## 8. Exact next local action
 
@@ -147,15 +173,15 @@ From the active Git-connected folder:
 
 `D:\AprioriConsultants-Git`
 
-after Fetch/Pull has synchronized the latest classification implementation, run:
+after Fetch/Pull has synchronized the latest inventory implementation, run:
 
-`npm run qc:batch-m-impact-classification`
+`npm run qc:batch-m-targeted-review-inventory`
 
-The classification result must be recorded before any targeted production replacement is attempted or discussed as an approved replacement set.
+This creates `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`. Do not edit or delete that generated report before the next review stage. Its result will be used to determine the exact candidate-review buckets and overlap before any targeted replacement is authorized.
 
 ## 9. Later mandatory gates
 
-After classification and any subsequently authorized targeted replacements:
+After targeted review and any subsequently authorized targeted replacements:
 
 1. rerun affected individual mock gates;
 2. rerun the final collective 30-mock corpus gate;
