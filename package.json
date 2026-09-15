@@ -9,6 +9,7 @@
     "lint": "next lint",
     "qc:batch-m-remediation": "node scripts/runBatchMRemediationQC.js",
     "qc:batch-m-targeted-replacement": "node scripts/runBatchMTargetedReplacementDryRun.js",
+    "qc:batch-m-targeted-candidate-selection": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedCandidateSelection.js",
     "qc:batch-m-impact-audit": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMProductionImpactAudit.js",
     "qc:batch-m-impact-classification": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMImpactClassification.js",
     "qc:batch-m-targeted-review-inventory": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReviewInventory.js",
