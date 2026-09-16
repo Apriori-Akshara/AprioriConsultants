@@ -13,39 +13,35 @@ const report = {
   targetMockCount: mocks.length,
   runtimeQuestions: mocks.reduce((n, mock) => n + recordsOf(mock).length, 0),
   remediationSummary: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY,
-  schemaFailures: [],
-  contentQualityFailures: [],
+  schemaFailureCount: 0,
+  contentQualityFailureCount: 0,
   duplicateQuestionIds: [],
+  figureDuplicateCount: 0,
   figureDuplicatePairs: [],
 };
-
 const figureMap = new Map();
 for (const mock of mocks) {
   const key = canonicalBatchMTestKey(mock);
   const seen = new Set();
   for (const question of recordsOf(mock)) {
     const questionId = id(question);
-    if (seen.has(questionId)) report.duplicateQuestionIds.push({ testKey: key, questionId });
+    if (seen.has(questionId)) report.duplicateQuestionIds.push(`${key}::${questionId}`);
     seen.add(questionId);
     const schema = validateSatQuestion(question);
-    if (!schema.valid) report.schemaFailures.push({ testKey: key, questionId, errors: schema.errors });
+    if (!schema.valid) report.schemaFailureCount += 1;
     const quality = evaluateContentQuality(question);
-    if (quality.verdict !== 'pass') report.contentQualityFailures.push({ testKey: key, questionId, checks: quality.checks });
+    if (quality.verdict !== 'pass') report.contentQualityFailureCount += 1;
     if (question?.figure && question.section === 'math') {
       const fingerprint = getFigureDataFingerprint(question);
       const prior = figureMap.get(fingerprint);
       if (prior && prior.testKey !== key) {
-        report.figureDuplicatePairs.push({
-          fingerprint,
-          first: prior,
-          duplicate: { testKey: key, questionId },
-        });
+        report.figureDuplicatePairs.push(`${prior.testKey}::${prior.questionId} => ${key}::${questionId}`);
       } else if (!prior) {
         figureMap.set(fingerprint, { testKey: key, questionId });
       }
     }
   }
 }
-
+report.figureDuplicateCount = report.figureDuplicatePairs.length;
 fs.writeFileSync('docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-DIAGNOSTIC-2026-09-16.json', `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(report, null, 2));
