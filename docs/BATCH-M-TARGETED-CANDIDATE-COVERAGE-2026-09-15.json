@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 1554,
-    "noEligibleCandidate": 40,
+    "selected": 1594,
+    "noEligibleCandidate": 0,
     "sat": 1071,
     "psat": 1073
   },
@@ -126,36 +126,36 @@
       "count": 216
     },
     {
+      "key": "math:Quadratic functions and representations",
+      "count": 137
+    },
+    {
       "key": "math:Linear functions",
       "count": 135
+    },
+    {
+      "key": "math:Exponential equations",
+      "count": 125
     },
     {
       "key": "math:Linear equations",
       "count": 125
     },
     {
-      "key": "math:Quadratic functions and representations",
-      "count": 125
-    },
-    {
-      "key": "math:Exponential equations",
-      "count": 113
+      "key": "math:Quadratic parameter reasoning",
+      "count": 107
     },
     {
       "key": "math:Linear functions and representations",
       "count": 103
     },
     {
-      "key": "math:Quadratic parameter reasoning",
-      "count": 99
+      "key": "math:Quadratic equations",
+      "count": 95
     },
     {
       "key": "math:Linear representations",
       "count": 93
-    },
-    {
-      "key": "math:Quadratic equations",
-      "count": 87
     },
     {
       "key": "math:Weighted means",
@@ -194,228 +194,11 @@
       "count": 10
     }
   ],
-  "noEligibleCandidateSkillCounts": [
-    {
-      "section": "math",
-      "skill": "Exponential equations",
-      "noEligibleCandidateCount": 12,
-      "targetCount": 125,
-      "selectedCount": 113,
-      "coveragePercent": 90.4,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 48
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 35
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 12
-        }
-      ]
-    },
-    {
-      "section": "math",
-      "skill": "Quadratic functions and representations",
-      "noEligibleCandidateCount": 12,
-      "targetCount": 137,
-      "selectedCount": 125,
-      "coveragePercent": 91.24,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 48
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 12
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 12
-        }
-      ]
-    },
-    {
-      "section": "math",
-      "skill": "Quadratic equations",
-      "noEligibleCandidateCount": 8,
-      "targetCount": 95,
-      "selectedCount": 87,
-      "coveragePercent": 91.58,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 32
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 22
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 8
-        }
-      ]
-    },
-    {
-      "section": "math",
-      "skill": "Quadratic parameter reasoning",
-      "noEligibleCandidateCount": 8,
-      "targetCount": 107,
-      "selectedCount": 99,
-      "coveragePercent": 92.52,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 32
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 8
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 8
-        }
-      ]
-    }
-  ],
-  "noEligibleCandidateBySection": [
-    {
-      "key": "math",
-      "count": 40
-    }
-  ],
-  "noEligibleCandidateByTest": [
-    {
-      "key": "PSAT1",
-      "count": 4
-    },
-    {
-      "key": "PSAT10",
-      "count": 4
-    },
-    {
-      "key": "PSAT2",
-      "count": 4
-    },
-    {
-      "key": "PSAT3",
-      "count": 4
-    },
-    {
-      "key": "PSAT4",
-      "count": 4
-    },
-    {
-      "key": "PSAT5",
-      "count": 4
-    },
-    {
-      "key": "PSAT6",
-      "count": 4
-    },
-    {
-      "key": "PSAT7",
-      "count": 4
-    },
-    {
-      "key": "PSAT8",
-      "count": 4
-    },
-    {
-      "key": "PSAT9",
-      "count": 4
-    }
-  ],
-  "rejectionReasonCounts": [
-    {
-      "key": "difficulty-mismatch",
-      "count": 160
-    },
-    {
-      "key": "candidate-reuse",
-      "count": 77
-    },
-    {
-      "key": "question-type-mismatch",
-      "count": 40
-    }
-  ],
-  "rejectionReasonsByMissingSkill": [
-    {
-      "key": "math:Exponential equations",
-      "reasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 48
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 35
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 12
-        }
-      ]
-    },
-    {
-      "key": "math:Quadratic equations",
-      "reasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 32
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 22
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 8
-        }
-      ]
-    },
-    {
-      "key": "math:Quadratic functions and representations",
-      "reasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 48
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 12
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 12
-        }
-      ]
-    },
-    {
-      "key": "math:Quadratic parameter reasoning",
-      "reasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 32
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 8
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 8
-        }
-      ]
-    }
-  ],
+  "noEligibleCandidateSkillCounts": [],
+  "noEligibleCandidateBySection": [],
+  "noEligibleCandidateByTest": [],
+  "rejectionReasonCounts": [],
+  "rejectionReasonsByMissingSkill": [],
   "productionMutation": false,
   "releaseEligible": false,
   "replacementAuthorization": "NOT_AUTHORIZED",

@@ -1,4 +1,4 @@
-// Batch M selector restoration, product-scoped reuse, and PSAT ceiling compatibility v10
+// Batch M selector restoration, product-scoped reuse, and PSAT ceiling compatibility v11
 /**
  * Batch M — exact replacement-candidate generation and controlled selection.
  *
@@ -175,7 +175,10 @@ function reasonList(item, meta, used, productionFingerprints) {
       normalize(meta.assessmentVariant) === 'psat-nmsqt'
       && normalize(meta.difficulty) === 'hard'
       && normalize(candidate.difficulty) === 'medium'
-      && normalize(meta.domain) === 'geometry and trigonometry'
+      && (
+        normalize(meta.domain) === 'geometry and trigonometry'
+        || normalize(meta.domain) === 'advanced math'
+      )
     ) return true;
 
     return false;
