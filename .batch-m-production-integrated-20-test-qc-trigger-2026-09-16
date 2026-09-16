@@ -1,1 +1,1 @@
-Run the Batch M diagnostic precheck and scoped 20-test QC after the PSAT1 m1-17 coordinate normalization correction; only after a PASS run the final 30-mock gate; release remains frozen; no SAT21.
+Run the Batch M integrated 20-test diagnostic and QC after the PSAT1 m1-17 coordinate normalization correction; only after a PASS run the final 30-mock gate; release remains frozen; no SAT21.
