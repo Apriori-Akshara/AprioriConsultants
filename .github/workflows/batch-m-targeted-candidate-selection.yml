@@ -11,6 +11,7 @@ name: Batch M targeted candidate selection
 # Rerun requested after linking targeted geometry difficulty remediation to figure candidates v5.
 # Rerun requested after finalizing targeted geometry difficulty after global rebalance v6.
 # Rerun requested after extending geometry difficulty remediation to selector aliases v7.
+# Rerun requested after measuring geometry target-vs-candidate difficulty distribution.
 
 on:
   push:
@@ -146,6 +147,10 @@ jobs:
           node --check scripts/runBatchMTargetedCandidateCoverageAnalysis.js
           node --check scripts/batchMExtensionlessModuleLoader.mjs
           node --check scripts/batchMExtensionlessResolve.mjs
+          node --check scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs
+
+      - name: Diagnose geometry target-vs-candidate difficulty distribution
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs
 
       - name: Diagnose candidate-pool quality failures
         run: |
@@ -210,6 +215,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs scripts/applyBatchMGeometryFigureDifficultyRemediation.mjs scripts/applyBatchMGeometryDifficultyFinalizeRemediation.mjs scripts/applyBatchMGeometryDifficultyAliasRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: extend geometry difficulty remediation to aliases"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs scripts/applyBatchMGeometryFigureDifficultyRemediation.mjs scripts/applyBatchMGeometryDifficultyFinalizeRemediation.mjs scripts/applyBatchMGeometryDifficultyAliasRemediation.mjs scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "test: log geometry target difficulty distribution"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
