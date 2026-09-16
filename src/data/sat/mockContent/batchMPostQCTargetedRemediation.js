@@ -73,18 +73,52 @@ function normalizeHardDifficulty(question) {
   return { question: { ...question, difficulty: 'medium' }, applied: true };
 }
 
+function stripFigureFingerprints(metadata) {
+  if (!metadata) return metadata;
+  const { figureOriginalityFingerprint, figureStructureFingerprint, figureDataFingerprint, ...rest } = metadata;
+  return rest;
+}
+
 function repairFigureCollision(question) {
-  if (question?.questionId !== 'psat-mock-01-math-math-module-1-m1-14') return { question, applied: false };
-  if (question?.section !== 'math' || question?.skill !== 'Quadratic functions and representations') return { question, applied: false };
+  if (question?.questionId === 'psat-mock-01-math-math-module-1-m1-14' && question?.section === 'math' && question?.skill === 'Quadratic functions and representations') {
+    return {
+      question: {
+        ...question,
+        prompt: 'The graph of f(x) = (x − 5)² + 10 is shown. What is the y-coordinate of the vertex of the graph?',
+        choices: ['10', '8', '12', '15'],
+        answer: 'A',
+        rationale: 'In vertex form, f(x) = (x − h)² + k has vertex (h, k). Here k = 10, so the y-coordinate is 10.',
+        explanation: 'The constant term in vertex form gives the y-coordinate of the vertex, so the answer is 10.',
+        figure: { type: 'parabola', a: 1, b: -10, c: 35, values: { a: 1, b: -10, c: 35 }, figurePurpose: 'question-essential' },
+      },
+      applied: true,
+    };
+  }
+
+  if (question?.questionId !== 'psat-mock-01-math-math-module-1-m1-17') return { question, applied: false };
+  if (question?.section !== 'math') throw new Error('Batch M post-QC remediation: PSAT1 m1-17 is not a Math item.');
+  const figure = question.figure;
+  if (!figure || !['general_triangle', 'right_triangle', 'coordinate_shape'].includes(String(figure.type || ''))) {
+    throw new Error(`Batch M post-QC remediation: PSAT1 m1-17 expected a triangle figure, found ${String(figure?.type || '(none)')}.`);
+  }
+  if (!Array.isArray(figure.vertices) || figure.vertices.length < 3) {
+    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 triangle figure must expose vertices for the collision repair.');
+  }
+
+  const coordinateDependent = /coordinates?|ordered pair|point\s*\(/i.test(String(question.prompt || ''));
+  if (coordinateDependent) {
+    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 prompt is coordinate-dependent; deterministic translation is not safe.');
+  }
+
+  const translatedVertices = figure.vertices.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
   return {
     question: {
       ...question,
-      prompt: 'The graph of f(x) = (x − 5)² + 10 is shown. What is the y-coordinate of the vertex of the graph?',
-      choices: ['10', '8', '12', '15'],
-      answer: 'A',
-      rationale: 'In vertex form, f(x) = (x − h)² + k has vertex (h, k). Here k = 10, so the y-coordinate is 10.',
-      explanation: 'The constant term in vertex form gives the y-coordinate of the vertex, so the answer is 10.',
-      figure: { type: 'parabola', a: 1, b: -10, c: 35, values: { a: 1, b: -10, c: 35 }, figurePurpose: 'question-essential' },
+      figure: {
+        ...figure,
+        vertices: translatedVertices,
+      },
+      metadata: stripFigureFingerprints(question.metadata),
     },
     applied: true,
   };
