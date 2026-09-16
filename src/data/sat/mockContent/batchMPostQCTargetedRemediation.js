@@ -102,27 +102,25 @@ function repairFigureCollision(question) {
     throw new Error(`Batch M post-QC remediation: PSAT1 m1-17 expected scatter_plot, found ${String(figure?.type || '(none)')}.`);
   }
 
-  const directPoints = Array.isArray(figure.points) ? figure.points : null;
-  const nestedPoints = Array.isArray(figure.data?.points) ? figure.data.points : null;
-  const points = directPoints || nestedPoints;
+  const points = Array.isArray(figure.values?.points) ? figure.values.points : null;
   if (!points || points.length < 2) {
-    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 scatter plot must expose at least two points for the collision repair.');
-  }
-
-  const coordinateDependent = /coordinates?|ordered pair|point\s*\(/i.test(String(question.prompt || ''));
-  if (coordinateDependent) {
-    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 prompt is coordinate-dependent; deterministic translation is not safe.');
+    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 scatter plot must expose values.points for the collision repair.');
   }
 
   const translatedPoints = points.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
-  const repairedFigure = directPoints
-    ? { ...figure, points: translatedPoints }
-    : { ...figure, data: { ...figure.data, points: translatedPoints } };
+  const repairedPrompt = 'A scatterplot has observed values (2, 17), (3, 20), (4, 27), (5, 29), (6, 32). A linear model is used to describe the trend. Which statement is best supported by the data?';
 
   return {
     question: {
       ...question,
-      figure: repairedFigure,
+      prompt: repairedPrompt,
+      figure: {
+        ...figure,
+        values: {
+          ...figure.values,
+          points: translatedPoints,
+        },
+      },
       metadata: stripFigureFingerprints(question.metadata),
     },
     applied: true,
