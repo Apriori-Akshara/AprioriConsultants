@@ -1,0 +1,181 @@
+{
+  "reportType": "batch-m-post-qc-rw-diagnostic",
+  "scope": "SAT1-SAT10 and PSAT1-PSAT10",
+  "productionMutation": false,
+  "releaseEligible": false,
+  "sat21Created": false,
+  "total": 206,
+  "bySkill": {
+    "Cross-Text Connections": 206
+  },
+  "samples": [
+    {
+      "testKey": "PSAT5",
+      "questionId": "psat-mock-05-rw-051",
+      "skill": "Cross-Text Connections",
+      "wordCount": 193,
+      "prompt": "An account of the effect of water temperature on the activity of a freshwater organism becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The researchers considered both the average response and the spread of individual observations before drawing the broader conclusion. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 570 examples from 3 settings over 4 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT9",
+      "questionId": "sat-series-a-mock-09-rw-039",
+      "skill": "Cross-Text Connections",
+      "wordCount": 193,
+      "prompt": "An account of the effect of water temperature on the activity of a freshwater organism becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The researchers considered both the average response and the spread of individual observations before drawing the broader conclusion. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 972 examples from 5 settings over 9 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT9",
+      "questionId": "sat-series-a-mock-09-rw-099",
+      "skill": "Cross-Text Connections",
+      "wordCount": 193,
+      "prompt": "An account of the effect of water temperature on the activity of a freshwater organism becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The researchers considered both the average response and the spread of individual observations before drawing the broader conclusion. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 1032 examples from 9 settings over 10 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT3",
+      "questionId": "sat-series-a-mock-03-rw-057",
+      "skill": "Cross-Text Connections",
+      "wordCount": 192,
+      "prompt": "An account of the effect of water temperature on the activity of a freshwater organism becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The experiment repeated the procedure after one relevant condition was adjusted, allowing the interpretation to be qualified. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 408 examples from 9 settings over 9 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT7",
+      "questionId": "psat-mock-07-rw-015",
+      "skill": "Cross-Text Connections",
+      "wordCount": 191,
+      "prompt": "An account of a community debate over whether a new transit route should follow an older commercial corridor becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of how migratory birds alter stopover timing when food availability changes compared observations from different conditions instead of treating the first pattern as conclusive. Measurements show a consistent overall pattern, but the magnitude of the effect changes under different conditions. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. Records from before and after the change provide a baseline against which the later pattern can be interpreted. The analysis of community debate over whether a new transit route should follow an older commercial corridor drew on 728 examples from 9 settings over 7 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT7",
+      "questionId": "psat-mock-07-rw-075",
+      "skill": "Cross-Text Connections",
+      "wordCount": 191,
+      "prompt": "An account of a community debate over whether a new transit route should follow an older commercial corridor becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of how migratory birds alter stopover timing when food availability changes compared observations from different conditions instead of treating the first pattern as conclusive. Measurements show a consistent overall pattern, but the magnitude of the effect changes under different conditions. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. Records from before and after the change provide a baseline against which the later pattern can be interpreted. The analysis of community debate over whether a new transit route should follow an older commercial corridor drew on 788 examples from 5 settings over 8 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT4",
+      "questionId": "sat-series-a-mock-04-rw-004",
+      "skill": "Cross-Text Connections",
+      "wordCount": 191,
+      "prompt": "A recent study of the movement of sediment after vegetation is restored along a riverbank compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation.\n\nPassage 2: An account of a community debate over whether a new transit route should follow an older commercial corridor becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. The result therefore supports a narrower claim than a simple comparison might initially suggest. The study included a comparison condition so that an observed change could be separated from ordinary variation in the measurements. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 452 examples from 5 settings over 7 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT4",
+      "questionId": "sat-series-a-mock-04-rw-064",
+      "skill": "Cross-Text Connections",
+      "wordCount": 191,
+      "prompt": "A recent study of the movement of sediment after vegetation is restored along a riverbank compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation.\n\nPassage 2: An account of a community debate over whether a new transit route should follow an older commercial corridor becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. The result therefore supports a narrower claim than a simple comparison might initially suggest. The study included a comparison condition so that an observed change could be separated from ordinary variation in the measurements. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 512 examples from 9 settings over 8 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT9",
+      "questionId": "psat-mock-09-rw-019",
+      "skill": "Cross-Text Connections",
+      "wordCount": 190,
+      "prompt": "A recent study of the effect of water temperature on the activity of a freshwater organism compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. The result therefore supports a narrower claim than a simple comparison might initially suggest. The final analysis treated the direction of the trend and the size of the effect as related but distinct questions. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 926 examples from 7 settings over 6 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT9",
+      "questionId": "psat-mock-09-rw-079",
+      "skill": "Cross-Text Connections",
+      "wordCount": 190,
+      "prompt": "A recent study of the effect of water temperature on the activity of a freshwater organism compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. The result therefore supports a narrower claim than a simple comparison might initially suggest. The final analysis treated the direction of the trend and the size of the effect as related but distinct questions. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 986 examples from 3 settings over 7 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT1",
+      "questionId": "sat-series-a-mock-01-rw-043",
+      "skill": "Cross-Text Connections",
+      "wordCount": 190,
+      "prompt": "A recent study of the effect of water temperature on the activity of a freshwater organism compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. The result therefore supports a narrower claim than a simple comparison might initially suggest. The final analysis treated the direction of the trend and the size of the effect as related but distinct questions. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 200 examples from 9 settings over 4 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT1",
+      "questionId": "sat-series-a-mock-01-rw-103",
+      "skill": "Cross-Text Connections",
+      "wordCount": 190,
+      "prompt": "A recent study of the effect of water temperature on the activity of a freshwater organism compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation.\n\nPassage 2: An account of a policy experiment designed to reduce congestion without restricting access to businesses becomes more informative when its evidence is considered alongside the circumstances in which it was collected. The evidence suggests that the change was not caused by a single decision but developed through several local responses. The result therefore supports a narrower claim than a simple comparison might initially suggest. The final analysis treated the direction of the trend and the size of the effect as related but distinct questions. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 260 examples from 5 settings over 5 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT2",
+      "questionId": "psat-mock-02-rw-030",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of the movement of sediment after vegetation is restored along a riverbank becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of a community debate over whether a new transit route should follow an older commercial corridor compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The investigators examined whether the pattern remained visible when unusually large observations were considered separately. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 258 examples from 3 settings over 7 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT2",
+      "questionId": "psat-mock-02-rw-090",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of the movement of sediment after vegetation is restored along a riverbank becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of a community debate over whether a new transit route should follow an older commercial corridor compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The investigators examined whether the pattern remained visible when unusually large observations were considered separately. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 318 examples from 7 settings over 8 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT8",
+      "questionId": "psat-mock-08-rw-012",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of the movement of sediment after vegetation is restored along a riverbank becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of a community debate over whether a new transit route should follow an older commercial corridor compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The investigators reviewed results from multiple observation points to determine whether the relationship was consistent. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 822 examples from 7 settings over 7 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT8",
+      "questionId": "psat-mock-08-rw-042",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of changes in how local newspapers described public libraries in the early twentieth century becomes more informative when its evidence is considered alongside the circumstances in which it was collected. Researchers distinguish the stated purpose of the initiative from the later uses residents found for it. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of whether a coating changes the stability of a battery electrode during repeated cycles compared observations from different conditions instead of treating the first pattern as conclusive. The experiment separates an observed association from the stronger claim that one factor alone caused the outcome. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. A later group of records provides a check on whether the initial interpretation also fits developments that followed. The analysis of changes in how local newspapers described public libraries in the early twentieth century drew on 852 examples from 5 settings over 4 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT8",
+      "questionId": "psat-mock-08-rw-072",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of the movement of sediment after vegetation is restored along a riverbank becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of a community debate over whether a new transit route should follow an older commercial corridor compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The investigators reviewed results from multiple observation points to determine whether the relationship was consistent. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 882 examples from 3 settings over 8 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT8",
+      "questionId": "psat-mock-08-rw-102",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of changes in how local newspapers described public libraries in the early twentieth century becomes more informative when its evidence is considered alongside the circumstances in which it was collected. Researchers distinguish the stated purpose of the initiative from the later uses residents found for it. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of whether a coating changes the stability of a battery electrode during repeated cycles compared observations from different conditions instead of treating the first pattern as conclusive. The experiment separates an observed association from the stronger claim that one factor alone caused the outcome. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. A later group of records provides a check on whether the initial interpretation also fits developments that followed. The analysis of changes in how local newspapers described public libraries in the early twentieth century drew on 912 examples from 9 settings over 5 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT6",
+      "questionId": "sat-series-a-mock-06-rw-018",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of the movement of sediment after vegetation is restored along a riverbank becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of a community debate over whether a new transit route should follow an older commercial corridor compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The investigators examined whether the pattern remained visible when unusually large observations were considered separately. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 660 examples from 5 settings over 5 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT6",
+      "questionId": "sat-series-a-mock-06-rw-078",
+      "skill": "Cross-Text Connections",
+      "wordCount": 189,
+      "prompt": "An account of the movement of sediment after vegetation is restored along a riverbank becomes more informative when its evidence is considered alongside the circumstances in which it was collected. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of a community debate over whether a new transit route should follow an older commercial corridor compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The investigators examined whether the pattern remained visible when unusually large observations were considered separately. The analysis of the movement of sediment after vegetation is restored along a riverbank drew on 720 examples from 9 settings over 6 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT2",
+      "questionId": "psat-mock-02-rw-060",
+      "skill": "Cross-Text Connections",
+      "wordCount": 188,
+      "prompt": "An account of changes in how local newspapers described public libraries in the early twentieth century becomes more informative when its evidence is considered alongside the circumstances in which it was collected. Researchers distinguish the stated purpose of the initiative from the later uses residents found for it. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of whether a coating changes the stability of a battery electrode during repeated cycles compared observations from different conditions instead of treating the first pattern as conclusive. The experiment separates an observed association from the stronger claim that one factor alone caused the outcome. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The historical analysis separates what the policy required from what later participants made of it in practice. The analysis of changes in how local newspapers described public libraries in the early twentieth century drew on 288 examples from 9 settings over 4 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT7",
+      "questionId": "psat-mock-07-rw-005",
+      "skill": "Cross-Text Connections",
+      "wordCount": 188,
+      "prompt": "A recent study of the effect of water temperature on the activity of a freshwater organism compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. The result therefore supports a narrower claim than a simple comparison might initially suggest.\n\nPassage 2: A recent study of a policy experiment designed to reduce congestion without restricting access to businesses compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition. A follow-up observation was collected after the system returned to typical conditions, providing a check on the initial result. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 718 examples from 7 settings over 8 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "PSAT7",
+      "questionId": "psat-mock-07-rw-065",
+      "skill": "Cross-Text Connections",
+      "wordCount": 188,
+      "prompt": "A recent study of the effect of water temperature on the activity of a freshwater organism compared observations from different conditions instead of treating the first pattern as conclusive. A follow-up measurement supports the broad interpretation while identifying a condition that limits how widely it can be applied. The result therefore supports a narrower claim than a simple comparison might initially suggest.\n\nPassage 2: A recent study of a policy experiment designed to reduce congestion without restricting access to businesses compared observations from different conditions instead of treating the first pattern as conclusive. The evidence suggests that the change was not caused by a single decision but developed through several local responses. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition. A follow-up observation was collected after the system returned to typical conditions, providing a check on the initial result. The analysis of the effect of water temperature on the activity of a freshwater organism drew on 778 examples from 3 settings over 9 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    },
+    {
+      "testKey": "SAT6",
+      "questionId": "sat-series-a-mock-06-rw-048",
+      "skill": "Cross-Text Connections",
+      "wordCount": 188,
+      "prompt": "An account of changes in how local newspapers described public libraries in the early twentieth century becomes more informative when its evidence is considered alongside the circumstances in which it was collected. Researchers distinguish the stated purpose of the initiative from the later uses residents found for it. This distinction matters because the evidence describes what occurred under the observed conditions, not every possible condition.\n\nPassage 2: A recent study of whether a coating changes the stability of a battery electrode during repeated cycles compared observations from different conditions instead of treating the first pattern as conclusive. The experiment separates an observed association from the stronger claim that one factor alone caused the outcome. Taken together, the observations support a useful pattern but leave room for a more qualified interpretation. The historical analysis separates what the policy required from what later participants made of it in practice. The analysis of changes in how local newspapers described public libraries in the early twentieth century drew on 690 examples from 3 settings over 9 observation periods.\n\nBased on the two passages, which statement would both authors most likely agree with?"
+    }
+  ]
+}
