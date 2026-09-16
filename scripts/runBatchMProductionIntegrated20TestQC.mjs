@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS, BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY } from '../src/data/sat/mockContent/batchM20TestProductionStore.js';
+import { BATCH_M_20_TEST_CONTROLLED_CORPUS, BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS, BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY } from '../src/data/sat/mockContent/batchM20TestProductionStore.js';
 import { BATCH_M_TARGET_TEST_KEYS, canonicalBatchMTestKey } from '../src/data/sat/mockContent/batchMCanonicalTestKey.js';
 import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
 import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
@@ -11,13 +11,33 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outPath = path.join(root, 'docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-2026-09-16.json');
 const targetKeys = new Set(BATCH_M_TARGET_TEST_KEYS);
 const allMocks = BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS;
+const controlledMocks = BATCH_M_20_TEST_CONTROLLED_CORPUS;
 const targetMocks = allMocks.filter((mock) => targetKeys.has(canonicalBatchMTestKey(mock)));
+const controlledTargetMocks = controlledMocks.filter((mock) => targetKeys.has(canonicalBatchMTestKey(mock)));
 const recordsOf = (mock) => [...(mock?.readingWriting || []), ...(mock?.math || [])];
+const id = (question) => String(question?.questionId || question?.contentId || '');
+const stableQuestion = (question) => JSON.stringify(question);
 const failures = [];
 let schemaFailures = 0;
 let qualityFailures = 0;
 let figureOriginalityFailure = null;
 let runtimeQuestions = 0;
+
+if (controlledTargetMocks.length !== targetMocks.length) failures.push({ check: 'controlled-accepted-mock-alignment', detail: `${controlledTargetMocks.length}:${targetMocks.length}` });
+
+const independentlyChangedIds = new Set();
+const controlledById = new Map();
+for (const mock of controlledTargetMocks) {
+  const testKey = canonicalBatchMTestKey(mock);
+  for (const question of recordsOf(mock)) controlledById.set(`${testKey}::${id(question)}`, stableQuestion(question));
+}
+for (const mock of targetMocks) {
+  const testKey = canonicalBatchMTestKey(mock);
+  for (const question of recordsOf(mock)) {
+    const key = `${testKey}::${id(question)}`;
+    if (controlledById.get(key) !== stableQuestion(question)) independentlyChangedIds.add(key);
+  }
+}
 
 for (const mock of targetMocks) {
   const testKey = canonicalBatchMTestKey(mock);
@@ -26,7 +46,7 @@ for (const mock of targetMocks) {
   runtimeQuestions += records.length;
   const ids = new Set();
   for (const question of records) {
-    const questionId = String(question?.questionId || question?.contentId || '');
+    const questionId = id(question);
     if (ids.has(questionId)) failures.push({ check: 'duplicate-question-id', detail: `${testKey}:${questionId}` });
     ids.add(questionId);
     const schema = validateSatQuestion(question);
@@ -45,15 +65,17 @@ const summary = {
   rwStimulusRepairs: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY.rwStimulusRepairs,
   figureRepairs: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY.figureRepairs,
   uniqueChangedTargets: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY.targetsChanged,
+  independentlyObservedChangedTargets: independentlyChangedIds.size,
 };
 if (summary.difficultyCalibrations !== 550) failures.push({ check: 'difficulty-remediation-count', detail: summary.difficultyCalibrations });
 if (summary.rwStimulusRepairs !== 206) failures.push({ check: 'rw-remediation-count', detail: summary.rwStimulusRepairs });
-if (summary.figureRepairs !== 2) failures.push({ check: 'figure-remediation-count', detail: summary.figureRepairs });
-if (summary.uniqueChangedTargets !== 674) failures.push({ check: 'unique-remediated-target-count', detail: summary.uniqueChangedTargets });
+if (summary.figureRepairs !== 168) failures.push({ check: 'figure-remediation-count', detail: summary.figureRepairs });
+if (summary.uniqueChangedTargets !== summary.independentlyObservedChangedTargets) failures.push({ check: 'unique-remediated-target-count', detail: { reported: summary.uniqueChangedTargets, observed: summary.independentlyObservedChangedTargets } });
+if (summary.uniqueChangedTargets < 674) failures.push({ check: 'unique-remediated-target-count-regression', detail: summary.uniqueChangedTargets });
 
 const report = {
   reportType: 'batch-m-production-integrated-20-test-qc',
-  reportVersion: '2026-09-16.production-integrated-20-test-qc.v3',
+  reportVersion: '2026-09-16.production-integrated-20-test-qc.v4',
   scope: 'SAT1-SAT10 and PSAT1-PSAT10 only',
   productionMutation: true,
   releaseEligible: false,
