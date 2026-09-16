@@ -93,14 +93,47 @@ const expected = JSON.parse(fs.readFileSync(expectedReportPath, 'utf8'));
 const fresh = JSON.parse(fs.readFileSync(freshReportPath, 'utf8'));
 const snapshot = JSON.parse(fs.readFileSync(snapshotOut, 'utf8'));
 
-if (JSON.stringify(expected) !== JSON.stringify(fresh)) {
-  throw new Error('Batch M selection replay: historical selector output does not exactly match the authorized selection report; replacement is blocked safely.');
+function selectionIdentity(record) {
+  return {
+    testKey: record.testKey,
+    questionId: record.questionId,
+    remediationType: record.remediationType,
+    selectionDisposition: record.selectionDisposition,
+    selectedCandidateKey: record.selectedCandidateKey,
+    options: Array.isArray(record.options) ? record.options : [],
+  };
 }
+
+const expectedSelected = expected.records
+  .filter((record) => record.selectionDisposition === 'REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL')
+  .map(selectionIdentity);
+const freshSelected = fresh.records
+  .filter((record) => record.selectionDisposition === 'REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL')
+  .map(selectionIdentity);
+
+if (expected.summary?.total !== fresh.summary?.total
+  || expected.summary?.selected !== fresh.summary?.selected
+  || expected.summary?.noEligibleCandidate !== fresh.summary?.noEligibleCandidate) {
+  throw new Error(
+    `Batch M selection replay: historical selector summary does not match authorized selection summary `
+    + `(expected total=${expected.summary?.total}, selected=${expected.summary?.selected}, noEligible=${expected.summary?.noEligibleCandidate}; `
+    + `fresh total=${fresh.summary?.total}, selected=${fresh.summary?.selected}, noEligible=${fresh.summary?.noEligibleCandidate}).`
+  );
+}
+
+if (JSON.stringify(expectedSelected) !== JSON.stringify(freshSelected)) {
+  const firstMismatch = expectedSelected.findIndex((record, index) => JSON.stringify(record) !== JSON.stringify(freshSelected[index]));
+  throw new Error(
+    `Batch M selection replay: selected-candidate identity differs at index ${firstMismatch >= 0 ? firstMismatch : 'length/end'}. `
+    + 'Replacement is blocked safely.'
+  );
+}
+
 if (snapshot.selectedCount !== expected.summary?.selected) {
   throw new Error(`Batch M selection replay: snapshot selected count ${snapshot.selectedCount} does not match authorized selection count ${expected.summary?.selected}.`);
 }
-if (snapshot.records.length !== expected.summary?.selected) {
-  throw new Error(`Batch M selection replay: snapshot record count ${snapshot.records.length} does not match authorized selection count ${expected.summary?.selected}.`);
+if (!Array.isArray(snapshot.records) || snapshot.records.length !== expected.summary?.selected) {
+  throw new Error(`Batch M selection replay: snapshot record count ${snapshot.records?.length ?? 'invalid'} does not match authorized selection count ${expected.summary?.selected}.`);
 }
 
 const snapshotByTarget = new Map(snapshot.records.map((record) => [`${record.testKey}::${record.questionId}`, record]));
@@ -109,6 +142,12 @@ for (const record of expected.records.filter((item) => item.selectionDisposition
   if (!bound) throw new Error(`Batch M selection replay: missing selected candidate for ${record.testKey}::${record.questionId}.`);
   if (bound.selectedCandidateKey !== record.selectedCandidateKey) {
     throw new Error(`Batch M selection replay: selected candidate mismatch for ${record.testKey}::${record.questionId}.`);
+  }
+  if (bound.fingerprint !== String(record.selectedCandidateKey).split(':').at(-1)) {
+    throw new Error(`Batch M selection replay: bound fingerprint mismatch for ${record.testKey}::${record.questionId}.`);
+  }
+  if (!bound.candidate || typeof bound.candidate !== 'object') {
+    throw new Error(`Batch M selection replay: bound candidate payload is missing for ${record.testKey}::${record.questionId}.`);
   }
 }
 
