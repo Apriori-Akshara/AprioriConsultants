@@ -69,7 +69,7 @@ const summary = {
 };
 if (summary.difficultyCalibrations !== 550) failures.push({ check: 'difficulty-remediation-count', detail: summary.difficultyCalibrations });
 if (summary.rwStimulusRepairs !== 206) failures.push({ check: 'rw-remediation-count', detail: summary.rwStimulusRepairs });
-if (summary.figureRepairs !== 168) failures.push({ check: 'figure-remediation-count', detail: summary.figureRepairs });
+if (summary.figureRepairs !== 169) failures.push({ check: 'figure-remediation-count', detail: summary.figureRepairs });
 if (summary.uniqueChangedTargets !== summary.independentlyObservedChangedTargets) failures.push({ check: 'unique-remediated-target-count', detail: { reported: summary.uniqueChangedTargets, observed: summary.independentlyObservedChangedTargets } });
 if (summary.uniqueChangedTargets < 674) failures.push({ check: 'unique-remediated-target-count-regression', detail: summary.uniqueChangedTargets });
 
