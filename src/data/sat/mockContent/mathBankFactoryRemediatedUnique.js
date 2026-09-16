@@ -2,6 +2,96 @@
 import { generateRemediatedMathCandidates as generateBaseMathCandidates } from './mathBankFactoryRemediated.js';
 import { DIFFICULTY_REQUIREMENTS, PSAT_CEILING_RULES } from './batchMRemediationBlueprint.js';
 import { buildBatchMLinearV2 } from './batchMLinearConstructionV2.js';
+// Batch M linear construction remediation v3: cross-target prompt diversity
+
+const LINEAR_V3_FUNCTION_FRAMES = [
+  'Use the relationship described to determine the requested quantity.',
+  'Determine the requested quantity from the linear model given.',
+  'Read the stated relationship carefully before selecting the requested value.',
+  'Base the answer on the linear relationship represented in the problem.',
+  'Translate the given information into the quantity the question asks for.',
+  'Use the numerical relationship in the prompt to find the requested value.',
+  'Interpret the linear information provided, then determine the requested quantity.',
+  'Identify the relevant linear relationship and use it to obtain the requested value.',
+  'Use the stated model to determine the quantity requested.',
+  'Connect the given values through the linear relationship to find the requested quantity.',
+  'Determine which linear relation applies and use it to answer the question.',
+  'Use the information in the model to identify the requested value.',
+  'Interpret the model before determining the quantity asked for.',
+  'Apply the stated linear relationship to the values given.',
+  'Determine the value that follows from the linear relationship in the prompt.',
+  'Use the information provided to calculate the requested quantity from the model.',
+  'Read the linear model as stated and determine the requested value.',
+  'Use the relationship among the given quantities to find the answer.',
+  'Determine the requested value by using the linear model in the prompt.',
+  'Interpret the given linear model and calculate the quantity requested.',
+  'Use the stated relationship among the variables to determine the answer.',
+  'Find the requested quantity by applying the linear relationship provided.',
+  'Identify how the quantities are related linearly, then determine the requested value.',
+  'Use the given linear relationship to obtain the quantity the question asks for.',
+];
+
+const LINEAR_V3_REPRESENTATION_FRAMES = [
+  'Use the representation provided to determine the requested quantity.',
+  'Match the equivalent representation to the quantity requested.',
+  'Translate the given linear representation into the form needed to answer the question.',
+  'Use the equivalent representations consistently to determine the answer.',
+  'Connect the equation, values, or representation provided to the quantity requested.',
+  'Interpret the linear representation before selecting the requested value.',
+  'Use the representation that makes the requested quantity directly identifiable.',
+  'Translate the stated model into the representation needed for the requested value.',
+  'Determine the requested value from the equivalent linear information provided.',
+  'Use the relationship among the representations to find the quantity asked for.',
+  'Identify the matching linear representation and use it to determine the answer.',
+  'Interpret the given representations as one linear model, then determine the requested value.',
+  'Use the numerical and symbolic information provided to obtain the requested quantity.',
+  'Determine which equivalent form is most useful for the quantity being asked for.',
+  'Use the stated representation(s) to calculate the requested value.',
+  'Connect the representations of the same linear model to answer the question.',
+  'Read the given linear representation carefully before determining the requested quantity.',
+  'Use the equivalent linear model represented in the prompt to find the answer.',
+  'Translate between the given representations as needed to determine the requested value.',
+  'Determine the quantity requested from the linear relationship shared by the representations.',
+  'Use the equation, table, graph, or stated relationship provided to obtain the answer.',
+  'Interpret the equivalent linear information and calculate the quantity requested.',
+  'Use the representation in the prompt that directly supports the requested value.',
+  'Determine the requested value by connecting the equivalent linear representations.',
+];
+
+function diversifyBatchMLinearV3(question, constructed, occurrence, kind) {
+  const skill = String(question.skill || '');
+  const frames = kind === 'representation' ? LINEAR_V3_REPRESENTATION_FRAMES : LINEAR_V3_FUNCTION_FRAMES;
+  const familyOffset = skill === 'Linear functions and representations'
+    ? 7
+    : skill === 'Linear representations'
+      ? 13
+      : skill === 'Linear relationships'
+        ? 19
+        : 0;
+  const frame = frames[(Number(occurrence) + familyOffset) % frames.length];
+  const prefix = skill === 'Linear functions and representations'
+    ? 'Multiple representations describe the same linear model. '
+    : skill === 'Linear representations'
+      ? 'The representations describe one linear relationship. '
+      : '';
+  const prompt = String(constructed.prompt || '');
+  const separator = /[.!?]$/.test(prompt) ? ' ' : '. ';
+  const diversifiedPrompt = prompt + separator + prefix + frame;
+  const suffix = 'v3-' + kind + '-' + String(familyOffset) + '-' + String(Number(occurrence) % frames.length);
+  return {
+    ...constructed,
+    prompt: diversifiedPrompt,
+    originalityFingerprint: String(constructed.originalityFingerprint || '') + '-' + suffix,
+    conceptFingerprint: String(constructed.conceptFingerprint || '') + '-' + suffix,
+    metadata: {
+      ...constructed.metadata,
+      constructionFamily: String(constructed.metadata?.constructionFamily || '') + '-v3-' + String(familyOffset),
+      linearVariationIndex: (Number(occurrence) + familyOffset) % frames.length,
+      linearVariationSource: 'construction-v3-prompt-diversity',
+    },
+  };
+}
+
 
 function rotateChoices(choices, target) {
   const out = [...choices];
@@ -57,7 +147,7 @@ function remapStrategicCandidate(question, occurrence) {
   // Batch M construction-level remediation for persistent linear-family gaps.
 
   // Batch M linear construction remediation v2
-  if (skill === 'Linear relationships' || skill === 'Linear functions') return buildBatchMLinearV2(question, o, 'function');
+  if (skill === 'Linear relationships' || skill === 'Linear functions') return diversifyBatchMLinearV3(question, buildBatchMLinearV2(question, o, 'function'), o, 'function');
 
   if (skill === 'Systems of linear equations' || skill === 'Linear equations') {
     const variant = o % 4;
@@ -89,7 +179,7 @@ function remapStrategicCandidate(question, occurrence) {
     return setNumericQuestion(question, prompt, x - y, o);
   }
 
-  if (skill === 'Equivalent linear representations' || skill === 'Linear representations' || skill === 'Linear functions and representations') return buildBatchMLinearV2(question, o, 'representation');
+  if (skill === 'Equivalent linear representations' || skill === 'Linear representations' || skill === 'Linear functions and representations') return diversifyBatchMLinearV3(question, buildBatchMLinearV2(question, o, 'representation'), o, 'representation');
 
   // Preserve the existing strategic construction branches below.
   if (skill === 'Linear inequalities') {
