@@ -13,35 +13,49 @@ const report = {
   targetMockCount: mocks.length,
   runtimeQuestions: mocks.reduce((n, mock) => n + recordsOf(mock).length, 0),
   remediationSummary: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY,
-  schemaFailureCount: 0,
-  contentQualityFailureCount: 0,
+  schemaFailures: [],
+  contentQualityFailures: [],
   duplicateQuestionIds: [],
   figureDuplicateCount: 0,
   figureDuplicatePairs: [],
+  figureDuplicateGroupsBySkillType: {},
 };
+
 const figureMap = new Map();
 for (const mock of mocks) {
   const key = canonicalBatchMTestKey(mock);
   const seen = new Set();
   for (const question of recordsOf(mock)) {
     const questionId = id(question);
-    if (seen.has(questionId)) report.duplicateQuestionIds.push(`${key}::${questionId}`);
+    if (seen.has(questionId)) report.duplicateQuestionIds.push({ testKey: key, questionId });
     seen.add(questionId);
     const schema = validateSatQuestion(question);
-    if (!schema.valid) report.schemaFailureCount += 1;
+    if (!schema.valid) report.schemaFailures.push({ testKey: key, questionId, errors: schema.errors });
     const quality = evaluateContentQuality(question);
-    if (quality.verdict !== 'pass') report.contentQualityFailureCount += 1;
+    if (quality.verdict !== 'pass') report.contentQualityFailures.push({ testKey: key, questionId, checks: quality.checks });
     if (question?.figure && question.section === 'math') {
       const fingerprint = getFigureDataFingerprint(question);
       const prior = figureMap.get(fingerprint);
       if (prior && prior.testKey !== key) {
-        report.figureDuplicatePairs.push(`${prior.testKey}::${prior.questionId} => ${key}::${questionId}`);
+        report.figureDuplicateCount += 1;
+        const duplicate = { testKey: key, questionId, skill: question.skill, figureType: question.figure.type };
+        const first = { ...prior };
+        report.figureDuplicatePairs.push({ fingerprint, first, duplicate });
+        const groupKey = `${String(question.skill || '(none)')}|${String(question.figure.type || '(none)')}`;
+        report.figureDuplicateGroupsBySkillType[groupKey] = (report.figureDuplicateGroupsBySkillType[groupKey] || 0) + 1;
       } else if (!prior) {
-        figureMap.set(fingerprint, { testKey: key, questionId });
+        figureMap.set(fingerprint, { testKey: key, questionId, skill: question.skill, figureType: question.figure.type });
       }
     }
   }
 }
-report.figureDuplicateCount = report.figureDuplicatePairs.length;
+
 fs.writeFileSync('docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-DIAGNOSTIC-2026-09-16.json', `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-console.log(JSON.stringify(report, null, 2));
+console.log(JSON.stringify({
+  targetMockCount: report.targetMockCount,
+  runtimeQuestions: report.runtimeQuestions,
+  schemaFailureCount: report.schemaFailures.length,
+  contentQualityFailureCount: report.contentQualityFailures.length,
+  figureDuplicateCount: report.figureDuplicateCount,
+  figureDuplicateGroupsBySkillType: report.figureDuplicateGroupsBySkillType,
+}, null, 2));
