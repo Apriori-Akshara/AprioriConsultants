@@ -17,6 +17,7 @@
     "qc:batch-m-comprehensive-20-test": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMComprehensive20TestQC.mjs",
     "qc:batch-m-comprehensive-20-test-targeted": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMComprehensive20TestQCTargeted.mjs",
     "qc:batch-m-targeted-post-qc-gate": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedPostQCGate.mjs",
+    "qc:batch-m-production-integrated-20-test": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMProductionIntegrated20TestQC.mjs",
     "qc:batch-m-post-qc-diagnostics": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMPostQCTargetedDiagnostics.mjs"
   },
   "dependencies": {
