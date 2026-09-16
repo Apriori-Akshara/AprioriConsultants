@@ -21,10 +21,6 @@ const TARGET_KEYS = new Set([
 ]);
 
 const POOL_COUNTS = {
-  // R&W was previously capped at 900 candidates, which created an artificial
-  // ceiling for high-volume skills such as Words in Context and Cross-Text.
-  // The remediation pool now gives each skill enough distinct candidates to
-  // satisfy the frozen target distribution without changing eligibility rules.
   sat: { rw: 5000, math: 8000 },
   psat: { rw: 5000, math: 8000 },
 };
@@ -275,17 +271,18 @@ function main() {
       item.candidate.section === meta.section && skillMatches(item.candidate.skill, meta.skill)
     ));
     const eligibleItems = [];
+    const eligibleFingerprints = new Set();
     const considered = [];
 
     for (const item of compatible) {
       const reasons = reasonList(item.candidate, meta, used, productionFingerprints);
 
-      if (!reasons.length && !calibrationOnly && eligibleItems.length < 2) {
+      if (!reasons.length && !calibrationOnly && eligibleItems.length < 2 && !eligibleFingerprints.has(item.fingerprint)) {
         eligibleItems.push(item);
-        used.add(item.fingerprint);
+        eligibleFingerprints.add(item.fingerprint);
       }
 
-      if (considered.length < 4 && (reasons.length || eligibleItems.every((entry) => entry.fingerprint !== item.fingerprint))) {
+      if (considered.length < 4 && (reasons.length || !eligibleFingerprints.has(item.fingerprint))) {
         considered.push(compact(item, reasons));
       }
 
@@ -293,7 +290,10 @@ function main() {
     }
 
     if (!eligibleItems.length && !calibrationOnly) summary.noEligibleCandidate += 1;
-    else if (!calibrationOnly) summary.selected += 1;
+    else if (!calibrationOnly) {
+      summary.selected += 1;
+      used.add(eligibleItems[0].fingerprint);
+    }
 
     records.push({
       testKey: target.testKey,
@@ -328,8 +328,8 @@ function main() {
     releaseEligible: false,
     replacementAuthorization: 'NOT_AUTHORIZED',
     sat21Created: false,
-    selectionDeterminism: 'stable-order-plus-first-unused-compatible-candidate-with-skill-aliases',
-    note: 'Candidate options are references into deterministic remediation-generator pools. No production question was mutated. Skill aliases are selection-only compatibility mappings; candidate content and labels remain unchanged.',
+    selectionDeterminism: 'stable-order-plus-first-unused-selected-candidate-with-skill-aliases',
+    note: 'Candidate options are references into deterministic remediation-generator pools. Only the selected candidate fingerprint is reserved globally; unselected options remain available for later targets. No production question was mutated. Skill aliases are selection-only compatibility mappings; candidate content and labels remain unchanged.',
   };
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
