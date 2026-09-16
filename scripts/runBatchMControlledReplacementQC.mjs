@@ -17,24 +17,8 @@ const EXPECTED_AFFECTED = 2144;
 const EXPECTED_MOCKS = 20;
 const EXPECTED_RECORDS_PER_MOCK = 196;
 
-function collectQuestions(value, out = [], seen = new Set()) {
-  if (!value || typeof value !== 'object' || seen.has(value)) return out;
-  seen.add(value);
-  if (Array.isArray(value)) {
-    value.forEach((item) => collectQuestions(item, out, seen));
-    return out;
-  }
-
-  if ((typeof value.questionId === 'string' && value.questionId) || (typeof value.contentId === 'string' && value.contentId)) {
-    out.push(value);
-    return out;
-  }
-
-  for (const [key, child] of Object.entries(value)) {
-    if (key === 'figure' || key === 'metadata') continue;
-    collectQuestions(child, out, seen);
-  }
-  return out;
+function runtimeQuestions(mock) {
+  return [...(mock?.readingWriting || []), ...(mock?.math || [])];
 }
 
 function questionContentFingerprint(question) {
@@ -72,6 +56,8 @@ const selectedRecords = Array.isArray(authoritative.records)
 if (selectedRecords.length !== EXPECTED_SELECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_SELECTED} authoritative selected records, found ${selectedRecords.length}.`);
 
 const selectedKeySet = new Set(selectedRecords.map((record) => `${record.testKey}::${record.questionId}`));
+if (selectedKeySet.size !== EXPECTED_SELECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_SELECTED} unique selected targets, found ${selectedKeySet.size}.`);
+
 for (const key of selectedKeySet) {
   if (!BATCH_M_CONTROLLED_REPLACEMENT_MAP[key]) throw new Error(`Controlled replacement QC: selected target missing from replacement map: ${key}.`);
   const [testKey] = key.split('::');
@@ -87,7 +73,6 @@ if (!quality?.passed) throw new Error(`Controlled replacement QC: replacement qu
 
 const preCorpus = BATCH_M_TARGETED_PRODUCTION_CORPUS;
 const canonicalMocks = preCorpus.map((mock) => ({ mock, testKey: canonicalBatchMTestKey(mock) }));
-const canonicalKeys = canonicalMocks.map(({ testKey }) => testKey).filter(Boolean);
 const affectedMocks = canonicalMocks.filter(({ testKey }) => BATCH_M_TARGET_TEST_KEYS.has(testKey));
 if (affectedMocks.length !== EXPECTED_MOCKS) throw new Error(`Controlled replacement QC: expected ${EXPECTED_MOCKS} affected mocks, found ${affectedMocks.length}.`);
 if (new Set(affectedMocks.map(({ testKey }) => testKey)).size !== EXPECTED_MOCKS) throw new Error('Controlled replacement QC: duplicate canonical affected mock keys found.');
@@ -98,11 +83,11 @@ if (!Array.isArray(appliedCorpus) || appliedCorpus.length !== preCorpus.length) 
 
 const preQuestions = new Map();
 for (const { mock, testKey } of canonicalMocks) {
-  for (const question of collectQuestions(mock)) {
+  for (const question of runtimeQuestions(mock)) {
     const questionId = String(question?.questionId || question?.contentId || '');
     if (!testKey || !questionId) continue;
     const key = `${testKey}::${questionId}`;
-    if (preQuestions.has(key)) throw new Error(`Controlled replacement QC: duplicate pre-replacement target question: ${key}.`);
+    if (preQuestions.has(key)) throw new Error(`Controlled replacement QC: duplicate runtime pre-replacement question: ${key}.`);
     preQuestions.set(key, question);
   }
 }
@@ -111,17 +96,17 @@ const postQuestions = new Map();
 for (const mock of appliedCorpus) {
   const testKey = canonicalBatchMTestKey(mock);
   if (!testKey) continue;
-  for (const question of collectQuestions(mock)) {
+  for (const question of runtimeQuestions(mock)) {
     const questionId = String(question?.questionId || question?.contentId || '');
     if (!questionId) continue;
     const key = `${testKey}::${questionId}`;
-    if (postQuestions.has(key)) throw new Error(`Controlled replacement QC: duplicate post-replacement question: ${key}.`);
+    if (postQuestions.has(key)) throw new Error(`Controlled replacement QC: duplicate runtime post-replacement question: ${key}.`);
     postQuestions.set(key, question);
   }
 }
 
-if (preQuestions.size !== EXPECTED_AFFECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_AFFECTED} canonical questions before replacement, found ${preQuestions.size}.`);
-if (postQuestions.size !== preQuestions.size) throw new Error(`Controlled replacement QC: canonical question count changed from ${preQuestions.size} to ${postQuestions.size}.`);
+if (preQuestions.size !== EXPECTED_AFFECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_AFFECTED} canonical runtime questions before replacement, found ${preQuestions.size}.`);
+if (postQuestions.size !== preQuestions.size) throw new Error(`Controlled replacement QC: canonical runtime question count changed from ${preQuestions.size} to ${postQuestions.size}.`);
 
 let actualApplied = 0;
 const changedTargets = new Set();
@@ -170,13 +155,14 @@ for (const { mock: preMock, testKey } of outsideBatchM) {
 }
 
 const mockSummaries = affectedMocks
-  .map(({ testKey }) => {
+  .map(({ testKey, mock }) => {
     const replacementCount = selectedRecords.filter((record) => record.testKey === testKey).length;
-    const questionCount = [...postQuestions.keys()].filter((key) => key.startsWith(`${testKey}::`)).length;
+    const postMock = appliedCorpus.find((candidate) => canonicalBatchMTestKey(candidate) === testKey);
+    const questionCount = runtimeQuestions(postMock).length;
     if (questionCount !== EXPECTED_RECORDS_PER_MOCK) {
-      throw new Error(`Controlled replacement QC: ${testKey} expected ${EXPECTED_RECORDS_PER_MOCK} questions, found ${questionCount}.`);
+      throw new Error(`Controlled replacement QC: ${testKey} expected ${EXPECTED_RECORDS_PER_MOCK} runtime questions, found ${questionCount}.`);
     }
-    return { testKey, questionCount, replacementCount };
+    return { testKey, questionCount, replacementCount, preArchiveRecords: Array.isArray(mock?.storageRecords) ? mock.storageRecords.length : 0 };
   })
   .sort((a, b) => a.testKey.localeCompare(b.testKey));
 
