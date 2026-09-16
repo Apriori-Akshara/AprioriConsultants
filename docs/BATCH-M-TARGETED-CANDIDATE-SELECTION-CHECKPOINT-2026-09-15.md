@@ -1,8 +1,8 @@
 # Batch M Targeted Candidate-Selection Checkpoint — September 16, 2026
 
-**Status:** CONTROLLED REPLACEMENT COMPLETE; COMPREHENSIVE 20-TEST QC COMPLETE — QUALITY HOLD REMAINS  
+**Status:** CONTROLLED REPLACEMENT COMPLETE; COMPREHENSIVE 20-TEST QC COMPLETE; TARGETED POST-QC REMEDIATION IMPLEMENTED — PRODUCTION-INTEGRATED VALIDATION PENDING  
 **Implementation branch:** `batch-m-comprehensive-20-test-qc-2026-09-16`  
-**Production boundary:** Authorized controlled mutation completed for SAT1–SAT10 and PSAT1–PSAT10 only; release remains frozen pending downstream quality remediation and gates
+**Production boundary:** Authorized controlled mutation remains limited to SAT1–SAT10 and PSAT1–PSAT10; release remains frozen pending production-integrated downstream gates
 
 ## 1. Runtime and workflow state
 
@@ -117,7 +117,7 @@ QC report:
 
 `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-2026-09-16.json`
 
-The workflow completed with a **QUALITY_HOLD** result. The gate was not weakened to obtain a pass.
+The initial workflow completed with a **QUALITY_HOLD** result. The gate was not weakened to obtain a pass.
 
 Verified successfully:
 
@@ -126,29 +126,81 @@ Verified successfully:
 - **3,920 runtime questions** after replacement;
 - **196 questions per mock**;
 - **1,594 / 1,594** controlled replacement targets changed and matched the replacement map;
-- **0 schema failures**;
+- **0 schema failures** in the original post-replacement corpus;
 - scope/identity gate: **PASS**;
 - replacement-integrity gate: **PASS**;
 - production mutation by the QC: **false**;
 - release eligible: **false**;
 - SAT21 created: **false**.
 
-Content-quality result:
+Initial content-quality result:
 
-- **672 / 3,920** questions failed the current content-quality gate;
+- **672 / 3,920** questions failed the content-quality gate;
 - **550** failures were `hard-label-without-demand-feature`;
 - **206** failures were `rw-stimulus-length`;
-- the 550 hard-label failures correspond to the still-unresolved difficulty-calibration population identified in the prior remediation plan;
-- all 20 mocks retained content-quality failures, so the corpus cannot advance to release acceptance.
+- the 206 R&W failures were all **Cross-Text Connections** items with overlong synthetic two-passage prompts;
+- one figure-originality failure was identified: PSAT1 question `psat-mock-01-math-math-module-1-m1-14` duplicated the figure data of SAT1 question `sat-series-a-mock-01-math-math-module-1-m1-14`.
 
-Figure-originality result:
+The complete original machine-readable result is retained as the historical QC evidence. The failure is evidence for targeted remediation; it is not a reason to weaken the gate or regenerate the corpus wholesale.
 
-- figure-originality gate: **FAIL**;
-- one cross-mock figure duplication was detected: PSAT1 question `psat-mock-01-math-math-module-1-m1-14` duplicated the figure data of SAT1 question `sat-series-a-mock-01-math-math-module-1-m1-14`.
+## 6. Targeted post-QC remediation implementation
 
-The complete machine-readable result is the QC report above. The failure is evidence for further targeted remediation; it is not a reason to weaken the gate or regenerate the corpus wholesale.
+A separate remediation layer was implemented without changing the controlled replacement map or regenerating the corpus.
 
-## 6. Current remediation status
+Implementation:
+
+`src/data/sat/mockContent/batchMPostQCTargetedRemediation.js`
+
+The remediation is restricted to canonical `SAT1`–`SAT10` and `PSAT1`–`PSAT10` mock keys and performs only the documented downstream corrections:
+
+- **550** hard-label cases are calibrated from `hard` to `medium` when no qualifying hard-reasoning feature exists;
+- **206** Cross-Text Connections prompts are shortened by removing redundant construction sentences until they meet the existing **150-word maximum**;
+- **1** exact PSAT1 figure collision is corrected with a distinct parabola dataset and corresponding mathematically consistent prompt/options/rationale;
+- the changes affect **673 unique questions**, because some records require more than one remediation operation;
+- the existing schema, content-quality, and figure-originality gates remain strict.
+
+The first isolated rerun exposed an implementation-only metadata error in the remediation layer: it temporarily wrote invalid `difficultyBand` values. That patch was removed; the remediation now changes only the difficulty field and preserves the existing valid progression-band metadata.
+
+The isolated targeted QC then showed that the three substantive remediation categories themselves clear the original quality failures: **0 content-quality failures** after the targeted repairs. The subsequent schema correction is the final implementation adjustment before production-integrated validation.
+
+Supporting diagnostics:
+
+- `docs/BATCH-M-POST-QC-TARGETED-DIAGNOSTICS-2026-09-16.json`
+- `docs/BATCH-M-POST-QC-RW-DIAGNOSTIC-2026-09-16.json`
+- `docs/BATCH-M-POST-QC-FIGURE-DIAGNOSTIC-2026-09-16.json`
+
+## 7. Production-store integration
+
+The targeted remediation layer is now wired into the canonical Batch M production store **after** controlled replacement and **before** the final 30-mock corpus verification.
+
+Changed store:
+
+`src/data/sat/mockContent/batchMProductionStore.js`
+
+The store now applies, in order:
+
+1. frozen production corpus construction;
+2. the already-authorized controlled replacement map;
+3. the separate post-QC targeted remediation layer;
+4. the existing final 30-mock corpus verification.
+
+The post-QC layer remains limited to SAT1–SAT10 and PSAT1–PSAT10. SAT11–SAT20 are not regenerated and are not targeted by the remediation layer. `releaseEligible` remains **false**, and no SAT21 target exists.
+
+The production-integrated QC workflow is:
+
+`.github/workflows/batch-m-production-integrated-20-test-qc.yml`
+
+The production-integrated evidence artifact is:
+
+`docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-2026-09-16.json`
+
+The post-QC remediation evidence artifact is:
+
+`docs/BATCH-M-POST-QC-TARGETED-REMEDIATION-2026-09-16.json`
+
+**Production-integrated validation is now the active gate. The release remains frozen until that gate passes.**
+
+## 8. Current remediation status
 
 Completed:
 
@@ -163,38 +215,28 @@ Completed:
 - exact target identity preservation;
 - out-of-scope protection;
 - no-SAT21 safeguard;
-- comprehensive 20-test post-replacement QC execution and evidence capture.
+- comprehensive post-replacement 20-test QC execution;
+- targeted diagnosis of all 672 QC failures;
+- implementation of the 550 difficulty calibrations;
+- implementation of the 206 Cross-Text stimulus repairs;
+- implementation of the single identified figure-duplication repair;
+- integration of the targeted remediation layer into the canonical Batch M production store.
 
 Still pending:
 
-1. targeted remediation of the **550 remaining difficulty-calibration failures**;
-2. targeted remediation of the **206 R&W stimulus-length failures**;
-3. correction of the identified **cross-mock figure duplication**;
-4. rerun the comprehensive 20-test QC;
-5. only after the 20-test QC passes, run the final collective **30-mock corpus gate**;
-6. 30-mock cross-corpus calibration;
-7. deferred SAT11–SAT20 public verification;
-8. end-to-end student acceptance;
-9. final Batch M release acceptance.
+1. **production-integrated 20-test QC pass** over the canonical store;
+2. confirmation of the final collective **30-mock corpus gate** after the integrated remediation;
+3. 30-mock cross-corpus calibration;
+4. deferred SAT11–SAT20 public verification;
+5. end-to-end student acceptance;
+6. final Batch M release acceptance.
 
 Release eligibility remains **false** until those downstream gates pass.
 
-## 7. Resume point / next implementation step
+## 9. Resume point / next implementation step
 
-The next implementation step is **targeted post-QC remediation**, not another candidate-generation or controlled-replacement pass.
+The next implementation step is the **production-integrated 20-test QC** already wired at `.github/workflows/batch-m-production-integrated-20-test-qc.yml`.
 
-Start with the exact failures recorded in:
+Do not repeat candidate generation, candidate selection, authorization, or controlled replacement. Do not regenerate the corpus. Do not create SAT21.
 
-`docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-2026-09-16.json`
-
-The remediation must:
-
-- address the 550 unresolved difficulty-calibration failures without weakening the hard-item gate;
-- address the 206 R&W stimulus-length failures using the existing R&W construction/QC architecture;
-- correct the identified cross-mock figure duplication through the existing figure-originality controls;
-- remain limited to SAT1–SAT10 and PSAT1–PSAT10;
-- not regenerate the corpus wholesale;
-- not create SAT21;
-- keep release eligibility false until the rerun passes.
-
-After targeted remediation, rerun the comprehensive 20-test QC. Do **not** proceed to the final 30-mock corpus gate while this 20-test gate is failing.
+After the production-integrated 20-test gate passes, the next documented gate is the final collective **30-mock corpus gate** followed by cross-corpus calibration and the remaining release-acceptance steps.
