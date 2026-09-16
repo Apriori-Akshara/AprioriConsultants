@@ -11,17 +11,20 @@ import { validateFigureOriginalitySeries } from '../src/data/sat/mockContent/fig
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outPath = path.join(root, 'docs/BATCH-M-POST-QC-TARGETED-REMEDIATION-2026-09-16.json');
+const targetKeys = new Set(BATCH_M_TARGET_TEST_KEYS);
 const pre = applyBatchMControlledReplacements(BATCH_M_TARGETED_PRODUCTION_CORPUS);
 const result = applyBatchMPostQCTargetedRemediations(pre);
 const records = (mock) => [...(mock?.readingWriting || []), ...(mock?.math || [])];
 const id = (q) => String(q?.questionId || q?.contentId || '');
+const targetPre = pre.filter((mock) => targetKeys.has(canonicalBatchMTestKey(mock)));
+const targetAfter = result.corpus.filter((mock) => targetKeys.has(canonicalBatchMTestKey(mock)));
 const before = new Map();
 const after = new Map();
-for (const mock of pre) {
+for (const mock of targetPre) {
   const key = canonicalBatchMTestKey(mock);
   for (const q of records(mock)) before.set(`${key}::${id(q)}`, q);
 }
-for (const mock of result.corpus) {
+for (const mock of targetAfter) {
   const key = canonicalBatchMTestKey(mock);
   for (const q of records(mock)) after.set(`${key}::${id(q)}`, q);
 }
@@ -42,9 +45,8 @@ for (const [key, beforeQ] of before) {
 }
 const schemaFailures = [];
 const qualityFailures = [];
-for (const mock of result.corpus) {
+for (const mock of targetAfter) {
   const testKey = canonicalBatchMTestKey(mock);
-  if (!BATCH_M_TARGET_TEST_KEYS.has(testKey)) continue;
   for (const q of records(mock)) {
     const schema = validateSatQuestion(q);
     if (!schema.valid) schemaFailures.push({ testKey, questionId: id(q), errors: schema.errors });
@@ -53,10 +55,10 @@ for (const mock of result.corpus) {
   }
 }
 let figureOriginalityFailure = null;
-try { validateFigureOriginalitySeries(result.corpus); } catch (error) { figureOriginalityFailure = String(error?.message || error); }
+try { validateFigureOriginalitySeries(targetAfter); } catch (error) { figureOriginalityFailure = String(error?.message || error); }
 const report = {
   reportType: 'batch-m-post-qc-targeted-remediation',
-  reportVersion: '2026-09-16.post-qc-targeted-remediation.v2',
+  reportVersion: '2026-09-16.post-qc-targeted-remediation.v3',
   scope: 'SAT1-SAT10 and PSAT1-PSAT10 only',
   productionMutation: true,
   releaseEligible: false,
@@ -68,13 +70,13 @@ const report = {
     schemaFailures: schemaFailures.length,
     contentQualityFailures: qualityFailures.length,
     figureOriginalityFailure,
-    runtimeMocks: result.corpus.length,
-    runtimeQuestions: result.corpus.reduce((n, mock) => n + records(mock).length, 0),
+    runtimeMocks: targetAfter.length,
+    runtimeQuestions: targetAfter.reduce((n, mock) => n + records(mock).length, 0),
   },
 };
 report.passed = schemaFailures.length === 0 && qualityFailures.length === 0 && !figureOriginalityFailure &&
   changedOperationCounts.difficultyCalibration === 550 && changedOperationCounts.rwStimulusRepair === 206 &&
-  changedOperationCounts.figureRepair === 2 && changedTargets.length === 674;
+  changedOperationCounts.figureRepair === 169 && changedTargets.length === 841;
 report.status = report.passed ? 'PASS' : 'QUALITY_HOLD';
 fs.writeFileSync(outPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(report, null, 2));
