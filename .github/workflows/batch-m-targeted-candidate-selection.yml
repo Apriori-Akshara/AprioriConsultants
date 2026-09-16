@@ -5,6 +5,7 @@ name: Batch M targeted candidate selection
 # Rerun requested after correcting the Words in Context remediation script.
 # Rerun requested after the latest geometry construction remediation.
 # Rerun requested after targeted geometry coverage remediation.
+# Rerun requested after targeted geometry figure-path difficulty remediation.
 
 on:
   push:
@@ -88,6 +89,13 @@ jobs:
           node --check scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs
           node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
 
+      - name: Apply targeted geometry figure coverage remediation
+        run: |
+          node scripts/applyBatchMGeometryFigureCoverageRemediation.mjs
+          git diff --check
+          node --check scripts/applyBatchMGeometryFigureCoverageRemediation.mjs
+          node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
+
       - name: Apply difficulty coverage remediation
         run: |
           node scripts/applyBatchMDifficultyCoverageRemediation.mjs
@@ -169,6 +177,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: target Batch M geometry coverage gaps"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "fix: remediate Batch M geometry figure difficulty coverage"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
