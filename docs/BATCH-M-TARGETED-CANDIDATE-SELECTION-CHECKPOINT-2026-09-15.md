@@ -1,130 +1,152 @@
 # Batch M Targeted Candidate-Selection Checkpoint — September 16, 2026
 
-**Status:** CANDIDATE SELECTION AND INDIVIDUAL SELECTED-CANDIDATE QUALITY GATES PASSED; REPLACEMENT AUTHORIZATION PENDING  
-**Implementation branch:** `batch-m-rw-generator-remediation-2026-09-14`  
-**Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
+**Status:** CONTROLLED REPLACEMENT COMPLETE; DOWNSTREAM QUALITY/RELEASE GATES PENDING  
+**Implementation branch:** `batch-m-controlled-replacement-2026-09-16`  
+**Production boundary:** Authorized controlled mutation completed for SAT1–SAT10 and PSAT1–PSAT10 only; release remains frozen pending downstream gates
 
 ## 1. Runtime and workflow state
 
 GitHub Actions workflow:
 
-`.github/workflows/batch-m-targeted-candidate-selection.yml`
+`.github/workflows/batch-m-controlled-replacement.yml`
 
-Latest successful workflow run: **run #123 / run ID `35062589891`**.
+Latest successful controlled-replacement workflow: **run #26 / run ID `35080032477`**.
 
-The successful run completed all workflow stages, including selector validation, candidate-pool quality diagnostics, exact candidate selection, selected-candidate individual quality validation, coverage analysis, report verification, and report commit.
+The workflow completed every stage successfully: authoritative candidate selection, controlled replacement application, replacement-quality validation, runtime adapter validation, affected-mock validation, artifact commit, and push.
 
-The two red workflow runs immediately before this successful run were **run #121 and run #122**. Both reached the selected-candidate quality gate successfully and failed only in the report-verification step because the verification expected a different `validatedCount` semantic than the generated report. Neither failure identified a candidate-content or selector-quality defect.
-
-The corrected workflow contract was restored and run #123 passed all steps.
-
-Earlier workflow/selector integration defects remain historical and already resolved; no production mutation occurred in those failures.
-
-## 2. Latest candidate-selection result
-
-The latest successful run produced:
+The authoritative selection stage reproduced the authorized scope exactly:
 
 - affected unique production records: **2,144**
 - selected candidates: **1,594**
 - no eligible candidate: **0**
 - SAT targets: **1,071**
 - PSAT targets: **1,073**
-- candidate-pool quality: **13,000 SAT candidates passed; 13,000 PSAT candidates passed**
-- production mutation: **false**
+- production mutation before apply: **false**
 - release eligible: **false**
-- replacement authorization: **NOT_AUTHORIZED**
+- SAT21 created: **false**
+- exact selected payloads persisted: **1,594**
+
+The controlled replacement stage then applied:
+
+- selected count: **1,594**
+- applied count: **1,594**
+- replacement quality gate: **PASS**
+- production mutation: **true**
+- release eligible: **false**
 - SAT21 created: **false**
 
-The selected-candidate quality report additionally records:
+The final committed replacement commit created by the workflow is:
 
-- validated affected records: **2,144**
-- validated selected candidates: **1,594**
-- calibration-only records: **550**
-- failed selected-candidate quality checks: **0**
-- serious failures: **0**
-- gate status: **PASS**
+`3c125d9` — `feat: apply authorized Batch M controlled replacement`
 
-The authoritative report is:
+## 2. Runtime QC result
 
-`docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json`
+The successful QC stage verified:
 
-## 3. Candidate coverage resolution
+- affected targets: **2,144**
+- selected replacements: **1,594**
+- unresolved candidate coverage: **0**
+- runtime corpus: **20 mocks / 3,920 runtime questions**
+- questions per affected mock: **196**
+- runtime replacement count: **1,594**
+- replacement quality gate: **PASS**
+- runtime adapter gate: **PASS**
+- affected mock gate: **PASS**
+- affected mocks checked: **20**
+- out-of-scope mocks changed: **0**
+- final 30-mock corpus gate: **PENDING_DOWNSTREAM**
+- release eligible: **false**
+- SAT21 created: **false**
 
-The latest coverage analysis reports:
+The earlier runtime-count failure is resolved: **2,144 is the remediation target count, not the total 20-mock runtime corpus count.** The correct runtime corpus is **3,920 = 20 × 196**.
 
-- **no-eligible candidate skill groups: 0**
-- **top missing skill groups: none**
-- **rejection reason counts: none**
+## 3. Replacement-construction correction
 
-The final 40 historical gaps were all in PSAT Advanced Math. The documented PSAT ceiling permits the Advanced Math hard tail to be trimmed, and the selector therefore extended its ceiling-compatible medium-for-hard handling to Advanced Math alongside Geometry and Trigonometry.
+Run #25 / workflow run ID `35079522713` failed during replacement application because 20 selected replacements failed the post-construction content-quality gate.
 
-This did **not** weaken the content-quality gate and did **not** relabel candidate difficulty. It changed only selector compatibility for the documented PSAT ceiling path.
+Root cause identified: the selector deliberately permits the documented PSAT ceiling-compatible case where a **hard target in Advanced Math or Geometry and Trigonometry uses a medium candidate**, but the replacement constructor was restoring the frozen target's hard difficulty for that case. That created a mismatch with the selected candidate's actual difficulty features.
 
-## 4. Current remediation status
+The replacement constructor was corrected to:
 
-The following stages are now resolved and runtime validated:
+- preserve the exact selected candidate fingerprint and payload;
+- merge candidate content onto the canonical production question;
+- preserve and supplement canonical production metadata;
+- apply candidate difficulty for difficulty-bearing remediation records;
+- apply candidate medium difficulty for the documented PSAT hard-target/medium-candidate ceiling-compatible exception only;
+- keep production schema validation and content-quality gates strict;
+- emit exact failure details if a future replacement-quality gate fails.
+
+The correction commit is:
+
+`c25907cd744c02b5cdb4a333cd6fc449742adb96` — `fix: preserve PSAT ceiling-compatible candidate difficulty`
+
+## 4. Production mutation record
+
+Controlled replacement is now recorded as authorized for the frozen Batch M affected set only:
+
+- SAT1–SAT10
+- PSAT1–PSAT10
+- exact `testKey + questionId` targets only
+- 1,594 replacements applied
+- no additional production targets
+- no wholesale regeneration
+- no SAT21
+
+The generated controlled-replacement artifact is:
+
+`docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json`
+
+The generated authoritative selection artifact is:
+
+`docs/BATCH-M-AUTHORITATIVE-CANDIDATE-SELECTION-2026-09-16.json`
+
+The controlled replacement map is:
+
+`src/data/sat/mockContent/batchMControlledReplacementMap.js`
+
+The production store now applies the controlled replacement map through the canonical runtime adapter.
+
+## 5. Current remediation status
+
+Completed:
 
 - candidate coverage remediation;
-- linear construction and difficulty/reuse remediation;
-- linear alias partition remediation;
-- Words in Context construction remediation;
-- geometry construction, targeted coverage, figure coverage, and difficulty/reuse remediation;
-- product-scoped candidate reuse reservation;
-- PSAT Geometry ceiling-compatible selection;
-- PSAT Advanced Math ceiling-compatible selection;
-- exact replacement-candidate selection;
-- individual selected-candidate quality gate.
+- candidate generation and selection remediation;
+- exact authoritative candidate payload capture;
+- explicit replacement authorization;
+- controlled replacement of all 1,594 selected targets;
+- replacement-quality gate;
+- runtime adapter validation;
+- affected-mock production gate;
+- exact target identity preservation;
+- out-of-scope protection;
+- no-SAT21 safeguard.
 
-There is no remaining candidate-generation, candidate-selection, or selected-candidate-quality failure requiring remediation before the replacement-authorization gate.
+Still pending:
 
-## 5. Completed milestone
+1. final comprehensive **20-test QC** after the controlled replacement;
+2. final collective **30-mock corpus gate**;
+3. 30-mock cross-corpus calibration;
+4. deferred SAT11–SAT20 public verification;
+5. end-to-end student acceptance;
+6. final Batch M release acceptance.
 
-**Candidate-selection and individual selected-candidate-quality milestone: COMPLETE.**
+Release eligibility remains **false** until those downstream gates pass.
 
-The remediation branch now has a green end-to-end candidate-selection workflow, zero candidate-coverage gaps, 1,594 selected replacement candidates, and a passing individual quality gate covering all 2,144 affected records. The two immediately preceding red workflow runs were verification-contract regressions only and have been corrected; no candidate-content defect remains pending from those runs.
-
-There is nothing further to implement in this stage unless a new repository discrepancy is found.
-
-## 6. Production boundary
-
-The following remain unchanged:
-
-- `productionMutation: false`
-- `releaseEligible: false`
-- `replacementAuthorization: NOT_AUTHORIZED`
-- `sat21Created: false`
-
-The 1,594 selected candidates are downstream review candidates only. They are not production-approved and no frozen question has been replaced.
-
-## 7. Next stage — replacement authorization
-
-The next stage is **explicit replacement authorization**. Authorization is a release-process gate and must be explicitly established before any frozen production question is mutated.
-
-After authorization is explicitly recorded, the implementation sequence is:
-
-1. apply only the authorized affected replacements;
-2. record every post-freeze change by exact `testKey + questionId`, including the selected replacement disposition;
-3. rerun the affected mock production gates;
-4. after those gates pass, run the comprehensive **20-test QC covering SAT1–SAT10 and PSAT1–PSAT10**;
-5. rerun the final collective **30-mock corpus gate**;
-6. complete 30-mock cross-corpus calibration;
-7. complete the deferred SAT11–SAT20 public verification;
-8. complete final end-to-end student acceptance;
-9. finalize Batch M release acceptance.
-
-The production freeze remains active until explicit authorization is recorded.
-
-No SAT21 or additional production target may be created.
-
-## 8. Resume point
+## 6. Resume point
 
 Read only:
 
-- this document, especially **§5 Completed milestone**, **§6 Production boundary**, and **§7 Next stage — replacement authorization**;
-- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` — current authorization boundary and replacement sequence;
-- `docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json` — latest individual-quality evidence;
-- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — latest zero-gap coverage evidence;
-- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact candidate dispositions;
+- this document, especially **§2 Runtime QC result**, **§4 Production mutation record**, and **§5 Current remediation status**;
+- `docs/BATCH-M-REPLACEMENT-AUTHORIZATION-GATE-2026-09-16.md` — authorization and scope;
+- `docs/BATCH-M-AUTHORITATIVE-CANDIDATE-SELECTION-2026-09-16.json` — exact selected candidate payloads;
+- `docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json` — applied replacement record;
 - `docs/QUESTION-GENERATION-ROADMAP.md` — current Batch M section only.
 
-Do not repeat the impact audit, inventory, replacement preparation, selector performance work, candidate-generation remediation, or already-green candidate-selection/quality gates unless a real repository discrepancy is found.
+Do not repeat candidate-generation, candidate-selection, coverage, authorization, or controlled-replacement work unless a real repository discrepancy is found.
+
+## 7. Next step
+
+The next implementation stage is the documented downstream quality sequence, beginning with the **final comprehensive 20-test QC** over the now-mutated SAT1–SAT10 and PSAT1–PSAT10 corpus.
+
+No SAT21 or additional production target may be created.
