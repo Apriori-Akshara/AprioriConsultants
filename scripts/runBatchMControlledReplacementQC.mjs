@@ -14,6 +14,7 @@ const authoritative = JSON.parse(fs.readFileSync(path.join(root, 'docs/BATCH-M-A
 
 const EXPECTED_SELECTED = 1594;
 const EXPECTED_AFFECTED = 2144;
+const EXPECTED_RUNTIME_QUESTIONS = 3920;
 const EXPECTED_MOCKS = 20;
 const EXPECTED_RECORDS_PER_MOCK = 196;
 
@@ -50,9 +51,12 @@ const mapEntries = Object.entries(BATCH_M_CONTROLLED_REPLACEMENT_MAP);
 if (mapEntries.length !== EXPECTED_SELECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_SELECTED} replacement-map entries, found ${mapEntries.length}.`);
 if (new Set(mapEntries.map(([key]) => key)).size !== EXPECTED_SELECTED) throw new Error('Controlled replacement QC: duplicate replacement-map target keys found.');
 
-const selectedRecords = Array.isArray(authoritative.records)
-  ? authoritative.records.filter((record) => record.selectionDisposition === 'REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL')
-  : [];
+const records = Array.isArray(authoritative.records) ? authoritative.records : [];
+const targetKeySet = new Set(records.map((record) => `${record.testKey}::${record.questionId}`));
+if (records.length !== EXPECTED_AFFECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_AFFECTED} authoritative target records, found ${records.length}.`);
+if (targetKeySet.size !== EXPECTED_AFFECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_AFFECTED} unique authoritative target keys, found ${targetKeySet.size}.`);
+
+const selectedRecords = records.filter((record) => record.selectionDisposition === 'REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL');
 if (selectedRecords.length !== EXPECTED_SELECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_SELECTED} authoritative selected records, found ${selectedRecords.length}.`);
 
 const selectedKeySet = new Set(selectedRecords.map((record) => `${record.testKey}::${record.questionId}`));
@@ -105,8 +109,13 @@ for (const mock of appliedCorpus) {
   }
 }
 
-if (preQuestions.size !== EXPECTED_AFFECTED) throw new Error(`Controlled replacement QC: expected ${EXPECTED_AFFECTED} canonical runtime questions before replacement, found ${preQuestions.size}.`);
-if (postQuestions.size !== preQuestions.size) throw new Error(`Controlled replacement QC: canonical runtime question count changed from ${preQuestions.size} to ${postQuestions.size}.`);
+if (preQuestions.size !== EXPECTED_RUNTIME_QUESTIONS) throw new Error(`Controlled replacement QC: expected ${EXPECTED_RUNTIME_QUESTIONS} canonical runtime questions before replacement, found ${preQuestions.size}.`);
+if (postQuestions.size !== EXPECTED_RUNTIME_QUESTIONS) throw new Error(`Controlled replacement QC: expected ${EXPECTED_RUNTIME_QUESTIONS} canonical runtime questions after replacement, found ${postQuestions.size}.`);
+
+for (const key of targetKeySet) {
+  if (!preQuestions.has(key)) throw new Error(`Controlled replacement QC: authoritative target is missing from runtime corpus: ${key}.`);
+  if (!postQuestions.has(key)) throw new Error(`Controlled replacement QC: authoritative target is missing after replacement: ${key}.`);
+}
 
 let actualApplied = 0;
 const changedTargets = new Set();
@@ -157,12 +166,13 @@ for (const { mock: preMock, testKey } of outsideBatchM) {
 const mockSummaries = affectedMocks
   .map(({ testKey, mock }) => {
     const replacementCount = selectedRecords.filter((record) => record.testKey === testKey).length;
+    const targetCount = records.filter((record) => record.testKey === testKey).length;
     const postMock = appliedCorpus.find((candidate) => canonicalBatchMTestKey(candidate) === testKey);
     const questionCount = runtimeQuestions(postMock).length;
     if (questionCount !== EXPECTED_RECORDS_PER_MOCK) {
       throw new Error(`Controlled replacement QC: ${testKey} expected ${EXPECTED_RECORDS_PER_MOCK} runtime questions, found ${questionCount}.`);
     }
-    return { testKey, questionCount, replacementCount, preArchiveRecords: Array.isArray(mock?.storageRecords) ? mock.storageRecords.length : 0 };
+    return { testKey, questionCount, targetCount, replacementCount, preArchiveRecords: Array.isArray(mock?.storageRecords) ? mock.storageRecords.length : 0 };
   })
   .sort((a, b) => a.testKey.localeCompare(b.testKey));
 
@@ -173,12 +183,16 @@ console.log(JSON.stringify({
     selectedCount: EXPECTED_SELECTED,
     noEligibleCandidate: 0,
   },
+  runtimeCorpus: {
+    mockCount: EXPECTED_MOCKS,
+    runtimeQuestionCount: preQuestions.size,
+    questionsPerMock: EXPECTED_RECORDS_PER_MOCK,
+  },
   replacementQualityGate: 'PASS',
   runtimeAdapterGate: 'PASS',
   runtimeReplacementCount: actualApplied,
   affectedMockGate: 'PASS',
   affectedMockCount: affectedMocks.length,
-  affectedQuestionCount: preQuestions.size,
   outOfScopeMocksChecked: outsideBatchM.length,
   releaseEligible: false,
   final30MockCorpusGate: 'PENDING_DOWNSTREAM',
