@@ -1,4 +1,4 @@
-// Batch M selected-candidate individual quality gate v4
+// Batch M selected-candidate individual quality gate v5
 /**
  * Batch M — downstream individual quality validation for selected replacement candidates.
  *
@@ -15,7 +15,7 @@ import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMConten
 
 const SELECTION_REPORT = path.resolve(process.cwd(), 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json');
 const OUT = path.resolve(process.cwd(), 'docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json');
-const REPORT_VERSION = '2026-09-15.selected-candidate-quality.v4';
+const REPORT_VERSION = '2026-09-15.selected-candidate-quality.v5';
 const EXPECTED_AFFECTED = 2144;
 const EXPECTED_SELECTED = 1594;
 const EXPECTED_CALIBRATION_ONLY = 550;
@@ -177,12 +177,12 @@ function main() {
     });
   }
 
-  const validatedCount = selectedCount - failedCount;
+  const validatedSelectedCount = selectedCount - failedCount;
   const validatedAffectedCount = EXPECTED_AFFECTED - failedCount;
 
   const gateStatus = selectedCount === EXPECTED_SELECTED
     && calibrationOnlyCount === EXPECTED_CALIBRATION_ONLY
-    && validatedCount === EXPECTED_SELECTED
+    && validatedSelectedCount === EXPECTED_SELECTED
     && validatedAffectedCount === EXPECTED_AFFECTED
     && failedCount === 0
     && seriousFailureCount === 0
@@ -195,8 +195,8 @@ function main() {
     sourceSelectionReport: 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json',
     affectedUniqueQuestionCount: EXPECTED_AFFECTED,
     selectedCount,
-    validatedCount,
-    validatedAffectedCount,
+    validatedCount: validatedAffectedCount,
+    validatedSelectedCount,
     calibrationOnlyCount,
     failedCount,
     seriousFailureCount,
@@ -217,7 +217,7 @@ function main() {
     affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
     selectedCount: report.selectedCount,
     validatedCount: report.validatedCount,
-    validatedAffectedCount: report.validatedAffectedCount,
+    validatedSelectedCount: report.validatedSelectedCount,
     calibrationOnlyCount: report.calibrationOnlyCount,
     failedCount: report.failedCount,
     seriousFailureCount: report.seriousFailureCount,
