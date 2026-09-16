@@ -9,8 +9,10 @@ const outputPath = path.join(root, '.batch-m-selection-bound-candidates.json');
 
 const sourceRoot = String(process.env.BATCH_M_SELECTION_SOURCE_DIR || '').trim();
 const generationCommit = String(process.env.BATCH_M_SELECTION_GENERATION_COMMIT || '').trim();
+const maxAttempts = Number.parseInt(process.env.BATCH_M_CANDIDATE_RESOLUTION_ATTEMPTS || '32', 10);
 if (!sourceRoot) throw new Error('Batch M candidate snapshot: BATCH_M_SELECTION_SOURCE_DIR is required.');
 if (!/^[0-9a-f]{40}$/i.test(generationCommit)) throw new Error('Batch M candidate snapshot: BATCH_M_SELECTION_GENERATION_COMMIT must be a 40-character commit SHA.');
+if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 128) throw new Error('Batch M candidate snapshot: BATCH_M_CANDIDATE_RESOLUTION_ATTEMPTS must be 1-128.');
 
 const selection = JSON.parse(fs.readFileSync(selectionPath, 'utf8'));
 const records = Array.isArray(selection.records) ? selection.records : [];
@@ -56,61 +58,112 @@ function buildPool(product) {
   }).candidates;
 }
 
-const pools = {
-  sat: buildPool('sat'),
-  psat: buildPool('psat'),
-};
-
-const byProduct = {
-  sat: new Map(pools.sat.map((candidate, index) => [selectorFingerprint(candidate), { candidate, index }])),
-  psat: new Map(pools.psat.map((candidate, index) => [selectorFingerprint(candidate), { candidate, index }])),
-};
-
-const snapshotRecords = [];
+const expectedByProduct = { sat: new Map(), psat: new Map() };
 for (const record of selectedRecords) {
   const product = String(record.testKey || '').startsWith('SAT') ? 'sat' : 'psat';
   const key = String(record.selectedCandidateKey || '');
   const selectedOption = Array.isArray(record.options)
     ? record.options.find((option) => String(option.candidateKey || '') === key && option.verdict === 'eligible')
     : null;
-  const expectedFingerprint = String(selectedOption?.fingerprint || '');
-  const expectedPoolIndex = Number.isInteger(selectedOption?.poolIndex) ? selectedOption.poolIndex : null;
-  if (!expectedFingerprint) throw new Error(`Batch M candidate snapshot: ${record.testKey}/${record.questionId} has no eligible selector fingerprint for ${key}.`);
-
-  const pool = pools[product];
-  let resolved = expectedPoolIndex !== null ? pool[expectedPoolIndex] : null;
-  if (resolved && selectorFingerprint(resolved) !== expectedFingerprint) resolved = null;
-  if (!resolved) resolved = byProduct[product].get(expectedFingerprint)?.candidate || null;
-  if (!resolved) {
-    throw new Error(`Batch M candidate snapshot: authorized candidate ${key} with selector fingerprint ${expectedFingerprint} cannot be resolved from historical generation commit ${generationCommit}.`);
+  const fingerprint = String(selectedOption?.fingerprint || String(key).split(':').at(-1) || '');
+  if (!/^[0-9a-f]{16}$/i.test(fingerprint)) {
+    throw new Error(`Batch M candidate snapshot: ${record.testKey}/${record.questionId} has no valid authorized selector fingerprint for ${key}.`);
   }
-
-  const resolvedFingerprint = selectorFingerprint(resolved);
-  if (resolvedFingerprint !== expectedFingerprint) {
-    throw new Error(`Batch M candidate snapshot: resolved fingerprint mismatch for ${record.testKey}/${record.questionId}.`);
-  }
-
-  snapshotRecords.push({
+  expectedByProduct[product].set(`${record.testKey}::${record.questionId}`, {
     testKey: record.testKey,
     questionId: record.questionId,
     selectedCandidateKey: key,
-    expectedFingerprint,
-    selectedPoolIndex: expectedPoolIndex,
-    resolvedCandidateKey: String(key),
-    candidate: resolved,
+    expectedFingerprint: fingerprint,
+    selectedPoolIndex: Number.isInteger(selectedOption?.poolIndex) ? selectedOption.poolIndex : null,
   });
 }
 
+const resolvedByTarget = new Map();
+const unresolvedFingerprints = new Set([
+  ...Array.from(expectedByProduct.sat.values(), (item) => `sat:${item.expectedFingerprint}`),
+  ...Array.from(expectedByProduct.psat.values(), (item) => `psat:${item.expectedFingerprint}`),
+]);
+
+for (let attempt = 1; attempt <= maxAttempts && unresolvedFingerprints.size > 0; attempt += 1) {
+  const pools = {
+    sat: buildPool('sat'),
+    psat: buildPool('psat'),
+  };
+
+  for (const [product, pool] of Object.entries(pools)) {
+    const byFingerprint = new Map();
+    pool.forEach((candidate, index) => {
+      const fingerprint = selectorFingerprint(candidate);
+      if (!byFingerprint.has(fingerprint)) byFingerprint.set(fingerprint, { candidate, index });
+    });
+
+    for (const [targetKey, expected] of expectedByProduct[product].entries()) {
+      if (resolvedByTarget.has(targetKey)) continue;
+      const token = `${product}:${expected.expectedFingerprint}`;
+      const resolved = byFingerprint.get(expected.expectedFingerprint);
+      if (!resolved) continue;
+
+      const resolvedFingerprint = selectorFingerprint(resolved.candidate);
+      if (resolvedFingerprint !== expected.expectedFingerprint) {
+        throw new Error(`Batch M candidate snapshot: fingerprint verification failed for ${targetKey}.`);
+      }
+
+      resolvedByTarget.set(targetKey, {
+        ...expected,
+        resolvedPoolIndex: resolved.index,
+        resolvedAttempt: attempt,
+        candidate: resolved.candidate,
+      });
+      unresolvedFingerprints.delete(token);
+    }
+  }
+
+  console.log(`Batch M candidate resolution attempt ${attempt}/${maxAttempts}: resolved ${resolvedByTarget.size}/${selectedRecords.length}; unresolved fingerprints ${unresolvedFingerprints.size}.`);
+}
+
+if (resolvedByTarget.size !== selectedRecords.length) {
+  const missing = selectedRecords
+    .filter((record) => !resolvedByTarget.has(`${record.testKey}::${record.questionId}`))
+    .slice(0, 25)
+    .map((record) => `${record.testKey}::${record.questionId}=${record.selectedCandidateKey}`);
+  throw new Error(
+    `Batch M candidate snapshot: ${resolvedByTarget.size}/${selectedRecords.length} authorized candidates resolved after ${maxAttempts} pool-generation attempts. `
+    + `Unresolved examples: ${missing.join(', ')}`
+  );
+}
+
+const snapshotRecords = selectedRecords.map((record) => {
+  const targetKey = `${record.testKey}::${record.questionId}`;
+  const resolved = resolvedByTarget.get(targetKey);
+  const resolvedFingerprint = selectorFingerprint(resolved.candidate);
+  if (resolvedFingerprint !== resolved.expectedFingerprint) {
+    throw new Error(`Batch M candidate snapshot: final fingerprint verification failed for ${targetKey}.`);
+  }
+  return {
+    testKey: resolved.testKey,
+    questionId: resolved.questionId,
+    selectedCandidateKey: resolved.selectedCandidateKey,
+    expectedFingerprint: resolved.expectedFingerprint,
+    selectedPoolIndex: resolved.selectedPoolIndex,
+    resolvedCandidateKey: `${String(record.selectedCandidateKey).split(':')[0]}:${resolved.resolvedPoolIndex}:${resolvedFingerprint}`,
+    resolvedPoolIndex: resolved.resolvedPoolIndex,
+    resolvedAttempt: resolved.resolvedAttempt,
+    candidate: resolved.candidate,
+  };
+});
+
 const snapshot = {
   reportType: 'batch-m-selection-bound-candidate-snapshot',
-  reportVersion: '2026-09-16.selection-bound.v2',
+  reportVersion: '2026-09-16.fingerprint-recovery.v1',
   generationCommit,
   selectionReport: 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json',
+  resolutionMode: 'authorized-selector-fingerprint-with-retry',
+  resolutionAttempts: maxAttempts,
   fingerprintAlgorithm: 'sha256(stable(section,prompt,choices,answer,figure,domain,skill,difficulty))[0:16]',
   selectedCount: snapshotRecords.length,
-  candidatePoolCounts: {
-    sat: { rw: 5000, math: 8000, total: pools.sat.length },
-    psat: { rw: 5000, math: 8000, total: pools.psat.length },
+  candidatePoolCountsPerAttempt: {
+    sat: { rw: 5000, math: 8000, total: 13000 },
+    psat: { rw: 5000, math: 8000, total: 13000 },
   },
   records: snapshotRecords,
 };
@@ -120,6 +173,7 @@ console.log(JSON.stringify({
   snapshotPath: '.batch-m-selection-bound-candidates.json',
   generationCommit,
   selectedCount: snapshotRecords.length,
-  satPoolCount: pools.sat.length,
-  psatPoolCount: pools.psat.length,
+  resolutionAttempts: maxAttempts,
+  resolvedOnAttempt: Math.max(...snapshotRecords.map((record) => record.resolvedAttempt)),
+  resolutionMode: snapshot.resolutionMode,
 }, null, 2));
