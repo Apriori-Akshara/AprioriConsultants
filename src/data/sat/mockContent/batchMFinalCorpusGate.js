@@ -3,6 +3,9 @@
  *
  * This gate does not generate, mutate, or publish questions. It validates the
  * already-accepted production records as one corpus before public-corpus release.
+ *
+ * Failures are returned as structured results so downstream gates can report
+ * their own status without being aborted by an eager 30-mock check.
  */
 import { validateSatQuestion } from '../questionSchema';
 import { validateFigureOriginalitySeries, getFigureDataFingerprint } from './figureOriginalityQC';
@@ -107,7 +110,7 @@ function assertGlobalUniqueness(corpus) {
   return { uniqueQuestionIds: questionIds.size, uniqueRWContexts: rwContexts.size, uniqueRWPrompts: rwPrompts.size, uniqueMathApplications: mathApplications.size, uniqueFigureData: figureData.size };
 }
 
-export function runBatchMFinalCorpusGate(corpus) {
+function runStrictFinalCorpusGate(corpus) {
   if (!Array.isArray(corpus) || corpus.length !== EXPECTED_MOCK_COUNT) {
     throw new Error(`Batch M final corpus: exactly ${EXPECTED_MOCK_COUNT} production mocks are required`);
   }
@@ -136,6 +139,23 @@ export function runBatchMFinalCorpusGate(corpus) {
     global,
     releaseBoundary: 'legacy-public-corpus-remains-separate-until-explicit-release',
   });
+}
+
+export function runBatchMFinalCorpusGate(corpus) {
+  try {
+    return runStrictFinalCorpusGate(corpus);
+  } catch (error) {
+    return Object.freeze({
+      passed: false,
+      status: 'final-30-mock-corpus-qc-failed',
+      mockCount: Array.isArray(corpus) ? corpus.length : null,
+      totalRecords: Array.isArray(corpus)
+        ? corpus.reduce((sum, mock) => sum + collectRecords(mock).length, 0)
+        : null,
+      error: String(error?.message || error),
+      releaseBoundary: 'legacy-public-corpus-remains-separate-until-explicit-release',
+    });
+  }
 }
 
 export default runBatchMFinalCorpusGate;
