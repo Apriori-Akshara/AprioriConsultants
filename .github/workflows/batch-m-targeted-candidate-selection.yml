@@ -7,6 +7,7 @@ name: Batch M targeted candidate selection
 # Rerun requested after targeted geometry coverage remediation.
 # Rerun requested after targeted geometry figure-path difficulty remediation.
 # Rerun requested after candidate-selector performance remediation.
+# Rerun requested after targeted geometry difficulty/reuse remediation v4.
 
 on:
   push:
@@ -97,6 +98,13 @@ jobs:
           node --check scripts/applyBatchMGeometryFigureCoverageRemediation.mjs
           node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
 
+      - name: Apply targeted geometry difficulty and reuse remediation
+        run: |
+          node scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs
+          git diff --check
+          node --check scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs
+          node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
+
       - name: Apply difficulty coverage remediation
         run: |
           node scripts/applyBatchMDifficultyCoverageRemediation.mjs
@@ -178,6 +186,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: remediate Batch M geometry figure difficulty coverage"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "fix: remediate Batch M geometry difficulty coverage"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
