@@ -1,0 +1,33 @@
+name: Batch M final 30-mock corpus gate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  final-30-mock-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run final 30-mock corpus gate
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMFinal30MockCorpusGate.mjs
+      - name: Commit final gate evidence
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/BATCH-M-FINAL-30-MOCK-CORPUS-GATE-2026-09-16.json
+          git diff --cached --quiet || git commit -m "test: record Batch M final 30-mock gate"
+          git push
