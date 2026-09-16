@@ -1,0 +1,14 @@
+{
+  "targetMockCount": 20,
+  "runtimeQuestions": 3920,
+  "remediationSummary": {
+    "difficultyCalibrations": 550,
+    "rwStimulusRepairs": 206,
+    "figureRepairs": 2,
+    "targetsChanged": 674
+  },
+  "schemaFailures": [],
+  "contentQualityFailures": [],
+  "duplicateQuestionIds": [],
+  "figureOriginalityFailure": "Cross-mock figure duplication detected: psat-mock-01-math-math-module-1-m1-22 duplicates sat-series-a-mock-01-math-math-module-1-m1-22 from sat-series-a-mock-01."
+}
