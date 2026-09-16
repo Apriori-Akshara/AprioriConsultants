@@ -4,18 +4,21 @@ import { applyBatchMControlledReplacements } from '../src/data/sat/mockContent/b
 import { canonicalBatchMTestKey } from '../src/data/sat/mockContent/batchMCanonicalTestKey.js';
 
 const corpus = applyBatchMControlledReplacements(BATCH_M_TARGETED_PRODUCTION_CORPUS);
-const targetQuestionId = 'psat-mock-01-math-math-module-1-m1-17';
-const satCounterpartId = 'sat-mock-01-math-math-module-1-m1-17';
+const targetSuffix = '-math-math-module-1-m1-17';
 const matches = [];
 for (const mock of corpus) {
+  const testKey = canonicalBatchMTestKey(mock);
+  if (!['SAT1', 'PSAT1'].includes(testKey)) continue;
   for (const question of [...(mock.readingWriting || []), ...(mock.math || [])]) {
-    if (question.questionId === targetQuestionId || question.questionId === satCounterpartId) {
+    if (question.questionId.endsWith(targetSuffix)) {
       matches.push({
-        testKey: canonicalBatchMTestKey(mock),
+        testKey,
         questionId: question.questionId,
         prompt: question.prompt,
         choices: question.choices,
         answer: question.answer,
+        rationale: question.rationale,
+        explanation: question.explanation,
         skill: question.skill,
         subskill: question.subskill,
         figure: question.figure,
