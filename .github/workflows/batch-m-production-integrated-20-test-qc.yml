@@ -34,6 +34,16 @@ jobs:
           git add docs/BATCH-M-PSAT1-M117-FIGURE-DIAGNOSTIC-2026-09-16.json
           git diff --cached --quiet || git commit -m "test: record PSAT1 m1-17 figure diagnostic"
           git push
+      - name: Diagnose integrated 20-test QC failure
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/diagnoseBatchMProductionIntegrated20TestQCFailure.mjs
+      - name: Commit integrated QC diagnostic
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-DIAGNOSTIC-2026-09-16.json
+          git diff --cached --quiet || git commit -m "test: record Batch M integrated QC diagnostic"
+          git push
       - name: Run production-integrated 20-test QC
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMProductionIntegrated20TestQC.mjs
       - name: Run final 30-mock corpus gate
