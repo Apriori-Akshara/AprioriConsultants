@@ -1,10 +1,11 @@
 {
   "reportType": "batch-m-selected-candidate-individual-quality-gate",
-  "reportVersion": "2026-09-15.selected-candidate-quality.v2",
+  "reportVersion": "2026-09-15.selected-candidate-quality.v5",
   "sourceSelectionReport": "docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json",
   "affectedUniqueQuestionCount": 2144,
   "selectedCount": 1594,
   "validatedCount": 2144,
+  "validatedSelectedCount": 1594,
   "calibrationOnlyCount": 550,
   "failedCount": 0,
   "seriousFailureCount": 0,
@@ -855,24 +856,6 @@
     },
     {
       "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-003",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-006",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
       "questionId": "psat-mock-01-rw-007",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:33:ac441ceab988e222",
@@ -882,33 +865,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-009",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-013",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-016",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT1",
@@ -924,33 +880,6 @@
     },
     {
       "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-019",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-023",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-026",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
       "questionId": "psat-mock-01-rw-027",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:53:417a81c4dd99b6ad",
@@ -960,33 +889,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-029",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-033",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-036",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT1",
@@ -1002,33 +904,6 @@
     },
     {
       "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-039",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-043",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-046",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
       "questionId": "psat-mock-01-rw-047",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:133:7685b537d2d8974e",
@@ -1038,33 +913,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-049",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-053",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-056",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT1",
@@ -1080,33 +928,6 @@
     },
     {
       "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-059",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-063",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-066",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
       "questionId": "psat-mock-01-rw-067",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:153:340a8e72fd5b9ede",
@@ -1116,33 +937,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-069",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-073",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-076",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT1",
@@ -1158,33 +952,6 @@
     },
     {
       "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-079",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-083",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-086",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
       "questionId": "psat-mock-01-rw-087",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:233:f54014d7ef505490",
@@ -1197,33 +964,6 @@
     },
     {
       "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-089",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-093",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-096",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
       "questionId": "psat-mock-01-rw-097",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:243:f4eec3aedc8dd8fc",
@@ -1233,33 +973,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-099",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-103",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT1",
-      "questionId": "psat-mock-01-rw-106",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT1",
@@ -2079,24 +1792,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-004",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-007",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-010",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:73:aba6c41a79697ec2",
@@ -2121,15 +1816,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-017",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-020",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:83:5e1f620b6148eba1",
@@ -2139,15 +1825,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-024",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT10",
@@ -2163,15 +1840,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-027",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-030",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:93:423b5f076e42ebb7",
@@ -2181,24 +1849,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-034",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-037",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT10",
@@ -2214,24 +1864,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-044",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-047",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-050",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:183:e9c3d123b8cb28a1",
@@ -2244,24 +1876,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-054",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-057",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-060",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:193:2944f61a92bf72d3",
@@ -2271,24 +1885,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-064",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-067",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT10",
@@ -2316,15 +1912,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-077",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-080",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:283:8db483ae8df40a01",
@@ -2334,15 +1921,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-084",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT10",
@@ -2358,15 +1936,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-087",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-090",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:293:bc69e0dfe6f03c18",
@@ -2379,24 +1948,6 @@
     },
     {
       "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-094",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-097",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
       "questionId": "psat-mock-10-rw-100",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:373:309b103c799f46a8",
@@ -2406,24 +1957,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-104",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT10",
-      "questionId": "psat-mock-10-rw-107",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT2",
@@ -3267,15 +2800,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-002",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-004",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:3:c7ae39ddc5465213",
@@ -3285,33 +2809,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-005",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-008",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-012",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT2",
@@ -3327,33 +2824,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-015",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-018",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-022",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-024",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:23:7173331d773b2c7f",
@@ -3363,33 +2833,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-025",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-028",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-032",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT2",
@@ -3405,15 +2848,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-035",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-038",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:171:eb10dd634d0d7d04",
@@ -3423,15 +2857,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-042",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT2",
@@ -3447,24 +2872,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-045",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-048",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-050",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:5:4f1863f8fc643b51",
@@ -3474,15 +2881,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-052",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT2",
@@ -3498,33 +2896,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-055",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-058",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-062",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-064",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:203:9800f508f92fedb3",
@@ -3534,33 +2905,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-065",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-068",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-072",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT2",
@@ -3576,33 +2920,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-075",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-078",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-082",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-084",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:223:c6d4f527fcc214d9",
@@ -3612,33 +2929,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-085",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-088",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-092",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT2",
@@ -3654,15 +2944,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-095",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-098",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:241:a0b50cd8d7a261d8",
@@ -3675,15 +2956,6 @@
     },
     {
       "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-102",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
       "questionId": "psat-mock-02-rw-104",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:313:02059c876209d0c6",
@@ -3693,24 +2965,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-105",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT2",
-      "questionId": "psat-mock-02-rw-108",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT3",
@@ -4554,24 +3808,6 @@
     },
     {
       "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-004",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-007",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
       "questionId": "psat-mock-03-rw-011",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:393:69acc7af124703e5",
@@ -4581,24 +3817,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-014",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-017",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT3",
@@ -4614,24 +3832,6 @@
     },
     {
       "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-024",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-027",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
       "questionId": "psat-mock-03-rw-031",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:483:8c5372f0281e4e39",
@@ -4641,24 +3841,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-034",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-037",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT3",
@@ -4674,24 +3856,6 @@
     },
     {
       "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-044",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-047",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
       "questionId": "psat-mock-03-rw-051",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:573:e6e538b26524e3f5",
@@ -4701,24 +3865,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-054",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-057",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT3",
@@ -4734,24 +3880,6 @@
     },
     {
       "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-064",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-067",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
       "questionId": "psat-mock-03-rw-071",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:593:b1936ef069c3ec74",
@@ -4761,24 +3889,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-074",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-077",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT3",
@@ -4794,24 +3904,6 @@
     },
     {
       "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-084",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-087",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
       "questionId": "psat-mock-03-rw-091",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:683:0867948f7b81b8a4",
@@ -4824,24 +3916,6 @@
     },
     {
       "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-094",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-097",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
       "questionId": "psat-mock-03-rw-101",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:693:58dba31e066541b4",
@@ -4851,24 +3925,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-104",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT3",
-      "questionId": "psat-mock-03-rw-107",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT4",
@@ -5688,24 +4744,6 @@
     },
     {
       "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-003",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-006",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
       "questionId": "psat-mock-04-rw-008",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:263:43d6af32f8bc7df9",
@@ -5715,33 +4753,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-010",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-013",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-016",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT4",
@@ -5757,33 +4768,6 @@
     },
     {
       "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-020",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-023",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-026",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
       "questionId": "psat-mock-04-rw-028",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:343:7e75ef9253036a05",
@@ -5793,33 +4777,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-030",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-033",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-036",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT4",
@@ -5835,33 +4792,6 @@
     },
     {
       "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-040",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-043",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-046",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
       "questionId": "psat-mock-04-rw-048",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:363:c0372cd639a3aef3",
@@ -5871,33 +4801,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-050",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-053",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-056",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT4",
@@ -5913,33 +4816,6 @@
     },
     {
       "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-060",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-063",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-066",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
       "questionId": "psat-mock-04-rw-068",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:443:81bbaa9c17c338a6",
@@ -5949,33 +4825,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-070",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-073",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-076",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT4",
@@ -5991,33 +4840,6 @@
     },
     {
       "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-080",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-083",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-086",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
       "questionId": "psat-mock-04-rw-088",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:463:9bf6a66a6c734adf",
@@ -6030,33 +4852,6 @@
     },
     {
       "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-090",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-093",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-096",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
       "questionId": "psat-mock-04-rw-098",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:533:1e68d5ca8ac8b8e9",
@@ -6066,33 +4861,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-100",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-103",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT4",
-      "questionId": "psat-mock-04-rw-106",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT4",
@@ -6924,15 +5692,6 @@
     },
     {
       "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-002",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
       "questionId": "psat-mock-05-rw-005",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:773:86b90766dbcb5265",
@@ -6942,24 +5701,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-009",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-012",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT5",
@@ -6975,24 +5716,6 @@
     },
     {
       "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-019",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-022",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
       "questionId": "psat-mock-05-rw-025",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:793:37a413dad44e1526",
@@ -7002,24 +5725,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-029",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-032",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT5",
@@ -7035,24 +5740,6 @@
     },
     {
       "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-039",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-042",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
       "questionId": "psat-mock-05-rw-045",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:883:3dc5174ecacd8bda",
@@ -7062,24 +5749,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-049",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-052",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT5",
@@ -7095,24 +5764,6 @@
     },
     {
       "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-059",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-062",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
       "questionId": "psat-mock-05-rw-065",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:973:273245a20bbba573",
@@ -7122,24 +5773,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-069",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-072",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT5",
@@ -7155,24 +5788,6 @@
     },
     {
       "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-079",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-082",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
       "questionId": "psat-mock-05-rw-085",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:993:df7d09a1031fdca1",
@@ -7185,24 +5800,6 @@
     },
     {
       "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-089",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-092",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
       "questionId": "psat-mock-05-rw-095",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:1073:15d06f691c3f2741",
@@ -7212,24 +5809,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-099",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT5",
-      "questionId": "psat-mock-05-rw-102",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT5",
@@ -8061,15 +6640,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-001",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-002",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:553:a56a6d1129396fb8",
@@ -8079,33 +6649,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-004",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-008",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-011",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT6",
@@ -8121,33 +6664,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-014",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-018",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-021",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-022",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:633:86fe21387dcc7cf1",
@@ -8157,15 +6673,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-024",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT6",
@@ -8181,24 +6688,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-028",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-031",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-032",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:643:05ef253b9266bbec",
@@ -8208,15 +6697,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-034",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT6",
@@ -8232,15 +6712,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-041",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-042",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:653:07743fd87fc4fc57",
@@ -8250,33 +6721,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-044",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-048",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-051",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT6",
@@ -8292,33 +6736,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-054",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-058",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-061",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-062",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:733:e74d9d257f607845",
@@ -8328,33 +6745,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-064",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-068",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-071",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT6",
@@ -8370,33 +6760,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-074",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-078",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-081",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-082",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:753:f44b15506386a1bb",
@@ -8406,15 +6769,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-084",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT6",
@@ -8430,24 +6784,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-088",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-091",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-092",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:763:ab7cf9d36bd6f71d",
@@ -8457,15 +6793,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-094",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT6",
@@ -8481,15 +6808,6 @@
     },
     {
       "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-101",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
       "questionId": "psat-mock-06-rw-102",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:833:afce2aefe3605773",
@@ -8499,24 +6817,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-104",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT6",
-      "questionId": "psat-mock-06-rw-108",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT7",
@@ -9336,24 +7636,6 @@
     },
     {
       "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-003",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-007",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
       "questionId": "psat-mock-07-rw-009",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:323:934ad1bfbd768104",
@@ -9363,33 +7645,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-010",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-013",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-017",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT7",
@@ -9405,33 +7660,6 @@
     },
     {
       "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-020",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-023",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-027",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
       "questionId": "psat-mock-07-rw-029",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:413:4d200aa5f7e5dfe8",
@@ -9441,33 +7669,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-030",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-033",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-037",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT7",
@@ -9483,33 +7684,6 @@
     },
     {
       "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-040",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-043",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-047",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
       "questionId": "psat-mock-07-rw-049",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:503:95a075f3d51908d7",
@@ -9519,33 +7693,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-050",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-053",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-057",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT7",
@@ -9561,33 +7708,6 @@
     },
     {
       "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-060",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-063",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-067",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
       "questionId": "psat-mock-07-rw-069",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:523:ed3dff9cefe50067",
@@ -9597,33 +7717,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-070",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-073",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-077",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT7",
@@ -9639,33 +7732,6 @@
     },
     {
       "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-080",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-083",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-087",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
       "questionId": "psat-mock-07-rw-089",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:613:c43dd5ea9a662f13",
@@ -9678,33 +7744,6 @@
     },
     {
       "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-090",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-093",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-097",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
       "questionId": "psat-mock-07-rw-099",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:623:8ad74dd7f0bad8b4",
@@ -9714,33 +7753,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-100",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-103",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT7",
-      "questionId": "psat-mock-07-rw-107",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT8",
@@ -10536,15 +8548,6 @@
     },
     {
       "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-002",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
       "questionId": "psat-mock-08-rw-006",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:1093:bbb36f923a7ab512",
@@ -10554,24 +8557,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-009",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-012",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT8",
@@ -10587,24 +8572,6 @@
     },
     {
       "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-019",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-022",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
       "questionId": "psat-mock-08-rw-026",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:1183:114fce98963b59c8",
@@ -10614,24 +8581,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-029",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-032",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT8",
@@ -10647,24 +8596,6 @@
     },
     {
       "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-039",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-042",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
       "questionId": "psat-mock-08-rw-046",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:1273:87fa3dab9463aca1",
@@ -10674,24 +8605,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-049",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-052",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT8",
@@ -10707,24 +8620,6 @@
     },
     {
       "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-059",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-062",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
       "questionId": "psat-mock-08-rw-066",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:1293:cc499473cee5a64f",
@@ -10734,24 +8629,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-069",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-072",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT8",
@@ -10767,24 +8644,6 @@
     },
     {
       "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-079",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-082",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
       "questionId": "psat-mock-08-rw-086",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:1383:c70180c4623baadc",
@@ -10797,24 +8656,6 @@
     },
     {
       "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-089",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-092",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
       "questionId": "psat-mock-08-rw-096",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "psat:1393:7ab0dbe1cd3c1a69",
@@ -10824,24 +8665,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-099",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT8",
-      "questionId": "psat-mock-08-rw-102",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT8",
@@ -11649,15 +9472,6 @@
     },
     {
       "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-001",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
       "questionId": "psat-mock-09-rw-003",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:843:782349df3f4d9628",
@@ -11667,33 +9481,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-005",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-008",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-011",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT9",
@@ -11709,33 +9496,6 @@
     },
     {
       "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-015",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-018",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-021",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
       "questionId": "psat-mock-09-rw-023",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:863:bc935f9f0a1783dd",
@@ -11745,33 +9505,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-025",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-028",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-031",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT9",
@@ -11787,33 +9520,6 @@
     },
     {
       "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-035",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-038",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-041",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
       "questionId": "psat-mock-09-rw-043",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:943:930a04ed647642cf",
@@ -11823,33 +9529,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-045",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-048",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-051",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT9",
@@ -11865,33 +9544,6 @@
     },
     {
       "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-055",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-058",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-061",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
       "questionId": "psat-mock-09-rw-063",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:963:a2286ea4b02511c5",
@@ -11901,33 +9553,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-065",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-068",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-071",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT9",
@@ -11943,33 +9568,6 @@
     },
     {
       "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-075",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-078",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-081",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
       "questionId": "psat-mock-09-rw-083",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:1043:058d7e3f13f573e7",
@@ -11979,33 +9577,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-085",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-088",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-091",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "PSAT9",
@@ -12021,33 +9592,6 @@
     },
     {
       "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-095",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-098",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-101",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
       "questionId": "psat-mock-09-rw-103",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "psat:1063:2c2cd03c74a2634f",
@@ -12057,24 +9601,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-105",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "PSAT9",
-      "questionId": "psat-mock-09-rw-108",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT1",
@@ -12906,24 +10432,6 @@
     },
     {
       "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-003",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-006",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
       "questionId": "sat-series-a-mock-01-rw-007",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:33:ac441ceab988e222",
@@ -12933,33 +10441,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-009",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-013",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-016",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT1",
@@ -12975,33 +10456,6 @@
     },
     {
       "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-019",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-023",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-026",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
       "questionId": "sat-series-a-mock-01-rw-027",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:53:417a81c4dd99b6ad",
@@ -13011,33 +10465,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-029",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-033",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-036",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT1",
@@ -13053,33 +10480,6 @@
     },
     {
       "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-039",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-043",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-046",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
       "questionId": "sat-series-a-mock-01-rw-047",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:133:7685b537d2d8974e",
@@ -13089,33 +10489,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-049",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-053",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-056",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT1",
@@ -13131,33 +10504,6 @@
     },
     {
       "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-059",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-063",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-066",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
       "questionId": "sat-series-a-mock-01-rw-067",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:153:340a8e72fd5b9ede",
@@ -13167,33 +10513,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-069",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-073",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-076",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT1",
@@ -13209,33 +10528,6 @@
     },
     {
       "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-079",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-083",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-086",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
       "questionId": "sat-series-a-mock-01-rw-087",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:233:f54014d7ef505490",
@@ -13248,33 +10540,6 @@
     },
     {
       "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-089",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-093",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-096",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
       "questionId": "sat-series-a-mock-01-rw-097",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:243:f4eec3aedc8dd8fc",
@@ -13284,33 +10549,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-099",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-103",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT1",
-      "questionId": "sat-series-a-mock-01-rw-106",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT1",
@@ -14118,24 +11356,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-004",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-007",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-010",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:73:aba6c41a79697ec2",
@@ -14160,15 +11380,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-017",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-020",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:83:5e1f620b6148eba1",
@@ -14178,15 +11389,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-024",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT10",
@@ -14202,15 +11404,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-027",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-030",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:93:423b5f076e42ebb7",
@@ -14220,24 +11413,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-034",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-037",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT10",
@@ -14253,24 +11428,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-044",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-047",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-050",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:183:e9c3d123b8cb28a1",
@@ -14283,24 +11440,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-054",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-057",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-060",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:193:2944f61a92bf72d3",
@@ -14310,24 +11449,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-064",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-067",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT10",
@@ -14355,15 +11476,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-077",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-080",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:283:8db483ae8df40a01",
@@ -14373,15 +11485,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-084",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT10",
@@ -14397,15 +11500,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-087",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-090",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:293:bc69e0dfe6f03c18",
@@ -14418,24 +11512,6 @@
     },
     {
       "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-094",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-097",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
       "questionId": "sat-series-a-mock-10-rw-100",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:373:309b103c799f46a8",
@@ -14445,24 +11521,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-104",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT10",
-      "questionId": "sat-series-a-mock-10-rw-107",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT2",
@@ -15294,15 +12352,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-002",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-004",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:3:c7ae39ddc5465213",
@@ -15312,33 +12361,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-005",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-008",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-012",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT2",
@@ -15354,33 +12376,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-015",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-018",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-022",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-024",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:23:7173331d773b2c7f",
@@ -15390,33 +12385,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-025",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-028",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-032",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT2",
@@ -15432,15 +12400,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-035",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-038",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:171:eb10dd634d0d7d04",
@@ -15450,15 +12409,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-042",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT2",
@@ -15474,24 +12424,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-045",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-048",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-050",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:5:4f1863f8fc643b51",
@@ -15501,15 +12433,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-052",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT2",
@@ -15525,33 +12448,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-055",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-058",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-062",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-064",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:203:9800f508f92fedb3",
@@ -15561,33 +12457,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-065",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-068",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-072",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT2",
@@ -15603,33 +12472,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-075",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-078",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-082",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-084",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:223:c6d4f527fcc214d9",
@@ -15639,33 +12481,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-085",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-088",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-092",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT2",
@@ -15681,15 +12496,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-095",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-098",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:241:a0b50cd8d7a261d8",
@@ -15702,15 +12508,6 @@
     },
     {
       "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-102",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
       "questionId": "sat-series-a-mock-02-rw-104",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:313:02059c876209d0c6",
@@ -15720,24 +12517,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-105",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT2",
-      "questionId": "sat-series-a-mock-02-rw-108",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT3",
@@ -16581,24 +13360,6 @@
     },
     {
       "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-004",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-007",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
       "questionId": "sat-series-a-mock-03-rw-011",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:393:69acc7af124703e5",
@@ -16608,24 +13369,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-014",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-017",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT3",
@@ -16641,24 +13384,6 @@
     },
     {
       "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-024",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-027",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
       "questionId": "sat-series-a-mock-03-rw-031",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:483:8c5372f0281e4e39",
@@ -16668,24 +13393,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-034",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-037",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT3",
@@ -16701,24 +13408,6 @@
     },
     {
       "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-044",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-047",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
       "questionId": "sat-series-a-mock-03-rw-051",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:573:e6e538b26524e3f5",
@@ -16728,24 +13417,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-054",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-057",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT3",
@@ -16761,24 +13432,6 @@
     },
     {
       "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-064",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-067",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
       "questionId": "sat-series-a-mock-03-rw-071",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:593:b1936ef069c3ec74",
@@ -16788,24 +13441,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-074",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-077",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT3",
@@ -16821,24 +13456,6 @@
     },
     {
       "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-084",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-087",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
       "questionId": "sat-series-a-mock-03-rw-091",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:683:0867948f7b81b8a4",
@@ -16851,24 +13468,6 @@
     },
     {
       "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-094",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-097",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
       "questionId": "sat-series-a-mock-03-rw-101",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:693:58dba31e066541b4",
@@ -16878,24 +13477,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-104",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT3",
-      "questionId": "sat-series-a-mock-03-rw-107",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT4",
@@ -17715,24 +14296,6 @@
     },
     {
       "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-003",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-006",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
       "questionId": "sat-series-a-mock-04-rw-008",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:263:43d6af32f8bc7df9",
@@ -17742,33 +14305,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-010",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-013",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-016",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT4",
@@ -17784,33 +14320,6 @@
     },
     {
       "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-020",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-023",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-026",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
       "questionId": "sat-series-a-mock-04-rw-028",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:343:7e75ef9253036a05",
@@ -17820,33 +14329,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-030",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-033",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-036",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT4",
@@ -17862,33 +14344,6 @@
     },
     {
       "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-040",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-043",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-046",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
       "questionId": "sat-series-a-mock-04-rw-048",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:363:c0372cd639a3aef3",
@@ -17898,33 +14353,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-050",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-053",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-056",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT4",
@@ -17940,33 +14368,6 @@
     },
     {
       "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-060",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-063",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-066",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
       "questionId": "sat-series-a-mock-04-rw-068",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:443:81bbaa9c17c338a6",
@@ -17976,33 +14377,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-070",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-073",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-076",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT4",
@@ -18018,33 +14392,6 @@
     },
     {
       "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-080",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-083",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-086",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
       "questionId": "sat-series-a-mock-04-rw-088",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:463:9bf6a66a6c734adf",
@@ -18057,33 +14404,6 @@
     },
     {
       "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-090",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-093",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-096",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
       "questionId": "sat-series-a-mock-04-rw-098",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:533:1e68d5ca8ac8b8e9",
@@ -18093,33 +14413,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-100",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-103",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT4",
-      "questionId": "sat-series-a-mock-04-rw-106",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT4",
@@ -18951,15 +15244,6 @@
     },
     {
       "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-002",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
       "questionId": "sat-series-a-mock-05-rw-005",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:773:86b90766dbcb5265",
@@ -18969,24 +15253,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-009",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-012",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT5",
@@ -19002,24 +15268,6 @@
     },
     {
       "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-019",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-022",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
       "questionId": "sat-series-a-mock-05-rw-025",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:793:37a413dad44e1526",
@@ -19029,24 +15277,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-029",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-032",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT5",
@@ -19062,24 +15292,6 @@
     },
     {
       "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-039",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-042",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
       "questionId": "sat-series-a-mock-05-rw-045",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:883:3dc5174ecacd8bda",
@@ -19089,24 +15301,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-049",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-052",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT5",
@@ -19122,24 +15316,6 @@
     },
     {
       "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-059",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-062",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
       "questionId": "sat-series-a-mock-05-rw-065",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:973:273245a20bbba573",
@@ -19149,24 +15325,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-069",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-072",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT5",
@@ -19182,24 +15340,6 @@
     },
     {
       "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-079",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-082",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
       "questionId": "sat-series-a-mock-05-rw-085",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:993:df7d09a1031fdca1",
@@ -19212,24 +15352,6 @@
     },
     {
       "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-089",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-092",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
       "questionId": "sat-series-a-mock-05-rw-095",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:1073:15d06f691c3f2741",
@@ -19239,24 +15361,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-099",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT5",
-      "questionId": "sat-series-a-mock-05-rw-102",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT5",
@@ -20088,15 +16192,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-001",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-002",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:553:a56a6d1129396fb8",
@@ -20106,33 +16201,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-004",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-008",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-011",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT6",
@@ -20148,33 +16216,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-014",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-018",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-021",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-022",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:633:86fe21387dcc7cf1",
@@ -20184,15 +16225,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-024",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT6",
@@ -20208,24 +16240,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-028",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-031",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-032",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:643:05ef253b9266bbec",
@@ -20235,15 +16249,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-034",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT6",
@@ -20259,15 +16264,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-041",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-042",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:653:07743fd87fc4fc57",
@@ -20277,33 +16273,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-044",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-048",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-051",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT6",
@@ -20319,33 +16288,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-054",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-058",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-061",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-062",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:733:e74d9d257f607845",
@@ -20355,33 +16297,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-064",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-068",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-071",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT6",
@@ -20397,33 +16312,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-074",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-078",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-081",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-082",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:753:f44b15506386a1bb",
@@ -20433,15 +16321,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-084",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT6",
@@ -20457,24 +16336,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-088",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-091",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-092",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:763:ab7cf9d36bd6f71d",
@@ -20484,15 +16345,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-094",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT6",
@@ -20508,15 +16360,6 @@
     },
     {
       "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-101",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
       "questionId": "sat-series-a-mock-06-rw-102",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:833:afce2aefe3605773",
@@ -20526,24 +16369,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-104",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT6",
-      "questionId": "sat-series-a-mock-06-rw-108",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT7",
@@ -21363,24 +17188,6 @@
     },
     {
       "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-003",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-007",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
       "questionId": "sat-series-a-mock-07-rw-009",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:323:934ad1bfbd768104",
@@ -21390,33 +17197,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-010",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-013",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-017",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT7",
@@ -21432,33 +17212,6 @@
     },
     {
       "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-020",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-023",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-027",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
       "questionId": "sat-series-a-mock-07-rw-029",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:413:4d200aa5f7e5dfe8",
@@ -21468,33 +17221,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-030",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-033",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-037",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT7",
@@ -21510,33 +17236,6 @@
     },
     {
       "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-040",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-043",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-047",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
       "questionId": "sat-series-a-mock-07-rw-049",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:503:95a075f3d51908d7",
@@ -21546,33 +17245,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-050",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-053",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-057",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT7",
@@ -21588,33 +17260,6 @@
     },
     {
       "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-060",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-063",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-067",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
       "questionId": "sat-series-a-mock-07-rw-069",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:523:ed3dff9cefe50067",
@@ -21624,33 +17269,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-070",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-073",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-077",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT7",
@@ -21666,33 +17284,6 @@
     },
     {
       "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-080",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-083",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-087",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
       "questionId": "sat-series-a-mock-07-rw-089",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:613:c43dd5ea9a662f13",
@@ -21705,33 +17296,6 @@
     },
     {
       "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-090",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-093",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-097",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
       "questionId": "sat-series-a-mock-07-rw-099",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:623:8ad74dd7f0bad8b4",
@@ -21741,33 +17305,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-100",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-103",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT7",
-      "questionId": "sat-series-a-mock-07-rw-107",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT8",
@@ -22563,15 +18100,6 @@
     },
     {
       "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-002",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
       "questionId": "sat-series-a-mock-08-rw-006",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:1093:bbb36f923a7ab512",
@@ -22581,24 +18109,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-009",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-012",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT8",
@@ -22614,24 +18124,6 @@
     },
     {
       "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-019",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-022",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
       "questionId": "sat-series-a-mock-08-rw-026",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:1183:114fce98963b59c8",
@@ -22641,24 +18133,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-029",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-032",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT8",
@@ -22674,24 +18148,6 @@
     },
     {
       "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-039",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-042",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
       "questionId": "sat-series-a-mock-08-rw-046",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:1273:87fa3dab9463aca1",
@@ -22701,24 +18157,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-049",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-052",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT8",
@@ -22734,24 +18172,6 @@
     },
     {
       "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-059",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-062",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
       "questionId": "sat-series-a-mock-08-rw-066",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:1293:cc499473cee5a64f",
@@ -22761,24 +18181,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-069",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-072",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT8",
@@ -22794,24 +18196,6 @@
     },
     {
       "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-079",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-082",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
       "questionId": "sat-series-a-mock-08-rw-086",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:1383:c70180c4623baadc",
@@ -22824,24 +18208,6 @@
     },
     {
       "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-089",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-092",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
       "questionId": "sat-series-a-mock-08-rw-096",
       "remediationType": "CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION",
       "candidateKey": "sat:1393:7ab0dbe1cd3c1a69",
@@ -22851,24 +18217,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-099",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT8",
-      "questionId": "sat-series-a-mock-08-rw-102",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT8",
@@ -23676,15 +19024,6 @@
     },
     {
       "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-001",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
       "questionId": "sat-series-a-mock-09-rw-003",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:843:782349df3f4d9628",
@@ -23694,33 +19033,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-005",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-008",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-011",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT9",
@@ -23736,33 +19048,6 @@
     },
     {
       "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-015",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-018",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-021",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
       "questionId": "sat-series-a-mock-09-rw-023",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:863:bc935f9f0a1783dd",
@@ -23772,33 +19057,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-025",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-028",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-031",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT9",
@@ -23814,33 +19072,6 @@
     },
     {
       "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-035",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-038",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-041",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
       "questionId": "sat-series-a-mock-09-rw-043",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:943:930a04ed647642cf",
@@ -23850,33 +19081,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-045",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-048",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-051",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT9",
@@ -23892,33 +19096,6 @@
     },
     {
       "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-055",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-058",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-061",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
       "questionId": "sat-series-a-mock-09-rw-063",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:963:a2286ea4b02511c5",
@@ -23928,33 +19105,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-065",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-068",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-071",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT9",
@@ -23970,33 +19120,6 @@
     },
     {
       "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-075",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-078",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-081",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
       "questionId": "sat-series-a-mock-09-rw-083",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:1043:058d7e3f13f573e7",
@@ -24006,33 +19129,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-085",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-088",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-091",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     },
     {
       "testKey": "SAT9",
@@ -24048,33 +19144,6 @@
     },
     {
       "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-095",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-098",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-101",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
       "questionId": "sat-series-a-mock-09-rw-103",
       "remediationType": "CONTENT_REPLACEMENT",
       "candidateKey": "sat:1063:2c2cd03c74a2634f",
@@ -24084,24 +19153,6 @@
       "severity": "pass",
       "checks": [],
       "qualityScore": 100
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-105",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
-    },
-    {
-      "testKey": "SAT9",
-      "questionId": "sat-series-a-mock-09-rw-108",
-      "remediationType": "DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT",
-      "candidateKey": null,
-      "verdict": "pass",
-      "severity": "review",
-      "checks": []
     }
   ]
 }
