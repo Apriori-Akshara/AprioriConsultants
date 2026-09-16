@@ -1,1 +1,1 @@
-Run production-integrated Batch M 20-test QC and, only after a PASS, the final 30-mock gate; release remains frozen; no SAT21. Persist exact pre-remediation PSAT1/SAT1 m1-17 figure objects for diagnosis.
+Run the Batch M diagnostic precheck and persist the exact PSAT1/SAT1 m1-17 figure objects before the scoped QC; release remains frozen; no SAT21.
