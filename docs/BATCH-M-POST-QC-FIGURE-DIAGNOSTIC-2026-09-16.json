@@ -1,0 +1,61 @@
+{
+  "reportType": "batch-m-post-qc-figure-diagnostic",
+  "scope": "SAT1/PSAT1 duplicate pair only",
+  "productionMutation": false,
+  "releaseEligible": false,
+  "sat21Created": false,
+  "targets": {
+    "SAT1": {
+      "questionId": "sat-series-a-mock-01-math-math-module-1-m1-14",
+      "domain": "Advanced Math",
+      "skill": "Quadratic functions and representations",
+      "questionType": "multiple-choice",
+      "prompt": "The graph of f(x) = (x − 5)² + 8 is shown. What is the y-coordinate of the vertex of the graph?",
+      "answer": "A",
+      "choices": [
+        "8",
+        "6",
+        "10",
+        "14"
+      ],
+      "figure": {
+        "type": "parabola",
+        "a": 1,
+        "b": -10,
+        "c": 33,
+        "values": {
+          "a": 1,
+          "b": -10,
+          "c": 33
+        }
+      },
+      "fingerprint": "advanced math|parabola|{a:1|b:-10|c:33|type:parabola|values:{a:1|b:-10|c:33}}"
+    },
+    "PSAT1": {
+      "questionId": "psat-mock-01-math-math-module-1-m1-14",
+      "domain": "Advanced Math",
+      "skill": "Quadratic functions and representations",
+      "questionType": "multiple-choice",
+      "prompt": "The graph of f(x) = (x − 5)² + 8 is shown. What is the y-coordinate of the vertex of the graph?",
+      "answer": "A",
+      "choices": [
+        "8",
+        "6",
+        "10",
+        "14"
+      ],
+      "figure": {
+        "type": "parabola",
+        "a": 1,
+        "b": -10,
+        "c": 33,
+        "values": {
+          "a": 1,
+          "b": -10,
+          "c": 33
+        }
+      },
+      "fingerprint": "advanced math|parabola|{a:1|b:-10|c:33|type:parabola|values:{a:1|b:-10|c:33}}"
+    }
+  }
+}
