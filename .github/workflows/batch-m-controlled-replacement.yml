@@ -11,10 +11,6 @@ on:
 permissions:
   contents: write
 
-env:
-  BATCH_M_SELECTION_GENERATION_COMMIT: '9a4cc0e0c74e592336c81695b2d7f43683702880'
-  BATCH_M_CANDIDATE_RESOLUTION_ATTEMPTS: '32'
-
 jobs:
   controlled-replacement:
     runs-on: ubuntu-latest
@@ -33,22 +29,11 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Materialize selection-time candidate source
-        run: |
-          rm -rf .batch-m-selection-source
-          git fetch --no-tags origin "${BATCH_M_SELECTION_GENERATION_COMMIT}"
-          git worktree add --detach .batch-m-selection-source "${BATCH_M_SELECTION_GENERATION_COMMIT}"
-          ln -s "$GITHUB_WORKSPACE/node_modules" .batch-m-selection-source/node_modules
-          test -f .batch-m-selection-source/src/data/sat/mockContent/batchMRemediationCandidateFactory.js
-          test -f .batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs
-
-      - name: Recover authorized candidates from recorded eligible options
-        env:
-          BATCH_M_SELECTION_SOURCE_DIR: ${{ github.workspace }}/.batch-m-selection-source
-        run: node --import ./.batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs scripts/buildBatchMSelectionBoundCandidateSnapshotV2.mjs
+      - name: Generate authoritative Batch M selection with exact payload capture
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMAuthoritativeReplacementSelection.mjs
 
       - name: Generate and apply controlled replacement
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/applyBatchMControlledReplacementV5.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/applyBatchMControlledReplacementFromAuthoritativeSelection.mjs
 
       - name: Verify generated replacement state
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMControlledReplacementQC.mjs
@@ -57,6 +42,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json src/data/sat/mockContent/batchMControlledReplacementMap.js src/data/sat/mockContent/batchMProductionStore.js
+          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-AUTHORITATIVE-CANDIDATE-SELECTION-2026-09-16.json docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json src/data/sat/mockContent/batchMControlledReplacementMap.js src/data/sat/mockContent/batchMProductionStore.js
           git diff --cached --quiet || git commit -m "feat: apply authorized Batch M controlled replacement"
           git push
