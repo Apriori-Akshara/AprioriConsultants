@@ -1,4 +1,4 @@
-// Batch M selected-candidate individual quality gate v3
+// Batch M selected-candidate individual quality gate v4
 /**
  * Batch M — downstream individual quality validation for selected replacement candidates.
  *
@@ -15,7 +15,7 @@ import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMConten
 
 const SELECTION_REPORT = path.resolve(process.cwd(), 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json');
 const OUT = path.resolve(process.cwd(), 'docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json');
-const REPORT_VERSION = '2026-09-15.selected-candidate-quality.v3';
+const REPORT_VERSION = '2026-09-15.selected-candidate-quality.v4';
 const EXPECTED_AFFECTED = 2144;
 const EXPECTED_SELECTED = 1594;
 const EXPECTED_CALIBRATION_ONLY = 550;
@@ -113,21 +113,11 @@ function main() {
       if (record.selectionDisposition !== 'CALIBRATION_FIRST_NO_REPLACEMENT_SELECTED') {
         checks.push('unexpected-calibration-disposition');
       }
-
-      const verdict = checks.length ? 'fail' : 'pass';
-      if (verdict === 'pass') continue;
-      failedCount += 1;
-      seriousFailureCount += 1;
-      checks.forEach((check) => { failureReasonCounts[check] = (failureReasonCounts[check] || 0) + 1; });
-      records.push({
-        testKey: record.testKey,
-        questionId: record.questionId,
-        remediationType: record.remediationType,
-        candidateKey: null,
-        verdict,
-        severity: 'serious',
-        checks,
-      });
+      if (checks.length) {
+        failedCount += 1;
+        seriousFailureCount += 1;
+        checks.forEach((check) => { failureReasonCounts[check] = (failureReasonCounts[check] || 0) + 1; });
+      }
       continue;
     }
 
@@ -187,7 +177,7 @@ function main() {
     });
   }
 
-  const validatedCount = selectedCount - records.filter((record) => record.verdict !== 'pass' && record.candidateKey).length;
+  const validatedCount = selectedCount - failedCount;
   const validatedAffectedCount = EXPECTED_AFFECTED - failedCount;
 
   const gateStatus = selectedCount === EXPECTED_SELECTED
