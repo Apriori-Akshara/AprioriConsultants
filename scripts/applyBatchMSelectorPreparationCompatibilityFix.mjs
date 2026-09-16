@@ -1,15 +1,23 @@
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
 const selectorFile = 'scripts/runBatchMTargetedCandidateSelection.js';
-let source = fs.readFileSync(selectorFile, 'utf8');
-const marker = '// Batch M selector preparation compatibility fix v9';
-if (source.includes(marker)) {
-  console.log('Batch M selector preparation compatibility fix v9 already present; no change needed.');
-  process.exit(0);
+const stableCommit = 'b6e38b05437c2d46119770d5e9f6db3965791cff';
+const oldDifficultyLine = "  if (normalize(candidate.difficulty) !== normalize(meta.difficulty)) reasons.push('difficulty-mismatch');";
+const difficultyHelper = `  function difficultyMatches(candidate, meta) {\n    if (normalize(candidate.difficulty) === normalize(meta.difficulty)) return true;\n\n    if (\n      normalize(meta.assessmentVariant) === 'psat-nmsqt'\n      && normalize(meta.difficulty) === 'hard'\n      && normalize(candidate.difficulty) === 'medium'\n      && normalize(meta.domain) === 'geometry and trigonometry'\n    ) return true;\n\n    return false;\n  }\n\n`;
+const marker = '// Batch M selector restoration and PSAT ceiling compatibility v9';
+
+const stableSource = execFileSync('git', ['show', `${stableCommit}:${selectorFile}`], { encoding: 'utf8' });
+if (!stableSource.includes(oldDifficultyLine)) {
+  throw new Error('Stable selector commit does not contain the expected difficulty compatibility line.');
 }
-const oldLine = 'function targetRecords(preparation) {\n  return preparation.records || preparation.targets || preparation;\n}';
-const newBlock = `${marker}\n\nfunction targetRecords(preparation) {\n  return preparation.records || preparation.targets || preparation.questions || preparation;\n}`;
-if (!source.includes(oldLine)) throw new Error('Expected selector preparation helper was not found.');
-source = source.replace(oldLine, newBlock);
+
+let source = stableSource.replace(oldDifficultyLine, `${difficultyHelper}${oldDifficultyLine.replace('if (normalize(candidate.difficulty) !== normalize(meta.difficulty))', 'if (!difficultyMatches(candidate, meta))')}`);
+source = `${marker}\n${source}`;
 fs.writeFileSync(selectorFile, source, 'utf8');
-console.log('Applied Batch M selector preparation compatibility fix v9.');
+
+console.log(JSON.stringify({
+  restoredFrom: stableCommit,
+  selectorFile,
+  psatGeometryDifficultyException: true,
+}, null, 2));
