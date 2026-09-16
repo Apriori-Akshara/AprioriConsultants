@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS, BATCH_M_FINAL_CORPUS_VERIFICATION, BATCH_M_POST_QC_REMEDIATION_SUMMARY } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import { BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS, BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY } from '../src/data/sat/mockContent/batchM20TestProductionStore.js';
 import { BATCH_M_TARGET_TEST_KEYS, canonicalBatchMTestKey } from '../src/data/sat/mockContent/batchMCanonicalTestKey.js';
 import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
 import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
@@ -10,8 +10,8 @@ import { validateFigureOriginalitySeries } from '../src/data/sat/mockContent/fig
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outPath = path.join(root, 'docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-2026-09-16.json');
 const targetKeys = new Set(BATCH_M_TARGET_TEST_KEYS);
-const targetMocks = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.filter((mock) => targetKeys.has(canonicalBatchMTestKey(mock)));
-const allMocks = BATCH_M_ACCEPTED_PRODUCTION_CORPUS;
+const allMocks = BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS;
+const targetMocks = allMocks.filter((mock) => targetKeys.has(canonicalBatchMTestKey(mock)));
 const recordsOf = (mock) => [...(mock?.readingWriting || []), ...(mock?.math || [])];
 const failures = [];
 let schemaFailures = 0;
@@ -41,26 +41,25 @@ if (runtimeQuestions !== 3920) failures.push({ check: 'runtime-question-count', 
 try { validateFigureOriginalitySeries(targetMocks); } catch (error) { figureOriginalityFailure = String(error?.message || error); failures.push({ check: 'figure-originality', detail: figureOriginalityFailure }); }
 
 const summary = {
-  difficultyCalibrations: BATCH_M_POST_QC_REMEDIATION_SUMMARY.difficultyCalibrations,
-  rwStimulusRepairs: BATCH_M_POST_QC_REMEDIATION_SUMMARY.rwStimulusRepairs,
-  figureRepairs: BATCH_M_POST_QC_REMEDIATION_SUMMARY.figureRepairs,
-  uniqueChangedTargets: BATCH_M_POST_QC_REMEDIATION_SUMMARY.targetsChanged,
+  difficultyCalibrations: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY.difficultyCalibrations,
+  rwStimulusRepairs: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY.rwStimulusRepairs,
+  figureRepairs: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY.figureRepairs,
+  uniqueChangedTargets: BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY.targetsChanged,
 };
 if (summary.difficultyCalibrations !== 550) failures.push({ check: 'difficulty-remediation-count', detail: summary.difficultyCalibrations });
 if (summary.rwStimulusRepairs !== 206) failures.push({ check: 'rw-remediation-count', detail: summary.rwStimulusRepairs });
-if (summary.figureRepairs !== 1) failures.push({ check: 'figure-remediation-count', detail: summary.figureRepairs });
-if (summary.uniqueChangedTargets !== 673) failures.push({ check: 'unique-remediated-target-count', detail: summary.uniqueChangedTargets });
+if (summary.figureRepairs !== 2) failures.push({ check: 'figure-remediation-count', detail: summary.figureRepairs });
+if (summary.uniqueChangedTargets !== 674) failures.push({ check: 'unique-remediated-target-count', detail: summary.uniqueChangedTargets });
 
 const report = {
   reportType: 'batch-m-production-integrated-20-test-qc',
-  reportVersion: '2026-09-16.production-integrated-20-test-qc.v2',
+  reportVersion: '2026-09-16.production-integrated-20-test-qc.v3',
   scope: 'SAT1-SAT10 and PSAT1-PSAT10 only',
   productionMutation: true,
   releaseEligible: false,
   sat21Created: false,
   remediationSummary: summary,
   observed: { affectedMocks: targetMocks.length, runtimeQuestions, schemaFailures, contentQualityFailures: qualityFailures, figureOriginalityFailure, totalProductionMocks: allMocks.length },
-  final30MockCorpusGate: BATCH_M_FINAL_CORPUS_VERIFICATION,
   final30MockCorpusGateDeferred: true,
   failures,
 };
