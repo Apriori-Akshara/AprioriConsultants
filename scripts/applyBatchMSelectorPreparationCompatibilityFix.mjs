@@ -4,8 +4,8 @@ import { execFileSync } from 'node:child_process';
 const selectorFile = 'scripts/runBatchMTargetedCandidateSelection.js';
 const stableCommit = 'b6e38b05437c2d46119770d5e9f6db3965791cff';
 const oldDifficultyLine = "  if (normalize(candidate.difficulty) !== normalize(meta.difficulty)) reasons.push('difficulty-mismatch');";
-const difficultyHelper = `  function difficultyMatches(candidate, meta) {\n    if (normalize(candidate.difficulty) === normalize(meta.difficulty)) return true;\n\n    if (\n      normalize(meta.assessmentVariant) === 'psat-nmsqt'\n      && normalize(meta.difficulty) === 'hard'\n      && normalize(candidate.difficulty) === 'medium'\n      && normalize(meta.domain) === 'geometry and trigonometry'\n    ) return true;\n\n    return false;\n  }\n\n`;
-const marker = '// Batch M selector restoration, product-scoped reuse, and PSAT ceiling compatibility v10';
+const difficultyHelper = `  function difficultyMatches(candidate, meta) {\n    if (normalize(candidate.difficulty) === normalize(meta.difficulty)) return true;\n\n    if (\n      normalize(meta.assessmentVariant) === 'psat-nmsqt'\n      && normalize(meta.difficulty) === 'hard'\n      && normalize(candidate.difficulty) === 'medium'\n      && (\n        normalize(meta.domain) === 'geometry and trigonometry'\n        || normalize(meta.domain) === 'advanced math'\n      )\n    ) return true;\n\n    return false;\n  }\n\n`;
+const marker = '// Batch M selector restoration, product-scoped reuse, and PSAT ceiling compatibility v11';
 
 const stableSource = execFileSync('git', ['show', `${stableCommit}:${selectorFile}`], { encoding: 'utf8' });
 if (!stableSource.includes(oldDifficultyLine)) {
@@ -38,5 +38,6 @@ console.log(JSON.stringify({
   restoredFrom: stableCommit,
   selectorFile,
   psatGeometryDifficultyException: true,
+  psatAdvancedMathDifficultyException: true,
   reuseScope: 'product',
 }, null, 2));
