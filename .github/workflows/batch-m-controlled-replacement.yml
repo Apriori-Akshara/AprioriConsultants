@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - batch-m-controlled-replacement-2026-09-16
-    paths-ignore:
-      - 'docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json'
-      - 'src/data/sat/mockContent/batchMControlledReplacementMap.js'
-      - 'src/data/sat/mockContent/batchMProductionStore.js'
-      - '.batch-m-selection-bound-candidates.json'
+    paths:
+      - '.batch-m-controlled-replacement-trigger-2026-09-16'
+  workflow_dispatch:
 
 permissions:
   contents: write
