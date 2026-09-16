@@ -26,9 +26,9 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | PRODUCTION COMPLETE / **CONTENT-QUALITY HOLD — TARGETED REMEDIATION ACTIVE** |
+| M | Production generation + corpus-level QC | PRODUCTION COMPLETE / **CONTENT-QUALITY HOLD — TARGETED POST-QC REMEDIATION ACTIVE** |
 
-**Batch M production generation is complete and frozen. The formal SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete and found systemic assessment-quality weaknesses. The active remaining work is targeted replacement authorization, controlled replacement where authorized, re-gating, cross-corpus calibration, and release verification.**
+**Batch M production generation is complete and frozen. Controlled replacement of the authorized SAT1–SAT10 and PSAT1–PSAT10 targets is complete, but the comprehensive 20-test post-replacement QC remains on quality hold. The active remaining work is targeted post-QC remediation, re-gating, cross-corpus calibration, and release verification.**
 
 ## 1. Core architecture
 
@@ -128,6 +128,8 @@ The private calibration corpus records structural characteristics such as source
 5. Production-store cleanliness checkpoint — passed
 6. Maintenance/spec safeguard verification — passed
 7. SAT/PSAT content-quality QC — **complete; quality hold**
+8. Authorized controlled replacement of selected SAT1–SAT10 and PSAT1–PSAT10 targets — **complete; 1,594 / 1,594 applied**
+9. Comprehensive post-replacement 20-test QC — **complete; QUALITY_HOLD**
 
 Mocks were produced one at a time. Each mock passed its generation/QC/storage gates and Render deployment acceptance before the next mock was accepted. No further production target is authorized.
 
@@ -143,52 +145,60 @@ The canonical store contains exactly the frozen 30-mock sequence, with no SAT21 
 
 The formal audit of SAT1–SAT10 and PSAT1–PSAT10 is recorded in `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md`.
 
-**Result: QUALITY HOLD.** The current production content is technically valid but not sufficiently authentic in R&W source complexity, reasoning demand, evidence construction, distractor quality, Math reasoning diversity, hard-item calibration, and SAT-versus-PSAT calibration.
-
-The Math generator also produces approximately 20% student-produced-response items, below the approved 25–30% target.
+**Result: QUALITY HOLD.** The original production content was technically valid but not sufficiently authentic in R&W source complexity, reasoning demand, evidence construction, distractor quality, Math reasoning diversity, hard-item calibration, and SAT-versus-PSAT calibration.
 
 ### Post-audit targeted remediation status — September 16, 2026
 
-The frozen production impact and remediation-preparation sequence is complete for SAT1–SAT10 and PSAT1–PSAT10. Candidate coverage and individual selected-candidate quality are also resolved and runtime validated.
+The frozen production impact and remediation-preparation sequence is complete for SAT1–SAT10 and PSAT1–PSAT10. Candidate coverage and individual selected-candidate quality were resolved and runtime validated before authorization.
 
 - 2,144 unique affected production questions identified.
 - 2,144 unique affected questions inventoried with exact IDs and reasons.
-- 2,144 unique affected questions assigned a read-only remediation plan.
-- Remediation types: 1,496 content replacement; 98 content replacement + difficulty calibration; 550 difficulty calibration and possible replacement.
-- **1,594 replacement candidates selected.**
+- 1,594 replacement candidates selected and applied under explicit authorization.
 - **0 candidate-coverage gaps.**
 - **0 selected-candidate individual-quality failures.**
-- Latest end-to-end candidate-selection workflow: **run #123 / `35062589891` — PASS.**
-- `productionMutation: false` throughout these stages.
-- `releaseEligible: false` throughout these stages.
-- `replacementAuthorization: NOT_AUTHORIZED` remains the active boundary.
+- Controlled replacement workflow: **run #26 / `35080032477` — PASS.**
+- Final replacement commit: **`3c125d9` — `feat: apply authorized Batch M controlled replacement`**.
+- Replacement-quality gate: **PASS**.
+- Runtime adapter gate: **PASS**.
+- Affected-mock gate: **PASS**.
+- `releaseEligible: false` and `sat21Created: false` remain enforced.
 
 Supporting records:
 
-- `docs/BATCH-M-IMPACT-AUDIT-CHECKPOINT-2026-09-15.md`
-- `docs/BATCH-M-TARGETED-REVIEW-INVENTORY-2026-09-15.json`
-- `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
-- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json`
-- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json`
-- `docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json`
+- `docs/BATCH-M-REPLACEMENT-AUTHORIZATION-GATE-2026-09-16.md`
+- `docs/BATCH-M-AUTHORITATIVE-CANDIDATE-SELECTION-2026-09-16.json`
+- `docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json`
 - `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md`
-- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md`
+- `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-2026-09-16.json`
 
-### Completed candidate-selection milestone
+### Comprehensive 20-test QC result — September 16, 2026
 
-**Status: COMPLETE.** There is no remaining candidate-generation, candidate-selection, candidate-coverage, or selected-candidate-quality work pending. The two immediately preceding red workflow runs were report-verification contract regressions only; the corrected contract is validated by green run #123.
+The read-only post-replacement QC covered **SAT1–SAT10 and PSAT1–PSAT10 only**:
+
+- **20 mocks / 3,920 runtime questions** verified;
+- **1,594 / 1,594** replacement targets changed with replacement integrity preserved;
+- **0 schema failures**;
+- scope/identity gate: **PASS**;
+- replacement-integrity gate: **PASS**;
+- content-quality gate: **FAIL** with **672 / 3,920** questions failing;
+- `hard-label-without-demand-feature`: **550** failures;
+- `rw-stimulus-length`: **206** failures;
+- figure-originality gate: **FAIL** due to one cross-mock figure duplication between PSAT1 and SAT1;
+- `productionMutation: false`, `releaseEligible: false`, `sat21Created: false`.
+
+The 550 hard-label failures correspond to the unresolved difficulty-calibration population, while the 206 R&W failures are stimulus-length defects. The figure duplication is a discrete originality defect. These results are recorded in `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-2026-09-16.json`.
 
 ### Next target
 
-**Explicit replacement authorization.** This is a release-process gate and must be established before any frozen production question is mutated.
+**Targeted post-QC remediation.** Do not repeat candidate generation, candidate coverage, authorization, or the completed controlled-replacement stage.
 
-After authorization is explicitly recorded, the implementation sequence is:
+The next implementation sequence is:
 
-1. apply only the authorized affected replacements;
-2. record every post-freeze corpus change by exact `testKey + questionId`, including replacement disposition;
-3. rerun the affected mock production gates;
-4. after those gates pass, run the comprehensive **20-test QC covering SAT1–SAT10 and PSAT1–PSAT10**;
-5. rerun the final collective **30-mock corpus gate**;
+1. remediate the **550 remaining difficulty-calibration failures** without weakening the hard-item gate;
+2. remediate the **206 R&W stimulus-length failures** using the existing R&W construction/QC architecture;
+3. correct the identified **cross-mock figure duplication** using the existing figure-originality controls;
+4. rerun the comprehensive **20-test QC**;
+5. only after that gate passes, run the final collective **30-mock corpus gate**;
 6. complete 30-mock cross-corpus calibration;
 7. complete the deferred public verification of SAT11–SAT20;
 8. perform final end-to-end student-experience acceptance;
@@ -210,11 +220,9 @@ Do not modify unless a question-generation/storage/rendering dependency makes it
 ## 9. Resume procedure
 
 For the next Batch M remediation session, read only:
-1. `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md`, especially **§5 Completed milestone**, **§6 Interpretation and production boundary**, and **§7 Next stage — replacement authorization**.
-2. `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md`, especially **§5 Completed milestone**, **§6 Production boundary**, and **§7 Next stage — replacement authorization**.
-3. `docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json` for individual selected-candidate quality evidence.
-4. `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` for zero-gap coverage evidence.
-5. `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` for exact candidate dispositions.
-6. This roadmap’s current **Batch M** section.
+1. `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md`, especially **§5 Comprehensive 20-test QC result** and **§7 Resume point / next implementation step**.
+2. `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-2026-09-16.json` for the exact machine-readable QC result.
+3. `docs/BATCH-M-REPLACEMENT-AUTHORIZATION-GATE-2026-09-16.md` for the authorized production boundary.
+4. This roadmap’s current **Batch M** section.
 
-Do not repeat completed audits, classifications, inventories, preparation, candidate generation, candidate selection, candidate coverage remediation, or individual selected-candidate quality validation unless a real repository discrepancy is found. Do not create SAT21.
+Do not repeat completed audits, classifications, inventories, preparation, candidate generation, candidate selection, candidate coverage remediation, authorization, or controlled replacement unless a genuine repository discrepancy is found. Do not create SAT21.
