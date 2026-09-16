@@ -98,11 +98,11 @@ function repairFigureCollision(question) {
   if (question?.questionId !== 'psat-mock-01-math-math-module-1-m1-17') return { question, applied: false };
   if (question?.section !== 'math') throw new Error('Batch M post-QC remediation: PSAT1 m1-17 is not a Math item.');
   const figure = question.figure;
-  if (!figure || !['general_triangle', 'right_triangle', 'coordinate_shape'].includes(String(figure.type || ''))) {
-    throw new Error(`Batch M post-QC remediation: PSAT1 m1-17 expected a triangle figure, found ${String(figure?.type || '(none)')}.`);
+  if (!figure || String(figure.type || '') !== 'scatter_plot') {
+    throw new Error(`Batch M post-QC remediation: PSAT1 m1-17 expected scatter_plot, found ${String(figure?.type || '(none)')}.`);
   }
-  if (!Array.isArray(figure.vertices) || figure.vertices.length < 3) {
-    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 triangle figure must expose vertices for the collision repair.');
+  if (!Array.isArray(figure.points) || figure.points.length < 2) {
+    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 scatter plot must expose at least two points for the collision repair.');
   }
 
   const coordinateDependent = /coordinates?|ordered pair|point\s*\(/i.test(String(question.prompt || ''));
@@ -110,13 +110,13 @@ function repairFigureCollision(question) {
     throw new Error('Batch M post-QC remediation: PSAT1 m1-17 prompt is coordinate-dependent; deterministic translation is not safe.');
   }
 
-  const translatedVertices = figure.vertices.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
+  const translatedPoints = figure.points.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
   return {
     question: {
       ...question,
       figure: {
         ...figure,
-        vertices: translatedVertices,
+        points: translatedPoints,
       },
       metadata: stripFigureFingerprints(question.metadata),
     },
