@@ -8,9 +8,13 @@ on:
       - 'docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json'
       - 'src/data/sat/mockContent/batchMControlledReplacementMap.js'
       - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - '.batch-m-selection-bound-candidates.json'
 
 permissions:
   contents: write
+
+env:
+  BATCH_M_SELECTION_GENERATION_COMMIT: '9a4cc0e0c74e592336c81695b2d7f43683702880'
 
 jobs:
   controlled-replacement:
@@ -18,6 +22,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -27,6 +33,20 @@ jobs:
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+
+      - name: Materialize selection-time candidate source
+        run: |
+          rm -rf .batch-m-selection-source
+          git fetch --no-tags origin "${BATCH_M_SELECTION_GENERATION_COMMIT}"
+          git worktree add --detach .batch-m-selection-source "${BATCH_M_SELECTION_GENERATION_COMMIT}"
+          ln -s "$GITHUB_WORKSPACE/node_modules" .batch-m-selection-source/node_modules
+          test -f .batch-m-selection-source/src/data/sat/mockContent/batchMRemediationCandidateFactory.js
+          test -f .batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs
+
+      - name: Build selection-bound candidate snapshot
+        env:
+          BATCH_M_SELECTION_SOURCE_DIR: ${{ github.workspace }}/.batch-m-selection-source
+        run: node --import ./.batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs scripts/buildBatchMSelectionBoundCandidateSnapshot.mjs
 
       - name: Generate and apply controlled replacement
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/applyBatchMControlledReplacement.mjs
