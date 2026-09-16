@@ -1,3 +1,5 @@
+import { canonicalBatchMTestKey } from './batchMCanonicalTestKey.js';
+
 const TARGET_TEST_KEYS = new Set([
   'SAT1', 'SAT2', 'SAT3', 'SAT4', 'SAT5', 'SAT6', 'SAT7', 'SAT8', 'SAT9', 'SAT10',
   'PSAT1', 'PSAT2', 'PSAT3', 'PSAT4', 'PSAT5', 'PSAT6', 'PSAT7', 'PSAT8', 'PSAT9', 'PSAT10',
@@ -116,15 +118,10 @@ function repairFigureCollision(question) {
 export function applyBatchMPostQCTargetedRemediations(corpus) {
   if (!Array.isArray(corpus)) throw new Error('Batch M post-QC remediation: corpus must be an array.');
 
-  const summary = {
-    difficultyCalibrations: 0,
-    rwStimulusRepairs: 0,
-    figureRepairs: 0,
-    targetsChanged: 0,
-  };
+  const summary = { difficultyCalibrations: 0, rwStimulusRepairs: 0, figureRepairs: 0, targetsChanged: 0 };
 
   const repairedCorpus = corpus.map((mock) => {
-    const testKey = String(mock?.testKey || '').toUpperCase();
+    const testKey = canonicalBatchMTestKey(mock);
     if (!TARGET_TEST_KEYS.has(testKey)) return mock;
 
     const repairQuestion = (original) => {
@@ -133,16 +130,11 @@ export function applyBatchMPostQCTargetedRemediations(corpus) {
 
       const difficulty = normalizeHardDifficulty(question);
       question = difficulty.question;
-      if (difficulty.applied) {
-        summary.difficultyCalibrations += 1;
-        changed = true;
-      }
+      if (difficulty.applied) { summary.difficultyCalibrations += 1; changed = true; }
 
       if (question.section === 'reading-writing' && question.skill === 'Cross-Text Connections' && wordCount(question.prompt) > 150) {
         const repairedPrompt = shortenCrossTextPrompt(question.prompt);
-        if (wordCount(repairedPrompt) > 150) {
-          throw new Error(`Batch M post-QC remediation: Cross-Text prompt remains over 150 words for ${testKey}::${question.questionId}.`);
-        }
+        if (wordCount(repairedPrompt) > 150) throw new Error(`Batch M post-QC remediation: Cross-Text prompt remains over 150 words for ${testKey}::${question.questionId}.`);
         if (repairedPrompt !== question.prompt) {
           question = { ...question, prompt: repairedPrompt };
           summary.rwStimulusRepairs += 1;
@@ -152,20 +144,12 @@ export function applyBatchMPostQCTargetedRemediations(corpus) {
 
       const figure = repairFigureCollision(question);
       question = figure.question;
-      if (figure.applied) {
-        summary.figureRepairs += 1;
-        changed = true;
-      }
-
+      if (figure.applied) { summary.figureRepairs += 1; changed = true; }
       if (changed) summary.targetsChanged += 1;
       return question;
     };
 
-    return {
-      ...mock,
-      readingWriting: (mock.readingWriting || []).map(repairQuestion),
-      math: (mock.math || []).map(repairQuestion),
-    };
+    return { ...mock, readingWriting: (mock.readingWriting || []).map(repairQuestion), math: (mock.math || []).map(repairQuestion) };
   });
 
   return { corpus: repairedCorpus, summary };
