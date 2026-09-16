@@ -3,7 +3,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
 import { BATCH_M_TARGETED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMTargetedProductionCorpus.js';
-import { applyBatchMControlledReplacements } from '../src/data/sat/mockContent/batchMControlledReplacementMapAdapter.js';
 import { evaluateContentQualityBatch } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
 import { BATCH_M_CONTROLLED_REPLACEMENT_MAP } from '../src/data/sat/mockContent/batchMControlledReplacementMap.js';
 
@@ -25,7 +24,28 @@ if (replacementRecords.length !== 1594) throw new Error(`Controlled replacement 
 const quality = evaluateContentQualityBatch(replacementRecords);
 if (!quality?.passed) throw new Error(`Controlled replacement QC: replacement quality failed (${quality?.failedCount ?? 'unknown'} failures).`);
 
-const affectedCorpus = applyBatchMControlledReplacements(BATCH_M_TARGETED_PRODUCTION_CORPUS);
+const affectedCorpus = BATCH_M_TARGETED_PRODUCTION_CORPUS.map((mock) => {
+  const testKey = String(mock?.testKey || mock?.testId || '').toUpperCase();
+  if (!EXPECTED_TESTS.has(testKey)) throw new Error(`Controlled replacement QC: out-of-scope mock ${testKey || '<missing>'}.`);
+  const replaceQuestion = (question) => {
+    const id = String(question?.questionId || question?.contentId || '');
+    const replacement = BATCH_M_CONTROLLED_REPLACEMENT_MAP[`${testKey}::${id}`];
+    if (!replacement) return question;
+    return {
+      ...replacement,
+      testId: question.testId,
+      questionId: question.questionId || question.contentId,
+      contentId: question.contentId || question.questionId,
+    };
+  };
+  return {
+    ...mock,
+    readingWriting: (mock.readingWriting || []).map(replaceQuestion),
+    math: (mock.math || []).map(replaceQuestion),
+    testKey,
+  };
+});
+
 if (!Array.isArray(affectedCorpus) || affectedCorpus.length !== 20) throw new Error(`Controlled replacement QC: expected 20 affected mocks, found ${affectedCorpus?.length ?? 'unknown'}.`);
 
 const seenQuestionIds = new Set();
