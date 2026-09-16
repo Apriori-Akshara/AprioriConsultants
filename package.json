@@ -14,7 +14,8 @@
     "qc:batch-m-impact-classification": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMImpactClassification.js",
     "qc:batch-m-targeted-review-inventory": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReviewInventory.js",
     "qc:batch-m-targeted-replacement-preparation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReplacementPreparation.js",
-    "qc:batch-m-comprehensive-20-test": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMComprehensive20TestQC.mjs"
+    "qc:batch-m-comprehensive-20-test": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMComprehensive20TestQC.mjs",
+    "qc:batch-m-post-qc-diagnostics": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMPostQCTargetedDiagnostics.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -31,6 +32,7 @@
     "react-dom": "^18",
     "react-icons": "^5.0.1",
     "react-intersection-observer": "^9.8.1",
+    "react-redux": "^9.2.0",
     "react-slick": "^0.30.2",
     "resend": "^6.9.2"
   }
