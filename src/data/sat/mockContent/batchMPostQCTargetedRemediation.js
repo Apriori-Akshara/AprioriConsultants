@@ -102,12 +102,16 @@ function repairFigureCollision(question) {
     throw new Error(`Batch M post-QC remediation: PSAT1 m1-17 expected scatter_plot, found ${String(figure?.type || '(none)')}.`);
   }
 
-  const points = Array.isArray(figure.values?.points) ? figure.values.points : null;
-  if (!points || points.length < 2) {
-    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 scatter plot must expose values.points for the collision repair.');
+  const sourcePoints = Array.isArray(figure.values?.points)
+    ? figure.values.points
+    : Array.isArray(figure.points)
+      ? figure.points
+      : null;
+  if (!sourcePoints || sourcePoints.length < 2) {
+    throw new Error('Batch M post-QC remediation: PSAT1 m1-17 scatter plot must expose coordinate points for the collision repair.');
   }
 
-  const translatedPoints = points.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
+  const translatedPoints = sourcePoints.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
   const repairedPrompt = 'A scatterplot has observed values (2, 17), (3, 20), (4, 27), (5, 29), (6, 32). A linear model is used to describe the trend. Which statement is best supported by the data?';
 
   return {
@@ -116,8 +120,9 @@ function repairFigureCollision(question) {
       prompt: repairedPrompt,
       figure: {
         ...figure,
+        points: translatedPoints,
         values: {
-          ...figure.values,
+          ...(figure.values || {}),
           points: translatedPoints,
         },
       },
