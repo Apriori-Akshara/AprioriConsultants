@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -25,6 +26,27 @@ if (!fs.existsSync(loaderPath)) throw new Error(`Batch M candidate snapshot: his
 
 const { buildRepresentativeBatchMRemediationCandidates } = await import(pathToFileURL(factoryPath).href);
 
+function normalize(value) {
+  return String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function stable(value) {
+  return JSON.stringify(value, Object.keys(value || {}).sort());
+}
+
+function selectorFingerprint(question) {
+  return crypto.createHash('sha256').update(String(stable({
+    section: question.section,
+    prompt: normalize(question.prompt),
+    choices: (question.choices || []).map(normalize),
+    answer: normalize(question.answer),
+    figure: question.figure || null,
+    domain: question.domain,
+    skill: question.skill,
+    difficulty: question.difficulty,
+  }))).digest('hex').slice(0, 16);
+}
+
 function buildPool(product) {
   return buildRepresentativeBatchMRemediationCandidates({
     rwCount: 5000,
@@ -40,8 +62,8 @@ const pools = {
 };
 
 const byProduct = {
-  sat: new Map(pools.sat.map((candidate, index) => [String(candidate.originalityFingerprint || ''), { candidate, index }])),
-  psat: new Map(pools.psat.map((candidate, index) => [String(candidate.originalityFingerprint || ''), { candidate, index }])),
+  sat: new Map(pools.sat.map((candidate, index) => [selectorFingerprint(candidate), { candidate, index }])),
+  psat: new Map(pools.psat.map((candidate, index) => [selectorFingerprint(candidate), { candidate, index }])),
 };
 
 const snapshotRecords = [];
@@ -53,14 +75,19 @@ for (const record of selectedRecords) {
     : null;
   const expectedFingerprint = String(selectedOption?.fingerprint || '');
   const expectedPoolIndex = Number.isInteger(selectedOption?.poolIndex) ? selectedOption.poolIndex : null;
-  if (!expectedFingerprint) throw new Error(`Batch M candidate snapshot: ${record.testKey}/${record.questionId} has no eligible fingerprint for ${key}.`);
+  if (!expectedFingerprint) throw new Error(`Batch M candidate snapshot: ${record.testKey}/${record.questionId} has no eligible selector fingerprint for ${key}.`);
 
   const pool = pools[product];
   let resolved = expectedPoolIndex !== null ? pool[expectedPoolIndex] : null;
-  if (resolved && String(resolved.originalityFingerprint || '') !== expectedFingerprint) resolved = null;
+  if (resolved && selectorFingerprint(resolved) !== expectedFingerprint) resolved = null;
   if (!resolved) resolved = byProduct[product].get(expectedFingerprint)?.candidate || null;
   if (!resolved) {
-    throw new Error(`Batch M candidate snapshot: authorized candidate ${key} with fingerprint ${expectedFingerprint} cannot be resolved from historical generation commit ${generationCommit}.`);
+    throw new Error(`Batch M candidate snapshot: authorized candidate ${key} with selector fingerprint ${expectedFingerprint} cannot be resolved from historical generation commit ${generationCommit}.`);
+  }
+
+  const resolvedFingerprint = selectorFingerprint(resolved);
+  if (resolvedFingerprint !== expectedFingerprint) {
+    throw new Error(`Batch M candidate snapshot: resolved fingerprint mismatch for ${record.testKey}/${record.questionId}.`);
   }
 
   snapshotRecords.push({
@@ -69,16 +96,17 @@ for (const record of selectedRecords) {
     selectedCandidateKey: key,
     expectedFingerprint,
     selectedPoolIndex: expectedPoolIndex,
-    resolvedCandidateKey: String(resolved.candidateKey || ''),
+    resolvedCandidateKey: String(key),
     candidate: resolved,
   });
 }
 
 const snapshot = {
   reportType: 'batch-m-selection-bound-candidate-snapshot',
-  reportVersion: '2026-09-16.selection-bound.v1',
+  reportVersion: '2026-09-16.selection-bound.v2',
   generationCommit,
   selectionReport: 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json',
+  fingerprintAlgorithm: 'sha256(stable(section,prompt,choices,answer,figure,domain,skill,difficulty))[0:16]',
   selectedCount: snapshotRecords.length,
   candidatePoolCounts: {
     sat: { rw: 5000, math: 8000, total: pools.sat.length },
