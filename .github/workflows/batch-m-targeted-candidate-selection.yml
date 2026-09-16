@@ -14,6 +14,7 @@ name: Batch M targeted candidate selection
 # Rerun requested after measuring geometry target-vs-candidate difficulty distribution.
 # Rerun requested after calibrating geometry difficulty supply to target distribution and PSAT ceiling v8.
 # Rerun requested after selector preparation compatibility correction v9.
+# Rerun requested after adding selected-candidate individual quality gate and hardening report push against branch races.
 
 on:
   push:
@@ -22,11 +23,17 @@ on:
     paths-ignore:
       - docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json
       - docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+      - docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json
+      - docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md
+      - docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md
       - package-lock.json
   workflow_dispatch:
 
 permissions:
   contents: write
+
+env:
+  BATCH_M_BRANCH: batch-m-rw-generator-remediation-2026-09-14
 
 jobs:
   candidate-selection:
@@ -157,10 +164,12 @@ jobs:
         run: |
           test -s scripts/runBatchMTargetedCandidateSelection.js
           test -s scripts/runBatchMTargetedCandidateCoverageAnalysis.js
+          test -s scripts/runBatchMSelectedCandidateQualityGate.js
           test -s scripts/batchMExtensionlessModuleLoader.mjs
           test -s scripts/batchMExtensionlessResolve.mjs
           node --check scripts/runBatchMTargetedCandidateSelection.js
           node --check scripts/runBatchMTargetedCandidateCoverageAnalysis.js
+          node --check scripts/runBatchMSelectedCandidateQualityGate.js
           node --check scripts/batchMExtensionlessModuleLoader.mjs
           node --check scripts/batchMExtensionlessResolve.mjs
           node --check scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs
@@ -208,7 +217,32 @@ jobs:
           if (report.replacementAuthorization !== 'NOT_AUTHORIZED') throw new Error('replacementAuthorization must remain NOT_AUTHORIZED');
           if (report.sat21Created !== false) throw new Error('sat21Created must be false');
           if (!report.summary || typeof report.summary.selected !== 'number' || typeof report.summary.noEligibleCandidate !== 'number') throw new Error('Candidate-selection summary is missing required counts');
+          if (report.summary.selected !== 1594) throw new Error(`Expected 1594 selected candidates, got ${report.summary.selected}`);
+          if (report.summary.noEligibleCandidate !== 0) throw new Error(`Expected 0 no-eligible candidates, got ${report.summary.noEligibleCandidate}`);
           console.log(JSON.stringify({ affectedUniqueQuestionCount: report.affectedUniqueQuestionCount, selectedCount: report.summary.selected, noEligibleCandidateCount: report.summary.noEligibleCandidate, productionMutation: report.productionMutation, releaseEligible: report.releaseEligible, replacementAuthorization: report.replacementAuthorization, sat21Created: report.sat21Created }, null, 2));
+          NODE
+
+      - name: Run selected-candidate individual quality gate
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMSelectedCandidateQualityGate.js
+
+      - name: Verify selected-candidate quality report
+        run: |
+          test -s docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const report = JSON.parse(fs.readFileSync('docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json', 'utf8'));
+          if (report.affectedUniqueQuestionCount !== 2144) throw new Error(`Expected 2144 affected records, got ${report.affectedUniqueQuestionCount}`);
+          if (report.selectedCount !== 1594) throw new Error(`Expected 1594 selected candidates, got ${report.selectedCount}`);
+          if (report.validatedCount !== 1594) throw new Error(`Expected 1594 validated candidates, got ${report.validatedCount}`);
+          if (report.calibrationOnlyCount !== 550) throw new Error(`Expected 550 calibration-only records, got ${report.calibrationOnlyCount}`);
+          if (report.failedCount !== 0) throw new Error(`Expected 0 selected-candidate quality failures, got ${report.failedCount}`);
+          if (report.seriousFailureCount !== 0) throw new Error(`Expected 0 serious failures, got ${report.seriousFailureCount}`);
+          if (report.gateStatus !== 'PASS') throw new Error(`Selected-candidate quality gate status must be PASS, got ${report.gateStatus}`);
+          if (report.productionMutation !== false) throw new Error('productionMutation must be false');
+          if (report.releaseEligible !== false) throw new Error('releaseEligible must be false');
+          if (report.replacementAuthorization !== 'NOT_AUTHORIZED') throw new Error('replacementAuthorization must remain NOT_AUTHORIZED');
+          if (report.sat21Created !== false) throw new Error('sat21Created must be false');
+          console.log(JSON.stringify({ affectedUniqueQuestionCount: report.affectedUniqueQuestionCount, selectedCount: report.selectedCount, validatedCount: report.validatedCount, calibrationOnlyCount: report.calibrationOnlyCount, failedCount: report.failedCount, seriousFailureCount: report.seriousFailureCount, gateStatus: report.gateStatus, productionMutation: report.productionMutation, releaseEligible: report.releaseEligible, replacementAuthorization: report.replacementAuthorization, sat21Created: report.sat21Created }, null, 2));
           NODE
 
       - name: Analyze candidate coverage gaps
@@ -222,6 +256,7 @@ jobs:
           const report = JSON.parse(fs.readFileSync('docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json', 'utf8'));
           if (report.affectedUniqueQuestionCount !== 2144) throw new Error(`Expected 2144 affected records, got ${report.affectedUniqueQuestionCount}`);
           if (!Array.isArray(report.noEligibleCandidateSkillCounts)) throw new Error('Missing no-eligible-candidate skill coverage analysis');
+          if (report.noEligibleCandidateSkillCounts.length !== 0) throw new Error(`Expected zero no-eligible skill groups, got ${report.noEligibleCandidateSkillCounts.length}`);
           if (report.productionMutation !== false) throw new Error('productionMutation must be false');
           if (report.releaseEligible !== false) throw new Error('releaseEligible must be false');
           if (report.replacementAuthorization !== 'NOT_AUTHORIZED') throw new Error('replacementAuthorization must remain NOT_AUTHORIZED');
@@ -233,6 +268,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs scripts/applyBatchMGeometryFigureDifficultyRemediation.mjs scripts/applyBatchMGeometryDifficultyFinalizeRemediation.mjs scripts/applyBatchMGeometryDifficultyAliasRemediation.mjs scripts/applyBatchMGeometryDifficultyCalibrationRemediation.mjs scripts/applyBatchMSelectorPreparationCompatibilityFix.mjs scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: correct selector remediation validation command"
-          git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs scripts/applyBatchMGeometryFigureDifficultyRemediation.mjs scripts/applyBatchMGeometryDifficultyFinalizeRemediation.mjs scripts/applyBatchMGeometryDifficultyAliasRemediation.mjs scripts/applyBatchMGeometryDifficultyCalibrationRemediation.mjs scripts/applyBatchMSelectorPreparationCompatibilityFix.mjs scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js scripts/runBatchMSelectedCandidateQualityGate.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json
+          git diff --cached --quiet || git commit -m "feat: add selected candidate quality gate"
+          git fetch origin "$BATCH_M_BRANCH"
+          git rebase --autostash "origin/$BATCH_M_BRANCH"
+          git push origin "HEAD:$BATCH_M_BRANCH"
