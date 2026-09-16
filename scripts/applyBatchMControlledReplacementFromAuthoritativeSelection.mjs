@@ -79,6 +79,18 @@ for (const record of selectedRecords) {
 
   selectedCandidates.push(candidate);
 
+  const candidateDifficulty = String(candidate.difficulty || '');
+  const targetDifficulty = String(baseQuestion.difficulty || '');
+  const difficultyBearingRemediation = /DIFFICULTY/i.test(String(record.remediationType || ''));
+  const psatCeilingCompatible = product === 'psat'
+    && targetDifficulty === 'hard'
+    && candidateDifficulty === 'medium'
+    && ['advanced math', 'geometry and trigonometry'].includes(normalize(baseQuestion.domain));
+
+  if (candidateDifficulty && !SAT_DIFFICULTIES.includes(candidateDifficulty)) {
+    throw new Error(`Batch M controlled replacement: selected candidate has invalid production difficulty ${candidateDifficulty} for ${targetKey}.`);
+  }
+
   const replacement = {
     ...baseQuestion,
     prompt: candidate.prompt,
@@ -87,12 +99,12 @@ for (const record of selectedRecords) {
     explanation: candidate.explanation,
     rationale: candidate.rationale,
     figure: candidate.figure ?? null,
-    metadata: candidate.metadata ?? baseQuestion.metadata,
+    metadata: { ...(baseQuestion.metadata || {}), ...(candidate.metadata || {}) },
     originalityFingerprint: String(candidate.originalityFingerprint || baseQuestion.originalityFingerprint || '').replaceAll(String(candidate.testId || ''), record.testKey),
   };
 
-  if (/DIFFICULTY/i.test(String(record.remediationType || '')) && SAT_DIFFICULTIES.includes(candidate.difficulty)) {
-    replacement.difficulty = candidate.difficulty;
+  if (difficultyBearingRemediation || psatCeilingCompatible) {
+    replacement.difficulty = candidateDifficulty;
   }
 
   replacements.push({
@@ -111,7 +123,22 @@ for (const record of selectedRecords) {
 
 const selectedReplacementQuestions = replacements.map((item) => item.replacement);
 const quality = evaluateContentQualityBatch(selectedReplacementQuestions);
-if (!quality?.passed) throw new Error(`Batch M controlled replacement: selected replacement quality gate failed (${quality?.failedCount ?? 'unknown'} failures).`);
+if (!quality?.passed) {
+  const failures = quality.items
+    .map((item, index) => ({
+      target: `${replacements[index]?.testKey}::${replacements[index]?.questionId}`,
+      checks: item.checks,
+      severity: item.severity,
+      score: item.score,
+    }))
+    .filter((item) => item.checks.length);
+  console.error(JSON.stringify({
+    replacementQualityGate: 'FAIL',
+    failedCount: quality.failedCount,
+    failures,
+  }, null, 2));
+  throw new Error(`Batch M controlled replacement: selected replacement quality gate failed (${quality.failedCount} failures).`);
+}
 
 let store = fs.readFileSync(storePath, 'utf8');
 if (store.includes('const BATCH_M_PRE_REPLACEMENT_CORPUS = Object.freeze([')) throw new Error('Batch M controlled replacement: production store already contains a controlled-replacement transformation; refusing to reapply.');
@@ -140,13 +167,13 @@ fs.writeFileSync(storePath, store, 'utf8');
 
 const report = {
   reportType: 'batch-m-controlled-replacement',
-  reportVersion: '2026-09-16.controlled-replacement.authoritative-v2',
+  reportVersion: '2026-09-16.controlled-replacement.authoritative-v3',
   authorization: 'AUTHORIZED',
   scope: 'SAT1-SAT10 and PSAT1-PSAT10 affected records only',
   sourceSelectionReport: 'docs/BATCH-M-AUTHORITATIVE-CANDIDATE-SELECTION-2026-09-16.json',
   selectionGenerationSource: selection.selectionSource,
   fingerprintAlgorithm: 'sha256(stable(section,prompt,choices,answer,figure,domain,skill,difficulty))[0:16]',
-  replacementConstruction: 'candidate content merged onto the canonical production target question; production-only schema metadata is preserved; difficulty changes are applied only for difficulty-bearing remediation records',
+  replacementConstruction: 'candidate content merged onto the canonical production target question; production metadata is preserved and supplemented by candidate metadata; difficulty changes are applied for difficulty-bearing remediation and the documented PSAT ceiling-compatible hard-target/medium-candidate exception',
   sat21Created: false,
   selectedCount: selectedRecords.length,
   appliedCount: replacements.length,
