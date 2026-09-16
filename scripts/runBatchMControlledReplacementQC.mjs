@@ -15,6 +15,19 @@ const EXPECTED_TESTS = new Set([
 ]);
 const EXPECTED_RECORDS_PER_MOCK = 196;
 
+function deriveTestKey(mock) {
+  const family = String(mock?.assessmentFamily || '').trim().toLowerCase();
+  const number = Number(mock?.assessmentNumber);
+  if ((family === 'sat' || family === 'psat') && Number.isInteger(number) && number >= 1 && number <= 10) {
+    return `${family.toUpperCase()}${number}`;
+  }
+
+  const testId = String(mock?.testId || '').trim();
+  const match = testId.match(/^(SAT|PSAT)-.*-MOCK-(\d+)$/i);
+  if (match) return `${match[1].toUpperCase()}${Number(match[2])}`;
+  return '';
+}
+
 if (report.authorization !== 'AUTHORIZED') throw new Error('Controlled replacement QC: authorization is not AUTHORIZED.');
 if (report.sat21Created !== false) throw new Error('Controlled replacement QC: SAT21 flag is not false.');
 if (report.appliedCount !== 1594) throw new Error(`Controlled replacement QC: expected 1594 applied records, found ${report.appliedCount}.`);
@@ -25,8 +38,9 @@ const quality = evaluateContentQualityBatch(replacementRecords);
 if (!quality?.passed) throw new Error(`Controlled replacement QC: replacement quality failed (${quality?.failedCount ?? 'unknown'} failures).`);
 
 const affectedCorpus = BATCH_M_TARGETED_PRODUCTION_CORPUS.map((mock) => {
-  const testKey = String(mock?.testKey || mock?.testId || '').toUpperCase();
-  if (!EXPECTED_TESTS.has(testKey)) throw new Error(`Controlled replacement QC: out-of-scope mock ${testKey || '<missing>'}.`);
+  const testKey = deriveTestKey(mock);
+  if (!EXPECTED_TESTS.has(testKey)) throw new Error(`Controlled replacement QC: out-of-scope mock ${testKey || '<missing>'} (${mock?.testId || 'no testId'}).`);
+
   const replaceQuestion = (question) => {
     const id = String(question?.questionId || question?.contentId || '');
     const replacement = BATCH_M_CONTROLLED_REPLACEMENT_MAP[`${testKey}::${id}`];
@@ -38,6 +52,7 @@ const affectedCorpus = BATCH_M_TARGETED_PRODUCTION_CORPUS.map((mock) => {
       contentId: question.contentId || question.questionId,
     };
   };
+
   return {
     ...mock,
     readingWriting: (mock.readingWriting || []).map(replaceQuestion),
