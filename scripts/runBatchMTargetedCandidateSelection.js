@@ -233,6 +233,35 @@ function buildPools() {
   return pools;
 }
 
+function buildCompatibilityIndex(candidates) {
+  const index = new Map();
+
+  for (const item of candidates) {
+    const key = `${item.candidate.section}\u0000${item.candidate.skill}`;
+    const bucket = index.get(key);
+    if (bucket) bucket.push(item);
+    else index.set(key, [item]);
+  }
+
+  return index;
+}
+
+function compatibleCandidates(index, section, targetSkill) {
+  const skillKeys = new Set([targetSkill]);
+  Object.entries(SKILL_ALIASES).forEach(([candidateSkill, targetSkills]) => {
+    if (targetSkills.includes(targetSkill)) skillKeys.add(candidateSkill);
+  });
+
+  const matches = [];
+  for (const skill of skillKeys) {
+    const bucket = index.get(`${section}\u0000${skill}`);
+    if (bucket) matches.push(...bucket);
+  }
+
+  matches.sort((a, b) => a.poolIndex - b.poolIndex);
+  return matches;
+}
+
 function main() {
   const preparation = buildTargetedReplacementPreparation();
   if (preparation.affectedUniqueQuestionCount !== 2144) {
@@ -244,6 +273,10 @@ function main() {
   productionIndex.forEach((question) => productionFingerprints.add(fingerprint(question)));
 
   const pools = buildPools();
+  const compatibilityIndexes = {
+    sat: buildCompatibilityIndex(pools.sat.candidates),
+    psat: buildCompatibilityIndex(pools.psat.candidates),
+  };
   const targets = preparation.questions.filter((question) => TARGET_KEYS.has(question.testKey));
   const used = new Set();
   const records = [];
@@ -267,9 +300,7 @@ function main() {
 
     const meta = targetMetadata(target, productionIndex);
     const calibrationOnly = target.remediationType === 'DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT';
-    const compatible = pools[product].candidates.filter((item) => (
-      item.candidate.section === meta.section && skillMatches(item.candidate.skill, meta.skill)
-    ));
+    const compatible = compatibleCandidates(compatibilityIndexes[product], meta.section, meta.skill);
     const eligibleItems = [];
     const eligibleFingerprints = new Set();
     const considered = [];
