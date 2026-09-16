@@ -598,9 +598,12 @@ function remediateBatchMTargetedGeometryFigure(question, occurrence) {
 
 // Batch M targeted geometry figure coverage remediation v3
 
+// Batch M geometry figure-path difficulty linkage remediation v5
+
 function remapFigureCandidate(question, occurrence) {
   question = remediateBatchMTargetedGeometryFigure(question, occurrence);
   question = diversifyBatchMGeometry(question, occurrence);
+  question = remediateBatchMTargetedGeometryDifficulty(question, occurrence);
   const skill = String(question.skill || '');
   const o = Number(occurrence) || 0;
 
