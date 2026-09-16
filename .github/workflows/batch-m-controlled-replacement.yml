@@ -42,13 +42,13 @@ jobs:
           test -f .batch-m-selection-source/src/data/sat/mockContent/batchMRemediationCandidateFactory.js
           test -f .batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs
 
-      - name: Build authorized fingerprint-bound candidate snapshot
+      - name: Recover authorized candidates from recorded eligible options
         env:
           BATCH_M_SELECTION_SOURCE_DIR: ${{ github.workspace }}/.batch-m-selection-source
-        run: node --import ./.batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs scripts/buildBatchMSelectionBoundCandidateSnapshot.mjs
+        run: node --import ./.batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs scripts/buildBatchMSelectionBoundCandidateSnapshotV2.mjs
 
       - name: Generate and apply controlled replacement
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/applyBatchMControlledReplacement.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/applyBatchMControlledReplacementV5.mjs
 
       - name: Verify generated replacement state
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMControlledReplacementQC.mjs
