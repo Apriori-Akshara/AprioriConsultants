@@ -6,6 +6,7 @@ name: Batch M targeted candidate selection
 # Rerun requested after the latest geometry construction remediation.
 # Rerun requested after targeted geometry coverage remediation.
 # Rerun requested after targeted geometry figure-path difficulty remediation.
+# Rerun requested after candidate-selector performance remediation.
 
 on:
   push:
@@ -23,7 +24,7 @@ permissions:
 jobs:
   candidate-selection:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Checkout triggering commit
         uses: actions/checkout@v4
