@@ -11,12 +11,15 @@ if (source.includes(marker)) {
 
 const preRebalanceCall = '  question = remediateBatchMTargetedGeometryDifficulty(question, occurrence);';
 const rebalanceLine = '    return rebalanceDifficultyAndInteraction(partitioned, occurrence);';
+const difficultyLine = "  const difficulty = TARGETED_GEOMETRY_DIFFICULTY_CYCLE[o % TARGETED_GEOMETRY_DIFFICULTY_CYCLE.length];";
 if (!source.includes(preRebalanceCall)) throw new Error('Expected pre-rebalance geometry difficulty calls were not found.');
 if (!source.includes(rebalanceLine)) throw new Error('Missing final difficulty rebalance return line.');
 if (!source.includes('function remediateBatchMTargetedGeometryDifficulty(question, occurrence) {')) {
   throw new Error('Targeted geometry difficulty helper is missing.');
 }
+if (!source.includes(difficultyLine)) throw new Error('Missing targeted geometry difficulty cycle line.');
 
+source = source.replace(difficultyLine, `  let difficulty = TARGETED_GEOMETRY_DIFFICULTY_CYCLE[o % TARGETED_GEOMETRY_DIFFICULTY_CYCLE.length];\n  if (question.assessmentVariant === 'psat-nmsqt' && difficulty === 'hard' && ['Advanced Math', 'Geometry and Trigonometry'].includes(question.domain)) difficulty = 'medium';`);
 source = source.replace(/  question = remediateBatchMTargetedGeometryDifficulty\(question, occurrence\);\n/g, '');
 source = source.replace(
   rebalanceLine,
