@@ -13,6 +13,7 @@ name: Batch M targeted candidate selection
 # Rerun requested after extending geometry difficulty remediation to selector aliases v7.
 # Rerun requested after measuring geometry target-vs-candidate difficulty distribution.
 # Rerun requested after calibrating geometry difficulty supply to target distribution and PSAT ceiling v8.
+# Rerun requested after selector preparation compatibility correction v9.
 
 on:
   push:
@@ -79,7 +80,7 @@ jobs:
         run: |
           node scripts/applyBatchMWordsInContextRemediation.mjs
           git diff --check
-          node --check scripts/applyBatchMWordsInContextRemediation.mjs
+          node --check scripts/applyBatchMWordsInContextRemediated.js
           node --check src/data/sat/mockContent/verbalConstructionRemediated.js
 
       - name: Apply geometry construction remediation
@@ -138,6 +139,13 @@ jobs:
           node --check scripts/applyBatchMGeometryDifficultyCalibrationRemediation.mjs
           node --check src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js
 
+      - name: Apply selector preparation compatibility fix
+        run: |
+          node scripts/applyBatchMSelectorPreparationCompatibilityFix.mjs
+          git diff --check
+          node --check scripts/applyBatchMSelectorPreparationCompatibilityFix.mjs
+          node --check scripts/runBatchMTargetedCandidateSelection.js
+
       - name: Apply difficulty coverage remediation
         run: |
           node scripts/applyBatchMDifficultyCoverageRemediation.mjs
@@ -157,6 +165,7 @@ jobs:
           node --check scripts/batchMExtensionlessResolve.mjs
           node --check scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs
           node --check scripts/applyBatchMGeometryDifficultyCalibrationRemediation.mjs
+          node --check scripts/applyBatchMSelectorPreparationCompatibilityFix.mjs
 
       - name: Diagnose geometry target-vs-candidate difficulty distribution
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs
@@ -224,6 +233,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs scripts/applyBatchMGeometryFigureDifficultyRemediation.mjs scripts/applyBatchMGeometryDifficultyFinalizeRemediation.mjs scripts/applyBatchMGeometryDifficultyAliasRemediation.mjs scripts/applyBatchMGeometryDifficultyCalibrationRemediation.mjs scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
-          git diff --cached --quiet || git commit -m "fix: calibrate geometry difficulty supply and PSAT ceiling matching"
+          git add scripts/applyBatchMCandidateCoverageRemediation.mjs scripts/applyBatchMLinearConstructionRemediation.mjs scripts/applyBatchMLinearDifficultyReuseRemediation.mjs scripts/applyBatchMAliasPartitionRemediation.mjs scripts/applyBatchMWordsInContextRemediation.mjs scripts/applyBatchMGeometryConstructionRemediation.mjs scripts/applyBatchMGeometryTargetedCoverageRemediation.mjs scripts/applyBatchMGeometryFigureCoverageRemediation.mjs scripts/applyBatchMGeometryDifficultyReuseRemediation.mjs scripts/applyBatchMGeometryFigureDifficultyRemediation.mjs scripts/applyBatchMGeometryDifficultyFinalizeRemediation.mjs scripts/applyBatchMGeometryDifficultyAliasRemediation.mjs scripts/applyBatchMGeometryDifficultyCalibrationRemediation.mjs scripts/applyBatchMSelectorPreparationCompatibilityFix.mjs scripts/diagnoseBatchMGeometryDifficultyDistribution.mjs scripts/applyBatchMDifficultyCoverageRemediation.mjs scripts/runBatchMTargetedCandidateSelection.js src/data/sat/mockContent/mathBankFactoryRemediatedUnique.js src/data/sat/mockContent/verbalConstructionRemediated.js docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json
+          git diff --cached --quiet || git commit -m "fix: apply selector preparation compatibility fix"
           git push origin HEAD:batch-m-rw-generator-remediation-2026-09-14
