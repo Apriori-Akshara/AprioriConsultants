@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { evaluateContentQualityBatch } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
 
@@ -30,6 +31,27 @@ if (snapshot.generationCommit !== manifest.selectionGenerationCommit) {
 }
 if (snapshot.selectedCount !== selection.summary?.selected) {
   throw new Error(`Batch M controlled replacement: snapshot selected count ${snapshot.selectedCount} does not match selection count ${selection.summary?.selected}.`);
+}
+
+function normalize(value) {
+  return String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function stable(value) {
+  return JSON.stringify(value, Object.keys(value || {}).sort());
+}
+
+function selectorFingerprint(question) {
+  return crypto.createHash('sha256').update(String(stable({
+    section: question.section,
+    prompt: normalize(question.prompt),
+    choices: (question.choices || []).map(normalize),
+    answer: normalize(question.answer),
+    figure: question.figure || null,
+    domain: question.domain,
+    skill: question.skill,
+    difficulty: question.difficulty,
+  }))).digest('hex').slice(0, 16);
 }
 
 const records = Array.isArray(selection.records) ? selection.records : [];
@@ -70,8 +92,9 @@ for (const record of selectedRecords) {
   if (!candidate || typeof candidate !== 'object') {
     throw new Error(`Batch M controlled replacement: snapshot candidate is missing for ${targetKey}.`);
   }
-  if (String(candidate.originalityFingerprint || '') !== expectedFingerprint) {
-    throw new Error(`Batch M controlled replacement: snapshot fingerprint mismatch for ${targetKey}.`);
+  const resolvedFingerprint = selectorFingerprint(candidate);
+  if (resolvedFingerprint !== expectedFingerprint) {
+    throw new Error(`Batch M controlled replacement: snapshot selector fingerprint mismatch for ${targetKey}; expected ${expectedFingerprint}, resolved ${resolvedFingerprint}.`);
   }
 
   const replacement = {
@@ -88,7 +111,7 @@ for (const record of selectedRecords) {
     remediationType: record.remediationType,
     selectionDisposition: record.selectionDisposition,
     selectedCandidateKey: expectedKey,
-    resolvedCandidateKey: String(bound.resolvedCandidateKey || candidate.candidateKey || ''),
+    resolvedCandidateKey: String(bound.resolvedCandidateKey || expectedKey),
     selectedPoolIndex: Number.isInteger(bound.selectedPoolIndex) ? bound.selectedPoolIndex : null,
     candidateFingerprint: expectedFingerprint,
     selectionGenerationCommit: snapshot.generationCommit,
@@ -112,11 +135,12 @@ fs.writeFileSync(mapPath, mapSource, 'utf8');
 
 const report = {
   reportType: 'batch-m-controlled-replacement',
-  reportVersion: '2026-09-16.controlled-replacement.v2',
+  reportVersion: '2026-09-16.controlled-replacement.v3',
   authorization: 'AUTHORIZED',
   scope: 'SAT1-SAT10 and PSAT1-PSAT10 affected records only',
   selectionGenerationCommit: snapshot.generationCommit,
   selectionBoundSnapshot: true,
+  fingerprintAlgorithm: 'sha256(stable(section,prompt,choices,answer,figure,domain,skill,difficulty))[0:16]',
   sat21Created: false,
   selectedCount: selectedRecords.length,
   appliedCount: replacements.length,
@@ -154,7 +178,6 @@ if (!store.includes('const BATCH_M_PRE_REPLACEMENT_CORPUS = Object.freeze([')) {
 fs.writeFileSync(storePath, store, 'utf8');
 
 console.log(`Batch M controlled replacement prepared: ${replacements.length} records.`);
-console.log(`Selection-bound candidate generation commit: ${snapshot.generationCommit}`);
 console.log('Selected replacement quality gate: PASS');
 console.log('Production replacement scope: SAT1-SAT10 + PSAT1-PSAT10 only');
 console.log('SAT21: false');
