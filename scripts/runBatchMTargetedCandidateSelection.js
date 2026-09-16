@@ -1,4 +1,4 @@
-// Batch M selector restoration and PSAT ceiling compatibility v9
+// Batch M selector restoration, product-scoped reuse, and PSAT ceiling compatibility v10
 /**
  * Batch M — exact replacement-candidate generation and controlled selection.
  *
@@ -303,7 +303,7 @@ function main() {
     psat: finalizeCompatibilityIndex(buildCompatibilityIndex(pools.psat.candidates)),
   };
   const targets = preparation.questions.filter((question) => TARGET_KEYS.has(question.testKey));
-  const used = new Set();
+  const used = { sat: new Set(), psat: new Set() };
   const records = [];
   const summary = {
     total: targets.length,
@@ -331,7 +331,7 @@ function main() {
     const considered = [];
 
     for (const item of compatible) {
-      const reasons = reasonList(item, meta, used, productionFingerprints);
+      const reasons = reasonList(item, meta, used[product], productionFingerprints);
 
       if (!reasons.length && !calibrationOnly && eligibleItems.length < 2 && !eligibleFingerprints.has(item.fingerprint)) {
         eligibleItems.push(item);
@@ -348,7 +348,7 @@ function main() {
     if (!eligibleItems.length && !calibrationOnly) summary.noEligibleCandidate += 1;
     else if (!calibrationOnly) {
       summary.selected += 1;
-      used.add(eligibleItems[0].fingerprint);
+      used[product].add(eligibleItems[0].fingerprint);
     }
 
     records.push({
