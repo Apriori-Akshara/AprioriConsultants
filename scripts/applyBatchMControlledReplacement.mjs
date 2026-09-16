@@ -42,15 +42,40 @@ function buildPool(product) {
 
 const satPool = buildPool('sat');
 const psatPool = buildPool('psat');
-const candidateByKey = new Map([...satPool, ...psatPool].map((candidate) => [String(candidate.candidateKey), candidate]));
+
+function resolveSelectedCandidate(record) {
+  const key = String(record.selectedCandidateKey || '');
+  const productPool = String(record.testKey || '').startsWith('SAT') ? satPool : psatPool;
+  const selectedOption = Array.isArray(record.options)
+    ? record.options.find((option) => String(option.candidateKey || '') === key && option.verdict === 'eligible')
+    : null;
+  const expectedFingerprint = String(selectedOption?.fingerprint || '');
+  const expectedPoolIndex = Number.isInteger(selectedOption?.poolIndex) ? selectedOption.poolIndex : null;
+
+  if (!expectedFingerprint) {
+    throw new Error(`Batch M controlled replacement: selected candidate ${key} has no recorded eligible fingerprint.`);
+  }
+
+  let candidate = expectedPoolIndex !== null ? productPool[expectedPoolIndex] : null;
+  if (candidate && String(candidate.originalityFingerprint || '') !== expectedFingerprint) {
+    candidate = null;
+  }
+  if (!candidate) {
+    candidate = productPool.find((item) => String(item.originalityFingerprint || '') === expectedFingerprint) || null;
+  }
+  if (!candidate) {
+    throw new Error(`Batch M controlled replacement: selected candidate ${key} with fingerprint ${expectedFingerprint} was not found in the deterministic candidate pool.`);
+  }
+
+  return { candidate, expectedFingerprint, expectedPoolIndex };
+}
 
 const replacements = [];
 const selectedCandidates = [];
 
 for (const record of selectedRecords) {
   const key = String(record.selectedCandidateKey || '');
-  const candidate = candidateByKey.get(key);
-  if (!candidate) throw new Error(`Batch M controlled replacement: selected candidate ${key} was not found in the deterministic candidate pool.`);
+  const { candidate, expectedFingerprint, expectedPoolIndex } = resolveSelectedCandidate(record);
 
   const replacement = {
     ...candidate,
@@ -66,7 +91,9 @@ for (const record of selectedRecords) {
     remediationType: record.remediationType,
     selectionDisposition: record.selectionDisposition,
     selectedCandidateKey: key,
-    candidateFingerprint: String(candidate.originalityFingerprint || ''),
+    resolvedCandidateKey: String(candidate.candidateKey || ''),
+    selectedPoolIndex: expectedPoolIndex,
+    candidateFingerprint: expectedFingerprint,
     replacement,
   });
   selectedCandidates.push(replacement);
