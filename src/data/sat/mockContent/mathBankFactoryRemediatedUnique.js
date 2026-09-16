@@ -319,9 +319,17 @@ const TARGETED_GEOMETRY_DIFFICULTY_FRAMES = {
   }
 };
 
+
+const TARGETED_GEOMETRY_DIFFICULTY_ALIASES = {
+  'Composite area': 'Geometry and measurement',
+  'Similarity and area': 'Similarity and scaling',
+  'Right-triangle relationships': 'Right triangles',
+};
+
 function remediateBatchMTargetedGeometryDifficulty(question, occurrence) {
   const skill = String(question.skill || '');
-  const framesByDifficulty = TARGETED_GEOMETRY_DIFFICULTY_FRAMES[skill];
+  const targetedSkill = TARGETED_GEOMETRY_DIFFICULTY_ALIASES[skill] || skill;
+  const framesByDifficulty = TARGETED_GEOMETRY_DIFFICULTY_FRAMES[targetedSkill];
   if (!framesByDifficulty) return question;
 
   const o = Number(occurrence) || 0;
@@ -342,7 +350,7 @@ function remediateBatchMTargetedGeometryDifficulty(question, occurrence) {
       ? ['careful-interpretation']
       : [];
   const difficultyFeatures = [...new Set([...existingFeatures, ...requiredFeatures])];
-  const suffix = 'geometry-difficulty-v4-' + skill.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '-' + difficulty + '-' + String(frameIndex);
+  const suffix = 'geometry-difficulty-v7-' + targetedSkill.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '-' + difficulty + '-' + String(frameIndex);
 
   return {
     ...question,
@@ -356,7 +364,7 @@ function remediateBatchMTargetedGeometryDifficulty(question, occurrence) {
       difficultyFeatures,
       geometryDifficultyLane: difficulty,
       geometryDifficultyVariationIndex: frameIndex,
-      geometryDifficultySource: 'targeted-native-construction-v4',
+      geometryDifficultySource: 'targeted-native-construction-v7',
     },
   };
 }
@@ -824,6 +832,8 @@ function rebalanceDifficultyAndInteraction(question, occurrence) {
 }
 
 export // Batch M geometry difficulty finalization remediation v6
+
+// Batch M geometry difficulty alias remediation v7
 
 function generateRemediatedMathCandidatesUnique(options = {}) {
   const result = generateBaseMathCandidates(options);
