@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateSatQuestion } from '../src/data/questionSchema.js';
+import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
 import { BATCH_M_TARGETED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMTargetedProductionCorpus.js';
 import { applyBatchMControlledReplacements } from '../src/data/sat/mockContent/batchMControlledReplacementMapAdapter.js';
 import { evaluateContentQualityBatch } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
