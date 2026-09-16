@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import { BATCH_M_TARGETED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMTargetedProductionCorpus.js';
 import { applyBatchMControlledReplacements } from '../src/data/sat/mockContent/batchMControlledReplacementMapAdapter.js';
 import { canonicalBatchMTestKey } from '../src/data/sat/mockContent/batchMCanonicalTestKey.js';
@@ -5,12 +6,13 @@ import { canonicalBatchMTestKey } from '../src/data/sat/mockContent/batchMCanoni
 const corpus = applyBatchMControlledReplacements(BATCH_M_TARGETED_PRODUCTION_CORPUS);
 const targetQuestionId = 'psat-mock-01-math-math-module-1-m1-17';
 const satCounterpartId = 'sat-mock-01-math-math-module-1-m1-17';
-
+const matches = [];
 for (const mock of corpus) {
   for (const question of [...(mock.readingWriting || []), ...(mock.math || [])]) {
     if (question.questionId === targetQuestionId || question.questionId === satCounterpartId) {
-      console.log(`FIGURE-DIAGNOSTIC ${canonicalBatchMTestKey(mock)} ${question.questionId}`);
-      console.log(JSON.stringify({
+      matches.push({
+        testKey: canonicalBatchMTestKey(mock),
+        questionId: question.questionId,
         prompt: question.prompt,
         choices: question.choices,
         answer: question.answer,
@@ -18,7 +20,9 @@ for (const mock of corpus) {
         subskill: question.subskill,
         figure: question.figure,
         metadata: question.metadata,
-      }, null, 2));
+      });
     }
   }
 }
+fs.writeFileSync('docs/BATCH-M-PSAT1-M117-FIGURE-DIAGNOSTIC-2026-09-16.json', `${JSON.stringify(matches, null, 2)}\n`, 'utf8');
+console.log(JSON.stringify(matches, null, 2));
