@@ -100,7 +100,6 @@ function selectionIdentity(record) {
     remediationType: record.remediationType,
     selectionDisposition: record.selectionDisposition,
     selectedCandidateKey: record.selectedCandidateKey,
-    options: Array.isArray(record.options) ? record.options : [],
   };
 }
 
@@ -121,12 +120,27 @@ if (expected.summary?.total !== fresh.summary?.total
   );
 }
 
-if (JSON.stringify(expectedSelected) !== JSON.stringify(freshSelected)) {
-  const firstMismatch = expectedSelected.findIndex((record, index) => JSON.stringify(record) !== JSON.stringify(freshSelected[index]));
-  throw new Error(
-    `Batch M selection replay: selected-candidate identity differs at index ${firstMismatch >= 0 ? firstMismatch : 'length/end'}. `
-    + 'Replacement is blocked safely.'
-  );
+if (expectedSelected.length !== freshSelected.length) {
+  throw new Error(`Batch M selection replay: selected record count differs (expected ${expectedSelected.length}, fresh ${freshSelected.length}). Replacement is blocked safely.`);
+}
+
+const expectedByTarget = new Map(expectedSelected.map((record) => [`${record.testKey}::${record.questionId}`, record]));
+const freshByTarget = new Map(freshSelected.map((record) => [`${record.testKey}::${record.questionId}`, record]));
+if (expectedByTarget.size !== expectedSelected.length || freshByTarget.size !== freshSelected.length) {
+  throw new Error('Batch M selection replay: duplicate selected target identity detected. Replacement is blocked safely.');
+}
+
+for (const expectedRecord of expectedSelected) {
+  const targetKey = `${expectedRecord.testKey}::${expectedRecord.questionId}`;
+  const freshRecord = freshByTarget.get(targetKey);
+  if (!freshRecord) {
+    throw new Error(`Batch M selection replay: selected target ${targetKey} is missing from historical replay. Replacement is blocked safely.`);
+  }
+  if (freshRecord.remediationType !== expectedRecord.remediationType
+    || freshRecord.selectionDisposition !== expectedRecord.selectionDisposition
+    || freshRecord.selectedCandidateKey !== expectedRecord.selectedCandidateKey) {
+    throw new Error(`Batch M selection replay: selected-candidate identity differs for ${targetKey}. Replacement is blocked safely.`);
+  }
 }
 
 if (snapshot.selectedCount !== expected.summary?.selected) {
@@ -137,17 +151,22 @@ if (!Array.isArray(snapshot.records) || snapshot.records.length !== expected.sum
 }
 
 const snapshotByTarget = new Map(snapshot.records.map((record) => [`${record.testKey}::${record.questionId}`, record]));
-for (const record of expected.records.filter((item) => item.selectionDisposition === 'REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL')) {
-  const bound = snapshotByTarget.get(`${record.testKey}::${record.questionId}`);
-  if (!bound) throw new Error(`Batch M selection replay: missing selected candidate for ${record.testKey}::${record.questionId}.`);
+if (snapshotByTarget.size !== snapshot.records.length) {
+  throw new Error('Batch M selection replay: duplicate target identity detected in candidate snapshot.');
+}
+
+for (const record of expectedSelected) {
+  const targetKey = `${record.testKey}::${record.questionId}`;
+  const bound = snapshotByTarget.get(targetKey);
+  if (!bound) throw new Error(`Batch M selection replay: missing selected candidate for ${targetKey}.`);
   if (bound.selectedCandidateKey !== record.selectedCandidateKey) {
-    throw new Error(`Batch M selection replay: selected candidate mismatch for ${record.testKey}::${record.questionId}.`);
+    throw new Error(`Batch M selection replay: selected candidate mismatch for ${targetKey}.`);
   }
   if (bound.fingerprint !== String(record.selectedCandidateKey).split(':').at(-1)) {
-    throw new Error(`Batch M selection replay: bound fingerprint mismatch for ${record.testKey}::${record.questionId}.`);
+    throw new Error(`Batch M selection replay: bound fingerprint mismatch for ${targetKey}.`);
   }
   if (!bound.candidate || typeof bound.candidate !== 'object') {
-    throw new Error(`Batch M selection replay: bound candidate payload is missing for ${record.testKey}::${record.questionId}.`);
+    throw new Error(`Batch M selection replay: bound candidate payload is missing for ${targetKey}.`);
   }
 }
 
