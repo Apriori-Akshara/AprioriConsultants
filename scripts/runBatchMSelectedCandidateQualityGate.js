@@ -1,17 +1,10 @@
-// Batch M selected-candidate individual quality gate v2
+// Batch M selected-candidate individual quality gate v3
 /**
  * Batch M — downstream individual quality validation for selected replacement candidates.
  *
- * This gate deliberately does not re-implement selector compatibility rules.
- * The exact selector has already established section/skill/domain/difficulty/figure/
- * question-type/assessment compatibility and candidate uniqueness. This gate verifies:
- *   1. every selected key resolves to the deterministic candidate pool,
- *   2. the candidate fingerprint matches the selected key,
- *   3. the selected candidate passes the established individual content-quality gate,
- *   4. no selected candidate is duplicated within its product, and
- *   5. calibration-only records remain unselected.
- *
- * Read-only. It never mutates production and never authorizes release.
+ * The selector is responsible for compatibility. This gate verifies selected-candidate
+ * identity, deterministic pool resolution, existing content-quality status, uniqueness,
+ * and calibration-only handling. It is read-only and never authorizes release.
  */
 
 import fs from 'node:fs';
@@ -22,7 +15,7 @@ import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMConten
 
 const SELECTION_REPORT = path.resolve(process.cwd(), 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json');
 const OUT = path.resolve(process.cwd(), 'docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json');
-const REPORT_VERSION = '2026-09-15.selected-candidate-quality.v2';
+const REPORT_VERSION = '2026-09-15.selected-candidate-quality.v3';
 const EXPECTED_AFFECTED = 2144;
 const EXPECTED_SELECTED = 1594;
 const EXPECTED_CALIBRATION_ONLY = 550;
@@ -106,7 +99,6 @@ function main() {
   const records = [];
   const failureReasonCounts = {};
   let selectedCount = 0;
-  let validatedCount = 0;
   let calibrationOnlyCount = 0;
   let failedCount = 0;
   let seriousFailureCount = 0;
@@ -123,20 +115,17 @@ function main() {
       }
 
       const verdict = checks.length ? 'fail' : 'pass';
-      if (verdict === 'pass') validatedCount += 1;
-      else {
-        failedCount += 1;
-        seriousFailureCount += 1;
-      }
+      if (verdict === 'pass') continue;
+      failedCount += 1;
+      seriousFailureCount += 1;
       checks.forEach((check) => { failureReasonCounts[check] = (failureReasonCounts[check] || 0) + 1; });
-
       records.push({
         testKey: record.testKey,
         questionId: record.questionId,
         remediationType: record.remediationType,
         candidateKey: null,
         verdict,
-        severity: verdict === 'pass' ? 'review' : 'serious',
+        severity: 'serious',
         checks,
       });
       continue;
@@ -145,10 +134,7 @@ function main() {
     selectedCount += 1;
     const parsed = parseCandidateKey(record.selectedCandidateKey);
     const checks = [];
-
-    if (!parsed) {
-      checks.push('invalid-selected-candidate-key');
-    }
+    if (!parsed) checks.push('invalid-selected-candidate-key');
 
     const expectedProduct = record.testKey.startsWith('PSAT') ? 'psat' : 'sat';
     if (parsed && parsed.product !== expectedProduct) checks.push('candidate-product-mismatch');
@@ -158,7 +144,6 @@ function main() {
 
     let candidateFingerprint = null;
     let quality = null;
-
     if (candidate) {
       candidateFingerprint = fingerprint(candidate);
       if (candidateFingerprint !== parsed.fingerprint) checks.push('candidate-fingerprint-mismatch');
@@ -181,9 +166,7 @@ function main() {
         : 'review';
 
     uniqueChecks.forEach((check) => { failureReasonCounts[check] = (failureReasonCounts[check] || 0) + 1; });
-
     if (verdict === 'pass') {
-      validatedCount += 1;
       used[parsed.product].add(candidateFingerprint);
     } else {
       failedCount += 1;
@@ -204,9 +187,13 @@ function main() {
     });
   }
 
+  const validatedCount = selectedCount - records.filter((record) => record.verdict !== 'pass' && record.candidateKey).length;
+  const validatedAffectedCount = EXPECTED_AFFECTED - failedCount;
+
   const gateStatus = selectedCount === EXPECTED_SELECTED
-    && validatedCount === EXPECTED_AFFECTED
     && calibrationOnlyCount === EXPECTED_CALIBRATION_ONLY
+    && validatedCount === EXPECTED_SELECTED
+    && validatedAffectedCount === EXPECTED_AFFECTED
     && failedCount === 0
     && seriousFailureCount === 0
       ? 'PASS'
@@ -219,6 +206,7 @@ function main() {
     affectedUniqueQuestionCount: EXPECTED_AFFECTED,
     selectedCount,
     validatedCount,
+    validatedAffectedCount,
     calibrationOnlyCount,
     failedCount,
     seriousFailureCount,
@@ -239,6 +227,7 @@ function main() {
     affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
     selectedCount: report.selectedCount,
     validatedCount: report.validatedCount,
+    validatedAffectedCount: report.validatedAffectedCount,
     calibrationOnlyCount: report.calibrationOnlyCount,
     failedCount: report.failedCount,
     seriousFailureCount: report.seriousFailureCount,
