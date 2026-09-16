@@ -325,7 +325,8 @@ function remediateBatchMTargetedGeometryDifficulty(question, occurrence) {
   if (!framesByDifficulty) return question;
 
   const o = Number(occurrence) || 0;
-  const difficulty = TARGETED_GEOMETRY_DIFFICULTY_CYCLE[o % TARGETED_GEOMETRY_DIFFICULTY_CYCLE.length];
+  let difficulty = TARGETED_GEOMETRY_DIFFICULTY_CYCLE[o % TARGETED_GEOMETRY_DIFFICULTY_CYCLE.length];
+  if (question.assessmentVariant === 'psat-nmsqt' && difficulty === 'hard' && ['Advanced Math', 'Geometry and Trigonometry'].includes(question.domain)) difficulty = 'medium';
   const frames = framesByDifficulty[difficulty];
   const frameIndex = Math.floor(o / TARGETED_GEOMETRY_DIFFICULTY_CYCLE.length) % frames.length;
   const frame = frames[frameIndex];
@@ -364,7 +365,6 @@ function remediateBatchMTargetedGeometryDifficulty(question, occurrence) {
 
 function remapStrategicCandidate(question, occurrence) {
   question = diversifyBatchMTargetedGeometry(question, occurrence);
-  question = remediateBatchMTargetedGeometryDifficulty(question, occurrence);
   const skill = String(question.skill || '');
   const o = Number(occurrence) || 0;
 
@@ -603,7 +603,6 @@ function remediateBatchMTargetedGeometryFigure(question, occurrence) {
 function remapFigureCandidate(question, occurrence) {
   question = remediateBatchMTargetedGeometryFigure(question, occurrence);
   question = diversifyBatchMGeometry(question, occurrence);
-  question = remediateBatchMTargetedGeometryDifficulty(question, occurrence);
   const skill = String(question.skill || '');
   const o = Number(occurrence) || 0;
 
@@ -824,7 +823,9 @@ function rebalanceDifficultyAndInteraction(question, occurrence) {
   return next;
 }
 
-export function generateRemediatedMathCandidatesUnique(options = {}) {
+export // Batch M geometry difficulty finalization remediation v6
+
+function generateRemediatedMathCandidatesUnique(options = {}) {
   const result = generateBaseMathCandidates(options);
   const skillOccurrences = {};
 
@@ -836,7 +837,8 @@ export function generateRemediatedMathCandidatesUnique(options = {}) {
       ? remapFigureCandidate(candidate, occurrence)
       : remapStrategicCandidate(candidate, occurrence);
     const partitioned = partitionLinearSkill(remapped, skill, occurrence);
-    return rebalanceDifficultyAndInteraction(partitioned, occurrence);
+    const rebalanced = rebalanceDifficultyAndInteraction(partitioned, occurrence);
+    return remediateBatchMTargetedGeometryDifficulty(rebalanced, occurrence);
   });
 
   return {
