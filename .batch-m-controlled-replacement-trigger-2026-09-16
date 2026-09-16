@@ -1,1 +1,1 @@
-Run Batch M controlled replacement with the authoritative exact-payload selection and recorded AUTHORIZED gate.
+Run Batch M controlled replacement with affected-mock QC; defer unrelated 30-mock corpus verification to downstream gate.
