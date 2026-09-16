@@ -96,6 +96,7 @@ const SECTIONS = [
 ];
 
 const DIFFICULTY_CYCLE = ['easy', 'medium', 'medium', 'hard'];
+const WIC_DIFFICULTY_CYCLE = ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard', 'hard'];
 const FAMILY_KEYS = Object.keys(SOURCE_MATERIAL);
 const WIC_FAMILY_KEYS = Object.keys(WIC_TARGETS);
 
@@ -289,6 +290,27 @@ function makeEvidenceQuestion(stimulus, index) {
   return { prompt: `${stimulus}\n\n${set[0]}`, ...rotateChoices([set[1], set[2], set[3], set[4]], hashIndex(index, 3, 4)) };
 }
 
+const WIC_CONSTRUCTION_V2 = [
+  'The author uses the term within a distinction between an observed effect and a broader interpretation.',
+  'The term appears where the author connects a specific observation to the condition that shapes it.',
+  'Here, the wording makes the effect more precise by limiting what the surrounding evidence establishes.',
+  'The term helps the passage separate the reported pattern from an explanation that would be too broad.',
+  'In this passage, the word carries a meaning shaped by the evidence immediately surrounding it.',
+  'The author selects the term to describe how one part of the evidence changes the significance of another.',
+  'The context uses the word to mark a relationship rather than simply name a topic or feature.',
+  'The word is chosen because the surrounding discussion requires a precise description of scope or effect.',
+  'The passage uses the term to connect the immediate detail with the qualification that follows it.',
+  'Here, the word helps characterize a conditional result rather than an unconditional claim.',
+  'The author’s use of the term reflects the way the passage weighs the evidence against a competing interpretation.',
+  'The wording places the term between the observation and the conclusion the author draws from it.',
+  'In context, the word identifies the particular role of the relevant feature in the reported result.',
+  'The term helps the author distinguish what the evidence shows from what it merely might suggest.',
+  'The surrounding language gives the word a meaning tied to the passage’s specific pattern of evidence.',
+  'The author uses the term to describe the effect while preserving the passage’s limiting condition.',
+];
+
+// Batch M Words in Context construction remediation v2
+
 function makeWIC(index, stimulus) {
   const wicIndex = Math.max(0, Number(index) || 0);
   const family = pick(WIC_FAMILY_KEYS, wicIndex);
@@ -298,7 +320,8 @@ function makeWIC(index, stimulus) {
   const [word, meaning] = WIC_TARGETS[family][targetIndex];
   const frame = pick(WIC_FRAMES, Math.floor(pairOrdinal / 2) + targetIndex + 2);
   const context = pick(WIC_CONTEXTS, wicIndex);
-  const contextualSentence = `${stimulus} ${frame} ${context}`;
+  const construction = pick(WIC_CONSTRUCTION_V2, wicIndex);
+  const contextualSentence = `${stimulus} ${construction} ${frame} ${context}`;
   const alternatives = [
     'make the reported result disappear entirely',
     'repeat the earlier observation without changing its meaning',
@@ -446,7 +469,9 @@ function buildCandidate({ index, testId = 'SAT1', variant = 'sat', module = 'rea
   const plan = pick(SECTIONS, index);
   const family = sourceFamily(index);
   const construction = pick(RW_REMEDIATION_CONSTRUCTIONS[plan.skill], index + Math.floor(index / SECTIONS.length));
-  const difficulty = pick(DIFFICULTY_CYCLE, index + Math.floor(index / 7));
+  const difficulty = plan.skill === 'Words in Context'
+    ? pick(WIC_DIFFICULTY_CYCLE, Math.floor(index / SECTIONS.length))
+    : pick(DIFFICULTY_CYCLE, index + Math.floor(index / 7));
   const stimulus = makeStimulus(family, index);
   const reasoningOrdinal = Math.floor(index / SECTIONS.length);
   let result;

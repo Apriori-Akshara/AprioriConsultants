@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 1211,
-    "noEligibleCandidate": 383,
+    "selected": 1250,
+    "noEligibleCandidate": 344,
     "sat": 1071,
     "psat": 1073
   },
@@ -123,7 +123,7 @@
   "selectedSkillCounts": [
     {
       "key": "reading-writing:Words in Context",
-      "count": 166
+      "count": 205
     },
     {
       "key": "math:Quadratic functions and representations",
@@ -195,24 +195,6 @@
     }
   ],
   "noEligibleCandidateSkillCounts": [
-    {
-      "section": "reading-writing",
-      "skill": "Words in Context",
-      "noEligibleCandidateCount": 50,
-      "targetCount": 216,
-      "selectedCount": 166,
-      "coveragePercent": 76.85,
-      "topRejectionReasons": [
-        {
-          "key": "candidate-reuse",
-          "count": 200
-        },
-        {
-          "key": "difficulty-mismatch",
-          "count": 150
-        }
-      ]
-    },
     {
       "section": "math",
       "skill": "Linear functions and representations",
@@ -456,6 +438,24 @@
       ]
     },
     {
+      "section": "reading-writing",
+      "skill": "Words in Context",
+      "noEligibleCandidateCount": 11,
+      "targetCount": 216,
+      "selectedCount": 205,
+      "coveragePercent": 94.91,
+      "topRejectionReasons": [
+        {
+          "key": "candidate-reuse",
+          "count": 44
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 44
+        }
+      ]
+    },
+    {
       "section": "math",
       "skill": "Quadratic equations",
       "noEligibleCandidateCount": 8,
@@ -529,29 +529,13 @@
     },
     {
       "key": "reading-writing",
-      "count": 50
+      "count": 11
     }
   ],
   "noEligibleCandidateByTest": [
     {
-      "key": "SAT5",
-      "count": 33
-    },
-    {
-      "key": "SAT3",
-      "count": 31
-    },
-    {
       "key": "SAT8",
       "count": 31
-    },
-    {
-      "key": "PSAT8",
-      "count": 23
-    },
-    {
-      "key": "SAT10",
-      "count": 23
     },
     {
       "key": "SAT6",
@@ -562,12 +546,20 @@
       "count": 23
     },
     {
+      "key": "SAT5",
+      "count": 22
+    },
+    {
       "key": "SAT4",
       "count": 21
     },
     {
       "key": "SAT7",
       "count": 21
+    },
+    {
+      "key": "SAT3",
+      "count": 20
     },
     {
       "key": "PSAT7",
@@ -580,6 +572,10 @@
     {
       "key": "PSAT9",
       "count": 17
+    },
+    {
+      "key": "PSAT8",
+      "count": 16
     },
     {
       "key": "PSAT1",
@@ -595,6 +591,10 @@
     },
     {
       "key": "PSAT3",
+      "count": 13
+    },
+    {
+      "key": "SAT10",
       "count": 13
     },
     {
@@ -617,11 +617,11 @@
   "rejectionReasonCounts": [
     {
       "key": "difficulty-mismatch",
-      "count": 1062
+      "count": 956
     },
     {
       "key": "candidate-reuse",
-      "count": 1004
+      "count": 848
     },
     {
       "key": "question-type-mismatch",
@@ -872,11 +872,11 @@
       "reasons": [
         {
           "key": "candidate-reuse",
-          "count": 200
+          "count": 44
         },
         {
           "key": "difficulty-mismatch",
-          "count": 150
+          "count": 44
         }
       ]
     }
