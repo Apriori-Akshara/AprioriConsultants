@@ -168,7 +168,7 @@ function validateOne(mockContent) {
   if (records.length !== 196) errors.push(`${mockContent.testId}: expected 196 bank questions, found ${records.length}`);
 
   const mockTestId = String(mockContent.testId || '').trim();
-  if (!/^((psat|sat)-mock-(0[1-9]|10))$/.test(mockTestId)) {
+  if (!/^((psat)-mock-(0[1-9]|10)|(sat)-mock-(0[1-9]|1[0-9]|20))$/.test(mockTestId)) {
     errors.push(`${mockContent.testId || '(missing testId)'}: invalid mock identity`);
   }
 
@@ -208,9 +208,6 @@ function validateOne(mockContent) {
         if (Math.max(...lengths) - Math.min(...lengths) > 6) {
           errors.push(`${mockTestId}: answer-length imbalance ${questionId}`);
         }
-        // Choice length may be a useful authoring signal, but it is not a
-        // valid hard release gate: a correct answer can naturally be the
-        // shortest or longest option without making the item invalid.
       }
       if (answerPositions[question.answer] !== undefined) answerPositions[question.answer] += 1;
     } else if (question.questionType === 'student-produced-response') {
