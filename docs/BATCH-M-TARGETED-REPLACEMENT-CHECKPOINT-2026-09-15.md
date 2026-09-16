@@ -1,6 +1,6 @@
 # Batch M Targeted Replacement Checkpoint — September 16, 2026
 
-**Status:** SELECTED-CANDIDATE QUALITY GATE PASSED — REPLACEMENT AUTHORIZATION PENDING  
+**Status:** SELECTED-CANDIDATE QUALITY MILESTONE COMPLETE — REPLACEMENT AUTHORIZATION PENDING  
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
 **Scope:** Read-only candidate selection and downstream preparation for targeted remediation of frozen SAT1–SAT10 and PSAT1–PSAT10 production records  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
@@ -93,33 +93,21 @@ Coverage report:
 
 Product-scoped candidate reuse remains active. PSAT Geometry and Advanced Math ceiling-compatible selector handling remains active.
 
-## 5. Interpretation boundary
+## 5. Completed milestone
+
+**Candidate-selection and individual selected-candidate-quality milestone: COMPLETE.**
+
+There is no remaining candidate-generation, candidate-selection, candidate-coverage, or selected-candidate-quality work pending before authorization. The two immediately preceding red runs were verification-contract regressions only and have been corrected; they do not create an outstanding remediation task.
+
+The 1,594 selected candidates are now the complete downstream candidate set produced by the current remediation workflow. They remain review candidates, not production-approved replacements.
+
+## 6. Interpretation and production boundary
 
 The candidate-selection and individual-quality reports are controlled remediation artifacts, not production replacement authorization.
 
-A selected candidate is eligible for downstream approval only. It is not production-approved merely because it passes the quality gate.
+A selected candidate is eligible for downstream approval only. It is not production-approved merely because it has been selected and quality-validated.
 
 No question may be replaced merely because it appears in the 2,144-record inventory or because a candidate has been selected and quality-validated.
-
-## 6. Current blocker and next logical step — authorization and controlled replacement
-
-**Candidate coverage and selected-candidate individual quality are resolved.** No further candidate-pool or individual-candidate remediation is required before the authorization gate.
-
-The next implementation stage is:
-
-1. establish explicit replacement authorization;
-2. apply only the authorized affected replacements and record every post-freeze change by `testKey + questionId`;
-3. rerun the affected mock production gates;
-4. after those gates pass, run the comprehensive **20-test QC covering SAT1–SAT10 and PSAT1–PSAT10**;
-5. rerun the final collective **30-mock corpus gate**;
-6. complete 30-mock cross-corpus calibration;
-7. complete the deferred SAT11–SAT20 public verification;
-8. complete final end-to-end student acceptance;
-9. finalize Batch M release acceptance.
-
-The production freeze remains active throughout this stage until explicit authorization is recorded.
-
-## 7. Production boundary
 
 The following remain mandatory:
 
@@ -128,11 +116,32 @@ The following remain mandatory:
 - `replacementAuthorization: NOT_AUTHORIZED` unless explicitly established by the release process;
 - `sat21Created: false` permanently for this remediation sequence.
 
+## 7. Next stage — replacement authorization
+
+**The next stage is explicit replacement authorization.** Authorization must be established by the release process before any frozen production question is mutated.
+
+Once authorization is explicitly recorded, the implementation work is:
+
+1. apply only the authorized affected replacements;
+2. record every post-freeze change by exact `testKey + questionId`, including the replacement disposition;
+3. rerun the affected mock production gates;
+4. after those gates pass, run the comprehensive **20-test QC covering SAT1–SAT10 and PSAT1–PSAT10**;
+5. rerun the final collective **30-mock corpus gate**;
+6. complete 30-mock cross-corpus calibration;
+7. complete the deferred SAT11–SAT20 public verification;
+8. complete final end-to-end student acceptance;
+9. finalize Batch M release acceptance.
+
+The production freeze remains active until explicit authorization is recorded.
+
+No SAT21 or additional production target may be created.
+
 ## 8. Resume point for the next session
 
 Read only:
 
-- this document, especially **§4 Candidate coverage and individual quality resolution** and **§6 Current blocker and next logical step — authorization and controlled replacement**;
+- this document, especially **§5 Completed milestone**, **§6 Interpretation and production boundary**, and **§7 Next stage — replacement authorization**;
+- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md` — completed candidate-selection/quality milestone;
 - `docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json` — individual selected-candidate quality evidence;
 - `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — zero-gap coverage evidence;
 - `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact candidate dispositions;
