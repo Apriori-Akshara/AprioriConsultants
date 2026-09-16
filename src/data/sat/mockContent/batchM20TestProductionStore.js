@@ -9,7 +9,7 @@
 import { runBatchMFirstProductionGate } from './batchMFirstProductionGate';
 import { runBatchMSecondProductionGate } from './batchMSecondProductionGate';
 import { runBatchMThirdProductionGate } from './batchMThirdProductionGate';
-import { runBatchMFourthProductionGate } from './batchMFourthProductionGate';
+import { runBatchMFourthProductionGate } from './batchMFifthProductionGate';
 import { runBatchMFifthProductionGate } from './batchMFifthProductionGate';
 import { runBatchMSixthProductionGate } from './batchMSixthProductionGate';
 import { runBatchMSeventhProductionGate } from './batchMSeventhProductionGate';
@@ -69,8 +69,11 @@ export const BATCH_M_20_TEST_PRE_REPLACEMENT_CORPUS = Object.freeze([
   PSAT_MOCK_06_PRODUCTION, PSAT_MOCK_07_PRODUCTION, PSAT_MOCK_08_PRODUCTION, PSAT_MOCK_09_PRODUCTION, PSAT_MOCK_10_PRODUCTION,
 ]);
 
-const controlled = Object.freeze(applyBatchMControlledReplacements(BATCH_M_20_TEST_PRE_REPLACEMENT_CORPUS));
-const remediated = applyBatchMPostQCTargetedRemediations(controlled);
+export const BATCH_M_20_TEST_CONTROLLED_CORPUS = Object.freeze(
+  applyBatchMControlledReplacements(BATCH_M_20_TEST_PRE_REPLACEMENT_CORPUS),
+);
+
+const remediated = applyBatchMPostQCTargetedRemediations(BATCH_M_20_TEST_CONTROLLED_CORPUS);
 
 export const BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(remediated.corpus);
 export const BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY = Object.freeze(remediated.summary);
