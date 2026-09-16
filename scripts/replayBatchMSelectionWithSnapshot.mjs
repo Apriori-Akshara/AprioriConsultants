@@ -17,10 +17,38 @@ const instrumentedSelectorPath = path.join(sourceRoot, 'scripts/runBatchMTargete
 if (!fs.existsSync(selectorPath)) throw new Error(`Batch M selection replay: selector not found at ${selectorPath}.`);
 if (!fs.existsSync(loaderPath)) throw new Error(`Batch M selection replay: historical module loader not found at ${loaderPath}.`);
 
-let selector = fs.readFileSync(selectorPath, 'utf8');
-const originalSelector = selector;
+const originalSelector = fs.readFileSync(selectorPath, 'utf8');
+let selector = originalSelector;
 const marker = `const OUT = path.resolve(process.cwd(), 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json');`;
 const reportWrite = "  fs.writeFileSync(OUT, `${JSON.stringify(report, null, 2)}\\n`, 'utf8');";
+const selectedCaptureBlock = [
+  '    if (!calibrationOnly && eligibleItems[0]) {',
+  '      selectedCandidateSnapshots.push({',
+  '        testKey: target.testKey,',
+  '        questionId: target.questionId,',
+  "        selectedCandidateKey: eligibleItems[0].product + ':' + eligibleItems[0].poolIndex + ':' + eligibleItems[0].fingerprint,",
+  '        selectedPoolIndex: eligibleItems[0].poolIndex,',
+  '        fingerprint: eligibleItems[0].fingerprint,',
+  '        candidate: eligibleItems[0].candidate,',
+  '      });',
+  '    }',
+  '',
+  '    records.push({',
+].join('\n');
+const snapshotWriteBlock = [
+  '  if (BATCH_M_REPLAY_SNAPSHOT_OUT) {',
+  '    const snapshot = {',
+  "      reportType: 'batch-m-selection-bound-candidate-snapshot',",
+  "      reportVersion: '2026-09-16.selection-replay.v1',",
+  "      generationSource: 'exact-selector-replay',",
+  '      generationCommit: process.env.BATCH_M_SELECTION_GENERATION_COMMIT || null,',
+  "      selectionReport: 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json',",
+  '      selectedCount: selectedCandidateSnapshots.length,',
+  '      records: selectedCandidateSnapshots,',
+  '    };',
+  "    fs.writeFileSync(BATCH_M_REPLAY_SNAPSHOT_OUT, JSON.stringify(snapshot) + '\\n', 'utf8');",
+  '  }',
+].join('\n');
 
 if (!selector.includes(marker)) throw new Error('Batch M selection replay: selector output marker not found.');
 if (!selector.includes('const records = [];')) throw new Error('Batch M selection replay: selector records marker not found.');
@@ -31,21 +59,12 @@ selector = selector.replace(
   marker,
   `${marker}\nconst BATCH_M_REPLAY_SNAPSHOT_OUT = process.env.BATCH_M_SELECTION_SNAPSHOT_OUT || '';`
 );
-
 selector = selector.replace(
   '  const records = [];',
   '  const records = [];\n  const selectedCandidateSnapshots = [];'
 );
-
-selector = selector.replace(
-  '    records.push({',
-  "    if (!calibrationOnly && eligibleItems[0]) {\n      selectedCandidateSnapshots.push({\n        testKey: target.testKey,\n        questionId: target.questionId,\n        selectedCandidateKey: eligibleItems[0].product + ':' + eligibleItems[0].poolIndex + ':' + eligibleItems[0].fingerprint,\n        selectedPoolIndex: eligibleItems[0].poolIndex,\n        fingerprint: eligibleItems[0].fingerprint,\n        candidate: eligibleItems[0].candidate,\n      });\n    }\n\n    records.push({"
-);
-
-selector = selector.replace(
-  reportWrite,
-  `${reportWrite}\n\n  if (BATCH_M_REPLAY_SNAPSHOT_OUT) {\n    const snapshot = {\n      reportType: 'batch-m-selection-bound-candidate-snapshot',\n      reportVersion: '2026-09-16.selection-replay.v1',\n      generationSource: 'exact-selector-replay',\n      generationCommit: process.env.BATCH_M_SELECTION_GENERATION_COMMIT || null,\n      selectionReport: 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json',\n      selectedCount: selectedCandidateSnapshots.length,\n      records: selectedCandidateSnapshots,\n    };\n    fs.writeFileSync(BATCH_M_REPLAY_SNAPSHOT_OUT, `${JSON.stringify(snapshot)}\\n`, 'utf8');\n  }`
-);
+selector = selector.replace('    records.push({', selectedCaptureBlock);
+selector = selector.replace(reportWrite, reportWrite + '\n\n' + snapshotWriteBlock);
 
 if (selector === originalSelector) {
   throw new Error('Batch M selection replay: instrumentation did not modify selector source.');
