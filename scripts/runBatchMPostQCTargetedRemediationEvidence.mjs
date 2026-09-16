@@ -56,7 +56,7 @@ let figureOriginalityFailure = null;
 try { validateFigureOriginalitySeries(result.corpus); } catch (error) { figureOriginalityFailure = String(error?.message || error); }
 const report = {
   reportType: 'batch-m-post-qc-targeted-remediation',
-  reportVersion: '2026-09-16.post-qc-targeted-remediation.v1',
+  reportVersion: '2026-09-16.post-qc-targeted-remediation.v2',
   scope: 'SAT1-SAT10 and PSAT1-PSAT10 only',
   productionMutation: true,
   releaseEligible: false,
@@ -72,7 +72,9 @@ const report = {
     runtimeQuestions: result.corpus.reduce((n, mock) => n + records(mock).length, 0),
   },
 };
-report.passed = schemaFailures.length === 0 && qualityFailures.length === 0 && !figureOriginalityFailure;
+report.passed = schemaFailures.length === 0 && qualityFailures.length === 0 && !figureOriginalityFailure &&
+  changedOperationCounts.difficultyCalibration === 550 && changedOperationCounts.rwStimulusRepair === 206 &&
+  changedOperationCounts.figureRepair === 2 && changedTargets.length === 674;
 report.status = report.passed ? 'PASS' : 'QUALITY_HOLD';
 fs.writeFileSync(outPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(report, null, 2));
