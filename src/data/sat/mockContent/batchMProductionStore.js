@@ -31,6 +31,7 @@ import { runBatchMSAT19ProductionGate } from './batchMSAT19ProductionGate';
 import { runBatchMSAT20ProductionGate } from './batchMSAT20ProductionGate';
 import { runBatchMFinalCorpusGate } from './batchMFinalCorpusGate';
 import { applyBatchMControlledReplacements } from './batchMControlledReplacementMapAdapter';
+import { applyBatchMPostQCTargetedRemediations } from './batchMPostQCTargetedRemediation';
 
 const accepted = (label, result) => {
   if (!result?.passed || !result?.productionMock) throw new Error(`Batch M ${label}: accepted production mock was not returned by the production gate`);
@@ -111,8 +112,11 @@ const BATCH_M_PRE_REPLACEMENT_CORPUS = Object.freeze([
   SAT_SERIES_B_MOCK_16_PRODUCTION, SAT_SERIES_B_MOCK_17_PRODUCTION, SAT_SERIES_B_MOCK_18_PRODUCTION, SAT_SERIES_B_MOCK_19_PRODUCTION, SAT_SERIES_B_MOCK_20_PRODUCTION,
 ]);
 
-export const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(applyBatchMControlledReplacements(BATCH_M_PRE_REPLACEMENT_CORPUS));
+const BATCH_M_CONTROLLED_CORPUS = Object.freeze(applyBatchMControlledReplacements(BATCH_M_PRE_REPLACEMENT_CORPUS));
+const BATCH_M_POST_QC_REMEDIATION_RESULT = applyBatchMPostQCTargetedRemediations(BATCH_M_CONTROLLED_CORPUS);
 
+export const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(BATCH_M_POST_QC_REMEDIATION_RESULT.corpus);
+export const BATCH_M_POST_QC_REMEDIATION_SUMMARY = Object.freeze(BATCH_M_POST_QC_REMEDIATION_RESULT.summary);
 export const BATCH_M_FINAL_CORPUS_VERIFICATION = runBatchMFinalCorpusGate(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
 
 export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
@@ -123,6 +127,7 @@ export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
   storageMode: 'canonical-runtime-records',
   nextTestKey: null,
   finalCorpusVerification: BATCH_M_FINAL_CORPUS_VERIFICATION.status,
+  postQcRemediation: BATCH_M_POST_QC_REMEDIATION_SUMMARY,
 });
 
 export default SAT_SERIES_B_MOCK_20_PRODUCTION;
