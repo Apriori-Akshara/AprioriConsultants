@@ -271,8 +271,100 @@ function diversifyBatchMTargetedGeometry(question, occurrence) {
 
 // Batch M targeted geometry coverage remediation v2
 
+
+const TARGETED_GEOMETRY_DIFFICULTY_CYCLE = ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'];
+
+const TARGETED_GEOMETRY_DIFFICULTY_FRAMES = {
+  'Geometry and measurement': {
+    easy: [
+      'Use the directly relevant measurement relationship to determine the requested value.',
+      'Identify the quantity that can be found directly from the stated dimensions, then calculate it.'
+    ],
+    medium: [
+      'Determine the needed intermediate measurement from the figure before calculating the requested quantity.',
+      'Interpret the geometric condition and connect two stated measurements before selecting the requested value.'
+    ],
+    hard: [
+      'Determine an intermediate quantity, select the geometric relationship that constrains it, and use that result to obtain the requested value.',
+      'Compare the applicable geometric relationships, determine the necessary intermediate measurement, and then verify the final quantity against the stated condition.'
+    ]
+  },
+  'Similarity and scaling': {
+    easy: [
+      'Use the stated scale factor to determine the corresponding quantity requested.',
+      'Match the corresponding dimensions and apply the direct scaling relationship.'
+    ],
+    medium: [
+      'Determine the scale factor first, then apply it consistently to the quantity requested.',
+      'Identify the corresponding measures and determine whether length, perimeter, or area scaling applies before calculating.'
+    ],
+    hard: [
+      'Determine the correspondence, derive the scale factor, and then apply the correct power of that factor to the requested quantity.',
+      'Use the similarity condition to derive an intermediate measure, distinguish linear from area scaling, and then determine the requested value.'
+    ]
+  },
+  'Right triangles': {
+    easy: [
+      'Use the right angle and the stated side lengths to apply the directly relevant right-triangle relationship.',
+      'Identify the hypotenuse and legs, then determine the requested value from the given measurements.'
+    ],
+    medium: [
+      'Determine the missing side length from the right-triangle relationship before calculating the requested quantity.',
+      'Use the right-angle condition to connect the known sides and determine the intermediate measurement needed for the answer.'
+    ],
+    hard: [
+      'Determine an intermediate side or ratio from the right-triangle relationship, then use that result in a second step to obtain the requested quantity.',
+      'Choose the appropriate right-triangle theorem, derive the necessary intermediate value, and verify that the resulting quantity satisfies the stated condition.'
+    ]
+  }
+};
+
+function remediateBatchMTargetedGeometryDifficulty(question, occurrence) {
+  const skill = String(question.skill || '');
+  const framesByDifficulty = TARGETED_GEOMETRY_DIFFICULTY_FRAMES[skill];
+  if (!framesByDifficulty) return question;
+
+  const o = Number(occurrence) || 0;
+  const difficulty = TARGETED_GEOMETRY_DIFFICULTY_CYCLE[o % TARGETED_GEOMETRY_DIFFICULTY_CYCLE.length];
+  const frames = framesByDifficulty[difficulty];
+  const frameIndex = Math.floor(o / TARGETED_GEOMETRY_DIFFICULTY_CYCLE.length) % frames.length;
+  const frame = frames[frameIndex];
+  const prompt = String(question.prompt || '');
+  const separator = /[.!?]$/.test(prompt) ? ' ' : '. ';
+
+  const existingFeatures = Array.isArray(question.metadata?.difficultyFeatures)
+    ? question.metadata.difficultyFeatures.filter(Boolean)
+    : [];
+  const requiredFeatures = difficulty === 'hard'
+    ? ['multi-step', 'strategic-choice']
+    : difficulty === 'medium'
+      ? ['careful-interpretation']
+      : [];
+  const difficultyFeatures = [...new Set([...existingFeatures, ...requiredFeatures])];
+  const suffix = 'geometry-difficulty-v4-' + skill.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase() + '-' + difficulty + '-' + String(frameIndex);
+
+  return {
+    ...question,
+    difficulty,
+    prompt: prompt + separator + frame,
+    originalityFingerprint: String(question.originalityFingerprint || '') + '-' + suffix,
+    conceptFingerprint: String(question.conceptFingerprint || '') + '-' + suffix,
+    metadata: {
+      ...question.metadata,
+      constructionFamily: String(question.metadata?.constructionFamily || '') + '-' + suffix,
+      difficultyFeatures,
+      geometryDifficultyLane: difficulty,
+      geometryDifficultyVariationIndex: frameIndex,
+      geometryDifficultySource: 'targeted-native-construction-v4',
+    },
+  };
+}
+
+// Batch M targeted geometry difficulty/reuse remediation v4
+
 function remapStrategicCandidate(question, occurrence) {
   question = diversifyBatchMTargetedGeometry(question, occurrence);
+  question = remediateBatchMTargetedGeometryDifficulty(question, occurrence);
   const skill = String(question.skill || '');
   const o = Number(occurrence) || 0;
 
