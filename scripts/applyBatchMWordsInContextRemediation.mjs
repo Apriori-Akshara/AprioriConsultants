@@ -83,7 +83,7 @@ if (!source.includes(marker)) {
 const v2Marker = '// Batch M Words in Context construction remediation v2';
 if (!source.includes(v2Marker)) {
   const difficultyMarker = "const DIFFICULTY_CYCLE = ['easy', 'medium', 'medium', 'hard'];";
-  const difficultyReplacement = `${difficultyMarker}\nconst WIC_DIFFICULTY_CYCLE = ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard', 'hard'];`;
+  const difficultyReplacement = `${difficultyMarker}\nconst WIC_DIFFICULTY_CYCLE = ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'];`;
   if (!source.includes(difficultyMarker)) throw new Error('Expected difficulty cycle not found.');
   source = source.replace(difficultyMarker, difficultyReplacement);
 

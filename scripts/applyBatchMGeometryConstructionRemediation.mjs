@@ -92,7 +92,7 @@ if (!source.includes(difficultyMarker)) throw new Error('Missing difficulty skil
 source = source.replace(difficultyMarker, difficultyReplacement);
 
 const difficultyLine = "  let difficulty = preserveConstructedLinearDifficulty ? question.difficulty : ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'][occurrence % 10];";
-const difficultyReplacementLine = "  const preserveConstructedGeometryDifficulty = geometrySkills.has(String(question.skill || ''));\n  let difficulty = preserveConstructedLinearDifficulty || preserveConstructedGeometryDifficulty\n    ? (preserveConstructedLinearDifficulty ? question.difficulty : pick(GEOMETRY_DIFFICULTY_CYCLE, occurrence))\n    : ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'][occurrence % 10];";
+const difficultyReplacementLine = "  const preserveConstructedGeometryDifficulty = geometrySkills.has(String(question.skill || ''));\n  let difficulty = preserveConstructedLinearDifficulty || preserveConstructedGeometryDifficulty\n    ? (preserveConstructedLinearDifficulty ? question.difficulty : GEOMETRY_DIFFICULTY_CYCLE[((occurrence % GEOMETRY_DIFFICULTY_CYCLE.length) + GEOMETRY_DIFFICULTY_CYCLE.length) % GEOMETRY_DIFFICULTY_CYCLE.length])\n    : ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'][occurrence % 10];";
 if (!source.includes(difficultyLine)) throw new Error('Missing current difficulty line.');
 source = source.replace(difficultyLine, difficultyReplacementLine);
 
