@@ -15,6 +15,7 @@ name: Batch M targeted candidate selection
 # Rerun requested after calibrating geometry difficulty supply to target distribution and PSAT ceiling v8.
 # Rerun requested after selector preparation compatibility correction v9.
 # Rerun requested after adding selected-candidate individual quality gate and hardening report push against branch races.
+# Rerun requested after synchronizing remediation-branch workflow execution after downstream gate integration.
 
 on:
   push:
