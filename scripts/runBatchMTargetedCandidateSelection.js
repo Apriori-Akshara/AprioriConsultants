@@ -160,7 +160,8 @@ function domainMatches(candidate, meta) {
   return candidate.section === 'math' && skillMatches(candidate.skill, meta.skill);
 }
 
-function reasonList(candidate, meta, used, productionFingerprints) {
+function reasonList(item, meta, used, productionFingerprints) {
+  const { candidate, fingerprint: fp } = item;
   const reasons = [];
 
   if (candidate.section !== meta.section) reasons.push('section-mismatch');
@@ -177,7 +178,6 @@ function reasonList(candidate, meta, used, productionFingerprints) {
   if (candidate.assessmentFamily !== meta.assessmentFamily) reasons.push('assessment-family-mismatch');
   if (candidate.assessmentVariant !== meta.assessmentVariant) reasons.push('assessment-variant-mismatch');
 
-  const fp = fingerprint(candidate);
   if (productionFingerprints.has(fp)) reasons.push('production-content-duplicate');
   if (used.has(fp)) reasons.push('candidate-reuse');
 
@@ -247,6 +247,9 @@ function buildCompatibilityIndex(candidates) {
 }
 
 function compatibleCandidates(index, section, targetSkill) {
+  const cacheKey = `${section}\u0000${targetSkill}`;
+  if (index.compatibilityCache.has(cacheKey)) return index.compatibilityCache.get(cacheKey);
+
   const skillKeys = new Set([targetSkill]);
   Object.entries(SKILL_ALIASES).forEach(([candidateSkill, targetSkills]) => {
     if (targetSkills.includes(targetSkill)) skillKeys.add(candidateSkill);
@@ -254,12 +257,20 @@ function compatibleCandidates(index, section, targetSkill) {
 
   const matches = [];
   for (const skill of skillKeys) {
-    const bucket = index.get(`${section}\u0000${skill}`);
+    const bucket = index.buckets.get(`${section}\u0000${skill}`);
     if (bucket) matches.push(...bucket);
   }
 
   matches.sort((a, b) => a.poolIndex - b.poolIndex);
+  index.compatibilityCache.set(cacheKey, matches);
   return matches;
+}
+
+function finalizeCompatibilityIndex(buckets) {
+  return {
+    buckets,
+    compatibilityCache: new Map(),
+  };
 }
 
 function main() {
@@ -274,8 +285,8 @@ function main() {
 
   const pools = buildPools();
   const compatibilityIndexes = {
-    sat: buildCompatibilityIndex(pools.sat.candidates),
-    psat: buildCompatibilityIndex(pools.psat.candidates),
+    sat: finalizeCompatibilityIndex(buildCompatibilityIndex(pools.sat.candidates)),
+    psat: finalizeCompatibilityIndex(buildCompatibilityIndex(pools.psat.candidates)),
   };
   const targets = preparation.questions.filter((question) => TARGET_KEYS.has(question.testKey));
   const used = new Set();
@@ -306,7 +317,7 @@ function main() {
     const considered = [];
 
     for (const item of compatible) {
-      const reasons = reasonList(item.candidate, meta, used, productionFingerprints);
+      const reasons = reasonList(item, meta, used, productionFingerprints);
 
       if (!reasons.length && !calibrationOnly && eligibleItems.length < 2 && !eligibleFingerprints.has(item.fingerprint)) {
         eligibleItems.push(item);
