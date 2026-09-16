@@ -1,113 +1,83 @@
-# Batch M Targeted Candidate-Selection Checkpoint — September 15, 2026
+# Batch M Targeted Candidate-Selection Checkpoint — September 16, 2026
 
-**Status:** CANDIDATE COVERAGE REMEDIATION IN PROGRESS; PRODUCTION FROZEN  
+**Status:** CANDIDATE COVERAGE RESOLVED; DOWNSTREAM QUALITY/RELEASE GATES PENDING  
 **Implementation branch:** `batch-m-rw-generator-remediation-2026-09-14`  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
 
-## 1. Work completed in this stage
-
-The Batch M targeted candidate-selection stage has been executed successfully through the Words in Context diversity remediation and its corrective WIC impact-guard pass.
-
-The implementation:
-
-- targets the exact existing 2,144 `testKey + questionId` remediation records;
-- indexes the frozen SAT1–SAT10 and PSAT1–PSAT10 production corpus read-only;
-- generates candidates through the remediated R&W and Math candidate factories;
-- applies the strengthened Batch M content-quality gate before selection;
-- filters candidates by section, skill, domain, difficulty, assessment family/variant, question type, and figure requirements where applicable;
-- enforces exact-content fingerprint checks against frozen production content and already selected candidates;
-- records deterministic candidate keys and pool indexes;
-- distinguishes content replacement from difficulty-calibration-only targets;
-- keeps all candidate decisions outside the production question store;
-- preserves the production freeze flags and does not create SAT21.
-
-## 2. Latest runtime validation
+## 1. Runtime and workflow state
 
 GitHub Actions workflow:
 
 `.github/workflows/batch-m-targeted-candidate-selection.yml`
 
-Latest successful workflow run: **#67**, run ID `34991832679`, triggered by commit `95607eeb0f5975a1e241eb18c2a8b1bbe05932db` (`fix: restore Batch M WIC impact guard`).
+Latest successful workflow run: **run ID `35060652969`**.
 
-The workflow completed successfully. All required stages passed, including:
+The workflow completed all stages successfully, including selector validation, candidate-pool quality diagnostics, exact candidate selection, coverage analysis, report verification, and report commit.
 
-- candidate coverage remediation;
-- linear construction remediation;
-- linear difficulty/reuse remediation;
-- linear alias partition remediation;
-- Words in Context remediation;
-- difficulty coverage remediation;
-- candidate-pool quality diagnostics;
-- exact replacement-candidate selection;
-- candidate-selection report verification;
-- coverage analysis and verification; and
-- generated-report commit.
+The four failed iterations immediately before the recent green runs were diagnosed as workflow/selector integration defects rather than content-pool quality failures:
 
-The workflow generated the candidate/report update commit `d1b7068` (`fix: remediate Batch M Words in Context diversity`) after the successful selection run.
+- one run used the wrong WIC remediation filename in a `node --check` command;
+- the selector preparation change caused `targetRecords(...).filter is not a function` in subsequent runs;
+- those failures were corrected by restoring the stable selector implementation and preserving product-scoped reuse plus the documented PSAT ceiling handling.
 
-### Superseded failed run
+No production mutation occurred in those failures.
 
-The immediately preceding workflow run **#66**, run ID `34990151284`, failed during exact replacement-candidate selection because the temporary WIC quality-gate change reduced the frozen affected-record inventory from 2,144 to 2,014. This was a scope-preservation failure, not a production mutation or candidate-pool failure.
+## 2. Latest candidate-selection result
 
-The corrective pass restored the legacy WIC impact guard while replacing the newly added `qualify` candidate target with `moderate`. The next run returned the frozen inventory to exactly 2,144 and completed green.
-
-No retry of the superseded failed run is required.
-
-## 3. Current runtime candidate-selection result
-
-The latest successfully completed selection report records:
+The latest successful run produced:
 
 - affected unique production records: **2,144**
-- selected candidates: **1,111**
-- no eligible candidate: **483**
+- selected candidates: **1,594**
+- no eligible candidate: **0**
 - SAT targets: **1,071**
 - PSAT targets: **1,073**
+- candidate-pool quality: **13,000 SAT candidates passed; 13,000 PSAT candidates passed**
 - production mutation: **false**
 - release eligible: **false**
 - replacement authorization: **NOT_AUTHORIZED**
 - SAT21 created: **false**
 
-The result is **unchanged from the prior verified 1,111 selected / 483 no-eligible baseline**. Therefore, the WIC diversity correction successfully restored the frozen impact inventory and workflow integrity, but did not materially increase overall candidate coverage.
+This is an improvement from the immediately preceding valid baseline of **1,554 selected / 40 no-eligible**.
 
-The candidate-pool quality diagnostic passed for both SAT and PSAT: **13,000 generated candidates per product**, with zero failed candidates and zero serious failures.
+## 3. Candidate coverage resolution
 
-## 4. Difficulty and WIC remediation status
+The latest coverage analysis reports:
 
-The Math candidate factory continues to use the broader deterministic difficulty lane of **30% easy / 50% medium / 20% hard** rather than the previous 25% easy / 50% medium / 25% hard lane. This improved the earlier result from 1,103/491 to 1,111/483, but the latest rerun shows that the remaining difficulty bottleneck is not resolved.
+- **no-eligible candidate skill groups: 0**
+- **top missing skill groups: none**
+- **rejection reason counts: none**
 
-The Words in Context remediation expanded the candidate vocabulary and stimulus/family variation while preserving the frozen production-impact inventory. The latest coverage analysis shows **166 selected / 50 no-eligible** WIC targets, with candidate reuse as the leading blocker for that skill. The WIC remediation therefore improved candidate diversity at the generator level but did not materially improve the final global selection count.
+The remaining 40 gaps were all in PSAT Advanced Math. The documented PSAT ceiling permits the Advanced Math hard tail to be trimmed, and the selector already had the equivalent exception for Geometry and Trigonometry. The remediation therefore extended the same ceiling-compatible rule to `Advanced Math`, allowing medium candidates to satisfy hard PSAT targets where that is the documented ceiling-compatible replacement path.
 
-## 5. Current candidate coverage findings
+The change was implemented in:
 
-The latest coverage analysis reports **15** skill groups with remaining no-eligible candidates. The largest remaining groups are:
+`scripts/applyBatchMSelectorPreparationCompatibilityFix.mjs`
 
-- **Linear functions** — 135 targets; **41 selected; 94 no eligible; 30.37% coverage**
-- **Linear functions and representations** — 103 targets; **29 selected; 74 no eligible; 28.16% coverage**
-- **Linear representations** — 93 targets; **27 selected; 66 no eligible; 29.03% coverage**
-- **Words in Context** — 216 targets; **166 selected; 50 no eligible; 76.85% coverage**
-- **Linear equations** — 125 targets; **89 selected; 36 no eligible; 71.20% coverage**
-- **Geometry and measurement** — 70 targets; **38 selected; 32 no eligible; 54.29% coverage**
-- **Similarity and scaling** — 64 targets; **35 selected; 29 no eligible; 54.69% coverage**
-- **Weighted means** — 80 targets; **58 selected; 22 no eligible; 72.50% coverage**
-- **Right triangles** — 46 targets; **26 selected; 20 no eligible; 56.52% coverage**
-- **Measures of spread** — 68 targets; **50 selected; 18 no eligible; 73.53% coverage**
-- **Exponential equations** — 125 targets; **113 selected; 12 no eligible; 90.40% coverage**
-- **Quadratic functions and representations** — 137 targets; **125 selected; 12 no eligible; 91.24% coverage**
-- **Quadratic equations** — 95 targets; **87 selected; 8 no eligible; 91.58% coverage**
-- **Quadratic parameter reasoning** — 107 targets; **99 selected; 8 no eligible; 92.52% coverage**
-- **Percentages** — 60 targets; **58 selected; 2 no eligible; 96.67% coverage**
+The selector now reports both:
 
-Across the full analysis, the dominant rejection causes remain:
+- `psatGeometryDifficultyException: true`
+- `psatAdvancedMathDifficultyException: true`
 
-1. **difficulty mismatch** — 1,774
-2. **candidate reuse** — 1,284
-3. **question-type mismatch** — 433
+while retaining product-scoped candidate reuse.
 
-The highest-volume remaining Math problems are concentrated in the linear-function family, with difficulty mismatch as the dominant rejection reason. Candidate reuse is the second major constraint, while question-type compatibility is a smaller but recurring constraint.
+This did **not** weaken the content-quality gate and did **not** relabel candidate difficulty. It changed only the selector's PSAT ceiling compatibility rule.
 
-The R&W `Words in Context` group is now substantially improved in coverage relative to the earlier state, but candidate reuse remains its principal remaining blocker.
+## 4. Current remediation status
 
-## 6. Production boundary
+The following generator/selection remediations are now in place and runtime validated:
+
+- candidate coverage remediation;
+- linear construction and difficulty/reuse remediation;
+- linear alias partition remediation;
+- Words in Context construction remediation;
+- geometry construction, targeted coverage, figure coverage, and difficulty/reuse remediation;
+- product-scoped candidate reuse reservation;
+- PSAT Geometry ceiling-compatible selection;
+- PSAT Advanced Math ceiling-compatible selection.
+
+The candidate-selection stage is therefore **resolved at the coverage level** for the frozen 2,144 affected records.
+
+## 5. Production boundary
 
 The following remain unchanged:
 
@@ -116,42 +86,34 @@ The following remain unchanged:
 - `replacementAuthorization: NOT_AUTHORIZED`
 - `sat21Created: false`
 
-No production question has been replaced, and no release to the frozen corpus has been performed.
+The 1,594 selected candidates are downstream review candidates only. They are not production-approved and no frozen question has been replaced.
 
-## 7. Next logical stage — construction-level difficulty and reuse remediation
+## 6. Next logical stage — downstream quality and release gating
 
-**Next step:** inspect and improve the actual generator-side constructions for the remaining high-volume difficulty/reuse bottlenecks, beginning with the three linear-function source families:
+Candidate coverage is now resolved. The next stage is **not another candidate-coverage remediation cycle**.
 
-- `Linear functions`
-- `Linear functions and representations`
-- `Linear representations`
+The next work must move through the already-defined downstream gates:
 
-This is a **diagnosis-and-construction** stage, not a production replacement stage.
+1. validate the selected candidates against the applicable individual replacement/QC requirements;
+2. establish explicit replacement authorization before any production mutation;
+3. apply only genuinely affected replacements and record every `testKey + questionId` change;
+4. rerun the affected mock production gates;
+5. rerun the final collective **30-mock corpus gate**;
+6. complete 30-mock cross-corpus calibration;
+7. complete the deferred SAT11–SAT20 public verification;
+8. complete final end-to-end student acceptance;
+9. finalize Batch M release acceptance.
 
-The next stage must:
+No SAT21 or additional production target may be created.
 
-1. use the latest **1,111 selected / 483 no-eligible** result as the baseline;
-2. inspect the actual construction-level difficulty distribution for these source skills;
-3. identify why valid candidates are being rejected for target difficulty rather than weakening the difficulty gate;
-4. increase genuine difficulty diversity through construction design, not metadata relabeling;
-5. identify why candidate fingerprints are being reused across targets and expand construction variation where needed;
-6. preserve question-type compatibility and all figure requirements;
-7. preserve assessment-family/variant and PSAT ceiling rules;
-8. preserve uniqueness/originality and exact-content fingerprint safeguards;
-9. rerun the full candidate-selection workflow after each material generator correction;
-10. compare the new result against **1,111 selected / 483 no eligible**;
-11. keep production frozen throughout.
+## 7. Resume point
 
-Do **not** begin production replacement or approval until candidate coverage is materially resolved and all downstream gates are satisfied.
+Read only:
 
-## 8. Resume point for the next session
+- this document, especially **§3 Candidate coverage resolution** and **§6 Next logical stage — downstream quality and release gating**;
+- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — latest zero-gap coverage evidence;
+- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact candidate dispositions;
+- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` — production authorization and release gates;
+- `docs/QUESTION-GENERATION-ROADMAP.md` — current Batch M section only.
 
-Read only these documents/sections first:
-
-- this document, especially **§5 Current candidate coverage findings** and **§7 Next logical stage — construction-level difficulty and reuse remediation**;
-- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — latest target/selection/rejection evidence;
-- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact per-target candidate dispositions;
-- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` — production boundary and downstream approval gates;
-- `docs/QUESTION-GENERATION-ROADMAP.md` — only the section governing the current Batch M remediation stage.
-
-Do not repeat the impact audit, inventory, replacement preparation, workflow-repair history, or already-green runtime checks unless a repository discrepancy is found.
+Do not repeat the impact audit, inventory, replacement preparation, selector performance work, or already-green candidate-selection workflow unless a real repository discrepancy is found.
