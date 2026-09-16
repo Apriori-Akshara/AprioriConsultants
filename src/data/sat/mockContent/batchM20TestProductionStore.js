@@ -28,6 +28,7 @@ import { runBatchMPSATNinthProductionGate } from './batchMPSATNinthProductionGat
 import { runBatchMPSATTenthProductionGate } from './batchMPSATTenthProductionGate';
 import { applyBatchMControlledReplacements } from './batchMControlledReplacementMapAdapter';
 import { applyBatchMPostQCTargetedRemediations } from './batchMPostQCTargetedRemediation';
+import { applyBatchMGenericNumericDistractorRemediation } from './batchMGenericNumericDistractorRemediation';
 
 const accepted = (label, result) => {
   if (!result?.passed || !result?.productionMock) throw new Error(`Batch M ${label}: accepted production mock was not returned by the production gate`);
@@ -74,6 +75,12 @@ export const BATCH_M_20_TEST_CONTROLLED_CORPUS = Object.freeze(
 );
 
 const remediated = applyBatchMPostQCTargetedRemediations(BATCH_M_20_TEST_CONTROLLED_CORPUS);
+const numericDistractorRemediated = applyBatchMGenericNumericDistractorRemediation(remediated.corpus);
 
-export const BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(remediated.corpus);
-export const BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY = Object.freeze(remediated.summary);
+export const BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(numericDistractorRemediated.corpus);
+export const BATCH_M_20_TEST_POST_QC_REMEDIATION_SUMMARY = Object.freeze({
+  ...remediated.summary,
+  targetsChanged: remediated.summary.targetsChanged + numericDistractorRemediated.changed,
+  numericDistractorRepairs: numericDistractorRemediated.changed,
+  numericDistractorRepairQuestionIds: numericDistractorRemediated.changedQuestionIds,
+});
