@@ -1,9 +1,8 @@
 {
   "reportType": "batch-m-comprehensive-20-test-qc",
-  "reportVersion": "2026-09-16.comprehensive-20-test-qc.v1",
+  "reportVersion": "2026-09-16.comprehensive-20-test-qc.targeted-v2",
   "scope": "SAT1-SAT10 and PSAT1-PSAT10 only",
   "sourceCorpus": "BATCH_M_TARGETED_PRODUCTION_CORPUS",
-  "replacementArtifact": "docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json",
   "productionMutation": false,
   "releaseEligible": false,
   "sat21Created": false,
@@ -16,318 +15,189 @@
   },
   "observed": {
     "preReplacementRuntimeQuestions": 3920,
-    "postReplacementRuntimeQuestions": 3920,
-    "mocks": 20,
-    "replacementMapEntries": 1594,
-    "changedReplacementTargets": 1594,
+    "controlledReplacementRuntimeQuestions": 3920,
+    "postQCRuntimeQuestions": 3920,
+    "verifiedReplacementTargets": 1594,
+    "uniqueReplacementTargets": 1594,
     "schemaFailures": 0,
     "contentQualityFailures": 672,
     "figureQuestionsWithDeterministicFingerprint": 514
   },
+  "postQCTargetedRemediation": {
+    "difficultyCalibrations": 0,
+    "rwStimulusRepairs": 0,
+    "figureRepairs": 0,
+    "targetsChanged": 0
+  },
   "gates": {
     "scopeAndIdentity": "PASS",
     "schema": "PASS",
-    "replacementIntegrity": "PASS",
+    "replacementIntegrityBeforePostQC": "PASS",
     "contentQuality": "FAIL",
     "figureOriginality": "FAIL"
   },
   "perMock": {
-    "PSAT1": {
-      "total": 196,
-      "passed": 164,
-      "failed": 32,
-      "scoreSum": 18950,
-      "averageScore": 96.68,
-      "sprCount": 15,
-      "sprPercentOfMock": 7.65
-    },
-    "PSAT10": {
-      "total": 196,
-      "passed": 167,
-      "failed": 29,
-      "scoreSum": 19130,
-      "averageScore": 97.6,
-      "sprCount": 18,
-      "sprPercentOfMock": 9.18
-    },
-    "PSAT2": {
-      "total": 196,
-      "passed": 156,
-      "failed": 40,
-      "scoreSum": 19020,
-      "averageScore": 97.04,
-      "sprCount": 15,
-      "sprPercentOfMock": 7.65
-    },
-    "PSAT3": {
-      "total": 196,
-      "passed": 174,
-      "failed": 22,
-      "scoreSum": 19050,
-      "averageScore": 97.19,
-      "sprCount": 16,
-      "sprPercentOfMock": 8.16
-    },
-    "PSAT4": {
-      "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18950,
-      "averageScore": 96.68,
-      "sprCount": 16,
-      "sprPercentOfMock": 8.16
-    },
-    "PSAT5": {
-      "total": 196,
-      "passed": 164,
-      "failed": 32,
-      "scoreSum": 19060,
-      "averageScore": 97.24,
-      "sprCount": 16,
-      "sprPercentOfMock": 8.16
-    },
-    "PSAT6": {
-      "total": 196,
-      "passed": 165,
-      "failed": 31,
-      "scoreSum": 19020,
-      "averageScore": 97.04,
-      "sprCount": 17,
-      "sprPercentOfMock": 8.67
-    },
-    "PSAT7": {
-      "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18950,
-      "averageScore": 96.68,
-      "sprCount": 17,
-      "sprPercentOfMock": 8.67
-    },
-    "PSAT8": {
-      "total": 196,
-      "passed": 175,
-      "failed": 21,
-      "scoreSum": 19060,
-      "averageScore": 97.24,
-      "sprCount": 18,
-      "sprPercentOfMock": 9.18
-    },
-    "PSAT9": {
-      "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18970,
-      "averageScore": 96.79,
-      "sprCount": 18,
-      "sprPercentOfMock": 9.18
-    },
     "SAT1": {
       "total": 196,
       "passed": 164,
       "failed": 32,
       "scoreSum": 18950,
-      "averageScore": 96.68,
-      "sprCount": 15,
-      "sprPercentOfMock": 7.65
-    },
-    "SAT10": {
-      "total": 196,
-      "passed": 167,
-      "failed": 29,
-      "scoreSum": 19130,
-      "averageScore": 97.6,
-      "sprCount": 18,
-      "sprPercentOfMock": 9.18
+      "averageScore": 96.68
     },
     "SAT2": {
       "total": 196,
       "passed": 156,
       "failed": 40,
       "scoreSum": 19020,
-      "averageScore": 97.04,
-      "sprCount": 15,
-      "sprPercentOfMock": 7.65
+      "averageScore": 97.04
     },
     "SAT3": {
       "total": 196,
       "passed": 174,
       "failed": 22,
       "scoreSum": 19050,
-      "averageScore": 97.19,
-      "sprCount": 16,
-      "sprPercentOfMock": 8.16
+      "averageScore": 97.19
     },
     "SAT4": {
       "total": 196,
       "passed": 153,
       "failed": 43,
       "scoreSum": 18950,
-      "averageScore": 96.68,
-      "sprCount": 16,
-      "sprPercentOfMock": 8.16
+      "averageScore": 96.68
     },
     "SAT5": {
       "total": 196,
       "passed": 164,
       "failed": 32,
       "scoreSum": 19060,
-      "averageScore": 97.24,
-      "sprCount": 16,
-      "sprPercentOfMock": 8.16
+      "averageScore": 97.24
     },
     "SAT6": {
       "total": 196,
       "passed": 165,
       "failed": 31,
       "scoreSum": 19020,
-      "averageScore": 97.04,
-      "sprCount": 16,
-      "sprPercentOfMock": 8.16
+      "averageScore": 97.04
     },
     "SAT7": {
       "total": 196,
       "passed": 153,
       "failed": 43,
       "scoreSum": 18950,
-      "averageScore": 96.68,
-      "sprCount": 17,
-      "sprPercentOfMock": 8.67
+      "averageScore": 96.68
     },
     "SAT8": {
       "total": 196,
       "passed": 175,
       "failed": 21,
       "scoreSum": 19060,
-      "averageScore": 97.24,
-      "sprCount": 18,
-      "sprPercentOfMock": 9.18
+      "averageScore": 97.24
     },
     "SAT9": {
       "total": 196,
       "passed": 153,
       "failed": 43,
       "scoreSum": 18970,
-      "averageScore": 96.79,
-      "sprCount": 18,
-      "sprPercentOfMock": 9.18
+      "averageScore": 96.79
+    },
+    "SAT10": {
+      "total": 196,
+      "passed": 167,
+      "failed": 29,
+      "scoreSum": 19130,
+      "averageScore": 97.6
+    },
+    "PSAT1": {
+      "total": 196,
+      "passed": 164,
+      "failed": 32,
+      "scoreSum": 18950,
+      "averageScore": 96.68
+    },
+    "PSAT2": {
+      "total": 196,
+      "passed": 156,
+      "failed": 40,
+      "scoreSum": 19020,
+      "averageScore": 97.04
+    },
+    "PSAT3": {
+      "total": 196,
+      "passed": 174,
+      "failed": 22,
+      "scoreSum": 19050,
+      "averageScore": 97.19
+    },
+    "PSAT4": {
+      "total": 196,
+      "passed": 153,
+      "failed": 43,
+      "scoreSum": 18950,
+      "averageScore": 96.68
+    },
+    "PSAT5": {
+      "total": 196,
+      "passed": 164,
+      "failed": 32,
+      "scoreSum": 19060,
+      "averageScore": 97.24
+    },
+    "PSAT6": {
+      "total": 196,
+      "passed": 165,
+      "failed": 31,
+      "scoreSum": 19020,
+      "averageScore": 97.04
+    },
+    "PSAT7": {
+      "total": 196,
+      "passed": 153,
+      "failed": 43,
+      "scoreSum": 18950,
+      "averageScore": 96.68
+    },
+    "PSAT8": {
+      "total": 196,
+      "passed": 175,
+      "failed": 21,
+      "scoreSum": 19060,
+      "averageScore": 97.24
+    },
+    "PSAT9": {
+      "total": 196,
+      "passed": 153,
+      "failed": 43,
+      "scoreSum": 18970,
+      "averageScore": 96.79
+    },
+    "PSAT10": {
+      "total": 196,
+      "passed": 167,
+      "failed": 29,
+      "scoreSum": 19130,
+      "averageScore": 97.6
     }
-  },
-  "sectionCounts": {
-    "reading-writing": 2160,
-    "math": 1760
-  },
-  "difficultyCounts": {
-    "medium": 1725,
-    "hard": 1147,
-    "easy": 1048
   },
   "failureReasonCounts": {
     "hard-label-without-demand-feature": 550,
     "rw-stimulus-length": 206
   },
-  "replacementCountsByMock": {
-    "PSAT1": 80,
-    "PSAT10": 81,
-    "PSAT2": 84,
-    "PSAT3": 80,
-    "PSAT4": 79,
-    "PSAT5": 79,
-    "PSAT6": 83,
-    "PSAT7": 78,
-    "PSAT8": 77,
-    "PSAT9": 77,
-    "SAT1": 80,
-    "SAT10": 80,
-    "SAT2": 83,
-    "SAT3": 80,
-    "SAT4": 79,
-    "SAT5": 79,
-    "SAT6": 83,
-    "SAT7": 78,
-    "SAT8": 77,
-    "SAT9": 77
-  },
   "failures": [
     {
-      "check": "content-quality",
-      "detail": "SAT1: 32/196 questions failed; average score 96.68"
+      "check": "difficulty-remediation-count",
+      "detail": 0
     },
     {
-      "check": "content-quality",
-      "detail": "SAT2: 40/196 questions failed; average score 97.04"
+      "check": "rw-remediation-count",
+      "detail": 0
     },
     {
-      "check": "content-quality",
-      "detail": "SAT3: 22/196 questions failed; average score 97.19"
+      "check": "figure-remediation-count",
+      "detail": 0
     },
     {
-      "check": "content-quality",
-      "detail": "SAT4: 43/196 questions failed; average score 96.68"
-    },
-    {
-      "check": "content-quality",
-      "detail": "SAT5: 32/196 questions failed; average score 97.24"
-    },
-    {
-      "check": "content-quality",
-      "detail": "SAT6: 31/196 questions failed; average score 97.04"
-    },
-    {
-      "check": "content-quality",
-      "detail": "SAT7: 43/196 questions failed; average score 96.68"
-    },
-    {
-      "check": "content-quality",
-      "detail": "SAT8: 21/196 questions failed; average score 97.24"
-    },
-    {
-      "check": "content-quality",
-      "detail": "SAT9: 43/196 questions failed; average score 96.79"
-    },
-    {
-      "check": "content-quality",
-      "detail": "SAT10: 29/196 questions failed; average score 97.60"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT1: 32/196 questions failed; average score 96.68"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT2: 40/196 questions failed; average score 97.04"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT3: 22/196 questions failed; average score 97.19"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT4: 43/196 questions failed; average score 96.68"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT5: 32/196 questions failed; average score 97.24"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT6: 31/196 questions failed; average score 97.04"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT7: 43/196 questions failed; average score 96.68"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT8: 21/196 questions failed; average score 97.24"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT9: 43/196 questions failed; average score 96.79"
-    },
-    {
-      "check": "content-quality",
-      "detail": "PSAT10: 29/196 questions failed; average score 97.60"
+      "check": "post-qc-target-count",
+      "detail": 0
     },
     {
       "check": "figure-originality",
