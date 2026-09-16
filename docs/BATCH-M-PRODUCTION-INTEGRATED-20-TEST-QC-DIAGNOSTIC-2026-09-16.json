@@ -7,176 +7,2507 @@
     "figureRepairs": 2,
     "targetsChanged": 674
   },
-  "schemaFailureCount": 0,
-  "contentQualityFailureCount": 0,
+  "schemaFailures": [],
+  "contentQualityFailures": [],
   "duplicateQuestionIds": [],
   "figureDuplicateCount": 166,
   "figureDuplicatePairs": [
-    "SAT1::sat-series-a-mock-01-math-math-module-1-m1-22 => PSAT1::psat-mock-01-math-math-module-1-m1-22",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-low-74 => PSAT1::psat-mock-01-math-math-module-2-high-34",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-high-37 => PSAT1::psat-mock-01-math-math-module-2-high-37",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-high-42 => PSAT1::psat-mock-01-math-math-module-2-high-42",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-high-43 => PSAT1::psat-mock-01-math-math-module-2-high-43",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-high-44 => PSAT1::psat-mock-01-math-math-module-2-high-44",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-high-34 => PSAT1::psat-mock-01-math-math-module-2-standard-54",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-standard-58 => PSAT1::psat-mock-01-math-math-module-2-standard-58",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-standard-61 => PSAT1::psat-mock-01-math-math-module-2-standard-61",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-standard-63 => PSAT1::psat-mock-01-math-math-module-2-standard-63",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-standard-64 => PSAT1::psat-mock-01-math-math-module-2-standard-64",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-standard-66 => PSAT1::psat-mock-01-math-math-module-2-standard-66",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-low-78 => PSAT1::psat-mock-01-math-math-module-2-low-74",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-standard-54 => PSAT1::psat-mock-01-math-math-module-2-low-78",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-low-81 => PSAT1::psat-mock-01-math-math-module-2-low-81",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-low-86 => PSAT1::psat-mock-01-math-math-module-2-low-86",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-low-87 => PSAT1::psat-mock-01-math-math-module-2-low-87",
-    "SAT1::sat-series-a-mock-01-math-math-module-2-low-88 => PSAT1::psat-mock-01-math-math-module-2-low-88",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-standard-57 => PSAT2::psat-mock-02-math-math-module-1-m1-13",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-standard-60 => PSAT2::psat-mock-02-math-math-module-1-m1-16",
-    "SAT3::sat-series-a-mock-03-math-math-module-1-m1-19 => PSAT2::psat-mock-02-math-math-module-1-m1-20",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-low-85 => PSAT2::psat-mock-02-math-math-module-1-m1-21",
-    "SAT2::sat-series-a-mock-02-math-math-module-1-m1-22 => PSAT2::psat-mock-02-math-math-module-1-m1-22",
-    "SAT2::sat-series-a-mock-02-math-math-module-1-m1-13 => PSAT2::psat-mock-02-math-math-module-2-high-33",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-high-39 => PSAT2::psat-mock-02-math-math-module-2-high-40",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-high-41 => PSAT2::psat-mock-02-math-math-module-2-high-41",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-low-85 => PSAT2::psat-mock-02-math-math-module-2-high-42",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-low-85 => PSAT2::psat-mock-02-math-math-module-2-high-43",
-    "SAT3::sat-series-a-mock-03-math-math-module-1-m1-16 => PSAT2::psat-mock-02-math-math-module-2-standard-53",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-standard-53 => PSAT2::psat-mock-02-math-math-module-2-standard-57",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-standard-59 => PSAT2::psat-mock-02-math-math-module-2-standard-60",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-low-87 => PSAT2::psat-mock-02-math-math-module-2-standard-63",
-    "SAT3::sat-series-a-mock-03-math-math-module-1-m1-20 => PSAT2::psat-mock-02-math-math-module-2-standard-65",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-low-86 => PSAT2::psat-mock-02-math-math-module-2-standard-66",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-low-77 => PSAT2::psat-mock-02-math-math-module-2-low-77",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-standard-65 => PSAT2::psat-mock-02-math-math-module-2-low-85",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-high-42 => PSAT2::psat-mock-02-math-math-module-2-low-86",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-high-43 => PSAT2::psat-mock-02-math-math-module-2-low-87",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-standard-57 => PSAT3::psat-mock-03-math-math-module-1-m1-12",
-    "SAT4::sat-series-a-mock-04-math-math-module-1-m1-18 => PSAT3::psat-mock-03-math-math-module-1-m1-19",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-standard-66 => PSAT3::psat-mock-03-math-math-module-1-m1-21",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-standard-63 => PSAT3::psat-mock-03-math-math-module-1-m1-22",
-    "SAT3::sat-series-a-mock-03-math-math-module-1-m1-12 => PSAT3::psat-mock-03-math-math-module-2-high-32",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-low-76 => PSAT3::psat-mock-03-math-math-module-2-high-36",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-high-38 => PSAT3::psat-mock-03-math-math-module-2-high-39",
-    "SAT3::sat-series-a-mock-03-math-math-module-1-m1-21 => PSAT3::psat-mock-03-math-math-module-2-high-41",
-    "SAT3::sat-series-a-mock-03-math-math-module-1-m1-22 => PSAT3::psat-mock-03-math-math-module-2-high-42",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-high-44 => PSAT3::psat-mock-03-math-math-module-2-high-44",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-low-80 => PSAT3::psat-mock-03-math-math-module-2-standard-52",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-standard-52 => PSAT3::psat-mock-03-math-math-module-2-standard-56",
-    "SAT5::sat-series-a-mock-05-math-math-module-1-m1-17 => PSAT3::psat-mock-03-math-math-module-2-standard-59",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-standard-64 => PSAT3::psat-mock-03-math-math-module-2-standard-64",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-standard-65 => PSAT3::psat-mock-03-math-math-module-2-standard-65",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-low-86 => PSAT3::psat-mock-03-math-math-module-2-standard-66",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-high-32 => PSAT3::psat-mock-03-math-math-module-2-low-76",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-high-36 => PSAT3::psat-mock-03-math-math-module-2-low-80",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-high-41 => PSAT3::psat-mock-03-math-math-module-2-low-85",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-high-42 => PSAT3::psat-mock-03-math-math-module-2-low-86",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-standard-56 => PSAT4::psat-mock-04-math-math-module-1-m1-11",
-    "SAT4::sat-series-a-mock-04-math-math-module-1-m1-11 => PSAT4::psat-mock-04-math-math-module-1-m1-15",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-high-37 => PSAT4::psat-mock-04-math-math-module-1-m1-18",
-    "SAT3::sat-series-a-mock-03-math-math-module-2-standard-66 => PSAT4::psat-mock-04-math-math-module-1-m1-21",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-high-35 => PSAT4::psat-mock-04-math-math-module-2-high-31",
-    "SAT4::sat-series-a-mock-04-math-math-module-1-m1-15 => PSAT4::psat-mock-04-math-math-module-2-high-35",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-standard-62 => PSAT4::psat-mock-04-math-math-module-2-high-38",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-low-85 => PSAT4::psat-mock-04-math-math-module-2-high-41",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-high-43 => PSAT4::psat-mock-04-math-math-module-2-high-43",
-    "SAT4::sat-series-a-mock-04-math-math-module-1-m1-20 => PSAT4::psat-mock-04-math-math-module-2-high-44",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-low-79 => PSAT4::psat-mock-04-math-math-module-2-standard-55",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-standard-63 => PSAT4::psat-mock-04-math-math-module-2-standard-63",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-high-44 => PSAT4::psat-mock-04-math-math-module-2-standard-64",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-high-41 => PSAT4::psat-mock-04-math-math-module-2-standard-65",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-high-31 => PSAT4::psat-mock-04-math-math-module-2-low-75",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-low-75 => PSAT4::psat-mock-04-math-math-module-2-low-79",
-    "SAT4::sat-series-a-mock-04-math-math-module-1-m1-21 => PSAT4::psat-mock-04-math-math-module-2-low-85",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-low-85 => PSAT4::psat-mock-04-math-math-module-2-low-88",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-high-34 => PSAT5::psat-mock-05-math-math-module-1-m1-10",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-high-33 => PSAT5::psat-mock-05-math-math-module-1-m1-14",
-    "SAT9::sat-series-a-mock-09-math-math-module-2-standard-61 => PSAT5::psat-mock-05-math-math-module-1-m1-17",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-low-85 => PSAT5::psat-mock-05-math-math-module-1-m1-22",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-standard-55 => PSAT5::psat-mock-05-math-math-module-2-high-30",
-    "SAT5::sat-series-a-mock-05-math-math-module-1-m1-10 => PSAT5::psat-mock-05-math-math-module-2-high-34",
-    "SAT5::sat-series-a-mock-05-math-math-module-1-m1-22 => PSAT5::psat-mock-05-math-math-module-2-high-42",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-low-88 => PSAT5::psat-mock-05-math-math-module-2-high-43",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-standard-65 => PSAT5::psat-mock-05-math-math-module-2-high-44",
-    "SAT7::sat-series-a-mock-07-math-math-module-1-m1-16 => PSAT5::psat-mock-05-math-math-module-2-standard-54",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-low-74 => PSAT5::psat-mock-05-math-math-module-2-standard-58",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-high-43 => PSAT5::psat-mock-05-math-math-module-2-standard-63",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-high-44 => PSAT5::psat-mock-05-math-math-module-2-standard-64",
-    "SAT5::sat-series-a-mock-05-math-math-module-1-m1-14 => PSAT5::psat-mock-05-math-math-module-2-low-74",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-high-30 => PSAT5::psat-mock-05-math-math-module-2-low-78",
-    "SAT4::sat-series-a-mock-04-math-math-module-2-standard-64 => PSAT5::psat-mock-05-math-math-module-2-low-87",
-    "SAT5::sat-series-a-mock-05-math-math-module-1-m1-20 => PSAT5::psat-mock-05-math-math-module-2-low-88",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-low-78 => PSAT6::psat-mock-06-math-math-module-1-m1-09",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-standard-54 => PSAT6::psat-mock-06-math-math-module-1-m1-13",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-high-42 => PSAT6::psat-mock-06-math-math-module-1-m1-21",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-low-87 => PSAT6::psat-mock-06-math-math-module-1-m1-22",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-standard-58 => PSAT6::psat-mock-06-math-math-module-2-high-33",
-    "SAT6::sat-series-a-mock-06-math-math-module-1-m1-21 => PSAT6::psat-mock-06-math-math-module-2-high-41",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-standard-63 => PSAT6::psat-mock-06-math-math-module-2-high-42",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-low-88 => PSAT6::psat-mock-06-math-math-module-2-high-43",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-high-36 => PSAT6::psat-mock-06-math-math-module-2-standard-53",
-    "SAT6::sat-series-a-mock-06-math-math-module-1-m1-09 => PSAT6::psat-mock-06-math-math-module-2-standard-57",
-    "SAT5::sat-series-a-mock-05-math-math-module-2-standard-64 => PSAT6::psat-mock-06-math-math-module-2-standard-63",
-    "SAT6::sat-series-a-mock-06-math-math-module-1-m1-22 => PSAT6::psat-mock-06-math-math-module-2-standard-66",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-high-32 => PSAT6::psat-mock-06-math-math-module-2-low-77",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-low-84 => PSAT6::psat-mock-06-math-math-module-2-low-84",
-    "SAT6::sat-series-a-mock-06-math-math-module-1-m1-13 => PSAT7::psat-mock-07-math-math-module-1-m1-08",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-low-77 => PSAT7::psat-mock-07-math-math-module-1-m1-12",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-high-42 => PSAT7::psat-mock-07-math-math-module-1-m1-21",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-high-43 => PSAT7::psat-mock-07-math-math-module-1-m1-22",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-standard-53 => PSAT7::psat-mock-07-math-math-module-2-high-32",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-high-35 => PSAT7::psat-mock-07-math-math-module-2-high-36",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-low-86 => PSAT7::psat-mock-07-math-math-module-2-high-41",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-low-87 => PSAT7::psat-mock-07-math-math-module-2-high-42",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-low-76 => PSAT7::psat-mock-07-math-math-module-2-standard-52",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-low-80 => PSAT7::psat-mock-07-math-math-module-2-standard-56",
-    "SAT7::sat-series-a-mock-07-math-math-module-1-m1-21 => PSAT7::psat-mock-07-math-math-module-2-standard-65",
-    "SAT7::sat-series-a-mock-07-math-math-module-1-m1-22 => PSAT7::psat-mock-07-math-math-module-2-standard-66",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-standard-57 => PSAT7::psat-mock-07-math-math-module-2-low-76",
-    "SAT7::sat-series-a-mock-07-math-math-module-1-m1-12 => PSAT7::psat-mock-07-math-math-module-2-low-80",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-low-83 => PSAT7::psat-mock-07-math-math-module-2-low-83",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-standard-66 => PSAT7::psat-mock-07-math-math-module-2-low-85",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-standard-63 => PSAT7::psat-mock-07-math-math-module-2-low-86",
-    "SAT6::sat-series-a-mock-06-math-math-module-2-high-41 => PSAT7::psat-mock-07-math-math-module-2-low-88",
-    "SAT9::sat-series-a-mock-09-math-math-module-2-high-34 => PSAT8::psat-mock-08-math-math-module-1-m1-11",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-high-42 => PSAT8::psat-mock-08-math-math-module-1-m1-21",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-standard-52 => PSAT8::psat-mock-08-math-math-module-2-high-31",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-standard-56 => PSAT8::psat-mock-08-math-math-module-2-high-35",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-low-86 => PSAT8::psat-mock-08-math-math-module-2-high-41",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-high-41 => PSAT8::psat-mock-08-math-math-module-2-high-44",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-standard-65 => PSAT8::psat-mock-08-math-math-module-2-standard-64",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-standard-66 => PSAT8::psat-mock-08-math-math-module-2-standard-65",
-    "SAT8::sat-series-a-mock-08-math-math-module-1-m1-11 => PSAT8::psat-mock-08-math-math-module-2-low-75",
-    "SAT8::sat-series-a-mock-08-math-math-module-1-m1-15 => PSAT8::psat-mock-08-math-math-module-2-low-79",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-low-82 => PSAT8::psat-mock-08-math-math-module-2-low-82",
-    "SAT7::sat-series-a-mock-07-math-math-module-1-m1-20 => PSAT8::psat-mock-08-math-math-module-2-low-87",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-high-31 => PSAT9::psat-mock-09-math-math-module-1-m1-10",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-low-75 => PSAT9::psat-mock-09-math-math-module-1-m1-14",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-low-79 => PSAT9::psat-mock-09-math-math-module-2-high-30",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-standard-55 => PSAT9::psat-mock-09-math-math-module-2-high-34",
-    "SAT8::sat-series-a-mock-08-math-math-module-1-m1-21 => PSAT9::psat-mock-09-math-math-module-2-high-44",
-    "SAT9::sat-series-a-mock-09-math-math-module-1-m1-10 => PSAT9::psat-mock-09-math-math-module-2-standard-54",
-    "SAT9::sat-series-a-mock-09-math-math-module-1-m1-14 => PSAT9::psat-mock-09-math-math-module-2-standard-58",
-    "SAT8::sat-series-a-mock-08-math-math-module-1-m1-20 => PSAT9::psat-mock-09-math-math-module-2-standard-63",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-standard-65 => PSAT9::psat-mock-09-math-math-module-2-standard-64",
-    "SAT9::sat-series-a-mock-09-math-math-module-2-low-81 => PSAT9::psat-mock-09-math-math-module-2-low-81",
-    "SAT7::sat-series-a-mock-07-math-math-module-2-low-88 => PSAT9::psat-mock-09-math-math-module-2-low-86",
-    "SAT8::sat-series-a-mock-08-math-math-module-2-high-41 => PSAT9::psat-mock-09-math-math-module-2-low-88",
-    "SAT10::sat-series-a-mock-10-math-math-module-1-m1-09 => PSAT10::psat-mock-10-math-math-module-1-m1-09",
-    "SAT10::sat-series-a-mock-10-math-math-module-1-m1-13 => PSAT10::psat-mock-10-math-math-module-1-m1-13",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-high-40 => PSAT10::psat-mock-10-math-math-module-1-m1-20",
-    "SAT10::sat-series-a-mock-10-math-math-module-1-m1-22 => PSAT10::psat-mock-10-math-math-module-1-m1-22",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-low-77 => PSAT10::psat-mock-10-math-math-module-2-high-33",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-standard-60 => PSAT10::psat-mock-10-math-math-module-2-high-40",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-high-42 => PSAT10::psat-mock-10-math-math-module-2-high-42",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-high-43 => PSAT10::psat-mock-10-math-math-module-2-high-43",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-high-33 => PSAT10::psat-mock-10-math-math-module-2-standard-53",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-standard-53 => PSAT10::psat-mock-10-math-math-module-2-standard-57",
-    "SAT2::sat-series-a-mock-02-math-math-module-2-high-40 => PSAT10::psat-mock-10-math-math-module-2-standard-60",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-standard-63 => PSAT10::psat-mock-10-math-math-module-2-standard-63",
-    "SAT2::sat-series-a-mock-02-math-math-module-1-m1-21 => PSAT10::psat-mock-10-math-math-module-2-standard-65",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-high-33 => PSAT10::psat-mock-10-math-math-module-2-low-77",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-low-84 => PSAT10::psat-mock-10-math-math-module-2-low-84",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-standard-65 => PSAT10::psat-mock-10-math-math-module-2-low-85",
-    "SAT10::sat-series-a-mock-10-math-math-module-2-low-87 => PSAT10::psat-mock-10-math-math-module-2-low-87"
-  ]
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:7|y:8.49}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-1-m1-22",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-1-m1-22",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-14|c:59|type:parabola|values:{a:1|b:-14|c:59}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-low-74",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-high-34",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,17],[2,21],[3,28],[4,30],[5,33]]}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-high-37",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-high-37",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:8|y:8.94}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-high-42",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-high-42",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:15|scale:3|shape:similar-figures|smallArea:13|smallLength:5}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-high-43",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-high-43",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:6|inner:7|outer:19|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-high-44",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-high-44",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-22|c:135|type:parabola|values:{a:1|b:-22|c:135}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-high-34",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-standard-54",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-30|c:243|type:parabola|values:{a:1|b:-30|c:243}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-standard-58",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-standard-58",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,26],[2,31],[3,36],[4,36],[5,44]]}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-standard-61",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-standard-61",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:35|scale:5|shape:similar-figures|smallArea:15|smallLength:7}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-standard-63",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-standard-63",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:8|inner:9|outer:21|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-standard-64",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-standard-64",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:11|y:10.2}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-standard-66",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-standard-66",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-16|c:75|type:parabola|values:{a:1|b:-16|c:75}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-low-78",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-low-74",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-18|c:93|type:parabola|values:{a:1|b:-18|c:93}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-standard-54",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-low-78",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,11],[2,17],[3,21],[4,24],[5,28]]}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-low-81",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-low-81",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:9|y:9.38}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-low-86",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-low-86",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:24|scale:4|shape:similar-figures|smallArea:14|smallLength:6}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-low-87",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-low-87",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:7|inner:8|outer:20|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT1",
+        "questionId": "sat-series-a-mock-01-math-math-module-2-low-88",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT1",
+        "questionId": "psat-mock-01-math-math-module-2-low-88",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-54|c:759|type:parabola|values:{a:1|b:-54|c:759}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-standard-57",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-1-m1-13",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,46],[2,51],[3,56],[4,58],[5,63]]}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-standard-60",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-1-m1-16",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,47],[2,53],[3,58],[4,60],[5,65]]}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-1-m1-19",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-1-m1-20",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:15|y:11.66}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-low-85",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-1-m1-21",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:55|scale:5|shape:similar-figures|smallArea:19|smallLength:11}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-1-m1-22",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-1-m1-22",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-56|c:815|type:parabola|values:{a:1|b:-56|c:815}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-1-m1-13",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-high-33",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,56],[2,59],[3,66],[4,66],[5,76]]}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-high-39",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-high-40",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:16|y:12}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-high-41",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-high-41",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:39|scale:3|shape:similar-figures|smallArea:21|smallLength:13}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-low-85",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-high-42",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:14|inner:15|outer:27|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-low-85",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-high-43",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-62|c:995|type:parabola|values:{a:1|b:-62|c:995}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-1-m1-16",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-standard-53",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-70|c:1263|type:parabola|values:{a:1|b:-70|c:1263}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-standard-53",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-standard-57",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,57],[2,61],[3,68],[4,68],[5,71]]}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-standard-59",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-standard-60",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:16|inner:6|outer:29|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-low-87",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-standard-63",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:19|y:12.96}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-1-m1-20",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-standard-65",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:75|scale:5|shape:similar-figures|smallArea:23|smallLength:15}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-low-86",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-standard-66",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-58|c:873|type:parabola|values:{a:1|b:-58|c:873}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-low-77",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-low-77",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:17|y:12.33}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-standard-65",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-low-85",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:56|scale:4|shape:similar-figures|smallArea:22|smallLength:14}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-high-42",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-low-86",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:15|inner:16|outer:28|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-high-43",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT2",
+        "questionId": "psat-mock-02-math-math-module-2-low-87",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-72|c:1335|type:parabola|values:{a:1|b:-72|c:1335}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-standard-57",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-1-m1-12",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,66],[2,71],[3,76],[4,80],[5,82]]}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-1-m1-18",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-1-m1-19",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:51|scale:3|shape:similar-figures|smallArea:25|smallLength:17}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-standard-66",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-1-m1-21",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:5|inner:8|outer:31|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-standard-63",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-1-m1-22",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-74|c:1409|type:parabola|values:{a:1|b:-74|c:1409}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-1-m1-12",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-high-32",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-78|c:1526|type:parabola|values:{a:1|b:-78|c:1526}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-low-76",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-high-36",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,67],[2,73],[3,78],[4,82],[5,84]]}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-high-38",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-high-39",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:72|scale:4|shape:similar-figures|smallArea:26|smallLength:18}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-1-m1-21",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-high-41",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:6|inner:9|outer:32|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-1-m1-22",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-high-42",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:20|y:13.27}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-high-44",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-high-44",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-90|c:2036|type:parabola|values:{a:1|b:-90|c:2036}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-low-80",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-standard-52",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-94|c:2222|type:parabola|values:{a:1|b:-94|c:2222}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-standard-52",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-standard-56",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,76],[2,79],[3,86],[4,88],[5,95]]}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-1-m1-17",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-standard-59",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:21|y:13.56}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-standard-64",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-standard-64",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:63|scale:3|shape:similar-figures|smallArea:29|smallLength:21}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-standard-65",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-standard-65",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:9|inner:12|outer:35|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-low-86",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-standard-66",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-80|c:1606|type:parabola|values:{a:1|b:-80|c:1606}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-high-32",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-low-76",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-82|c:1688|type:parabola|values:{a:1|b:-82|c:1688}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-high-36",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-low-80",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:95|scale:5|shape:similar-figures|smallArea:27|smallLength:19}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-high-41",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-low-85",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:7|inner:10|outer:33|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-high-42",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT3",
+        "questionId": "psat-mock-03-math-math-module-2-low-86",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-96|c:2318|type:parabola|values:{a:1|b:-96|c:2318}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-standard-56",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-1-m1-11",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-98|c:2416|type:parabola|values:{a:1|b:-98|c:2416}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-1-m1-11",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-1-m1-15",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,77],[2,81],[3,88],[4,90],[5,97]]}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-high-37",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-1-m1-18",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:10|inner:13|outer:36|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT3",
+        "questionId": "sat-series-a-mock-03-math-math-module-2-standard-66",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-1-m1-21",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-102|c:2618|type:parabola|values:{a:1|b:-102|c:2618}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-high-35",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-high-31",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-110|c:3046|type:parabola|values:{a:1|b:-110|c:3046}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-1-m1-15",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-high-35",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,86],[2,91],[3,96],[4,96],[5,101]]}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-standard-62",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-high-38",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:11|inner:14|outer:37|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-low-85",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-high-41",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:23|y:14.14}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-high-43",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-high-43",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:88|scale:4|shape:similar-figures|smallArea:30|smallLength:22}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-1-m1-20",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-high-44",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-118|c:3506|type:parabola|values:{a:1|b:-118|c:3506}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-low-79",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-standard-55",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:24|y:14.42}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-standard-63",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-standard-63",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:75|scale:3|shape:similar-figures|smallArea:33|smallLength:25}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-high-44",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-standard-64",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:14|inner:6|outer:40|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-high-41",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-standard-65",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-112|c:3158|type:parabola|values:{a:1|b:-112|c:3158}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-high-31",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-low-75",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-114|c:3272|type:parabola|values:{a:1|b:-114|c:3272}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-low-75",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-low-79",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:13|inner:16|outer:39|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-1-m1-21",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-low-85",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:115|scale:5|shape:similar-figures|smallArea:31|smallLength:23}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-low-85",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT4",
+        "questionId": "psat-mock-04-math-math-module-2-low-88",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-120|c:3626|type:parabola|values:{a:1|b:-120|c:3626}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-high-34",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-1-m1-10",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-122|c:3748|type:parabola|values:{a:1|b:-122|c:3748}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-high-33",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-1-m1-14",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,87],[2,93],[3,98],[4,98],[5,103]]}}",
+      "first": {
+        "testKey": "SAT9",
+        "questionId": "sat-series-a-mock-09-math-math-module-2-standard-61",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-1-m1-17",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:25|y:14.7}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-low-85",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-1-m1-22",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-130|c:4256|type:parabola|values:{a:1|b:-130|c:4256}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-standard-55",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-high-30",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-134|c:4522|type:parabola|values:{a:1|b:-134|c:4522}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-1-m1-10",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-high-34",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:27|y:15.23}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-1-m1-22",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-high-42",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:104|scale:4|shape:similar-figures|smallArea:34|smallLength:26}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-low-88",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-high-43",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:15|inner:7|outer:18|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-standard-65",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-high-44",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-142|c:5078|type:parabola|values:{a:1|b:-142|c:5078}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-1-m1-16",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-standard-54",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-150|c:5666|type:parabola|values:{a:1|b:-150|c:5666}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-low-74",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-standard-58",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:87|scale:3|shape:similar-figures|smallArea:37|smallLength:29}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-high-43",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-standard-63",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:5|inner:10|outer:21|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-high-44",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-standard-64",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-136|c:4658|type:parabola|values:{a:1|b:-136|c:4658}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-1-m1-14",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-low-74",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-138|c:4796|type:parabola|values:{a:1|b:-138|c:4796}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-high-30",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-low-78",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:135|scale:5|shape:similar-figures|smallArea:35|smallLength:27}}",
+      "first": {
+        "testKey": "SAT4",
+        "questionId": "sat-series-a-mock-04-math-math-module-2-standard-64",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-low-87",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:17|inner:9|outer:20|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-1-m1-20",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT5",
+        "questionId": "psat-mock-05-math-math-module-2-low-88",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-152|c:5781|type:parabola|values:{a:1|b:-152|c:5781}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-low-78",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-1-m1-09",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-154|c:5935|type:parabola|values:{a:1|b:-154|c:5935}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-standard-54",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-1-m1-13",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:28|y:15.49}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-high-42",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-1-m1-21",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:120|scale:4|shape:similar-figures|smallArea:38|smallLength:30}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-low-87",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-1-m1-22",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-158|c:6249|type:parabola|values:{a:1|b:-158|c:6249}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-standard-58",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-high-33",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:29|y:15.75}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-1-m1-21",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-high-41",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:155|scale:5|shape:similar-figures|smallArea:39|smallLength:31}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-standard-63",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-high-42",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:6|inner:11|outer:22|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-low-88",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-high-43",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-162|c:6571|type:parabola|values:{a:1|b:-162|c:6571}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-high-36",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-standard-53",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-170|c:7239|type:parabola|values:{a:1|b:-170|c:7239}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-1-m1-09",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-standard-57",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:9|inner:14|outer:25|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT5",
+        "questionId": "sat-series-a-mock-05-math-math-module-2-standard-64",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-standard-63",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:136|scale:4|shape:similar-figures|smallArea:13|smallLength:34}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-1-m1-22",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-standard-66",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-160|c:6409|type:parabola|values:{a:1|b:-160|c:6409}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-high-32",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-low-77",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,13],[2,17],[3,20],[4,28],[5,32]]}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-low-84",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT6",
+        "questionId": "psat-mock-06-math-math-module-2-low-84",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-174|c:7585|type:parabola|values:{a:1|b:-174|c:7585}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-1-m1-13",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-1-m1-08",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-176|c:7761|type:parabola|values:{a:1|b:-176|c:7761}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-low-77",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-1-m1-12",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:175|scale:5|shape:similar-figures|smallArea:14|smallLength:35}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-high-42",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-1-m1-21",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:10|inner:15|outer:26|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-high-43",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-1-m1-22",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-178|c:7939|type:parabola|values:{a:1|b:-178|c:7939}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-standard-53",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-high-32",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-182|c:8301|type:parabola|values:{a:1|b:-182|c:8301}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-high-35",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-high-36",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:111|scale:3|shape:similar-figures|smallArea:16|smallLength:37}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-low-86",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-high-41",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:12|inner:6|outer:28|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-low-87",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-high-42",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-194|c:9435|type:parabola|values:{a:1|b:-194|c:9435}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-low-76",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-standard-52",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-198|c:9829|type:parabola|values:{a:1|b:-198|c:9829}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-low-80",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-standard-56",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:195|scale:5|shape:similar-figures|smallArea:18|smallLength:39}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-1-m1-21",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-standard-65",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:14|inner:8|outer:30|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-1-m1-22",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-standard-66",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-190|c:9049|type:parabola|values:{a:1|b:-190|c:9049}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-standard-57",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-low-76",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-192|c:9241|type:parabola|values:{a:1|b:-192|c:9241}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-1-m1-12",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-low-80",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,14],[2,19],[3,22],[4,24],[5,34]]}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-low-83",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-low-83",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:152|scale:4|shape:similar-figures|smallArea:17|smallLength:38}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-standard-66",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-low-85",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:13|inner:7|outer:29|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-standard-63",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-low-86",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:31|y:16.25}}",
+      "first": {
+        "testKey": "SAT6",
+        "questionId": "sat-series-a-mock-06-math-math-module-2-high-41",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT7",
+        "questionId": "psat-mock-07-math-math-module-2-low-88",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-200|c:10029|type:parabola|values:{a:1|b:-200|c:10029}}",
+      "first": {
+        "testKey": "SAT9",
+        "questionId": "sat-series-a-mock-09-math-math-module-2-high-34",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-1-m1-11",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:16|inner:10|outer:32|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-high-42",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-1-m1-21",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-210|c:11059|type:parabola|values:{a:1|b:-210|c:11059}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-standard-52",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-high-31",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-214|c:11485|type:parabola|values:{a:1|b:-214|c:11485}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-standard-56",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-high-35",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:17|inner:11|outer:33|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-low-86",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-high-41",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:123|scale:3|shape:similar-figures|smallArea:20|smallLength:41}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-high-41",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-high-44",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:168|scale:4|shape:similar-figures|smallArea:21|smallLength:42}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-standard-65",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-standard-64",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:7|inner:14|outer:36|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-standard-66",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-standard-65",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-216|c:11701|type:parabola|values:{a:1|b:-216|c:11701}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-1-m1-11",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-low-75",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-218|c:11919|type:parabola|values:{a:1|b:-218|c:11919}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-1-m1-15",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-low-79",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,15],[2,21],[3,24],[4,26],[5,29]]}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-low-82",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-low-82",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:32|y:16.49}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-1-m1-20",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT8",
+        "questionId": "psat-mock-08-math-math-module-2-low-87",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-230|c:13232|type:parabola|values:{a:1|b:-230|c:13232}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-high-31",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-1-m1-10",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-232|c:13464|type:parabola|values:{a:1|b:-232|c:13464}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-low-75",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-1-m1-14",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-234|c:13698|type:parabola|values:{a:1|b:-234|c:13698}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-low-79",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-high-30",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-238|c:14172|type:parabola|values:{a:1|b:-238|c:14172}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-standard-55",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-high-34",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:8|inner:15|outer:37|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-1-m1-21",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-high-44",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-250|c:15642|type:parabola|values:{a:1|b:-250|c:15642}}",
+      "first": {
+        "testKey": "SAT9",
+        "questionId": "sat-series-a-mock-09-math-math-module-1-m1-10",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-standard-54",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-254|c:16148|type:parabola|values:{a:1|b:-254|c:16148}}",
+      "first": {
+        "testKey": "SAT9",
+        "questionId": "sat-series-a-mock-09-math-math-module-1-m1-14",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-standard-58",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:15|scale:3|shape:similar-figures|smallArea:24|smallLength:5}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-1-m1-20",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-standard-63",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:11|inner:7|outer:40|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-standard-65",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-standard-64",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,21],[2,25],[3,31],[4,32],[5,41]]}}",
+      "first": {
+        "testKey": "SAT9",
+        "questionId": "sat-series-a-mock-09-math-math-module-2-low-81",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-low-81",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:33|y:16.73}}",
+      "first": {
+        "testKey": "SAT7",
+        "questionId": "sat-series-a-mock-07-math-math-module-2-low-88",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-low-86",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:9|inner:16|outer:38|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT8",
+        "questionId": "sat-series-a-mock-08-math-math-module-2-high-41",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT9",
+        "questionId": "psat-mock-09-math-math-module-2-low-88",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-32|c:275|type:parabola|values:{a:1|b:-32|c:275}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-1-m1-09",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-1-m1-09",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-34|c:309|type:parabola|values:{a:1|b:-34|c:309}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-1-m1-13",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-1-m1-13",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,27],[2,33],[3,38],[4,38],[5,46]]}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-high-40",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-1-m1-20",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:27|scale:3|shape:similar-figures|smallArea:17|smallLength:9}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-1-m1-22",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-1-m1-22",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-38|c:383|type:parabola|values:{a:1|b:-38|c:383}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-low-77",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-high-33",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,36],[2,39],[3,46],[4,50],[5,50]]}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-standard-60",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-high-40",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{intermediate:40|scale:4|shape:similar-figures|smallArea:18|smallLength:10}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-high-42",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-high-42",
+        "skill": "Similarity and scaling",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:10|inner:11|outer:23|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-high-43",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-high-43",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-42|c:465|type:parabola|values:{a:1|b:-42|c:465}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-high-33",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-standard-53",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-50|c:653|type:parabola|values:{a:1|b:-50|c:653}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-standard-53",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-standard-57",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,37],[2,41],[3,48],[4,52],[5,52]]}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-2-high-40",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-standard-60",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:12|inner:13|outer:25|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-standard-63",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-standard-63",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:13|y:10.95}}",
+      "first": {
+        "testKey": "SAT2",
+        "questionId": "sat-series-a-mock-02-math-math-module-1-m1-21",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-standard-65",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "advanced math|parabola|{a:1|b:-40|c:423|type:parabola|values:{a:1|b:-40|c:423}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-high-33",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-low-77",
+        "skill": "Quadratic functions and representations",
+        "figureType": "parabola"
+      }
+    },
+    {
+      "fingerprint": "problem-solving and data analysis|scatter_plot|{type:scatter_plot|values:{points:[[1,12],[2,15],[3,23],[4,26],[5,30]]}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-low-84",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-low-84",
+        "skill": "Data models",
+        "figureType": "scatter_plot"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|right_triangle|{type:right_triangle|values:{x:12|y:10.58}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-standard-65",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-low-85",
+        "skill": "Right triangles",
+        "figureType": "right_triangle"
+      }
+    },
+    {
+      "fingerprint": "geometry and trigonometry|geometry|{type:geometry|values:{height:11|inner:12|outer:24|shape:composite-rectangle}}",
+      "first": {
+        "testKey": "SAT10",
+        "questionId": "sat-series-a-mock-10-math-math-module-2-low-87",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      },
+      "duplicate": {
+        "testKey": "PSAT10",
+        "questionId": "psat-mock-10-math-math-module-2-low-87",
+        "skill": "Geometry and measurement",
+        "figureType": "geometry"
+      }
+    }
+  ],
+  "figureDuplicateGroupsBySkillType": {
+    "Right triangles|right_triangle": 21,
+    "Quadratic functions and representations|parabola": 63,
+    "Data models|scatter_plot": 21,
+    "Similarity and scaling|geometry": 29,
+    "Geometry and measurement|geometry": 32
+  }
 }
