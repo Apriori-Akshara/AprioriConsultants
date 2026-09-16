@@ -26,6 +26,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Diagnose PSAT1 m1-17 figure collision
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/diagnoseBatchMPSAT1M117Figure.mjs
       - name: Run production-integrated 20-test QC
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMProductionIntegrated20TestQC.mjs
       - name: Run final 30-mock corpus gate
