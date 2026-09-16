@@ -1,5 +1,80 @@
 [
   {
+    "testKey": "SAT1",
+    "questionId": "sat-series-a-mock-01-math-math-module-1-m1-17",
+    "prompt": "A scatterplot has observed values (1, 16), (2, 19), (3, 26), (4, 28), (5, 31). A linear model is used to describe the trend. Which statement is best supported by the data?",
+    "choices": [
+      "The response generally increases as the explanatory variable increases.",
+      "The response is exactly constant for every value.",
+      "The response must decrease whenever the explanatory variable increases.",
+      "The data establish that the explanatory variable causes every change in the response."
+    ],
+    "answer": "A",
+    "explanation": "The plotted values rise overall, although the increase is not perfectly uniform; the data alone do not establish causation.",
+    "skill": "Data models",
+    "subskill": "Data models",
+    "figure": {
+      "type": "scatter_plot",
+      "values": {
+        "points": [
+          [
+            1,
+            16
+          ],
+          [
+            2,
+            19
+          ],
+          [
+            3,
+            26
+          ],
+          [
+            4,
+            28
+          ],
+          [
+            5,
+            31
+          ]
+        ]
+      }
+    },
+    "metadata": {
+      "contextKey": "sat-series-a-sat-mock-01-math-16",
+      "contextFamily": "sat-series-a-Problem-Solving and Data Analysis-Data models",
+      "applicationFingerprint": "sat-series-a-sat-mock-01-Problem-Solving and Data Analysis-Data models-16",
+      "constructionFamily": "two-stage percentage or ratio reasoning",
+      "answerFormat": "A-D",
+      "figurePurpose": "question-essential",
+      "difficultyFeatures": [
+        "data-interpretation",
+        "representation-shift",
+        "evidence-synthesis",
+        "multi-step",
+        "strategic-choice"
+      ],
+      "figureOriginalityFingerprint": "problem-solving and data analysis|scatter_plot|{points:[[<n>,<n>],[<n>,<n>],[<n>,<n>],[<n>,<n>],[<n>,<n>],[<n>,<n>]]|type:scatter_plot}|data:problem-solving and data analysis|scatter_plot|{points:[[1,20036],[2,20027],[3,20035],[4,20026],[5,20034],[6,20025]]|type:scatter_plot}",
+      "figureStructureFingerprint": "problem-solving and data analysis|scatter_plot|{points:[[<n>,<n>],[<n>,<n>],[<n>,<n>],[<n>,<n>],[<n>,<n>],[<n>,<n>]]|type:scatter_plot}",
+      "figureDataFingerprint": "problem-solving and data analysis|scatter_plot|{points:[[1,20036],[2,20027],[3,20035],[4,20026],[5,20034],[6,20025]]|type:scatter_plot}",
+      "difficultyRequirements": {
+        "minimumReasoningSteps": 2,
+        "requiredFeatures": [
+          "multi-step",
+          "strategic-choice"
+        ],
+        "distractorStandard": "high-plausibility alternative based on a specific reasoning error"
+      },
+      "psatCeiling": null,
+      "candidateOnly": true,
+      "productionMutation": false,
+      "sprTarget": {
+        "minimumPercent": 25,
+        "maximumPercent": 30
+      }
+    }
+  },
+  {
     "testKey": "PSAT1",
     "questionId": "psat-mock-01-math-math-module-1-m1-17",
     "prompt": "A scatterplot has observed values (1, 16), (2, 19), (3, 26), (4, 28), (5, 31). A linear model is used to describe the trend. Which statement is best supported by the data?",
@@ -10,6 +85,7 @@
       "The data establish that the explanatory variable causes every change in the response."
     ],
     "answer": "A",
+    "explanation": "The plotted values rise overall, although the increase is not perfectly uniform; the data alone do not establish causation.",
     "skill": "Data models",
     "subskill": "Data models",
     "figure": {
