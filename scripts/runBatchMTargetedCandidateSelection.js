@@ -298,8 +298,10 @@ function buildProductionFingerprintSet(targets, productionIndex) {
   return fingerprints;
 }
 
+// Batch M selector preparation compatibility fix v9
+
 function targetRecords(preparation) {
-  return preparation.records || preparation.targets || preparation;
+  return preparation.records || preparation.targets || preparation.questions || preparation;
 }
 
 function selectCandidateForTarget(target, pool, poolIndex, used, productionFingerprints, productionIndex) {

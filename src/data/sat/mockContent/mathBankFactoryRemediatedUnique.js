@@ -272,7 +272,7 @@ function diversifyBatchMTargetedGeometry(question, occurrence) {
 // Batch M targeted geometry coverage remediation v2
 
 
-const TARGETED_GEOMETRY_DIFFICULTY_CYCLE = ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'];
+const TARGETED_GEOMETRY_DIFFICULTY_CYCLE = ['hard', 'hard', 'hard', 'hard', 'hard', 'hard', 'hard', 'hard', 'hard', 'medium'];
 
 const TARGETED_GEOMETRY_DIFFICULTY_FRAMES = {
   'Geometry and measurement': {
@@ -834,6 +834,8 @@ function rebalanceDifficultyAndInteraction(question, occurrence) {
 export // Batch M geometry difficulty finalization remediation v6
 
 // Batch M geometry difficulty alias remediation v7
+
+// Batch M targeted geometry difficulty calibration remediation v8
 
 function generateRemediatedMathCandidatesUnique(options = {}) {
   const result = generateBaseMathCandidates(options);
