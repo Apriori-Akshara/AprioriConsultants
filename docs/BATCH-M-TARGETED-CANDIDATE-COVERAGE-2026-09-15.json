@@ -8,8 +8,8 @@
     "contentReplacement": 1496,
     "contentPlusDifficulty": 98,
     "difficultyCalibration": 550,
-    "selected": 1111,
-    "noEligibleCandidate": 483,
+    "selected": 1211,
+    "noEligibleCandidate": 383,
     "sat": 1071,
     "psat": 1073
   },
@@ -138,6 +138,10 @@
       "count": 99
     },
     {
+      "key": "math:Linear functions",
+      "count": 91
+    },
+    {
       "key": "math:Linear equations",
       "count": 89
     },
@@ -154,6 +158,14 @@
       "count": 58
     },
     {
+      "key": "math:Linear functions and representations",
+      "count": 56
+    },
+    {
+      "key": "math:Linear representations",
+      "count": 50
+    },
+    {
       "key": "math:Measures of spread",
       "count": 50
     },
@@ -162,24 +174,12 @@
       "count": 48
     },
     {
-      "key": "math:Linear functions",
-      "count": 41
-    },
-    {
       "key": "math:Geometry and measurement",
       "count": 38
     },
     {
       "key": "math:Similarity and scaling",
       "count": 35
-    },
-    {
-      "key": "math:Linear functions and representations",
-      "count": 29
-    },
-    {
-      "key": "math:Linear representations",
-      "count": 27
     },
     {
       "key": "math:Right triangles",
@@ -196,72 +196,6 @@
   ],
   "noEligibleCandidateSkillCounts": [
     {
-      "section": "math",
-      "skill": "Linear functions",
-      "noEligibleCandidateCount": 94,
-      "targetCount": 135,
-      "selectedCount": 41,
-      "coveragePercent": 30.37,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 376
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 272
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 94
-        }
-      ]
-    },
-    {
-      "section": "math",
-      "skill": "Linear functions and representations",
-      "noEligibleCandidateCount": 74,
-      "targetCount": 103,
-      "selectedCount": 29,
-      "coveragePercent": 28.16,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 296
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 218
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 74
-        }
-      ]
-    },
-    {
-      "section": "math",
-      "skill": "Linear representations",
-      "noEligibleCandidateCount": 66,
-      "targetCount": 93,
-      "selectedCount": 27,
-      "coveragePercent": 29.03,
-      "topRejectionReasons": [
-        {
-          "key": "difficulty-mismatch",
-          "count": 264
-        },
-        {
-          "key": "candidate-reuse",
-          "count": 192
-        },
-        {
-          "key": "question-type-mismatch",
-          "count": 66
-        }
-      ]
-    },
-    {
       "section": "reading-writing",
       "skill": "Words in Context",
       "noEligibleCandidateCount": 50,
@@ -276,6 +210,72 @@
         {
           "key": "difficulty-mismatch",
           "count": 150
+        }
+      ]
+    },
+    {
+      "section": "math",
+      "skill": "Linear functions and representations",
+      "noEligibleCandidateCount": 47,
+      "targetCount": 103,
+      "selectedCount": 56,
+      "coveragePercent": 54.37,
+      "topRejectionReasons": [
+        {
+          "key": "candidate-reuse",
+          "count": 141
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 94
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 47
+        }
+      ]
+    },
+    {
+      "section": "math",
+      "skill": "Linear functions",
+      "noEligibleCandidateCount": 44,
+      "targetCount": 135,
+      "selectedCount": 91,
+      "coveragePercent": 67.41,
+      "topRejectionReasons": [
+        {
+          "key": "candidate-reuse",
+          "count": 132
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 44
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 44
+        }
+      ]
+    },
+    {
+      "section": "math",
+      "skill": "Linear representations",
+      "noEligibleCandidateCount": 43,
+      "targetCount": 93,
+      "selectedCount": 50,
+      "coveragePercent": 53.76,
+      "topRejectionReasons": [
+        {
+          "key": "candidate-reuse",
+          "count": 129
+        },
+        {
+          "key": "difficulty-mismatch",
+          "count": 86
+        },
+        {
+          "key": "question-type-mismatch",
+          "count": 43
         }
       ]
     },
@@ -525,7 +525,7 @@
   "noEligibleCandidateBySection": [
     {
       "key": "math",
-      "count": 433
+      "count": 333
     },
     {
       "key": "reading-writing",
@@ -547,34 +547,6 @@
     },
     {
       "key": "PSAT8",
-      "count": 28
-    },
-    {
-      "key": "PSAT1",
-      "count": 27
-    },
-    {
-      "key": "PSAT2",
-      "count": 27
-    },
-    {
-      "key": "PSAT3",
-      "count": 25
-    },
-    {
-      "key": "PSAT4",
-      "count": 25
-    },
-    {
-      "key": "PSAT6",
-      "count": 25
-    },
-    {
-      "key": "PSAT5",
-      "count": 23
-    },
-    {
-      "key": "PSAT7",
       "count": 23
     },
     {
@@ -590,14 +562,6 @@
       "count": 23
     },
     {
-      "key": "PSAT10",
-      "count": 21
-    },
-    {
-      "key": "PSAT9",
-      "count": 21
-    },
-    {
       "key": "SAT4",
       "count": 21
     },
@@ -606,26 +570,62 @@
       "count": 21
     },
     {
+      "key": "PSAT7",
+      "count": 19
+    },
+    {
       "key": "SAT2",
       "count": 19
     },
     {
-      "key": "SAT1",
+      "key": "PSAT9",
+      "count": 17
+    },
+    {
+      "key": "PSAT1",
+      "count": 14
+    },
+    {
+      "key": "PSAT2",
+      "count": 14
+    },
+    {
+      "key": "PSAT6",
+      "count": 14
+    },
+    {
+      "key": "PSAT3",
       "count": 13
+    },
+    {
+      "key": "PSAT4",
+      "count": 12
+    },
+    {
+      "key": "PSAT5",
+      "count": 12
+    },
+    {
+      "key": "PSAT10",
+      "count": 10
+    },
+    {
+      "key": "SAT1",
+      "count": 10
     }
   ],
   "rejectionReasonCounts": [
     {
       "key": "difficulty-mismatch",
-      "count": 1774
+      "count": 1062
     },
     {
       "key": "candidate-reuse",
-      "count": 1284
+      "count": 1004
     },
     {
       "key": "question-type-mismatch",
-      "count": 433
+      "count": 333
     }
   ],
   "rejectionReasonsByMissingSkill": [
@@ -684,16 +684,16 @@
       "key": "math:Linear functions",
       "reasons": [
         {
-          "key": "difficulty-mismatch",
-          "count": 376
+          "key": "candidate-reuse",
+          "count": 132
         },
         {
-          "key": "candidate-reuse",
-          "count": 272
+          "key": "difficulty-mismatch",
+          "count": 44
         },
         {
           "key": "question-type-mismatch",
-          "count": 94
+          "count": 44
         }
       ]
     },
@@ -701,16 +701,16 @@
       "key": "math:Linear functions and representations",
       "reasons": [
         {
-          "key": "difficulty-mismatch",
-          "count": 296
+          "key": "candidate-reuse",
+          "count": 141
         },
         {
-          "key": "candidate-reuse",
-          "count": 218
+          "key": "difficulty-mismatch",
+          "count": 94
         },
         {
           "key": "question-type-mismatch",
-          "count": 74
+          "count": 47
         }
       ]
     },
@@ -718,16 +718,16 @@
       "key": "math:Linear representations",
       "reasons": [
         {
-          "key": "difficulty-mismatch",
-          "count": 264
+          "key": "candidate-reuse",
+          "count": 129
         },
         {
-          "key": "candidate-reuse",
-          "count": 192
+          "key": "difficulty-mismatch",
+          "count": 86
         },
         {
           "key": "question-type-mismatch",
-          "count": 66
+          "count": 43
         }
       ]
     },

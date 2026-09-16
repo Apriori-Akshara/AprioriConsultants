@@ -1,6 +1,7 @@
 // Batch M canonical figure-type remediation
 import { generateRemediatedMathCandidates as generateBaseMathCandidates } from './mathBankFactoryRemediated.js';
 import { DIFFICULTY_REQUIREMENTS, PSAT_CEILING_RULES } from './batchMRemediationBlueprint.js';
+import { buildBatchMLinearV2 } from './batchMLinearConstructionV2.js';
 
 function rotateChoices(choices, target) {
   const out = [...choices];
@@ -55,45 +56,8 @@ function remapStrategicCandidate(question, occurrence) {
 
   // Batch M construction-level remediation for persistent linear-family gaps.
 
-  // Batch M linear difficulty/reuse remediation v1
-  if (skill === 'Linear relationships' || skill === 'Linear functions') {
-    const variant = o % 4;
-    // Variant 0: one-step rate interpretation (easy lane).
-    if (variant === 0) {
-      const slope = 2 + (o % 9);
-      const intercept = 11 + o;
-      const prompt = 'A delivery service charges a fixed fee of ' + intercept + ' dollars plus ' + slope + ' dollars per mile. The total cost C is a linear function of the number of miles m. What is the rate of change of C with respect to m?';
-      return setNumericQuestion(question, prompt, slope, o);
-    }
-    // Variant 1: derive and evaluate from two points (medium lane).
-    if (variant === 1) {
-      const x1 = 2 + (o % 11);
-      const slope = 3 + (o % 7);
-      const y1 = 13 + o;
-      const x2 = x1 + 5 + (o % 5);
-      const y2 = y1 + slope * (x2 - x1);
-      const x3 = x2 + 2 + (o % 6);
-      const correct = y2 + slope * (x3 - x2);
-      const prompt = 'A linear relationship passes through the points (' + x1 + ', ' + y1 + ') and (' + x2 + ', ' + y2 + '). What is the value of y when x = ' + x3 + '?';
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    // Variant 2: threshold with a nontrivial whole-number constraint (hard lane).
-    if (variant === 2) {
-      const slope = 2 + (o % 8);
-      const intercept = 17 + o;
-      const target = intercept + slope * (4 + (o % 13)) + 1 + (o % 5);
-      const correct = Math.ceil((target - intercept) / slope);
-      const prompt = 'A linear model is given by y = ' + slope + 'x + ' + intercept + '. For what smallest whole-number value of x is y at least ' + target + '?';
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    // Variant 3: starting quantity plus repeated change (medium lane).
-    const start = 21 + o;
-    const change = 4 + (o % 8);
-    const periods = 4 + (o % 9);
-    const correct = start + change * periods;
-    const prompt = 'A quantity starts at ' + start + ' units and increases by ' + change + ' units during each of the next ' + periods + ' equal intervals. Assuming the relationship remains linear, what is the quantity after those intervals?';
-    return setNumericQuestion(question, prompt, correct, o);
-  }
+  // Batch M linear construction remediation v2
+  if (skill === 'Linear relationships' || skill === 'Linear functions') return buildBatchMLinearV2(question, o, 'function');
 
   if (skill === 'Systems of linear equations' || skill === 'Linear equations') {
     const variant = o % 4;
@@ -125,42 +89,7 @@ function remapStrategicCandidate(question, occurrence) {
     return setNumericQuestion(question, prompt, x - y, o);
   }
 
-  if (skill === 'Equivalent linear representations' || skill === 'Linear representations' || skill === 'Linear functions and representations') {
-    const variant = o % 4;
-    if (variant === 0) {
-      const slope = 2 + (o % 9);
-      const intercept = 8 + o;
-      const x = 4 + (o % 11);
-      const correct = slope * x + intercept;
-      const prompt = 'A line is represented by y = ' + slope + 'x + ' + intercept + '. A table gives the same linear relationship. What y-value belongs in the table when x = ' + x + '?';
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    if (variant === 1) {
-      const x1 = 1 + (o % 9);
-      const y1 = 10 + o;
-      const slope = 2 + (o % 7);
-      const x2 = x1 + 4 + (o % 5);
-      const y2 = y1 + slope * (x2 - x1);
-      const prompt = 'A line passes through (' + x1 + ', ' + y1 + ') and (' + x2 + ', ' + y2 + '). Which numerical value represents the slope of the line?';
-      return setNumericQuestion(question, prompt, slope, o);
-    }
-    if (variant === 2) {
-      const slope = 3 + (o % 8);
-      const intercept = 12 + o;
-      const target = intercept + slope * (3 + (o % 10)) + 1 + (o % 4);
-      const correct = (target - intercept) / slope;
-      const prompt = 'A linear relationship has equation y = ' + slope + 'x + ' + intercept + '. What value of x gives y = ' + target + '?';
-      return setNumericQuestion(question, prompt, correct, o);
-    }
-    const slope = 2 + (o % 9);
-    const x1 = 2 + (o % 8);
-    const y1 = 14 + o;
-    const x2 = x1 + 3 + (o % 6);
-    const y2 = y1 + slope * (x2 - x1);
-    const intercept = y1 - slope * x1;
-    const prompt = 'A linear relationship passes through (' + x1 + ', ' + y1 + ') and (' + x2 + ', ' + y2 + '). When written as y = mx + b, what is the value of b?';
-    return setNumericQuestion(question, prompt, intercept, o);
-  }
+  if (skill === 'Equivalent linear representations' || skill === 'Linear representations' || skill === 'Linear functions and representations') return buildBatchMLinearV2(question, o, 'representation');
 
   // Preserve the existing strategic construction branches below.
   if (skill === 'Linear inequalities') {
@@ -427,11 +356,9 @@ function partitionLinearSkill(question, sourceSkill, occurrence) {
 
 function rebalanceDifficultyAndInteraction(question, occurrence) {
   const variant = String(question.assessmentVariant || 'sat');
-  // Use a 10-item difficulty lane (30% easy / 50% medium / 20% hard)
-  // so each source skill has materially broader coverage of the frozen
-  // target difficulty distribution without weakening the difficulty gate.
-  const difficultyLane = ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'];
-  let difficulty = difficultyLane[occurrence % difficultyLane.length];
+  const linearSkills = new Set(['Linear relationships', 'Linear functions', 'Equivalent linear representations', 'Linear representations', 'Linear functions and representations']);
+  const preserveConstructedLinearDifficulty = linearSkills.has(String(question.skill || ''));
+  let difficulty = preserveConstructedLinearDifficulty ? question.difficulty : ['easy', 'easy', 'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'][occurrence % 10];
   if (variant === 'psat-nmsqt' && difficulty === 'hard' && ['Advanced Math', 'Geometry and Trigonometry'].includes(question.domain)) {
     difficulty = 'medium';
   }
