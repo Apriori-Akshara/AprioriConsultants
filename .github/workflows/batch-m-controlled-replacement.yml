@@ -13,6 +13,7 @@ permissions:
 
 env:
   BATCH_M_SELECTION_GENERATION_COMMIT: '9a4cc0e0c74e592336c81695b2d7f43683702880'
+  BATCH_M_CANDIDATE_RESOLUTION_ATTEMPTS: '32'
 
 jobs:
   controlled-replacement:
@@ -38,14 +39,13 @@ jobs:
           git fetch --no-tags origin "${BATCH_M_SELECTION_GENERATION_COMMIT}"
           git worktree add --detach .batch-m-selection-source "${BATCH_M_SELECTION_GENERATION_COMMIT}"
           ln -s "$GITHUB_WORKSPACE/node_modules" .batch-m-selection-source/node_modules
-          test -f .batch-m-selection-source/scripts/runBatchMTargetedCandidateSelection.js
+          test -f .batch-m-selection-source/src/data/sat/mockContent/batchMRemediationCandidateFactory.js
           test -f .batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs
 
-      - name: Replay authorized selection and capture exact candidates
+      - name: Build authorized fingerprint-bound candidate snapshot
         env:
           BATCH_M_SELECTION_SOURCE_DIR: ${{ github.workspace }}/.batch-m-selection-source
-          BATCH_M_SELECTION_SNAPSHOT_OUT: ${{ github.workspace }}/.batch-m-selection-bound-candidates.json
-        run: node scripts/replayBatchMSelectionWithSnapshot.mjs
+        run: node --import ./.batch-m-selection-source/scripts/batchMExtensionlessModuleLoader.mjs scripts/buildBatchMSelectionBoundCandidateSnapshot.mjs
 
       - name: Generate and apply controlled replacement
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/applyBatchMControlledReplacement.mjs
