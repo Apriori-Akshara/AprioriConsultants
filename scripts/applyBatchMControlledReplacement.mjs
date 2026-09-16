@@ -83,9 +83,13 @@ for (const record of selectedRecords) {
   }
 
   const expectedKey = String(record.selectedCandidateKey || '');
-  const expectedFingerprint = String(bound.expectedFingerprint || '');
+  const expectedFingerprint = String(bound.fingerprint || '');
   if (String(bound.selectedCandidateKey || '') !== expectedKey) {
     throw new Error(`Batch M controlled replacement: snapshot selection key mismatch for ${targetKey}.`);
+  }
+  const keyFingerprint = expectedKey.split(':').at(-1);
+  if (!expectedFingerprint || expectedFingerprint !== keyFingerprint) {
+    throw new Error(`Batch M controlled replacement: snapshot fingerprint/key mismatch for ${targetKey}.`);
   }
 
   const candidate = bound.candidate;
@@ -114,6 +118,7 @@ for (const record of selectedRecords) {
     resolvedCandidateKey: String(bound.resolvedCandidateKey || expectedKey),
     selectedPoolIndex: Number.isInteger(bound.selectedPoolIndex) ? bound.selectedPoolIndex : null,
     candidateFingerprint: expectedFingerprint,
+    candidateOriginalityFingerprint: String(candidate.originalityFingerprint || ''),
     selectionGenerationCommit: snapshot.generationCommit,
     replacement,
   });
@@ -135,7 +140,7 @@ fs.writeFileSync(mapPath, mapSource, 'utf8');
 
 const report = {
   reportType: 'batch-m-controlled-replacement',
-  reportVersion: '2026-09-16.controlled-replacement.v3',
+  reportVersion: '2026-09-16.controlled-replacement.v4',
   authorization: 'AUTHORIZED',
   scope: 'SAT1-SAT10 and PSAT1-PSAT10 affected records only',
   selectionGenerationCommit: snapshot.generationCommit,
