@@ -1,6 +1,6 @@
 # Batch M Targeted Replacement Checkpoint — September 16, 2026
 
-**Status:** TARGETED CANDIDATE COVERAGE RESOLVED — DOWNSTREAM QUALITY/RELEASE GATES PENDING  
+**Status:** SELECTED-CANDIDATE QUALITY GATE PASSED — REPLACEMENT AUTHORIZATION PENDING  
 **Branch:** `batch-m-rw-generator-remediation-2026-09-14`  
 **Scope:** Read-only candidate selection and downstream preparation for targeted remediation of frozen SAT1–SAT10 and PSAT1–PSAT10 production records  
 **Production boundary:** Frozen; no production mutation, replacement, release, or SAT21 creation authorized
@@ -16,6 +16,7 @@ The Batch M post-audit sequence has completed these read-only stages:
 5. Targeted replacement preparation — COMPLETE.
 6. Targeted candidate generation and controlled selection — COMPLETE.
 7. Candidate coverage remediation — COMPLETE at the candidate-selection coverage gate.
+8. Individual selected-candidate quality gate — PASS.
 
 No step above mutated the frozen production corpus.
 
@@ -50,15 +51,16 @@ The generated preparation report is:
 
 `docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json`
 
-## 4. Candidate coverage resolution
+## 4. Candidate coverage and individual quality resolution
 
 Latest successful GitHub Actions workflow:
 
-- **Run ID:** `35060652969`
+- **Run:** #123
+- **Run ID:** `35062589891`
 - **Job:** `candidate-selection`
 - **Conclusion:** success
 
-Latest candidate-selection result:
+Candidate-selection result:
 
 - **2,144 affected records**
 - **1,594 selected candidates**
@@ -67,45 +69,49 @@ Latest candidate-selection result:
 - **1,073 PSAT targets**
 - **13,000 SAT candidates passed quality gate**
 - **13,000 PSAT candidates passed quality gate**
-- `productionMutation: false`
-- `releaseEligible: false`
-- `replacementAuthorization: NOT_AUTHORIZED`
-- `sat21Created: false`
 
-The coverage report now shows:
+Individual selected-candidate quality result:
+
+- **2,144 affected records validated**
+- **1,594 selected candidates validated**
+- **550 calibration-only records**
+- **0 quality failures**
+- **0 serious failures**
+- **gateStatus: PASS**
+
+Authoritative report:
+
+`docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json`
+
+The two red workflow runs immediately before this green run (#121 and #122) failed only in report-verification semantics; the underlying selected-candidate quality gate passed. The verification contract is now aligned and run #123 passes all workflow steps.
+
+Coverage report:
 
 - `noEligibleCandidateSkillGroups: 0`
 - `topMissingSkillGroups: []`
 - `rejectionReasonCounts: []`
 
-The final 40 no-eligible records were all PSAT Advanced Math targets. The documented PSAT ceiling already permits trimming the Advanced Math hard tail. The selector compatibility layer was therefore extended to allow medium candidates for PSAT hard targets in both `Geometry and Trigonometry` and `Advanced Math` where required by the ceiling-compatible replacement path. This was a selector compatibility correction, not a content-quality-gate relaxation or difficulty relabel.
-
-Product-scoped candidate reuse remains active so SAT and PSAT candidate pools do not consume one another's reuse capacity.
-
-Reports:
-
-- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json`
-- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json`
+Product-scoped candidate reuse remains active. PSAT Geometry and Advanced Math ceiling-compatible selector handling remains active.
 
 ## 5. Interpretation boundary
 
-The candidate-selection report is a controlled remediation-selection artifact, not a production replacement authorization.
+The candidate-selection and individual-quality reports are controlled remediation artifacts, not production replacement authorization.
 
-A selected candidate is eligible for downstream review only. It is not production-approved merely because it passes the candidate-selection gate.
+A selected candidate is eligible for downstream approval only. It is not production-approved merely because it passes the quality gate.
 
-No question may be replaced merely because it appears in the 2,144-record inventory or because a candidate has been selected.
+No question may be replaced merely because it appears in the 2,144-record inventory or because a candidate has been selected and quality-validated.
 
-## 6. Current blocker and next logical step — downstream quality and release gating
+## 6. Current blocker and next logical step — authorization and controlled replacement
 
-**Candidate coverage is now resolved.** No further candidate-pool remediation is required before entering the downstream gate sequence.
+**Candidate coverage and selected-candidate individual quality are resolved.** No further candidate-pool or individual-candidate remediation is required before the authorization gate.
 
 The next implementation stage is:
 
-1. validate the 1,594 selected candidates against the applicable individual replacement-quality requirements;
-2. establish explicit replacement authorization before any production mutation;
-3. apply only genuinely affected replacements and record every post-freeze change by `testKey + questionId`;
-4. rerun the affected mock production gates;
-5. rerun the final collective 30-mock corpus gate;
+1. establish explicit replacement authorization;
+2. apply only the authorized affected replacements and record every post-freeze change by `testKey + questionId`;
+3. rerun the affected mock production gates;
+4. after those gates pass, run the comprehensive **20-test QC covering SAT1–SAT10 and PSAT1–PSAT10**;
+5. rerun the final collective **30-mock corpus gate**;
 6. complete 30-mock cross-corpus calibration;
 7. complete the deferred SAT11–SAT20 public verification;
 8. complete final end-to-end student acceptance;
@@ -126,10 +132,10 @@ The following remain mandatory:
 
 Read only:
 
-- this document, especially **§4 Candidate coverage resolution** and **§6 Current blocker and next logical step — downstream quality and release gating**;
-- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md` — latest runtime and coverage resolution;
+- this document, especially **§4 Candidate coverage and individual quality resolution** and **§6 Current blocker and next logical step — authorization and controlled replacement**;
+- `docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json` — individual selected-candidate quality evidence;
 - `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — zero-gap coverage evidence;
 - `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact candidate dispositions;
 - `docs/QUESTION-GENERATION-ROADMAP.md` — current Batch M section only.
 
-Do not repeat the impact audit, inventory, replacement preparation, selector performance work, workflow-repair history, or already-green candidate-selection workflow unless a real repository discrepancy is found.
+Do not repeat the impact audit, inventory, replacement preparation, selector performance work, candidate-coverage remediation, or already-green downstream quality gate unless a real repository discrepancy is found.
