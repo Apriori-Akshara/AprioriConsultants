@@ -1,3 +1,4 @@
+// Batch M selector restoration and PSAT ceiling compatibility v9
 /**
  * Batch M — exact replacement-candidate generation and controlled selection.
  *
@@ -160,22 +161,6 @@ function domainMatches(candidate, meta) {
   return candidate.section === 'math' && skillMatches(candidate.skill, meta.skill);
 }
 
-function difficultyMatches(candidate, meta) {
-  if (normalize(candidate.difficulty) === normalize(meta.difficulty)) return true;
-
-  // Batch M PSAT ceiling exception: the remediation blueprint explicitly trims
-  // the hard tail from Geometry and Trigonometry. When the frozen PSAT target is
-  // hard in that domain, a medium candidate is the ceiling-compatible replacement.
-  if (normalize(meta.assessmentVariant) === 'psat-nmsqt'
-    && normalize(meta.difficulty) === 'hard'
-    && normalize(candidate.difficulty) === 'medium'
-    && normalize(meta.domain) === 'geometry and trigonometry') {
-    return true;
-  }
-
-  return false;
-}
-
 function reasonList(item, meta, used, productionFingerprints) {
   const { candidate, fingerprint: fp } = item;
   const reasons = [];
@@ -183,6 +168,19 @@ function reasonList(item, meta, used, productionFingerprints) {
   if (candidate.section !== meta.section) reasons.push('section-mismatch');
   if (!skillMatches(candidate.skill, meta.skill)) reasons.push('skill-mismatch');
   if (!domainMatches(candidate, meta)) reasons.push('domain-mismatch');
+  function difficultyMatches(candidate, meta) {
+    if (normalize(candidate.difficulty) === normalize(meta.difficulty)) return true;
+
+    if (
+      normalize(meta.assessmentVariant) === 'psat-nmsqt'
+      && normalize(meta.difficulty) === 'hard'
+      && normalize(candidate.difficulty) === 'medium'
+      && normalize(meta.domain) === 'geometry and trigonometry'
+    ) return true;
+
+    return false;
+  }
+
   if (!difficultyMatches(candidate, meta)) reasons.push('difficulty-mismatch');
   if (Boolean(candidate.figure) !== meta.figureRequired) {
     reasons.push(meta.figureRequired ? 'figure-required' : 'unexpected-figure');
@@ -282,80 +280,33 @@ function compatibleCandidates(index, section, targetSkill) {
   return matches;
 }
 
-function buildCandidateIndex(pool) {
+function finalizeCompatibilityIndex(buckets) {
   return {
-    buckets: buildCompatibilityIndex(pool.candidates),
+    buckets,
     compatibilityCache: new Map(),
   };
 }
 
-function buildProductionFingerprintSet(targets, productionIndex) {
-  const fingerprints = new Set();
-  for (const target of targets) {
-    const production = productionIndex.get(`${target.testKey}:${target.questionId}`);
-    if (production) fingerprints.add(fingerprint(production));
-  }
-  return fingerprints;
-}
-
-// Batch M selector preparation compatibility fix v9
-
-function targetRecords(preparation) {
-  return preparation.records || preparation.targets || preparation.questions || preparation;
-}
-
-function selectCandidateForTarget(target, pool, poolIndex, used, productionFingerprints, productionIndex) {
-  const meta = targetMetadata(target, productionIndex);
-  const candidates = compatibleCandidates(poolIndex, meta.section, meta.skill);
-  const compatible = [];
-
-  for (const item of candidates) {
-    const reasons = reasonList(item, meta, used, productionFingerprints);
-    if (!reasons.length) compatible.push(item);
-    if (compatible.length >= 3) break;
+function main() {
+  const preparation = buildTargetedReplacementPreparation();
+  if (preparation.affectedUniqueQuestionCount !== 2144) {
+    throw new Error(`Expected 2144 affected records; found ${preparation.affectedUniqueQuestionCount}`);
   }
 
-  return { meta, candidates, compatible };
-}
+  const productionIndex = buildProductionQuestionIndex();
+  const productionFingerprints = new Set();
+  productionIndex.forEach((question) => productionFingerprints.add(fingerprint(question)));
 
-function selectTargets(targets, pools, productionIndex) {
-  const used = { sat: new Set(), psat: new Set() };
-  const results = [];
-  const productionFingerprints = buildProductionFingerprintSet(targets, productionIndex);
-  const indexes = { sat: buildCandidateIndex(pools.sat), psat: buildCandidateIndex(pools.psat) };
-
-  for (const target of targets) {
-    const product = target.testKey.startsWith('PSAT') ? 'psat' : 'sat';
-    const selection = selectCandidateForTarget(
-      target,
-      pools[product],
-      indexes[product],
-      used[product],
-      productionFingerprints,
-      productionIndex,
-    );
-    const chosen = selection.compatible[0] || null;
-
-    if (chosen) used[product].add(chosen.fingerprint);
-
-    results.push({
-      target,
-      meta: selection.meta,
-      chosen,
-      alternatives: selection.compatible.slice(1, 3),
-      candidateCompatibilitySample: selection.candidates.slice(0, 20).map((item) => ({
-        candidateKey: `${item.product}:${item.poolIndex}:${item.fingerprint}`,
-        reasons: reasonList(item, selection.meta, used[product], productionFingerprints),
-      })),
-    });
-  }
-
-  return results;
-}
-
-function summarize(results) {
+  const pools = buildPools();
+  const compatibilityIndexes = {
+    sat: finalizeCompatibilityIndex(buildCompatibilityIndex(pools.sat.candidates)),
+    psat: finalizeCompatibilityIndex(buildCompatibilityIndex(pools.psat.candidates)),
+  };
+  const targets = preparation.questions.filter((question) => TARGET_KEYS.has(question.testKey));
+  const used = new Set();
+  const records = [];
   const summary = {
-    total: results.length,
+    total: targets.length,
     contentReplacement: 0,
     contentPlusDifficulty: 0,
     difficultyCalibration: 0,
@@ -365,50 +316,90 @@ function summarize(results) {
     psat: 0,
   };
 
-  for (const item of results) {
-    const product = item.target.testKey.startsWith('PSAT') ? 'psat' : 'sat';
+  for (const target of targets) {
+    const product = target.testKey.startsWith('PSAT') ? 'psat' : 'sat';
     summary[product] += 1;
-    if (item.chosen) summary.selected += 1;
-    else summary.noEligibleCandidate += 1;
+    if (target.remediationType === 'CONTENT_REPLACEMENT') summary.contentReplacement += 1;
+    if (target.remediationType === 'CONTENT_REPLACEMENT_PLUS_DIFFICULTY_CALIBRATION') summary.contentPlusDifficulty += 1;
+    if (target.remediationType === 'DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT') summary.difficultyCalibration += 1;
 
-    const needsDifficulty = normalize(item.target.difficulty) !== normalize(item.chosen?.candidate?.difficulty);
-    if (needsDifficulty) summary.difficultyCalibration += 1;
-    else summary.contentReplacement += 1;
+    const meta = targetMetadata(target, productionIndex);
+    const calibrationOnly = target.remediationType === 'DIFFICULTY_CALIBRATION_AND_POSSIBLE_REPLACEMENT';
+    const compatible = compatibleCandidates(compatibilityIndexes[product], meta.section, meta.skill);
+    const eligibleItems = [];
+    const eligibleFingerprints = new Set();
+    const considered = [];
+
+    for (const item of compatible) {
+      const reasons = reasonList(item, meta, used, productionFingerprints);
+
+      if (!reasons.length && !calibrationOnly && eligibleItems.length < 2 && !eligibleFingerprints.has(item.fingerprint)) {
+        eligibleItems.push(item);
+        eligibleFingerprints.add(item.fingerprint);
+      }
+
+      if (considered.length < 4 && (reasons.length || !eligibleFingerprints.has(item.fingerprint))) {
+        considered.push(compact(item, reasons));
+      }
+
+      if (eligibleItems.length >= 2 && considered.length >= 4) break;
+    }
+
+    if (!eligibleItems.length && !calibrationOnly) summary.noEligibleCandidate += 1;
+    else if (!calibrationOnly) {
+      summary.selected += 1;
+      used.add(eligibleItems[0].fingerprint);
+    }
+
+    records.push({
+      testKey: target.testKey,
+      questionId: target.questionId,
+      section: target.section,
+      skill: target.skill,
+      remediationType: target.remediationType,
+      candidateSelection: target.candidateSelection,
+      targetMetadata: meta,
+      options: [
+        ...eligibleItems.map((item) => compact(item, [])),
+        ...considered.filter((item) => !eligibleItems.some((entry) => entry.fingerprint === item.fingerprint)),
+      ].slice(0, 4),
+      selectionDisposition: calibrationOnly
+        ? 'CALIBRATION_FIRST_NO_REPLACEMENT_SELECTED'
+        : 'REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL',
+      selectedCandidateKey: eligibleItems[0]
+        ? `${eligibleItems[0].product}:${eligibleItems[0].poolIndex}:${eligibleItems[0].fingerprint}`
+        : null,
+    });
   }
 
-  return summary;
+  const report = {
+    reportType: 'batch-m-targeted-replacement-candidate-selection',
+    reportVersion: REPORT_VERSION,
+    generatedFrom: 'targeted-replacement-preparation',
+    affectedUniqueQuestionCount: targets.length,
+    poolCounts: POOL_COUNTS,
+    summary,
+    records,
+    productionMutation: false,
+    releaseEligible: false,
+    replacementAuthorization: 'NOT_AUTHORIZED',
+    sat21Created: false,
+    selectionDeterminism: 'stable-order-plus-first-unused-selected-candidate-with-skill-aliases',
+    note: 'Candidate options are references into deterministic remediation-generator pools. Only the selected candidate fingerprint is reserved globally; unselected options remain available for later targets. No production question was mutated. Skill aliases are selection-only compatibility mappings; candidate content and labels remain unchanged.',
+  };
+
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  fs.writeFileSync(OUT, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+
+  console.log(JSON.stringify({
+    reportType: report.reportType,
+    affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
+    summary: report.summary,
+    productionMutation: false,
+    releaseEligible: false,
+    replacementAuthorization: 'NOT_AUTHORIZED',
+    reportPath: path.relative(process.cwd(), OUT),
+  }, null, 2));
 }
 
-const productionIndex = buildProductionQuestionIndex();
-const preparation = buildTargetedReplacementPreparation(productionIndex);
-const targets = targetRecords(preparation).filter((target) => target?.testKey && TARGET_KEYS.has(target.testKey));
-if (targets.length !== 2144) throw new Error(`Expected 2144 prepared targets, got ${targets.length}`);
-
-const pools = buildPools();
-const results = selectTargets(targets, pools, productionIndex);
-const summary = summarize(results);
-
-const report = {
-  reportType: 'batch-m-targeted-replacement-candidate-selection',
-  reportVersion: REPORT_VERSION,
-  generatedAt: new Date().toISOString(),
-  affectedUniqueQuestionCount: results.length,
-  summary,
-  records: results,
-  productionMutation: false,
-  releaseEligible: false,
-  replacementAuthorization: 'NOT_AUTHORIZED',
-  sat21Created: false,
-  reportPath: 'docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json',
-};
-
-fs.writeFileSync(OUT, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-console.log(JSON.stringify({
-  reportType: report.reportType,
-  affectedUniqueQuestionCount: report.affectedUniqueQuestionCount,
-  summary: report.summary,
-  productionMutation: report.productionMutation,
-  releaseEligible: report.releaseEligible,
-  replacementAuthorization: report.replacementAuthorization,
-  reportPath: report.reportPath,
-}, null, 2));
+main();
