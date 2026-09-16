@@ -1,0 +1,43 @@
+name: Batch M controlled replacement
+
+on:
+  push:
+    branches:
+      - batch-m-controlled-replacement-2026-09-16
+    paths-ignore:
+      - 'docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json'
+      - 'src/data/sat/mockContent/batchMControlledReplacementMap.js'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+
+permissions:
+  contents: write
+
+jobs:
+  controlled-replacement:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate and apply controlled replacement
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/applyBatchMControlledReplacement.mjs
+
+      - name: Verify generated replacement state
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMControlledReplacementQC.mjs
+
+      - name: Commit controlled replacement artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json src/data/sat/mockContent/batchMControlledReplacementMap.js src/data/sat/mockContent/batchMProductionStore.js
+          git diff --cached --quiet || git commit -m "feat: apply authorized Batch M controlled replacement"
+          git push
