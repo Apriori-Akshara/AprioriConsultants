@@ -1,0 +1,13 @@
+{
+  "reportType": "batch-m-selection-snapshot-manifest",
+  "reportVersion": "2026-09-16.selection-snapshot.v1",
+  "selectionReport": "docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json",
+  "selectionGenerationCommit": "9a4cc0e0c74e592336c81695b2d7f43683702880",
+  "selectionGenerationParent": "16877495b25315fd9e6e7f3a067b9df8fb1cfd10",
+  "selectedCount": 1594,
+  "affectedUniqueQuestionCount": 2144,
+  "productionMutationAtSelection": false,
+  "releaseEligibleAtSelection": false,
+  "sat21Created": false,
+  "purpose": "Freeze the exact candidate-generation state used to create the authorized Batch M selection. Controlled replacement must resolve candidates from this state rather than recomputing them from later generator code."
+}
