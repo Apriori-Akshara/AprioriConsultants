@@ -75,9 +75,17 @@ The following stages are now resolved and runtime validated:
 - exact replacement-candidate selection;
 - individual selected-candidate quality gate.
 
-There is no remaining candidate-generation or candidate-selection failure requiring remediation before the replacement gate.
+There is no remaining candidate-generation, candidate-selection, or selected-candidate-quality failure requiring remediation before the replacement-authorization gate.
 
-## 5. Production boundary
+## 5. Completed milestone
+
+**Candidate-selection and individual selected-candidate-quality milestone: COMPLETE.**
+
+The remediation branch now has a green end-to-end candidate-selection workflow, zero candidate-coverage gaps, 1,594 selected replacement candidates, and a passing individual quality gate covering all 2,144 affected records. The two immediately preceding red workflow runs were verification-contract regressions only and have been corrected; no candidate-content defect remains pending from those runs.
+
+There is nothing further to implement in this stage unless a new repository discrepancy is found.
+
+## 6. Production boundary
 
 The following remain unchanged:
 
@@ -88,12 +96,14 @@ The following remain unchanged:
 
 The 1,594 selected candidates are downstream review candidates only. They are not production-approved and no frozen question has been replaced.
 
-## 6. Next logical stage — authorization and controlled replacement
+## 7. Next stage — replacement authorization
 
-The next work must now move beyond candidate generation:
+The next stage is **explicit replacement authorization**. Authorization is a release-process gate and must be explicitly established before any frozen production question is mutated.
 
-1. establish explicit replacement authorization;
-2. apply only the authorized affected replacements and record every post-freeze change by `testKey + questionId`;
+After authorization is explicitly recorded, the implementation sequence is:
+
+1. apply only the authorized affected replacements;
+2. record every post-freeze change by exact `testKey + questionId`, including the selected replacement disposition;
 3. rerun the affected mock production gates;
 4. after those gates pass, run the comprehensive **20-test QC covering SAT1–SAT10 and PSAT1–PSAT10**;
 5. rerun the final collective **30-mock corpus gate**;
@@ -106,15 +116,15 @@ The production freeze remains active until explicit authorization is recorded.
 
 No SAT21 or additional production target may be created.
 
-## 7. Resume point
+## 8. Resume point
 
 Read only:
 
-- this document, especially **§4 Current remediation status** and **§6 Next logical stage — authorization and controlled replacement**;
+- this document, especially **§5 Completed milestone**, **§6 Production boundary**, and **§7 Next stage — replacement authorization**;
+- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` — current authorization boundary and replacement sequence;
 - `docs/BATCH-M-SELECTED-CANDIDATE-QUALITY-2026-09-15.json` — latest individual-quality evidence;
 - `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json` — latest zero-gap coverage evidence;
 - `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json` — exact candidate dispositions;
-- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md` — production authorization and release gates;
 - `docs/QUESTION-GENERATION-ROADMAP.md` — current Batch M section only.
 
-Do not repeat the impact audit, inventory, replacement preparation, selector performance work, candidate-generation remediation, or already-green downstream gates unless a real repository discrepancy is found.
+Do not repeat the impact audit, inventory, replacement preparation, selector performance work, candidate-generation remediation, or already-green candidate-selection/quality gates unless a real repository discrepancy is found.
