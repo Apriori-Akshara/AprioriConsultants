@@ -156,9 +156,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5058:106d033ff7f3b0ba",
+          "candidateKey": "psat:5058:825408f168479890",
           "poolIndex": 5058,
-          "fingerprint": "106d033ff7f3b0ba",
+          "fingerprint": "825408f168479890",
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch"
@@ -228,9 +228,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5074:4c70909a7268b850",
+          "candidateKey": "psat:5074:38925808ab834193",
           "poolIndex": 5074,
-          "fingerprint": "4c70909a7268b850",
+          "fingerprint": "38925808ab834193",
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
@@ -301,9 +301,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5048:6b464072f411c822",
+          "candidateKey": "psat:5048:4874fd2fceb7aa5e",
           "poolIndex": 5048,
-          "fingerprint": "6b464072f411c822",
+          "fingerprint": "4874fd2fceb7aa5e",
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch"
@@ -406,9 +406,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5090:36609a02e98065a2",
+          "candidateKey": "psat:5090:a74df43a687b87c4",
           "poolIndex": 5090,
-          "fingerprint": "36609a02e98065a2",
+          "fingerprint": "a74df43a687b87c4",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -421,9 +421,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5122:beca563006725bec",
+          "candidateKey": "psat:5122:742cede341dd446a",
           "poolIndex": 5122,
-          "fingerprint": "beca563006725bec",
+          "fingerprint": "742cede341dd446a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -457,7 +457,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5090:36609a02e98065a2"
+      "selectedCandidateKey": "psat:5090:a74df43a687b87c4"
     },
     {
       "testKey": "PSAT1",
@@ -1439,9 +1439,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5058:106d033ff7f3b0ba",
+          "candidateKey": "psat:5058:825408f168479890",
           "poolIndex": 5058,
-          "fingerprint": "106d033ff7f3b0ba",
+          "fingerprint": "825408f168479890",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -1454,9 +1454,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5106:b7878f23997b66e3",
+          "candidateKey": "psat:5106:e854d1d58dcebd3f",
           "poolIndex": 5106,
-          "fingerprint": "b7878f23997b66e3",
+          "fingerprint": "e854d1d58dcebd3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -1490,7 +1490,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5058:106d033ff7f3b0ba"
+      "selectedCandidateKey": "psat:5058:825408f168479890"
     },
     {
       "testKey": "PSAT1",
@@ -1513,9 +1513,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5122:beca563006725bec",
+          "candidateKey": "psat:5122:742cede341dd446a",
           "poolIndex": 5122,
-          "fingerprint": "beca563006725bec",
+          "fingerprint": "742cede341dd446a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -1528,9 +1528,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5218:0ba28ccc3e818db7",
+          "candidateKey": "psat:5218:9fb64c29d49d3e20",
           "poolIndex": 5218,
-          "fingerprint": "0ba28ccc3e818db7",
+          "fingerprint": "9fb64c29d49d3e20",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -1564,7 +1564,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5122:beca563006725bec"
+      "selectedCandidateKey": "psat:5122:742cede341dd446a"
     },
     {
       "testKey": "PSAT1",
@@ -1587,9 +1587,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5048:6b464072f411c822",
+          "candidateKey": "psat:5048:4874fd2fceb7aa5e",
           "poolIndex": 5048,
-          "fingerprint": "6b464072f411c822",
+          "fingerprint": "4874fd2fceb7aa5e",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -1602,9 +1602,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5080:2c378f4c49867e97",
+          "candidateKey": "psat:5080:616b10cd35d9d501",
           "poolIndex": 5080,
-          "fingerprint": "2c378f4c49867e97",
+          "fingerprint": "616b10cd35d9d501",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -1638,7 +1638,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5048:6b464072f411c822"
+      "selectedCandidateKey": "psat:5048:4874fd2fceb7aa5e"
     },
     {
       "testKey": "PSAT1",
@@ -4143,9 +4143,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5218:0ba28ccc3e818db7",
+          "candidateKey": "psat:5218:9fb64c29d49d3e20",
           "poolIndex": 5218,
-          "fingerprint": "0ba28ccc3e818db7",
+          "fingerprint": "9fb64c29d49d3e20",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -4158,9 +4158,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5234:1b1a75f4985cbc33",
+          "candidateKey": "psat:5234:184863ca85e6864c",
           "poolIndex": 5234,
-          "fingerprint": "1b1a75f4985cbc33",
+          "fingerprint": "184863ca85e6864c",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -4194,7 +4194,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5218:0ba28ccc3e818db7"
+      "selectedCandidateKey": "psat:5218:9fb64c29d49d3e20"
     },
     {
       "testKey": "PSAT1",
@@ -8146,9 +8146,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5080:2c378f4c49867e97",
+          "candidateKey": "psat:5080:616b10cd35d9d501",
           "poolIndex": 5080,
-          "fingerprint": "2c378f4c49867e97",
+          "fingerprint": "616b10cd35d9d501",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -8161,9 +8161,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5096:5566ec6dc3329548",
+          "candidateKey": "psat:5096:57e588f7935a8175",
           "poolIndex": 5096,
-          "fingerprint": "5566ec6dc3329548",
+          "fingerprint": "57e588f7935a8175",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -8197,7 +8197,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5080:2c378f4c49867e97"
+      "selectedCandidateKey": "psat:5080:616b10cd35d9d501"
     },
     {
       "testKey": "PSAT10",
@@ -9237,9 +9237,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5106:b7878f23997b66e3",
+          "candidateKey": "psat:5106:e854d1d58dcebd3f",
           "poolIndex": 5106,
-          "fingerprint": "b7878f23997b66e3",
+          "fingerprint": "e854d1d58dcebd3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -9252,9 +9252,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5234:1b1a75f4985cbc33",
+          "candidateKey": "psat:5234:184863ca85e6864c",
           "poolIndex": 5234,
-          "fingerprint": "1b1a75f4985cbc33",
+          "fingerprint": "184863ca85e6864c",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -9288,7 +9288,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5106:b7878f23997b66e3"
+      "selectedCandidateKey": "psat:5106:e854d1d58dcebd3f"
     },
     {
       "testKey": "PSAT10",
@@ -9311,9 +9311,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5096:5566ec6dc3329548",
+          "candidateKey": "psat:5096:57e588f7935a8175",
           "poolIndex": 5096,
-          "fingerprint": "5566ec6dc3329548",
+          "fingerprint": "57e588f7935a8175",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -9326,9 +9326,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5112:c498182cc0298b62",
+          "candidateKey": "psat:5112:57e2a1e56bb45080",
           "poolIndex": 5112,
-          "fingerprint": "c498182cc0298b62",
+          "fingerprint": "57e2a1e56bb45080",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -9362,7 +9362,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5096:5566ec6dc3329548"
+      "selectedCandidateKey": "psat:5096:57e588f7935a8175"
     },
     {
       "testKey": "PSAT10",
@@ -9459,9 +9459,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5234:1b1a75f4985cbc33",
+          "candidateKey": "psat:5234:184863ca85e6864c",
           "poolIndex": 5234,
-          "fingerprint": "1b1a75f4985cbc33",
+          "fingerprint": "184863ca85e6864c",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -9474,9 +9474,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5250:b05d23afc6b2823c",
+          "candidateKey": "psat:5250:d29fc1ff56b5eeb8",
           "poolIndex": 5250,
-          "fingerprint": "b05d23afc6b2823c",
+          "fingerprint": "d29fc1ff56b5eeb8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -9510,7 +9510,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5234:1b1a75f4985cbc33"
+      "selectedCandidateKey": "psat:5234:184863ca85e6864c"
     },
     {
       "testKey": "PSAT10",
@@ -11848,9 +11848,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5282:f1cf5a18f9760439",
+          "candidateKey": "psat:5282:e554a05e8416ee72",
           "poolIndex": 5282,
-          "fingerprint": "f1cf5a18f9760439",
+          "fingerprint": "e554a05e8416ee72",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -11863,9 +11863,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5378:eb7bf320c474e14b",
+          "candidateKey": "psat:5378:7c287679a69f1e21",
           "poolIndex": 5378,
-          "fingerprint": "eb7bf320c474e14b",
+          "fingerprint": "7c287679a69f1e21",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -11899,7 +11899,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5282:f1cf5a18f9760439"
+      "selectedCandidateKey": "psat:5282:e554a05e8416ee72"
     },
     {
       "testKey": "PSAT10",
@@ -15296,9 +15296,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5112:c498182cc0298b62",
+          "candidateKey": "psat:5112:57e2a1e56bb45080",
           "poolIndex": 5112,
-          "fingerprint": "c498182cc0298b62",
+          "fingerprint": "57e2a1e56bb45080",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -15311,9 +15311,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5208:f5c597fdd29289ae",
+          "candidateKey": "psat:5208:a19d5397cdf2fa93",
           "poolIndex": 5208,
-          "fingerprint": "f5c597fdd29289ae",
+          "fingerprint": "a19d5397cdf2fa93",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -15347,7 +15347,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5112:c498182cc0298b62"
+      "selectedCandidateKey": "psat:5112:57e2a1e56bb45080"
     },
     {
       "testKey": "PSAT2",
@@ -16311,9 +16311,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5250:b05d23afc6b2823c",
+          "candidateKey": "psat:5250:d29fc1ff56b5eeb8",
           "poolIndex": 5250,
-          "fingerprint": "b05d23afc6b2823c",
+          "fingerprint": "d29fc1ff56b5eeb8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -16326,9 +16326,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5378:eb7bf320c474e14b",
+          "candidateKey": "psat:5378:7c287679a69f1e21",
           "poolIndex": 5378,
-          "fingerprint": "eb7bf320c474e14b",
+          "fingerprint": "7c287679a69f1e21",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -16362,7 +16362,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5250:b05d23afc6b2823c"
+      "selectedCandidateKey": "psat:5250:d29fc1ff56b5eeb8"
     },
     {
       "testKey": "PSAT2",
@@ -16385,9 +16385,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5378:eb7bf320c474e14b",
+          "candidateKey": "psat:5378:7c287679a69f1e21",
           "poolIndex": 5378,
-          "fingerprint": "eb7bf320c474e14b",
+          "fingerprint": "7c287679a69f1e21",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -16400,9 +16400,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5410:d1ff5e65e71009a0",
+          "candidateKey": "psat:5410:c968802506046d56",
           "poolIndex": 5410,
-          "fingerprint": "d1ff5e65e71009a0",
+          "fingerprint": "c968802506046d56",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -16436,7 +16436,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5378:eb7bf320c474e14b"
+      "selectedCandidateKey": "psat:5378:7c287679a69f1e21"
     },
     {
       "testKey": "PSAT2",
@@ -16459,9 +16459,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5208:f5c597fdd29289ae",
+          "candidateKey": "psat:5208:a19d5397cdf2fa93",
           "poolIndex": 5208,
-          "fingerprint": "f5c597fdd29289ae",
+          "fingerprint": "a19d5397cdf2fa93",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -16474,9 +16474,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5224:675e7c07e78d53ef",
+          "candidateKey": "psat:5224:8ee188c9fd6c4c3f",
           "poolIndex": 5224,
-          "fingerprint": "675e7c07e78d53ef",
+          "fingerprint": "8ee188c9fd6c4c3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -16510,7 +16510,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5208:f5c597fdd29289ae"
+      "selectedCandidateKey": "psat:5208:a19d5397cdf2fa93"
     },
     {
       "testKey": "PSAT2",
@@ -18991,9 +18991,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5410:d1ff5e65e71009a0",
+          "candidateKey": "psat:5410:c968802506046d56",
           "poolIndex": 5410,
-          "fingerprint": "d1ff5e65e71009a0",
+          "fingerprint": "c968802506046d56",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -19006,9 +19006,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5426:f544d01ae113990f",
+          "candidateKey": "psat:5426:dc956df7fca86582",
           "poolIndex": 5426,
-          "fingerprint": "f544d01ae113990f",
+          "fingerprint": "dc956df7fca86582",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -19042,7 +19042,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5410:d1ff5e65e71009a0"
+      "selectedCandidateKey": "psat:5410:c968802506046d56"
     },
     {
       "testKey": "PSAT2",
@@ -19065,9 +19065,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5224:675e7c07e78d53ef",
+          "candidateKey": "psat:5224:8ee188c9fd6c4c3f",
           "poolIndex": 5224,
-          "fingerprint": "675e7c07e78d53ef",
+          "fingerprint": "8ee188c9fd6c4c3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -19080,9 +19080,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5240:7fa2c909f4c808ac",
+          "candidateKey": "psat:5240:6dd7a8e5463ee876",
           "poolIndex": 5240,
-          "fingerprint": "7fa2c909f4c808ac",
+          "fingerprint": "6dd7a8e5463ee876",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -19116,7 +19116,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5224:675e7c07e78d53ef"
+      "selectedCandidateKey": "psat:5224:8ee188c9fd6c4c3f"
     },
     {
       "testKey": "PSAT2",
@@ -24329,9 +24329,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5426:f544d01ae113990f",
+          "candidateKey": "psat:5426:dc956df7fca86582",
           "poolIndex": 5426,
-          "fingerprint": "f544d01ae113990f",
+          "fingerprint": "dc956df7fca86582",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -24344,9 +24344,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5554:9de596e9038554b5",
+          "candidateKey": "psat:5554:2e4c82d2d8188300",
           "poolIndex": 5554,
-          "fingerprint": "9de596e9038554b5",
+          "fingerprint": "2e4c82d2d8188300",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -24380,7 +24380,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5426:f544d01ae113990f"
+      "selectedCandidateKey": "psat:5426:dc956df7fca86582"
     },
     {
       "testKey": "PSAT3",
@@ -24403,9 +24403,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5240:7fa2c909f4c808ac",
+          "candidateKey": "psat:5240:6dd7a8e5463ee876",
           "poolIndex": 5240,
-          "fingerprint": "7fa2c909f4c808ac",
+          "fingerprint": "6dd7a8e5463ee876",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -24418,9 +24418,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5272:f129fa8f89442138",
+          "candidateKey": "psat:5272:1a45801af59623d2",
           "poolIndex": 5272,
-          "fingerprint": "f129fa8f89442138",
+          "fingerprint": "1a45801af59623d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -24454,7 +24454,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5240:7fa2c909f4c808ac"
+      "selectedCandidateKey": "psat:5240:6dd7a8e5463ee876"
     },
     {
       "testKey": "PSAT3",
@@ -24551,9 +24551,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5554:9de596e9038554b5",
+          "candidateKey": "psat:5554:2e4c82d2d8188300",
           "poolIndex": 5554,
-          "fingerprint": "9de596e9038554b5",
+          "fingerprint": "2e4c82d2d8188300",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -24566,9 +24566,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5570:43046b837fcfc634",
+          "candidateKey": "psat:5570:0fd17c347d7058c8",
           "poolIndex": 5570,
-          "fingerprint": "43046b837fcfc634",
+          "fingerprint": "0fd17c347d7058c8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -24602,7 +24602,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5554:9de596e9038554b5"
+      "selectedCandidateKey": "psat:5554:2e4c82d2d8188300"
     },
     {
       "testKey": "PSAT3",
@@ -26938,9 +26938,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5272:f129fa8f89442138",
+          "candidateKey": "psat:5272:1a45801af59623d2",
           "poolIndex": 5272,
-          "fingerprint": "f129fa8f89442138",
+          "fingerprint": "1a45801af59623d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -26953,9 +26953,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5368:7b06c6bf36cdf624",
+          "candidateKey": "psat:5368:8004b0b2bb51ed96",
           "poolIndex": 5368,
-          "fingerprint": "7b06c6bf36cdf624",
+          "fingerprint": "8004b0b2bb51ed96",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -26989,7 +26989,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5272:f129fa8f89442138"
+      "selectedCandidateKey": "psat:5272:1a45801af59623d2"
     },
     {
       "testKey": "PSAT3",
@@ -31567,9 +31567,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5368:7b06c6bf36cdf624",
+          "candidateKey": "psat:5368:8004b0b2bb51ed96",
           "poolIndex": 5368,
-          "fingerprint": "7b06c6bf36cdf624",
+          "fingerprint": "8004b0b2bb51ed96",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -31582,9 +31582,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5400:f2a4221b0dd076b3",
+          "candidateKey": "psat:5400:921fdbeb170d0c62",
           "poolIndex": 5400,
-          "fingerprint": "f2a4221b0dd076b3",
+          "fingerprint": "921fdbeb170d0c62",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -31618,7 +31618,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5368:7b06c6bf36cdf624"
+      "selectedCandidateKey": "psat:5368:8004b0b2bb51ed96"
     },
     {
       "testKey": "PSAT4",
@@ -31715,9 +31715,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5570:43046b837fcfc634",
+          "candidateKey": "psat:5570:0fd17c347d7058c8",
           "poolIndex": 5570,
-          "fingerprint": "43046b837fcfc634",
+          "fingerprint": "0fd17c347d7058c8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -31730,9 +31730,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5602:bd148b0394082308",
+          "candidateKey": "psat:5602:ec7d5af4e902fd80",
           "poolIndex": 5602,
-          "fingerprint": "bd148b0394082308",
+          "fingerprint": "ec7d5af4e902fd80",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -31766,7 +31766,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5570:43046b837fcfc634"
+      "selectedCandidateKey": "psat:5570:0fd17c347d7058c8"
     },
     {
       "testKey": "PSAT4",
@@ -31789,9 +31789,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5400:f2a4221b0dd076b3",
+          "candidateKey": "psat:5400:921fdbeb170d0c62",
           "poolIndex": 5400,
-          "fingerprint": "f2a4221b0dd076b3",
+          "fingerprint": "921fdbeb170d0c62",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -31804,9 +31804,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5416:95e50a5ce964b600",
+          "candidateKey": "psat:5416:a3efcba7ccbc6a60",
           "poolIndex": 5416,
-          "fingerprint": "95e50a5ce964b600",
+          "fingerprint": "a3efcba7ccbc6a60",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -31840,7 +31840,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5400:f2a4221b0dd076b3"
+      "selectedCandidateKey": "psat:5400:921fdbeb170d0c62"
     },
     {
       "testKey": "PSAT4",
@@ -34252,9 +34252,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5442:eaeb7a2aa6997481",
+          "candidateKey": "psat:5442:24c32ccfe04252cf",
           "poolIndex": 5442,
-          "fingerprint": "eaeb7a2aa6997481",
+          "fingerprint": "24c32ccfe04252cf",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -34267,9 +34267,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5538:cd8e2e1789c86c62",
+          "candidateKey": "psat:5538:175af43ffe210c4a",
           "poolIndex": 5538,
-          "fingerprint": "cd8e2e1789c86c62",
+          "fingerprint": "175af43ffe210c4a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -34303,7 +34303,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5442:eaeb7a2aa6997481"
+      "selectedCandidateKey": "psat:5442:24c32ccfe04252cf"
     },
     {
       "testKey": "PSAT4",
@@ -38273,9 +38273,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5602:bd148b0394082308",
+          "candidateKey": "psat:5602:ec7d5af4e902fd80",
           "poolIndex": 5602,
-          "fingerprint": "bd148b0394082308",
+          "fingerprint": "ec7d5af4e902fd80",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -38288,9 +38288,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5698:6facd195810522bf",
+          "candidateKey": "psat:5698:5247858ea3619db3",
           "poolIndex": 5698,
-          "fingerprint": "6facd195810522bf",
+          "fingerprint": "5247858ea3619db3",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -38324,7 +38324,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5602:bd148b0394082308"
+      "selectedCandidateKey": "psat:5602:ec7d5af4e902fd80"
     },
     {
       "testKey": "PSAT5",
@@ -39437,9 +39437,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5698:6facd195810522bf",
+          "candidateKey": "psat:5698:5247858ea3619db3",
           "poolIndex": 5698,
-          "fingerprint": "6facd195810522bf",
+          "fingerprint": "5247858ea3619db3",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -39452,9 +39452,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5746:cbcf07745d4c60b1",
+          "candidateKey": "psat:5746:345136d9b22fd927",
           "poolIndex": 5746,
-          "fingerprint": "cbcf07745d4c60b1",
+          "fingerprint": "345136d9b22fd927",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -39488,7 +39488,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5698:6facd195810522bf"
+      "selectedCandidateKey": "psat:5698:5247858ea3619db3"
     },
     {
       "testKey": "PSAT5",
@@ -39511,9 +39511,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5416:95e50a5ce964b600",
+          "candidateKey": "psat:5416:a3efcba7ccbc6a60",
           "poolIndex": 5416,
-          "fingerprint": "95e50a5ce964b600",
+          "fingerprint": "a3efcba7ccbc6a60",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -39526,9 +39526,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5432:15d5653450ef0def",
+          "candidateKey": "psat:5432:d06094936f4d0a02",
           "poolIndex": 5432,
-          "fingerprint": "15d5653450ef0def",
+          "fingerprint": "d06094936f4d0a02",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -39562,7 +39562,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5416:95e50a5ce964b600"
+      "selectedCandidateKey": "psat:5416:a3efcba7ccbc6a60"
     },
     {
       "testKey": "PSAT5",
@@ -42048,9 +42048,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5538:cd8e2e1789c86c62",
+          "candidateKey": "psat:5538:175af43ffe210c4a",
           "poolIndex": 5538,
-          "fingerprint": "cd8e2e1789c86c62",
+          "fingerprint": "175af43ffe210c4a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -42063,9 +42063,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5730:f99914ae1cd1d554",
+          "candidateKey": "psat:5730:780da563778f7131",
           "poolIndex": 5730,
-          "fingerprint": "f99914ae1cd1d554",
+          "fingerprint": "780da563778f7131",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -42099,7 +42099,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5538:cd8e2e1789c86c62"
+      "selectedCandidateKey": "psat:5538:175af43ffe210c4a"
     },
     {
       "testKey": "PSAT5",
@@ -45356,9 +45356,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5432:15d5653450ef0def",
+          "candidateKey": "psat:5432:d06094936f4d0a02",
           "poolIndex": 5432,
-          "fingerprint": "15d5653450ef0def",
+          "fingerprint": "d06094936f4d0a02",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -45371,9 +45371,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5528:c0c99f03aef252ef",
+          "candidateKey": "psat:5528:f3ff466b4fb2f3cf",
           "poolIndex": 5528,
-          "fingerprint": "c0c99f03aef252ef",
+          "fingerprint": "f3ff466b4fb2f3cf",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -45407,7 +45407,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5432:15d5653450ef0def"
+      "selectedCandidateKey": "psat:5432:d06094936f4d0a02"
     },
     {
       "testKey": "PSAT6",
@@ -46446,9 +46446,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5746:cbcf07745d4c60b1",
+          "candidateKey": "psat:5746:345136d9b22fd927",
           "poolIndex": 5746,
-          "fingerprint": "cbcf07745d4c60b1",
+          "fingerprint": "345136d9b22fd927",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -46461,9 +46461,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5762:dd3171279d68d54e",
+          "candidateKey": "psat:5762:cb0388010b3b8804",
           "poolIndex": 5762,
-          "fingerprint": "dd3171279d68d54e",
+          "fingerprint": "cb0388010b3b8804",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -46497,7 +46497,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5746:cbcf07745d4c60b1"
+      "selectedCandidateKey": "psat:5746:345136d9b22fd927"
     },
     {
       "testKey": "PSAT6",
@@ -46520,9 +46520,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5528:c0c99f03aef252ef",
+          "candidateKey": "psat:5528:f3ff466b4fb2f3cf",
           "poolIndex": 5528,
-          "fingerprint": "c0c99f03aef252ef",
+          "fingerprint": "f3ff466b4fb2f3cf",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -46535,9 +46535,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5544:6139f94ad9c83952",
+          "candidateKey": "psat:5544:b29d5b73b70c055b",
           "poolIndex": 5544,
-          "fingerprint": "6139f94ad9c83952",
+          "fingerprint": "b29d5b73b70c055b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -46571,7 +46571,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5528:c0c99f03aef252ef"
+      "selectedCandidateKey": "psat:5528:f3ff466b4fb2f3cf"
     },
     {
       "testKey": "PSAT6",
@@ -46668,9 +46668,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5730:f99914ae1cd1d554",
+          "candidateKey": "psat:5730:780da563778f7131",
           "poolIndex": 5730,
-          "fingerprint": "f99914ae1cd1d554",
+          "fingerprint": "780da563778f7131",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -46683,9 +46683,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5762:dd3171279d68d54e",
+          "candidateKey": "psat:5762:cb0388010b3b8804",
           "poolIndex": 5762,
-          "fingerprint": "dd3171279d68d54e",
+          "fingerprint": "cb0388010b3b8804",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -46719,7 +46719,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5730:f99914ae1cd1d554"
+      "selectedCandidateKey": "psat:5730:780da563778f7131"
     },
     {
       "testKey": "PSAT6",
@@ -49057,9 +49057,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5544:6139f94ad9c83952",
+          "candidateKey": "psat:5544:b29d5b73b70c055b",
           "poolIndex": 5544,
-          "fingerprint": "6139f94ad9c83952",
+          "fingerprint": "b29d5b73b70c055b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -49072,9 +49072,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5560:99ed528ad6b53c8d",
+          "candidateKey": "psat:5560:da61f97d2de53e76",
           "poolIndex": 5560,
-          "fingerprint": "99ed528ad6b53c8d",
+          "fingerprint": "da61f97d2de53e76",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -49108,7 +49108,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5544:6139f94ad9c83952"
+      "selectedCandidateKey": "psat:5544:b29d5b73b70c055b"
     },
     {
       "testKey": "PSAT6",
@@ -54368,9 +54368,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5762:dd3171279d68d54e",
+          "candidateKey": "psat:5762:cb0388010b3b8804",
           "poolIndex": 5762,
-          "fingerprint": "dd3171279d68d54e",
+          "fingerprint": "cb0388010b3b8804",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -54383,9 +54383,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5858:8a3a1c4ad1ae7f30",
+          "candidateKey": "psat:5858:1ea841afda4238d0",
           "poolIndex": 5858,
-          "fingerprint": "8a3a1c4ad1ae7f30",
+          "fingerprint": "1ea841afda4238d0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -54419,7 +54419,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5762:dd3171279d68d54e"
+      "selectedCandidateKey": "psat:5762:cb0388010b3b8804"
     },
     {
       "testKey": "PSAT7",
@@ -54442,9 +54442,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5560:99ed528ad6b53c8d",
+          "candidateKey": "psat:5560:da61f97d2de53e76",
           "poolIndex": 5560,
-          "fingerprint": "99ed528ad6b53c8d",
+          "fingerprint": "da61f97d2de53e76",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -54457,9 +54457,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5592:9aa3fff162f3fd35",
+          "candidateKey": "psat:5592:4702472ebffa5fad",
           "poolIndex": 5592,
-          "fingerprint": "9aa3fff162f3fd35",
+          "fingerprint": "4702472ebffa5fad",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -54493,7 +54493,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5560:99ed528ad6b53c8d"
+      "selectedCandidateKey": "psat:5560:da61f97d2de53e76"
     },
     {
       "testKey": "PSAT7",
@@ -54590,9 +54590,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5858:8a3a1c4ad1ae7f30",
+          "candidateKey": "psat:5858:1ea841afda4238d0",
           "poolIndex": 5858,
-          "fingerprint": "8a3a1c4ad1ae7f30",
+          "fingerprint": "1ea841afda4238d0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -54605,9 +54605,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5874:830e295863283301",
+          "candidateKey": "psat:5874:5df549d0cd567958",
           "poolIndex": 5874,
-          "fingerprint": "830e295863283301",
+          "fingerprint": "5df549d0cd567958",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -54641,7 +54641,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5858:8a3a1c4ad1ae7f30"
+      "selectedCandidateKey": "psat:5858:1ea841afda4238d0"
     },
     {
       "testKey": "PSAT7",
@@ -56979,9 +56979,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5592:9aa3fff162f3fd35",
+          "candidateKey": "psat:5592:4702472ebffa5fad",
           "poolIndex": 5592,
-          "fingerprint": "9aa3fff162f3fd35",
+          "fingerprint": "4702472ebffa5fad",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -56994,9 +56994,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5688:0a1cf2d6123aab9e",
+          "candidateKey": "psat:5688:3b2ca11e56d8b26e",
           "poolIndex": 5688,
-          "fingerprint": "0a1cf2d6123aab9e",
+          "fingerprint": "3b2ca11e56d8b26e",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -57030,7 +57030,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5592:9aa3fff162f3fd35"
+      "selectedCandidateKey": "psat:5592:4702472ebffa5fad"
     },
     {
       "testKey": "PSAT7",
@@ -60999,9 +60999,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5874:830e295863283301",
+          "candidateKey": "psat:5874:5df549d0cd567958",
           "poolIndex": 5874,
-          "fingerprint": "830e295863283301",
+          "fingerprint": "5df549d0cd567958",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -61014,9 +61014,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5922:a72a56dd0be5d96b",
+          "candidateKey": "psat:5922:fe6a097786a140d2",
           "poolIndex": 5922,
-          "fingerprint": "a72a56dd0be5d96b",
+          "fingerprint": "fe6a097786a140d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -61050,7 +61050,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5874:830e295863283301"
+      "selectedCandidateKey": "psat:5874:5df549d0cd567958"
     },
     {
       "testKey": "PSAT8",
@@ -61947,9 +61947,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5688:0a1cf2d6123aab9e",
+          "candidateKey": "psat:5688:3b2ca11e56d8b26e",
           "poolIndex": 5688,
-          "fingerprint": "0a1cf2d6123aab9e",
+          "fingerprint": "3b2ca11e56d8b26e",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -61962,9 +61962,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5720:af1d85b7b2739e8d",
+          "candidateKey": "psat:5720:e6802fa82042c3ba",
           "poolIndex": 5720,
-          "fingerprint": "af1d85b7b2739e8d",
+          "fingerprint": "e6802fa82042c3ba",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -61998,7 +61998,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5688:0a1cf2d6123aab9e"
+      "selectedCandidateKey": "psat:5688:3b2ca11e56d8b26e"
     },
     {
       "testKey": "PSAT8",
@@ -62095,9 +62095,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5922:a72a56dd0be5d96b",
+          "candidateKey": "psat:5922:fe6a097786a140d2",
           "poolIndex": 5922,
-          "fingerprint": "a72a56dd0be5d96b",
+          "fingerprint": "fe6a097786a140d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -62110,9 +62110,9 @@
           ]
         },
         {
-          "candidateKey": "psat:6018:47dd73b0df19884c",
+          "candidateKey": "psat:6018:2c7b5d27f9b1284b",
           "poolIndex": 6018,
-          "fingerprint": "47dd73b0df19884c",
+          "fingerprint": "2c7b5d27f9b1284b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -62146,7 +62146,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5922:a72a56dd0be5d96b"
+      "selectedCandidateKey": "psat:5922:fe6a097786a140d2"
     },
     {
       "testKey": "PSAT8",
@@ -62169,9 +62169,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5720:af1d85b7b2739e8d",
+          "candidateKey": "psat:5720:e6802fa82042c3ba",
           "poolIndex": 5720,
-          "fingerprint": "af1d85b7b2739e8d",
+          "fingerprint": "e6802fa82042c3ba",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -62184,9 +62184,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5736:65153f48e12aa255",
+          "candidateKey": "psat:5736:2185afbe9ca42219",
           "poolIndex": 5736,
-          "fingerprint": "65153f48e12aa255",
+          "fingerprint": "2185afbe9ca42219",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -62220,7 +62220,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5720:af1d85b7b2739e8d"
+      "selectedCandidateKey": "psat:5720:e6802fa82042c3ba"
     },
     {
       "testKey": "PSAT8",
@@ -64562,9 +64562,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:6018:47dd73b0df19884c",
+          "candidateKey": "psat:6018:2c7b5d27f9b1284b",
           "poolIndex": 6018,
-          "fingerprint": "47dd73b0df19884c",
+          "fingerprint": "2c7b5d27f9b1284b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -64577,9 +64577,9 @@
           ]
         },
         {
-          "candidateKey": "psat:6050:5110f380dad4319f",
+          "candidateKey": "psat:6050:80821c4285e34896",
           "poolIndex": 6050,
-          "fingerprint": "5110f380dad4319f",
+          "fingerprint": "80821c4285e34896",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -64613,7 +64613,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:6018:47dd73b0df19884c"
+      "selectedCandidateKey": "psat:6018:2c7b5d27f9b1284b"
     },
     {
       "testKey": "PSAT8",
@@ -68984,9 +68984,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:6050:5110f380dad4319f",
+          "candidateKey": "psat:6050:80821c4285e34896",
           "poolIndex": 6050,
-          "fingerprint": "5110f380dad4319f",
+          "fingerprint": "80821c4285e34896",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -68999,9 +68999,9 @@
           ]
         },
         {
-          "candidateKey": "psat:6066:370a80bf75e9ae77",
+          "candidateKey": "psat:6066:6e1e9413615cfaf0",
           "poolIndex": 6066,
-          "fingerprint": "370a80bf75e9ae77",
+          "fingerprint": "6e1e9413615cfaf0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -69035,7 +69035,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:6050:5110f380dad4319f"
+      "selectedCandidateKey": "psat:6050:80821c4285e34896"
     },
     {
       "testKey": "PSAT9",
@@ -69058,9 +69058,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5736:65153f48e12aa255",
+          "candidateKey": "psat:5736:2185afbe9ca42219",
           "poolIndex": 5736,
-          "fingerprint": "65153f48e12aa255",
+          "fingerprint": "2185afbe9ca42219",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -69073,9 +69073,9 @@
           ]
         },
         {
-          "candidateKey": "psat:5752:034ce4bf78292d43",
+          "candidateKey": "psat:5752:a8fe23aef2b23f60",
           "poolIndex": 5752,
-          "fingerprint": "034ce4bf78292d43",
+          "fingerprint": "a8fe23aef2b23f60",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -69109,7 +69109,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5736:65153f48e12aa255"
+      "selectedCandidateKey": "psat:5736:2185afbe9ca42219"
     },
     {
       "testKey": "PSAT9",
@@ -71451,9 +71451,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:6066:370a80bf75e9ae77",
+          "candidateKey": "psat:6066:6e1e9413615cfaf0",
           "poolIndex": 6066,
-          "fingerprint": "370a80bf75e9ae77",
+          "fingerprint": "6e1e9413615cfaf0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -71466,9 +71466,9 @@
           ]
         },
         {
-          "candidateKey": "psat:6194:755c5e02742fd458",
+          "candidateKey": "psat:6194:af9a4bf3a9151386",
           "poolIndex": 6194,
-          "fingerprint": "755c5e02742fd458",
+          "fingerprint": "af9a4bf3a9151386",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -71502,7 +71502,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:6066:370a80bf75e9ae77"
+      "selectedCandidateKey": "psat:6066:6e1e9413615cfaf0"
     },
     {
       "testKey": "PSAT9",
@@ -71525,9 +71525,9 @@
       },
       "options": [
         {
-          "candidateKey": "psat:5890:4c3a8a9124cd3de2",
+          "candidateKey": "psat:5890:b8ae24183b9b3130",
           "poolIndex": 5890,
-          "fingerprint": "4c3a8a9124cd3de2",
+          "fingerprint": "b8ae24183b9b3130",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -71540,9 +71540,9 @@
           ]
         },
         {
-          "candidateKey": "psat:6082:a525165b8adcdb6c",
+          "candidateKey": "psat:6082:268cf5b02c1a10a7",
           "poolIndex": 6082,
-          "fingerprint": "a525165b8adcdb6c",
+          "fingerprint": "268cf5b02c1a10a7",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -71576,7 +71576,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "psat:5890:4c3a8a9124cd3de2"
+      "selectedCandidateKey": "psat:5890:b8ae24183b9b3130"
     },
     {
       "testKey": "PSAT9",
@@ -75435,9 +75435,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5058:106d033ff7f3b0ba",
+          "candidateKey": "sat:5058:825408f168479890",
           "poolIndex": 5058,
-          "fingerprint": "106d033ff7f3b0ba",
+          "fingerprint": "825408f168479890",
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch"
@@ -75507,9 +75507,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5074:4c70909a7268b850",
+          "candidateKey": "sat:5074:38925808ab834193",
           "poolIndex": 5074,
-          "fingerprint": "4c70909a7268b850",
+          "fingerprint": "38925808ab834193",
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch",
@@ -75580,9 +75580,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5048:6b464072f411c822",
+          "candidateKey": "sat:5048:4874fd2fceb7aa5e",
           "poolIndex": 5048,
-          "fingerprint": "6b464072f411c822",
+          "fingerprint": "4874fd2fceb7aa5e",
           "verdict": "rejected",
           "reasons": [
             "difficulty-mismatch"
@@ -75685,9 +75685,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5090:36609a02e98065a2",
+          "candidateKey": "sat:5090:a74df43a687b87c4",
           "poolIndex": 5090,
-          "fingerprint": "36609a02e98065a2",
+          "fingerprint": "a74df43a687b87c4",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -75700,9 +75700,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5122:beca563006725bec",
+          "candidateKey": "sat:5122:742cede341dd446a",
           "poolIndex": 5122,
-          "fingerprint": "beca563006725bec",
+          "fingerprint": "742cede341dd446a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -75736,7 +75736,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5090:36609a02e98065a2"
+      "selectedCandidateKey": "sat:5090:a74df43a687b87c4"
     },
     {
       "testKey": "SAT1",
@@ -75759,9 +75759,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5048:6b464072f411c822",
+          "candidateKey": "sat:5048:4874fd2fceb7aa5e",
           "poolIndex": 5048,
-          "fingerprint": "6b464072f411c822",
+          "fingerprint": "4874fd2fceb7aa5e",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -75774,9 +75774,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5080:2c378f4c49867e97",
+          "candidateKey": "sat:5080:616b10cd35d9d501",
           "poolIndex": 5080,
-          "fingerprint": "2c378f4c49867e97",
+          "fingerprint": "616b10cd35d9d501",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -75810,7 +75810,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5048:6b464072f411c822"
+      "selectedCandidateKey": "sat:5048:4874fd2fceb7aa5e"
     },
     {
       "testKey": "SAT1",
@@ -76721,9 +76721,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5058:106d033ff7f3b0ba",
+          "candidateKey": "sat:5058:825408f168479890",
           "poolIndex": 5058,
-          "fingerprint": "106d033ff7f3b0ba",
+          "fingerprint": "825408f168479890",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -76736,9 +76736,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5106:b7878f23997b66e3",
+          "candidateKey": "sat:5106:e854d1d58dcebd3f",
           "poolIndex": 5106,
-          "fingerprint": "b7878f23997b66e3",
+          "fingerprint": "e854d1d58dcebd3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -76772,7 +76772,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5058:106d033ff7f3b0ba"
+      "selectedCandidateKey": "sat:5058:825408f168479890"
     },
     {
       "testKey": "SAT1",
@@ -76795,9 +76795,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5122:beca563006725bec",
+          "candidateKey": "sat:5122:742cede341dd446a",
           "poolIndex": 5122,
-          "fingerprint": "beca563006725bec",
+          "fingerprint": "742cede341dd446a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -76810,9 +76810,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5218:0ba28ccc3e818db7",
+          "candidateKey": "sat:5218:9fb64c29d49d3e20",
           "poolIndex": 5218,
-          "fingerprint": "0ba28ccc3e818db7",
+          "fingerprint": "9fb64c29d49d3e20",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -76846,7 +76846,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5122:beca563006725bec"
+      "selectedCandidateKey": "sat:5122:742cede341dd446a"
     },
     {
       "testKey": "SAT1",
@@ -76869,9 +76869,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5080:2c378f4c49867e97",
+          "candidateKey": "sat:5080:616b10cd35d9d501",
           "poolIndex": 5080,
-          "fingerprint": "2c378f4c49867e97",
+          "fingerprint": "616b10cd35d9d501",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -76884,9 +76884,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5096:5566ec6dc3329548",
+          "candidateKey": "sat:5096:57e588f7935a8175",
           "poolIndex": 5096,
-          "fingerprint": "5566ec6dc3329548",
+          "fingerprint": "57e588f7935a8175",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -76920,7 +76920,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5080:2c378f4c49867e97"
+      "selectedCandidateKey": "sat:5080:616b10cd35d9d501"
     },
     {
       "testKey": "SAT1",
@@ -79431,9 +79431,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5218:0ba28ccc3e818db7",
+          "candidateKey": "sat:5218:9fb64c29d49d3e20",
           "poolIndex": 5218,
-          "fingerprint": "0ba28ccc3e818db7",
+          "fingerprint": "9fb64c29d49d3e20",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -79446,9 +79446,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5234:1b1a75f4985cbc33",
+          "candidateKey": "sat:5234:184863ca85e6864c",
           "poolIndex": 5234,
-          "fingerprint": "1b1a75f4985cbc33",
+          "fingerprint": "184863ca85e6864c",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -79482,7 +79482,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5218:0ba28ccc3e818db7"
+      "selectedCandidateKey": "sat:5218:9fb64c29d49d3e20"
     },
     {
       "testKey": "SAT1",
@@ -83434,9 +83434,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5096:5566ec6dc3329548",
+          "candidateKey": "sat:5096:57e588f7935a8175",
           "poolIndex": 5096,
-          "fingerprint": "5566ec6dc3329548",
+          "fingerprint": "57e588f7935a8175",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -83449,9 +83449,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5112:c498182cc0298b62",
+          "candidateKey": "sat:5112:57e2a1e56bb45080",
           "poolIndex": 5112,
-          "fingerprint": "c498182cc0298b62",
+          "fingerprint": "57e2a1e56bb45080",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -83485,7 +83485,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5096:5566ec6dc3329548"
+      "selectedCandidateKey": "sat:5096:57e588f7935a8175"
     },
     {
       "testKey": "SAT10",
@@ -84455,9 +84455,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5106:b7878f23997b66e3",
+          "candidateKey": "sat:5106:e854d1d58dcebd3f",
           "poolIndex": 5106,
-          "fingerprint": "b7878f23997b66e3",
+          "fingerprint": "e854d1d58dcebd3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -84470,9 +84470,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5234:1b1a75f4985cbc33",
+          "candidateKey": "sat:5234:184863ca85e6864c",
           "poolIndex": 5234,
-          "fingerprint": "1b1a75f4985cbc33",
+          "fingerprint": "184863ca85e6864c",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -84506,7 +84506,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5106:b7878f23997b66e3"
+      "selectedCandidateKey": "sat:5106:e854d1d58dcebd3f"
     },
     {
       "testKey": "SAT10",
@@ -84529,9 +84529,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5112:c498182cc0298b62",
+          "candidateKey": "sat:5112:57e2a1e56bb45080",
           "poolIndex": 5112,
-          "fingerprint": "c498182cc0298b62",
+          "fingerprint": "57e2a1e56bb45080",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -84544,9 +84544,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5208:f5c597fdd29289ae",
+          "candidateKey": "sat:5208:a19d5397cdf2fa93",
           "poolIndex": 5208,
-          "fingerprint": "f5c597fdd29289ae",
+          "fingerprint": "a19d5397cdf2fa93",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -84580,7 +84580,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5112:c498182cc0298b62"
+      "selectedCandidateKey": "sat:5112:57e2a1e56bb45080"
     },
     {
       "testKey": "SAT10",
@@ -84677,9 +84677,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5234:1b1a75f4985cbc33",
+          "candidateKey": "sat:5234:184863ca85e6864c",
           "poolIndex": 5234,
-          "fingerprint": "1b1a75f4985cbc33",
+          "fingerprint": "184863ca85e6864c",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -84692,9 +84692,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5250:b05d23afc6b2823c",
+          "candidateKey": "sat:5250:d29fc1ff56b5eeb8",
           "poolIndex": 5250,
-          "fingerprint": "b05d23afc6b2823c",
+          "fingerprint": "d29fc1ff56b5eeb8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -84728,7 +84728,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5234:1b1a75f4985cbc33"
+      "selectedCandidateKey": "sat:5234:184863ca85e6864c"
     },
     {
       "testKey": "SAT10",
@@ -87072,9 +87072,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5282:f1cf5a18f9760439",
+          "candidateKey": "sat:5282:e554a05e8416ee72",
           "poolIndex": 5282,
-          "fingerprint": "f1cf5a18f9760439",
+          "fingerprint": "e554a05e8416ee72",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -87087,9 +87087,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5378:eb7bf320c474e14b",
+          "candidateKey": "sat:5378:7c287679a69f1e21",
           "poolIndex": 5378,
-          "fingerprint": "eb7bf320c474e14b",
+          "fingerprint": "7c287679a69f1e21",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -87123,7 +87123,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5282:f1cf5a18f9760439"
+      "selectedCandidateKey": "sat:5282:e554a05e8416ee72"
     },
     {
       "testKey": "SAT10",
@@ -90520,9 +90520,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5208:f5c597fdd29289ae",
+          "candidateKey": "sat:5208:a19d5397cdf2fa93",
           "poolIndex": 5208,
-          "fingerprint": "f5c597fdd29289ae",
+          "fingerprint": "a19d5397cdf2fa93",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -90535,9 +90535,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5224:675e7c07e78d53ef",
+          "candidateKey": "sat:5224:8ee188c9fd6c4c3f",
           "poolIndex": 5224,
-          "fingerprint": "675e7c07e78d53ef",
+          "fingerprint": "8ee188c9fd6c4c3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -90571,7 +90571,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5208:f5c597fdd29289ae"
+      "selectedCandidateKey": "sat:5208:a19d5397cdf2fa93"
     },
     {
       "testKey": "SAT2",
@@ -91467,9 +91467,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5250:b05d23afc6b2823c",
+          "candidateKey": "sat:5250:d29fc1ff56b5eeb8",
           "poolIndex": 5250,
-          "fingerprint": "b05d23afc6b2823c",
+          "fingerprint": "d29fc1ff56b5eeb8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -91482,9 +91482,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5378:eb7bf320c474e14b",
+          "candidateKey": "sat:5378:7c287679a69f1e21",
           "poolIndex": 5378,
-          "fingerprint": "eb7bf320c474e14b",
+          "fingerprint": "7c287679a69f1e21",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -91518,7 +91518,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5250:b05d23afc6b2823c"
+      "selectedCandidateKey": "sat:5250:d29fc1ff56b5eeb8"
     },
     {
       "testKey": "SAT2",
@@ -91541,9 +91541,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5378:eb7bf320c474e14b",
+          "candidateKey": "sat:5378:7c287679a69f1e21",
           "poolIndex": 5378,
-          "fingerprint": "eb7bf320c474e14b",
+          "fingerprint": "7c287679a69f1e21",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -91556,9 +91556,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5410:d1ff5e65e71009a0",
+          "candidateKey": "sat:5410:c968802506046d56",
           "poolIndex": 5410,
-          "fingerprint": "d1ff5e65e71009a0",
+          "fingerprint": "c968802506046d56",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -91592,7 +91592,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5378:eb7bf320c474e14b"
+      "selectedCandidateKey": "sat:5378:7c287679a69f1e21"
     },
     {
       "testKey": "SAT2",
@@ -91615,9 +91615,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5224:675e7c07e78d53ef",
+          "candidateKey": "sat:5224:8ee188c9fd6c4c3f",
           "poolIndex": 5224,
-          "fingerprint": "675e7c07e78d53ef",
+          "fingerprint": "8ee188c9fd6c4c3f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -91630,9 +91630,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5240:7fa2c909f4c808ac",
+          "candidateKey": "sat:5240:6dd7a8e5463ee876",
           "poolIndex": 5240,
-          "fingerprint": "7fa2c909f4c808ac",
+          "fingerprint": "6dd7a8e5463ee876",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -91666,7 +91666,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5224:675e7c07e78d53ef"
+      "selectedCandidateKey": "sat:5224:8ee188c9fd6c4c3f"
     },
     {
       "testKey": "SAT2",
@@ -94155,9 +94155,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5410:d1ff5e65e71009a0",
+          "candidateKey": "sat:5410:c968802506046d56",
           "poolIndex": 5410,
-          "fingerprint": "d1ff5e65e71009a0",
+          "fingerprint": "c968802506046d56",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -94170,9 +94170,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5426:f544d01ae113990f",
+          "candidateKey": "sat:5426:dc956df7fca86582",
           "poolIndex": 5426,
-          "fingerprint": "f544d01ae113990f",
+          "fingerprint": "dc956df7fca86582",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -94206,7 +94206,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5410:d1ff5e65e71009a0"
+      "selectedCandidateKey": "sat:5410:c968802506046d56"
     },
     {
       "testKey": "SAT2",
@@ -94229,9 +94229,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5240:7fa2c909f4c808ac",
+          "candidateKey": "sat:5240:6dd7a8e5463ee876",
           "poolIndex": 5240,
-          "fingerprint": "7fa2c909f4c808ac",
+          "fingerprint": "6dd7a8e5463ee876",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -94244,9 +94244,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5272:f129fa8f89442138",
+          "candidateKey": "sat:5272:1a45801af59623d2",
           "poolIndex": 5272,
-          "fingerprint": "f129fa8f89442138",
+          "fingerprint": "1a45801af59623d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -94280,7 +94280,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5240:7fa2c909f4c808ac"
+      "selectedCandidateKey": "sat:5240:6dd7a8e5463ee876"
     },
     {
       "testKey": "SAT2",
@@ -99492,9 +99492,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5426:f544d01ae113990f",
+          "candidateKey": "sat:5426:dc956df7fca86582",
           "poolIndex": 5426,
-          "fingerprint": "f544d01ae113990f",
+          "fingerprint": "dc956df7fca86582",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -99507,9 +99507,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5554:9de596e9038554b5",
+          "candidateKey": "sat:5554:2e4c82d2d8188300",
           "poolIndex": 5554,
-          "fingerprint": "9de596e9038554b5",
+          "fingerprint": "2e4c82d2d8188300",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -99543,7 +99543,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5426:f544d01ae113990f"
+      "selectedCandidateKey": "sat:5426:dc956df7fca86582"
     },
     {
       "testKey": "SAT3",
@@ -99566,9 +99566,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5272:f129fa8f89442138",
+          "candidateKey": "sat:5272:1a45801af59623d2",
           "poolIndex": 5272,
-          "fingerprint": "f129fa8f89442138",
+          "fingerprint": "1a45801af59623d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -99581,9 +99581,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5368:7b06c6bf36cdf624",
+          "candidateKey": "sat:5368:8004b0b2bb51ed96",
           "poolIndex": 5368,
-          "fingerprint": "7b06c6bf36cdf624",
+          "fingerprint": "8004b0b2bb51ed96",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -99617,7 +99617,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5272:f129fa8f89442138"
+      "selectedCandidateKey": "sat:5272:1a45801af59623d2"
     },
     {
       "testKey": "SAT3",
@@ -99714,9 +99714,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5554:9de596e9038554b5",
+          "candidateKey": "sat:5554:2e4c82d2d8188300",
           "poolIndex": 5554,
-          "fingerprint": "9de596e9038554b5",
+          "fingerprint": "2e4c82d2d8188300",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -99729,9 +99729,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5570:43046b837fcfc634",
+          "candidateKey": "sat:5570:0fd17c347d7058c8",
           "poolIndex": 5570,
-          "fingerprint": "43046b837fcfc634",
+          "fingerprint": "0fd17c347d7058c8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -99765,7 +99765,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5554:9de596e9038554b5"
+      "selectedCandidateKey": "sat:5554:2e4c82d2d8188300"
     },
     {
       "testKey": "SAT3",
@@ -102107,9 +102107,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5368:7b06c6bf36cdf624",
+          "candidateKey": "sat:5368:8004b0b2bb51ed96",
           "poolIndex": 5368,
-          "fingerprint": "7b06c6bf36cdf624",
+          "fingerprint": "8004b0b2bb51ed96",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -102122,9 +102122,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5400:f2a4221b0dd076b3",
+          "candidateKey": "sat:5400:921fdbeb170d0c62",
           "poolIndex": 5400,
-          "fingerprint": "f2a4221b0dd076b3",
+          "fingerprint": "921fdbeb170d0c62",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -102158,7 +102158,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5368:7b06c6bf36cdf624"
+      "selectedCandidateKey": "sat:5368:8004b0b2bb51ed96"
     },
     {
       "testKey": "SAT3",
@@ -105720,9 +105720,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5570:43046b837fcfc634",
+          "candidateKey": "sat:5570:0fd17c347d7058c8",
           "poolIndex": 5570,
-          "fingerprint": "43046b837fcfc634",
+          "fingerprint": "0fd17c347d7058c8",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -105735,9 +105735,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5602:bd148b0394082308",
+          "candidateKey": "sat:5602:ec7d5af4e902fd80",
           "poolIndex": 5602,
-          "fingerprint": "bd148b0394082308",
+          "fingerprint": "ec7d5af4e902fd80",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -105771,7 +105771,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5570:43046b837fcfc634"
+      "selectedCandidateKey": "sat:5570:0fd17c347d7058c8"
     },
     {
       "testKey": "SAT4",
@@ -106734,9 +106734,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5400:f2a4221b0dd076b3",
+          "candidateKey": "sat:5400:921fdbeb170d0c62",
           "poolIndex": 5400,
-          "fingerprint": "f2a4221b0dd076b3",
+          "fingerprint": "921fdbeb170d0c62",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -106749,9 +106749,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5416:95e50a5ce964b600",
+          "candidateKey": "sat:5416:a3efcba7ccbc6a60",
           "poolIndex": 5416,
-          "fingerprint": "95e50a5ce964b600",
+          "fingerprint": "a3efcba7ccbc6a60",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -106785,7 +106785,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5400:f2a4221b0dd076b3"
+      "selectedCandidateKey": "sat:5400:921fdbeb170d0c62"
     },
     {
       "testKey": "SAT4",
@@ -106882,9 +106882,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5602:bd148b0394082308",
+          "candidateKey": "sat:5602:ec7d5af4e902fd80",
           "poolIndex": 5602,
-          "fingerprint": "bd148b0394082308",
+          "fingerprint": "ec7d5af4e902fd80",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -106897,9 +106897,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5698:6facd195810522bf",
+          "candidateKey": "sat:5698:5247858ea3619db3",
           "poolIndex": 5698,
-          "fingerprint": "6facd195810522bf",
+          "fingerprint": "5247858ea3619db3",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -106933,7 +106933,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5602:bd148b0394082308"
+      "selectedCandidateKey": "sat:5602:ec7d5af4e902fd80"
     },
     {
       "testKey": "SAT4",
@@ -106956,9 +106956,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5416:95e50a5ce964b600",
+          "candidateKey": "sat:5416:a3efcba7ccbc6a60",
           "poolIndex": 5416,
-          "fingerprint": "95e50a5ce964b600",
+          "fingerprint": "a3efcba7ccbc6a60",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -106971,9 +106971,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5432:15d5653450ef0def",
+          "candidateKey": "sat:5432:d06094936f4d0a02",
           "poolIndex": 5432,
-          "fingerprint": "15d5653450ef0def",
+          "fingerprint": "d06094936f4d0a02",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -107007,7 +107007,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5416:95e50a5ce964b600"
+      "selectedCandidateKey": "sat:5416:a3efcba7ccbc6a60"
     },
     {
       "testKey": "SAT4",
@@ -109425,9 +109425,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5442:eaeb7a2aa6997481",
+          "candidateKey": "sat:5442:24c32ccfe04252cf",
           "poolIndex": 5442,
-          "fingerprint": "eaeb7a2aa6997481",
+          "fingerprint": "24c32ccfe04252cf",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -109440,9 +109440,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5538:cd8e2e1789c86c62",
+          "candidateKey": "sat:5538:175af43ffe210c4a",
           "poolIndex": 5538,
-          "fingerprint": "cd8e2e1789c86c62",
+          "fingerprint": "175af43ffe210c4a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -109476,7 +109476,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5442:eaeb7a2aa6997481"
+      "selectedCandidateKey": "sat:5442:24c32ccfe04252cf"
     },
     {
       "testKey": "SAT4",
@@ -113446,9 +113446,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5698:6facd195810522bf",
+          "candidateKey": "sat:5698:5247858ea3619db3",
           "poolIndex": 5698,
-          "fingerprint": "6facd195810522bf",
+          "fingerprint": "5247858ea3619db3",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -113461,9 +113461,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5746:cbcf07745d4c60b1",
+          "candidateKey": "sat:5746:345136d9b22fd927",
           "poolIndex": 5746,
-          "fingerprint": "cbcf07745d4c60b1",
+          "fingerprint": "345136d9b22fd927",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -113497,7 +113497,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5698:6facd195810522bf"
+      "selectedCandidateKey": "sat:5698:5247858ea3619db3"
     },
     {
       "testKey": "SAT5",
@@ -113520,9 +113520,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5432:15d5653450ef0def",
+          "candidateKey": "sat:5432:d06094936f4d0a02",
           "poolIndex": 5432,
-          "fingerprint": "15d5653450ef0def",
+          "fingerprint": "d06094936f4d0a02",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -113535,9 +113535,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5528:c0c99f03aef252ef",
+          "candidateKey": "sat:5528:f3ff466b4fb2f3cf",
           "poolIndex": 5528,
-          "fingerprint": "c0c99f03aef252ef",
+          "fingerprint": "f3ff466b4fb2f3cf",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -113571,7 +113571,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5432:15d5653450ef0def"
+      "selectedCandidateKey": "sat:5432:d06094936f4d0a02"
     },
     {
       "testKey": "SAT5",
@@ -114610,9 +114610,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5746:cbcf07745d4c60b1",
+          "candidateKey": "sat:5746:345136d9b22fd927",
           "poolIndex": 5746,
-          "fingerprint": "cbcf07745d4c60b1",
+          "fingerprint": "345136d9b22fd927",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -114625,9 +114625,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5762:dd3171279d68d54e",
+          "candidateKey": "sat:5762:cb0388010b3b8804",
           "poolIndex": 5762,
-          "fingerprint": "dd3171279d68d54e",
+          "fingerprint": "cb0388010b3b8804",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -114661,7 +114661,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5746:cbcf07745d4c60b1"
+      "selectedCandidateKey": "sat:5746:345136d9b22fd927"
     },
     {
       "testKey": "SAT5",
@@ -114684,9 +114684,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5528:c0c99f03aef252ef",
+          "candidateKey": "sat:5528:f3ff466b4fb2f3cf",
           "poolIndex": 5528,
-          "fingerprint": "c0c99f03aef252ef",
+          "fingerprint": "f3ff466b4fb2f3cf",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -114699,9 +114699,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5544:6139f94ad9c83952",
+          "candidateKey": "sat:5544:b29d5b73b70c055b",
           "poolIndex": 5544,
-          "fingerprint": "6139f94ad9c83952",
+          "fingerprint": "b29d5b73b70c055b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -114735,7 +114735,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5528:c0c99f03aef252ef"
+      "selectedCandidateKey": "sat:5528:f3ff466b4fb2f3cf"
     },
     {
       "testKey": "SAT5",
@@ -117225,9 +117225,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5538:cd8e2e1789c86c62",
+          "candidateKey": "sat:5538:175af43ffe210c4a",
           "poolIndex": 5538,
-          "fingerprint": "cd8e2e1789c86c62",
+          "fingerprint": "175af43ffe210c4a",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -117240,9 +117240,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5730:f99914ae1cd1d554",
+          "candidateKey": "sat:5730:780da563778f7131",
           "poolIndex": 5730,
-          "fingerprint": "f99914ae1cd1d554",
+          "fingerprint": "780da563778f7131",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -117276,7 +117276,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5538:cd8e2e1789c86c62"
+      "selectedCandidateKey": "sat:5538:175af43ffe210c4a"
     },
     {
       "testKey": "SAT5",
@@ -120533,9 +120533,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5544:6139f94ad9c83952",
+          "candidateKey": "sat:5544:b29d5b73b70c055b",
           "poolIndex": 5544,
-          "fingerprint": "6139f94ad9c83952",
+          "fingerprint": "b29d5b73b70c055b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -120548,9 +120548,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5560:99ed528ad6b53c8d",
+          "candidateKey": "sat:5560:da61f97d2de53e76",
           "poolIndex": 5560,
-          "fingerprint": "99ed528ad6b53c8d",
+          "fingerprint": "da61f97d2de53e76",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -120584,7 +120584,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5544:6139f94ad9c83952"
+      "selectedCandidateKey": "sat:5544:b29d5b73b70c055b"
     },
     {
       "testKey": "SAT6",
@@ -121627,9 +121627,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5762:dd3171279d68d54e",
+          "candidateKey": "sat:5762:cb0388010b3b8804",
           "poolIndex": 5762,
-          "fingerprint": "dd3171279d68d54e",
+          "fingerprint": "cb0388010b3b8804",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -121642,9 +121642,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5858:8a3a1c4ad1ae7f30",
+          "candidateKey": "sat:5858:1ea841afda4238d0",
           "poolIndex": 5858,
-          "fingerprint": "8a3a1c4ad1ae7f30",
+          "fingerprint": "1ea841afda4238d0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -121678,7 +121678,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5762:dd3171279d68d54e"
+      "selectedCandidateKey": "sat:5762:cb0388010b3b8804"
     },
     {
       "testKey": "SAT6",
@@ -121701,9 +121701,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5560:99ed528ad6b53c8d",
+          "candidateKey": "sat:5560:da61f97d2de53e76",
           "poolIndex": 5560,
-          "fingerprint": "99ed528ad6b53c8d",
+          "fingerprint": "da61f97d2de53e76",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -121716,9 +121716,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5592:9aa3fff162f3fd35",
+          "candidateKey": "sat:5592:4702472ebffa5fad",
           "poolIndex": 5592,
-          "fingerprint": "9aa3fff162f3fd35",
+          "fingerprint": "4702472ebffa5fad",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -121752,7 +121752,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5560:99ed528ad6b53c8d"
+      "selectedCandidateKey": "sat:5560:da61f97d2de53e76"
     },
     {
       "testKey": "SAT6",
@@ -121849,9 +121849,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5730:f99914ae1cd1d554",
+          "candidateKey": "sat:5730:780da563778f7131",
           "poolIndex": 5730,
-          "fingerprint": "f99914ae1cd1d554",
+          "fingerprint": "780da563778f7131",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -121864,9 +121864,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5858:8a3a1c4ad1ae7f30",
+          "candidateKey": "sat:5858:1ea841afda4238d0",
           "poolIndex": 5858,
-          "fingerprint": "8a3a1c4ad1ae7f30",
+          "fingerprint": "1ea841afda4238d0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -121900,7 +121900,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5730:f99914ae1cd1d554"
+      "selectedCandidateKey": "sat:5730:780da563778f7131"
     },
     {
       "testKey": "SAT6",
@@ -124242,9 +124242,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5592:9aa3fff162f3fd35",
+          "candidateKey": "sat:5592:4702472ebffa5fad",
           "poolIndex": 5592,
-          "fingerprint": "9aa3fff162f3fd35",
+          "fingerprint": "4702472ebffa5fad",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -124257,9 +124257,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5688:0a1cf2d6123aab9e",
+          "candidateKey": "sat:5688:3b2ca11e56d8b26e",
           "poolIndex": 5688,
-          "fingerprint": "0a1cf2d6123aab9e",
+          "fingerprint": "3b2ca11e56d8b26e",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -124293,7 +124293,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5592:9aa3fff162f3fd35"
+      "selectedCandidateKey": "sat:5592:4702472ebffa5fad"
     },
     {
       "testKey": "SAT6",
@@ -128608,9 +128608,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5858:8a3a1c4ad1ae7f30",
+          "candidateKey": "sat:5858:1ea841afda4238d0",
           "poolIndex": 5858,
-          "fingerprint": "8a3a1c4ad1ae7f30",
+          "fingerprint": "1ea841afda4238d0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -128623,9 +128623,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5874:830e295863283301",
+          "candidateKey": "sat:5874:5df549d0cd567958",
           "poolIndex": 5874,
-          "fingerprint": "830e295863283301",
+          "fingerprint": "5df549d0cd567958",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -128659,7 +128659,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5858:8a3a1c4ad1ae7f30"
+      "selectedCandidateKey": "sat:5858:1ea841afda4238d0"
     },
     {
       "testKey": "SAT7",
@@ -129553,9 +129553,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5890:4c3a8a9124cd3de2",
+          "candidateKey": "sat:5890:b8ae24183b9b3130",
           "poolIndex": 5890,
-          "fingerprint": "4c3a8a9124cd3de2",
+          "fingerprint": "b8ae24183b9b3130",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -129568,9 +129568,9 @@
           ]
         },
         {
-          "candidateKey": "sat:6050:5110f380dad4319f",
+          "candidateKey": "sat:6050:80821c4285e34896",
           "poolIndex": 6050,
-          "fingerprint": "5110f380dad4319f",
+          "fingerprint": "80821c4285e34896",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -129604,7 +129604,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5890:4c3a8a9124cd3de2"
+      "selectedCandidateKey": "sat:5890:b8ae24183b9b3130"
     },
     {
       "testKey": "SAT7",
@@ -129627,9 +129627,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5688:0a1cf2d6123aab9e",
+          "candidateKey": "sat:5688:3b2ca11e56d8b26e",
           "poolIndex": 5688,
-          "fingerprint": "0a1cf2d6123aab9e",
+          "fingerprint": "3b2ca11e56d8b26e",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -129642,9 +129642,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5720:af1d85b7b2739e8d",
+          "candidateKey": "sat:5720:e6802fa82042c3ba",
           "poolIndex": 5720,
-          "fingerprint": "af1d85b7b2739e8d",
+          "fingerprint": "e6802fa82042c3ba",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -129678,7 +129678,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5688:0a1cf2d6123aab9e"
+      "selectedCandidateKey": "sat:5688:3b2ca11e56d8b26e"
     },
     {
       "testKey": "SAT7",
@@ -129775,9 +129775,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5874:830e295863283301",
+          "candidateKey": "sat:5874:5df549d0cd567958",
           "poolIndex": 5874,
-          "fingerprint": "830e295863283301",
+          "fingerprint": "5df549d0cd567958",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -129790,9 +129790,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5922:a72a56dd0be5d96b",
+          "candidateKey": "sat:5922:fe6a097786a140d2",
           "poolIndex": 5922,
-          "fingerprint": "a72a56dd0be5d96b",
+          "fingerprint": "fe6a097786a140d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -129826,7 +129826,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5874:830e295863283301"
+      "selectedCandidateKey": "sat:5874:5df549d0cd567958"
     },
     {
       "testKey": "SAT7",
@@ -132168,9 +132168,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5720:af1d85b7b2739e8d",
+          "candidateKey": "sat:5720:e6802fa82042c3ba",
           "poolIndex": 5720,
-          "fingerprint": "af1d85b7b2739e8d",
+          "fingerprint": "e6802fa82042c3ba",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -132183,9 +132183,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5736:65153f48e12aa255",
+          "candidateKey": "sat:5736:2185afbe9ca42219",
           "poolIndex": 5736,
-          "fingerprint": "65153f48e12aa255",
+          "fingerprint": "2185afbe9ca42219",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -132219,7 +132219,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5720:af1d85b7b2739e8d"
+      "selectedCandidateKey": "sat:5720:e6802fa82042c3ba"
     },
     {
       "testKey": "SAT7",
@@ -136188,9 +136188,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5922:a72a56dd0be5d96b",
+          "candidateKey": "sat:5922:fe6a097786a140d2",
           "poolIndex": 5922,
-          "fingerprint": "a72a56dd0be5d96b",
+          "fingerprint": "fe6a097786a140d2",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -136203,9 +136203,9 @@
           ]
         },
         {
-          "candidateKey": "sat:6018:47dd73b0df19884c",
+          "candidateKey": "sat:6018:2c7b5d27f9b1284b",
           "poolIndex": 6018,
-          "fingerprint": "47dd73b0df19884c",
+          "fingerprint": "2c7b5d27f9b1284b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -136239,7 +136239,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5922:a72a56dd0be5d96b"
+      "selectedCandidateKey": "sat:5922:fe6a097786a140d2"
     },
     {
       "testKey": "SAT8",
@@ -137133,9 +137133,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5736:65153f48e12aa255",
+          "candidateKey": "sat:5736:2185afbe9ca42219",
           "poolIndex": 5736,
-          "fingerprint": "65153f48e12aa255",
+          "fingerprint": "2185afbe9ca42219",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -137148,9 +137148,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5752:034ce4bf78292d43",
+          "candidateKey": "sat:5752:a8fe23aef2b23f60",
           "poolIndex": 5752,
-          "fingerprint": "034ce4bf78292d43",
+          "fingerprint": "a8fe23aef2b23f60",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -137184,7 +137184,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5736:65153f48e12aa255"
+      "selectedCandidateKey": "sat:5736:2185afbe9ca42219"
     },
     {
       "testKey": "SAT8",
@@ -137281,9 +137281,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:6018:47dd73b0df19884c",
+          "candidateKey": "sat:6018:2c7b5d27f9b1284b",
           "poolIndex": 6018,
-          "fingerprint": "47dd73b0df19884c",
+          "fingerprint": "2c7b5d27f9b1284b",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -137296,9 +137296,9 @@
           ]
         },
         {
-          "candidateKey": "sat:6050:5110f380dad4319f",
+          "candidateKey": "sat:6050:80821c4285e34896",
           "poolIndex": 6050,
-          "fingerprint": "5110f380dad4319f",
+          "fingerprint": "80821c4285e34896",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -137332,7 +137332,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:6018:47dd73b0df19884c"
+      "selectedCandidateKey": "sat:6018:2c7b5d27f9b1284b"
     },
     {
       "testKey": "SAT8",
@@ -137355,9 +137355,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5752:034ce4bf78292d43",
+          "candidateKey": "sat:5752:a8fe23aef2b23f60",
           "poolIndex": 5752,
-          "fingerprint": "034ce4bf78292d43",
+          "fingerprint": "a8fe23aef2b23f60",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -137370,9 +137370,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5848:92eea6a19781aa6d",
+          "candidateKey": "sat:5848:a5924f95817aab41",
           "poolIndex": 5848,
-          "fingerprint": "92eea6a19781aa6d",
+          "fingerprint": "a5924f95817aab41",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -137406,7 +137406,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5752:034ce4bf78292d43"
+      "selectedCandidateKey": "sat:5752:a8fe23aef2b23f60"
     },
     {
       "testKey": "SAT8",
@@ -139752,9 +139752,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:6050:5110f380dad4319f",
+          "candidateKey": "sat:6050:80821c4285e34896",
           "poolIndex": 6050,
-          "fingerprint": "5110f380dad4319f",
+          "fingerprint": "80821c4285e34896",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -139767,9 +139767,9 @@
           ]
         },
         {
-          "candidateKey": "sat:6066:370a80bf75e9ae77",
+          "candidateKey": "sat:6066:6e1e9413615cfaf0",
           "poolIndex": 6066,
-          "fingerprint": "370a80bf75e9ae77",
+          "fingerprint": "6e1e9413615cfaf0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -139803,7 +139803,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:6050:5110f380dad4319f"
+      "selectedCandidateKey": "sat:6050:80821c4285e34896"
     },
     {
       "testKey": "SAT8",
@@ -143153,9 +143153,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5848:92eea6a19781aa6d",
+          "candidateKey": "sat:5848:a5924f95817aab41",
           "poolIndex": 5848,
-          "fingerprint": "92eea6a19781aa6d",
+          "fingerprint": "a5924f95817aab41",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -143168,9 +143168,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5864:660004e19aff96f6",
+          "candidateKey": "sat:5864:3652a2d19c4aa956",
           "poolIndex": 5864,
-          "fingerprint": "660004e19aff96f6",
+          "fingerprint": "3652a2d19c4aa956",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -143204,7 +143204,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5848:92eea6a19781aa6d"
+      "selectedCandidateKey": "sat:5848:a5924f95817aab41"
     },
     {
       "testKey": "SAT9",
@@ -144174,9 +144174,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:6066:370a80bf75e9ae77",
+          "candidateKey": "sat:6066:6e1e9413615cfaf0",
           "poolIndex": 6066,
-          "fingerprint": "370a80bf75e9ae77",
+          "fingerprint": "6e1e9413615cfaf0",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -144189,9 +144189,9 @@
           ]
         },
         {
-          "candidateKey": "sat:6194:755c5e02742fd458",
+          "candidateKey": "sat:6194:af9a4bf3a9151386",
           "poolIndex": 6194,
-          "fingerprint": "755c5e02742fd458",
+          "fingerprint": "af9a4bf3a9151386",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -144225,7 +144225,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:6066:370a80bf75e9ae77"
+      "selectedCandidateKey": "sat:6066:6e1e9413615cfaf0"
     },
     {
       "testKey": "SAT9",
@@ -144248,9 +144248,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:5864:660004e19aff96f6",
+          "candidateKey": "sat:5864:3652a2d19c4aa956",
           "poolIndex": 5864,
-          "fingerprint": "660004e19aff96f6",
+          "fingerprint": "3652a2d19c4aa956",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -144263,9 +144263,9 @@
           ]
         },
         {
-          "candidateKey": "sat:5880:5801628befaaf007",
+          "candidateKey": "sat:5880:bd6eba17682667ea",
           "poolIndex": 5880,
-          "fingerprint": "5801628befaaf007",
+          "fingerprint": "bd6eba17682667ea",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -144299,7 +144299,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:5864:660004e19aff96f6"
+      "selectedCandidateKey": "sat:5864:3652a2d19c4aa956"
     },
     {
       "testKey": "SAT9",
@@ -146645,9 +146645,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:6194:755c5e02742fd458",
+          "candidateKey": "sat:6194:af9a4bf3a9151386",
           "poolIndex": 6194,
-          "fingerprint": "755c5e02742fd458",
+          "fingerprint": "af9a4bf3a9151386",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -146660,9 +146660,9 @@
           ]
         },
         {
-          "candidateKey": "sat:6210:06e20388c1576f0e",
+          "candidateKey": "sat:6210:716c4f6e0f304967",
           "poolIndex": 6210,
-          "fingerprint": "06e20388c1576f0e",
+          "fingerprint": "716c4f6e0f304967",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -146696,7 +146696,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:6194:755c5e02742fd458"
+      "selectedCandidateKey": "sat:6194:af9a4bf3a9151386"
     },
     {
       "testKey": "SAT9",
@@ -146719,9 +146719,9 @@
       },
       "options": [
         {
-          "candidateKey": "sat:6082:a525165b8adcdb6c",
+          "candidateKey": "sat:6082:268cf5b02c1a10a7",
           "poolIndex": 6082,
-          "fingerprint": "a525165b8adcdb6c",
+          "fingerprint": "268cf5b02c1a10a7",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -146734,9 +146734,9 @@
           ]
         },
         {
-          "candidateKey": "sat:6178:f16a2a3711608537",
+          "candidateKey": "sat:6178:a223a23ed0f1d72f",
           "poolIndex": 6178,
-          "fingerprint": "f16a2a3711608537",
+          "fingerprint": "a223a23ed0f1d72f",
           "verdict": "eligible",
           "reasons": [
             "section-match",
@@ -146770,7 +146770,7 @@
         }
       ],
       "selectionDisposition": "REPLACEMENT_CANDIDATE_SELECTED_FOR_DOWNSTREAM_APPROVAL",
-      "selectedCandidateKey": "sat:6082:a525165b8adcdb6c"
+      "selectedCandidateKey": "sat:6082:268cf5b02c1a10a7"
     },
     {
       "testKey": "SAT9",
