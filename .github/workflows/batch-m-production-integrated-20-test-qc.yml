@@ -1,0 +1,41 @@
+name: Batch M production-integrated 20-test QC
+
+on:
+  push:
+    branches:
+      - batch-m-comprehensive-20-test-qc-2026-09-16
+    paths:
+      - '.batch-m-production-integrated-20-test-qc-trigger-2026-09-16'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  production-integrated-qc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run production-integrated 20-test QC
+        run: npm run qc:batch-m-production-integrated-20-test
+      - name: Generate remediation evidence
+        if: always()
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMPostQCTargetedRemediationEvidence.mjs
+      - name: Commit QC evidence
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-2026-09-16.json docs/BATCH-M-POST-QC-TARGETED-REMEDIATION-2026-09-16.json
+          git diff --cached --quiet || git commit -m "test: record production-integrated Batch M QC"
+          git push
