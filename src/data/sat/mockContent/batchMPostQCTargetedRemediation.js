@@ -101,7 +101,11 @@ function repairFigureCollision(question) {
   if (!figure || String(figure.type || '') !== 'scatter_plot') {
     throw new Error(`Batch M post-QC remediation: PSAT1 m1-17 expected scatter_plot, found ${String(figure?.type || '(none)')}.`);
   }
-  if (!Array.isArray(figure.points) || figure.points.length < 2) {
+
+  const directPoints = Array.isArray(figure.points) ? figure.points : null;
+  const nestedPoints = Array.isArray(figure.data?.points) ? figure.data.points : null;
+  const points = directPoints || nestedPoints;
+  if (!points || points.length < 2) {
     throw new Error('Batch M post-QC remediation: PSAT1 m1-17 scatter plot must expose at least two points for the collision repair.');
   }
 
@@ -110,14 +114,15 @@ function repairFigureCollision(question) {
     throw new Error('Batch M post-QC remediation: PSAT1 m1-17 prompt is coordinate-dependent; deterministic translation is not safe.');
   }
 
-  const translatedPoints = figure.points.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
+  const translatedPoints = points.map((point) => [Number(point[0]) + 1, Number(point[1]) + 1]);
+  const repairedFigure = directPoints
+    ? { ...figure, points: translatedPoints }
+    : { ...figure, data: { ...figure.data, points: translatedPoints } };
+
   return {
     question: {
       ...question,
-      figure: {
-        ...figure,
-        points: translatedPoints,
-      },
+      figure: repairedFigure,
       metadata: stripFigureFingerprints(question.metadata),
     },
     applied: true,
