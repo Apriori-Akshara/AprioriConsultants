@@ -19,189 +19,5124 @@
     "postQCRuntimeQuestions": 3920,
     "verifiedReplacementTargets": 1594,
     "uniqueReplacementTargets": 1594,
-    "schemaFailures": 0,
-    "contentQualityFailures": 672,
+    "schemaFailures": 550,
+    "contentQualityFailures": 0,
     "figureQuestionsWithDeterministicFingerprint": 514
   },
   "postQCTargetedRemediation": {
-    "difficultyCalibrations": 0,
-    "rwStimulusRepairs": 0,
-    "figureRepairs": 0,
-    "targetsChanged": 0
+    "difficultyCalibrations": 550,
+    "rwStimulusRepairs": 206,
+    "figureRepairs": 1,
+    "targetsChanged": 673
   },
   "gates": {
     "scopeAndIdentity": "PASS",
-    "schema": "PASS",
+    "schema": "FAIL",
     "replacementIntegrityBeforePostQC": "PASS",
-    "contentQuality": "FAIL",
+    "contentQuality": "PASS",
     "figureOriginality": "FAIL"
   },
   "perMock": {
     "SAT1": {
       "total": 196,
-      "passed": 164,
-      "failed": 32,
-      "scoreSum": 18950,
-      "averageScore": 96.68
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT2": {
       "total": 196,
-      "passed": 156,
-      "failed": 40,
-      "scoreSum": 19020,
-      "averageScore": 97.04
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT3": {
       "total": 196,
-      "passed": 174,
-      "failed": 22,
-      "scoreSum": 19050,
-      "averageScore": 97.19
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT4": {
       "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18950,
-      "averageScore": 96.68
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT5": {
       "total": 196,
-      "passed": 164,
-      "failed": 32,
-      "scoreSum": 19060,
-      "averageScore": 97.24
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT6": {
       "total": 196,
-      "passed": 165,
-      "failed": 31,
-      "scoreSum": 19020,
-      "averageScore": 97.04
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT7": {
       "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18950,
-      "averageScore": 96.68
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT8": {
       "total": 196,
-      "passed": 175,
-      "failed": 21,
-      "scoreSum": 19060,
-      "averageScore": 97.24
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT9": {
       "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18970,
-      "averageScore": 96.79
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "SAT10": {
       "total": 196,
-      "passed": 167,
-      "failed": 29,
-      "scoreSum": 19130,
-      "averageScore": 97.6
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT1": {
       "total": 196,
-      "passed": 164,
-      "failed": 32,
-      "scoreSum": 18950,
-      "averageScore": 96.68
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT2": {
       "total": 196,
-      "passed": 156,
-      "failed": 40,
-      "scoreSum": 19020,
-      "averageScore": 97.04
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT3": {
       "total": 196,
-      "passed": 174,
-      "failed": 22,
-      "scoreSum": 19050,
-      "averageScore": 97.19
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT4": {
       "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18950,
-      "averageScore": 96.68
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT5": {
       "total": 196,
-      "passed": 164,
-      "failed": 32,
-      "scoreSum": 19060,
-      "averageScore": 97.24
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT6": {
       "total": 196,
-      "passed": 165,
-      "failed": 31,
-      "scoreSum": 19020,
-      "averageScore": 97.04
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT7": {
       "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18950,
-      "averageScore": 96.68
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT8": {
       "total": 196,
-      "passed": 175,
-      "failed": 21,
-      "scoreSum": 19060,
-      "averageScore": 97.24
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT9": {
       "total": 196,
-      "passed": 153,
-      "failed": 43,
-      "scoreSum": 18970,
-      "averageScore": 96.79
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT10": {
       "total": 196,
-      "passed": 167,
-      "failed": 29,
-      "scoreSum": 19130,
-      "averageScore": 97.6
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     }
   },
-  "failureReasonCounts": {
-    "hard-label-without-demand-feature": 550,
-    "rw-stimulus-length": 206
-  },
+  "failureReasonCounts": {},
   "failures": [
     {
-      "check": "difficulty-remediation-count",
-      "detail": 0
-    },
-    {
-      "check": "rw-remediation-count",
-      "detail": 0
-    },
-    {
-      "check": "figure-remediation-count",
-      "detail": 0
-    },
-    {
       "check": "post-qc-target-count",
-      "detail": 0
+      "detail": 673
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-003",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-006",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-009",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-013",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-016",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-019",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-023",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-026",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-029",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-033",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-036",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-039",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-043",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-046",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-049",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-053",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-056",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-059",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-063",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-066",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-069",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-073",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-076",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-079",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-083",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-086",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-089",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-093",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-096",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-099",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-103",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT1::sat-series-a-mock-01-rw-106",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-002",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-005",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-008",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-012",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-015",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-018",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-022",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-025",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-028",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-032",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-035",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-042",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-045",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-048",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-052",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-055",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-058",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-062",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-065",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-068",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-072",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-075",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-078",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-082",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-085",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-088",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-092",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-095",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-102",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-105",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT2::sat-series-a-mock-02-rw-108",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-004",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-007",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-014",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-017",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-024",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-027",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-034",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-037",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-044",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-047",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-054",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-057",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-064",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-067",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-074",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-077",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-084",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-087",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-094",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-097",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-104",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT3::sat-series-a-mock-03-rw-107",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-003",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-006",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-010",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-013",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-016",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-020",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-023",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-026",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-030",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-033",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-036",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-040",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-043",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-046",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-050",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-053",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-056",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-060",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-063",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-066",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-070",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-073",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-076",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-080",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-083",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-086",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-090",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-093",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-096",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-100",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-103",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT4::sat-series-a-mock-04-rw-106",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-002",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-009",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-012",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-019",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-022",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-029",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-032",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-039",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-042",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-049",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-052",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-059",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-062",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-069",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-072",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-079",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-082",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-089",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-092",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-099",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT5::sat-series-a-mock-05-rw-102",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-001",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-004",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-008",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-011",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-014",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-018",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-021",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-024",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-028",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-031",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-034",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-041",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-044",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-048",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-051",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-054",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-058",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-061",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-064",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-068",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-071",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-074",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-078",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-081",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-084",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-088",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-091",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-094",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-101",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-104",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT6::sat-series-a-mock-06-rw-108",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-003",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-007",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-010",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-013",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-017",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-020",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-023",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-027",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-030",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-033",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-037",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-040",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-043",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-047",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-050",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-053",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-057",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-060",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-063",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-067",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-070",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-073",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-077",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-080",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-083",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-087",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-090",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-093",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-097",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-100",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-103",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT7::sat-series-a-mock-07-rw-107",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-002",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-009",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-012",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-019",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-022",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-029",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-032",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-039",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-042",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-049",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-052",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-059",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-062",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-069",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-072",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-079",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-082",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-089",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-092",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-099",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT8::sat-series-a-mock-08-rw-102",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-001",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-005",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-008",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-011",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-015",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-018",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-021",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-025",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-028",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-031",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-035",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-038",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-041",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-045",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-048",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-051",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-055",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-058",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-061",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-065",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-068",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-071",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-075",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-078",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-081",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-085",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-088",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-091",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-095",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-098",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-101",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-105",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT9::sat-series-a-mock-09-rw-108",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-004",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-007",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-017",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-024",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-027",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-034",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-037",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-044",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-047",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-054",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-057",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-064",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-067",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-077",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-084",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-087",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-094",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-097",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-104",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "SAT10::sat-series-a-mock-10-rw-107",
+        "errors": [
+          "Invalid difficultyBand: sat-series-a-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-003",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-006",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-009",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-013",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-016",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-019",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-023",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-026",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-029",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-033",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-036",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-039",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-043",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-046",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-049",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-053",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-056",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-059",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-063",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-066",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-069",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-073",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-076",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-079",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-083",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-086",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-089",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-093",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-096",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-099",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-103",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT1::psat-mock-01-rw-106",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-002",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-005",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-008",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-012",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-015",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-018",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-022",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-025",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-028",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-032",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-035",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-042",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-045",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-048",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-052",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-055",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-058",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-062",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-065",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-068",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-072",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-075",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-078",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-082",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-085",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-088",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-092",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-095",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-102",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-105",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT2::psat-mock-02-rw-108",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-004",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-007",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-014",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-017",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-024",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-027",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-034",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-037",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-044",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-047",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-054",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-057",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-064",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-067",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-074",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-077",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-084",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-087",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-094",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-097",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-104",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT3::psat-mock-03-rw-107",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-003",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-006",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-010",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-013",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-016",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-020",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-023",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-026",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-030",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-033",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-036",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-040",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-043",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-046",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-050",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-053",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-056",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-060",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-063",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-066",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-070",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-073",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-076",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-080",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-083",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-086",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-090",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-093",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-096",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-100",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-103",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT4::psat-mock-04-rw-106",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-002",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-009",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-012",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-019",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-022",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-029",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-032",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-039",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-042",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-049",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-052",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-059",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-062",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-069",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-072",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-079",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-082",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-089",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-092",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-099",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT5::psat-mock-05-rw-102",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-001",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-004",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-008",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-011",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-014",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-018",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-021",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-024",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-028",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-031",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-034",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-041",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-044",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-048",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-051",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-054",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-058",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-061",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-064",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-068",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-071",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-074",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-078",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-081",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-084",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-088",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-091",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-094",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-101",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-104",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT6::psat-mock-06-rw-108",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-003",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-007",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-010",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-013",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-017",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-020",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-023",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-027",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-030",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-033",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-037",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-040",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-043",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-047",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-050",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-053",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-057",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-060",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-063",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-067",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-070",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-073",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-077",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-080",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-083",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-087",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-090",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-093",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-097",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-100",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-103",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT7::psat-mock-07-rw-107",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-002",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-009",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-012",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-019",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-022",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-029",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-032",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-039",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-042",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-049",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-052",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-059",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-062",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-069",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-072",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-079",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-082",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-089",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-092",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-099",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT8::psat-mock-08-rw-102",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-001",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-005",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-008",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-011",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-015",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-018",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-021",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-025",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-028",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-031",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-035",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-038",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-041",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-045",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-048",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-051",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-055",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-058",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-061",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-065",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-068",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-071",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-075",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-078",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-081",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-085",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-088",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-091",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-095",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-098",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-101",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-105",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT9::psat-mock-09-rw-108",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-004",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-007",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-017",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-024",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-027",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-034",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-037",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-044",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-047",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-054",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-high-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-057",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-064",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-067",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-077",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-standard-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-084",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-087",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-094",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-097",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-104",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
+    },
+    {
+      "check": "schema",
+      "detail": {
+        "key": "PSAT10::psat-mock-10-rw-107",
+        "errors": [
+          "Invalid difficultyBand: psat-nmsqt-low-medium"
+        ]
+      }
     },
     {
       "check": "figure-originality",
-      "detail": "Cross-mock figure duplication detected: psat-mock-01-math-math-module-1-m1-14 duplicates sat-series-a-mock-01-math-math-module-1-m1-14 from sat-series-a-mock-01."
+      "detail": "Cross-mock figure duplication detected: psat-mock-01-math-math-module-1-m1-17 duplicates sat-series-a-mock-01-math-math-module-1-m1-17 from sat-series-a-mock-01."
     }
   ],
   "passed": false,
