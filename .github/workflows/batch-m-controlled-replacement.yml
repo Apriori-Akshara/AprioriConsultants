@@ -42,6 +42,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-AUTHORITATIVE-CANDIDATE-SELECTION-2026-09-16.json docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json scripts/runBatchMControlledReplacementQC.mjs src/data/sat/mockContent/batchMControlledReplacementMap.js src/data/sat/mockContent/batchMProductionStore.js
+          git add docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json docs/BATCH-M-AUTHORITATIVE-CANDIDATE-SELECTION-2026-09-16.json docs/BATCH-M-CONTROLLED-REPLACEMENT-2026-09-16.json scripts/runBatchMControlledReplacementQC.mjs src/data/sat/mockContent/batchMCanonicalTestKey.js src/data/sat/mockContent/batchMControlledReplacementMap.js src/data/sat/mockContent/batchMControlledReplacementMapAdapter.js src/data/sat/mockContent/batchMProductionStore.js
           git diff --cached --quiet || git commit -m "feat: apply authorized Batch M controlled replacement"
           git push
