@@ -1,1 +1,1 @@
-Run the consolidated Batch M semantic figure-collision remediation and scoped 20-test QC; only after a PASS run the final 30-mock gate; release remains frozen; no SAT21.
+Run final consolidated Batch M semantic figure-collision remediation and complete scoped 20-test QC; only after a PASS run the final 30-mock gate; release remains frozen; no SAT21.
