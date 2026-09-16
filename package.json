@@ -15,6 +15,7 @@
     "qc:batch-m-targeted-review-inventory": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReviewInventory.js",
     "qc:batch-m-targeted-replacement-preparation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReplacementPreparation.js",
     "qc:batch-m-comprehensive-20-test": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMComprehensive20TestQC.mjs",
+    "qc:batch-m-comprehensive-20-test-targeted": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMComprehensive20TestQCTargeted.mjs",
     "qc:batch-m-post-qc-diagnostics": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMPostQCTargetedDiagnostics.mjs"
   },
   "dependencies": {
