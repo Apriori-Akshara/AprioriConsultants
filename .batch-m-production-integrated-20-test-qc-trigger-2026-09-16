@@ -1,3 +1,5 @@
 Run final consolidated Batch M semantic figure-collision remediation and complete scoped 20-test QC; only after a PASS run the final 30-mock gate; release remains frozen; no SAT21.
 
 Trigger rerun after correction of the consolidated QC expectation to the measured 169 figure repairs.
+
+Force dedicated Batch M 20-test QC workflow retrigger because no Actions run is attached to the corrected trigger commit.
