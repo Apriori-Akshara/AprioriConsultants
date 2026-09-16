@@ -1,1 +1,1 @@
-Run Batch M controlled replacement with affected-mock QC; defer unrelated 30-mock corpus verification to downstream gate.
+Run Batch M controlled replacement after correcting the affected-scope QC schema import.
