@@ -3,7 +3,7 @@ import { BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS, BATCH_M_20_TEST_POST_QC_REM
 import { BATCH_M_TARGET_TEST_KEYS, canonicalBatchMTestKey } from '../src/data/sat/mockContent/batchMCanonicalTestKey.js';
 import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
 import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
-import { validateFigureOriginalitySeries } from '../src/data/sat/mockContent/figureOriginalityQC.js';
+import { getFigureDataFingerprint } from '../src/data/sat/mockContent/figureOriginalityQC.js';
 
 const targetKeys = new Set(BATCH_M_TARGET_TEST_KEYS);
 const mocks = BATCH_M_20_TEST_ACCEPTED_PRODUCTION_CORPUS.filter((mock) => targetKeys.has(canonicalBatchMTestKey(mock)));
@@ -16,9 +16,10 @@ const report = {
   schemaFailures: [],
   contentQualityFailures: [],
   duplicateQuestionIds: [],
-  figureOriginalityFailure: null,
+  figureDuplicatePairs: [],
 };
 
+const figureMap = new Map();
 for (const mock of mocks) {
   const key = canonicalBatchMTestKey(mock);
   const seen = new Set();
@@ -30,12 +31,20 @@ for (const mock of mocks) {
     if (!schema.valid) report.schemaFailures.push({ testKey: key, questionId, errors: schema.errors });
     const quality = evaluateContentQuality(question);
     if (quality.verdict !== 'pass') report.contentQualityFailures.push({ testKey: key, questionId, checks: quality.checks });
+    if (question?.figure && question.section === 'math') {
+      const fingerprint = getFigureDataFingerprint(question);
+      const prior = figureMap.get(fingerprint);
+      if (prior && prior.testKey !== key) {
+        report.figureDuplicatePairs.push({
+          fingerprint,
+          first: prior,
+          duplicate: { testKey: key, questionId },
+        });
+      } else if (!prior) {
+        figureMap.set(fingerprint, { testKey: key, questionId });
+      }
+    }
   }
-}
-try {
-  validateFigureOriginalitySeries(mocks);
-} catch (error) {
-  report.figureOriginalityFailure = String(error?.message || error);
 }
 
 fs.writeFileSync('docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-DIAGNOSTIC-2026-09-16.json', `${JSON.stringify(report, null, 2)}\n`, 'utf8');
