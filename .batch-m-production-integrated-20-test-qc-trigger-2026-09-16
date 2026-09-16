@@ -1,1 +1,1 @@
-Run production-integrated Batch M 20-test QC; final 30-mock gate is deferred to its explicit downstream workflow; release remains frozen; no SAT21.
+Run production-integrated Batch M 20-test QC and, only after a PASS, the final 30-mock gate; release remains frozen; no SAT21. Final chained validation trigger.
