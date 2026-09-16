@@ -1,1 +1,1 @@
-Run production-integrated Batch M 20-test QC and, only after a PASS, the final 30-mock gate; release remains frozen; no SAT21. Consolidated identity, scoped-store, and figure-collision correction validation trigger 2026-09-16.
+Run production-integrated Batch M 20-test QC and, only after a PASS, the final 30-mock gate; release remains frozen; no SAT21. Consolidated correction rerun 2026-09-16 after verified PSAT1 m1-17 scatter-plot collision diagnosis.
