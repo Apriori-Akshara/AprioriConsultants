@@ -1,0 +1,40 @@
+name: Batch M post-QC targeted diagnostics
+
+on:
+  push:
+    branches:
+      - batch-m-comprehensive-20-test-qc-2026-09-16
+    paths:
+      - '.batch-m-post-qc-diagnostics-trigger-2026-09-16'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run targeted diagnostics
+        run: npm run qc:batch-m-post-qc-diagnostics
+      - name: Commit diagnostics
+        if: always()
+        run: |
+          if [ -f docs/BATCH-M-POST-QC-TARGETED-DIAGNOSTICS-2026-09-16.json ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/BATCH-M-POST-QC-TARGETED-DIAGNOSTICS-2026-09-16.json
+            git diff --cached --quiet || git commit -m "test: record Batch M post-QC targeted diagnostics"
+            git push
+          fi
