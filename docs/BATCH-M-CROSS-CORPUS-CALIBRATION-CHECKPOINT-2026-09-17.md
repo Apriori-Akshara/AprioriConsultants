@@ -1,7 +1,7 @@
 # Batch M 30-Mock Cross-Corpus Calibration Checkpoint
 
 **Date:** September 17, 2026  
-**Status:** CALIBRATION COMPLETE / DEEP CONTENT-QUALITY QC IN PROGRESS  
+**Status:** HISTORICAL CALIBRATION + DEEP-QC RECORD / CURRENT RECONCILIATION REVIEW BLOCKED  
 **Scope:** Frozen Batch M production corpus only
 
 ## 1. Prerequisite final corpus gate
@@ -161,3 +161,19 @@ The next step is **targeted substantive content-quality remediation**, limited t
 - preserve all already-passed domain, skill, SPR, figure/originality, PSAT-ceiling, and cross-mock constraints while doing so.
 
 This must remain candidate-first and production-frozen. After targeted remediation candidates are generated and controlled selection is completed, rerun the deep QC and all required downstream corpus/calibration gates. **Do not declare the corpus release-ready until every documented acceptance criterion passes.**
+
+## 9. Subsequent progress and current active boundary
+
+The targeted deep-QC remediation path recorded in §8 has since been executed through candidate generation, selection, independent review, targeted remediation/re-review, and the separately authorized single-candidate replacement path. Those stages are historical and must not be repeated automatically.
+
+The current active record is the **195-candidate R&W calibration reconciliation** represented by candidate-generation run **35212907193**. The candidate package passed its candidate-quality and hypothetical calibration gates, but the independent review run **35213306538** failed on assessment-variant compatibility for `BATCH-M-CAL-SEC-001`.
+
+The implemented target-lock workflow is correctly gated on a successful independent review. Therefore the precise current next step is:
+
+1. fix the candidate generator so each candidate's `assessmentVariant` and related assessment metadata come from the same `BATCH_M_PRODUCTION_SEQUENCE` entry as its assigned `productionTestId`;
+2. regenerate the 195-candidate artifact and rerun candidate validation;
+3. rerun independent review;
+4. only after review PASS, run/verify the 195-target lock;
+5. require a fresh explicit production authorization before any new production mutation.
+
+The review compatibility check must not be weakened or removed. Production remains frozen, release eligibility remains false, and SAT21 remains prohibited.
