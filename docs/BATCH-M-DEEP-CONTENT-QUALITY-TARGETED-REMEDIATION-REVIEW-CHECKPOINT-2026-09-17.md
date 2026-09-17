@@ -45,21 +45,13 @@ Accordingly, the expert-review hold is closed as **FAIL**, not PASS. This is a c
 
 This checkpoint closes the **targeted remediation and re-review stage**. It does **not** authorize controlled production replacement.
 
-The failed candidate must remain outside production. Any later remediation of `SAT4-BATCHM-DQ-0004` must be handled as a separately authorized candidate-remediation step and independently reviewed before it can be considered for replacement.
+The failed candidate was later remediated as a separately authorized candidate-only item and passed independent review. The passing candidate remains outside production until a separately controlled replacement stage is authorized.
 
-The 298 passing candidates also do not become production-ready automatically; passing this review is a quality gate, not replacement authorization.
-
-## 5. Workflow recordkeeping repair
-
-The targeted-remediation workflow was corrected so that its independent re-review output is copied into the directory that the upload step actually publishes. The expert-review artifact is written to a dedicated candidate-only output directory and uploaded by the same workflow.
-
-## 6. Separate single-candidate remediation stage
-
-A subsequent, separately authorized **candidate-only** remediation was added for the single failed candidate `SAT4-BATCHM-DQ-0004`.
+## 5. Separate single-candidate remediation stage
 
 The repaired candidate changes the Words-in-Context target from **“clarify”** to **“qualified”**, places the tested word directly in the stimulus, supplies contextual evidence for its meaning, and provides an explanation that explicitly connects the keyed answer to that evidence.
 
-The repaired candidate then passed independent substantive review in GitHub Actions run **35200787784**:
+The repaired candidate passed independent substantive review in GitHub Actions run **35200787784**:
 
 - **1 PASS**
 - **0 FAIL**
@@ -71,14 +63,16 @@ The repaired candidate then passed independent substantive review in GitHub Acti
 - release eligible: **false**
 - SAT21 created: **false**
 
-This repair remains a candidate artifact only. No production question was changed, replaced, deleted, or released.
+## 6. Candidate-to-production target resolution boundary
 
-## 7. Next stage — exact production-target resolution
+The candidate-generation design does not assign each candidate to a production `questionId`; candidates are assigned to a mock and remediation target class. Therefore target resolution must use the documented target class rather than incorrectly treating the candidate prompt as a copy of an existing production question.
 
-Because the repaired candidate artifact itself does not contain an exact production `questionId`, the next required stage is **candidate-only target resolution**.
+For `SAT4-BATCHM-DQ-0004`, the target class is `rw-wic-target-diversity`. The canonical SAT4 production pool is therefore restricted to existing SAT4 Reading & Writing **Words-in-Context** records carrying the fixed **“qualify”** target identified by the deep-QC failure class. Eligible targets are ordered deterministically by production `questionId`, and the candidate's recorded `sourceIndex` selects one target by modulo within that eligible pool.
 
-That stage must identify the exact SAT4 production record corresponding to the documented original Words-in-Context target **“clarify”**, using the canonical frozen 30-mock production corpus. It must require exactly one matching production record and record its `testKey + questionId` before any replacement can be considered.
+This is still a **candidate-only target assignment**. It records an exact `testKey + questionId` proposed replacement target but performs no production mutation and grants no replacement authorization.
 
-The target-resolution stage must not mutate production and must not itself authorize replacement. A separate controlled replacement step requires a fresh explicit authorization state for that exact target.
+## 7. Next stage
+
+After the target-assignment artifact passes its workflow gate, a separate controlled replacement stage may be considered only under a fresh explicit authorization state for that exact target mapping. The replacement must preserve all existing 30-mock scope, identity, difficulty, domain/skill, originality, PSAT-ceiling, and release constraints.
 
 Production remains frozen and SAT21 must not be created.
