@@ -1,0 +1,72 @@
+name: Batch M Deep Content Quality Targeted Remediation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-targeted-remediation.yml'
+      - 'scripts/runBatchMDeepContentQualityTargetedRemediation.mjs'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  targeted-remediation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download controlled selection artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-candidate-selection
+          path: artifacts/batch-m-deep-content-quality-candidate-selection
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35194288337
+
+      - name: Download independent review artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-independent-review
+          path: artifacts/batch-m-deep-content-quality-independent-review
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35194761476
+
+      - name: Run targeted candidate remediation
+        run: node scripts/runBatchMDeepContentQualityTargetedRemediation.mjs
+
+      - name: Re-run independent substantive review on remediated set
+        env:
+          BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-targeted-remediation/BATCH-M-DEEP-CONTENT-QUALITY-TARGETED-REMEDIATION-2026-09-17.json
+          BATCH_M_OUTPUT_DIR: artifacts/batch-m-deep-content-quality-targeted-remediation-review
+        run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
+      - name: Upload targeted remediation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-targeted-remediation
+          path: artifacts/batch-m-deep-content-quality-targeted-remediation/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload remediation validation review
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-targeted-remediation-review
+          path: artifacts/batch-m-deep-content-quality-targeted-remediation-review/
+          if-no-files-found: error
+          retention-days: 30
