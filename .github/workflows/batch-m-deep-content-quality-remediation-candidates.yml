@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/workflows/batch-m-deep-content-quality-remediation-candidates.yml'
       - 'scripts/runBatchMDeepContentQualityRemediationCandidates.mjs'
       - 'src/data/sat/mockContent/batchMRemediationCandidateFactory.js'
       - 'src/data/sat/mockContent/verbalConstructionRemediated.js'
