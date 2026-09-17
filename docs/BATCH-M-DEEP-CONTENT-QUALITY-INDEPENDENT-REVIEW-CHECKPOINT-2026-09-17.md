@@ -2,59 +2,56 @@
 
 ## 1. Purpose
 
-Implement the next stage after controlled candidate selection: an independent, candidate-only substantive review of the 299 selected Batch M remediation candidates.
+Record completion of the independent, candidate-only substantive review stage after controlled selection of the 299 Batch M remediation candidates.
 
-## 2. Scope reviewed by the implementation
+## 2. Implementation
 
-The review stage evaluates the selected candidate artifact against independent gates for:
-
-1. Answer-key and explanation/evidence alignment.
-2. Math distractor construction and plausibility metadata.
-3. Genuine multi-step reasoning for hard Math items.
-4. R&W stimulus construction and length.
-5. Words-in-Context contextual targeting.
-6. Generic/template language reduction.
-7. Cross-mock prompt and construction diversity.
-8. SAT/PSAT structural appropriateness and candidate-only safety boundaries.
-
-The review deliberately distinguishes deterministic failures from items requiring expert content review. Automated checks do not authorize production replacement.
-
-## 3. Implementation
-
-Added:
+Added and executed:
 
 - `scripts/runBatchMDeepContentQualityIndependentReview.mjs`
 - `.github/workflows/batch-m-deep-content-quality-independent-review.yml`
 - npm command: `npm run qc:batch-m-deep-content-quality-independent-review`
 
-The workflow consumes the successful candidate-selection artifact from workflow run `35194288337` and writes a candidate-only JSON/Markdown review artifact.
+The workflow consumed the successful candidate-selection artifact from workflow run `35194288337` and completed successfully in workflow run `35194761476`.
 
-## 4. Production boundary
+## 3. Review result
 
-The implementation explicitly records:
+All **299 selected candidates** were reviewed against independent substantive gates.
 
-- Production mutation: **false**.
-- Release eligible: **false**.
-- SAT21 created: **false**.
+- PASS: **0**
+- FAIL: **298**
+- Expert review required: **1**
+- Decision: **HOLD_FOR_REVIEW_AND_REMEDIATION**
+- Production mutation: **false**
+- Release eligible: **false**
+- SAT21 created: **false**
 
-No production question is replaced, modified, deleted, or released by this stage.
+The review therefore does **not** authorize controlled replacement.
 
-## 5. Important review behavior
+## 4. Main findings
 
-The review checks the actual selected candidate corpus rather than merely checking workflow metadata. In particular, it detects repeated normalized prompts, repeated semantic prompt templates, repeated prompt/choice constructions, generic explanations, explicit distractor error labels, missing distractor-construction metadata, weak hard-question reasoning signals, and structural R&W issues.
+- Missing Math distractor-construction architecture: **258** candidates.
+- Weak hard-Math multi-step reasoning signals: **250** candidates.
+- Semantic prompt-template clusters above the review threshold: **267** candidates.
+- Repeated prompt/choice construction clusters: **267** candidates.
+- Generic stock explanations: **30** candidates.
+- Answer/explanation alignment requiring expert review: **31** candidates.
+- Weak question-form detection: **9** candidates.
 
-Items that cannot be proven correct by deterministic checks are marked for expert review rather than being treated as passed.
+These findings are overlapping; counts do not represent unique candidates.
 
-## 6. Decision boundary
+The exact normalized prompt check found **0** exact duplicate groups, so the primary diversity problem is structural/template repetition rather than literal prompt duplication.
 
-The review artifact must be interpreted as follows:
+## 5. Interpretation
 
-- `FAIL` = substantive automated review failure; candidate is not eligible for replacement from this review result.
-- `EXPERT_REVIEW_REQUIRED` = automated checks did not establish sufficient correctness; human/content-expert review is required before replacement consideration.
-- `PASS` = no automated substantive failure was found; this still does not authorize production replacement by itself.
+The candidate-generation and candidate-selection stages successfully produced a reviewable candidate set, but the independent substantive review shows that the screened candidates are **not yet suitable for controlled replacement**. The largest remaining problems are substantive Math construction/reasoning quality and large-scale structural/template repetition.
 
-Only candidates that survive the review gates and any required expert review may enter a separately authorized controlled replacement stage.
+The single expert-review item is `SAT4-BATCHM-DQ-0004` (Words in Context). It has no automated failure but its explanation/answer alignment cannot be established reliably by deterministic checks, so it remains on hold pending expert review.
 
-## 7. Next step
+## 6. Production boundary
 
-After the independent-review workflow completes, inspect its actual artifact counts and findings. If the candidate set is held, remediate/re-generate only the failed or unresolved candidate classes as documented. If candidates pass all required review gates, proceed to a separately authorized controlled replacement step. Production remains frozen until that authorization is explicit.
+No production question was replaced, modified, deleted, or released by this stage. Production remains frozen.
+
+## 7. Next logical step
+
+Do **not** proceed to controlled replacement. The next implementation stage is targeted remediation of the failed/unresolved candidate classes identified above, beginning with the highest-impact Math distractor-construction, hard-reasoning, and structural-template failures, while preserving the candidate-only boundary. After remediation, rerun independent substantive review before any replacement authorization is considered.
