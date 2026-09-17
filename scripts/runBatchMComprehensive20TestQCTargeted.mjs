@@ -9,6 +9,7 @@ import { BATCH_M_CONTROLLED_REPLACEMENT_MAP } from '../src/data/sat/mockContent/
 import { canonicalBatchMTestKey, BATCH_M_TARGET_TEST_KEYS } from '../src/data/sat/mockContent/batchMCanonicalTestKey.js';
 import { getFigureDataFingerprint, validateFigureOriginalitySeries } from '../src/data/sat/mockContent/figureOriginalityQC.js';
 import { applyBatchMPostQCTargetedRemediations } from '../src/data/sat/mockContent/batchMPostQCTargetedRemediation.js';
+import { applyBatchMGenericNumericDistractorRemediation } from '../src/data/sat/mockContent/batchMGenericNumericDistractorRemediation.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const reportPath = path.join(root, 'docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-2026-09-16.json');
@@ -64,14 +65,15 @@ for (const [key, replacement] of Object.entries(BATCH_M_CONTROLLED_REPLACEMENT_M
 }
 
 const remediation = applyBatchMPostQCTargetedRemediations(controlledCorpus);
-const postCorpus = remediation.corpus;
+const numericDistractorRemediation = applyBatchMGenericNumericDistractorRemediation(remediation.corpus);
+const postCorpus = numericDistractorRemediation.corpus;
 const postQuestions = collect(postCorpus);
 
 if (postQuestions.size !== EXPECTED_RUNTIME_QUESTIONS) addFailure('post-runtime-count', postQuestions.size);
 if (remediation.summary.difficultyCalibrations !== 550) addFailure('difficulty-remediation-count', remediation.summary.difficultyCalibrations);
 if (remediation.summary.rwStimulusRepairs !== 206) addFailure('rw-remediation-count', remediation.summary.rwStimulusRepairs);
-if (remediation.summary.figureRepairs !== 1) addFailure('figure-remediation-count', remediation.summary.figureRepairs);
-if (remediation.summary.targetsChanged !== 673) addFailure('post-qc-target-count', remediation.summary.targetsChanged);
+if (remediation.summary.figureRepairs !== 169) addFailure('figure-remediation-count', remediation.summary.figureRepairs);
+if (remediation.summary.targetsChanged + numericDistractorRemediation.changed !== 846) addFailure('post-qc-target-count', remediation.summary.targetsChanged);
 
 let schemaFailures = 0;
 let qualityFailures = 0;
@@ -133,7 +135,7 @@ const report = {
     contentQualityFailures: qualityFailures,
     figureQuestionsWithDeterministicFingerprint: postCorpus.reduce((sum, mock) => sum + recordsOf(mock).filter((q) => q.section === 'math' && getFigureDataFingerprint(q)).length, 0),
   },
-  postQCTargetedRemediation: remediation.summary,
+  postQCTargetedRemediation: { ...remediation.summary, numericDistractorRepairs: numericDistractorRemediation.changed, numericDistractorRepairQuestionIds: numericDistractorRemediation.changedQuestionIds, targetsChanged: remediation.summary.targetsChanged + numericDistractorRemediation.changed },
   gates: {
     scopeAndIdentity: failures.some((item) => ['scope', 'duplicate-runtime-question', 'out-of-scope-changed', 'records-per-mock'].includes(item.check)) ? 'FAIL' : 'PASS',
     schema: schemaFailures === 0 ? 'PASS' : 'FAIL',

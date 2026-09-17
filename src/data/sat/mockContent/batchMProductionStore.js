@@ -32,6 +32,7 @@ import { runBatchMSAT20ProductionGate } from './batchMSAT20ProductionGate';
 import { runBatchMFinalCorpusGate } from './batchMFinalCorpusGate';
 import { applyBatchMControlledReplacements } from './batchMControlledReplacementMapAdapter';
 import { applyBatchMPostQCTargetedRemediations } from './batchMPostQCTargetedRemediation';
+import { applyBatchMGenericNumericDistractorRemediation } from './batchMGenericNumericDistractorRemediation';
 
 const accepted = (label, result) => {
   if (!result?.passed || !result?.productionMock) throw new Error(`Batch M ${label}: accepted production mock was not returned by the production gate`);
@@ -114,9 +115,15 @@ const BATCH_M_PRE_REPLACEMENT_CORPUS = Object.freeze([
 
 const BATCH_M_CONTROLLED_CORPUS = Object.freeze(applyBatchMControlledReplacements(BATCH_M_PRE_REPLACEMENT_CORPUS));
 const BATCH_M_POST_QC_REMEDIATION_RESULT = applyBatchMPostQCTargetedRemediations(BATCH_M_CONTROLLED_CORPUS);
+const BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT = applyBatchMGenericNumericDistractorRemediation(BATCH_M_POST_QC_REMEDIATION_RESULT.corpus);
 
-export const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(BATCH_M_POST_QC_REMEDIATION_RESULT.corpus);
-export const BATCH_M_POST_QC_REMEDIATION_SUMMARY = Object.freeze(BATCH_M_POST_QC_REMEDIATION_RESULT.summary);
+export const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.corpus);
+export const BATCH_M_POST_QC_REMEDIATION_SUMMARY = Object.freeze({
+  ...BATCH_M_POST_QC_REMEDIATION_RESULT.summary,
+  targetsChanged: BATCH_M_POST_QC_REMEDIATION_RESULT.summary.targetsChanged + BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.changed,
+  numericDistractorRepairs: BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.changed,
+  numericDistractorRepairQuestionIds: BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.changedQuestionIds,
+});
 export const BATCH_M_FINAL_CORPUS_VERIFICATION = runBatchMFinalCorpusGate(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
 
 export const BATCH_M_ACCEPTED_PRODUCTION_CHECKPOINT = Object.freeze({
