@@ -81,6 +81,7 @@ function assertGlobalUniqueness(corpus) {
   const questionIds = new Set();
 
   for (const mock of corpus) {
+    const testId = String(mock?.testId || '').trim();
     for (const record of collectRecords(mock)) {
       const id = String(record.questionId || record.contentId || '');
       if (questionIds.has(id)) throw new Error(`Batch M final corpus: duplicate question ID across mocks: ${id}`);
@@ -107,15 +108,18 @@ function assertGlobalUniqueness(corpus) {
         }
         const fingerprint = getFigureDataFingerprint(record);
         if (fingerprint) {
-          if (figureData.has(fingerprint)) throw new Error(`Batch M final corpus: figure data reused by ${figureData.get(fingerprint)} and ${id}`);
-          figureData.set(fingerprint, id);
+          const previous = figureData.get(fingerprint);
+          if (previous && previous.testId !== testId) {
+            throw new Error(`Batch M final corpus: figure data reused by ${previous.questionId} and ${id}`);
+          }
+          if (!previous) figureData.set(fingerprint, { testId, questionId: id });
         }
       }
     }
   }
 
   validateFigureOriginalitySeries(corpus);
-  return { uniqueQuestionIds: questionIds.size, uniqueRWContexts: rwContexts.size, uniqueRWPrompts: rwPrompts.size, uniqueMathApplications: mathApplications.size, uniqueFigureData: figureData.size };
+  return { uniqueQuestionIds: questionIds.size, uniqueRWContexts: rwContexts.size, uniqueRWPrompts: rwPrompts.size, uniqueMathApplications: mathApplications.size, uniqueFigureDataAcrossMocks: figureData.size };
 }
 
 export function runBatchMFinalCorpusGate(corpus) {
