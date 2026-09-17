@@ -3,10 +3,19 @@ name: Batch M deep SAT PSAT content quality diversity QC
 on:
   push:
     branches: [main]
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-diversity-qc.yml'
+      - 'scripts/runBatchMDeepContentQualityDiversityQC.mjs'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
+      - 'src/data/sat/questionSchema.js'
+      - 'src/data/sat/mockContent/**'
+      - 'docs/SAT-PSAT-QUESTION-SPEC.md'
+      - 'docs/BATCH-M-CALIBRATION-CANDIDATE-SELECTION-CHECKPOINT-2026-09-17.md'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   deep-content-quality-diversity-qc:
@@ -28,9 +37,12 @@ jobs:
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityDiversityQC.mjs
 
       - name: Upload deep QC report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: batch-m-deep-content-quality-diversity-qc-2026-09-17
-          path: artifacts/batch-m-deep-content-quality-qc/
+          path: |
+            artifacts/batch-m-deep-content-quality-qc/
+            docs/BATCH-M-DEEP-CONTENT-QUALITY-DIVERSITY-QC-2026-09-17.json
           if-no-files-found: error
           retention-days: 30
