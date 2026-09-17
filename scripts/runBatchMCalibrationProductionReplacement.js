@@ -1,5 +1,5 @@
 /**
- * Batch M — authorized production replacement execution + post-replacement gates.
+ * Batch M — authorized calibration production replacement execution + post-replacement gates.
  *
  * The replacement layer is now active in the runtime. This script assembles
  * the complete 30-mock runtime corpus, verifies the 352 authorized changes,
@@ -39,7 +39,11 @@ function getRuntimeMock(target) {
   if (!base) return null;
   const withIdentity = { ...clone(base), testKey: target.testKey, testId: target.testId, assessmentVariant: target.variant };
   for (const section of ['readingWriting', 'math']) for (const record of withIdentity[section] || []) record.testId = target.testId;
-  return applyBatchMCalibrationProductionReplacement(withIdentity, target.testKey);
+  const replaced = applyBatchMCalibrationProductionReplacement(withIdentity, target.testKey);
+  replaced.testKey = target.testKey;
+  replaced.testId = target.testId;
+  for (const section of ['readingWriting', 'math']) for (const record of replaced[section] || []) record.testId = target.testId;
+  return replaced;
 }
 function collectProductionChanges(corpus) {
   const changes = [];
