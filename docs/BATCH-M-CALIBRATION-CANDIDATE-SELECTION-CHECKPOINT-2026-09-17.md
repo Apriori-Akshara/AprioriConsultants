@@ -80,20 +80,24 @@ Technical replacement and post-replacement calibration gates have passed, but th
 
 The remaining boundary is public-site verification. This is deliberately separate from the content-generation and calibration gates.
 
-## 6. Next step
+## 6. Public-site verification result and next-stage boundary
 
-**Public website verification of the post-replacement SAT/PSAT corpus.**
+Public website verification was performed after the controlled replacement.
 
-Verify on the deployed application that:
+Observed result:
 
-1. `/SATMocks` loads correctly.
-2. SAT/PSAT mock selection still works.
-3. The adaptive test runtime loads the calibrated corpus correctly.
-4. Questions render correctly, including figures where applicable.
-5. No question-count, module, route, or scoring regressions were introduced.
-6. Authentication/access rules remain unchanged.
+- Overall SAT/PSAT functionality is working correctly.
+- The user-visible question corpus does **not yet demonstrate the expected broader recalibration in overall quality and diversity**.
+- The most noticeable R&W change was increased length in Reading questions.
+- The public-site observation therefore does not constitute final content-quality acceptance.
 
-Only after this verification should the project proceed to end-to-end student-experience testing and final Batch M release acceptance.
+Interpretation:
+
+The 352-question calibration replacement was a targeted distribution correction, not a complete overhaul of SAT/PSAT question quality or diversity. The automated replacement/content gates passing should not be interpreted as evidence that the corpus has reached final SAT-level quality across all dimensions.
+
+The next substantive stage is **deep SAT/PSAT content-quality and diversity QC**, after public functionality verification, covering the documented quality dimensions rather than repeating candidate generation, candidate selection, controlled replacement, or technical deployment checks.
+
+Release eligibility remains **false** until that substantive QC and the subsequent release-acceptance gates are complete.
 
 ## 7. Safety boundaries retained
 
@@ -101,4 +105,5 @@ Only after this verification should the project proceed to end-to-end student-ex
 - No unrelated SAT/auth/payment/navigation architecture changed as part of this calibration replacement.
 - The original 1,594-question remediation is not repeated.
 - Candidate generation and selection are not repeated.
-- Release eligibility remains false until public-site verification is complete.
+- Public functionality verification is complete and is not repeated unless a regression is found.
+- Release eligibility remains false until substantive content-quality/diversity QC and final release acceptance are complete.
