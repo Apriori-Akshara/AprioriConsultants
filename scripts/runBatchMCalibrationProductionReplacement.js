@@ -38,6 +38,7 @@ function getRuntimeMock(target) {
     : SERIES_A[target.testKey];
   if (!base) return null;
   const withIdentity = { ...clone(base), testKey: target.testKey, testId: target.testId, assessmentVariant: target.variant };
+  for (const section of ['readingWriting', 'math']) for (const record of withIdentity[section] || []) record.testId = target.testId;
   return applyBatchMCalibrationProductionReplacement(withIdentity, target.testKey);
 }
 function collectProductionChanges(corpus) {
