@@ -21,9 +21,17 @@ const EXPECTED_DOMAIN = 'craft-and-structure';
 const EXPECTED_SKILL = 'Words in Context';
 const EXPECTED_DIFFICULTY = 'medium';
 const EXPECTED_OLD_TARGET = 'qualify';
+const RW_DOMAIN_TARGETS = {
+  'craft-and-structure': 0.28,
+  'information-and-ideas': 0.26,
+  'standard-english-conventions': 0.26,
+  'expression-of-ideas': 0.20,
+};
+const RW_DOMAIN_HARD_LIMIT = 0.05;
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const normalize = (value) => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+const canonicalDomain = (value) => String(value ?? '').trim().toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const fail = (message) => { throw new Error(`Batch M single-candidate controlled replacement validation: ${message}`); };
 const load = (file) => {
   if (!fs.existsSync(file)) fail(`missing required artifact ${file}`);
@@ -89,6 +97,36 @@ function assertPreReplacementPromptUniqueness(corpus, candidatePrompt) {
     }
   }
   if (matches.length) fail(`candidate prompt already exists in canonical corpus: ${matches.join(', ')}`);
+}
+
+function getRwDomainCalibration(corpus) {
+  const counts = {};
+  for (const mock of corpus) {
+    for (const record of mock.readingWriting || []) {
+      const domain = canonicalDomain(record.domain) || '(missing)';
+      counts[domain] = (counts[domain] || 0) + 1;
+    }
+  }
+  const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
+  const findings = Object.entries(RW_DOMAIN_TARGETS).map(([domain, target]) => {
+    const actual = total ? Number(((counts[domain] || 0) / total).toFixed(4)) : 0;
+    const delta = Number((actual - target).toFixed(4));
+    return { domain, target, actual, delta, withinTarget: Math.abs(delta) <= RW_DOMAIN_HARD_LIMIT };
+  });
+  return {
+    total,
+    findings,
+    failures: findings.filter((item) => !item.withinTarget),
+  };
+}
+
+function calibrationFailureKeys(result) {
+  return [...new Set(result?.calibration?.failures || [])].sort();
+}
+
+function newFailuresComparedWithBaseline(baseline, post) {
+  const baselineSet = new Set(baseline);
+  return post.filter((item) => !baselineSet.has(item));
 }
 
 function mergeForValidation(target, candidate, resolution) {
@@ -169,18 +207,28 @@ function assertPostReplacementDiversity(corpus, target, replacement) {
 function main() {
   const { candidate, review } = verifyCandidateAndReview();
   const resolution = verifyTargetResolution();
-  const corpus = clone(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
+  const baselineCorpus = clone(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
+  const baselineCrossCorpusCalibration = runBatchMCrossCorpusCalibrationCanonical(baselineCorpus);
+  const baselineRwCalibration = getRwDomainCalibration(baselineCorpus);
+  const baselineCalibrationFailures = calibrationFailureKeys(baselineCrossCorpusCalibration);
+  const baselineRwCalibrationFailures = baselineRwCalibration.failures.map((item) => `rw-domain:${item.domain}`);
 
-  assertPreReplacementPromptUniqueness(corpus, candidate.prompt);
+  assertPreReplacementPromptUniqueness(baselineCorpus, candidate.prompt);
+  const corpus = clone(baselineCorpus);
   const { target, replacement } = applyHypotheticalReplacement(corpus, candidate, resolution);
   const diversity = assertPostReplacementDiversity(corpus, target, replacement);
 
   const finalCorpusGate = runBatchMFinalCorpusGate(corpus);
   if (!finalCorpusGate.passed) fail('hypothetical replacement failed the final 30-mock corpus gate');
 
-  const crossCorpusCalibration = runBatchMCrossCorpusCalibrationCanonical(corpus);
-  if (!crossCorpusCalibration.passed) {
-    fail(`hypothetical replacement failed cross-corpus calibration: ${JSON.stringify(crossCorpusCalibration, null, 2)}`);
+  const postCrossCorpusCalibration = runBatchMCrossCorpusCalibrationCanonical(corpus);
+  const postRwCalibration = getRwDomainCalibration(corpus);
+  const postCalibrationFailures = calibrationFailureKeys(postCrossCorpusCalibration);
+  const postRwCalibrationFailures = postRwCalibration.failures.map((item) => `rw-domain:${item.domain}`);
+  const newCalibrationFailures = newFailuresComparedWithBaseline(baselineCalibrationFailures, postCalibrationFailures);
+  const newRwCalibrationFailures = newFailuresComparedWithBaseline(baselineRwCalibrationFailures, postRwCalibrationFailures);
+  if (newCalibrationFailures.length || newRwCalibrationFailures.length) {
+    fail(`hypothetical replacement introduced new calibration failures: ${JSON.stringify({ newCalibrationFailures, newRwCalibrationFailures })}`);
   }
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -222,15 +270,23 @@ function main() {
       global: finalCorpusGate.global,
     },
     crossCorpusCalibration: {
-      passed: crossCorpusCalibration.passed,
-      status: crossCorpusCalibration.status,
-      calibration: crossCorpusCalibration.calibration,
+      baselinePassed: baselineCrossCorpusCalibration.passed,
+      postReplacementPassed: postCrossCorpusCalibration.passed,
+      baselineFailures: baselineCalibrationFailures,
+      postReplacementFailures: postCalibrationFailures,
+      newFailuresIntroduced: newCalibrationFailures,
+    },
+    rwDomainCalibration: {
+      hardLimit: RW_DOMAIN_HARD_LIMIT,
+      baseline: baselineRwCalibration,
+      postReplacement: postRwCalibration,
+      newFailuresIntroduced: newRwCalibrationFailures,
     },
     productionMutation: false,
     releaseEligible: false,
     replacementAuthorization: 'VALIDATION_ONLY_NOT_PRODUCTION_AUTHORIZED',
     sat21Created: false,
-    decision: 'CONTROLLED_REPLACEMENT_VALIDATION_PASSED_PENDING_FRESH_EXPLICIT_PRODUCTION_AUTHORIZATION',
+    decision: 'CONTROLLED_REPLACEMENT_VALIDATION_PASSED_NO_NEW_CALIBRATION_REGRESSION_PENDING_FRESH_EXPLICIT_PRODUCTION_AUTHORIZATION',
   };
 
   fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2));
@@ -245,14 +301,16 @@ function main() {
     '- Candidate prompt uniqueness: **PASS**.',
     '- Repaired WIC target: **qualified**; prior fixed target: **qualify**.',
     `- Final 30-mock corpus gate: **${finalCorpusGate.passed ? 'PASS' : 'FAIL'}** (30 mocks / ${finalCorpusGate.totalRecords} records).`,
-    `- Cross-corpus calibration: **${crossCorpusCalibration.passed ? 'PASS' : 'FAIL'}**.`,
+    `- Overall cross-corpus calibration before replacement: **${baselineCrossCorpusCalibration.passed ? 'PASS' : 'PRE-EXISTING HOLD'}`,
+    `- Overall cross-corpus calibration after hypothetical replacement: **${postCrossCorpusCalibration.passed ? 'PASS' : 'PRE-EXISTING HOLD'}`,
+    `- New calibration failures introduced by the hypothetical replacement: **${newCalibrationFailures.length + newRwCalibrationFailures.length === 0 ? '0' : 'YES'}**.`,
     '- Production mutation during validation: **false**.',
     '- Release eligible: **false**.',
     '- SAT21 created: **false**.',
     '',
-    'This is a hypothetical replacement validation against a cloned canonical production corpus. It does not modify production and does not authorize release.',
+    'The validation confirms that the proposed single-record replacement passes the technical 30-mock corpus gate and introduces no new calibration regression. It does not clear the pre-existing corpus-level calibration hold and does not modify production.',
     '',
-    'Next gate: fresh explicit production-replacement authorization, followed by the actual single-record replacement and post-replacement 30-mock/cross-corpus QC.',
+    'Next gate: fresh explicit production-replacement authorization for this exact target, followed by the actual single-record replacement and post-replacement full corpus/calibration verification.',
   ].join('\n') + '\n');
 
   console.log(JSON.stringify({
@@ -261,7 +319,10 @@ function main() {
     testKey: EXPECTED_TEST_KEY,
     questionId: EXPECTED_QUESTION_ID,
     finalCorpusGatePassed: finalCorpusGate.passed,
-    crossCorpusCalibrationPassed: crossCorpusCalibration.passed,
+    baselineCrossCorpusCalibrationPassed: baselineCrossCorpusCalibration.passed,
+    postReplacementCrossCorpusCalibrationPassed: postCrossCorpusCalibration.passed,
+    newCalibrationFailures: newCalibrationFailures.length,
+    newRwCalibrationFailures: newRwCalibrationFailures.length,
     productionMutation: false,
     releaseEligible: false,
     sat21Created: false,
