@@ -1,0 +1,50 @@
+name: Batch M Deep Content Quality Independent Review
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-independent-review.yml'
+      - 'scripts/runBatchMDeepContentQualityIndependentReview.mjs'
+      - 'src/data/sat/questionSchema.js'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download selected candidate set
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-candidate-selection
+          path: artifacts/batch-m-deep-content-quality-candidate-selection
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35194288337
+
+      - name: Run independent substantive review
+        run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
+      - name: Upload independent review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-independent-review
+          path: artifacts/batch-m-deep-content-quality-independent-review/
+          if-no-files-found: error
+          retention-days: 30
