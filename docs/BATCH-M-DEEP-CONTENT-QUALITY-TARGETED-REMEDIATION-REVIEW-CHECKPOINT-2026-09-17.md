@@ -71,8 +71,43 @@ For `SAT4-BATCHM-DQ-0004`, the target class is `rw-wic-target-diversity`. The ca
 
 This is still a **candidate-only target assignment**. It records an exact `testKey + questionId` proposed replacement target but performs no production mutation and grants no replacement authorization.
 
-## 7. Next stage
+## 7. Historical next stage — completed
 
-After the target-assignment artifact passes its workflow gate, a separate controlled replacement stage may be considered only under a fresh explicit authorization state for that exact target mapping. The replacement must preserve all existing 30-mock scope, identity, difficulty, domain/skill, originality, PSAT-ceiling, and release constraints.
+The original next stage recorded here — pass the target-assignment artifact, obtain a fresh explicit authorization, and perform the single controlled replacement — was subsequently completed for this **one repaired Words-in-Context candidate**. The production replacement and post-replacement verification were recorded in the separate single-candidate authorization/gate records.
 
-Production remains frozen and SAT21 must not be created.
+This checkpoint is therefore historical. Do not reopen the single-candidate path unless a later gate identifies a specific regression.
+
+## 8. Current active stage
+
+The project has since moved to a separate **195-candidate Reading & Writing calibration reconciliation**.
+
+Candidate-generation workflow run: **35212907193**.
+
+- Candidates: **195**.
+- Allocation: **65 Craft & Structure → Standard English Conventions** and **130 Information & Ideas → Standard English Conventions**.
+- Unique candidate prompts: **195**.
+- Candidate quality gate: **PASS**.
+- Hypothetical SEC proportion: **26.02%**.
+- New hypothetical calibration failures: **0**.
+- Production mutation: **false**.
+- Release eligible: **false**.
+- Replacement authorization: **NOT_AUTHORIZED**.
+- SAT21 created: **false**.
+
+The current independent reconciliation review run **35213306538** is **FAILED** because candidate `BATCH-M-CAL-SEC-001` has an `assessmentVariant` that does not match the assessment variant assigned to its production test.
+
+The existing target-lock workflow is intentionally gated on a successful independent review and therefore has not produced a successful lock artifact.
+
+## 9. Exact current next implementation step
+
+**Fix the candidate generator's assessment-variant/test mapping, regenerate and revalidate the 195-candidate reconciliation package, and rerun independent review.**
+
+The candidate's `assessmentVariant` and related assessment metadata must come from the same `BATCH_M_PRODUCTION_SEQUENCE` entry as its assigned `productionTestId`. The independent-review compatibility check must **not** be weakened or removed.
+
+After review PASS:
+
+1. run/verify the existing exact target-lock workflow for all **195** targets;
+2. verify the locked artifact and all production/release boundary flags;
+3. only then consider a **fresh explicit authorization** for any production replacement.
+
+Production remains frozen during the current repair. No SAT21 may be created.
