@@ -1,0 +1,79 @@
+name: Batch M calibration reconciliation candidate review
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/batch-m-calibration-reconciliation-candidate-review.yml'
+      - 'scripts/reviewBatchMCalibrationReconciliationCandidates.mjs'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibration.js'
+      - 'src/data/sat/mockContent/batchMProductionController.js'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-calibration-reconciliation-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Locate latest successful candidate-generation run
+        id: locate-candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUN_ID="$(gh run list \
+            --repo "$GITHUB_REPOSITORY" \
+            --workflow batch-m-calibration-reconciliation-candidates.yml \
+            --branch main \
+            --status success \
+            --limit 1 \
+            --json databaseId,headSha \
+            --jq '.[0].databaseId')"
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            echo 'No successful Batch M calibration reconciliation candidate-generation run was found.' >&2
+            exit 1
+          fi
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Using successful candidate-generation run $RUN_ID"
+
+      - name: Download candidate-generation artifact
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/batch-m-calibration-reconciliation-candidates
+          gh run download "${{ steps.locate-candidates.outputs.run_id }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name batch-m-calibration-reconciliation-candidates \
+            --dir artifacts/batch-m-calibration-reconciliation-candidates
+
+      - name: Run independent candidate review
+        run: |
+          node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/reviewBatchMCalibrationReconciliationCandidates.mjs
+
+      - name: Upload independent review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-calibration-reconciliation-candidate-review
+          path: artifacts/batch-m-calibration-reconciliation-candidate-review/
+          if-no-files-found: error
+          retention-days: 30
