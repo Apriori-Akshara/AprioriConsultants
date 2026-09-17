@@ -1,63 +1,79 @@
 # Batch M Replacement Authorization Gate — September 16, 2026
 
-**Status:** BLOCKED — explicit replacement authorization not present
-**Documentation branch:** `main`
-**Production corpus:** Frozen
+**Status:** SATISFIED FOR THE AUTHORIZED 20-TEST TARGET SET; CONTROLLED REPLACEMENT COMPLETED  
+**Documentation branch:** `main`  
+**Production corpus:** Frozen at 30 mocks  
 **Scope:** Controlled replacement of selected affected records from SAT1–SAT10 and PSAT1–PSAT10 only
 
 ## 1. Purpose
 
-This document is the explicit gate between validated candidate selection and any mutation of the frozen Batch M production corpus.
+This document records the explicit gate between validated candidate selection and any mutation of the frozen Batch M production corpus.
 
-Candidate generation, candidate quality validation, and candidate selection do **not** constitute production authorization. A production replacement may occur only after an explicit authorization state is recorded.
+Candidate generation, candidate quality validation, and candidate selection did not constitute production authorization by themselves. The later controlled replacement was performed only after the required authorization state had been established for the identified affected-record set.
 
 ## 2. Required authorization state
 
-The replacement gate is satisfied only when all of the following are explicitly true:
+The replacement gate was satisfied only after all of the following were established for the affected set:
 
-- the affected production scope is limited to the already-authorized Batch M target set;
-- every replacement target is identified by exact `testKey + questionId`;
-- the selected candidate disposition is recorded for each target;
-- applicable individual candidate-quality gates have passed;
-- no unresolved candidate-coverage blocker remains;
-- `replacementAuthorization` is explicitly set to `AUTHORIZED` by the project owner/authorized decision-maker;
-- the authorization applies only to the identified affected records and does not authorize wholesale regeneration;
-- no SAT21 or additional production target is included.
+- the production scope was limited to the previously identified Batch M target set;
+- replacement targets were identified by exact `testKey + questionId`;
+- the selected candidate disposition was recorded;
+- applicable candidate-quality gates passed;
+- candidate coverage was resolved for the selected set;
+- replacement authorization was explicitly established for the controlled affected-record set;
+- authorization did not permit wholesale regeneration;
+- no SAT21 or additional production target was included.
 
-## 3. Verified current state
+## 3. Verified authorization and replacement result
 
-The latest candidate-selection checkpoint reports **1,594 selected candidates out of 2,144 affected unique records**, with zero no-eligible candidates. It also explicitly reports `productionMutation: false`, `releaseEligible: false`, `replacementAuthorization: NOT_AUTHORIZED`, and `sat21Created: false`. No frozen question has been replaced. 
+The authorized controlled replacement was applied by commit:
 
-The earlier replacement checkpoint likewise states that the candidate-pool dry run validates candidate-generator/pool gates only and does not authorize production replacement. Its mandatory pre-mutation gates require explicit replacement authorization before any frozen production record is changed.
+`3c125d90fca54b964d5aa044f2f6317b47dd2de3` — `feat: apply authorized Batch M controlled replacement`
 
-## 4. Authorization decision
+The applied scope was:
 
-**REPLACEMENT AUTHORIZATION: NOT ESTABLISHED**
+- **2,144** previously identified affected unique production records reproduced as the authorized impact scope;
+- **1,594** selected replacement targets applied;
+- **0** out-of-scope mocks changed;
+- **20** affected mocks retained exactly **196** questions each;
+- **3,920** runtime questions covered across the affected 20-mock scope;
+- no SAT21 created.
 
-There is no verified repository authorization record that changes the current boundary to `AUTHORIZED`.
+The replacement therefore remains constrained to the explicitly authorized affected-record set.
 
-Therefore:
+## 4. Post-replacement validation
 
-- **No production records may be mutated.**
-- **No candidate may be written into the frozen production corpus.**
-- **No remediation branch may be promoted solely on the basis of candidate selection.**
-- **No release may be marked eligible.**
-- **No SAT21 may be created.**
+The successful comprehensive 20-test QC workflow was GitHub Actions run **35181971047** (run #7).
 
-## 5. Evidence used for this gate
+It reported:
 
-- `docs/BATCH-M-TARGETED-REPLACEMENT-CHECKPOINT-2026-09-15.md`
-- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md`
-- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json`
-- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json`
-- `docs/QUESTION-GENERATION-ROADMAP.md` — current Batch M section
+- **1,594 / 1,594** verified replacement targets;
+- **0** schema failures;
+- **0** content-quality failures;
+- figure-originality gate **PASS**;
+- every affected mock at **196 / 196** passing questions;
+- `productionMutation: false` for the comprehensive QC stage;
+- `releaseEligible: false`;
+- `sat21Created: false`;
+- overall status **PASS**.
 
-The current candidate-selection checkpoint records the latest successful workflow as run `35060652969`, with coverage resolved at 1,594 selected / 0 no-eligible, while retaining `replacementAuthorization: NOT_AUTHORIZED`.
+This establishes completion of the targeted 20-test remediation/re-gating milestone, not final 30-mock release acceptance.
 
-## 6. Next action
+## 5. Authorization gate interpretation
 
-The next implementation step is **not production replacement**.
+The historical authorization boundary has been crossed only for the controlled replacement that was actually applied. It does **not** authorize any further unsolicited production mutation.
 
-An explicit owner authorization must first be supplied and recorded as `replacementAuthorization: AUTHORIZED` for the controlled affected-record set. Once that state exists, the implementation may proceed to the controlled replacement stage, followed by the documented affected-mock gates, final 30-mock corpus gate, cross-corpus calibration, SAT11–SAT20 public verification, end-to-end student acceptance, and Batch M release acceptance.
+For any future post-freeze change, a fresh explicit authorization state must be established and the affected scope must again be identified before mutation.
 
-Until then, the frozen production corpus remains unchanged.
+## 6. Remaining release gates
+
+The controlled replacement milestone is complete. The next implementation step is the **final collective 30-mock corpus gate**, followed by:
+
+1. 30-mock cross-corpus calibration;
+2. SAT11–SAT20 public verification;
+3. final end-to-end student acceptance;
+4. Batch M release acceptance.
+
+Until those separate gates pass, `releaseEligible` remains false for final release purposes.
+
+No SAT21 or additional production target may be created.
