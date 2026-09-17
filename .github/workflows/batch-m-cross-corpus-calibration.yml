@@ -1,0 +1,38 @@
+name: Batch M 30-mock cross-corpus calibration
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/batch-m-cross-corpus-calibration.yml'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/runBatchMCrossCorpusCalibration.js'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
+      - 'src/data/sat/mockContent/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cross-corpus-calibration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run 30-mock cross-corpus calibration
+        run: npm run qc:batch-m-cross-corpus-calibration
