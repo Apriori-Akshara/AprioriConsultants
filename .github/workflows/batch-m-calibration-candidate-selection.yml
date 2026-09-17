@@ -1,0 +1,49 @@
+name: Batch M calibration candidate generation and controlled selection
+
+# Candidate-only workflow. It never mutates the frozen production corpus.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/batch-m-calibration-candidate-selection.yml'
+      - 'scripts/runBatchMCalibrationCandidateSelection.js'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
+      - 'src/data/sat/mockContent/batchMRemediationBlueprint.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/mockContent/verbalConstructionRemediated.js'
+      - 'src/data/sat/mockContent/mathBankFactoryRemediated.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calibration-candidate-selection:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Generate and select calibration candidates
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCalibrationCandidateSelection.js
+
+      - name: Upload candidate review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-calibration-candidate-selection-2026-09-17
+          path: artifacts/batch-m-calibration-candidate-selection/
+          if-no-files-found: error
+          retention-days: 14
