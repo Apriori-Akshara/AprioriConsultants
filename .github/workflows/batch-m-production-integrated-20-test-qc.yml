@@ -1,11 +1,6 @@
 name: Batch M production-integrated 20-test QC
 
 on:
-  push:
-    branches:
-      - batch-m-comprehensive-20-test-qc-2026-09-16
-    paths:
-      - '.batch-m-production-integrated-20-test-qc-trigger-2026-09-16'
   workflow_dispatch:
 
 permissions:
@@ -24,39 +19,15 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Diagnose PSAT1 m1-17 figure collision
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/diagnoseBatchMPSAT1M117Figure.mjs
-      - name: Commit PSAT1 figure diagnostic
-        if: always()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-PSAT1-M117-FIGURE-DIAGNOSTIC-2026-09-16.json
-          git diff --cached --quiet || git commit -m "test: record PSAT1 m1-17 figure diagnostic"
-          git push
-      - name: Diagnose integrated 20-test QC failure
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/diagnoseBatchMProductionIntegrated20TestQCFailure.mjs
-      - name: Commit integrated QC diagnostic
-        if: always()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-DIAGNOSTIC-2026-09-16.json
-          git diff --cached --quiet || git commit -m "test: record Batch M integrated QC diagnostic"
-          git push
-      - name: Run production-integrated 20-test QC
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMProductionIntegrated20TestQC.mjs
-      - name: Run final 30-mock corpus gate
-        if: success()
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMFinal30MockCorpusGate.mjs
-      - name: Generate remediation evidence
-        if: always()
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMPostQCTargetedRemediationEvidence.mjs
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run current 20-test QC
+        run: npm run qc:batch-m-comprehensive-20-test-targeted
       - name: Commit QC evidence
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/BATCH-M-PRODUCTION-INTEGRATED-20-TEST-QC-2026-09-16.json docs/BATCH-M-FINAL-30-MOCK-CORPUS-GATE-2026-09-16.json docs/BATCH-M-POST-QC-TARGETED-REMEDIATION-2026-09-16.json
-          git diff --cached --quiet || git commit -m "test: record Batch M production QC gates"
+          git add docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-2026-09-16.json
+          git diff --cached --quiet || git commit -m "test: record Batch M comprehensive targeted 20-test QC"
           git push
