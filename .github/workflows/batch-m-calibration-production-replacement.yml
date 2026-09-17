@@ -1,8 +1,6 @@
 name: Batch M authorized calibration production replacement
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
