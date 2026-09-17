@@ -1,0 +1,61 @@
+name: Batch M Deep Content Quality Single Candidate Target Resolution
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-single-candidate-target-resolution.yml'
+      - 'scripts/runBatchMDeepContentQualitySingleCandidateTargetResolution.mjs'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMProductionController.js'
+      - 'package.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  target-resolution:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download passed single-candidate remediation artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-remediation
+          path: artifacts/batch-m-deep-content-quality-single-candidate-remediation
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35200787784
+
+      - name: Download passed single-candidate review artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-remediation-review
+          path: artifacts/batch-m-deep-content-quality-single-candidate-remediation-review
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35200787784
+
+      - name: Resolve exact production target
+        run: npm run qc:batch-m-deep-content-quality-single-candidate-target-resolution
+
+      - name: Upload target-resolution artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-target-resolution
+          path: artifacts/batch-m-deep-content-quality-single-candidate-target-resolution/
+          if-no-files-found: error
+          retention-days: 30
