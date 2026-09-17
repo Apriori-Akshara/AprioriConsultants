@@ -168,7 +168,7 @@ function validateOne(mockContent) {
   if (records.length !== 196) errors.push(`${mockContent.testId}: expected 196 bank questions, found ${records.length}`);
 
   const mockTestId = String(mockContent.testId || '').trim();
-  if (!/^((psat|sat)-mock-(0[1-9]|10))$/.test(mockTestId)) {
+  if (!/^(?:sat-mock-(?:0[1-9]|1[0-9]|20)|psat-mock-(?:0[1-9]|10))$/.test(mockTestId)) {
     errors.push(`${mockContent.testId || '(missing testId)'}: invalid mock identity`);
   }
 
@@ -278,45 +278,47 @@ export function validateMockSeries(...mocks) {
       else if (questionId && contentId !== questionId) errors.push(`Cross-mock content identity mismatch: ${mockId} question ${questionId} has contentId ${contentId}`);
 
       const previousId = questionIdMap.get(questionId);
-      if (previousId) errors.push(`Duplicate question ID across mock series: ${previousId.testId}/${previousId.questionId} and ${mockId}/${questionId}`);
-      else questionIdMap.set(questionId, { testId: mockId, questionId });
-
-      const originalityFingerprint = String(question.originalityFingerprint || '').trim();
-      if (originalityFingerprint) {
-        const previousFingerprint = originalityFingerprintMap.get(originalityFingerprint);
-        if (previousFingerprint && previousFingerprint.testId !== mockId) errors.push(`Duplicate originality fingerprint across mocks: ${previousFingerprint.testId}/${previousFingerprint.questionId} and ${mockId}/${questionId}`);
-        else originalityFingerprintMap.set(originalityFingerprint, { testId: mockId, questionId });
-      }
+      if (previousId && previousId !== mockId) errors.push(`Cross-mock questionId collision: ${questionId} appears in ${previousId} and ${mockId}`);
+      else questionIdMap.set(questionId, mockId);
 
       const prompt = normalize(question.prompt);
       const previousPrompt = promptMap.get(prompt);
-      if (previousPrompt && previousPrompt.testId !== mockId) errors.push(`Duplicate prompt across mocks: ${previousPrompt.testId}/${previousPrompt.questionId} and ${mockId}/${questionId}`);
-      else promptMap.set(prompt, { testId: mockId, questionId });
+      if (previousPrompt && previousPrompt !== mockId) errors.push(`Cross-mock prompt repetition: ${questionId} repeats a prompt from ${previousPrompt}`);
+      else promptMap.set(prompt, mockId);
 
-      const passage = passageFingerprint(question);
-      if (passage) {
-        const previousPassage = passageMap.get(passage);
-        if (previousPassage && previousPassage.testId !== mockId) errors.push(`Duplicate verbal passage across mocks: ${previousPassage.testId}/${previousPassage.questionId} and ${mockId}/${questionId}`);
-        else passageMap.set(passage, { testId: mockId, questionId });
+      if (question.section === 'reading-writing') {
+        const passage = passageFingerprint(question);
+        if (passage) {
+          const previousPassage = passageMap.get(passage);
+          if (previousPassage && previousPassage !== mockId) errors.push(`Cross-mock passage repetition: ${questionId} repeats passage material from ${previousPassage}`);
+          else passageMap.set(passage, mockId);
+        }
       }
 
-      const construction = constructionFingerprint(question);
-      if (construction) {
-        const key = `${question.domain}|${construction}`;
-        const previousConstruction = mathConstructionMap.get(key);
-        if (previousConstruction && previousConstruction.testId !== mockId) errors.push(`Duplicate Math construction across mocks: ${previousConstruction.testId}/${previousConstruction.questionId} and ${mockId}/${questionId}`);
-        else mathConstructionMap.set(key, { testId: mockId, questionId });
+      if (question.section === 'math') {
+        const construction = constructionFingerprint(question);
+        if (construction) {
+          const previousConstruction = mathConstructionMap.get(construction);
+          if (previousConstruction && previousConstruction !== mockId) errors.push(`Cross-mock Math construction repetition: ${questionId} repeats normalized construction from ${previousConstruction}`);
+          else mathConstructionMap.set(construction, mockId);
+        }
+        const figure = figureFingerprint(question);
+        if (figure) {
+          const previousFigure = mathFigureMap.get(figure);
+          if (previousFigure && previousFigure !== mockId) errors.push(`Cross-mock figure repetition: ${questionId} repeats figure data from ${previousFigure}`);
+          else mathFigureMap.set(figure, mockId);
+        }
       }
 
-      const figure = figureFingerprint(question);
-      if (figure) {
-        const previousFigure = mathFigureMap.get(figure);
-        if (previousFigure && previousFigure.testId !== mockId) errors.push(`Duplicate Math figure across mocks: ${previousFigure.testId}/${previousFigure.questionId} and ${mockId}/${questionId}`);
-        else mathFigureMap.set(figure, { testId: mockId, questionId });
+      const originalityFingerprint = normalize(question.originalityFingerprint);
+      if (originalityFingerprint) {
+        const previousFingerprint = originalityFingerprintMap.get(originalityFingerprint);
+        if (previousFingerprint && previousFingerprint !== mockId) errors.push(`Cross-mock originality fingerprint repetition: ${questionId} repeats ${originalityFingerprint}`);
+        else originalityFingerprintMap.set(originalityFingerprint, mockId);
       }
     }
   }
 
-  if (errors.length) throw new Error(`SAT/PSAT cross-mock quality gate failed:\n${errors.join('\n')}`);
-  return { ok: true, mockCount: results.length, results };
+  if (errors.length) throw new Error(`SAT/PSAT series isolation gate failed:\n${errors.join('\n')}`);
+  return { ok: true, mockCount: mocks.length, results };
 }
