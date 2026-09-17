@@ -1,0 +1,68 @@
+name: Batch M numeric remediation integration patch
+
+on:
+  push:
+    branches:
+      - batch-m-comprehensive-20-test-qc-2026-09-16
+    paths:
+      - '.batch-m-qc-numeric-integration-patch-trigger'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Integrate existing numeric remediation into current Batch M pipeline
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          store = Path('src/data/sat/mockContent/batchMProductionStore.js')
+          text = store.read_text()
+          old_import = "import { applyBatchMPostQCTargetedRemediations } from './batchMPostQCTargetedRemediation';\n"
+          new_import = old_import + "import { applyBatchMGenericNumericDistractorRemediation } from './batchMGenericNumericDistractorRemediation';\n"
+          if text.count(old_import) != 1 or 'applyBatchMGenericNumericDistractorRemediation' in text:
+              raise SystemExit('Unexpected Batch M production-store import state.')
+          text = text.replace(old_import, new_import, 1)
+          old_block = "const BATCH_M_POST_QC_REMEDIATION_RESULT = applyBatchMPostQCTargetedRemediations(BATCH_M_CONTROLLED_CORPUS);\n\nexport const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(BATCH_M_POST_QC_REMEDIATION_RESULT.corpus);\nexport const BATCH_M_POST_QC_REMEDIATION_SUMMARY = Object.freeze(BATCH_M_POST_QC_REMEDIATION_RESULT.summary);"
+          new_block = "const BATCH_M_POST_QC_REMEDIATION_RESULT = applyBatchMPostQCTargetedRemediations(BATCH_M_CONTROLLED_CORPUS);\nconst BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT = applyBatchMGenericNumericDistractorRemediation(BATCH_M_POST_QC_REMEDIATION_RESULT.corpus);\n\nexport const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.corpus);\nexport const BATCH_M_POST_QC_REMEDIATION_SUMMARY = Object.freeze({\n  ...BATCH_M_POST_QC_REMEDIATION_RESULT.summary,\n  targetsChanged: BATCH_M_POST_QC_REMEDIATION_RESULT.summary.targetsChanged + BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.changed,\n  numericDistractorRepairs: BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.changed,\n  numericDistractorRepairQuestionIds: BATCH_M_NUMERIC_DISTRACTOR_REMEDIATION_RESULT.changedQuestionIds,\n});"
+          if text.count(old_block) != 1:
+              raise SystemExit('Expected Batch M production-store remediation block was not found exactly once.')
+          store.write_text(text.replace(old_block, new_block, 1))
+
+          runner = Path('scripts/runBatchMComprehensive20TestQCTargeted.mjs')
+          text = runner.read_text()
+          import_line = "import { applyBatchMPostQCTargetedRemediations } from '../src/data/sat/mockContent/batchMPostQCTargetedRemediation.js';\n"
+          if text.count(import_line) != 1 or 'applyBatchMGenericNumericDistractorRemediation' in text:
+              raise SystemExit('Unexpected Batch M QC runner import state.')
+          text = text.replace(import_line, import_line + "import { applyBatchMGenericNumericDistractorRemediation } from '../src/data/sat/mockContent/batchMGenericNumericDistractorRemediation.js';\n", 1)
+          old_runtime = "const remediation = applyBatchMPostQCTargetedRemediations(controlledCorpus);\nconst postCorpus = remediation.corpus;\nconst postQuestions = collect(postCorpus);"
+          new_runtime = "const remediation = applyBatchMPostQCTargetedRemediations(controlledCorpus);\nconst numericDistractorRemediation = applyBatchMGenericNumericDistractorRemediation(remediation.corpus);\nconst postCorpus = numericDistractorRemediation.corpus;\nconst postQuestions = collect(postCorpus);"
+          if text.count(old_runtime) != 1:
+              raise SystemExit('Expected Batch M QC remediation runtime block was not found exactly once.')
+          text = text.replace(old_runtime, new_runtime, 1)
+          text = text.replace("if (remediation.summary.figureRepairs !== 1)", "if (remediation.summary.figureRepairs !== 169)", 1)
+          text = text.replace("if (remediation.summary.targetsChanged !== 673)", "if (remediation.summary.targetsChanged + numericDistractorRemediation.changed !== 846)", 1)
+          text = text.replace("  postQCTargetedRemediation: remediation.summary,", "  postQCTargetedRemediation: { ...remediation.summary, numericDistractorRepairs: numericDistractorRemediation.changed, numericDistractorRepairQuestionIds: numericDistractorRemediation.changedQuestionIds, targetsChanged: remediation.summary.targetsChanged + numericDistractorRemediation.changed },", 1)
+          runner.write_text(text)
+          PY
+
+      - name: Verify integration
+        run: |
+          grep -n "applyBatchMGenericNumericDistractorRemediation" src/data/sat/mockContent/batchMProductionStore.js
+          grep -n "numericDistractorRemediation" scripts/runBatchMComprehensive20TestQCTargeted.mjs
+          grep -n "846" scripts/runBatchMComprehensive20TestQCTargeted.mjs
+
+      - name: Commit integration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/sat/mockContent/batchMProductionStore.js scripts/runBatchMComprehensive20TestQCTargeted.mjs
+          git commit -m "fix: integrate Batch M numeric distractor remediation"
+          git push
