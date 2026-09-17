@@ -42,7 +42,6 @@ const sortedObject = (map) => Object.fromEntries([...map.entries()].sort((a, b) 
 const recordsOf = (mock) => [...(mock?.readingWriting || []), ...(mock?.math || [])];
 const idOf = (q) => String(q?.questionId || q?.contentId || '');
 const testKeyOf = (mock) => String(mock?.testKey || mock?.testId || '').toUpperCase();
-
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 function stimulusOf(q) {
   const prompt = String(q?.prompt || '').trim();
@@ -77,8 +76,6 @@ function getDistractorProfiles(q) {
   if (!profiles || typeof profiles !== 'object') return [];
   return Object.entries(profiles).filter(([, value]) => value?.role === 'distractor' && value?.misconception && value?.error_mechanism);
 }
-function sampleKey(q, testKey) { return `${testKey}::${idOf(q)}`; }
-
 function buildRuntimeCorpus() {
   return BATCH_M_PRODUCTION_SEQUENCE.map((target) => {
     const base = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((mock) => mock?.testId === target.testId);
@@ -94,7 +91,6 @@ function warn(check, detail) { warnings.push({ check, detail }); }
 
 const corpus = buildRuntimeCorpus();
 if (corpus.length !== EXPECTED_MOCKS) fail('scope:mock-count', `expected ${EXPECTED_MOCKS}, found ${corpus.length}`);
-
 const all = [];
 const ids = new Set();
 const mockSummaries = [];
@@ -108,9 +104,6 @@ const duplicatePrompt = new Map();
 const duplicateStimulus = new Map();
 const duplicateApplication = new Map();
 const figureFingerprints = new Map();
-const perMockSkills = new Map();
-const perMockFigures = new Map();
-const perMockTypes = new Map();
 
 for (const mock of corpus) {
   const testKey = testKeyOf(mock);
@@ -137,7 +130,6 @@ for (const mock of corpus) {
     inc(counts.difficulty, q.difficulty || 'missing');
     inc(counts.questionType, `${q.section || 'missing'}:${q.questionType || 'missing'}`);
     mockTypes.add(q.questionType || 'missing');
-
     const promptNorm = normalize(q.prompt);
     if (promptNorm) inc(duplicatePrompt, promptNorm);
 
@@ -151,7 +143,6 @@ for (const mock of corpus) {
       const limit = RW_SHORT_SKILLS.has(skill) ? [8, 80] : [25, 150];
       inc(counts.stimulusBucket, `${skill}:${wc < limit[0] ? 'too-short' : wc > limit[1] ? 'too-long' : 'in-range'}`);
       if (wc < limit[0] || wc > limit[1]) fail('rw:stimulus-length', `${testKey}/${id}: ${wc} words; expected ${limit[0]}-${limit[1]}`);
-      const stats = sentenceStats(stimulus);
       const m = metadata(q);
       inc(counts.rwSourceFamily, m.sourceFamily || 'missing');
       inc(counts.rwRhetoricalStructure, m.rhetoricalStructure || 'missing');
@@ -162,14 +153,10 @@ for (const mock of corpus) {
       if (genericHits(stimulus).length >= 2) fail('rw:generic-template-density', `${testKey}/${id}`);
       if (repeatedNgramRate(stimulus) > 0.08) warn('rw:repeated-ngram-density', `${testKey}/${id}`);
       if (typeTokenRatio(stimulus) < 0.42 && wc >= 40) warn('rw:low-lexical-variety', `${testKey}/${id}`);
-      const evidence = m.evidence_map;
-      if (['Central Ideas and Details', 'Inferences', 'Command of Evidence', 'Words in Context', 'Text Structure and Purpose', 'Cross-Text Connections', 'Rhetorical Synthesis'].includes(skill) && !evidence) warn('rw:evidence-map-missing', `${testKey}/${id}`);
+      if (['Central Ideas and Details', 'Inferences', 'Command of Evidence', 'Words in Context', 'Text Structure and Purpose', 'Cross-Text Connections', 'Rhetorical Synthesis'].includes(skill) && !m.evidence_map) warn('rw:evidence-map-missing', `${testKey}/${id}`);
       if (skill === 'Cross-Text Connections' && !/passage 2/i.test(String(q.prompt || ''))) fail('rw:cross-text-structure', `${testKey}/${id}`);
       if (skill === 'Rhetorical Synthesis' && !/goal:/i.test(String(q.prompt || ''))) fail('rw:synthesis-goal', `${testKey}/${id}`);
       if (skill === 'Words in Context' && /qualify/i.test(stimulus)) fail('rw:fixed-wic-target', `${testKey}/${id}`);
-      const sampleBucket = `${testKey}|RW|${skill}|${q.difficulty}`;
-      q.__deepQcSample = { stimulusWordCount: wc, sentenceStats: stats, lexicalTTR: typeTokenRatio(stimulus), repeated4gramRate: repeatedNgramRate(stimulus) };
-      inc(counts.stimulusBucket, sampleBucket, 0);
       if (promptNorm) inc(duplicateStimulus, normalize(stimulus));
     } else if (q.section === 'math') {
       const domain = String(q.domain || '');
@@ -199,7 +186,7 @@ for (const mock of corpus) {
         mockFigures.add(figureType);
         if (m.figurePurpose !== 'question-essential') fail('math:figure-not-essential', `${testKey}/${id}`);
         const fp = getFigureDataFingerprint(q);
-        if (fp) { inc(figureFingerprints, fp); if (!figureFingerprints.has(fp)) figureFingerprints.set(fp, { testKey, questionId: id }); }
+        if (fp) inc(figureFingerprints, fp);
       }
       if (m.applicationFingerprint) inc(duplicateApplication, normalize(m.applicationFingerprint));
     } else {
@@ -207,13 +194,9 @@ for (const mock of corpus) {
     }
 
     if (Array.isArray(q.applicable_to) && q.applicable_to.includes('PSAT') && q.metadata?.psatCeiling === 'SAT-only') warn('psat:ceiling-metadata-conflict', `${testKey}/${id}`);
-    if (testKey.startsWith('PSAT') && Array.isArray(q.applicable_to) && q.applicable_to.includes('SAT') && q.metadata?.psatAboveCeiling === true) fail('psat:above-ceiling', `${testKey}/${id}`);
-    delete q.__deepQcSample;
+    if (testKey.startsWith('PSAT') && q.metadata?.psatAboveCeiling === true) fail('psat:above-ceiling', `${testKey}/${id}`);
   }
 
-  perMockSkills.set(testKey, mockSkills.size);
-  perMockFigures.set(testKey, mockFigures.size);
-  perMockTypes.set(testKey, [...mockTypes]);
   mockSummaries.push({ testKey, recordCount: records.length, qualityFailures: mockFailures, distinctSkillOrDomainSkillKeys: mockSkills.size, distinctFigureTypes: mockFigures.size, questionTypes: [...mockTypes] });
 }
 
@@ -224,7 +207,6 @@ if (promptDuplicates.length) fail('diversity:duplicate-prompts', `${promptDuplic
 if (stimulusDuplicates.length) warn('diversity:repeated-stimulus', `${stimulusDuplicates.length} duplicated normalized stimuli`);
 if (applicationDuplicates.length) fail('diversity:duplicate-math-applications', `${applicationDuplicates.length} duplicated Math application fingerprints`);
 if (ids.size !== EXPECTED_TOTAL) fail('scope:unique-question-count', `expected ${EXPECTED_TOTAL}, found ${ids.size}`);
-
 try { validateFigureOriginalitySeries(corpus); } catch (error) { fail('figures:originality-series', String(error?.message || error)); }
 
 const rwFamilies = unique([...counts.rwSourceFamily.keys()].filter((x) => x !== 'missing'));
@@ -234,7 +216,6 @@ const rwSkills = unique([...counts.rwSkill.keys()].filter((x) => x !== 'missing'
 const mathDomains = unique([...counts.domain.keys()].filter((x) => x !== 'missing'));
 const mathSkills = unique([...counts.mathSkill.keys()].filter((x) => x !== 'missing'));
 const figureTypes = unique([...counts.mathFigureType.keys()].filter((x) => x !== 'unknown'));
-
 if (rwFamilies.length < 4) fail('diversity:rw-source-families', `expected all 4 documented families, found ${rwFamilies.length}`);
 if (rwStructures.length < 6) fail('diversity:rw-rhetorical-structures', `expected at least 6 observed structures, found ${rwStructures.length}`);
 if (rwOperations.length < 5) fail('diversity:rw-cognitive-operations', `expected at least 5 observed operations, found ${rwOperations.length}`);
@@ -247,7 +228,6 @@ const totalMath = all.filter(({ q }) => q.section === 'math').length;
 const sprCount = all.filter(({ q }) => q.section === 'math' && q.questionType === 'student-produced-response').length;
 const sprPct = totalMath ? Number((sprCount / totalMath * 100).toFixed(2)) : 0;
 if (sprPct < 25 || sprPct > 30) fail('calibration:math-spr-range', `observed ${sprPct}% SPR; specification target is roughly 25-30%`);
-
 const easy = counts.difficulty.get('easy') || 0;
 const medium = counts.difficulty.get('medium') || 0;
 const hard = counts.difficulty.get('hard') || 0;
@@ -272,7 +252,6 @@ for (const { testKey, q } of all) {
     });
   }
 }
-
 const sampleFindings = sampleCandidates.map((item) => {
   const flags = [];
   if (item.section === 'reading-writing' && item.stimulusWordCount !== null && item.stimulusWordCount < (RW_SHORT_SKILLS.has(item.skill) ? 8 : 25)) flags.push('short-stimulus');
@@ -309,21 +288,12 @@ const report = {
     representativeSampling: `Stratified deterministic sample of up to ${MAX_SAMPLE} items, targeting ${SAMPLE_PER_BUCKET} items per mock × section × skill/domain × difficulty bucket. The sample is for focused human review and is not a substitute for corpus-wide automated gates.`,
     manualThousandsNotPerformed: true,
   },
-  corpus: {
-    mocks: corpus.length,
-    recordsPerMock: EXPECTED_RECORDS_PER_MOCK,
-    totalQuestions: all.length,
-    uniqueQuestionIds: ids.size,
-    mathQuestions: totalMath,
-    mathSPR: sprCount,
-    mathSPRPercent: sprPct,
-  },
+  corpus: { mocks: corpus.length, recordsPerMock: EXPECTED_RECORDS_PER_MOCK, totalQuestions: all.length, uniqueQuestionIds: ids.size, mathQuestions: totalMath, mathSPR: sprCount, mathSPRPercent: sprPct },
   distributions: {
     section: sortedObject(counts.section), difficulty: sortedObject(counts.difficulty), questionType: sortedObject(counts.questionType),
     rwSkills: sortedObject(counts.rwSkill), rwSourceFamilies: sortedObject(counts.rwSourceFamily), rwRhetoricalStructures: sortedObject(counts.rwRhetoricalStructure),
     rwCognitiveOperations: sortedObject(counts.rwCognitiveOperation), rwEvidenceRelationships: sortedObject(counts.rwEvidenceRelationship),
-    mathDomains: sortedObject(counts.domain), mathSkills: sortedObject(counts.mathSkill), mathDifficultyFeatures: sortedObject(counts.mathDifficultyFeature),
-    mathFigureTypes: sortedObject(counts.mathFigureType),
+    mathDomains: sortedObject(counts.domain), mathSkills: sortedObject(counts.mathSkill), mathDifficultyFeatures: sortedObject(counts.mathDifficultyFeature), mathFigureTypes: sortedObject(counts.mathFigureType),
   },
   diversitySummary: {
     rwSkillCount: rwSkills.length, rwSourceFamilyCount: rwFamilies.length, rwRhetoricalStructureCount: rwStructures.length, rwCognitiveOperationCount: rwOperations.length,
@@ -350,4 +320,3 @@ fs.writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 fs.writeFileSync(path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-DIVERSITY-QC-2026-09-17.json'), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify({ status: report.acceptanceDecision, releaseEligible: report.releaseEligible, failures: failures.length, warnings: warnings.length, totalQuestions: all.length, sampleSize: sampleFindings.length, mathSPRPercent: sprPct, reportPath: REPORT_PATH }, null, 2));
 if (report.acceptanceDecision !== 'PASS') process.exitCode = 1;
-EOF
