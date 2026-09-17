@@ -12,7 +12,8 @@
     "qc:batch-m-impact-audit": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMProductionImpactAudit.js",
     "qc:batch-m-impact-classification": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMImpactClassification.js",
     "qc:batch-m-targeted-review-inventory": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReviewInventory.js",
-    "qc:batch-m-targeted-replacement-preparation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReplacementPreparation.js"
+    "qc:batch-m-targeted-replacement-preparation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReplacementPreparation.js",
+    "qc:batch-m-final-30-mock-corpus": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMFinalCorpusGate.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
