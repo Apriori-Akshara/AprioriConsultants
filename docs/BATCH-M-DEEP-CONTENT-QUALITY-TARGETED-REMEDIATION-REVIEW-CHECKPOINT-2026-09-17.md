@@ -59,8 +59,26 @@ A subsequent, separately authorized **candidate-only** remediation was added for
 
 The repaired candidate changes the Words-in-Context target from **“clarify”** to **“qualified”**, places the tested word directly in the stimulus, supplies contextual evidence for its meaning, and provides an explanation that explicitly connects the keyed answer to that evidence.
 
+The repaired candidate then passed independent substantive review in GitHub Actions run **35200787784**:
+
+- **1 PASS**
+- **0 FAIL**
+- **0 expert-review holds**
+- exact prompt groups: **0**
+- semantic template clusters: **0**
+- prompt/choice clusters: **0**
+- production mutation: **false**
+- release eligible: **false**
+- SAT21 created: **false**
+
 This repair remains a candidate artifact only. No production question was changed, replaced, deleted, or released.
 
-## 7. Next stage
+## 7. Next stage — exact production-target resolution
 
-The repaired single candidate must pass the independent substantive review gate before it can be considered in any separately authorized replacement stage. Production remains frozen and SAT21 must not be created.
+Because the repaired candidate artifact itself does not contain an exact production `questionId`, the next required stage is **candidate-only target resolution**.
+
+That stage must identify the exact SAT4 production record corresponding to the documented original Words-in-Context target **“clarify”**, using the canonical frozen 30-mock production corpus. It must require exactly one matching production record and record its `testKey + questionId` before any replacement can be considered.
+
+The target-resolution stage must not mutate production and must not itself authorize replacement. A separate controlled replacement step requires a fresh explicit authorization state for that exact target.
+
+Production remains frozen and SAT21 must not be created.
