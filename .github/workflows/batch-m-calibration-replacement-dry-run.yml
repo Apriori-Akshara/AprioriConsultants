@@ -1,0 +1,55 @@
+name: Batch M calibration controlled-replacement dry run
+
+# This workflow reconstructs the proposed 352 replacements in memory only.
+# It never mutates the production store.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/batch-m-calibration-replacement-dry-run.yml'
+      - 'scripts/runBatchMCalibrationReplacementDryRun.js'
+      - 'scripts/runBatchMCalibrationCandidateSelection.js'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibration.js'
+      - 'src/data/sat/mockContent/batchMProductionController.js'
+      - 'src/data/sat/mockContent/batchMRemediationBlueprint.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/mockContent/verbalConstructionRemediated.js'
+      - 'src/data/sat/mockContent/mathBankFactoryRemediated.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calibration-replacement-dry-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run controlled replacement dry run
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCalibrationReplacementDryRun.js
+
+      - name: Upload controlled replacement dry-run artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-calibration-replacement-dry-run-2026-09-17
+          path: artifacts/batch-m-calibration-replacement-dry-run/
+          if-no-files-found: error
+          retention-days: 14
