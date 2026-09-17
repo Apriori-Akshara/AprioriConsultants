@@ -28,7 +28,7 @@ The evidence is substantive:
 
 Accordingly, the expert-review hold is closed as **FAIL**, not PASS. This is a content-quality disposition only; it is not a production mutation.
 
-## 3. Final result
+## 3. Final result of the closed stage
 
 | Category | Final result |
 |---|---:|
@@ -51,12 +51,16 @@ The 298 passing candidates also do not become production-ready automatically; pa
 
 ## 5. Workflow recordkeeping repair
 
-The targeted-remediation workflow was also corrected so that the independent re-review script honors the workflow-provided `BATCH_M_OUTPUT_DIR`. This aligns the script's output directory with the upload step, preventing the previously observed successful review from being written to one directory while the workflow attempted to upload another.
+The targeted-remediation workflow was corrected so that its independent re-review output is copied into the directory that the upload step actually publishes. The expert-review artifact is written to a dedicated candidate-only output directory and uploaded by the same workflow.
 
-The expert-review artifact is written to a dedicated candidate-only output directory and uploaded by the same workflow.
+## 6. Separate single-candidate remediation stage
 
-## 6. Next stage
+A subsequent, separately authorized **candidate-only** remediation was added for the single failed candidate `SAT4-BATCHM-DQ-0004`.
 
-Do **not** perform controlled production replacement from this checkpoint.
+The repaired candidate changes the Words-in-Context target from **“clarify”** to **“qualified”**, places the tested word directly in the stimulus, supplies contextual evidence for its meaning, and provides an explanation that explicitly connects the keyed answer to that evidence.
 
-The next authorized work is only whatever separately documented stage follows this closed remediation/re-review gate. The failed `SAT4-BATCHM-DQ-0004` remains outside production until a future authorized remediation and independent review clears it.
+This repair remains a candidate artifact only. No production question was changed, replaced, deleted, or released.
+
+## 7. Next stage
+
+The repaired single candidate must pass the independent substantive review gate before it can be considered in any separately authorized replacement stage. Production remains frozen and SAT21 must not be created.
