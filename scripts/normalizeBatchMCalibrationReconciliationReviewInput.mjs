@@ -15,6 +15,10 @@ for (const candidate of candidates) {
     if (!candidate.questionId) throw new Error('Batch M calibration review normalization: candidate missing both id and questionId');
     candidate.id = candidate.questionId;
   }
+  if (!candidate.sourceCandidateQuestionId) {
+    if (!candidate.questionId) throw new Error('Batch M calibration review normalization: candidate missing both sourceCandidateQuestionId and questionId');
+    candidate.sourceCandidateQuestionId = candidate.questionId;
+  }
 }
 
 if (candidates.length !== 195) {
@@ -22,4 +26,4 @@ if (candidates.length !== 195) {
 }
 
 fs.writeFileSync(INPUT, JSON.stringify(packageData, null, 2));
-console.log(JSON.stringify({ normalizedCandidates: candidates.length, identityField: 'id<-questionId' }, null, 2));
+console.log(JSON.stringify({ normalizedCandidates: candidates.length, identityFields: ['id<-questionId', 'sourceCandidateQuestionId<-questionId'] }, null, 2));
