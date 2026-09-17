@@ -1,4 +1,4 @@
-name: Batch M calibration candidate generation and controlled selection
+name: Batch M calibration candidate generation and review
 
 # Candidate-only workflow. It never mutates the frozen production corpus.
 
@@ -9,6 +9,7 @@ on:
     paths:
       - '.github/workflows/batch-m-calibration-candidate-selection.yml'
       - 'scripts/runBatchMCalibrationCandidateSelection.js'
+      - 'scripts/reviewBatchMCalibrationCandidates.js'
       - 'scripts/batchMExtensionlessModuleLoader.mjs'
       - 'scripts/batchMExtensionlessResolve.mjs'
       - 'src/data/sat/mockContent/batchMRemediationBlueprint.js'
@@ -21,7 +22,7 @@ permissions:
   contents: read
 
 jobs:
-  calibration-candidate-selection:
+  calibration-candidate-review:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,10 +41,15 @@ jobs:
       - name: Generate and select calibration candidates
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCalibrationCandidateSelection.js
 
+      - name: Independently review selected candidates
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/reviewBatchMCalibrationCandidates.js
+
       - name: Upload candidate review artifact
         uses: actions/upload-artifact@v4
         with:
-          name: batch-m-calibration-candidate-selection-2026-09-17
-          path: artifacts/batch-m-calibration-candidate-selection/
+          name: batch-m-calibration-candidate-review-2026-09-17
+          path: |
+            artifacts/batch-m-calibration-candidate-selection/
+            artifacts/batch-m-calibration-candidate-review/
           if-no-files-found: error
           retention-days: 14
