@@ -1,10 +1,13 @@
 name: Batch M calibration remediation scope
 
+# Read-only planning gate: this workflow never mutates the frozen production corpus.
+
 on:
   push:
     branches:
       - main
     paths:
+      - '.github/workflows/batch-m-calibration-remediation-scope.yml'
       - 'scripts/runBatchMCrossCorpusCalibrationRemediationPlan.js'
       - 'scripts/batchMExtensionlessModuleLoader.mjs'
       - 'scripts/batchMExtensionlessResolve.mjs'

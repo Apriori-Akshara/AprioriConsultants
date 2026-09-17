@@ -1,0 +1,47 @@
+{
+  "date": "2026-09-17",
+  "status": "calibration-remediation-candidate-planning",
+  "productionMutation": false,
+  "releaseEligible": false,
+  "sat21Created": false,
+  "corpus": {
+    "mockCount": 30,
+    "totalRecords": 5880,
+    "readingWritingRecords": 3240,
+    "mathRecords": 2640
+  },
+  "readWrite": {
+    "currentProportions": {
+      "craft-and-structure": 0.3,
+      "information-and-ideas": 0.3,
+      "standard-english-conventions": 0.2,
+      "expression-of-ideas": 0.2
+    },
+    "targetProportions": {
+      "craft-and-structure": 0.28,
+      "information-and-ideas": 0.26,
+      "standard-english-conventions": 0.26,
+      "expression-of-ideas": 0.2
+    },
+    "minimumCandidateReplacements": 195,
+    "allocations": [
+      { "fromDomain": "craft-and-structure", "toDomain": "standard-english-conventions", "count": 65 },
+      { "fromDomain": "information-and-ideas", "toDomain": "standard-english-conventions", "count": 130 }
+    ],
+    "plannedResultCounts": {
+      "craft-and-structure": 907,
+      "information-and-ideas": 842,
+      "standard-english-conventions": 843,
+      "expression-of-ideas": 648
+    }
+  },
+  "math": {
+    "currentStudentProducedResponse": 503,
+    "currentRate": 0.1905,
+    "minimumTargetRate": 0.25,
+    "minimumTargetCount": 660,
+    "minimumAdditionalSPRCandidates": 157
+  },
+  "combinedMinimumCandidateReplacementScope": 352,
+  "nextBoundary": "candidate-generation-and-controlled-selection-required-before-production-mutation"
+}
