@@ -34,9 +34,11 @@ const SERIES_A = {
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 function getRuntimeMock(target) {
   const base = target.testKey.startsWith('SAT') && target.assessmentNumber >= 11
-    ? BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((mock) => mock?.testId === `sat-series-b-mock-${String(target.assessmentNumber).padStart(2, '0')}`)
+    ? BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((mock) => mock?.testId === target.testId)
     : SERIES_A[target.testKey];
-  return base ? applyBatchMCalibrationProductionReplacement(base, target.testKey) : null;
+  if (!base) return null;
+  const withIdentity = { ...clone(base), testKey: target.testKey, testId: target.testId, assessmentVariant: target.variant };
+  return applyBatchMCalibrationProductionReplacement(withIdentity, target.testKey);
 }
 function collectProductionChanges(corpus) {
   const changes = [];
