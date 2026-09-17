@@ -1,6 +1,11 @@
 name: Batch M QC remediation patch
 
 on:
+  push:
+    branches:
+      - batch-m-comprehensive-20-test-qc-2026-09-16
+    paths:
+      - '.batch-m-qc-remediation-patch-trigger'
   workflow_dispatch:
 
 permissions:
