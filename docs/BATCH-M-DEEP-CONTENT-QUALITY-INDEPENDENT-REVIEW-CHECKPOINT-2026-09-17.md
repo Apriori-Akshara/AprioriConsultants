@@ -52,6 +52,22 @@ The single expert-review item is `SAT4-BATCHM-DQ-0004` (Words in Context). It ha
 
 No production question was replaced, modified, deleted, or released by this stage. Production remains frozen.
 
-## 7. Next logical step
+## 7. Historical next logical step
 
-Do **not** proceed to controlled replacement. The next implementation stage is targeted remediation of the failed/unresolved candidate classes identified above, beginning with the highest-impact Math distractor-construction, hard-reasoning, and structural-template failures, while preserving the candidate-only boundary. After remediation, rerun independent substantive review before any replacement authorization is considered.
+The original next step recorded in this checkpoint was targeted remediation of the failed/unresolved 299-candidate classes. That remediation and its subsequent independent re-review were later completed candidate-first; the single held Words-in-Context candidate was separately repaired and independently reviewed successfully.
+
+This checkpoint is therefore a historical record of the 299-candidate review stage, not the current active work queue.
+
+## 8. Current active stage after subsequent remediation
+
+The current active workflow is a separate **195-candidate Reading & Writing calibration reconciliation**. Candidate generation completed successfully in run `35212907193` with 195 unique, quality-passing SEC candidates and no hypothetical new calibration failures.
+
+The independent reconciliation review run `35213306538` is currently **FAILED** before substantive review can complete because `BATCH-M-CAL-SEC-001` carries an assessment variant that does not match the variant assigned to its production test.
+
+The target-lock workflow has already been implemented but correctly waits for a successful independent review.
+
+## 9. Exact current next step
+
+Fix the candidate generator's production-test metadata mapping so `assessmentVariant` and related assessment metadata are copied from the same `BATCH_M_PRODUCTION_SEQUENCE` entry as the candidate's `productionTestId`. Regenerate/revalidate the 195-candidate package, rerun independent review, and then permit the existing target-lock workflow to run only after review PASS.
+
+Do not weaken or remove the assessment-variant compatibility gate. Do not authorize production mutation during this repair. Production remains frozen and SAT21 must not be created.
