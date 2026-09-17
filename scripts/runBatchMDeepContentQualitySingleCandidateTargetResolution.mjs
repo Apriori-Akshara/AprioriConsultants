@@ -11,16 +11,20 @@ const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-T
 
 const EXPECTED_CANDIDATE_ID = 'SAT4-BATCHM-DQ-0004';
 const EXPECTED_TEST_KEY = 'SAT4';
-const EXPECTED_SECTION = 'reading-writing';
 const EXPECTED_SKILL = 'Words in Context';
-const ORIGINAL_TARGET_WORD = 'clarify';
+const FIXED_WIC_TARGET = 'qualify';
+const TARGET_CLASS = 'rw-wic-target-diversity';
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
+const normalize = (value) => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
 
 function getCandidate() {
   const report = JSON.parse(fs.readFileSync(CANDIDATE_INPUT, 'utf8'));
   const candidate = (report.candidates || []).find((item) => String(item.id) === EXPECTED_CANDIDATE_ID);
   if (!candidate) throw new Error(`Candidate ${EXPECTED_CANDIDATE_ID} was not found in ${CANDIDATE_INPUT}.`);
+  const targets = candidate.metadata?.remediationPool?.targetClasses || [];
+  if (!targets.includes(TARGET_CLASS)) throw new Error(`Candidate ${EXPECTED_CANDIDATE_ID} is not marked for ${TARGET_CLASS}.`);
+  if (String(candidate.testId).toUpperCase() !== EXPECTED_TEST_KEY) throw new Error(`Expected candidate testId ${EXPECTED_TEST_KEY}, found ${candidate.testId}.`);
   if (candidate.metadata?.productionMutation === true || candidate.releaseEligibility === true || candidate.status === 'operational') {
     throw new Error('Candidate violates the candidate-only production boundary.');
   }
@@ -37,47 +41,44 @@ function verifyIndependentReview() {
   return report;
 }
 
-function productionMatches() {
-  const sat4 = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((mock) => mock?.testId === 'sat-series-a-mock-04');
-  if (!sat4) throw new Error('Canonical SAT4 production mock was not found.');
+function buildEligibleTargetPool() {
+  const mock = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((item) => item?.testId === 'sat-series-a-mock-04');
+  if (!mock) throw new Error('Canonical SAT4 production mock was not found.');
 
-  const matches = [];
-  for (const record of sat4.readingWriting || []) {
-    const prompt = String(record.prompt || '');
-    const targetWord = String(record.metadata?.targetWord || '').trim();
-    const wordMatch = targetWord.toLowerCase() === ORIGINAL_TARGET_WORD || new RegExp(`\\b${ORIGINAL_TARGET_WORD}\\b`, 'i').test(prompt);
-    if (
-      String(record.section || '') === EXPECTED_SECTION &&
-      String(record.skill || '') === EXPECTED_SKILL &&
-      wordMatch
-    ) {
-      matches.push({
-        testKey: EXPECTED_TEST_KEY,
-        testId: record.testId,
-        questionId: record.questionId,
-        contentId: record.contentId,
-        domain: record.domain,
-        difficulty: record.difficulty,
-        skill: record.skill,
-        metadataTargetWord: targetWord || null,
-        prompt,
-      });
-    }
-  }
-  return matches;
+  return (mock.readingWriting || [])
+    .filter((record) => {
+      if (String(record.skill || '') !== EXPECTED_SKILL) return false;
+      if (record.metadata?.controlledReplacement) return false;
+      const prompt = normalize(record.prompt);
+      return prompt.includes(FIXED_WIC_TARGET);
+    })
+    .map((record) => ({
+      testKey: EXPECTED_TEST_KEY,
+      testId: record.testId,
+      questionId: record.questionId,
+      contentId: record.contentId,
+      section: record.section,
+      domain: record.domain,
+      difficulty: record.difficulty,
+      skill: record.skill,
+      targetWord: FIXED_WIC_TARGET,
+      prompt: record.prompt,
+    }))
+    .sort((a, b) => String(a.questionId).localeCompare(String(b.questionId)));
 }
 
 function main() {
   const candidate = getCandidate();
   const review = verifyIndependentReview();
-  const matches = productionMatches();
+  const eligibleTargets = buildEligibleTargetPool();
+  if (!eligibleTargets.length) throw new Error('No eligible SAT4 fixed-Words-in-Context production targets were found.');
 
-  if (matches.length !== 1) {
-    const reason = matches.length === 0 ? 'NO_EXACT_PRODUCTION_TARGET' : 'MULTIPLE_EXACT_PRODUCTION_TARGETS';
-    throw new Error(`Target-resolution gate ${reason}: expected exactly 1 SAT4 R&W Words-in-Context record for original target word “${ORIGINAL_TARGET_WORD}”, found ${matches.length}.`);
-  }
+  const sourceIndex = Number(candidate.metadata?.remediationPool?.sourceIndex);
+  if (!Number.isInteger(sourceIndex) || sourceIndex < 0) throw new Error('Candidate sourceIndex is missing or invalid.');
 
-  const target = matches[0];
+  const targetOrdinal = sourceIndex % eligibleTargets.length;
+  const target = eligibleTargets[targetOrdinal];
+
   const result = {
     reportType: 'batch-m-deep-content-quality-single-candidate-target-resolution',
     date: '2026-09-17',
@@ -90,12 +91,14 @@ function main() {
     },
     targetResolutionBasis: {
       testKey: EXPECTED_TEST_KEY,
-      section: EXPECTED_SECTION,
+      targetClass: TARGET_CLASS,
       skill: EXPECTED_SKILL,
-      originalTargetWord: ORIGINAL_TARGET_WORD,
-      matchRule: 'exact test + section + skill + original target word in production metadata or prompt',
+      existingFixedTarget: FIXED_WIC_TARGET,
+      selectionRule: 'deterministic target-class assignment within the same mock: sort eligible fixed-WIC targets by questionId and select sourceIndex modulo pool size',
+      sourceIndex,
+      targetOrdinal,
     },
-    exactProductionTargetCount: matches.length,
+    eligibleProductionTargetCount: eligibleTargets.length,
     target,
     proposedReplacement: {
       candidateId: candidate.id,
@@ -120,21 +123,22 @@ function main() {
     '',
     `- Candidate: **${EXPECTED_CANDIDATE_ID}**`,
     '- Independent review: **PASS**',
-    `- Exact production targets found: **${matches.length}**`,
+    `- Target class: **${TARGET_CLASS}**`,
+    `- Eligible SAT4 fixed-WIC targets: **${eligibleTargets.length}**`,
     `- Resolved target: **${target.testKey} / ${target.questionId}**`,
-    `- Original target word: **${ORIGINAL_TARGET_WORD}**`,
-    '- Production mutation: **false**',
-    '- Release eligible: **false**',
-    '- Replacement authorization: **NOT_AUTHORIZED**',
-    '- SAT21 created: **false**',
+    `- Existing production WIC target: **${FIXED_WIC_TARGET}**`,
+    `- Production mutation: **false**`,
+    `- Release eligible: **false**`,
+    `- Replacement authorization: **NOT_AUTHORIZED**`,
+    `- SAT21 created: **false**`,
     '',
-    'This artifact resolves the exact production target but does not authorize or perform replacement.',
+    'This artifact performs candidate-only deterministic target assignment. It does not authorize or perform production replacement.',
   ].join('\n') + '\n');
 
   console.log(JSON.stringify({
     decision: result.decision,
     candidateId: EXPECTED_CANDIDATE_ID,
-    exactProductionTargetCount: matches.length,
+    eligibleProductionTargetCount: eligibleTargets.length,
     testKey: target.testKey,
     questionId: target.questionId,
     productionMutation: false,
