@@ -1,0 +1,46 @@
+name: Batch M distractor diagnostic
+
+on:
+  push:
+    branches:
+      - batch-m-comprehensive-20-test-qc-2026-09-16
+    paths:
+      - '.batch-m-qc-distractor-diagnostic-trigger'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm install --no-audit --no-fund
+      - name: Identify remaining numeric distractor failures
+        run: |
+          node --input-type=module --import ./scripts/batchMExtensionlessModuleLoader.mjs - <<'JS'
+          import { validateSatQuestion } from './src/data/sat/questionSchema.js';
+          import { evaluateContentQuality } from './src/data/sat/mockContent/batchMContentQualityGate.js';
+          import { BATCH_M_TARGETED_PRODUCTION_CORPUS } from './src/data/sat/mockContent/batchMTargetedProductionCorpus.js';
+          import { applyBatchMControlledReplacements } from './src/data/sat/mockContent/batchMControlledReplacementMapAdapter.js';
+          import { applyBatchMPostQCTargetedRemediations } from './src/data/sat/mockContent/batchMPostQCTargetedRemediation.js';
+          import { canonicalBatchMTestKey } from './src/data/sat/mockContent/batchMCanonicalTestKey.js';
+          const controlled = applyBatchMControlledReplacements(BATCH_M_TARGETED_PRODUCTION_CORPUS);
+          const post = applyBatchMPostQCTargetedRemediations(controlled).corpus;
+          for (const mock of post) {
+            const testKey = canonicalBatchMTestKey(mock);
+            if (!/^SAT([1-9]|10)$|^PSAT([1-9]|10)$/.test(testKey)) continue;
+            for (const question of [...(mock.readingWriting || []), ...(mock.math || [])]) {
+              const result = evaluateContentQuality(question);
+              if (result.checks.includes('math-generic-numeric-distractor')) {
+                console.log(JSON.stringify({testKey, questionId: question.questionId, skill: question.skill, prompt: question.prompt, choices: question.choices, answer: question.answer, difficulty: question.difficulty}));
+              }
+            }
+          }
+          JS
