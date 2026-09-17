@@ -1,0 +1,61 @@
+name: Batch M controlled replacement validation
+
+# This is the final pre-mutation gate. It generates and reviews the exact
+# candidate package, reconstructs all 352 replacements in memory, and requires
+# the final corpus gate and corrected cross-corpus calibration to pass. It does
+# not mutate production.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/batch-m-calibration-controlled-replacement-validation.yml'
+      - 'scripts/runBatchMCalibrationCandidateSelectionPromptUniqueV3.js'
+      - 'scripts/reviewBatchMCalibrationCandidates.js'
+      - 'scripts/runBatchMCalibrationControlledReplacementValidation.js'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMProductionController.js'
+      - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibration.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js'
+      - 'src/data/sat/mockContent/batchMRemediationBlueprint.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/mockContent/verbalConstructionRemediated.js'
+      - 'src/data/sat/mockContent/mathBankFactoryRemediated.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controlled-replacement-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Generate strict prompt-unique candidates
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCalibrationCandidateSelectionPromptUniqueV3.js
+      - name: Independently review candidates
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/reviewBatchMCalibrationCandidates.js
+      - name: Validate complete controlled replacement in memory
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCalibrationControlledReplacementValidation.js
+      - name: Upload controlled replacement validation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-calibration-controlled-replacement-validation-2026-09-17
+          path: |
+            artifacts/batch-m-calibration-candidate-selection/
+            artifacts/batch-m-calibration-candidate-review/
+            artifacts/batch-m-calibration-controlled-replacement-validation/
+          if-no-files-found: error
+          retention-days: 30
