@@ -1,0 +1,38 @@
+name: Batch M final 30-mock corpus gate
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/batch-m-final-30-mock-corpus-gate.yml'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/runBatchMFinalCorpusGate.js'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
+      - 'src/data/sat/mockContent/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-30-mock-corpus-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run final 30-mock corpus gate
+        run: npm run qc:batch-m-final-30-mock-corpus
