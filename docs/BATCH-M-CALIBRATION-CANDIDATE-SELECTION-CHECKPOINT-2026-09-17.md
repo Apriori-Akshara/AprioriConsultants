@@ -41,7 +41,27 @@ The script:
 
 The workflow is read-only with respect to repository contents and production data. It uploads the candidate review package as a GitHub Actions artifact with a 14-day retention period.
 
-## 4. Production boundary
+## 4. Verification result
+
+Workflow run `35186222784` completed successfully.
+
+Generation and eligibility results:
+
+- R&W candidates generated: **3,750**
+- R&W quality-gate passes: **3,750**
+- R&W Standard English Conventions candidates eligible for selection: **720**
+- R&W candidates selected: **195**
+  - Craft & Structure replacement allocation: **65**
+  - Information & Ideas replacement allocation: **130**
+- Math candidates generated: **1,500**
+- Math quality-gate passes: **659**
+- Math student-produced-response candidates eligible for selection: **299**
+- Math candidates selected: **157**
+- Combined selected candidates: **352**
+
+The workflow therefore produced the complete minimum remediation scope without reducing the requested candidate set.
+
+## 5. Production boundary
 
 The implementation explicitly preserves all release boundaries:
 
@@ -49,24 +69,21 @@ The implementation explicitly preserves all release boundaries:
 - `releaseEligible: false`
 - `sat21Created: false`
 - `batchMProductionStore.js` is not imported by the candidate-selection script.
-- No accepted production question is replaced.
-- No public-site release is authorized by this step.
+- No accepted production question was replaced.
+- No public-site release was authorized by this step.
 
-## 5. Verification status
+The selected candidate records are stored only in the GitHub Actions review artifact; they are not inserted into the production question store.
 
-The candidate-selection workflow is expected to run automatically from the workflow commit on `main`.
+## 6. Review artifact
 
-Required successful result:
+GitHub Actions artifact:
 
-- 195 eligible R&W selections.
-- 157 eligible Math SPR selections.
-- 352 total selected candidates.
-- No production mutation.
+`batch-m-calibration-candidate-selection-2026-09-17`
 
-If the workflow cannot produce the full minimum scope, the workflow must fail rather than silently reduce the remediation scope.
+The artifact contains the selected candidate records and the generation/selection summary. It is retained for 14 days.
 
-## 6. Next boundary
+## 7. Next boundary
 
-After successful candidate generation and selection, the next step is **candidate review and explicit controlled-replacement authorization**.
+The next step is **candidate review and explicit controlled-replacement authorization**.
 
-The selected candidates must not be inserted into the production corpus merely because the selection workflow passes. The 30-mock corpus gate and cross-corpus calibration must be rerun after any separately authorized production replacement.
+The selected candidates must not be inserted into the production corpus merely because the selection workflow passed. After any separately authorized production replacement, the 30-mock corpus gate and cross-corpus calibration must be rerun before release or public-site verification.
