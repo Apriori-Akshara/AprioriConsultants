@@ -17,7 +17,8 @@
     "qc:batch-m-cross-corpus-calibration": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCrossCorpusCalibration.js",
     "qc:batch-m-deep-content-quality": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityDiversityQC.mjs",
     "qc:batch-m-deep-content-quality-independent-review": "node scripts/runBatchMDeepContentQualityIndependentReview.mjs",
-    "qc:batch-m-deep-content-quality-targeted-remediation": "node scripts/runBatchMDeepContentQualityTargetedRemediation.mjs"
+    "qc:batch-m-deep-content-quality-targeted-remediation": "node scripts/runBatchMDeepContentQualityTargetedRemediation.mjs",
+    "qc:batch-m-deep-content-quality-single-candidate-remediation": "node scripts/runBatchMDeepContentQualitySingleCandidateRemediation.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",

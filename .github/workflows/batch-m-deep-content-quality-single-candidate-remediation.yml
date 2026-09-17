@@ -1,0 +1,78 @@
+name: Batch M Deep Content Quality Single Candidate Remediation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-single-candidate-remediation.yml'
+      - 'scripts/runBatchMDeepContentQualitySingleCandidateRemediation.mjs'
+      - 'package.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  single-candidate-remediation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download completed targeted-remediation artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-targeted-remediation
+          path: artifacts/batch-m-deep-content-quality-targeted-remediation
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35198398483
+
+      - name: Remediate the single failed candidate
+        run: node scripts/runBatchMDeepContentQualitySingleCandidateRemediation.mjs
+
+      - name: Independently re-review the repaired candidate
+        env:
+          BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-single-candidate-remediation/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-REMEDIATION-2026-09-17.json
+          BATCH_M_OUTPUT_DIR: artifacts/batch-m-deep-content-quality-single-candidate-remediation-review
+        run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
+      - name: Verify single-candidate review gate
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const p = 'artifacts/batch-m-deep-content-quality-single-candidate-remediation-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json';
+          const report = JSON.parse(fs.readFileSync(p, 'utf8'));
+          const expected = report.sourceSelectedCount === 1 && report.counts.pass === 1 && report.counts.fail === 0 && report.counts.expertReview === 0;
+          if (!expected) {
+            console.error(JSON.stringify({ sourceSelectedCount: report.sourceSelectedCount, counts: report.counts }, null, 2));
+            process.exit(1);
+          }
+          console.log(JSON.stringify({ sourceSelectedCount: report.sourceSelectedCount, counts: report.counts, gate: 'PASS', productionMutation: false, releaseEligible: false, sat21Created: false }, null, 2));
+          NODE
+
+      - name: Upload single-candidate remediation
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-remediation
+          path: artifacts/batch-m-deep-content-quality-single-candidate-remediation/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload independent re-review
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-remediation-review
+          path: artifacts/batch-m-deep-content-quality-single-candidate-remediation-review/
+          if-no-files-found: error
+          retention-days: 30
