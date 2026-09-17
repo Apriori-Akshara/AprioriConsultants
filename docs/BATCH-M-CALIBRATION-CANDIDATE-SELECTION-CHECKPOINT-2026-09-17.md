@@ -1,4 +1,4 @@
-# Batch M Calibration Candidate Selection and Review Checkpoint — 2026-09-17
+# Batch M Calibration Candidate Selection and Controlled Replacement Checkpoint — 2026-09-17
 
 ## 1. Purpose
 
@@ -7,13 +7,11 @@ The 30-mock cross-corpus calibration identified two release-blocking calibration
 - Reading & Writing Standard English Conventions below the approved construction proportion.
 - Math student-produced response below the minimum approved proportion.
 
-The remediation scope was 352 candidate opportunities:
+The approved remediation scope was 352 replacement opportunities:
 
 - 65 Craft & Structure → Standard English Conventions
 - 130 Information & Ideas → Standard English Conventions
 - 157 additional Math student-produced-response candidates
-
-The frozen production corpus remains unchanged.
 
 ## 2. Candidate generation and controlled selection
 
@@ -31,15 +29,15 @@ The candidate-only generation workflow produced the complete minimum scope:
 - Math selected: **157**
 - Combined selected: **352**
 
-Workflow run: `35186222784`.
+Candidate-selection workflow run: `35186222784`.
 
-## 3. Candidate review
+## 3. Independent candidate review
 
-Implemented an independent review step in:
+The independent review step in:
 
 `scripts/reviewBatchMCalibrationCandidates.js`
 
-The review validates:
+validated:
 
 1. Required 195 R&W / 157 Math counts.
 2. Required 65/130 R&W replacement-source allocation.
@@ -49,24 +47,58 @@ The review validates:
 6. Reapplication of the existing Batch M content-quality gate.
 7. Production/release boundary flags.
 
-The workflow now runs candidate generation, deterministic selection, and independent review before uploading the review package.
+The candidate review correctly kept production mutation disabled until explicit authorization.
 
-## 4. Authorization boundary
+## 4. Controlled replacement and post-replacement gates — COMPLETED
 
-Automated review is **not** production authorization.
+Explicit authorization was provided to proceed with the controlled replacement.
 
-The review output explicitly records:
+The production replacement workflow:
 
-- `productionMutation: false`
-- `releaseEligible: false`
-- `sat21Created: false`
-- `authorization.authorized: false`
-- `authorization.productionMutationPermitted: false`
+`.github/workflows/batch-m-calibration-production-replacement.yml`
 
-No production question is replaced by candidate generation or review.
+executed the authorized replacement against the canonical 30-mock production corpus and completed successfully in workflow run `35189648675`.
 
-## 5. Next boundary
+Results:
 
-The next step is **explicit controlled-replacement authorization**. That authorization must be a separate action from automated candidate review. Only after explicit authorization may the selected candidates be applied to the frozen production corpus.
+- Authorized replacements applied: **352**
+- R&W replacements: **195**
+  - Craft & Structure → SEC: **65**
+  - Information & Ideas → SEC: **130**
+- Math replacements: **157 SPR**
+- Final 30-mock corpus gate: **PASS**
+- Cross-corpus calibration: **PASS**
+- R&W SEC proportion after replacement: **26.02%**
+- Math SPR proportion after replacement: **25.00%**
+- SAT21 created: **false**
 
-After authorized replacement, the 30-mock corpus gate and cross-corpus calibration must be rerun before release or public-site verification.
+The production replacement is represented by the controlled replacement layer and is consumed by the SAT runtime without changing the underlying legacy generation gates.
+
+## 5. Release boundary
+
+Technical replacement and post-replacement calibration gates have passed, but the release is **not yet marked release-eligible**.
+
+The remaining boundary is public-site verification. This is deliberately separate from the content-generation and calibration gates.
+
+## 6. Next step
+
+**Public website verification of the post-replacement SAT/PSAT corpus.**
+
+Verify on the deployed application that:
+
+1. `/SATMocks` loads correctly.
+2. SAT/PSAT mock selection still works.
+3. The adaptive test runtime loads the calibrated corpus correctly.
+4. Questions render correctly, including figures where applicable.
+5. No question-count, module, route, or scoring regressions were introduced.
+6. Authentication/access rules remain unchanged.
+
+Only after this verification should the project proceed to end-to-end student-experience testing and final Batch M release acceptance.
+
+## 7. Safety boundaries retained
+
+- No SAT21 created.
+- No unrelated SAT/auth/payment/navigation architecture changed as part of this calibration replacement.
+- The original 1,594-question remediation is not repeated.
+- Candidate generation and selection are not repeated.
+- Release eligibility remains false until public-site verification is complete.
