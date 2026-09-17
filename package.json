@@ -19,7 +19,8 @@
     "qc:batch-m-deep-content-quality-independent-review": "node scripts/runBatchMDeepContentQualityIndependentReview.mjs",
     "qc:batch-m-deep-content-quality-targeted-remediation": "node scripts/runBatchMDeepContentQualityTargetedRemediation.mjs",
     "qc:batch-m-deep-content-quality-single-candidate-remediation": "node scripts/runBatchMDeepContentQualitySingleCandidateRemediation.mjs",
-    "qc:batch-m-deep-content-quality-single-candidate-target-resolution": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualitySingleCandidateTargetResolution.mjs"
+    "qc:batch-m-deep-content-quality-single-candidate-target-resolution": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualitySingleCandidateTargetResolution.mjs",
+    "qc:batch-m-deep-content-quality-single-candidate-controlled-replacement-validation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualitySingleCandidateControlledReplacementValidation.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
