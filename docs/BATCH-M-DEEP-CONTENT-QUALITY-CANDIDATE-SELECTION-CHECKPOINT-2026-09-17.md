@@ -45,24 +45,24 @@ These are overlapping target classes; the counts therefore do not sum to 299.
 
 No production question was replaced, modified, deleted, or released by this step. The selected candidates are an independent-review set only.
 
-## 6. Next logical step
+## 6. Historical next logical step
 
-Perform **independent substantive review of the 299 selected candidates**, with target-specific checks for:
+The original next step recorded for this checkpoint was **independent substantive review of the 299 selected candidates**. That step was completed in workflow run `35194761476`; it is no longer pending.
 
-1. Math distractor construction and mathematical plausibility.
-2. Evidence of genuine multi-step reasoning for hard items.
-3. R&W stimulus construction and length.
-4. Words-in-Context target diversity.
-5. Generic/template language reduction.
-6. Cross-mock prompt diversity and duplicate-prompt avoidance.
-7. Answer-key correctness and explanation/evidence alignment.
-8. SAT/PSAT construct and difficulty appropriateness.
+## 7. Subsequent progress
 
-After independent review, only candidates that pass the review gates may enter a separately authorized controlled replacement step. Production remains frozen.
+The 299-candidate independent review found **298 FAIL / 1 EXPERT_REVIEW_REQUIRED**, after which the candidate-only remediation/re-review path was completed. The held Words-in-Context candidate was separately repaired, independently reviewed, target-resolved, and later replaced through a separately authorized single-candidate production stage.
 
-## 7. Safety boundaries retained
+The project then moved through deep-QC and calibration reconciliation work. The current active stage is no longer the 299-candidate selection described in this checkpoint.
 
-- No production mutation.
+The current active calibration-reconciliation candidate workflow produced **195 R&W SEC candidates** in run `35212907193` and passed candidate screening. Its independent review is currently blocked by a production-test assessment-variant compatibility mismatch in run `35213306538` for `BATCH-M-CAL-SEC-001`.
+
+The next implementation step is therefore to correct the candidate generator's assessment-variant mapping, regenerate/revalidate the 195-candidate package, rerun independent review, and only after review PASS proceed to the existing exact-target lock. No production mutation is authorized by this checkpoint.
+
+## 8. Safety boundaries retained
+
+- No production mutation from this historical candidate-selection step.
 - No release eligibility.
 - No SAT21.
-- No repeat of candidate generation, prior calibration selection, controlled replacement, or public functionality verification.
+- Do not repeat this candidate-generation or selection stage unless a later gate identifies a specific regression.
+- Do not bypass the current independent-review compatibility gate.
