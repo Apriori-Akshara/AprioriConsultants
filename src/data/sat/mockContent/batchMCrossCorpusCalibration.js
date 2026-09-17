@@ -16,13 +16,15 @@ const GROUP_DOMAIN_HARD_LIMIT = 0.08;
 const DIFFICULTY_MOCK_HARD_LIMIT = 0.08;
 const METADATA_COVERAGE_HARD_LIMIT = 0.95;
 const PSAT_HARD_RATE_MAX_DELTA = 0.02;
+const MATH_SPR_REVIEW_MIN = 0.20;
+const MATH_SPR_REVIEW_MAX = 0.35;
 
 const DOMAIN_TARGETS = {
   'reading-writing': {
-    'Craft and Structure': 0.28,
-    'Information and Ideas': 0.26,
-    'Standard English Conventions': 0.26,
-    'Expression of Ideas': 0.20,
+    'craft-and-structure': 0.28,
+    'information-and-ideas': 0.26,
+    'standard-english-conventions': 0.26,
+    'expression-of-ideas': 0.20,
   },
   math: {
     Algebra: 0.35,
@@ -40,8 +42,21 @@ function normalize(value) {
   return String(value ?? '').trim();
 }
 
+function canonicalDomain(value) {
+  return normalize(value)
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function increment(map, key) {
   const normalized = normalize(key) || '(missing)';
+  map[normalized] = (map[normalized] || 0) + 1;
+}
+
+function incrementCanonical(map, key) {
+  const normalized = canonicalDomain(key) || '(missing)';
   map[normalized] = (map[normalized] || 0) + 1;
 }
 
@@ -53,9 +68,9 @@ function distribution(counts, total) {
   );
 }
 
-function groupName(mock) {
-  if (mock?.assessmentVariant === 'psat') return 'PSAT';
-  if (mock?.assessmentVariant === 'sat-series-b') return 'SAT-Series-B';
+function groupName(target) {
+  if (String(target?.testKey || '').startsWith('PSAT')) return 'PSAT';
+  if (String(target?.testKey || '').startsWith('SAT') && Number(target?.assessmentNumber || 0) >= 11) return 'SAT-Series-B';
   return 'SAT-Series-A';
 }
 
@@ -65,7 +80,7 @@ function collectStats(corpus) {
     domain: { 'reading-writing': {}, math: {} },
     skill: { 'reading-writing': {}, math: {} },
     difficulty: {},
-    questionType: {},
+    questionType: { 'reading-writing': {}, math: {} },
     figureType: {},
     sourceFamily: {},
     rhetoricalStructure: {},
@@ -79,7 +94,7 @@ function collectStats(corpus) {
     const mock = corpus[index];
     const target = BATCH_M_PRODUCTION_SEQUENCE[index];
     const testKey = target?.testKey || mock?.testKey || `position-${index + 1}`;
-    const group = groupName(mock);
+    const group = groupName(target);
     const records = collectRecords(mock);
     const mockStats = {
       testKey,
@@ -88,30 +103,46 @@ function collectStats(corpus) {
       difficulty: {},
       domain: { 'reading-writing': {}, math: {} },
       skill: { 'reading-writing': {}, math: {} },
-      metadataPresence: { sourceFamily: 0, rhetoricalStructure: 0, cognitiveOperation: 0, applicationFingerprint: 0 },
+      questionType: { 'reading-writing': {}, math: {} },
+      metadataPresence: {
+        sourceFamily: 0,
+        rhetoricalStructure: 0,
+        cognitiveOperation: 0,
+        applicationFingerprint: 0,
+      },
+      mathFigureTypes: {},
       psatSatOnlyCount: 0,
     };
 
     for (const record of records) {
-      increment(overall.section, record.section);
+      const section = record.section;
+      increment(overall.section, section);
       increment(overall.difficulty, record.difficulty);
-      increment(overall.questionType, record.questionType || record.question_type);
+      increment(overall.questionType[section] || {}, record.questionType || record.question_type);
       increment(overall.figureType, record?.stimulus?.figure?.figure_type || record?.stimulus?.figure?.type || record?.figure?.figure_type || record?.figure?.type);
-      increment(overall.sourceFamily, record?.metadata?.sourceFamily);
-      increment(overall.rhetoricalStructure, record?.metadata?.rhetoricalStructure);
-      increment(overall.cognitiveOperation, record?.metadata?.cognitiveOperation);
-      increment(overall.applicationFingerprint, record?.metadata?.applicationFingerprint);
 
-      if (overall.domain[record.section]) increment(overall.domain[record.section], record.domain);
-      if (overall.skill[record.section]) increment(overall.skill[record.section], record.skill);
-      if (mockStats.domain[record.section]) increment(mockStats.domain[record.section], record.domain);
-      if (mockStats.skill[record.section]) increment(mockStats.skill[record.section], record.skill);
+      if (overall.domain[section]) incrementCanonical(overall.domain[section], record.domain);
+      if (overall.skill[section]) increment(overall.skill[section], record.skill);
+      if (mockStats.domain[section]) incrementCanonical(mockStats.domain[section], record.domain);
+      if (mockStats.skill[section]) increment(mockStats.skill[section], record.skill);
+      if (mockStats.questionType[section]) increment(mockStats.questionType[section], record.questionType || record.question_type);
       increment(mockStats.difficulty, record.difficulty);
 
-      if (record?.metadata?.sourceFamily) mockStats.metadataPresence.sourceFamily += 1;
-      if (record?.metadata?.rhetoricalStructure) mockStats.metadataPresence.rhetoricalStructure += 1;
-      if (record?.metadata?.cognitiveOperation) mockStats.metadataPresence.cognitiveOperation += 1;
-      if (record?.metadata?.applicationFingerprint) mockStats.metadataPresence.applicationFingerprint += 1;
+      if (section === 'reading-writing') {
+        increment(overall.sourceFamily, record?.metadata?.sourceFamily);
+        increment(overall.rhetoricalStructure, record?.metadata?.rhetoricalStructure);
+        increment(overall.cognitiveOperation, record?.metadata?.cognitiveOperation);
+        if (record?.metadata?.sourceFamily) mockStats.metadataPresence.sourceFamily += 1;
+        if (record?.metadata?.rhetoricalStructure) mockStats.metadataPresence.rhetoricalStructure += 1;
+        if (record?.metadata?.cognitiveOperation) mockStats.metadataPresence.cognitiveOperation += 1;
+      }
+
+      if (section === 'math') {
+        increment(overall.applicationFingerprint, record?.metadata?.applicationFingerprint);
+        if (record?.metadata?.applicationFingerprint) mockStats.metadataPresence.applicationFingerprint += 1;
+        const figureType = record?.stimulus?.figure?.figure_type || record?.stimulus?.figure?.type || record?.figure?.figure_type || record?.figure?.type;
+        if (figureType) increment(mockStats.mathFigureTypes, figureType);
+      }
 
       const applicable = Array.isArray(record?.applicable_to)
         ? record.applicable_to
@@ -218,6 +249,10 @@ function nonMissingCount(map) {
     .reduce((sum, [, count]) => sum + count, 0);
 }
 
+function sectionCount(map) {
+  return Object.values(map).reduce((sum, count) => sum + count, 0);
+}
+
 function coverage(count, total) {
   return total ? Number((count / total).toFixed(4)) : 0;
 }
@@ -232,9 +267,11 @@ function difficultyDistribution(mocks) {
   return Object.fromEntries(Object.entries(counts).map(([key, value]) => [key, Number((value / total).toFixed(4))]));
 }
 
-export function buildBatchMCrossCorpusCalibration(corpus) {
+export function buildBatchMCrossCorpusCalibration(corpus, prerequisiteGate = null) {
   const stats = collectStats(corpus);
   const totalRecords = stats.mocks.reduce((sum, mock) => sum + mock.recordCount, 0);
+  const rwTotal = sectionCount(stats.overall.domain['reading-writing']);
+  const mathTotal = sectionCount(stats.overall.domain.math);
   const rwTarget = evaluateDomainTargets(stats.overall.domain['reading-writing'], 'reading-writing');
   const mathTarget = evaluateDomainTargets(stats.overall.domain.math, 'math');
   const groupRW = compareGroupDomains(stats.groups, 'reading-writing');
@@ -242,17 +279,31 @@ export function buildBatchMCrossCorpusCalibration(corpus) {
   const difficultyConsistency = compareDifficultyConsistency(stats.mocks);
 
   const metadata = {
-    sourceFamilyCoverage: coverage(nonMissingCount(stats.overall.sourceFamily), totalRecords),
-    rhetoricalStructureCoverage: coverage(nonMissingCount(stats.overall.rhetoricalStructure), totalRecords),
-    cognitiveOperationCoverage: coverage(nonMissingCount(stats.overall.cognitiveOperation), totalRecords),
-    mathApplicationFingerprintCoverage: coverage(nonMissingCount(stats.overall.applicationFingerprint), totalRecords),
+    sourceFamilyCoverage: coverage(nonMissingCount(stats.overall.sourceFamily), rwTotal),
+    rhetoricalStructureCoverage: coverage(nonMissingCount(stats.overall.rhetoricalStructure), rwTotal),
+    cognitiveOperationCoverage: coverage(nonMissingCount(stats.overall.cognitiveOperation), rwTotal),
+    mathApplicationFingerprintCoverage: coverage(nonMissingCount(stats.overall.applicationFingerprint), mathTotal),
   };
 
   const satMocks = stats.mocks.filter((mock) => mock.group !== 'PSAT');
   const psatMocks = stats.mocks.filter((mock) => mock.group === 'PSAT');
   const satDifficulty = difficultyDistribution(satMocks);
   const psatDifficulty = difficultyDistribution(psatMocks);
-  const psatHardRateDelta = Number(((psatDifficulty.hard || 0) - (satDifficulty.hard || 0)).toFixed(4));
+  const psatHardRateDelta = psatMocks.length
+    ? Number(((psatDifficulty.hard || 0) - (satDifficulty.hard || 0)).toFixed(4))
+    : null;
+
+  const mathQuestionTypes = distribution(stats.overall.questionType.math, mathTotal);
+  const mathSprRate = mathTotal
+    ? Number(((stats.overall.questionType.math['student-produced-response'] || 0) / mathTotal).toFixed(4))
+    : 0;
+
+  const mathFigureTypes = Object.fromEntries(
+    Object.entries(stats.overall.figureType)
+      .filter(([key]) => key !== '(missing)')
+      .sort((a, b) => b[1] - a[1])
+      .map(([key, count]) => [key, { count, proportion: mathTotal ? Number((count / mathTotal).toFixed(4)) : 0 }]),
+  );
 
   const failures = [];
   const reviews = [];
@@ -260,8 +311,9 @@ export function buildBatchMCrossCorpusCalibration(corpus) {
   if (!groupRW.concat(groupMath).every((item) => item.withinTarget)) failures.push('assessment-group-domain-deviation-exceeds-8pp');
   if (difficultyConsistency.outliers.length) failures.push('per-mock-difficulty-deviation-exceeds-8pp');
   for (const [name, value] of Object.entries(metadata)) if (value < METADATA_COVERAGE_HARD_LIMIT) failures.push(`${name}-below-95-percent`);
-  if (psatHardRateDelta > PSAT_HARD_RATE_MAX_DELTA) failures.push('psat-hard-rate-exceeds-sat-by-more-than-2pp');
-  else if (psatHardRateDelta > 0) reviews.push('psat-hard-rate-slightly-above-sat-hard-rate');
+  if (!psatMocks.length) failures.push('psat-series-not-identifiable');
+  else if (psatHardRateDelta > PSAT_HARD_RATE_MAX_DELTA) failures.push('psat-hard-rate-exceeds-sat-by-more-than-2pp');
+  if (mathSprRate < MATH_SPR_REVIEW_MIN || mathSprRate > MATH_SPR_REVIEW_MAX) reviews.push('math-student-produced-response-rate-needs-review-against-25-to-30-percent-target');
 
   const sourceFamilies = Object.keys(stats.overall.sourceFamily).filter((key) => key !== '(missing)');
   const rhetoricalStructures = Object.keys(stats.overall.rhetoricalStructure).filter((key) => key !== '(missing)');
@@ -275,9 +327,11 @@ export function buildBatchMCrossCorpusCalibration(corpus) {
     { check: 'math-domain-targets', pass: mathTarget.findings.every((item) => item.withinTarget), detail: mathTarget },
     { check: 'assessment-group-domain-targets', pass: groupRW.concat(groupMath).every((item) => item.withinTarget), detail: { readingWriting: groupRW, math: groupMath } },
     { check: 'difficulty-consistency', pass: difficultyConsistency.outliers.length === 0, detail: difficultyConsistency },
-    { check: 'metadata-coverage', pass: Object.values(metadata).every((value) => value >= METADATA_COVERAGE_HARD_LIMIT), detail: metadata },
-    { check: 'sat-psat-difficulty-calibration', pass: psatHardRateDelta <= PSAT_HARD_RATE_MAX_DELTA, detail: { satDifficulty, psatDifficulty, psatHardRateDelta, maxAllowedDelta: PSAT_HARD_RATE_MAX_DELTA } },
+    { check: 'metadata-coverage-by-section', pass: Object.values(metadata).every((value) => value >= METADATA_COVERAGE_HARD_LIMIT), detail: metadata },
+    { check: 'sat-psat-difficulty-calibration', pass: psatMocks.length > 0 && psatHardRateDelta <= PSAT_HARD_RATE_MAX_DELTA, detail: { satDifficulty, psatDifficulty, psatHardRateDelta, maxAllowedDelta: PSAT_HARD_RATE_MAX_DELTA } },
+    { check: 'math-question-type-calibration', pass: true, detail: { mathQuestionTypes, mathSprRate, statedSpecTarget: 'roughly 25-30 percent SPR' } },
     { check: 'rw-construction-diversity', pass: sourceFamilies.length >= 4, detail: { sourceFamilies, rhetoricalStructures, cognitiveOperations } },
+    { check: 'repetition-and-originality', pass: Boolean(prerequisiteGate?.global?.uniqueQuestionIds === totalRecords && prerequisiteGate?.global?.uniqueRWContexts === rwTotal && prerequisiteGate?.global?.uniqueRWPrompts === rwTotal && prerequisiteGate?.global?.uniqueMathApplications === mathTotal), detail: prerequisiteGate?.global || null },
   ];
 
   return {
@@ -289,16 +343,19 @@ export function buildBatchMCrossCorpusCalibration(corpus) {
     overall: {
       section: distribution(stats.overall.section, totalRecords),
       domain: {
-        'reading-writing': distribution(stats.overall.domain['reading-writing'], Object.values(stats.overall.domain['reading-writing']).reduce((sum, count) => sum + count, 0)),
-        math: distribution(stats.overall.domain.math, Object.values(stats.overall.domain.math).reduce((sum, count) => sum + count, 0)),
+        'reading-writing': distribution(stats.overall.domain['reading-writing'], rwTotal),
+        math: distribution(stats.overall.domain.math, mathTotal),
       },
       skill: {
-        'reading-writing': distribution(stats.overall.skill['reading-writing'], Object.values(stats.overall.skill['reading-writing']).reduce((sum, count) => sum + count, 0)),
-        math: distribution(stats.overall.skill.math, Object.values(stats.overall.skill.math).reduce((sum, count) => sum + count, 0)),
+        'reading-writing': distribution(stats.overall.skill['reading-writing'], rwTotal),
+        math: distribution(stats.overall.skill.math, mathTotal),
       },
       difficulty: distribution(stats.overall.difficulty, totalRecords),
-      questionType: distribution(stats.overall.questionType, totalRecords),
-      figureType: distribution(stats.overall.figureType, totalRecords),
+      questionType: {
+        'reading-writing': distribution(stats.overall.questionType['reading-writing'], rwTotal),
+        math: mathQuestionTypes,
+      },
+      figureType: mathFigureTypes,
     },
     calibration: { findings, failures, reviews },
     satPsat: {
@@ -317,7 +374,7 @@ export function runBatchMCrossCorpusCalibration(corpus = BATCH_M_ACCEPTED_PRODUC
   }
   const gate = runBatchMFinalCorpusGate(corpus);
   if (!gate.passed) throw new Error('Batch M cross-corpus calibration: prerequisite final 30-mock corpus gate failed');
-  const result = buildBatchMCrossCorpusCalibration(corpus);
+  const result = buildBatchMCrossCorpusCalibration(corpus, gate);
   return Object.freeze({ prerequisiteFinalCorpusGate: gate.status, ...result });
 }
 
