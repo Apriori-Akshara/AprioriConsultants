@@ -4,6 +4,7 @@
  * Generates a large, independently screened candidate pool for the failure
  * classes identified by the deep SAT/PSAT content-quality QC. This script
  * never mutates the frozen production corpus and never authorizes release.
+ * Workflow trigger revision: v1.
  */
 
 import fs from 'node:fs';
@@ -60,84 +61,40 @@ function candidateAccepts(question) {
 }
 
 function buildPool() {
-  const generated = buildRepresentativeBatchMRemediationCandidates({
-    rwCount: RW_COUNT,
-    mathCount: MATH_COUNT,
-    testId: 'SAT1',
-    variant: 'sat',
-  });
+  const generated = buildRepresentativeBatchMRemediationCandidates({ rwCount: RW_COUNT, mathCount: MATH_COUNT, testId: 'SAT1', variant: 'sat' });
   const candidates = [];
   const rejected = [];
   const promptKeys = new Set();
   const idKeys = new Set();
-
   for (let index = 0; index < generated.candidates.length; index += 1) {
     const original = generated.candidates[index];
     const testId = TESTS[index % TESTS.length];
-    const candidate = {
-      ...original,
-      id: `${testId}-BATCHM-DQ-${String(index + 1).padStart(4, '0')}`,
-      testId,
-      metadata: {
-        ...(original.metadata || {}),
-        remediationPool: {
-          version: 'batch-m-deep-content-quality-remediation-v1',
-          sourceIndex: index,
-          targetClasses: targetClasses(original),
-          productionMutation: false,
-        },
-      },
-    };
+    const candidate = { ...original, id: `${testId}-BATCHM-DQ-${String(index + 1).padStart(4, '0')}`, testId, metadata: { ...(original.metadata || {}), remediationPool: { version: 'batch-m-deep-content-quality-remediation-v1', sourceIndex: index, targetClasses: targetClasses(original), productionMutation: false } } };
     const promptKey = normalize(candidate.prompt);
     const duplicatePrompt = promptKeys.has(promptKey);
     const duplicateId = idKeys.has(candidate.id);
     const screening = candidateAccepts(candidate);
     if (!screening.accepted || duplicatePrompt || duplicateId) {
-      rejected.push({
-        id: candidate.id,
-        reasons: [...(screening.quality.checks || []), ...(duplicatePrompt ? ['duplicate-normalized-prompt'] : []), ...(duplicateId ? ['duplicate-id'] : [])],
-      });
+      rejected.push({ id: candidate.id, reasons: [...(screening.quality.checks || []), ...(duplicatePrompt ? ['duplicate-normalized-prompt'] : []), ...(duplicateId ? ['duplicate-id'] : [])] });
       continue;
     }
     promptKeys.add(promptKey);
     idKeys.add(candidate.id);
     candidates.push(candidate);
   }
-
-  // Reject candidates that are too close to an earlier candidate at the
-  // 5-gram level. This is intentionally stricter than exact prompt matching
-  // because the deep-QC warning showed recurring templated language.
   const diversityAccepted = [];
   const diversityRejected = [];
   for (const candidate of candidates) {
     let tooClose = false;
     for (const existing of diversityAccepted.slice(-250)) {
-      if (ngramOverlap(candidate.prompt, existing.prompt) >= 0.60) {
-        tooClose = true;
-        break;
-      }
+      if (ngramOverlap(candidate.prompt, existing.prompt) >= 0.60) { tooClose = true; break; }
     }
     if (tooClose) diversityRejected.push({ id: candidate.id, reason: 'high-5gram-overlap-with-candidate-pool' });
     else diversityAccepted.push(candidate);
   }
-
   const coverage = {};
-  for (const candidate of diversityAccepted) {
-    for (const target of targetClasses(candidate)) coverage[target] = (coverage[target] || 0) + 1;
-  }
-
-  return {
-    candidates: diversityAccepted,
-    generatedCount: generated.candidates.length,
-    rejectedCount: rejected.length + diversityRejected.length,
-    qualityRejectedCount: rejected.length,
-    diversityRejectedCount: diversityRejected.length,
-    coverage,
-    productionMutation: false,
-    releaseEligible: false,
-    sat21Created: false,
-    source: 'batchMRemediationCandidateFactory',
-  };
+  for (const candidate of diversityAccepted) for (const target of targetClasses(candidate)) coverage[target] = (coverage[target] || 0) + 1;
+  return { candidates: diversityAccepted, generatedCount: generated.candidates.length, rejectedCount: rejected.length + diversityRejected.length, qualityRejectedCount: rejected.length, diversityRejectedCount: diversityRejected.length, coverage, productionMutation: false, releaseEligible: false, sat21Created: false, source: 'batchMRemediationCandidateFactory' };
 }
 
 function main() {
@@ -145,35 +102,7 @@ function main() {
   if (!result.candidates.length) throw new Error('Deep content-quality remediation candidate pool is empty.');
   ensureDir(OUTPUT_DIR);
   fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2));
-  const lines = [
-    '# Batch M deep content-quality remediation candidate pool — 2026-09-17',
-    '',
-    `- Generated candidates: **${result.generatedCount}**.`,
-    `- Accepted candidate pool: **${result.candidates.length}**.`,
-    `- Quality-screen rejects: **${result.qualityRejectedCount}**.`,
-    `- Diversity rejects: **${result.diversityRejectedCount}**.`,
-    '- Production mutation: **false**.',
-    '- Release eligible: **false**.',
-    '- SAT21 created: **false**.',
-    '',
-    '## Target-class coverage',
-    '',
-    ...Object.entries(result.coverage).map(([key, value]) => `- ${key}: **${value}** candidates`),
-    '',
-    'The pool is candidate-only. No production question has been replaced, modified, deleted, or released. Controlled selection must occur before any production mutation can be considered.',
-  ];
-  fs.writeFileSync(OUTPUT_MD, `${lines.join('\n')}\n`);
-  console.log(JSON.stringify({
-    status: 'candidate-pool-generated',
-    generatedCount: result.generatedCount,
-    acceptedCount: result.candidates.length,
-    qualityRejectedCount: result.qualityRejectedCount,
-    diversityRejectedCount: result.diversityRejectedCount,
-    coverage: result.coverage,
-    productionMutation: false,
-    releaseEligible: false,
-    sat21Created: false,
-  }, null, 2));
+  fs.writeFileSync(OUTPUT_MD, `# Batch M deep content-quality remediation candidate pool — 2026-09-17\n\n- Generated candidates: **${result.generatedCount}**.\n- Accepted candidate pool: **${result.candidates.length}**.\n- Quality-screen rejects: **${result.qualityRejectedCount}**.\n- Diversity rejects: **${result.diversityRejectedCount}**.\n- Production mutation: **false**.\n- Release eligible: **false**.\n- SAT21 created: **false**.\n\n## Target-class coverage\n\n${Object.entries(result.coverage).map(([key, value]) => `- ${key}: **${value}** candidates`).join('\n')}\n\nThe pool is candidate-only. No production question has been replaced, modified, deleted, or released. Controlled selection must occur before any production mutation can be considered.\n`);
+  console.log(JSON.stringify({ status: 'candidate-pool-generated', generatedCount: result.generatedCount, acceptedCount: result.candidates.length, qualityRejectedCount: result.qualityRejectedCount, diversityRejectedCount: result.diversityRejectedCount, coverage: result.coverage, productionMutation: false, releaseEligible: false, sat21Created: false }, null, 2));
 }
-
 main();
