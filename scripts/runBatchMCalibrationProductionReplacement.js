@@ -13,9 +13,9 @@ import {
   PSAT_MOCK_03_CONTENT, SAT_MOCK_03_CONTENT, PSAT_MOCK_04_CONTENT, SAT_MOCK_04_CONTENT,
   PSAT_MOCK_05_CONTENT, SAT_MOCK_05_CONTENT, PSAT_MOCK_06_CONTENT, SAT_MOCK_06_CONTENT,
   PSAT_MOCK_07_CONTENT, SAT_MOCK_07_CONTENT, PSAT_MOCK_08_CONTENT, SAT_MOCK_08_CONTENT,
-  PSAT_MOCK_09_CONTENT, SAT_MOCK_09_CONTENT, PSAT_MOCK_10_CONTENT, SAT_MOCK_10_CONTENT,
-  BATCH_M_ACCEPTED_PRODUCTION_CORPUS,
+  PSAT_MOCK_09_CONTENT, SAT_MOCK_09_CONTENT, PSAT_MOCK_10_CONTENT,
 } from '../src/data/sat/mockContent/index.js';
+import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore';
 import { applyBatchMCalibrationProductionReplacement, BATCH_M_CALIBRATION_PRODUCTION_REPLACEMENT } from '../src/data/sat/mockContent/batchMCalibrationProductionReplacement';
 import { BATCH_M_PRODUCTION_SEQUENCE } from '../src/data/sat/mockContent/batchMProductionController';
 import { runBatchMFinalCorpusGate } from '../src/data/sat/mockContent/batchMFinalCorpusGate';
