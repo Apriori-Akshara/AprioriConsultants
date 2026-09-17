@@ -76,20 +76,35 @@ function collectCandidates() {
     });
     generated.candidates.forEach((candidate, index) => pool.push({ candidate, quality: generated.quality[index] }));
   }
-  return interleaveByTest(pool.filter(pass).map(({ candidate }) => candidate).filter((candidate) => canonical(candidate.domain) === TARGET_DOMAIN));
+  return interleaveByTest(
+    pool
+      .filter(pass)
+      .map(({ candidate }) => candidate)
+      .filter((candidate) => canonical(candidate.domain) === TARGET_DOMAIN),
+  );
 }
 
-function selectDistinct(candidates, sourceDomain, count, excludedFingerprints = new Set()) {
+function selectDistinct(candidates, sourceDomain, count, excludedFingerprints = new Set(), excludedPrompts = new Set()) {
   const selected = [];
-  const seen = new Set(excludedFingerprints);
+  const seenFingerprints = new Set(excludedFingerprints);
+  const seenPrompts = new Set([...excludedPrompts].map(normalizePrompt));
+
   for (const candidate of candidates) {
     const fingerprint = String(candidate.originalityFingerprint || candidate.questionId);
-    if (seen.has(fingerprint)) continue;
+    const prompt = normalizePrompt(candidate.prompt);
+    if (!prompt || seenFingerprints.has(fingerprint) || seenPrompts.has(prompt)) continue;
+
     selected.push({ candidate, replacementSourceDomain: sourceDomain });
-    seen.add(fingerprint);
+    seenFingerprints.add(fingerprint);
+    seenPrompts.add(prompt);
+
     if (selected.length === count) break;
   }
-  if (selected.length !== count) fail(`only ${selected.length}/${count} distinct SEC candidates available for ${sourceDomain}`);
+
+  if (selected.length !== count) {
+    fail(`only ${selected.length}/${count} distinct SEC candidates available for ${sourceDomain} after originality/prompt deduplication`);
+  }
+
   return selected;
 }
 
@@ -119,7 +134,8 @@ function main() {
   const pool = collectCandidates();
   const craft = selectDistinct(pool, 'craft-and-structure', SOURCE_COUNTS['craft-and-structure']);
   const usedFingerprints = new Set(craft.map((item) => String(item.candidate.originalityFingerprint || item.candidate.questionId)));
-  const info = selectDistinct(pool, 'information-and-ideas', SOURCE_COUNTS['information-and-ideas'], usedFingerprints);
+  const usedPrompts = new Set(craft.map((item) => normalizePrompt(item.candidate.prompt)));
+  const info = selectDistinct(pool, 'information-and-ideas', SOURCE_COUNTS['information-and-ideas'], usedFingerprints, usedPrompts);
   const selections = [...craft, ...info];
   const selectedCandidates = selections.map(({ candidate }) => candidate);
 
@@ -165,7 +181,8 @@ function main() {
     if (!mock) fail(`no canonical production mock found for ${item.testKey}/${item.productionTestId}`);
     const target = chooseTarget(mock.readingWriting || [], item, usedTargets, item.sourceDomain);
     if (!target) fail(`no same-difficulty ${item.sourceDomain} target available in ${item.testKey}`);
-    if (exactPromptSet.has(normalizePrompt(item.prompt))) fail(`duplicate candidate prompt selected: ${item.sourceCandidateQuestionId}`);
+    const promptKey = normalizePrompt(item.prompt);
+    if (exactPromptSet.has(promptKey)) fail(`duplicate candidate prompt selected: ${item.sourceCandidateQuestionId}`);
 
     const index = mock.readingWriting.findIndex((record) => record.questionId === target.questionId);
     if (index < 0) fail(`resolved target ${target.questionId} disappeared from ${item.testKey}`);
@@ -180,7 +197,7 @@ function main() {
       originalityFingerprint: item.originalityFingerprint || target.originalityFingerprint,
     };
     usedTargets.add(target.questionId);
-    exactPromptSet.add(normalizePrompt(item.prompt));
+    exactPromptSet.add(promptKey);
     assignments.push({
       candidateId: item.id,
       sourceCandidateQuestionId: item.sourceCandidateQuestionId,
