@@ -48,3 +48,5 @@ jobs:
           path: artifacts/batch-m-deep-content-quality-independent-review/
           if-no-files-found: error
           retention-days: 30
+
+# Candidate-only review; this workflow never authorizes production replacement.
