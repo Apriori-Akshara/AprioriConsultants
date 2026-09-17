@@ -1,0 +1,19 @@
+{
+  "reportType": "batch-m-deep-content-quality-diversity-qc",
+  "date": "2026-09-17",
+  "workflowRun": 35192485649,
+  "scope": "Frozen Batch M 30-mock runtime corpus including authorized calibration replacement layer",
+  "productionMutation": false,
+  "releaseEligible": false,
+  "sat21Created": false,
+  "corpus": {"mocks": 30, "questions": 5880, "uniqueQuestionIds": 5880, "mathQuestions": 2640, "mathSPR": 660, "mathSPRPercent": 25.0},
+  "automatedCoverage": {"rwSkills": 10, "rwSourceFamilies": 4, "rwRhetoricalStructures": 13, "rwCognitiveOperations": 5, "mathDomains": 4, "mathSkills": 17, "mathFigureTypes": 5, "uniqueFigureFingerprints": 745, "repeatedNormalizedStimuli": 0, "duplicateMathApplicationFingerprints": 0},
+  "diversityFindings": {"duplicateNormalizedPromptGroups": 1, "affectedDuplicatePrompts": 76, "repeatedNgramWarnings": 1586},
+  "failureCounts": {"existingContentQualityGate": 3162, "mathGenericNumericDistractor": 1870, "hardLabelWithoutDemandFeature": 932, "rwStimulusLength": 304, "rwFixedWicTarget": 301, "mathGenericTemplateDensity": 290, "rwGenericTemplateDensity": 26, "diversityDuplicatePromptGroup": 1},
+  "warnings": 1586,
+  "representativeSample": {"size": 240, "manualThousandsInspected": false, "targetedReviewFlags": 13},
+  "gates": {"scopeAndIdentity": "PASS", "schema": "PASS", "rwConstruction": "FAIL", "mathConstruction": "FAIL", "reasoningAndDifficulty": "FAIL", "distractorQuality": "REVIEW", "diversity": "FAIL", "figuresAndTables": "PASS", "psatCeiling": "PASS", "mathSPR": "PASS"},
+  "acceptanceDecision": "QUALITY_HOLD",
+  "releaseDecision": "NOT_RELEASE_ELIGIBLE",
+  "nextStep": "Targeted substantive content-quality remediation for Math distractor construction, hard-question reasoning evidence, R&W stimulus-length outliers, fixed Words-in-Context targets, generic templates, duplicate prompts, and repeated n-gram/template language. Keep production frozen; rerun deep QC and downstream release gates after controlled remediation."
+}
