@@ -1,8 +1,9 @@
 {
   "date": "2026-09-17",
-  "status": "calibration-remediation-candidate-planning",
+  "status": "calibration-reconciliation-independent-review-blocked",
   "productionMutation": false,
   "releaseEligible": false,
+  "replacementAuthorization": "NOT_AUTHORIZED",
   "sat21Created": false,
   "corpus": {
     "mockCount": 30,
@@ -12,36 +13,37 @@
   },
   "readWrite": {
     "currentProportions": {
-      "craft-and-structure": 0.3,
-      "information-and-ideas": 0.3,
-      "standard-english-conventions": 0.2,
-      "expression-of-ideas": 0.2
+      "craft-and-structure": 0.30,
+      "information-and-ideas": 0.30,
+      "standard-english-conventions": 0.20,
+      "expression-of-ideas": 0.20
     },
     "targetProportions": {
       "craft-and-structure": 0.28,
       "information-and-ideas": 0.26,
       "standard-english-conventions": 0.26,
-      "expression-of-ideas": 0.2
+      "expression-of-ideas": 0.20
     },
     "minimumCandidateReplacements": 195,
     "allocations": [
       { "fromDomain": "craft-and-structure", "toDomain": "standard-english-conventions", "count": 65 },
       { "fromDomain": "information-and-ideas", "toDomain": "standard-english-conventions", "count": 130 }
     ],
-    "plannedResultCounts": {
-      "craft-and-structure": 907,
-      "information-and-ideas": 842,
-      "standard-english-conventions": 843,
-      "expression-of-ideas": 648
-    }
+    "candidateGenerationRun": "35212907193",
+    "candidateQualityGate": "PASS",
+    "hypotheticalSECProportion": 0.2602,
+    "newCalibrationFailures": 0
   },
   "math": {
-    "currentStudentProducedResponse": 503,
-    "currentRate": 0.1905,
+    "currentStudentProducedResponse": 660,
+    "currentRate": 0.25,
     "minimumTargetRate": 0.25,
     "minimumTargetCount": 660,
-    "minimumAdditionalSPRCandidates": 157
+    "minimumAdditionalSPRCandidates": 0
   },
-  "combinedMinimumCandidateReplacementScope": 352,
-  "nextBoundary": "candidate-generation-and-controlled-selection-required-before-production-mutation"
+  "combinedMinimumCandidateReplacementScope": 195,
+  "independentReviewRun": "35213306538",
+  "independentReviewConclusion": "FAIL",
+  "independentReviewBlocker": "candidate BATCH-M-CAL-SEC-001 assessment variant does not match its production test",
+  "nextBoundary": "fix candidate assessment-variant mapping, regenerate/review the 195 candidates, then pass exact target-lock before any fresh production authorization"
 }
