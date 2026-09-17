@@ -1,5 +1,4 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore';
 import { runBatchMFinalCorpusGate } from '../src/data/sat/mockContent/batchMFinalCorpusGate';
 import { runBatchMCrossCorpusCalibrationCanonical } from '../src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical';
@@ -93,42 +92,20 @@ function assertPreReplacementPromptUniqueness(corpus, candidatePrompt) {
 }
 
 function mergeForValidation(target, candidate, resolution) {
-  const replacement = clone(candidate);
-  const {
-    questionId,
-    contentId,
-    testId,
-    assessmentNumber,
-    assessmentVariant,
-    section,
-    module,
-    status,
-    authoringStatus,
-    releaseEligibility,
-    metadata,
-    ...semantic
-  } = replacement;
+  const requiredSemanticFields = ['prompt', 'choices', 'answer', 'explanation'];
+  for (const field of requiredSemanticFields) {
+    if (!(field in candidate)) fail(`compatibility candidate is missing required semantic field ${field}`);
+  }
 
   return {
-    ...target,
-    ...semantic,
-    testId: target.testId,
-    questionId: target.questionId,
-    contentId: target.contentId || target.questionId,
-    assessmentNumber: target.assessmentNumber,
-    assessmentVariant: target.assessmentVariant,
-    section: target.section,
-    module: target.module,
-    status: target.status ?? status,
-    authoringStatus: target.authoringStatus ?? authoringStatus,
-    releaseEligibility: false,
+    ...clone(target),
+    prompt: candidate.prompt,
+    choices: clone(candidate.choices),
+    answer: candidate.answer,
+    explanation: candidate.explanation,
     originalityFingerprint: candidate.originalityFingerprint || target.originalityFingerprint,
     metadata: {
       ...(target.metadata || {}),
-      ...(metadata || {}),
-      candidateOnly: false,
-      productionMutation: false,
-      releaseEligibility: false,
       controlledReplacementValidation: {
         mode: 'hypothetical-corpus-validation-only',
         authorization: 'VALIDATION_ONLY_NOT_PRODUCTION_AUTHORIZED',
@@ -163,7 +140,7 @@ function applyHypotheticalReplacement(corpus, candidate, resolution) {
   if (!normalize(replacement.prompt).includes('qualified')) fail('replacement prompt does not contain the repaired target word qualified');
   if (normalize(replacement.prompt).includes(`“${EXPECTED_OLD_TARGET}”`)) fail('replacement prompt still tests the old fixed target word');
   if (replacement.answer !== 'A') fail('replacement keyed answer must remain A');
-  if (!String(replacement.explanation || '').includes('narrows the original claim')) fail('replacement explanation is not the reviewed evidence-aligned explanation');
+  if (replacement.explanation !== candidate.explanation) fail('replacement explanation differs from the independently reviewed candidate explanation');
 
   mock.readingWriting[index] = replacement;
   return { target, replacement };
@@ -171,15 +148,13 @@ function applyHypotheticalReplacement(corpus, candidate, resolution) {
 
 function assertPostReplacementDiversity(corpus, target, replacement) {
   const prompt = normalize(replacement.prompt);
+  const fixedOldTargetRecordIds = [];
   let exactPromptCount = 0;
-  let fixedOldTargetCount = 0;
-  let fixedOldTargetRecordIds = [];
 
   for (const mock of corpus) {
     for (const record of [...(mock.readingWriting || []), ...(mock.math || [])]) {
       if (normalize(record.prompt) === prompt) exactPromptCount += 1;
       if (record.section === 'reading-writing' && record.skill === EXPECTED_SKILL && normalize(record.prompt).includes(EXPECTED_OLD_TARGET)) {
-        fixedOldTargetCount += 1;
         fixedOldTargetRecordIds.push(`${mock.testId}:${record.questionId}`);
       }
     }
@@ -188,7 +163,7 @@ function assertPostReplacementDiversity(corpus, target, replacement) {
   if (exactPromptCount !== 1) fail(`post-replacement exact prompt count must be 1, found ${exactPromptCount}`);
   if (fixedOldTargetRecordIds.includes(`${target.testId}:${target.questionId}`)) fail('replaced target still appears as an old fixed-target item');
 
-  return { exactPromptCount, fixedOldTargetCount, fixedOldTargetRecordIds };
+  return { exactPromptCount, fixedOldTargetRecordIds };
 }
 
 function main() {
