@@ -101,6 +101,12 @@ function chooseTarget(records, candidate, usedQuestionIds, sourceDomain) {
   ) || null;
 }
 
+function getProductionTestId(testKey) {
+  const target = BATCH_M_PRODUCTION_SEQUENCE.find((item) => item.testKey === testKey);
+  if (!target) fail(`unknown Batch M testKey ${testKey}`);
+  return target.testId;
+}
+
 function main() {
   const baselineCorpus = clone(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
   const baselineCalibration = runBatchMCrossCorpusCalibrationCanonical(baselineCorpus);
@@ -126,6 +132,7 @@ function main() {
     id: `BATCH-M-CAL-REC-${String(index + 1).padStart(3, '0')}`,
     sourceCandidateQuestionId: candidate.questionId,
     testKey: candidate.testId,
+    productionTestId: getProductionTestId(candidate.testId),
     assessmentVariant: candidate.assessmentVariant,
     section: 'reading-writing',
     module: candidate.module || 'reading-writing-module-1',
@@ -154,11 +161,11 @@ function main() {
   const exactPromptSet = new Set();
 
   for (const item of candidateRecords) {
-    const mock = hypotheticalCorpus.find((entry) => String(entry?.testKey || '').toUpperCase() === String(item.testKey || '').toUpperCase());
-    if (!mock) fail(`no canonical production mock found for candidate test ${item.testKey}`);
+    const mock = hypotheticalCorpus.find((entry) => entry?.testId === item.productionTestId);
+    if (!mock) fail(`no canonical production mock found for ${item.testKey}/${item.productionTestId}`);
     const target = chooseTarget(mock.readingWriting || [], item, usedTargets, item.sourceDomain);
     if (!target) fail(`no same-difficulty ${item.sourceDomain} target available in ${item.testKey}`);
-    if (exactPromptSet.has(normalizePrompt(item.prompt))) fail(`duplicate candidate prompt selected: ${item.questionId}`);
+    if (exactPromptSet.has(normalizePrompt(item.prompt))) fail(`duplicate candidate prompt selected: ${item.sourceCandidateQuestionId}`);
 
     const index = mock.readingWriting.findIndex((record) => record.questionId === target.questionId);
     if (index < 0) fail(`resolved target ${target.questionId} disappeared from ${item.testKey}`);
@@ -177,7 +184,8 @@ function main() {
     assignments.push({
       candidateId: item.id,
       sourceCandidateQuestionId: item.sourceCandidateQuestionId,
-      testKey: mock.testKey,
+      testKey: item.testKey,
+      productionTestId: mock.testId,
       questionId: target.questionId,
       sourceDomain: item.sourceDomain,
       targetDomain: TARGET_DOMAIN,
