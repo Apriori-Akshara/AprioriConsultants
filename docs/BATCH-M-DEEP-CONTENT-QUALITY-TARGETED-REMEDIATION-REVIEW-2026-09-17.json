@@ -29,5 +29,31 @@
     "replacementAuthorization": "NOT_AUTHORIZED",
     "sat21Created": false
   },
-  "nextStep": "Keep the failed candidate outside production. Any later remediation requires a separately authorized candidate-only remediation stage followed by independent review."
+  "historicalStageClosed": true,
+  "historicalSingleCandidateRemediation": {
+    "candidateId": "SAT4-BATCHM-DQ-0004",
+    "replacementReviewRun": "35200787784",
+    "replacementReviewResult": "1 PASS / 0 FAIL / 0 EXPERT_REVIEW_REQUIRED",
+    "productionReplacementCompleted": true,
+    "productionReplacementStillSeparateAuthorization": true
+  },
+  "currentActiveStage": "195-candidate-rw-sec-calibration-reconciliation",
+  "currentCandidateGenerationRun": "35212907193",
+  "currentCandidateCount": 195,
+  "currentAllocation": {
+    "craft-and-structure-to-sec": 65,
+    "information-and-ideas-to-sec": 130
+  },
+  "currentCandidateQualityGate": "PASS",
+  "currentHypotheticalSecProportion": 0.2602,
+  "currentNewCalibrationFailures": 0,
+  "currentIndependentReviewRun": "35213306538",
+  "currentIndependentReviewConclusion": "FAIL",
+  "currentIndependentReviewBlocker": "candidate BATCH-M-CAL-SEC-001 assessment variant does not match its production test",
+  "targetLockStatus": "BLOCKED_UNTIL_INDEPENDENT_REVIEW_PASSES",
+  "productionMutation": false,
+  "releaseEligible": false,
+  "replacementAuthorization": "NOT_AUTHORIZED",
+  "sat21Created": false,
+  "nextStep": "Fix the candidate generator assessmentVariant and related assessment metadata so they come from the same BATCH_M_PRODUCTION_SEQUENCE entry as the assigned productionTestId; regenerate and revalidate the 195-candidate package; rerun independent review; after review PASS, run and verify the existing exact target-lock workflow; require fresh explicit production authorization before any new production replacement. Do not weaken the assessment-variant compatibility gate."
 }
