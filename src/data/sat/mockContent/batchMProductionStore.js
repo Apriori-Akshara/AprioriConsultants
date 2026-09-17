@@ -30,6 +30,7 @@ import { runBatchMSAT18ProductionGate } from './batchMSAT18ProductionGate';
 import { runBatchMSAT19ProductionGate } from './batchMSAT19ProductionGate';
 import { runBatchMSAT20ProductionGate } from './batchMSAT20ProductionGate';
 import { runBatchMFinalCorpusGate } from './batchMFinalCorpusGate';
+import { applyBatchMDeepContentQualitySingleCandidateProductionReplacement } from './batchMDeepContentQualitySingleCandidateProductionReplacement';
 
 const accepted = (label, result) => {
   if (!result?.passed || !result?.productionMock) throw new Error(`Batch M ${label}: accepted production mock was not returned by the production gate`);
@@ -43,7 +44,7 @@ export const SAT_SERIES_A_MOCK_02_PRODUCTION = SECOND_PRODUCTION_RESULT.producti
 const THIRD_PRODUCTION_RESULT = accepted('SAT3', runBatchMThirdProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION]));
 export const SAT_SERIES_A_MOCK_03_PRODUCTION = THIRD_PRODUCTION_RESULT.productionMock;
 const FOURTH_PRODUCTION_RESULT = accepted('SAT4', runBatchMFourthProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION]));
-export const SAT_SERIES_A_MOCK_04_PRODUCTION = FOURTH_PRODUCTION_RESULT.productionMock;
+export const SAT_SERIES_A_MOCK_04_PRODUCTION = applyBatchMDeepContentQualitySingleCandidateProductionReplacement(FOURTH_PRODUCTION_RESULT.productionMock, 'SAT4');
 const FIFTH_PRODUCTION_RESULT = accepted('SAT5', runBatchMFifthProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION, SAT_SERIES_A_MOCK_04_PRODUCTION]));
 export const SAT_SERIES_A_MOCK_05_PRODUCTION = FIFTH_PRODUCTION_RESULT.productionMock;
 const SIXTH_PRODUCTION_RESULT = accepted('SAT6', runBatchMSixthProductionGate([SAT_SERIES_A_MOCK_01_PRODUCTION, SAT_SERIES_A_MOCK_02_PRODUCTION, SAT_SERIES_A_MOCK_03_PRODUCTION, SAT_SERIES_A_MOCK_04_PRODUCTION, SAT_SERIES_A_MOCK_05_PRODUCTION]));
