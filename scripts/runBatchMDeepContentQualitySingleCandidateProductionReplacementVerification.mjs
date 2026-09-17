@@ -1,6 +1,5 @@
 import fs from 'node:fs';
-import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore';
-import { BATCH_M_FINAL_CORPUS_VERIFICATION } from '../src/data/sat/mockContent/batchMProductionStore';
+import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS, BATCH_M_FINAL_CORPUS_VERIFICATION } from '../src/data/sat/mockContent/batchMProductionStore';
 import { BATCH_M_DEEP_CONTENT_QUALITY_SINGLE_CANDIDATE_PRODUCTION_REPLACEMENT } from '../src/data/sat/mockContent/batchMDeepContentQualitySingleCandidateProductionReplacement';
 import { runBatchMCrossCorpusCalibrationCanonical } from '../src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical';
 
@@ -8,6 +7,9 @@ const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-single-candidate-prod
 const OUTPUT_JSON = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-PRODUCTION-REPLACEMENT-VERIFICATION-2026-09-17.json`;
 const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-PRODUCTION-REPLACEMENT-VERIFICATION-2026-09-17.md`;
 const EXPECTED = BATCH_M_DEEP_CONTENT_QUALITY_SINGLE_CANDIDATE_PRODUCTION_REPLACEMENT;
+const EXPECTED_DOMAIN = 'craft-and-structure';
+const EXPECTED_SKILL = 'Words in Context';
+const EXPECTED_DIFFICULTY = 'medium';
 const TEST_ID = EXPECTED.testId;
 const QUESTION_ID = EXPECTED.questionId;
 
