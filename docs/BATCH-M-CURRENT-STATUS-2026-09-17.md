@@ -2,8 +2,8 @@
 
 ## 1. Repository state
 
-- Main branch: `f1b58cd4327702c6db00a7a3e72a0e343d5525d2`
-- Latest main commit: **Add Batch M calibration reconciliation target-lock workflow**.
+- Main branch: `7e75aee6ddd0739c89db5a781665927a35de2dee`
+- Latest main commit: **fix: align calibration candidate test identity with production sequence**.
 - Production/release boundary remains frozen.
 
 ## 2. Completed milestones already recorded
@@ -22,78 +22,74 @@ The following stages are complete and must not be repeated:
 
 These milestones remain historical records. Do not restart them unless a later gate explicitly identifies a regression.
 
-## 3. Current active calibration-reconciliation stage
+## 3. Current calibration-reconciliation result
 
-The current active workflow is the **195-candidate Reading & Writing calibration reconciliation** required by the current frozen corpus baseline used by the reconciliation tooling.
+The active scope is the **195-candidate Reading & Writing calibration reconciliation**:
 
-Candidate-generation workflow:
-
-- Run: **35212907193**
-- Candidates: **195**
-- Allocation: **65 Craft & Structure → Standard English Conventions** and **130 Information & Ideas → Standard English Conventions**
-- Unique candidate prompts: **195**
-- Candidate substantive quality gate: **PASS**
-- New calibration failures in the hypothetical post-state: **0**
-- Hypothetical R&W SEC proportion: **26.02%**
-- `productionMutation: false`
-- `releaseEligible: false`
-- `replacementAuthorization: NOT_AUTHORIZED`
-- `sat21Created: false`
-
-## 4. Current blocker
-
-The independent review workflow has not yet passed.
-
-Latest review run:
-
-- Run: **35213306538**
-- Conclusion: **FAIL**
-- Normalization step: PASS
-- Independent review step: FAIL
-- Failure: **candidate `BATCH-M-CAL-SEC-001` assessment variant does not match its production test**
-
-This is a metadata/target-compatibility problem in the candidate package, not an authorization to bypass the review gate.
-
-The candidate reviewer correctly checks that each candidate's `assessmentVariant` matches the variant defined for its assigned production test in `BATCH_M_PRODUCTION_SEQUENCE`.
-
-## 5. Target-lock stage
-
-The target-lock workflow is implemented on `main`:
-
-`.github/workflows/batch-m-calibration-reconciliation-target-lock.yml`
-
-It is intentionally gated on a **successful independent review**. No successful target-lock run exists yet because the review prerequisite has not passed.
-
-The target-lock stage remains candidate-only and requires:
-
-- 195 reviewed candidates,
-- 195 exact production targets,
-- 65/130 source-domain allocation,
-- SEC target domain,
-- matching difficulty and test identity,
-- all 30 production mocks represented,
-- `productionMutation: false`,
-- `releaseEligible: false`,
-- `replacementAuthorization: NOT_AUTHORIZED`,
+- Corrected candidate-generation workflow run: **35215190890**.
+- Candidates: **195**.
+- Allocation: **65 Craft & Structure → Standard English Conventions** and **130 Information & Ideas → Standard English Conventions**.
+- Unique candidate prompts: **195**.
+- Candidate substantive quality gate: **PASS**.
+- New calibration failures in hypothetical post-state: **0**.
+- Hypothetical R&W SEC proportion: **26.02%**.
+- Assessment/test mapping source: **`BATCH_M_PRODUCTION_SEQUENCE`**.
+- `productionMutation: false`.
+- `releaseEligible: false`.
+- `replacementAuthorization: NOT_AUTHORIZED`.
 - `sat21Created: false`.
 
-## 6. Exact next implementation step
+The corrected generator now derives assessment family, assessment variant, assessment number, test key, and related production metadata from the same `BATCH_M_PRODUCTION_SEQUENCE` entry as the assigned production test.
 
-**Fix the candidate-to-production assessment-variant mapping in the 195-candidate calibration-reconciliation generator, regenerate the candidate artifact, and rerun its candidate workflow and independent review.**
+## 4. Independent review — PASSED
 
-The fix must map each candidate's `assessmentVariant` (and related assessment metadata) from the same `BATCH_M_PRODUCTION_SEQUENCE` entry as its assigned `productionTestId`.
+Corrected independent review workflow run **35215238290** completed successfully.
 
-Do **not** weaken or remove the review compatibility check. Do **not** authorize production mutation during this fix.
+- 195 / 195 candidates reviewed.
+- Assessment-variant compatibility: **PASS**.
+- Candidate identity/originality/target compatibility: **PASS**.
+- Substantive review: **PASS**.
+- Production mutation: **false**.
+- Release eligible: **false**.
+- Replacement authorization: **NOT_AUTHORIZED**.
+- SAT21 created: **false**.
 
-After the independent review passes:
+The earlier blocker in run `35213306538` was resolved by correcting the underlying mapping. The reviewer was not weakened or bypassed.
 
-1. allow the existing target-lock workflow to validate and lock the 195 exact targets;
-2. verify the target-lock artifact and all production/release boundary flags;
-3. only then consider a separate fresh explicit authorization for any production replacement.
+## 5. Exact target-lock stage — PASSED
 
-## 7. Standing boundaries
+The existing workflow `.github/workflows/batch-m-calibration-reconciliation-target-lock.yml` completed successfully in run **35215285669**.
 
-- No production mutation without fresh explicit authorization for the exact reviewed target mapping.
+The locked artifact confirms:
+
+- **195 / 195** candidates locked.
+- **195 / 195** unique production targets.
+- **65** Craft & Structure → SEC assignments.
+- **130** Information & Ideas → SEC assignments.
+- **30 / 30** production mocks represented.
+- Exact production test/question identity preserved.
+- Difficulty compatibility preserved.
+- Every target remains candidate-only.
+- `productionMutation: false`.
+- `releaseEligible: false`.
+- `replacementAuthorization: NOT_AUTHORIZED`.
+- `sat21Created: false`.
+
+No production question was replaced or modified by target lock.
+
+## 6. Current authorization boundary
+
+The exact 195-target reconciliation mapping is now locked candidate-only. **Production replacement is not authorized.**
+
+## 7. Exact next implementation step
+
+**Obtain a fresh explicit production authorization for this exact 195-target lock before running any separately controlled production replacement workflow.**
+
+Do not perform production replacement, release, or SAT21 creation before that authorization.
+
+## 8. Standing boundaries
+
+- No production mutation without fresh explicit authorization for the exact reviewed and locked 195-target mapping.
 - No SAT21 creation.
-- No repeat of completed candidate generation, candidate selection, controlled replacement, public functionality verification, or earlier deep-QC stages unless a later gate demonstrates a specific regression.
+- Do not repeat completed candidate generation, selection, controlled replacement, public functionality verification, or earlier deep-QC stages unless a later gate identifies a regression.
 - Release eligibility remains **false** until all substantive QC and final release-acceptance gates pass.
