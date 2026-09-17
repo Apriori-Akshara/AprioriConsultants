@@ -1,6 +1,6 @@
 {
   "date": "2026-09-17",
-  "status": "calibration-reconciliation-independent-review-blocked",
+  "status": "calibration-reconciliation-targets-locked-pending-explicit-production-authorization",
   "productionMutation": false,
   "releaseEligible": false,
   "replacementAuthorization": "NOT_AUTHORIZED",
@@ -29,10 +29,11 @@
       { "fromDomain": "craft-and-structure", "toDomain": "standard-english-conventions", "count": 65 },
       { "fromDomain": "information-and-ideas", "toDomain": "standard-english-conventions", "count": 130 }
     ],
-    "candidateGenerationRun": "35212907193",
+    "candidateGenerationRun": "35215190890",
     "candidateQualityGate": "PASS",
     "hypotheticalSECProportion": 0.2602,
-    "newCalibrationFailures": 0
+    "newCalibrationFailures": 0,
+    "assessmentVariantMappingSource": "BATCH_M_PRODUCTION_SEQUENCE"
   },
   "math": {
     "currentStudentProducedResponse": 660,
@@ -42,8 +43,19 @@
     "minimumAdditionalSPRCandidates": 0
   },
   "combinedMinimumCandidateReplacementScope": 195,
-  "independentReviewRun": "35213306538",
-  "independentReviewConclusion": "FAIL",
-  "independentReviewBlocker": "candidate BATCH-M-CAL-SEC-001 assessment variant does not match its production test",
-  "nextBoundary": "fix candidate assessment-variant mapping, regenerate/review the 195 candidates, then pass exact target-lock before any fresh production authorization"
+  "priorIndependentReviewRun": "35213306538",
+  "priorIndependentReviewConclusion": "FAIL",
+  "priorIndependentReviewBlocker": "candidate BATCH-M-CAL-SEC-001 assessment variant does not match its production test",
+  "correctedIndependentReviewRun": "35215238290",
+  "correctedIndependentReviewConclusion": "PASS",
+  "targetLockRun": "35215285669",
+  "targetLockStatus": "PASS",
+  "targetLock": {
+    "candidateCount": 195,
+    "uniqueProductionTargets": 195,
+    "productionMocksRepresented": 30,
+    "craftAndStructureToSEC": 65,
+    "informationAndIdeasToSEC": 130
+  },
+  "nextBoundary": "obtain fresh explicit production authorization for the exact 195-target lock before any separately controlled production replacement"
 }
