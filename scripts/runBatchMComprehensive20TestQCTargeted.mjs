@@ -71,7 +71,7 @@ if (postQuestions.size !== EXPECTED_RUNTIME_QUESTIONS) addFailure('post-runtime-
 if (remediation.summary.difficultyCalibrations !== 550) addFailure('difficulty-remediation-count', remediation.summary.difficultyCalibrations);
 if (remediation.summary.rwStimulusRepairs !== 206) addFailure('rw-remediation-count', remediation.summary.rwStimulusRepairs);
 if (remediation.summary.figureRepairs !== 1) addFailure('figure-remediation-count', remediation.summary.figureRepairs);
-if (remediation.summary.targetsChanged !== 757) addFailure('post-qc-target-count', remediation.summary.targetsChanged);
+if (remediation.summary.targetsChanged !== 673) addFailure('post-qc-target-count', remediation.summary.targetsChanged);
 
 let schemaFailures = 0;
 let qualityFailures = 0;

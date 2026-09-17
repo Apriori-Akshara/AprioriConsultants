@@ -71,7 +71,14 @@ function normalizeHardDifficulty(question) {
   if (question?.difficulty !== 'hard') return { question, applied: false };
   const features = new Set(question?.metadata?.difficultyFeatures || []);
   if ([...features].some((feature) => HARD_FEATURES.has(feature))) return { question, applied: false };
-  return { question: { ...question, difficulty: 'medium' }, applied: true };
+  const band = String(question?.difficultyBand || '');
+  const normalizedBand = /^(sat-series-a|psat)-/.test(band)
+    ? (question?.assessmentFamily === 'psat' ? 'mock-psat-elevated' : 'mock-sat-elevated')
+    : band;
+  return {
+    question: { ...question, difficulty: 'medium', difficultyBand: normalizedBand || (question?.assessmentFamily === 'psat' ? 'mock-psat-elevated' : 'mock-sat-elevated') },
+    applied: true,
+  };
 }
 
 function stripFigureFingerprints(metadata) {
