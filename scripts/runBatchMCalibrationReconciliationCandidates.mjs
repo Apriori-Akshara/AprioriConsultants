@@ -85,19 +85,24 @@ function stats(corpus) {
 }
 
 function interleaveTargets(sourceDomain, count, corpus) {
-  const buckets = corpus.map((mock) => ({
-    testKey: BATCH_M_PRODUCTION_SEQUENCE.find((item) => item.testId === mock.testId)?.testKey,
-    testId: mock.testId,
-    records: [...(mock.readingWriting || [])]
-      .filter((record) => canonical(record.domain) === canonical(sourceDomain))
-      .sort((a, b) => String(a.questionId).localeCompare(String(b.questionId))),
-  }));
+  const buckets = corpus.map((mock) => {
+    const productionTarget = BATCH_M_PRODUCTION_SEQUENCE.find((item) => item.testId === mock.testId);
+    if (!productionTarget) fail(`production corpus mock ${mock.testId} is missing from BATCH_M_PRODUCTION_SEQUENCE`);
+    return {
+      productionTarget,
+      testKey: productionTarget.testKey,
+      testId: mock.testId,
+      records: [...(mock.readingWriting || [])]
+        .filter((record) => canonical(record.domain) === canonical(sourceDomain))
+        .sort((a, b) => String(a.questionId).localeCompare(String(b.questionId))),
+    };
+  });
   const selected = [];
   while (selected.length < count) {
     let progressed = false;
     for (const bucket of buckets) {
       if (bucket.records.length && selected.length < count) {
-        selected.push({ sourceDomain, testKey: bucket.testKey, productionTestId: bucket.testId, target: bucket.records.shift() });
+        selected.push({ sourceDomain, testKey: bucket.testKey, productionTestId: bucket.testId, productionTarget: bucket.productionTarget, target: bucket.records.shift() });
         progressed = true;
       }
     }
@@ -132,7 +137,8 @@ function buildCandidate(index, target, prototype, skill) {
   const content = buildSECContent(index, skill);
   const id = `BATCH-M-CAL-SEC-${String(index + 1).padStart(3, '0')}`;
   const fingerprint = `batch-m-calibration-sec-v2-${String(index + 1).padStart(3, '0')}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${target.target.difficulty}`;
-  return { ...clone(prototype), contentId: id, questionId: id, testId: target.testKey, assessmentFamily: target.target === 'psat' ? 'psat' : 'sat', assessmentVariant: target.variant, assessmentNumber: target.assessmentNumber, section: 'reading-writing', module: target.target.module || prototype.module || 'reading-writing-module-1', domain: TARGET_DOMAIN, skill, difficulty: target.target.difficulty, difficultyBand: `${target.variant}-${target.target.difficulty}`, cognitiveDemand: 'evaluate', questionType: 'multiple-choice', stimulusType: 'short-passage', prompt: content.prompt, choices: content.choices, answer: content.answer, explanation: content.explanation, passageId: null, estimatedTimeSeconds: target.target.difficulty === 'hard' ? 82 : target.target.difficulty === 'medium' ? 70 : 55, originalityFingerprint: fingerprint, conceptFingerprint: `standard-english-conventions-${skill}-${target.target.difficulty}-${index}`, metadata: { ...clone(prototype.metadata || {}), sourceFamily: prototype.metadata?.sourceFamily || 'science', rhetoricalStructure: prototype.metadata?.rhetoricalStructure || 'grammar-constraint', evidenceRelationship: 'direct-support', cognitiveOperation: 'evaluate', targetWord: null, crossTextRelationship: null, difficultyFeatures: target.target.difficulty === 'hard' ? ['multi-step', 'strategic-choice'] : target.target.difficulty === 'medium' ? ['careful-interpretation'] : [], candidateConstructionIndex: index, candidateOnly: true, productionMutation: false, calibrationReconciliation: true }, tags: ['sat', 'batch-m-calibration-reconciliation', 'apriori-original', 'standard-english-conventions'], sourceType: 'apriori-original', authoringStatus: 'candidate', status: 'candidate', releaseEligibility: false, productionMutation: false, releaseEligible: false, sat21Created: false };
+  const productionTarget = target.productionTarget;
+  return { ...clone(prototype), contentId: id, questionId: id, testId: target.testKey, assessmentFamily: productionTarget.assessment, assessmentVariant: productionTarget.variant, assessmentNumber: productionTarget.assessmentNumber, section: 'reading-writing', module: target.target.module || prototype.module || 'reading-writing-module-1', domain: TARGET_DOMAIN, skill, difficulty: target.target.difficulty, difficultyBand: `${productionTarget.variant}-${target.target.difficulty}`, cognitiveDemand: 'evaluate', questionType: 'multiple-choice', stimulusType: 'short-passage', prompt: content.prompt, choices: content.choices, answer: content.answer, explanation: content.explanation, passageId: null, estimatedTimeSeconds: target.target.difficulty === 'hard' ? 82 : target.target.difficulty === 'medium' ? 70 : 55, originalityFingerprint: fingerprint, conceptFingerprint: `standard-english-conventions-${skill}-${target.target.difficulty}-${index}`, metadata: { ...clone(prototype.metadata || {}), sourceFamily: prototype.metadata?.sourceFamily || 'science', rhetoricalStructure: prototype.metadata?.rhetoricalStructure || 'grammar-constraint', evidenceRelationship: 'direct-support', cognitiveOperation: 'evaluate', targetWord: null, crossTextRelationship: null, difficultyFeatures: target.target.difficulty === 'hard' ? ['multi-step', 'strategic-choice'] : target.target.difficulty === 'medium' ? ['careful-interpretation'] : [], candidateConstructionIndex: index, candidateOnly: true, productionMutation: false, calibrationReconciliation: true, assessmentFamily: productionTarget.assessment, assessmentVariant: productionTarget.variant, assessmentNumber: productionTarget.assessmentNumber, productionTestId: target.productionTestId, productionTestKey: productionTarget.testKey }, tags: ['sat', 'batch-m-calibration-reconciliation', 'apriori-original', 'standard-english-conventions'], sourceType: 'apriori-original', authoringStatus: 'candidate', status: 'candidate', releaseEligibility: false, productionMutation: false, releaseEligible: false, sat21Created: false };
 }
 
 function main() {
@@ -192,7 +198,7 @@ function main() {
   const result = {
     reportType: 'batch-m-calibration-reconciliation-candidates', date: '2026-09-17',
     baseline: { rw: baselineRW, crossCorpusCalibrationPassed: baselineCalibration.passed, failures: baselineFailureKeys },
-    candidatePlan: { totalCandidates: EXPECTED_TOTAL, targetDomain: TARGET_DOMAIN, sourceCounts: SOURCE_COUNTS, uniqueCandidatePrompts: promptSet.size, contentQualityPassed: contentQuality.passed, assignmentsResolved: assignments.length, difficultyPreservationFailures: 0, productionTargetsResolvedDirectly: true },
+    candidatePlan: { totalCandidates: EXPECTED_TOTAL, targetDomain: TARGET_DOMAIN, sourceCounts: SOURCE_COUNTS, uniqueCandidatePrompts: promptSet.size, contentQualityPassed: contentQuality.passed, assignmentsResolved: assignments.length, difficultyPreservationFailures: 0, productionTargetsResolvedDirectly: true, assessmentVariantMappingSource: 'BATCH_M_PRODUCTION_SEQUENCE' },
     hypotheticalPostState: { rw: postRW, crossCorpusCalibrationPassed: postCalibration.passed, failures: postFailureKeys, newFailuresIntroduced: newFailures, finalCorpusGatePassed: finalCorpusGate.passed, mockCount: finalCorpusGate.mockCount, totalRecords: finalCorpusGate.totalRecords },
     assignments, candidates, productionMutation: false, releaseEligible: false, replacementAuthorization: 'NOT_AUTHORIZED', sat21Created: false,
     decision: 'CALIBRATION_RECONCILIATION_CANDIDATES_VALIDATED_PENDING_INDEPENDENT_REVIEW_AND_EXPLICIT_PRODUCTION_AUTHORIZATION',
@@ -211,10 +217,11 @@ function main() {
     `- Hypothetical final 30-mock corpus gate: **${finalCorpusGate.passed ? 'PASS' : 'FAIL'}**.`,
     `- New calibration failures introduced: **${newFailures.length}**.`,
     `- Hypothetical R&W SEC proportion: **${((postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual || 0) * 100).toFixed(2)}%**.`,
+    '- Assessment-variant mapping source: **BATCH_M_PRODUCTION_SEQUENCE**.',
     '- Production mutation: **false**.', '- Replacement authorization: **NOT_AUTHORIZED**.', '- SAT21 created: **false**.',
   ].join('\n') + '\n');
 
-  console.log(JSON.stringify({ decision: result.decision, totalCandidates: EXPECTED_TOTAL, assignmentsResolved: assignments.length, uniqueCandidatePrompts: promptSet.size, contentQualityPassed: contentQuality.passed, finalCorpusGatePassed: finalCorpusGate.passed, newCalibrationFailures: newFailures.length, hypotheticalRwSECProportion: postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual ?? null, productionMutation: false, replacementAuthorization: 'NOT_AUTHORIZED', sat21Created: false }, null, 2));
+  console.log(JSON.stringify({ decision: result.decision, totalCandidates: EXPECTED_TOTAL, assignmentsResolved: assignments.length, uniqueCandidatePrompts: promptSet.size, contentQualityPassed: contentQuality.passed, finalCorpusGatePassed: finalCorpusGate.passed, newCalibrationFailures: newFailures.length, hypotheticalRwSECProportion: postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual ?? null, assessmentVariantMappingSource: 'BATCH_M_PRODUCTION_SEQUENCE', productionMutation: false, replacementAuthorization: 'NOT_AUTHORIZED', sat21Created: false }, null, 2));
 }
 
 main();
