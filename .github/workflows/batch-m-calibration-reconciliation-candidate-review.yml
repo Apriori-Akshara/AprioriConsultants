@@ -7,17 +7,6 @@ on:
       - Batch M calibration reconciliation candidates
     types:
       - completed
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/batch-m-calibration-reconciliation-candidate-review.yml'
-      - 'scripts/reviewBatchMCalibrationReconciliationCandidates.mjs'
-      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
-      - 'src/data/sat/mockContent/batchMProductionStore.js'
-      - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
-      - 'src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js'
-      - 'src/data/sat/mockContent/batchMCrossCorpusCalibration.js'
-      - 'src/data/sat/mockContent/batchMProductionController.js'
 
 permissions:
   contents: read
