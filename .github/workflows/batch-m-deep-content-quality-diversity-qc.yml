@@ -1,0 +1,36 @@
+name: Batch M deep SAT PSAT content quality diversity QC
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deep-content-quality-diversity-qc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run deep SAT PSAT content-quality and diversity QC
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityDiversityQC.mjs
+
+      - name: Upload deep QC report
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-diversity-qc-2026-09-17
+          path: artifacts/batch-m-deep-content-quality-qc/
+          if-no-files-found: error
+          retention-days: 30

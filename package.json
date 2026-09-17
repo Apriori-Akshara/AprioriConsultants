@@ -14,7 +14,8 @@
     "qc:batch-m-targeted-review-inventory": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReviewInventory.js",
     "qc:batch-m-targeted-replacement-preparation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMTargetedReplacementPreparation.js",
     "qc:batch-m-final-30-mock-corpus": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMFinalCorpusGate.js",
-    "qc:batch-m-cross-corpus-calibration": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCrossCorpusCalibration.js"
+    "qc:batch-m-cross-corpus-calibration": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCrossCorpusCalibration.js",
+    "qc:batch-m-deep-content-quality": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityDiversityQC.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
