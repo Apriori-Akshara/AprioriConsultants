@@ -12,6 +12,7 @@ const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-T
 const EXPECTED_CANDIDATE_ID = 'SAT4-BATCHM-DQ-0004';
 const EXPECTED_TEST_KEY = 'SAT4';
 const EXPECTED_SKILL = 'Words in Context';
+const TARGET_DOMAIN = 'craft-and-structure';
 const FIXED_WIC_TARGET = 'qualify';
 const TARGET_CLASS = 'rw-wic-target-diversity';
 
@@ -25,6 +26,9 @@ function getCandidate() {
   const targets = candidate.metadata?.remediationPool?.targetClasses || [];
   if (!targets.includes(TARGET_CLASS)) throw new Error(`Candidate ${EXPECTED_CANDIDATE_ID} is not marked for ${TARGET_CLASS}.`);
   if (String(candidate.testId).toUpperCase() !== EXPECTED_TEST_KEY) throw new Error(`Expected candidate testId ${EXPECTED_TEST_KEY}, found ${candidate.testId}.`);
+  if (String(candidate.skill || '') !== EXPECTED_SKILL) throw new Error(`Expected candidate skill ${EXPECTED_SKILL}, found ${candidate.skill}.`);
+  if (String(candidate.domain || '') !== TARGET_DOMAIN) throw new Error(`Expected candidate domain ${TARGET_DOMAIN}, found ${candidate.domain}.`);
+  if (!['easy', 'medium', 'hard'].includes(String(candidate.difficulty))) throw new Error(`Candidate difficulty is missing or invalid: ${candidate.difficulty}`);
   if (candidate.metadata?.productionMutation === true || candidate.releaseEligibility === true || candidate.status === 'operational') {
     throw new Error('Candidate violates the candidate-only production boundary.');
   }
@@ -41,13 +45,15 @@ function verifyIndependentReview() {
   return report;
 }
 
-function buildEligibleTargetPool() {
+function buildEligibleTargetPool(candidate) {
   const mock = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((item) => item?.testId === 'sat-series-a-mock-04');
   if (!mock) throw new Error('Canonical SAT4 production mock was not found.');
 
   return (mock.readingWriting || [])
     .filter((record) => {
       if (String(record.skill || '') !== EXPECTED_SKILL) return false;
+      if (String(record.domain || '') !== TARGET_DOMAIN) return false;
+      if (String(record.difficulty || '') !== String(candidate.difficulty)) return false;
       if (record.metadata?.controlledReplacement) return false;
       const prompt = normalize(record.prompt);
       return prompt.includes(FIXED_WIC_TARGET);
@@ -70,8 +76,8 @@ function buildEligibleTargetPool() {
 function main() {
   const candidate = getCandidate();
   const review = verifyIndependentReview();
-  const eligibleTargets = buildEligibleTargetPool();
-  if (!eligibleTargets.length) throw new Error('No eligible SAT4 fixed-Words-in-Context production targets were found.');
+  const eligibleTargets = buildEligibleTargetPool(candidate);
+  if (!eligibleTargets.length) throw new Error(`No eligible SAT4 fixed-WIC production targets matched candidate domain=${TARGET_DOMAIN}, skill=${EXPECTED_SKILL}, difficulty=${candidate.difficulty}.`);
 
   const sourceIndex = Number(candidate.metadata?.remediationPool?.sourceIndex);
   if (!Number.isInteger(sourceIndex) || sourceIndex < 0) throw new Error('Candidate sourceIndex is missing or invalid.');
@@ -92,9 +98,11 @@ function main() {
     targetResolutionBasis: {
       testKey: EXPECTED_TEST_KEY,
       targetClass: TARGET_CLASS,
+      domain: TARGET_DOMAIN,
       skill: EXPECTED_SKILL,
+      difficulty: candidate.difficulty,
       existingFixedTarget: FIXED_WIC_TARGET,
-      selectionRule: 'deterministic target-class assignment within the same mock: sort eligible fixed-WIC targets by questionId and select sourceIndex modulo pool size',
+      selectionRule: 'deterministic target-class assignment within the same mock after enforcing domain + skill + difficulty compatibility: sort eligible fixed-WIC targets by questionId and select sourceIndex modulo pool size',
       sourceIndex,
       targetOrdinal,
     },
@@ -104,6 +112,8 @@ function main() {
       candidateId: candidate.id,
       candidateQuestionId: candidate.questionId,
       candidateTestId: candidate.testId,
+      candidateDomain: candidate.domain,
+      candidateDifficulty: candidate.difficulty,
       candidatePrompt: candidate.prompt,
       productionQuestionId: target.questionId,
       testKey: target.testKey,
@@ -124,15 +134,16 @@ function main() {
     `- Candidate: **${EXPECTED_CANDIDATE_ID}**`,
     '- Independent review: **PASS**',
     `- Target class: **${TARGET_CLASS}**`,
-    `- Eligible SAT4 fixed-WIC targets: **${eligibleTargets.length}**`,
+    `- Candidate domain/difficulty: **${TARGET_DOMAIN} / ${candidate.difficulty}**`,
+    `- Eligible SAT4 fixed-WIC targets after compatibility filtering: **${eligibleTargets.length}**`,
     `- Resolved target: **${target.testKey} / ${target.questionId}**`,
     `- Existing production WIC target: **${FIXED_WIC_TARGET}**`,
-    `- Production mutation: **false**`,
-    `- Release eligible: **false**`,
-    `- Replacement authorization: **NOT_AUTHORIZED**`,
-    `- SAT21 created: **false**`,
+    '- Production mutation: **false**',
+    '- Release eligible: **false**',
+    '- Replacement authorization: **NOT_AUTHORIZED**',
+    '- SAT21 created: **false**',
     '',
-    'This artifact performs candidate-only deterministic target assignment. It does not authorize or perform production replacement.',
+    'This artifact performs candidate-only deterministic target assignment with domain, skill, and difficulty compatibility. It does not authorize or perform production replacement.',
   ].join('\n') + '\n');
 
   console.log(JSON.stringify({
@@ -141,6 +152,7 @@ function main() {
     eligibleProductionTargetCount: eligibleTargets.length,
     testKey: target.testKey,
     questionId: target.questionId,
+    difficulty: target.difficulty,
     productionMutation: false,
     releaseEligible: false,
     replacementAuthorization: 'NOT_AUTHORIZED',
