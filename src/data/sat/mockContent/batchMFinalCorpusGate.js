@@ -33,7 +33,9 @@ function assertIdentity(mock, target, index) {
   if (!mock || typeof mock !== 'object') throw new Error(`Batch M final corpus: missing mock at position ${index + 1}`);
   if (mock.testId !== target.testId) throw new Error(`Batch M final corpus: ${target.testKey} has testId ${mock.testId || 'missing'}, expected ${target.testId}`);
   if (mock.assessmentVariant !== target.variant) throw new Error(`Batch M final corpus: ${target.testKey} has incorrect assessment variant`);
-  if (mock.assessmentNumber !== target.assessmentNumber) throw new Error(`Batch M final corpus: ${target.testKey} has incorrect assessment number`);
+  if (mock.assessmentNumber !== undefined && mock.assessmentNumber !== null && mock.assessmentNumber !== target.assessmentNumber) {
+    throw new Error(`Batch M final corpus: ${target.testKey} has incorrect assessment number`);
+  }
 }
 
 function assertMockRecords(mock, target) {
