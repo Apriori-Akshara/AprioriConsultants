@@ -33,8 +33,10 @@ const SERIES_A = {
 };
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
 function getRuntimeMock(target) {
-  if (target.testKey.startsWith('SAT') && target.assessmentNumber >= 11) return BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((mock) => mock?.testId === `sat-series-b-mock-${String(target.assessmentNumber).padStart(2, '0')}`) || null;
-  return SERIES_A[target.testKey] ? applyBatchMCalibrationProductionReplacement(SERIES_A[target.testKey], target.testKey) : null;
+  const base = target.testKey.startsWith('SAT') && target.assessmentNumber >= 11
+    ? BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((mock) => mock?.testId === `sat-series-b-mock-${String(target.assessmentNumber).padStart(2, '0')}`)
+    : SERIES_A[target.testKey];
+  return base ? applyBatchMCalibrationProductionReplacement(base, target.testKey) : null;
 }
 function collectProductionChanges(corpus) {
   const changes = [];
