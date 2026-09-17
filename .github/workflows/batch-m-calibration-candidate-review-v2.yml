@@ -1,0 +1,53 @@
+name: Batch M calibration prompt-unique candidate review
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/batch-m-calibration-candidate-review-v2.yml'
+      - 'scripts/runBatchMCalibrationCandidateSelectionPromptUnique.js'
+      - 'scripts/reviewBatchMCalibrationCandidates.js'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
+      - 'src/data/sat/mockContent/batchMRemediationBlueprint.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/mockContent/verbalConstructionRemediated.js'
+      - 'src/data/sat/mockContent/mathBankFactoryRemediated.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calibration-candidate-review-v2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Generate prompt-unique calibration candidates
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCalibrationCandidateSelectionPromptUnique.js
+
+      - name: Review prompt-unique selected candidates
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/reviewBatchMCalibrationCandidates.js
+
+      - name: Upload prompt-unique candidate review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-calibration-prompt-unique-candidate-review-2026-09-17
+          path: |
+            artifacts/batch-m-calibration-candidate-selection/
+            artifacts/batch-m-calibration-candidate-review/
+          if-no-files-found: error
+          retention-days: 14
