@@ -20,20 +20,28 @@
     "verifiedReplacementTargets": 1594,
     "uniqueReplacementTargets": 1594,
     "schemaFailures": 0,
-    "contentQualityFailures": 5,
+    "contentQualityFailures": 0,
     "figureQuestionsWithDeterministicFingerprint": 514
   },
   "postQCTargetedRemediation": {
     "difficultyCalibrations": 550,
     "rwStimulusRepairs": 206,
     "figureRepairs": 169,
-    "targetsChanged": 841
+    "targetsChanged": 846,
+    "numericDistractorRepairs": 5,
+    "numericDistractorRepairQuestionIds": [
+      "psat-mock-04-math-math-module-2-standard-55",
+      "psat-mock-05-math-math-module-2-standard-54",
+      "psat-mock-07-math-math-module-1-m1-08",
+      "psat-mock-07-math-math-module-2-low-80",
+      "psat-mock-10-math-math-module-2-low-77"
+    ]
   },
   "gates": {
     "scopeAndIdentity": "PASS",
     "schema": "PASS",
     "replacementIntegrityBeforePostQC": "PASS",
-    "contentQuality": "FAIL",
+    "contentQuality": "PASS",
     "figureOriginality": "PASS"
   },
   "perMock": {
@@ -130,17 +138,17 @@
     },
     "PSAT4": {
       "total": 196,
-      "passed": 195,
-      "failed": 1,
-      "scoreSum": 19590,
-      "averageScore": 99.95
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT5": {
       "total": 196,
-      "passed": 195,
-      "failed": 1,
-      "scoreSum": 19590,
-      "averageScore": 99.95
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT6": {
       "total": 196,
@@ -151,10 +159,10 @@
     },
     "PSAT7": {
       "total": 196,
-      "passed": 194,
-      "failed": 2,
-      "scoreSum": 19580,
-      "averageScore": 99.9
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     },
     "PSAT8": {
       "total": 196,
@@ -172,25 +180,14 @@
     },
     "PSAT10": {
       "total": 196,
-      "passed": 195,
-      "failed": 1,
-      "scoreSum": 19590,
-      "averageScore": 99.95
+      "passed": 196,
+      "failed": 0,
+      "scoreSum": 19600,
+      "averageScore": 100
     }
   },
-  "failureReasonCounts": {
-    "math-generic-numeric-distractor": 5
-  },
-  "failures": [
-    {
-      "check": "figure-remediation-count",
-      "detail": 169
-    },
-    {
-      "check": "post-qc-target-count",
-      "detail": 841
-    }
-  ],
-  "passed": false,
-  "status": "QUALITY_HOLD"
+  "failureReasonCounts": {},
+  "failures": [],
+  "passed": true,
+  "status": "PASS"
 }
