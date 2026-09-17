@@ -18,14 +18,10 @@ import { runBatchMCrossCorpusCalibrationCanonical } from '../src/data/sat/mockCo
 const OUTPUT_DIR = process.env.BATCH_M_OUTPUT_DIR || 'artifacts/batch-m-calibration-production-replacement';
 const EXPECTED_REPLACEMENTS = 352;
 
-function clone(value) {
-  return JSON.parse(JSON.stringify(value));
-}
+function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 function getRuntimeMock(target) {
-  if (target.testKey.startsWith('SAT') && target.assessmentNumber >= 11) {
-    return getSeriesBMock(target.testKey);
-  }
+  if (target.testKey.startsWith('SAT') && target.assessmentNumber >= 11) return getSeriesBMock(target.testKey);
   return getMockDefinition(target.testKey)?.content || null;
 }
 
@@ -36,14 +32,7 @@ function collectProductionChanges(corpus) {
       for (const record of mock?.[section] || []) {
         const change = record?.metadata?.controlledReplacement;
         if (change?.authorization === 'explicit-user-authorization' && change?.testKey) {
-          changes.push({
-            testKey: change.testKey,
-            section,
-            replacedQuestionId: change.replacedQuestionId,
-            candidateQuestionId: change.candidateQuestionId,
-            domain: record.domain,
-            questionType: record.questionType,
-          });
+          changes.push({ testKey: change.testKey, section, replacedQuestionId: change.replacedQuestionId, candidateQuestionId: change.candidateQuestionId, domain: record.domain, questionType: record.questionType });
         }
       }
     }
@@ -91,7 +80,7 @@ function main() {
     sat21Created: false,
     replacementCount: changes.length,
     replacementScope: { readingWriting: 195, math: 157 },
-    finalCorpusGate: finalCorpusGate,
+    finalCorpusGate,
     crossCorpusCalibration: calibration,
     replacements: changes,
   };
