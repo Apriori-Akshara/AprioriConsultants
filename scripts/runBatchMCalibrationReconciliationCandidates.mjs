@@ -45,48 +45,60 @@ function stats(corpus) {
   return { total, counts, findings, failures: findings.filter((item) => !item.withinTarget) };
 }
 
+function interleaveByTest(candidates) {
+  const buckets = new Map();
+  for (const candidate of candidates) {
+    if (!buckets.has(candidate.testId)) buckets.set(candidate.testId, []);
+    buckets.get(candidate.testId).push(candidate);
+  }
+  const output = [];
+  let remaining = true;
+  while (remaining) {
+    remaining = false;
+    for (const bucket of buckets.values()) {
+      if (bucket.length) {
+        output.push(bucket.shift());
+        remaining = true;
+      }
+    }
+  }
+  return output;
+}
+
 function collectCandidates() {
   const pool = [];
   for (const target of BATCH_M_PRODUCTION_SEQUENCE) {
     const generated = generateRemediatedRWCandidates({
-      count: 80,
+      count: 125,
       testId: target.testKey,
       variant: target.variant,
       module: 'reading-writing-module-1',
     });
     generated.candidates.forEach((candidate, index) => pool.push({ candidate, quality: generated.quality[index] }));
   }
-  return pool.filter(pass).map(({ candidate }) => candidate);
+  return interleaveByTest(pool.filter(pass).map(({ candidate }) => candidate).filter((candidate) => canonical(candidate.domain) === TARGET_DOMAIN));
 }
 
-function selectDistinct(candidates, sourceDomain, count) {
+function selectDistinct(candidates, sourceDomain, count, excludedFingerprints = new Set()) {
   const selected = [];
-  const seen = new Set();
-  const ordered = candidates
-    .filter((candidate) => candidate.domain !== TARGET_DOMAIN)
-    .sort((a, b) => String(a.questionId).localeCompare(String(b.questionId)));
-
-  for (const candidate of ordered) {
+  const seen = new Set(excludedFingerprints);
+  for (const candidate of candidates) {
     const fingerprint = String(candidate.originalityFingerprint || candidate.questionId);
     if (seen.has(fingerprint)) continue;
     selected.push({ candidate, replacementSourceDomain: sourceDomain });
     seen.add(fingerprint);
     if (selected.length === count) break;
   }
-  if (selected.length !== count) fail(`only ${selected.length}/${count} distinct candidates available for ${sourceDomain}`);
+  if (selected.length !== count) fail(`only ${selected.length}/${count} distinct SEC candidates available for ${sourceDomain}`);
   return selected;
 }
 
 function chooseTarget(records, candidate, usedQuestionIds, sourceDomain) {
-  const eligible = records.filter((record) =>
+  return records.find((record) =>
     !usedQuestionIds.has(record.questionId) &&
-    canonical(record.domain) === canonical(sourceDomain),
-  );
-  const exactDifficulty = eligible.find((record) => record.difficulty === candidate.difficulty);
-  if (exactDifficulty) return exactDifficulty;
-  const sameDomain = eligible[0];
-  if (sameDomain) return sameDomain;
-  return null;
+    canonical(record.domain) === canonical(sourceDomain) &&
+    record.difficulty === candidate.difficulty,
+  ) || null;
 }
 
 function main() {
@@ -98,29 +110,39 @@ function main() {
     ...baselineRW.failures.map((item) => `rw-domain:${item.domain}`),
   ];
 
-  if (baselineRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.withinTarget !== true) {
-    // Candidate planning may proceed only because this is the documented unresolved calibration deviation.
-  }
-
   const pool = collectCandidates();
   const craft = selectDistinct(pool, 'craft-and-structure', SOURCE_COUNTS['craft-and-structure']);
-  const info = selectDistinct(pool.filter(({ candidate }) => !craft.some((item) => item.candidate.originalityFingerprint === candidate.originalityFingerprint)), 'information-and-ideas', SOURCE_COUNTS['information-and-ideas']);
+  const usedFingerprints = new Set(craft.map((item) => String(item.candidate.originalityFingerprint || item.candidate.questionId)));
+  const info = selectDistinct(pool, 'information-and-ideas', SOURCE_COUNTS['information-and-ideas'], usedFingerprints);
   const selections = [...craft, ...info];
+  const selectedCandidates = selections.map(({ candidate }) => candidate);
+
+  const contentQuality = evaluateContentQualityBatch(selectedCandidates);
+  if (!contentQuality.passed || contentQuality.passedCount !== EXPECTED_TOTAL) {
+    fail(`candidate quality gate failed: ${contentQuality.failedCount} failures across ${EXPECTED_TOTAL} candidates`);
+  }
 
   const candidateRecords = selections.map(({ candidate, replacementSourceDomain }, index) => ({
     id: `BATCH-M-CAL-REC-${String(index + 1).padStart(3, '0')}`,
     sourceCandidateQuestionId: candidate.questionId,
     testKey: candidate.testId,
     assessmentVariant: candidate.assessmentVariant,
+    section: 'reading-writing',
+    module: candidate.module || 'reading-writing-module-1',
+    domain: TARGET_DOMAIN,
+    skill: candidate.skill,
     difficulty: candidate.difficulty,
+    questionType: candidate.questionType,
+    stimulusType: candidate.stimulusType,
+    sourceType: candidate.sourceType,
     sourceDomain: replacementSourceDomain,
     targetDomain: TARGET_DOMAIN,
-    skill: candidate.skill,
     prompt: candidate.prompt,
     choices: candidate.choices,
     answer: candidate.answer,
     explanation: candidate.explanation,
     originalityFingerprint: candidate.originalityFingerprint,
+    metadata: candidate.metadata,
     productionMutation: false,
     releaseEligible: false,
     sat21Created: false,
@@ -132,16 +154,18 @@ function main() {
   const exactPromptSet = new Set();
 
   for (const item of candidateRecords) {
-    const mock = hypotheticalCorpus.find((entry) => entry?.testKey === item.testKey || entry?.assessmentNumber === item.testKey);
-    if (!mock) continue;
+    const mock = hypotheticalCorpus.find((entry) => String(entry?.testKey || '').toUpperCase() === String(item.testKey || '').toUpperCase());
+    if (!mock) fail(`no canonical production mock found for candidate test ${item.testKey}`);
     const target = chooseTarget(mock.readingWriting || [], item, usedTargets, item.sourceDomain);
-    if (!target) continue;
-    if (exactPromptSet.has(normalizePrompt(item.prompt))) continue;
-    const index = mock.readingWriting.findIndex((record) => record.questionId === target.questionId);
-    if (index < 0) continue;
+    if (!target) fail(`no same-difficulty ${item.sourceDomain} target available in ${item.testKey}`);
+    if (exactPromptSet.has(normalizePrompt(item.prompt))) fail(`duplicate candidate prompt selected: ${item.questionId}`);
 
-    hypotheticalCorpus[hypotheticalCorpus.indexOf(mock)].readingWriting[index] = {
+    const index = mock.readingWriting.findIndex((record) => record.questionId === target.questionId);
+    if (index < 0) fail(`resolved target ${target.questionId} disappeared from ${item.testKey}`);
+
+    mock.readingWriting[index] = {
       ...clone(target),
+      domain: TARGET_DOMAIN,
       prompt: item.prompt,
       choices: clone(item.choices),
       answer: item.answer,
@@ -152,22 +176,19 @@ function main() {
     exactPromptSet.add(normalizePrompt(item.prompt));
     assignments.push({
       candidateId: item.id,
+      sourceCandidateQuestionId: item.sourceCandidateQuestionId,
       testKey: mock.testKey,
       questionId: target.questionId,
       sourceDomain: item.sourceDomain,
       targetDomain: TARGET_DOMAIN,
+      candidateDifficulty: item.difficulty,
+      productionTargetDifficulty: target.difficulty,
       difficultyPreserved: target.difficulty === item.difficulty,
     });
   }
 
-  if (assignments.length !== EXPECTED_TOTAL) {
-    fail(`only ${assignments.length}/${EXPECTED_TOTAL} deterministic hypothetical assignments could be resolved without violating the target-domain boundary`);
-  }
-
-  const contentQuality = evaluateContentQualityBatch(candidateRecords);
-  if (!contentQuality.passed || contentQuality.passedCount !== EXPECTED_TOTAL) {
-    fail(`candidate quality gate failed: ${contentQuality.failedCount} failures across ${EXPECTED_TOTAL} candidates`);
-  }
+  if (assignments.length !== EXPECTED_TOTAL) fail(`only ${assignments.length}/${EXPECTED_TOTAL} deterministic hypothetical assignments resolved`);
+  if (assignments.some((item) => !item.difficultyPreserved)) fail('difficulty preservation failed for one or more hypothetical assignments');
 
   const postCalibration = runBatchMCrossCorpusCalibrationCanonical(hypotheticalCorpus);
   const postRW = stats(hypotheticalCorpus);
@@ -212,8 +233,8 @@ function main() {
     releaseEligible: false,
     replacementAuthorization: 'NOT_AUTHORIZED',
     sat21Created: false,
-    decision: 'CALIBRATION_RECONCILIATION_CANDIDATES_VALIDATED_PENDING_EXPLICIT_PRODUCTION_AUTHORIZATION',
-    nextStep: 'Run independent candidate review, then resolve exact production targets and obtain fresh explicit authorization before any production mutation.',
+    decision: 'CALIBRATION_RECONCILIATION_CANDIDATES_VALIDATED_PENDING_INDEPENDENT_REVIEW_AND_EXPLICIT_PRODUCTION_AUTHORIZATION',
+    nextStep: 'Run independent review on these 195 SEC candidates, then resolve exact targets and obtain fresh explicit authorization before production mutation.',
   };
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -228,7 +249,7 @@ function main() {
     `- Hypothetical assignments resolved: **${assignments.length}/${EXPECTED_TOTAL}**.`,
     `- Hypothetical final 30-mock corpus gate: **${finalCorpusGate.passed ? 'PASS' : 'FAIL'}**.`,
     `- New calibration failures introduced: **${newFailures.length}**.`,
-    `- Hypothetical R&W SEC proportion: **${(postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual * 100).toFixed(2)}%**.`,
+    `- Hypothetical R&W SEC proportion: **${((postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual || 0) * 100).toFixed(2)}%**.`,
     '- Production mutation: **false**.',
     '- Replacement authorization: **NOT_AUTHORIZED**.',
     '- SAT21 created: **false**.',
