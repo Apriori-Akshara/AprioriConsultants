@@ -1,0 +1,33 @@
+{
+  "reportType": "batch-m-deep-content-quality-targeted-remediation-rereview-final",
+  "date": "2026-09-17",
+  "sourceCandidateCount": 299,
+  "targetedRemediationCount": 298,
+  "independentRereview": {
+    "pass": 298,
+    "fail": 0,
+    "expertReviewRequired": 1,
+    "heldCandidate": "SAT4-BATCHM-DQ-0004"
+  },
+  "expertReview": {
+    "candidateId": "SAT4-BATCHM-DQ-0004",
+    "finalStatus": "FAIL",
+    "disposition": "EXPERT_REVIEW_HOLD_RESOLVED_AS_FAIL",
+    "findings": [
+      "The tested word 'clarify' does not appear in the stimulus passage, so the Words-in-Context task lacks the contextual evidence needed to establish the keyed meaning.",
+      "The keyed choice is a plausible general meaning but is not established by the supplied passage.",
+      "The explanation is circular and does not cite or explain passage evidence supporting the keyed answer.",
+      "The answer/explanation alignment gate is therefore not satisfied."
+    ],
+    "remediationRequired": true
+  },
+  "finalResult": {
+    "pass": 298,
+    "fail": 1,
+    "productionMutation": false,
+    "releaseEligible": false,
+    "replacementAuthorization": "NOT_AUTHORIZED",
+    "sat21Created": false
+  },
+  "nextStep": "Keep the failed candidate outside production. Any later remediation requires a separately authorized candidate-only remediation stage followed by independent review."
+}

@@ -52,8 +52,20 @@ jobs:
       - name: Re-run independent substantive review on remediated set
         env:
           BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-targeted-remediation/BATCH-M-DEEP-CONTENT-QUALITY-TARGETED-REMEDIATION-2026-09-17.json
-          BATCH_M_OUTPUT_DIR: artifacts/batch-m-deep-content-quality-targeted-remediation-review
         run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
+      - name: Normalize re-review output directory for upload
+        run: |
+          mkdir -p artifacts/batch-m-deep-content-quality-targeted-remediation-review
+          cp artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json artifacts/batch-m-deep-content-quality-targeted-remediation-review/
+          cp artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.md artifacts/batch-m-deep-content-quality-targeted-remediation-review/
+
+      - name: Run final expert review of the single unresolved candidate
+        env:
+          BATCH_M_REMEDIATION_INPUT: artifacts/batch-m-deep-content-quality-targeted-remediation/BATCH-M-DEEP-CONTENT-QUALITY-TARGETED-REMEDIATION-2026-09-17.json
+          BATCH_M_REREVIEW_INPUT: artifacts/batch-m-deep-content-quality-targeted-remediation-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json
+          BATCH_M_EXPERT_REVIEW_OUTPUT_DIR: artifacts/batch-m-deep-content-quality-expert-review
+        run: node scripts/runBatchMDeepContentQualityExpertReview.mjs
 
       - name: Upload targeted remediation artifact
         uses: actions/upload-artifact@v4
@@ -68,5 +80,13 @@ jobs:
         with:
           name: batch-m-deep-content-quality-targeted-remediation-review
           path: artifacts/batch-m-deep-content-quality-targeted-remediation-review/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload expert review record
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-expert-review
+          path: artifacts/batch-m-deep-content-quality-expert-review/
           if-no-files-found: error
           retention-days: 30
