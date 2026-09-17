@@ -32,7 +32,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Run final 30-mock corpus gate
         run: npm run qc:batch-m-final-30-mock-corpus
