@@ -1,10 +1,11 @@
 /**
- * Server-only adapter for the frozen Batch M production corpus.
+ * Server-only adapter for the Batch M production corpus.
  *
  * The production gates are release-time generation/QC machinery. They must not
  * execute merely because Next.js is compiling or because a client-safe helper
  * is imported. The corpus is loaded lazily only when a verified server request
- * actually needs a Series B mock.
+ * actually needs a Series B mock. The authorized 2026-09-17 calibration
+ * replacement layer is applied at this same server-only boundary.
  */
 
 let corpus = null;
@@ -14,7 +15,10 @@ function loadCorpus() {
   if (!storeLoaded) {
     // eslint-disable-next-line global-require
     const store = require('../../data/sat/mockContent/batchMProductionStore');
-    corpus = store.BATCH_M_ACCEPTED_PRODUCTION_CORPUS || [];
+    // eslint-disable-next-line global-require
+    const replacement = require('../../data/sat/mockContent/batchMCalibrationProductionReplacement');
+    const acceptedCorpus = store.BATCH_M_ACCEPTED_PRODUCTION_CORPUS || [];
+    corpus = acceptedCorpus.map((mock) => replacement.applyBatchMCalibrationProductionReplacement(mock, mock?.testId));
     storeLoaded = true;
   }
   return corpus;
