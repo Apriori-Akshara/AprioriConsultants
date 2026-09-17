@@ -1,7 +1,7 @@
 # Batch M Production Corpus Manifest
 
-**Status:** FROZEN — CONTENT-QUALITY HOLD / RELEASE VERIFICATION PENDING  
-**Date:** September 14, 2026  
+**Status:** FROZEN — TARGETED 20-TEST REMEDIATION COMPLETE / FINAL 30-MOCK RELEASE VERIFICATION PENDING  
+**Date:** September 16, 2026  
 **Scope:** Batch M production question corpus only
 
 ## Purpose
@@ -61,11 +61,11 @@ The complete production corpus contains exactly **30 mocks** in this order:
 
 ## Acceptance boundary
 
-SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20 are the complete approved Batch M production sequence. SAT20 passed its individual production gate and the complete corpus subsequently passed the collective verification gate.
+SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20 are the complete approved Batch M production sequence. SAT20 passed its individual production gate and the complete corpus passed the pre-remediation collective verification gate. The later authorized targeted remediation was limited to selected affected records in SAT1–SAT10 and PSAT1–PSAT10.
 
 The canonical production store contains exactly this frozen sequence. It does not define or export a SAT21 production target. `nextTestKey` is `null`.
 
-The final collective verification runs against the exported frozen production corpus and preserves the boundary between the production corpus and the legacy public corpus.
+The final collective verification after the targeted remediation remains a required release checkpoint.
 
 ## Maintenance and release safeguards
 
@@ -78,38 +78,31 @@ The following rules are mandatory after the Batch M freeze:
 5. **Calibration boundary:** private calibration anchors remain private and must never be copied into production content or the public repository.
 6. **Scope boundary:** authentication, registration/email verification, subscription/payment/access, dashboard, unrelated API/Redux code, and deployment configuration remain outside Batch M production changes unless a genuine question-generation/storage/rendering dependency requires otherwise.
 7. **Release gate:** passing generation/QC does not by itself authorize public release; website inspection and release approval remain separate checkpoints.
-8. **Content-quality gate:** passing structural/originality/mathematical/figure/corpus gates does not by itself certify authentic SAT/PSAT-level quality. R&W/Math content-quality calibration and 30-mock cross-corpus calibration are required before final Batch M acceptance.
+8. **Content-quality gate:** passing structural/originality/mathematical/figure/corpus gates does not by itself certify final public readiness. The final 30-mock cross-corpus calibration and release checkpoints remain mandatory.
 
 ## Verification status
 
-**Step 4 — maintenance/spec safeguard verification: COMPLETE.**
+**Targeted 20-test remediation and comprehensive re-gating: COMPLETE.**
 
-The safeguards are consistent with the SAT/PSAT Question Specification and AI generation instructions: canonical schema remains protected; only QC-passed items are eligible; structured figures remain the source of truth; independent QC, originality, mathematical, storage, and corpus-level gates remain mandatory; and official calibration material remains an internal reference only.
+The authorized controlled replacement changed **1,594** selected targets within the previously identified **2,144** affected SAT1–SAT10 and PSAT1–PSAT10 records. No out-of-scope mock was changed.
 
-## Content-quality QC status
+GitHub Actions comprehensive 20-test QC run **35181971047** (run #7) passed with **3,920 / 3,920** runtime questions covered, **1,594 / 1,594** replacement targets verified, **0** schema failures, **0** content-quality failures, figure originality **PASS**, and every affected mock at **196 / 196** passing questions. The run reported `productionMutation: false`, `releaseEligible: false`, and `sat21Created: false`.
 
-The formal SAT1–SAT10 and PSAT1–PSAT10 content-quality audit is complete.
+The detailed checkpoint is `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md`.
 
-**Decision: QUALITY HOLD.** The audit found systemic weaknesses in R&W source complexity, reasoning demand, distractor quality, construction diversity, Math reasoning diversity, hard-item calibration, and SAT-versus-PSAT calibration. Math student-produced-response generation is also approximately 20%, below the specified 25–30% target.
+## Final Batch M release sequence
 
-Detailed findings and remediation requirements are recorded in `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md`.
-
-This finding does not authorize wholesale regeneration. The production corpus remains frozen until a corrected construction/content-quality layer is proven and any required post-freeze replacements are explicitly recorded and re-gated.
-
-## Remaining Batch M release sequence
-
-1. **Generator/content-quality remediation — active:** strengthen R&W and Math construction, semantic distractor validation, difficulty calibration, and SAT-versus-PSAT controls.
-2. **Targeted production replacement/re-gating:** replace only genuinely affected SAT1–SAT10 and PSAT1–PSAT10 items; record every changed mock/question ID; rerun affected individual gates and the final collective gate.
-3. **30-mock cross-corpus calibration:** assess difficulty consistency, skill/domain balance, construction diversity, conceptual/construction repetition, SAT/PSAT calibration, and overall corpus coherence.
-4. **Public website inspection — user responsibility:** after the content-quality hold is cleared, inspect only `https://www.aprioriconsultants.org`; verify all 30 mocks open, R&W/Math content displays, figures/charts/tables display, there are no obvious missing/broken/overlapping/clipped elements, and representative responsive/mobile views work. The user does not perform technical QC or solve every question.
-5. **Technical release QC — project responsibility:** diagnose every reported issue against generation/storage/rendering and correct only genuine defects within scope.
-6. **Final end-to-end student acceptance:** verify launch → instructions → adaptive test-taking → completion → scoring/results → detailed report using the existing architecture.
-7. **Final Batch M acceptance:** only after all preceding checkpoints pass.
+1. **Final collective 30-mock corpus gate — NEXT:** validate the complete current 30-mock production corpus after the authorized targeted remediation.
+2. **30-mock cross-corpus calibration:** assess difficulty consistency, skill/domain balance, construction diversity, conceptual/construction repetition, SAT/PSAT calibration, and overall corpus coherence.
+3. **Public website inspection — user responsibility:** inspect only `https://www.aprioriconsultants.org`; verify all 30 mocks open, R&W/Math content displays, figures/charts/tables display, there are no obvious missing/broken/overlapping/clipped elements, and representative responsive/mobile views work. The user does not perform technical QC or solve every question.
+4. **Technical release QC — project responsibility:** diagnose every reported issue against generation/storage/rendering and correct only genuine defects within scope.
+5. **Final end-to-end student acceptance:** verify launch → instructions → adaptive test-taking → completion → scoring/results → detailed report using the existing architecture.
+6. **Final Batch M acceptance:** only after all preceding checkpoints pass.
 
 SAT11–SAT20 remain deployed but their public-site verification is deliberately deferred until the later release checkpoint. No SAT21 or additional production mock is planned.
 
 ## Current status
 
-**Production generation, collective corpus verification, production-store cleanliness, and maintenance/spec safeguard verification are complete. The corpus remains frozen at exactly 30 mocks. SAT1–SAT10 and PSAT1–PSAT10 content-quality QC is complete with a QUALITY HOLD. Generator/content-quality remediation is active. SAT11–SAT20 are deployed but user-facing verification is deferred.**
+**Production generation, pre-remediation collective verification, production-store cleanliness, maintenance/spec safeguard verification, targeted remediation, authorized controlled replacement, and comprehensive 20-test post-replacement QC are complete. The corpus remains frozen at exactly 30 mocks. The next implementation step is the final collective 30-mock corpus gate. SAT11–SAT20 are deployed but user-facing verification is deferred. Final cross-corpus calibration, public verification, end-to-end student acceptance, and Batch M release acceptance remain outstanding.**
 
 No SAT21 or additional production mock is planned.
