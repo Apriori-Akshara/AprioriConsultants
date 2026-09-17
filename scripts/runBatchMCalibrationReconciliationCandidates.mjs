@@ -28,7 +28,9 @@ const fail = (message) => { throw new Error(`Batch M calibration reconciliation 
 const SEC_CONTEXTS = [
   'the coastal archive project', 'the migration survey', 'the neighborhood tree study', 'the museum lighting trial',
   'the river monitoring program', 'the regional library survey', 'the greenhouse experiment', 'the transit review',
-  'the community orchestra study', 'the agricultural field trial',
+  'the community orchestra study', 'the agricultural field trial', 'the wetlands restoration report', 'the public health archive',
+  'the telescope calibration study', 'the ceramics conservation project', 'the urban heat survey', 'the language-learning study',
+  'the marine habitat assessment', 'the historical map collection', 'the renewable-energy trial', 'the school garden evaluation',
 ];
 
 const BOUNDARY_PATTERNS = [
@@ -95,12 +97,7 @@ function interleaveTargets(sourceDomain, count, corpus) {
     let progressed = false;
     for (const bucket of buckets) {
       if (bucket.records.length && selected.length < count) {
-        selected.push({
-          sourceDomain,
-          testKey: bucket.testKey,
-          productionTestId: bucket.testId,
-          target: bucket.records.shift(),
-        });
+        selected.push({ sourceDomain, testKey: bucket.testKey, productionTestId: bucket.testId, target: bucket.records.shift() });
         progressed = true;
       }
     }
@@ -110,12 +107,7 @@ function interleaveTargets(sourceDomain, count, corpus) {
 }
 
 function getSecPrototypes() {
-  const generated = generateRemediatedRWCandidates({
-    count: 140,
-    testId: 'CALIBRATION-PROTOTYPE',
-    variant: 'sat-series-a',
-    module: 'reading-writing-module-1',
-  });
+  const generated = generateRemediatedRWCandidates({ count: 140, testId: 'CALIBRATION-PROTOTYPE', variant: 'sat-series-a', module: 'reading-writing-module-1' });
   const pass = generated.candidates
     .map((candidate, index) => ({ candidate, quality: generated.quality[index] }))
     .filter((item) => item.quality?.verdict === 'pass' && canonical(item.candidate.domain) === TARGET_DOMAIN);
@@ -124,11 +116,7 @@ function getSecPrototypes() {
     const key = `${item.candidate.skill}|${item.candidate.difficulty}`;
     if (!prototypes[key]) prototypes[key] = item.candidate;
   }
-  for (const skill of ['Boundaries', 'Form, Structure, and Sense']) {
-    for (const difficulty of ['easy', 'medium', 'hard']) {
-      if (!prototypes[`${skill}|${difficulty}`]) fail(`no passing SEC prototype available for ${skill}/${difficulty}`);
-    }
-  }
+  for (const skill of ['Boundaries', 'Form, Structure, and Sense']) for (const difficulty of ['easy', 'medium', 'hard']) if (!prototypes[`${skill}|${difficulty}`]) fail(`no passing SEC prototype available for ${skill}/${difficulty}`);
   return prototypes;
 }
 
@@ -144,76 +132,21 @@ function buildCandidate(index, target, prototype, skill) {
   const content = buildSECContent(index, skill);
   const id = `BATCH-M-CAL-SEC-${String(index + 1).padStart(3, '0')}`;
   const fingerprint = `batch-m-calibration-sec-v2-${String(index + 1).padStart(3, '0')}-${skill.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${target.target.difficulty}`;
-  return {
-    ...clone(prototype),
-    contentId: id,
-    questionId: id,
-    testId: target.testKey,
-    assessmentFamily: target.assessment === 'psat' ? 'psat' : 'sat',
-    assessmentVariant: target.variant,
-    assessmentNumber: target.assessmentNumber,
-    section: 'reading-writing',
-    module: target.target.module || prototype.module || 'reading-writing-module-1',
-    domain: TARGET_DOMAIN,
-    skill,
-    difficulty: target.target.difficulty,
-    difficultyBand: `${target.variant}-${target.target.difficulty}`,
-    cognitiveDemand: 'evaluate',
-    questionType: 'multiple-choice',
-    stimulusType: 'short-passage',
-    prompt: content.prompt,
-    choices: content.choices,
-    answer: content.answer,
-    explanation: content.explanation,
-    passageId: null,
-    estimatedTimeSeconds: target.target.difficulty === 'hard' ? 82 : target.target.difficulty === 'medium' ? 70 : 55,
-    originalityFingerprint: fingerprint,
-    conceptFingerprint: `standard-english-conventions-${skill}-${target.target.difficulty}-${index}`,
-    metadata: {
-      ...clone(prototype.metadata || {}),
-      sourceFamily: prototype.metadata?.sourceFamily || 'science',
-      rhetoricalStructure: prototype.metadata?.rhetoricalStructure || 'grammar-constraint',
-      evidenceRelationship: 'direct-support',
-      cognitiveOperation: 'evaluate',
-      targetWord: null,
-      crossTextRelationship: null,
-      difficultyFeatures: target.target.difficulty === 'hard' ? ['multi-step', 'strategic-choice'] : target.target.difficulty === 'medium' ? ['careful-interpretation'] : [],
-      candidateConstructionIndex: index,
-      candidateOnly: true,
-      productionMutation: false,
-      calibrationReconciliation: true,
-    },
-    tags: ['sat', 'batch-m-calibration-reconciliation', 'apriori-original', 'standard-english-conventions'],
-    sourceType: 'apriori-original',
-    authoringStatus: 'candidate',
-    status: 'candidate',
-    releaseEligibility: false,
-    productionMutation: false,
-    releaseEligible: false,
-    sat21Created: false,
-  };
+  return { ...clone(prototype), contentId: id, questionId: id, testId: target.testKey, assessmentFamily: target.target === 'psat' ? 'psat' : 'sat', assessmentVariant: target.variant, assessmentNumber: target.assessmentNumber, section: 'reading-writing', module: target.target.module || prototype.module || 'reading-writing-module-1', domain: TARGET_DOMAIN, skill, difficulty: target.target.difficulty, difficultyBand: `${target.variant}-${target.target.difficulty}`, cognitiveDemand: 'evaluate', questionType: 'multiple-choice', stimulusType: 'short-passage', prompt: content.prompt, choices: content.choices, answer: content.answer, explanation: content.explanation, passageId: null, estimatedTimeSeconds: target.target.difficulty === 'hard' ? 82 : target.target.difficulty === 'medium' ? 70 : 55, originalityFingerprint: fingerprint, conceptFingerprint: `standard-english-conventions-${skill}-${target.target.difficulty}-${index}`, metadata: { ...clone(prototype.metadata || {}), sourceFamily: prototype.metadata?.sourceFamily || 'science', rhetoricalStructure: prototype.metadata?.rhetoricalStructure || 'grammar-constraint', evidenceRelationship: 'direct-support', cognitiveOperation: 'evaluate', targetWord: null, crossTextRelationship: null, difficultyFeatures: target.target.difficulty === 'hard' ? ['multi-step', 'strategic-choice'] : target.target.difficulty === 'medium' ? ['careful-interpretation'] : [], candidateConstructionIndex: index, candidateOnly: true, productionMutation: false, calibrationReconciliation: true }, tags: ['sat', 'batch-m-calibration-reconciliation', 'apriori-original', 'standard-english-conventions'], sourceType: 'apriori-original', authoringStatus: 'candidate', status: 'candidate', releaseEligibility: false, productionMutation: false, releaseEligible: false, sat21Created: false };
 }
 
 function main() {
   const baselineCorpus = clone(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
   const baselineCalibration = runBatchMCrossCorpusCalibrationCanonical(baselineCorpus);
   const baselineRW = stats(baselineCorpus);
-  const baselineFailureKeys = [
-    ...(baselineCalibration.calibration?.failures || []),
-    ...baselineRW.failures.map((item) => `rw-domain:${item.domain}`),
-  ];
-
-  const targets = [
-    ...interleaveTargets('craft-and-structure', SOURCE_COUNTS['craft-and-structure'], baselineCorpus),
-    ...interleaveTargets('information-and-ideas', SOURCE_COUNTS['information-and-ideas'], baselineCorpus),
-  ];
+  const baselineFailureKeys = [...(baselineCalibration.calibration?.failures || []), ...baselineRW.failures.map((item) => `rw-domain:${item.domain}`)];
+  const targets = [...interleaveTargets('craft-and-structure', SOURCE_COUNTS['craft-and-structure'], baselineCorpus), ...interleaveTargets('information-and-ideas', SOURCE_COUNTS['information-and-ideas'], baselineCorpus)];
   if (targets.length !== EXPECTED_TOTAL) fail(`expected ${EXPECTED_TOTAL} targets, found ${targets.length}`);
 
   const prototypes = getSecPrototypes();
   const selected = targets.map((target, index) => {
     const skill = index % 2 === 0 ? 'Boundaries' : 'Form, Structure, and Sense';
-    const prototype = prototypes[`${skill}|${target.target.difficulty}`];
-    return { candidate: buildCandidate(index, target, prototype, skill), replacementSourceDomain: target.sourceDomain, target };
+    return { candidate: buildCandidate(index, target, prototypes[`${skill}|${target.target.difficulty}`], skill), replacementSourceDomain: target.sourceDomain, target };
   });
 
   const promptSet = new Set();
@@ -227,16 +160,7 @@ function main() {
     promptSet.add(key);
   }
 
-  const candidates = selected.map((item) => ({
-    ...item.candidate,
-    sourceDomain: item.replacementSourceDomain,
-    targetDomain: TARGET_DOMAIN,
-    productionTestId: item.target.productionTestId,
-    productionMutation: false,
-    releaseEligible: false,
-    sat21Created: false,
-  }));
-
+  const candidates = selected.map((item) => ({ ...item.candidate, sourceDomain: item.replacementSourceDomain, targetDomain: TARGET_DOMAIN, productionTestId: item.target.productionTestId, productionMutation: false, releaseEligible: false, sat21Created: false }));
   const contentQuality = evaluateContentQualityBatch(candidates);
   if (!contentQuality.passed || contentQuality.passedCount !== EXPECTED_TOTAL) fail(`candidate quality gate failed: ${contentQuality.failedCount} failures across ${EXPECTED_TOTAL} candidates`);
 
@@ -249,79 +173,28 @@ function main() {
     if (!mock) fail(`missing production mock ${item.target.productionTestId}`);
     const targetIndex = mock.readingWriting.findIndex((record) => record.questionId === item.target.target.questionId);
     if (targetIndex < 0) fail(`target ${item.target.target.questionId} not found in ${item.target.productionTestId}`);
-
     const targetRecord = mock.readingWriting[targetIndex];
     if (canonical(targetRecord.domain) !== canonical(item.replacementSourceDomain)) fail(`target domain mismatch for ${candidate.questionId}`);
     if (targetRecord.difficulty !== candidate.difficulty) fail(`difficulty mismatch for ${candidate.questionId}`);
-
-    mock.readingWriting[targetIndex] = {
-      ...clone(targetRecord),
-      domain: TARGET_DOMAIN,
-      skill: candidate.skill,
-      prompt: candidate.prompt,
-      choices: clone(candidate.choices),
-      answer: candidate.answer,
-      explanation: candidate.explanation,
-      originalityFingerprint: candidate.originalityFingerprint,
-      metadata: clone(candidate.metadata),
-    };
-
-    assignments.push({
-      candidateId: candidate.questionId,
-      sourceCandidateQuestionId: candidate.questionId,
-      testKey: item.target.testKey,
-      productionTestId: item.target.productionTestId,
-      questionId: item.target.target.questionId,
-      sourceDomain: item.replacementSourceDomain,
-      targetDomain: TARGET_DOMAIN,
-      candidateDifficulty: candidate.difficulty,
-      productionTargetDifficulty: targetRecord.difficulty,
-      difficultyPreserved: true,
-    });
+    mock.readingWriting[targetIndex] = { ...clone(targetRecord), domain: TARGET_DOMAIN, skill: candidate.skill, prompt: candidate.prompt, choices: clone(candidate.choices), answer: candidate.answer, explanation: candidate.explanation, originalityFingerprint: candidate.originalityFingerprint, metadata: clone(candidate.metadata) };
+    assignments.push({ candidateId: candidate.questionId, sourceCandidateQuestionId: candidate.questionId, testKey: item.target.testKey, productionTestId: item.target.productionTestId, questionId: item.target.target.questionId, sourceDomain: item.replacementSourceDomain, targetDomain: TARGET_DOMAIN, candidateDifficulty: candidate.difficulty, productionTargetDifficulty: targetRecord.difficulty, difficultyPreserved: true });
   }
-
   if (assignments.length !== EXPECTED_TOTAL) fail(`only ${assignments.length}/${EXPECTED_TOTAL} assignments resolved`);
 
   const postCalibration = runBatchMCrossCorpusCalibrationCanonical(hypotheticalCorpus);
   const postRW = stats(hypotheticalCorpus);
-  const postFailureKeys = [
-    ...(postCalibration.calibration?.failures || []),
-    ...postRW.failures.map((item) => `rw-domain:${item.domain}`),
-  ];
+  const postFailureKeys = [...(postCalibration.calibration?.failures || []), ...postRW.failures.map((item) => `rw-domain:${item.domain}`)];
   const newFailures = postFailureKeys.filter((key) => !baselineFailureKeys.includes(key));
   const finalCorpusGate = runBatchMFinalCorpusGate(hypotheticalCorpus);
   if (!finalCorpusGate.passed) fail('hypothetical reconciliation failed the final 30-mock corpus gate');
   if (newFailures.length) fail(`hypothetical reconciliation introduced new calibration failures: ${JSON.stringify(newFailures)}`);
 
   const result = {
-    reportType: 'batch-m-calibration-reconciliation-candidates',
-    date: '2026-09-17',
+    reportType: 'batch-m-calibration-reconciliation-candidates', date: '2026-09-17',
     baseline: { rw: baselineRW, crossCorpusCalibrationPassed: baselineCalibration.passed, failures: baselineFailureKeys },
-    candidatePlan: {
-      totalCandidates: EXPECTED_TOTAL,
-      targetDomain: TARGET_DOMAIN,
-      sourceCounts: SOURCE_COUNTS,
-      uniqueCandidatePrompts: promptSet.size,
-      contentQualityPassed: contentQuality.passed,
-      assignmentsResolved: assignments.length,
-      difficultyPreservationFailures: 0,
-      productionTargetsResolvedDirectly: true,
-    },
-    hypotheticalPostState: {
-      rw: postRW,
-      crossCorpusCalibrationPassed: postCalibration.passed,
-      failures: postFailureKeys,
-      newFailuresIntroduced: newFailures,
-      finalCorpusGatePassed: finalCorpusGate.passed,
-      mockCount: finalCorpusGate.mockCount,
-      totalRecords: finalCorpusGate.totalRecords,
-    },
-    assignments,
-    candidates,
-    productionMutation: false,
-    releaseEligible: false,
-    replacementAuthorization: 'NOT_AUTHORIZED',
-    sat21Created: false,
+    candidatePlan: { totalCandidates: EXPECTED_TOTAL, targetDomain: TARGET_DOMAIN, sourceCounts: SOURCE_COUNTS, uniqueCandidatePrompts: promptSet.size, contentQualityPassed: contentQuality.passed, assignmentsResolved: assignments.length, difficultyPreservationFailures: 0, productionTargetsResolvedDirectly: true },
+    hypotheticalPostState: { rw: postRW, crossCorpusCalibrationPassed: postCalibration.passed, failures: postFailureKeys, newFailuresIntroduced: newFailures, finalCorpusGatePassed: finalCorpusGate.passed, mockCount: finalCorpusGate.mockCount, totalRecords: finalCorpusGate.totalRecords },
+    assignments, candidates, productionMutation: false, releaseEligible: false, replacementAuthorization: 'NOT_AUTHORIZED', sat21Created: false,
     decision: 'CALIBRATION_RECONCILIATION_CANDIDATES_VALIDATED_PENDING_INDEPENDENT_REVIEW_AND_EXPLICIT_PRODUCTION_AUTHORIZATION',
     nextStep: 'Run independent review on these 195 SEC candidates, then finalize target lock and obtain fresh explicit production authorization before mutation.',
   };
@@ -329,35 +202,19 @@ function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2));
   fs.writeFileSync(OUTPUT_MD, [
-    '# Batch M calibration reconciliation candidates — 2026-09-17',
-    '',
+    '# Batch M calibration reconciliation candidates — 2026-09-17', '',
     '- Candidate-only calibration reconciliation; **production is unchanged**.',
     `- Proposed SEC increase: **${EXPECTED_TOTAL}** R&W replacements.`,
-    `- Source redistribution: **${SOURCE_COUNTS['craft-and-structure']} Craft and Structure + ${SOURCE_COUNTS['information-and-ideas']} Information and Ideas → Standard English Conventions**.`,
     `- Unique candidate prompts: **${promptSet.size}/${EXPECTED_TOTAL}** and none are already present in production.`,
     `- Candidate quality gate: **${contentQuality.passed ? 'PASS' : 'FAIL'}**.`,
     `- Hypothetical assignments resolved: **${assignments.length}/${EXPECTED_TOTAL}**.`,
     `- Hypothetical final 30-mock corpus gate: **${finalCorpusGate.passed ? 'PASS' : 'FAIL'}**.`,
     `- New calibration failures introduced: **${newFailures.length}**.`,
     `- Hypothetical R&W SEC proportion: **${((postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual || 0) * 100).toFixed(2)}%**.`,
-    '- Production mutation: **false**.',
-    '- Replacement authorization: **NOT_AUTHORIZED**.',
-    '- SAT21 created: **false**.',
+    '- Production mutation: **false**.', '- Replacement authorization: **NOT_AUTHORIZED**.', '- SAT21 created: **false**.',
   ].join('\n') + '\n');
 
-  console.log(JSON.stringify({
-    decision: result.decision,
-    totalCandidates: EXPECTED_TOTAL,
-    assignmentsResolved: assignments.length,
-    uniqueCandidatePrompts: promptSet.size,
-    contentQualityPassed: contentQuality.passed,
-    finalCorpusGatePassed: finalCorpusGate.passed,
-    newCalibrationFailures: newFailures.length,
-    hypotheticalRwSECProportion: postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual ?? null,
-    productionMutation: false,
-    replacementAuthorization: 'NOT_AUTHORIZED',
-    sat21Created: false,
-  }, null, 2));
+  console.log(JSON.stringify({ decision: result.decision, totalCandidates: EXPECTED_TOTAL, assignmentsResolved: assignments.length, uniqueCandidatePrompts: promptSet.size, contentQualityPassed: contentQuality.passed, finalCorpusGatePassed: finalCorpusGate.passed, newCalibrationFailures: newFailures.length, hypotheticalRwSECProportion: postRW.findings.find((item) => item.domain === TARGET_DOMAIN)?.actual ?? null, productionMutation: false, replacementAuthorization: 'NOT_AUTHORIZED', sat21Created: false }, null, 2));
 }
 
 main();
