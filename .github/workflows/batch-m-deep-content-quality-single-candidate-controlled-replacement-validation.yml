@@ -1,0 +1,75 @@
+name: Batch M Deep Content Quality Single Candidate Controlled Replacement Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-single-candidate-controlled-replacement-validation.yml'
+      - 'scripts/runBatchMDeepContentQualitySingleCandidateControlledReplacementValidation.mjs'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js'
+      - 'package.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  controlled-replacement-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download passed compatibility remediation artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-compatibility-remediation
+          path: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-remediation
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35202404942
+
+      - name: Download passed compatibility review artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-compatibility-review
+          path: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-review
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35202404942
+
+      - name: Download passed target-resolution artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-compatibility-target-resolution
+          path: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-target-resolution
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35202611502
+
+      - name: Validate exact hypothetical replacement against canonical corpus
+        env:
+          BATCH_M_SINGLE_CANDIDATE_TARGET_RESOLUTION_INPUT: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-target-resolution/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-TARGET-RESOLUTION-2026-09-17.json
+          BATCH_M_SINGLE_CANDIDATE_COMPATIBILITY_INPUT: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-remediation/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-COMPATIBILITY-REMEDIATION-2026-09-17.json
+          BATCH_M_SINGLE_CANDIDATE_COMPATIBILITY_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json
+        run: npm run qc:batch-m-deep-content-quality-single-candidate-controlled-replacement-validation
+
+      - name: Upload controlled replacement validation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-controlled-replacement-validation
+          path: artifacts/batch-m-deep-content-quality-single-candidate-controlled-replacement-validation/
+          if-no-files-found: error
+          retention-days: 30
