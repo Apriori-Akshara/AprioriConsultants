@@ -1,0 +1,108 @@
+name: Batch M Deep Content Quality Single Candidate Compatibility Remediation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-single-candidate-compatibility-remediation.yml'
+      - 'scripts/runBatchMDeepContentQualitySingleCandidateCompatibilityRemediation.mjs'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  compatibility-remediation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download passed single-candidate remediation artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-remediation
+          path: artifacts/batch-m-deep-content-quality-single-candidate-remediation
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35200787784
+
+      - name: Create medium-difficulty compatibility candidate
+        run: node scripts/runBatchMDeepContentQualitySingleCandidateCompatibilityRemediation.mjs
+
+      - name: Independently re-review compatibility candidate
+        env:
+          BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-remediation/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-COMPATIBILITY-REMEDIATION-2026-09-17.json
+        run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
+      - name: Verify compatibility review gate
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const candidatePath = 'artifacts/batch-m-deep-content-quality-single-candidate-compatibility-remediation/BATCH-M-DEEP-CONTENT-QUALITY-SINGLE-CANDIDATE-COMPATIBILITY-REMEDIATION-2026-09-17.json';
+          const reviewPath = 'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json';
+          const candidateReport = JSON.parse(fs.readFileSync(candidatePath, 'utf8'));
+          const candidate = candidateReport.candidates?.[0];
+          const review = JSON.parse(fs.readFileSync(reviewPath, 'utf8'));
+          const reviewItem = review.review?.find((item) => item.id === 'SAT4-BATCHM-DQ-0004');
+          const expected = candidateReport.remediatedCandidateCount === 1 &&
+            candidate?.testId === 'SAT4' &&
+            candidate?.domain === 'craft-and-structure' &&
+            candidate?.skill === 'Words in Context' &&
+            candidate?.difficulty === 'medium' &&
+            candidateReport.productionMutation === false &&
+            candidateReport.releaseEligible === false &&
+            candidateReport.replacementAuthorization === 'NOT_AUTHORIZED' &&
+            review.sourceSelectedCount === 1 &&
+            review.counts?.pass === 1 &&
+            review.counts?.fail === 0 &&
+            review.counts?.expertReview === 0 &&
+            reviewItem?.status === 'PASS';
+          if (!expected) {
+            console.error(JSON.stringify({
+              candidate: { testId: candidate?.testId, domain: candidate?.domain, skill: candidate?.skill, difficulty: candidate?.difficulty },
+              candidateBoundary: { productionMutation: candidateReport.productionMutation, releaseEligible: candidateReport.releaseEligible, replacementAuthorization: candidateReport.replacementAuthorization },
+              review: { sourceSelectedCount: review.sourceSelectedCount, counts: review.counts, itemStatus: reviewItem?.status }
+            }, null, 2));
+            process.exit(1);
+          }
+          console.log(JSON.stringify({
+            gate: 'PASS',
+            candidateId: 'SAT4-BATCHM-DQ-0004',
+            targetTestKey: 'SAT4',
+            targetDomain: 'craft-and-structure',
+            targetSkill: 'Words in Context',
+            targetDifficulty: 'medium',
+            review: review.counts,
+            productionMutation: false,
+            releaseEligible: false,
+            replacementAuthorization: 'NOT_AUTHORIZED',
+            sat21Created: false
+          }, null, 2));
+          NODE
+
+      - name: Upload compatibility remediation
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-compatibility-remediation
+          path: artifacts/batch-m-deep-content-quality-single-candidate-compatibility-remediation/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload compatibility review
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-compatibility-review
+          path: artifacts/batch-m-deep-content-quality-independent-review/
+          if-no-files-found: error
+          retention-days: 30
