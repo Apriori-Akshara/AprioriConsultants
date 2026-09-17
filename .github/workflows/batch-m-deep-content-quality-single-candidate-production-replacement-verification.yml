@@ -1,0 +1,40 @@
+name: Batch M Deep Content Quality Single Candidate Production Replacement Verification
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/data/sat/mockContent/batchMDeepContentQualitySingleCandidateProductionReplacement.js'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'scripts/runBatchMDeepContentQualitySingleCandidateProductionReplacementVerification.mjs'
+      - '.github/workflows/batch-m-deep-content-quality-single-candidate-production-replacement-verification.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  post-replacement-verification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run exact single-candidate production replacement verification
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualitySingleCandidateProductionReplacementVerification.mjs
+
+      - name: Upload post-replacement verification artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-single-candidate-production-replacement-verification
+          path: artifacts/batch-m-deep-content-quality-single-candidate-production-replacement-verification/
+          if-no-files-found: error
+          retention-days: 30
