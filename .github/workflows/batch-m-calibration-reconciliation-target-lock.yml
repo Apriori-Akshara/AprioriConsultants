@@ -1,0 +1,107 @@
+name: Batch M calibration reconciliation target lock
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Batch M calibration reconciliation candidate review
+    types:
+      - completed
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  lock-reviewed-targets:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Identify passed independent-review run
+        id: locate-review
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_EVENT_NAME" = "workflow_run" ]; then
+            RUN_ID="${{ github.event.workflow_run.id }}"
+          else
+            RUN_ID="$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow batch-m-calibration-reconciliation-candidate-review.yml \
+              --branch main \
+              --status success \
+              --limit 1 \
+              --json databaseId \
+              --jq '.[0].databaseId')"
+          fi
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            echo 'No successful Batch M independent candidate-review run was identified.' >&2
+            exit 1
+          fi
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Using independent-review run $RUN_ID"
+
+      - name: Download independent review artifact
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/batch-m-calibration-reconciliation-candidate-review
+          gh run download "${{ steps.locate-review.outputs.run_id }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name batch-m-calibration-reconciliation-candidate-review \
+            --dir artifacts/batch-m-calibration-reconciliation-candidate-review
+
+      - name: Identify candidate-generation run
+        id: locate-candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUN_ID="$(gh run list \
+            --repo "$GITHUB_REPOSITORY" \
+            --workflow batch-m-calibration-reconciliation-candidates.yml \
+            --branch main \
+            --status success \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')"
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            echo 'No successful Batch M candidate-generation run was identified.' >&2
+            exit 1
+          fi
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Using candidate-generation run $RUN_ID"
+
+      - name: Download candidate-generation artifact
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/batch-m-calibration-reconciliation-candidates
+          gh run download "${{ steps.locate-candidates.outputs.run_id }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name batch-m-calibration-reconciliation-candidates \
+            --dir artifacts/batch-m-calibration-reconciliation-candidates
+
+      - name: Run exact target lock
+        run: |
+          node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/lockBatchMCalibrationReconciliationTargets.mjs
+
+      - name: Upload target-lock artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-calibration-reconciliation-target-lock
+          path: artifacts/batch-m-calibration-reconciliation-target-lock/
+          if-no-files-found: error
+          retention-days: 30
