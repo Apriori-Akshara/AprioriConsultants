@@ -1,0 +1,46 @@
+name: Batch M calibration reconciliation candidates
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/runBatchMCalibrationReconciliationCandidates.mjs'
+      - 'src/data/sat/mockContent/verbalConstructionRemediated.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibration.js'
+      - 'src/data/sat/mockContent/batchMProductionController.js'
+
+permissions:
+  contents: read
+
+jobs:
+  calibration-reconciliation-candidates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run candidate-only calibration reconciliation
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCalibrationReconciliationCandidates.mjs
+
+      - name: Upload calibration reconciliation candidate artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-calibration-reconciliation-candidates
+          path: artifacts/batch-m-calibration-reconciliation-candidates/
+          if-no-files-found: error
+          retention-days: 30
