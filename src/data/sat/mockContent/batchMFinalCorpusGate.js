@@ -20,6 +20,15 @@ function collectRecords(mock) {
   return [...(mock?.readingWriting || []), ...(mock?.math || [])];
 }
 
+function resolveTestKey(mock) {
+  const explicitKey = String(mock?.testKey || '').trim().toUpperCase();
+  if (explicitKey) return explicitKey;
+
+  const testId = String(mock?.testId || '').trim();
+  const target = BATCH_M_PRODUCTION_SEQUENCE.find((item) => item.testId === testId);
+  return target?.testKey || '';
+}
+
 function assertIdentity(mock, target, index) {
   if (!mock || typeof mock !== 'object') throw new Error(`Batch M final corpus: missing mock at position ${index + 1}`);
   if (mock.testId !== target.testId) throw new Error(`Batch M final corpus: ${target.testKey} has testId ${mock.testId || 'missing'}, expected ${target.testId}`);
@@ -40,7 +49,7 @@ function assertMockRecords(mock, target) {
 
   for (const record of records) {
     const result = validateSatQuestion(record);
-    if (!result.valid) throw new Error(`Batch M final corpus: ${target.testKey} schema failure for ${record?.questionId || 'unknown'}: ${result.errors.join(' ')}`);
+    if (!result.valid) throw new Error(`Batch M final corpus: schema failure for ${record?.questionId || 'unknown'}: ${result.errors.join(' ')}`);
     if (record.testId !== target.testId) throw new Error(`Batch M final corpus: ${target.testKey} contains a record with the wrong testId`);
 
     const id = String(record.questionId || record.contentId || '');
@@ -112,7 +121,7 @@ export function runBatchMFinalCorpusGate(corpus) {
     throw new Error(`Batch M final corpus: exactly ${EXPECTED_MOCK_COUNT} production mocks are required`);
   }
 
-  const keys = corpus.map((mock) => String(mock?.testKey || '').toUpperCase());
+  const keys = corpus.map(resolveTestKey);
   assertBatchMProductionOrder(keys);
 
   const summaries = corpus.map((mock, index) => {
