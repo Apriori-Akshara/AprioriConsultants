@@ -1,6 +1,6 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 16, 2026  
+**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 21, 2026  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
 
@@ -26,9 +26,9 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | **20-TEST TARGETED REMEDIATION COMPLETE / FINAL 30-MOCK GATE PENDING** |
+| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK GATE BLOCKED BY SCHEMA REGRESSION** |
 
-**Batch M production generation is complete and frozen. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit produced a quality hold. The affected 20-test remediation path has now completed candidate selection, authorized controlled replacement, and comprehensive post-replacement QC with all required gates passing. The remaining work is the final 30-mock corpus gate and subsequent cross-corpus/release checkpoints.**
+**Batch M production generation is complete. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit produced a quality hold, which was remediated through the documented candidate/replacement path. The later 195-target R&W calibration reconciliation was independently reviewed, exactly target-locked, explicitly authorized, and applied to production. The latest final 30-mock corpus gate now fails on a canonical schema incompatibility (`Invalid difficultyBand: sat-series-a-medium`) introduced by that replacement layer. Release eligibility remains false.**
 
 ## 1. Core architecture
 
@@ -168,18 +168,30 @@ The controlled replacement and subsequent comprehensive 20-test QC are complete.
 
 GitHub Actions run **35181971047** (run #7) is the successful comprehensive QC evidence for this milestone.
 
-### Final 30-mock gate — next target
+### Final 30-mock gate — current blocker and next target
 
-The next implementation stage is the **final collective 30-mock corpus gate** against the current complete 30-mock production corpus. It must validate that the authorized targeted changes did not introduce corpus-level regressions and that the complete SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20 sequence still satisfies the collective technical/content/originality requirements.
+The next release checkpoint is still the **final collective 30-mock corpus gate**, but this gate has already been rerun after the authorized 195-target reconciliation and is currently **BLOCKED by a schema regression**.
 
-This stage must remain distinct from:
+Relevant workflow history:
 
-1. 30-mock cross-corpus calibration;
-2. SAT11–SAT20 public-site verification;
-3. final end-to-end student acceptance;
-4. final Batch M release acceptance.
+- Final 30-mock corpus gate PASS immediately before the 195-target replacement: **run 35215919189**.
+- Exact authorized 195-target replacement applied in `main`: **commit 7c4dd75bf35a3e618deffb1350e1ea3cbb15876a`.
+- Final 30-mock corpus gate after that replacement: **run 35216124749 — FAIL**.
+- Blocking error: **`Invalid difficultyBand: sat-series-a-medium`** for `sat-series-a-mock-01-rw-001`.
 
-No additional candidate generation, impact audit, classification, inventory, or 20-test QC rerun is required unless a real repository discrepancy is found.
+The current failure is a production-corpus schema compatibility problem. The 195-target candidates had already passed candidate generation, independent review, and exact target locking; those stages must not be restarted merely because the final corpus gate now fails.
+
+The exact next implementation step is to correct the `difficultyBand` value emitted/applied by the 195-target calibration replacement layer so it conforms to the repository's existing canonical difficulty-band schema, without weakening schema validation or changing the authorized target scope.
+
+After the schema fix:
+
+1. rerun the final 30-mock corpus gate;
+2. rerun 30-mock cross-corpus calibration;
+3. complete the deferred SAT11–SAT20 public verification;
+4. complete final end-to-end student acceptance;
+5. finalize Batch M release acceptance.
+
+No additional candidate generation, impact audit, classification, inventory, or comprehensive 20-test QC rerun is required unless the corrected final gate identifies a genuinely new content or corpus regression.
 
 ### Remediation branch promotion boundary
 
@@ -210,5 +222,5 @@ At the beginning of a future session:
 7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the original audit findings.
 8. Read `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md` for the completed remediation/re-gating milestone.
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
-10. Start with the **final collective 30-mock corpus gate**; do not create SAT21.
+10. Start with the **canonical `difficultyBand` compatibility fix and rerun of the final collective 30-mock corpus gate**; do not create SAT21.
 11. Treat SAT11–SAT20 public verification as deferred release work.
