@@ -103,13 +103,20 @@ function main() {
     const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
       exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate);
     if (!eligible) {
-      const reason = productionMutation
-        ? 'production-or-release-boundary-violation'
-        : (!id || !fingerprint ? 'duplicate-or-missing-identity' :
-          (templateCount >= 3 ? 'semantic-template-review-ceiling' :
-            (exactPromptSeen.has(exactPrompt) ? 'duplicate-normalized-prompt' :
-              (promptChoiceSeen.has(promptChoice) ? 'duplicate-prompt-choice-construction' :
-                (!preReviewEligible(candidate) ? 'pre-review-substantive-screen' : 'duplicate-or-missing-identity'))));
+      let reason = 'duplicate-or-missing-identity';
+      if (productionMutation) {
+        reason = 'production-or-release-boundary-violation';
+      } else if (!id || !fingerprint) {
+        reason = 'duplicate-or-missing-identity';
+      } else if (templateCount >= 3) {
+        reason = 'semantic-template-review-ceiling';
+      } else if (exactPromptSeen.has(exactPrompt)) {
+        reason = 'duplicate-normalized-prompt';
+      } else if (promptChoiceSeen.has(promptChoice)) {
+        reason = 'duplicate-prompt-choice-construction';
+      } else if (!preReviewEligible(candidate)) {
+        reason = 'pre-review-substantive-screen';
+      }
       rejected.push({ id, reason });
       continue;
     }
