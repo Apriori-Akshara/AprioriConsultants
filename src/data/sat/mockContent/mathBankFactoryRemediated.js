@@ -78,7 +78,7 @@ function buildDistractorArchitecture(question) {
       error_mechanism: errors[index] || errors[errors.length - 1],
     };
   });
-  return profiles;
+  return { profiles };
 }
 
 function buildMath(index, options) {
@@ -306,18 +306,18 @@ function buildMath(index, options) {
   }
   if (hard) {
     const hardClosers = [
-      'First identify the relevant relationship, then use it to evaluate the requested condition because the intermediate result determines the final value.',
-      'Begin by translating the given condition into the relevant relationship, then use the resulting quantity to answer the question.',
-      'Determine the governing relationship first; the value it produces is then needed to evaluate the requested condition.',
-      'Use the stated relationship to find the intermediate quantity before determining the requested result.',
-      'The problem requires two linked steps: identify the relationship and then apply it to the requested condition.',
-      'First connect the given quantities using the appropriate relationship, then use that result to determine the requested value.',
-      'Identify what the stated condition constrains, calculate that intermediate quantity, and then use it to obtain the requested result.',
-      'The key step is to establish the relationship among the given quantities before evaluating the final requested value.',
-      'Translate the information into the appropriate model, determine the intermediate result, and use it to answer the final question.',
-      'Use the first relationship to determine the quantity needed for the second step, then evaluate the requested condition.',
-      'Determine the relevant parameter from the information given and then apply it to the condition asked about in the question.',
-      'The requested value follows after the given information is used to establish the intermediate relationship required by the problem.',
+      'First identify the relevant relationship, then use the intermediate result to evaluate the requested condition because the two steps are linked.',
+      'Begin by translating the given condition into a relationship, then apply that relationship to the requested quantity after establishing the needed intermediate value.',
+      'Determine the governing relationship first, then use the resulting quantity to evaluate the requested condition because the final value depends on that first step.',
+      'Use the stated relationship to find the intermediate quantity, then use that quantity to determine the requested result after the first calculation is complete.',
+      'The problem requires two linked steps: identify the relevant relationship, then apply the resulting value to the condition asked about.',
+      'First connect the given quantities using the appropriate relationship, then use that result to determine the requested value because the intermediate quantity controls the final step.',
+      'Identify what the stated condition constrains, calculate that intermediate quantity, then use it to obtain the requested result from the linked relationship.',
+      'Establish the relationship among the given quantities first, then evaluate the requested condition using the intermediate result because the final step depends on that relationship.',
+      'Translate the information into the appropriate model, determine the intermediate result, then use that result to answer the final question.',
+      'Use the first relationship to determine the quantity needed for the second step, then evaluate the requested condition after the intermediate value is known.',
+      'Determine the relevant parameter from the information given, then apply it to the condition asked about because the requested value depends on that parameter.',
+      'Use the given information to establish the intermediate relationship, then apply that relationship to the requested condition so that the final value follows from both steps.',
     ];
     prompt = `${prompt} ${hardClosers[Math.floor(index / 4) % hardClosers.length]}`;
   }
