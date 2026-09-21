@@ -97,3 +97,5 @@ jobs:
           retention-days: 30
 
 # Candidate-only. Fresh review is required after canonical normalization. No production mutation is performed.
+
+# Verification-triggered workflow revision — candidate-only; no production mutation.
