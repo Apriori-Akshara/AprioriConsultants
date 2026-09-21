@@ -7,7 +7,7 @@
  */
 
 import { generateRemediatedRWCandidates } from './verbalConstructionRemediated.js';
-import { generateRemediatedMathCandidates } from './mathBankFactoryRemediated.js';
+import { buildDistractorArchitecture, generateRemediatedMathCandidates } from './mathBankFactoryRemediated.js';
 import { evaluateContentQualityBatch } from './batchMContentQualityGate.js';
 
 function normalize(value) {
@@ -184,7 +184,17 @@ function replaceMathDistractors(question, index) {
   const target = (index + 1) % 4;
   const choices = [...distractors];
   choices.splice(target, 0, correct);
-  return {...question, choices: choices.slice(0, 4), answer: String.fromCharCode(65 + target)};
+  const answer = String.fromCharCode(65 + target);
+  const metadata = {
+    ...(question.metadata || {}),
+    distractor_architecture: buildDistractorArchitecture({
+      questionType: question.questionType,
+      choices: choices.slice(0, 4),
+      answer,
+      skill: question.skill,
+    }),
+  };
+  return { ...question, choices: choices.slice(0, 4), answer, metadata };
 }
 
 const RW_FALLBACKS = {
