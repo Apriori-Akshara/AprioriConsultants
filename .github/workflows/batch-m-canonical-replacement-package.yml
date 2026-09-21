@@ -55,6 +55,12 @@ jobs:
           repository: ${{ github.repository }}
           run-id: 35666673400
 
+      - name: Syntax-check Batch M package scripts
+        run: |
+          node --check scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs
+          node --check scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
+          node --check scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
       - name: Canonically normalize the 25 candidates
         env:
           BATCH_M_CANONICAL_NORMALIZATION_CANDIDATE_INPUT: artifacts/batch-m-current-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-17.json
