@@ -199,7 +199,11 @@ The document system must not create SAT21, broaden the 30-mock scope, weaken a q
 
 The deterministic replacement-package builder is implemented at `scripts/runBatchMDeepContentQualityReplacementPackage.mjs`, with CI orchestration at `.github/workflows/batch-m-deep-content-quality-replacement-package.yml`. It consumes the current 25-candidate selection and independent-review artifacts, uses the frozen canonical production corpus, proposes only existing targets, and records canonical mismatches as blockers. It never performs production mutation.
 
-The current 25 generic candidates did not carry exact canonical production metadata for all target families, including assessment labels and skill naming. A dedicated candidate-only canonical-normalization stage has now been implemented to resolve those differences from exact existing production targets, followed by a fresh independent review and final hypothetical replacement validation.
+The current 25 generic candidates did not carry exact canonical production metadata for all target families, including assessment labels and skill naming. A dedicated candidate-only canonical-normalization stage has now been implemented to resolve those differences from exact existing production targets, followed by a fresh independent review and final hypothetical replacement validation. Semantic target mapping is now strict rather than permissive: scatterplot interpretation → Data models; equivalent exponential representations → Exponential equations; right-triangle relationships → Right triangles; linear relationships → Linear functions.
+
+### Batch M package-verification controls — current state
+
+The new package pipeline also has direct npm commands in `package.json` for canonical normalization and final replacement-package validation, and the CI workflow performs Node syntax checks before executing the pipeline. These are validation controls only; they do not authorize production mutation.
 
 ### Final 30-mock gate and release checkpoints — current state
 
@@ -272,5 +276,5 @@ At the beginning of a future session:
 7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the original audit findings.
 8. Read `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md` for the completed remediation/re-gating milestone.
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
-10. Verify the implemented **canonical-normalization → fresh independent review → final replacement-package validation** pipeline for the 25 candidates that passed the prior review. Keep production mutation blocked until the fresh review and final package validation both pass. The prior `difficultyBand` compatibility regression and collective gates are already resolved; do not create SAT21.
+10. Verify the implemented **canonical-normalization → fresh independent review → final replacement-package validation** pipeline for the 25 candidates that passed the prior review. Keep production mutation blocked until the fresh review and final package validation both pass. The normalization now uses strict semantic skill mappings and cannot substitute unrelated canonical skills. The prior `difficultyBand` compatibility regression and collective gates are already resolved; do not create SAT21.
 11. Treat SAT11–SAT20 public verification as deferred release work.
