@@ -98,6 +98,8 @@ The authorized 195-target calibration replacement passed its candidate-level rev
 
 The remaining substantive blocker is the deep content-quality/diversity gate. The latest production-corpus deep-QC run is **35578714129 — FAIL**. The follow-on run **35579096349** successfully generated and selected a candidate-only remediation pool, and **35579481595** successfully executed the independent-review workflow; however, that review's substantive disposition is **HOLD_FOR_REVIEW_AND_REMEDIATION (298 FAIL / 1 expert review / 0 PASS)**. These candidates remain outside production.
 
+A subsequent candidate-only selector correction was committed as **da71fcbd473741236de08fd9dce0e27b3511b9e4** to enforce diversity limits before independent review. A further candidate-generator correction was committed as **7885a01eab70982ad866438c310e85eeb5e6001e** so Math items are labeled hard only when their underlying construction contains a genuine multi-step path; one-step items are demoted to medium rather than being made to appear hard through generic appended reasoning language. Neither change mutates production.
+
 The production corpus remains the same frozen 30-mock scope. The repository has not created SAT21.
 
 ## 6. Current next implementation step
@@ -113,6 +115,8 @@ Current verified sequence:
 5. **Independent-review workflow — technical workflow PASS, substantive decision HOLD:** 35579481595; 298 FAIL / 1 expert-review item / 0 PASS.
 6. **SAT11–SAT20 public route smoke — PASS:** 35580194863.
 7. **Authenticated Series B functionality — focused live acceptance reported satisfactory by the user; not exhaustive content QC.**
+8. **Candidate selector diversity correction — committed:** da71fcbd473741236de08fd9dce0e27b3511b9e4; candidate-only.
+9. **Hard-Math construction/difficulty-alignment correction — committed:** 7885a01eab70982ad866438c310e85eeb5e6001e; candidate-only.
 
 Next implementation work must stay candidate-only until the substantive candidate review/remediation reaches the documented release boundary. Do not create SAT21, broaden the production scope, or weaken any gate.
 
@@ -153,4 +157,4 @@ Future sessions should treat this document and `docs/QUESTION-GENERATION-ROADMAP
 
 Do **not** resume from the older September 15 or earlier September 17 "next candidate generation / not authorized" statements. Those are historical checkpoints and have been superseded by the later September 17 production application and the resulting final-gate schema regression.
 
-Resume at the single active blocker: **candidate-only deep SAT/PSAT content-quality/diversity remediation and independent review**. The `difficultyBand` regression and final 30-mock technical gates are already resolved; do not mutate production or create SAT21.
+Resume at the single active blocker: **candidate-only deep SAT/PSAT content-quality/diversity remediation and independent review**. The `difficultyBand` regression and final 30-mock technical gates are already resolved; do not mutate production or create SAT21. The current candidate pipeline includes diversity-aware selection and genuine-hardness alignment for Math; verify the resulting independent-review run before introducing another remediation change.
