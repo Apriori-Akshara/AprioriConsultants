@@ -334,8 +334,6 @@ function repairQuestion(question, checks, index) {
     }
     if (checkSet.has('hard-label-without-demand-feature')) {
       out.difficulty = 'medium';
-      out.difficultyBand = String(out.assessmentVariant || 'sat') + '-' +
-        String(out.adaptiveRoute || 'standard') + '-medium';
       out.metadata = {
         ...(out.metadata || {}),
         difficultyFeatures: Array.isArray(out.metadata?.difficultyFeatures) ? out.metadata.difficultyFeatures : [],
@@ -373,7 +371,7 @@ function stamp(candidate, sourceFailure, index) {
   out.questionId = out.id;
   out.contentId = out.id;
   out.version = Number(out.version || 1) + 1;
-  out.status = 'candidate';
+  out.status = 'draft';
   out.authoringStatus = 'candidate';
   out.isOperational = false;
   out.releaseEligibility = false;
