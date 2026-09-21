@@ -5,6 +5,9 @@ const routes = [
   ...Array.from({ length: 10 }, (_, index) => `/SATMocks/SAT${index + 11}`),
 ];
 
+const MAX_ATTEMPTS = 10;
+const RETRY_DELAY_MS = 30_000;
+
 async function checkRoute(route) {
   const url = `${BASE_URL}${route}`;
   const response = await fetch(url, {
@@ -13,22 +16,54 @@ async function checkRoute(route) {
   });
 
   const location = response.headers.get('location') || '';
+  const returnTo = location.startsWith('/Auth?returnTo=')
+    ? decodeURIComponent(location.split('returnTo=')[1] || '')
+    : '';
+
   const passed = response.status >= 300 && response.status < 400
-    && location.startsWith('/Auth?returnTo=')
-    && decodeURIComponent(location.split('returnTo=')[1] || '') === route;
+    && returnTo === route;
 
   return {
     route,
     status: response.status,
     location,
+    returnTo,
     passed,
   };
 }
 
-const results = [];
-for (const route of routes) results.push(await checkRoute(route));
+async function sleep(ms) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+let results = [];
+
+for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+  results = [];
+  for (const route of routes) results.push(await checkRoute(route));
+
+  const failures = results.filter((result) => !result.passed);
+  console.log(JSON.stringify({
+    attempt,
+    maxAttempts: MAX_ATTEMPTS,
+    failures: failures.map(({ route, status, location, returnTo }) => ({
+      route,
+      status,
+      location,
+      returnTo,
+    })),
+  }, null, 2));
+
+  if (failures.length === 0) break;
+
+  if (attempt < MAX_ATTEMPTS) {
+    console.log(`Live deployment has not converged yet; retrying in ${RETRY_DELAY_MS / 1000}s.`);
+    await sleep(RETRY_DELAY_MS);
+  }
+}
 
 const failures = results.filter((result) => !result.passed);
+
 console.log(JSON.stringify({
   baseUrl: BASE_URL,
   scope: 'SAT Series B public unauthenticated route smoke verification',
@@ -39,5 +74,5 @@ console.log(JSON.stringify({
 }, null, 2));
 
 if (failures.length) {
-  throw new Error(`SAT11-SAT20 public route smoke verification failed for ${failures.length} route(s).`);
+  throw new Error(`SAT11-SAT20 public route smoke verification failed for ${failures.length} route(s) after ${MAX_ATTEMPTS} attempts.`);
 }
