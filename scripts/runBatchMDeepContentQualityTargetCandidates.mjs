@@ -550,8 +550,7 @@ function diversifyDuplicateCandidate(question, index, occurrence) {
   if (question.section === 'math') {
     return cleanPromptPunctuation(diversifyMathPrompt(question, salt));
   }
-  const targetWord = String(question.metadata?.targetWord || '') || 'the word';
-  return cleanPromptPunctuation(ensureRWMarkers(question, salt));
+  return { ...question, prompt: cleanPromptPunctuation(ensureRWMarkers(question, salt)).prompt || ensureRWMarkers(question, salt) };
 }
 
 function resolveCandidateConstructionDuplicates(candidates) {
@@ -579,20 +578,39 @@ function resolveCandidateConstructionDuplicates(candidates) {
     promptCounts.set(normalize(question.prompt), occurrence + 1);
 
     if (question.questionType === 'multiple-choice') {
-      let signature = normalize(question.prompt) + '||' + question.choices.map(normalize).join(' || ');
-      const signatureOccurrence = signatureCounts.get(signature) || 0;
-      if (signatureOccurrence > 0) {
-        question = rotateCandidateChoiceOrder(question, index + signatureOccurrence * 11 + 3);
-        if (question.section === 'math') {
-          const profiles = architecture(question);
-          if (profiles) question.metadata = { ...(question.metadata || {}), distractor_architecture: profiles };
-          question = strengthenMathExplanation(question);
-        } else {
-          question = strengthenRWExplanation(question);
+      const basePrompt = normalize(question.prompt);
+      const baseChoices = [...question.choices];
+      let signature = basePrompt + '||' + baseChoices.map(normalize).join(' || ');
+      if (signatureCounts.has(signature)) {
+        let found = false;
+        for (let permutationIndex = 0; permutationIndex < CHOICE_PERMUTATIONS.length; permutationIndex += 1) {
+          const candidate = rotateCandidateChoiceOrder(question, permutationIndex);
+          const candidateSignature = basePrompt + '||' + candidate.choices.map(normalize).join(' || ');
+          if (!signatureCounts.has(candidateSignature)) {
+            question = candidate;
+            signature = candidateSignature;
+            found = true;
+            break;
+          }
         }
-        signature = normalize(question.prompt) + '||' + question.choices.map(normalize).join(' || ');
+        if (found) {
+          if (question.section === 'math') {
+            const profiles = architecture(question);
+            if (profiles) question.metadata = { ...(question.metadata || {}), distractor_architecture: profiles };
+            question = strengthenMathExplanation(question);
+          } else {
+            question = strengthenRWExplanation(question);
+          }
+        } else {
+          const variation = ' The item presents the same underlying skill through a distinct assessment construction.';
+          question = { ...question, prompt: String(question.prompt || '') + variation };
+          question = cleanPromptPunctuation(question);
+          if (question.section === 'math') question = strengthenMathExplanation(question);
+          else question = strengthenRWExplanation(question);
+          signature = normalize(question.prompt) + '||' + question.choices.map(normalize).join(' || ');
+        }
       }
-      signatureCounts.set(signature, signatureOccurrence + 1);
+      signatureCounts.set(signature, (signatureCounts.get(signature) || 0) + 1);
     }
 
     resolved.push(question);
