@@ -195,6 +195,12 @@ Implementation placement in the current release sequence:
 
 The document system must not create SAT21, broaden the 30-mock scope, weaken a quality gate, or automatically mutate production.
 
+### Controlled replacement-package implementation — current checkpoint
+
+The deterministic replacement-package builder is implemented at `scripts/runBatchMDeepContentQualityReplacementPackage.mjs`, with CI orchestration at `.github/workflows/batch-m-deep-content-quality-replacement-package.yml`. It consumes the current 25-candidate selection and independent-review artifacts, uses the frozen canonical production corpus, proposes only existing targets, and records canonical mismatches as blockers. It never performs production mutation.
+
+The current 25 generic candidates do not carry exact canonical production metadata for all target families, including assessment labels and skill naming. Therefore the package is not authorization-ready until those differences are resolved explicitly by normalization/regeneration and the package validation passes.
+
 ### Final 30-mock gate and release checkpoints — current state
 
 The final collective corpus gate and 30-mock cross-corpus calibration **PASS** on the current production revision:
@@ -219,7 +225,7 @@ The corrected deep SAT/PSAT content-quality/diversity candidate pipeline has als
 
 The candidate-selector correction is recorded at `f52238c6a3ffafd97baca9ba291a310d5187af2f`. The 25 passed candidates are not automatically production replacements.
 
-**Current next stage:** prepare a controlled replacement package mapping each passed candidate to an exact existing production `testKey` + `questionId`, validate the one-for-one mappings and production-boundary controls, and stop before production mutation. Explicit authorization must be recorded separately before any replacement is applied.
+**Current next stage:** resolve and validate the controlled replacement package for the 25 passed candidates. The package builder is implemented; canonical metadata blockers must be explicitly resolved before authorization or production mutation. Explicit authorization must be recorded separately before any replacement is applied.
 
 After explicit authorization, apply only the approved one-for-one replacements, then rerun the affected gates and required collective gates. After those gates pass, complete final public student-facing inspection, technical release QC, final end-to-end student acceptance, and Batch M release acceptance.
 
@@ -266,5 +272,5 @@ At the beginning of a future session:
 7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the original audit findings.
 8. Read `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md` for the completed remediation/re-gating milestone.
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
-10. Start with **controlled replacement-package preparation for the 25 candidates that passed independent substantive review**. Map each candidate to an exact existing production `testKey` + `questionId`, validate the package, and keep production mutation blocked until explicit authorization. The `difficultyBand` compatibility regression and final 30-mock/cross-corpus gates are already resolved; do not rerun them unnecessarily or create SAT21.
+10. Continue with the implemented **controlled replacement-package validation for the 25 candidates that passed independent substantive review**. Resolve the canonical compatibility blockers explicitly, rerun the package validator, and keep production mutation blocked until a clean package and explicit authorization exist. The `difficultyBand` compatibility regression and final 30-mock/cross-corpus gates are already resolved; do not rerun them unnecessarily or create SAT21.
 11. Treat SAT11–SAT20 public verification as deferred release work.
