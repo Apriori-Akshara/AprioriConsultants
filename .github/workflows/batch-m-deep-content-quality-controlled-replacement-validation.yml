@@ -1,0 +1,70 @@
+name: Batch M Deep Content Quality Controlled Replacement Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-controlled-replacement-validation.yml'
+      - 'scripts/runBatchMDeepContentQualityControlledReplacementValidation.mjs'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMProductionController.js'
+      - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
+      - 'src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/questionSchema.js'
+      - 'package.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  controlled-replacement-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download passed target-specific candidates
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-candidates
+          path: artifacts/batch-m-deep-content-quality-target-candidates
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35587152958
+
+      - name: Download passed exact target lock
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-lock
+          path: artifacts/batch-m-deep-content-quality-target-lock
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35593900082
+
+      - name: Validate hypothetical 3080-target replacement
+        env:
+          BATCH_M_TARGET_CANDIDATE_INPUT: artifacts/batch-m-deep-content-quality-target-candidates/BATCH-M-DEEP-CONTENT-QUALITY-TARGET-CANDIDATES-2026-09-21.json
+          BATCH_M_TARGET_LOCK_INPUT: artifacts/batch-m-deep-content-quality-target-lock/BATCH-M-DEEP-CONTENT-QUALITY-TARGET-LOCK-2026-09-21.json
+        run: npm run qc:batch-m-deep-content-quality-controlled-replacement-validation
+
+      - name: Upload controlled replacement validation
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-controlled-replacement-validation
+          path: artifacts/batch-m-deep-content-quality-controlled-replacement-validation/
+          if-no-files-found: error
+          retention-days: 30
