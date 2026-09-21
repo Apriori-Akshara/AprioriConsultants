@@ -203,7 +203,25 @@ function buildMath(index, options) {
     } else if (index % 4 === 2) {
       const points = [[1, 8 + index], [2, 11 + index], [3, 15 + index], [4, 18 + index], [5, 22 + index]];
       skill = 'Scatterplot interpretation';
-      prompt = `A scatterplot has observed values ${points.map((point) => `(${point[0]}, ${point[1]})`).join(', ')}. A linear model is used to describe the trend. Which statement is best supported by the data?`;
+      const scatterPromptVariants = [
+        'A study records the following observed pairs',
+        'The data from a field investigation are shown as the ordered pairs',
+        'A researcher plots these five observations',
+        'The following observations are displayed in a scatterplot',
+        'A data analyst examines the paired values',
+        'The scatterplot is based on these measured pairs',
+        'A sample produces the following coordinate pairs',
+        'The five plotted observations are',
+      ];
+      const scatterQuestionVariants = [
+        'Which statement is best supported by the data?',
+        'Which conclusion is most directly supported by the scatterplot?',
+        'Which statement most accurately describes the association shown?',
+        'What conclusion is supported by the observed pattern?',
+      ];
+      const scatterStem = scatterPromptVariants[Math.floor(index / 4) % scatterPromptVariants.length];
+      const scatterQuestion = scatterQuestionVariants[Math.floor(index / 4) % scatterQuestionVariants.length];
+      prompt = `${scatterStem} ${points.map((point) => \`(${point[0]}, ${point[1]})\`).join(', ')}. A linear model summarizes the overall trend. ${scatterQuestion}`;
       choices = ['The response generally increases as the explanatory variable increases.', 'The response is exactly constant for every value.', 'The response must decrease whenever the explanatory variable increases.', 'The data establish that the explanatory variable causes every change in the response.'];
       numericAnswer = null;
       explanation = 'The plotted values rise overall, although the increase is not perfectly uniform; the data alone do not establish causation.';
@@ -286,7 +304,21 @@ function buildMath(index, options) {
     prompt = `${prompt} Use the information provided; no advanced technique beyond the stated relationship is required.`;
   }
   if (hard) {
-    prompt = `${prompt} First identify the relevant relationship, then use it to evaluate the requested condition because the intermediate result determines the final value.`;
+    const hardClosers = [
+      'First identify the relevant relationship, then use it to evaluate the requested condition because the intermediate result determines the final value.',
+      'Begin by translating the given condition into the relevant relationship, then use the resulting quantity to answer the question.',
+      'Determine the governing relationship first; the value it produces is then needed to evaluate the requested condition.',
+      'Use the stated relationship to find the intermediate quantity before determining the requested result.',
+      'The problem requires two linked steps: identify the relationship and then apply it to the requested condition.',
+      'First connect the given quantities using the appropriate relationship, then use that result to determine the requested value.',
+      'Identify what the stated condition constrains, calculate that intermediate quantity, and then use it to obtain the requested result.',
+      'The key step is to establish the relationship among the given quantities before evaluating the final requested value.',
+      'Translate the information into the appropriate model, determine the intermediate result, and use it to answer the final question.',
+      'Use the first relationship to determine the quantity needed for the second step, then evaluate the requested condition.',
+      'Determine the relevant parameter from the information given and then apply it to the condition asked about in the question.',
+      'The requested value follows after the given information is used to establish the intermediate relationship required by the problem.',
+    ];
+    prompt = `${prompt} ${hardClosers[Math.floor(index / 4) % hardClosers.length]}`;
   }
 
   const difficultyFeatures = hard
