@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import { BATCH_M_PRODUCTION_SEQUENCE } from '../src/data/sat/mockContent/batchMProductionController.js';
 import { runBatchMFinalCorpusGate } from '../src/data/sat/mockContent/batchMFinalCorpusGate.js';
 import { runBatchMCrossCorpusCalibrationCanonical } from '../src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js';
 import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
@@ -27,7 +28,12 @@ function load(file) {
 }
 
 function testKeyOf(mock) {
-  return String(mock?.testKey || mock?.testId || '').trim().toUpperCase();
+  const explicit = String(mock?.testKey || '').trim().toUpperCase();
+  if (explicit) return explicit;
+  const testId = String(mock?.testId || '').trim().toUpperCase();
+  return BATCH_M_PRODUCTION_SEQUENCE.find((entry) =>
+    String(entry.testId).toUpperCase() === testId
+  )?.testKey || testId;
 }
 
 function buildIndex() {
