@@ -41,24 +41,63 @@ function main() {
   const seenFingerprints = new Set();
   const selected = [];
   const rejected = [];
+  const templateCounts = new Map();
+  const promptChoiceSeen = new Set();
+  const exactPromptSeen = new Set();
 
-  for (const candidate of candidates) {
+  function semanticTemplate(candidate) {
+    return String(candidate?.prompt || '')
+      .trim().toLowerCase()
+      .replace(/\b\d+(?:\.\d+)?\b/g, '#')
+      .replace(/\b[a-z]\b/g, 'v')
+      .replace(/\s+/g, ' ');
+  }
+
+  function promptChoiceSignature(candidate) {
+    const template = semanticTemplate(candidate);
+    const choices = Array.isArray(candidate?.choices)
+      ? candidate.choices.map((choice) => String(choice || '').trim().toLowerCase().replace(/\b\d+(?:\.\d+)?\b/g, '#')).join(' || ')
+      : '';
+    return `${template}|${choices}`;
+  }
+
+  // Selection must enforce the same diversity ceiling used by the independent
+  // review gate. The previous selector admitted the entire screened pool,
+  // allowing large repeated-template clusters to fail the independent review
+  // even when individual candidates were otherwise usable.
+  const ordered = [...candidates].sort((a, b) => (score(b) - score(a)) || String(a.id).localeCompare(String(b.id)));
+  for (const candidate of ordered) {
     const id = String(candidate.id || '');
     const fingerprint = String(candidate.originalityFingerprint || '');
     const productionMutation = candidate?.metadata?.productionMutation === true || candidate.releaseEligibility === true || candidate.status === 'operational';
-    const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation;
+    const exactPrompt = String(candidate?.prompt || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    const template = semanticTemplate(candidate);
+    const promptChoice = promptChoiceSignature(candidate);
+    const templateCount = templateCounts.get(template) || 0;
+    const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
+      exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3;
     if (!eligible) {
-      rejected.push({ id, reason: productionMutation ? 'production-or-release-boundary-violation' : 'duplicate-or-missing-identity' });
+      const reason = productionMutation
+        ? 'production-or-release-boundary-violation'
+        : (!id || !fingerprint ? 'duplicate-or-missing-identity' :
+          (templateCount >= 3 ? 'semantic-template-review-ceiling' :
+            (exactPromptSeen.has(exactPrompt) ? 'duplicate-normalized-prompt' :
+              (promptChoiceSeen.has(promptChoice) ? 'duplicate-prompt-choice-construction' : 'duplicate-or-missing-identity'))));
+      rejected.push({ id, reason });
       continue;
     }
     seenIds.add(id);
     seenFingerprints.add(fingerprint);
+    exactPromptSeen.add(exactPrompt);
+    promptChoiceSeen.add(promptChoice);
+    templateCounts.set(template, templateCount + 1);
     selected.push({
       ...candidate,
       selection: {
         selected: true,
         selectionScore: score(candidate),
         independentReviewRequired: true,
+        diversitySelection: { semanticTemplateLimit: 3, exactPromptLimit: 1, promptChoiceLimit: 1 },
         productionMutation: false,
         releaseEligible: false,
         sat21Created: false
