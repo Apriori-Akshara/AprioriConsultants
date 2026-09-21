@@ -350,18 +350,19 @@ function repairQuestion(question, checks, index) {
 }
 
 function targetClasses(section, checks) {
+  const checkList = Array.isArray(checks) ? checks : [...checks];
   const set = new Set();
   if (section === 'math') {
-    if (checks.includes('math-generic-numeric-distractor')) set.add('math-distractor-construction');
-    if (checks.includes('math-generic-template-density')) set.add('math-template-diversity');
+    if (checkList.includes('math-generic-numeric-distractor')) set.add('math-distractor-construction');
+    if (checkList.includes('math-generic-template-density')) set.add('math-template-diversity');
   }
   if (section === 'reading-writing') {
-    if (checks.includes('hard-label-without-demand-feature')) set.add('rw-difficulty-reclassification');
-    if (checks.includes('rw-stimulus-length')) set.add('rw-stimulus-length');
-    if (checks.includes('rw-fixed-wic-target')) set.add('rw-wic-target-diversity');
-    if (checks.includes('rw-template-density')) set.add('rw-template-diversity');
+    if (checkList.includes('hard-label-without-demand-feature')) set.add('rw-difficulty-reclassification');
+    if (checkList.includes('rw-stimulus-length')) set.add('rw-stimulus-length');
+    if (checkList.includes('rw-fixed-wic-target')) set.add('rw-wic-target-diversity');
+    if (checkList.includes('rw-template-density')) set.add('rw-template-diversity');
   }
-  if (checks.includes('diversity:duplicate-prompts')) set.add('rw-prompt-diversity');
+  if (checkList.includes('diversity:duplicate-prompts')) set.add('rw-prompt-diversity');
   return [...set];
 }
 
