@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest verified repository revision:** `200c2a090cf8bf0246dad297c5decd9ef9fb5dfa`  
+**Latest verified repository revision:** `edc5b4fe7edc5e5cce38124f096799a15d20ab68`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
