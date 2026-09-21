@@ -29,9 +29,9 @@ Those differences are therefore recorded as package blockers rather than hidden 
 
 ## Decision
 
-**REPLACEMENT PACKAGE IMPLEMENTED — NOT YET AUTHORIZATION-READY**
+**CANONICAL NORMALIZATION IMPLEMENTED — FRESH REVIEW / FINAL PACKAGE VALIDATION PENDING**
 
-The immediate next step is explicit normalization/regeneration of the blocked candidate metadata followed by a clean rerun of the replacement-package validator.
+The candidate-only canonical-normalization stage is now implemented. It resolves deterministic existing production targets and copies canonical structural metadata into normalized candidates without mutating production. A fresh independent substantive review must pass after normalization, followed by final hypothetical replacement-package validation.
 
 No production replacement should be authorized or executed until that package validation is clean.
 
