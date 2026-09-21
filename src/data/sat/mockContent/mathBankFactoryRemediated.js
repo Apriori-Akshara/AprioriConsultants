@@ -88,8 +88,8 @@ function buildMath(index, options) {
   // selected the same construction branch for every occurrence of a domain.
   const constructionCycle = Math.floor(index / DOMAINS.length);
   const construction = pick(MATH_REMEDIATION_CONSTRUCTIONS[domain], constructionCycle);
-  const difficulty = pick(['easy', 'medium', 'medium', 'hard'], index + assessmentNumber);
-  const hard = difficulty === 'hard';
+  let difficulty = pick(['easy', 'medium', 'medium', 'hard'], index + assessmentNumber);
+  let hard = difficulty === 'hard';
   const spr = index % 4 === 0;
   let skill;
   let prompt;
@@ -281,6 +281,14 @@ function buildMath(index, options) {
       fig = figure('geometry', { shape: 'right-triangle', leg, hyp });
       features = ['representation-shift', 'multi-step'];
     }
+  }
+
+  // A hard label is only valid when the underlying construction itself
+  // contains a genuine multi-step path. Do not manufacture difficulty by
+  // appending generic reasoning language to a one-step problem.
+  if (hard && !features.includes('multi-step')) {
+    difficulty = 'medium';
+    hard = false;
   }
 
   const questionType = spr ? 'student-produced-response' : 'multiple-choice';
