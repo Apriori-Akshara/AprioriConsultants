@@ -66,3 +66,10 @@ The next implementation step is therefore to correct the candidate generator's a
 - No SAT21.
 - Do not repeat this candidate-generation or selection stage unless a later gate identifies a specific regression.
 - Do not bypass the current independent-review compatibility gate.
+
+
+## 9. Superseded current-state note
+
+The current-stage paragraph above is a historical snapshot. It is superseded by `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md`.
+
+The 195-candidate calibration reconciliation later passed corrected independent review and exact target lock, received explicit authorization, and was applied to production. The current final-corpus blocker is a schema regression in the applied replacement layer, not the historical assessment-variant mismatch described above.
