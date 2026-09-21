@@ -2,7 +2,7 @@
 
 ## Status
 
-**NEXT RELEASE CHECKPOINT — READY FOR LIVE AUTHENTICATED STUDENT ACCEPTANCE**
+**FOCUSED FUNCTIONALITY ACCEPTANCE — PASSED BY USER LIVE-SITE CHECK**
 
 The unauthenticated public route smoke verification for SAT Series B is complete and green.
 
@@ -13,9 +13,15 @@ The unauthenticated public route smoke verification for SAT Series B is complete
   - `/SATMocks/SAT11` through `/SATMocks/SAT20`
 - Public host: `https://www.aprioriconsultants.org`
 
-This checkpoint does **not** claim that authenticated test execution, persistence, adaptive progression, completion, scoring, or reporting has been accepted.
+The user performed a focused authenticated Series B live-site check and reported that the features and functionality appeared satisfactory. This records a **focused functionality pass**. It is not an exhaustive question-by-question content review, comprehensive visual QC, or final Batch M release acceptance.
 
-## Required authenticated acceptance
+## Acceptance result
+
+**Result: PASS for focused functionality.** No functional defect was reported by the user during the live Series B check.
+
+The broader final public QC remains pending and should not be inferred from this focused pass.
+
+## Acceptance scope
 
 Use the public website only with a normal verified student account.
 
@@ -134,10 +140,6 @@ The purpose of this checkpoint is to verify those existing capabilities against 
 
 The Batch M release remains **not fully student-accepted** until the authenticated public-site checks above are completed.
 
-After successful acceptance:
+This focused acceptance is now recorded in the current Batch M status and release sequence documents. The next release work is the remaining substantive deep-QC/release blocker, followed by the final comprehensive public QC and Batch M acceptance.
 
-1. record the public student acceptance result;
-2. update the Batch M current-status documentation;
-3. complete the final Batch M release/handoff checkpoint.
-
-If a defect is found, fix only the verified defect, deploy it to the public domain, rerun the affected verification, and keep this checkpoint open until it passes.
+If a later live check identifies a defect, fix only the verified defect, deploy it to the public domain, rerun the affected verification, and update the acceptance record.
