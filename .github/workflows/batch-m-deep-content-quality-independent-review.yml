@@ -3,10 +3,15 @@ name: Batch M Deep Content Quality Independent Review
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - '.github/workflows/batch-m-deep-content-quality-independent-review.yml'
+      - 'scripts/runBatchMDeepContentQualityRemediationCandidates.mjs'
+      - 'scripts/runBatchMDeepContentQualityCandidateSelection.mjs'
       - 'scripts/runBatchMDeepContentQualityIndependentReview.mjs'
-      - 'src/data/sat/questionSchema.js'
+      - 'src/data/sat/mockContent/batchMRemediationCandidateFactory.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
 
 permissions:
   contents: read
@@ -29,19 +34,32 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Download selected candidate set
-        uses: actions/download-artifact@v4
-        with:
-          name: batch-m-deep-content-quality-candidate-selection
-          path: artifacts/batch-m-deep-content-quality-candidate-selection
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          run-id: 35194288337
+      - name: Generate candidate-only remediation pool
+        run: node scripts/runBatchMDeepContentQualityRemediationCandidates.mjs
+
+      - name: Select screened candidates
+        run: node scripts/runBatchMDeepContentQualityCandidateSelection.mjs
 
       - name: Run independent substantive review
         run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
 
-      - name: Upload independent review artifact
+      - name: Upload candidate pool
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-candidate-pool
+          path: artifacts/batch-m-deep-content-quality-remediation-candidates/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload candidate selection
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-candidate-selection
+          path: artifacts/batch-m-deep-content-quality-candidate-selection/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload independent review
         uses: actions/upload-artifact@v4
         with:
           name: batch-m-deep-content-quality-independent-review
