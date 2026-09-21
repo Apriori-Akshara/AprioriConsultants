@@ -167,7 +167,7 @@ function evaluateDomainTargets(domainCounts, section) {
   if (!total || !targets) return { total, findings: [] };
 
   const findings = Object.entries(targets).map(([domain, target]) => {
-    const actual = Number(domainCounts[domain] || 0) / total;
+    const actual = Number(domainCounts[canonicalDomain(domain)] || 0) / total;
     const delta = actual - target;
     return {
       domain,
@@ -192,7 +192,7 @@ function compareGroupDomains(groups, section) {
     const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
     if (!total) continue;
     for (const [domain, target] of Object.entries(DOMAIN_TARGETS[section])) {
-      const actual = (counts[domain] || 0) / total;
+      const actual = (counts[canonicalDomain(domain)] || 0) / total;
       results.push({
         group,
         domain,
