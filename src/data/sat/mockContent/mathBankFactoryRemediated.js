@@ -303,7 +303,7 @@ function buildMath(index, options) {
       features = ['data-interpretation', 'evidence-synthesis'];
       if (variant === 4) features.push('representation-shift');
     } else {
-
+      const q1 = 12 + (index % 10);
       const q3 = q1 + 16;
       const shift = 4;
       skill = 'Statistical transformations';
