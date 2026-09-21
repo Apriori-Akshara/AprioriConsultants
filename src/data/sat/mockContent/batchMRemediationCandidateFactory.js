@@ -241,11 +241,53 @@ function enrichShortSECPrompt(question) {
   return {...question, prompt: `The following sentence appears in a research report about how a revised method affected the study results. ${question.prompt}`};
 }
 
+function enrichCandidateExplanation(question) {
+  const choices = Array.isArray(question.choices) ? question.choices : [];
+  const answerIndex = String(question.answer || '').charCodeAt(0) - 65;
+  if (answerIndex < 0 || answerIndex >= choices.length) return question;
+  const answerLetter = String.fromCharCode(65 + answerIndex);
+  const keyedChoice = String(choices[answerIndex] || '').trim();
+  const base = String(question.explanation || '').trim();
+
+  if (question.section === 'reading-writing') {
+    const skill = String(question.skill || '');
+    const skillReason = {
+      'Central Ideas and Details': 'It identifies the central relationship supported by the passage rather than a single isolated detail.',
+      Inferences: 'It states only what can reasonably be inferred from the evidence presented in the passage.',
+      'Command of Evidence': 'It supplies the kind of evidence that directly supports or tests the interpretation described in the question.',
+      'Words in Context': 'It matches the meaning required by the surrounding context, not a different common meaning of the word.',
+      'Text Structure and Purpose': 'It describes the function of the relevant part of the passage and how that part contributes to the whole.',
+      'Cross-Text Connections': 'It accurately describes the relationship between the two passages without adding a claim that either passage does not support.',
+      'Rhetorical Synthesis': 'It satisfies the stated communication goal while preserving the important qualification in the notes.',
+      Transitions: 'It creates the logical relationship required between the ideas on either side of the blank.',
+      Boundaries: 'It produces the grammatical boundary required by the sentence structure and punctuation.',
+      'Form, Structure, and Sense': 'It produces a grammatically complete sentence with the required meaning and form.',
+    }[skill] || 'It directly answers the question using the evidence and construction of the item.';
+    return {
+      ...question,
+      explanation: `Choice ${answerLetter} is correct. ${skillReason} The keyed answer states: “${keyedChoice.slice(0, 120)}”. ${base}`,
+    };
+  }
+
+  if (question.section === 'math') {
+    return {
+      ...question,
+      explanation: `Choice ${answerLetter} is correct because the stated solution method leads to “${keyedChoice.slice(0, 120)}”. ${base} The keyed value therefore satisfies the condition asked for in the problem.`,
+    };
+  }
+
+  return question;
+}
+
 export function buildRepresentativeBatchMRemediationCandidates(options = {}) {
   const rwResult = generateRemediatedRWCandidates({ count: options.rwCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
   const mathResult = generateRemediatedMathCandidates({ count: options.mathCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
-  const readingWriting = rwResult.candidates.map((candidate, index) => repairRWDistractors(candidate, index));
-  const math = mathResult.candidates.map((candidate, index) => alignDifficulty(replaceMathDistractors(candidate, index), index));
+  const readingWriting = rwResult.candidates
+    .map((candidate, index) => enrichShortSECPrompt(repairRWDistractors(candidate, index)))
+    .map(enrichCandidateExplanation);
+  const math = mathResult.candidates
+    .map((candidate, index) => alignDifficulty(replaceMathDistractors(candidate, index), index))
+    .map(enrichCandidateExplanation);
   const candidates = [...readingWriting, ...math];
   const quality = evaluateContentQualityBatch(candidates);
   return {candidates, quality, readingWritingCount: readingWriting.length, mathCount: math.length, mathStudentProducedResponsePercent: mathResult.studentProducedResponsePercent, productionMutation: false, releaseEligible: false};
