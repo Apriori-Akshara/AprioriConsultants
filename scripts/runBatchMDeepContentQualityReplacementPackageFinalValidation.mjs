@@ -1,0 +1,231 @@
+/**
+ * Batch M — final validation of the canonical-normalized 25-candidate replacement package.
+ * Candidate-only. No production mutation or authorization occurs here.
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import { runBatchMFinalCorpusGate } from '../src/data/sat/mockContent/batchMFinalCorpusGate.js';
+import { runBatchMCrossCorpusCalibrationCanonical } from '../src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js';
+import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
+import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
+
+const NORMALIZED_INPUT = process.env.BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT ||
+  'artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json';
+const REVIEW_INPUT = process.env.BATCH_M_FINAL_PACKAGE_REVIEW_INPUT ||
+  'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json';
+const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-final-replacement-package';
+const OUTPUT_JSON = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.json');
+const OUTPUT_MD = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.md');
+
+const clone = (v) => JSON.parse(JSON.stringify(v));
+const norm = (v) => String(v ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+function load(file) {
+  if (!fs.existsSync(file)) throw new Error(`Required artifact not found: ${file}`);
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function testKeyOf(mock) {
+  return String(mock?.testKey || mock?.testId || '').trim().toUpperCase();
+}
+
+function buildIndex() {
+  const map = new Map();
+  for (const mock of BATCH_M_ACCEPTED_PRODUCTION_CORPUS) {
+    const testKey = testKeyOf(mock);
+    for (const section of ['readingWriting', 'math']) {
+      for (const record of Array.isArray(mock?.[section]) ? mock[section] : []) {
+        const key = `${testKey}::${record.questionId}`;
+        if (map.has(key)) throw new Error(`Duplicate production target: ${key}`);
+        map.set(key, { mock, section, record });
+      }
+    }
+  }
+  return map;
+}
+
+function reviewMap(source) {
+  const map = new Map();
+  for (const review of source.review || []) {
+    const id = String(review?.id || '');
+    if (!id || map.has(id)) throw new Error(`Duplicate review identity: ${id || 'unknown'}`);
+    map.set(id, review);
+  }
+  return map;
+}
+
+function hypotheticalCorpus(baseline, replacements) {
+  const corpus = clone(baseline);
+  for (const item of replacements) {
+    const mock = corpus.find((m) => testKeyOf(m) === item.targetTestKey);
+    if (!mock) throw new Error(`Target mock missing in hypothetical corpus: ${item.targetTestKey}`);
+    const list = mock[item.section];
+    const index = list.findIndex((q) => String(q.questionId) === item.targetQuestionId);
+    if (index < 0) throw new Error(`Target question missing in hypothetical corpus: ${item.targetTestKey}::${item.targetQuestionId}`);
+
+    const replacement = {
+      ...clone(list[index]),
+      ...clone(item.candidate),
+      testId: list[index].testId,
+      questionId: list[index].questionId,
+      contentId: list[index].contentId || list[index].questionId,
+      releaseEligibility: false,
+      isOperational: list[index].isOperational,
+      status: list[index].status,
+      authoringStatus: list[index].authoringStatus,
+      metadata: {
+        ...(list[index].metadata || {}),
+        ...(item.candidate.metadata || {}),
+        candidateOnly: false,
+        productionMutation: false,
+        finalReplacementPackage: true,
+      },
+    };
+    list[index] = replacement;
+  }
+  return corpus;
+}
+
+function uniqueness(corpus) {
+  const prompts = new Map();
+  const fingerprints = new Map();
+  for (const mock of corpus) {
+    for (const q of [...(mock.readingWriting || []), ...(mock.math || [])]) {
+      const p = norm(q.prompt);
+      if (p) prompts.set(p, [...(prompts.get(p) || []), `${testKeyOf(mock)}::${q.questionId}`]);
+      const f = String(q.originalityFingerprint || '');
+      if (f) fingerprints.set(f, [...(fingerprints.get(f) || []), `${testKeyOf(mock)}::${q.questionId}`]);
+    }
+  }
+  return {
+    duplicatePromptGroups: [...prompts.values()].filter((ids) => ids.length > 1),
+    duplicateFingerprintGroups: [...fingerprints.values()].filter((ids) => ids.length > 1),
+  };
+}
+
+function main() {
+  const source = load(NORMALIZED_INPUT);
+  const reviewSource = load(REVIEW_INPUT);
+  const candidates = Array.isArray(source.candidates) ? source.candidates : [];
+  if (candidates.length !== 25) throw new Error(`Expected 25 normalized candidates, found ${candidates.length}`);
+  if (source.productionMutation !== false || source.releaseEligible !== false || source.sat21Created !== false) {
+    throw new Error('Normalized candidate artifact crosses the production boundary.');
+  }
+
+  const reviews = reviewMap(reviewSource);
+  const production = buildIndex();
+  const seenTargets = new Set();
+  const replacements = [];
+
+  for (const candidate of candidates) {
+    const id = String(candidate.id || '');
+    const review = reviews.get(id);
+    if (!review || review.status !== 'PASS' || Number(review.failureCount || 0) !== 0 || Number(review.expertReviewCount || 0) !== 0) {
+      throw new Error(`Normalized candidate ${id} lacks a fresh PASS review.`);
+    }
+
+    const targetTestKey = String(candidate.metadata?.canonicalNormalization?.targetTestKey || '').toUpperCase();
+    const targetQuestionId = String(candidate.metadata?.canonicalNormalization?.targetQuestionId || '');
+    const targetKey = `${targetTestKey}::${targetQuestionId}`;
+    if (seenTargets.has(targetKey)) throw new Error(`Duplicate replacement target: ${targetKey}`);
+    seenTargets.add(targetKey);
+
+    const target = production.get(targetKey);
+    if (!target) throw new Error(`Frozen production target missing: ${targetKey}`);
+
+    const exactFields = [
+      'testId','assessmentFamily','assessmentVariant','assessmentNumber','section',
+      'module','domain','skill','subskill','conceptId','difficulty','difficultyBand',
+      'questionType','stimulusType','interactionType'
+    ];
+    for (const field of exactFields) {
+      if (norm(candidate[field]) !== norm(target.record[field])) {
+        throw new Error(`Canonical compatibility mismatch for ${id}: ${field}`);
+      }
+    }
+
+    const schema = validateSatQuestion(candidate);
+    if (!schema.valid) throw new Error(`Schema failure for ${id}: ${JSON.stringify(schema.errors || [])}`);
+    const quality = evaluateContentQuality(candidate);
+    if (quality.verdict !== 'pass') throw new Error(`Content-quality failure for ${id}`);
+    if (candidate.metadata?.productionMutation !== false || candidate.releaseEligibility !== false || candidate.isOperational !== false) {
+      throw new Error(`Candidate ${id} violates candidate-only state`);
+    }
+
+    replacements.push({ candidateId: id, targetTestKey, targetQuestionId, section: target.section, candidate: clone(candidate) });
+  }
+
+  if (seenTargets.size !== 25) throw new Error(`Expected 25 unique targets, found ${seenTargets.size}`);
+
+  const baseline = clone(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
+  const hypothetical = hypotheticalCorpus(baseline, replacements);
+  const unique = uniqueness(hypothetical);
+  if (unique.duplicatePromptGroups.length) throw new Error(`Hypothetical replacement introduces duplicate prompts: ${JSON.stringify(unique.duplicatePromptGroups.slice(0, 5))}`);
+  if (unique.duplicateFingerprintGroups.length) throw new Error(`Hypothetical replacement introduces duplicate fingerprints: ${JSON.stringify(unique.duplicateFingerprintGroups.slice(0, 5))}`);
+
+  const finalGate = runBatchMFinalCorpusGate(hypothetical);
+  if (!finalGate.passed) throw new Error(`Hypothetical replacement fails final corpus gate: ${JSON.stringify(finalGate)}`);
+
+  const baselineCalibration = runBatchMCrossCorpusCalibrationCanonical(baseline);
+  const hypotheticalCalibration = runBatchMCrossCorpusCalibrationCanonical(hypothetical);
+  const baselineFailures = new Set(baselineCalibration.calibration?.failures || []);
+  const newFailures = [...new Set(hypotheticalCalibration.calibration?.failures || [])].filter((f) => !baselineFailures.has(f));
+  if (newFailures.length) throw new Error(`Hypothetical replacement introduces new calibration failures: ${JSON.stringify(newFailures)}`);
+
+  const result = {
+    reportType: 'batch-m-deep-content-quality-final-replacement-package',
+    date: '2026-09-22',
+    normalizedCandidateCount: candidates.length,
+    exactTargetCoverage: seenTargets.size,
+    uniqueTargets: true,
+    candidateSchemaCompatibility: 'PASS',
+    candidateContentQuality: 'PASS',
+    freshIndependentReview: 'PASS',
+    canonicalStructuralCompatibility: 'PASS',
+    hypotheticalPromptUniqueness: 'PASS',
+    hypotheticalFingerprintUniqueness: 'PASS',
+    final30MockCorpusGate: 'PASS',
+    crossCorpusCalibrationNoNewFailures: 'PASS',
+    productionMutation: false,
+    releaseEligible: false,
+    sat21Created: false,
+    replacementAuthorization: 'NOT_AUTHORIZED',
+    decision: 'REPLACEMENT_PACKAGE_VALIDATED_PENDING_EXPLICIT_PRODUCTION_AUTHORIZATION',
+    replacements,
+    nextStep: 'Obtain explicit authorization for this exact 25-target one-for-one replacement package. Only after authorization may production mutation be executed and post-replacement gates rerun.',
+  };
+
+  fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+  fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2) + '\n');
+  fs.writeFileSync(OUTPUT_MD, [
+    '# Batch M final replacement package — 2026-09-22',
+    '',
+    '- Canonical-normalized candidates: **25**.',
+    '- Exact unique production targets: **25**.',
+    '- Candidate schema/content-quality: **PASS**.',
+    '- Fresh independent review: **PASS**.',
+    '- Canonical structural compatibility: **PASS**.',
+    '- Hypothetical prompt uniqueness: **PASS**.',
+    '- Hypothetical originality uniqueness: **PASS**.',
+    '- Hypothetical final 30-mock corpus gate: **PASS**.',
+    '- Hypothetical cross-corpus calibration: **PASS with no new failures**.',
+    '- Production mutation: **false**.',
+    '- Release eligible: **false**.',
+    '- Replacement authorization: **NOT AUTHORIZED**.',
+    '',
+    'This is the exact candidate-to-production replacement package. It is not a production mutation and requires a separate explicit authorization checkpoint.',
+    '',
+  ].join('\n'));
+
+  console.log(JSON.stringify({
+    decision: result.decision,
+    candidateCount: result.normalizedCandidateCount,
+    exactTargetCoverage: result.exactTargetCoverage,
+    productionMutation: false,
+    releaseEligible: false,
+    sat21Created: false,
+  }, null, 2));
+}
+
+main();
