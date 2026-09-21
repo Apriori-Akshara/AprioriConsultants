@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest verified repository revision:** `162e6fef11e0a3f01111bb3e3462bc160bc06df0`  
+**Latest verified repository revision:** `eeedbc7b0725ce0b8d1020ddeba283efc04aae74`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -49,7 +49,7 @@ The latest Vercel check before this package-only implementation was green.
 | 7. Deep SAT/PSAT content-quality/diversity remediation | ✅ CANDIDATE PIPELINE CORRECTED |
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
 | 9. Prepare controlled production-replacement package | ✅ IMPLEMENTED — deterministic package builder + CI validation added; authorization readiness still blocked pending canonical compatibility validation |
-| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED — canonical normalization + fresh review + final package validation pipeline added; CI result pending |
+| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED — canonical normalization + fresh review + final package validation pipeline added; code-path defect corrected; CI result not yet independently retrievable |
 | 11. Explicit authorization of the replacement scope | ⏳ PENDING |
 | 12. Controlled production replacement, if authorized | ⏳ PENDING |
 | 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
@@ -129,7 +129,7 @@ A **fresh independent substantive review** is then run after normalization, foll
 
 The new workflow is candidate-only and performs no production mutation.
 
-**CI execution result is pending verification.**
+**CI execution result is not independently retrievable through the available GitHub Actions read interface; no CI PASS is claimed here.**
 
 The package validator must establish, for all 25 entries:
 
