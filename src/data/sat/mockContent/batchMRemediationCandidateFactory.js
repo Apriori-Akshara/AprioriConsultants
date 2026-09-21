@@ -284,6 +284,59 @@ function enrichShortSECPrompt(question) {
   return {...question, prompt: `${frame} ${question.prompt} ${lead}`};
 }
 
+function ensureQuestionForm(question) {
+  if (question.section !== 'reading-writing') return question;
+  const prompt = String(question.prompt || '').trim();
+  if (/\b(which|what|how)\b/i.test(prompt)) return question;
+  const leads = {
+    'Central Ideas and Details': 'Which choice best states the central idea of the text?',
+    'Inferences': 'Which inference is best supported by the text?',
+    'Command of Evidence': 'Which finding would most directly support the interpretation in the text?',
+    'Words in Context': 'In this context, the word most nearly means which of the following?',
+    'Text Structure and Purpose': 'Which choice best describes the function of the relevant part of the text?',
+    'Cross-Text Connections': 'Which choice best characterizes the relationship between the two passages?',
+    'Rhetorical Synthesis': 'Which choice best accomplishes the stated communication goal?',
+    'Transitions': 'Which choice completes the text with the most logical transition?',
+    'Boundaries': 'Which choice completes the sentence so that it conforms to Standard English conventions?',
+    'Form, Structure, and Sense': 'Which choice completes the sentence so that it conforms to Standard English conventions and preserves the intended meaning?',
+  };
+  const lead = leads[String(question.skill || '')] || 'Which choice best answers the question?';
+  return { ...question, prompt: prompt + '\n\n' + lead };
+}
+
+function strengthenCandidateExplanation(question) {
+  if (question.section !== 'reading-writing') return question;
+  const choices = Array.isArray(question.choices) ? question.choices : [];
+  const answerIndex = String(question.answer || '').charCodeAt(0) - 65;
+  if (answerIndex < 0 || answerIndex >= choices.length) return question;
+  const answerLetter = String.fromCharCode(65 + answerIndex);
+  const keyedChoice = String(choices[answerIndex] || '').trim();
+  const skill = String(question.skill || '');
+  const metadata = question.metadata && typeof question.metadata === 'object' ? question.metadata : {};
+  const existing = String(question.explanation || '').trim();
+  const genericStock = [
+    'The keyed choice matches the item-specific evidence, rhetorical relationship, communication goal, or grammatical constraint established by the construction.',
+    'In context, the word is used with the meaning represented by the keyed choice.',
+  ];
+  const isGeneric = genericStock.some((text) => existing.toLowerCase() === text.toLowerCase())
+    || existing.includes('the item-specific evidence, rhetorical relationship, communication goal, or grammatical constraint established by the construction.')
+    || existing.toLowerCase().includes('the keyed choice matches the item-specific evidence');
+  if (!isGeneric && existing.length >= 55) return question;
+  const explanations = {
+    'Central Ideas and Details': 'Choice ' + answerLetter + ' is correct because it states the main point supported across the passage rather than an isolated detail. The keyed response, “' + keyedChoice.slice(0, 160) + ',” matches the passage\'s overall development.',
+    Inferences: 'Choice ' + answerLetter + ' is correct because the passage supports that conclusion without requiring information outside the text. The keyed response, “' + keyedChoice.slice(0, 160) + ',” follows from the evidence presented.',
+    'Command of Evidence': 'Choice ' + answerLetter + ' is correct because the selected finding would directly test the interpretation by measuring the condition or result identified in the passage. The keyed response is “' + keyedChoice.slice(0, 160) + '.”',
+    'Words in Context': 'Choice ' + answerLetter + ' is correct because “' + (metadata.targetWord || 'the word') + '” is used here in the sense expressed by “' + keyedChoice.slice(0, 120) + '.” The surrounding statement supplies the context that requires that meaning.',
+    'Text Structure and Purpose': 'Choice ' + answerLetter + ' is correct because the selected response identifies the function of the relevant part of the passage and explains how it contributes to the author\'s development. The keyed response is “' + keyedChoice.slice(0, 160) + '.”',
+    'Cross-Text Connections': 'Choice ' + answerLetter + ' is correct because it accurately compares the passages using the relationship established by their evidence. The keyed response, “' + keyedChoice.slice(0, 160) + ',” preserves the important similarity or difference without adding an unsupported claim.',
+    'Rhetorical Synthesis': 'Choice ' + answerLetter + ' is correct because it fulfills the stated communication goal while preserving the finding and its relevant qualification. The selected wording is “' + keyedChoice.slice(0, 160) + '.”',
+    Transitions: 'Choice ' + answerLetter + ' is correct because “' + keyedChoice.slice(0, 100) + '” establishes the logical relationship between the two statements. The surrounding sentences call for that relationship rather than the alternatives.',
+    Boundaries: 'Choice ' + answerLetter + ' is correct because “' + keyedChoice.slice(0, 100) + '” supplies the grammatical boundary required by the sentence structure. The other forms would create the wrong punctuation or clause relationship.',
+    'Form, Structure, and Sense': 'Choice ' + answerLetter + ' is correct because “' + keyedChoice.slice(0, 100) + '” provides the grammatical form required by the sentence while preserving its intended meaning.',
+  };
+  const fallback = 'Choice ' + answerLetter + ' is correct because it directly satisfies the task using the information supplied in the item. The selected response is “' + keyedChoice.slice(0, 160) + '.”';
+  return { ...question, explanation: explanations[skill] || fallback };
+}
 function enrichCandidateExplanation(question) {
   const choices = Array.isArray(question.choices) ? question.choices : [];
   const answerIndex = String(question.answer || '').charCodeAt(0) - 65;
@@ -336,7 +389,9 @@ export function buildRepresentativeBatchMRemediationCandidates(options = {}) {
   const mathResult = generateRemediatedMathCandidates({ count: options.mathCount || 40, testId: options.testId || 'SAT1', variant: options.variant || 'sat' });
   const readingWriting = rwResult.candidates
     .map((candidate, index) => enrichShortSECPrompt(repairRWDistractors(candidate, index)))
-    .map(enrichCandidateExplanation);
+    .map(ensureQuestionForm)
+    .map(enrichCandidateExplanation)
+    .map(strengthenCandidateExplanation);
   const math = mathResult.candidates
     .map((candidate, index) => alignDifficulty(replaceMathDistractors(candidate, index), index))
     .map((candidate) => {
