@@ -46,21 +46,43 @@ function figureSignature(question) {
 function skillFamily(candidate) {
   const skill = normalize(candidate?.skill);
   if (skill === 'scatterplot interpretation') {
-    return { name: 'scatter', canonicalSkills: new Set(['data models', 'measures of spread', 'percentages']), figure: { type: 'scatter', shape: '' } };
+    return {
+      name: 'scatter',
+      canonicalSkills: new Set(['data models']),
+      figure: { type: 'scatter', shape: '' },
+      mappingRule: 'scatterplot interpretation → Data models',
+    };
   }
   if (skill === 'equivalent exponential representations') {
-    return { name: 'exponential', canonicalSkills: new Set(['exponential equations']), figure: null };
+    return {
+      name: 'exponential',
+      canonicalSkills: new Set(['exponential equations']),
+      figure: null,
+      mappingRule: 'equivalent exponential representations → Exponential equations',
+    };
   }
   if (skill === 'right-triangle relationships') {
-    return { name: 'right-triangle', canonicalSkills: new Set(['right triangles']), figure: { type: 'geometry', shape: 'right-triangle' } };
+    return {
+      name: 'right-triangle',
+      canonicalSkills: new Set(['right triangles']),
+      figure: { type: 'geometry', shape: 'right-triangle' },
+      mappingRule: 'right-triangle relationships → Right triangles',
+    };
   }
   if (skill === 'linear relationships') {
-    return { name: 'linear', canonicalSkills: new Set([
-      'linear functions', 'linear equations', 'linear representations',
-      'linear functions and representations'
-    ]), figure: null };
+    return {
+      name: 'linear',
+      canonicalSkills: new Set(['linear functions']),
+      figure: null,
+      mappingRule: 'linear relationships → Linear functions',
+    };
   }
-  return { name: 'exact', canonicalSkills: new Set([skill]), figure: figureSignature(candidate) };
+  return {
+    name: 'exact',
+    canonicalSkills: new Set([skill]),
+    figure: figureSignature(candidate),
+    mappingRule: 'exact canonical skill match',
+  };
 }
 
 function recordsForMock(mock) {
@@ -232,6 +254,8 @@ function main() {
       targetAssessmentFamily: target.record.assessmentFamily,
       targetAssessmentVariant: target.record.assessmentVariant,
       targetDifficultyBand: target.record.difficultyBand,
+      canonicalTargetSkill: target.record.skill,
+      semanticSkillMapping: skillFamily(candidate).mappingRule,
       canonicalNormalizationApplied: true,
       productionMutation: false,
       releaseEligible: false,
