@@ -71,3 +71,12 @@ The exact 195-target reconciliation mapping is locked candidate-only. **Producti
 **Next step recorded by the project: obtain a fresh explicit production authorization for this exact 195-target lock before considering the separately controlled production replacement workflow.**
 
 No production replacement, release, or SAT21 creation is permitted before that authorization. Release eligibility remains false.
+
+
+## 7. Superseded by the September 21 current checkpoint
+
+This September 17 snapshot is a historical state record. It is superseded by `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md`.
+
+After this snapshot, the corrected 195-target reconciliation review and exact target lock passed, explicit authorization was established, the 195-target production replacement was applied, and the subsequent final 30-mock corpus gate failed on `Invalid difficultyBand: sat-series-a-medium`.
+
+Do not follow this file's earlier “production replacement is not authorized” or “obtain authorization” instruction as the current work queue. Preserve those statements as accurate historical state at the time they were recorded.
