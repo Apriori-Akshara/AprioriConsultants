@@ -136,4 +136,4 @@ Future sessions should treat this document and `docs/QUESTION-GENERATION-ROADMAP
 
 Do **not** resume from the older September 15 or earlier September 17 "next candidate generation / not authorized" statements. Those are historical checkpoints and have been superseded by the later September 17 production application and the resulting final-gate schema regression.
 
-Resume at the single active blocker: **canonical `difficultyBand` compatibility for the applied 195-target calibration replacement, followed by the final 30-mock corpus gate.**
+Resume at the single active blocker: **candidate-only deep SAT/PSAT content-quality/diversity remediation and independent review**. The `difficultyBand` regression and final 30-mock technical gates are already resolved; do not mutate production or create SAT21.
