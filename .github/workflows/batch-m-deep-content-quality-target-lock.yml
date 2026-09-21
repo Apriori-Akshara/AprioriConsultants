@@ -1,0 +1,64 @@
+name: Batch M Deep Content Quality Exact Target Lock
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-target-lock.yml'
+      - 'scripts/runBatchMDeepContentQualityTargetLock.mjs'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exact-target-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download passed target-specific candidates
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-candidates
+          path: artifacts/batch-m-deep-content-quality-target-candidates
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35587152958
+
+      - name: Download passed target-specific independent review
+        uses: actions/download-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-candidates-review
+          path: artifacts/batch-m-deep-content-quality-independent-review
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35587152958
+
+      - name: Run exact target lock
+        env:
+          BATCH_M_TARGET_CANDIDATE_INPUT: artifacts/batch-m-deep-content-quality-target-candidates/BATCH-M-DEEP-CONTENT-QUALITY-TARGET-CANDIDATES-2026-09-21.json
+          BATCH_M_TARGET_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json
+        run: node scripts/runBatchMDeepContentQualityTargetLock.mjs
+
+      - name: Upload exact target lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-lock
+          path: artifacts/batch-m-deep-content-quality-target-lock/
+          if-no-files-found: error
+          retention-days: 30
+
+# Candidate-only lock. This workflow never authorizes or performs production replacement.
