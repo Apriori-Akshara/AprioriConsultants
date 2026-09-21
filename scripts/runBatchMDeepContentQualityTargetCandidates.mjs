@@ -545,12 +545,26 @@ function targetClasses(section, checks) {
   return [...set];
 }
 
+function semanticPromptTemplate(value) {
+  return normalize(value)
+    .replace(/\b\d+(?:\.\d+)?\b/g, '#')
+    .replace(/\b[a-z]\b/g, 'v')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function reviewChoiceSignature(question) {
+  return (Array.isArray(question?.choices) ? question.choices : [])
+    .map((value) => normalize(value).replace(/\b\d+(?:\.\d+)?\b/g, '#'))
+    .join(' || ');
+}
+
 function diversifyDuplicateCandidate(question, index, occurrence) {
   const salt = index + (occurrence * 17) + 1;
   if (question.section === 'math') {
     return cleanPromptPunctuation(diversifyMathPrompt(question, salt));
   }
-  return { ...question, prompt: cleanPromptPunctuation(ensureRWMarkers(question, salt)).prompt || ensureRWMarkers(question, salt) };
+  return cleanPromptPunctuation({ ...question, prompt: ensureRWMarkers(question, salt) });
 }
 
 function resolveCandidateConstructionDuplicates(candidates) {
@@ -578,14 +592,14 @@ function resolveCandidateConstructionDuplicates(candidates) {
     promptCounts.set(normalize(question.prompt), occurrence + 1);
 
     if (question.questionType === 'multiple-choice') {
-      const basePrompt = normalize(question.prompt);
+      const basePrompt = semanticPromptTemplate(question.prompt);
       const baseChoices = [...question.choices];
-      let signature = basePrompt + '||' + baseChoices.map(normalize).join(' || ');
+      let signature = basePrompt + '||' + reviewChoiceSignature(question);
       if (signatureCounts.has(signature)) {
         let found = false;
         for (let permutationIndex = 0; permutationIndex < CHOICE_PERMUTATIONS.length; permutationIndex += 1) {
           const candidate = rotateCandidateChoiceOrder(question, permutationIndex);
-          const candidateSignature = basePrompt + '||' + candidate.choices.map(normalize).join(' || ');
+          const candidateSignature = basePrompt + '||' + reviewChoiceSignature(candidate);
           if (!signatureCounts.has(candidateSignature)) {
             question = candidate;
             signature = candidateSignature;
@@ -607,7 +621,7 @@ function resolveCandidateConstructionDuplicates(candidates) {
           question = cleanPromptPunctuation(question);
           if (question.section === 'math') question = strengthenMathExplanation(question);
           else question = strengthenRWExplanation(question);
-          signature = normalize(question.prompt) + '||' + question.choices.map(normalize).join(' || ');
+          signature = semanticPromptTemplate(question.prompt) + '||' + reviewChoiceSignature(question);
         }
       }
       signatureCounts.set(signature, (signatureCounts.get(signature) || 0) + 1);
