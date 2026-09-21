@@ -33,7 +33,16 @@ Those differences are therefore recorded as package blockers rather than hidden 
 
 The candidate-only canonical-normalization stage is now implemented. It resolves deterministic existing production targets and copies canonical structural metadata into normalized candidates without mutating production. A fresh independent substantive review must pass after normalization, followed by final hypothetical replacement-package validation.
 
+A validation-path defect was also identified and corrected: the final package validator now resolves production mocks from their canonical `SAT1`/`PSAT1`/`SAT11`-style `testKey` through `BATCH_M_PRODUCTION_SEQUENCE` when the runtime mock only carries a `testId`. This prevents false target-not-found results.
+
 No production replacement should be authorized or executed until that package validation is clean.
+
+## Validation-path correction
+
+- Final package validator correction commit: `dc59e553902b717c18f106ffebcd21f659c26060`.
+- Correction: map runtime production `testId` values to canonical Batch M `testKey` values before exact target lookup.
+- Production mutation: **false**.
+- Authorization: **not granted**.
 
 ## Evidence
 
