@@ -562,7 +562,7 @@ function reviewChoiceSignature(question) {
 function diversifyDuplicateCandidate(question, index, occurrence) {
   const salt = index + (occurrence * 17) + 1;
   if (question.section === 'math') {
-    return cleanPromptPunctuation(diversifyMathPrompt(question, salt));
+    return cleanPromptPunctuation({ ...question, prompt: diversifyMathPrompt(question, salt) });
   }
   return cleanPromptPunctuation({ ...question, prompt: ensureRWMarkers(question, salt) });
 }
