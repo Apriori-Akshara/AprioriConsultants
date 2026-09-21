@@ -180,18 +180,26 @@ function cleanPromptPunctuation(question) {
   return prompt === question.prompt ? question : { ...question, prompt };
 }
 
+const CHOICE_PERMUTATIONS = [
+  [0, 1, 2, 3], [0, 1, 3, 2], [0, 2, 1, 3], [0, 2, 3, 1],
+  [0, 3, 1, 2], [0, 3, 2, 1], [1, 0, 2, 3], [1, 0, 3, 2],
+  [1, 2, 0, 3], [1, 2, 3, 0], [1, 3, 0, 2], [1, 3, 2, 0],
+  [2, 0, 1, 3], [2, 0, 3, 1], [2, 1, 0, 3], [2, 1, 3, 0],
+  [2, 3, 0, 1], [2, 3, 1, 0], [3, 0, 1, 2], [3, 0, 2, 1],
+  [3, 1, 0, 2], [3, 1, 2, 0], [3, 2, 0, 1], [3, 2, 1, 0],
+];
+
 function rotateCandidateChoiceOrder(question, index) {
   if (question?.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
   const ai = answerIndex(question);
   if (ai < 0 || ai > 3) return question;
-  const shift = ((index % 4) + 4) % 4;
-  if (shift === 0) return question;
-  const choices = [...question.choices];
-  const rotated = choices.map((_, i) => choices[(i + shift) % 4]);
-  const newAnswerIndex = (ai - shift + 4) % 4;
+  const permutation = CHOICE_PERMUTATIONS[index % CHOICE_PERMUTATIONS.length];
+  const choices = permutation.map((sourceIndex) => question.choices[sourceIndex]);
+  const newAnswerIndex = permutation.indexOf(ai);
+  if (newAnswerIndex < 0) return question;
   return {
     ...question,
-    choices: rotated,
+    choices,
     answer: String.fromCharCode(65 + newAnswerIndex),
   };
 }
@@ -389,7 +397,7 @@ function diverseLead(skill, targetWord, index) {
 function rewriteQuestionLead(prompt, skill, targetWord, index) {
   const lead = diverseLead(skill, targetWord, index);
   const text = String(prompt || '').trim();
-  const rewritten = text.replace(/(?:Which|What|How|As used in the passage|In this context|In the passage|Here)[^.!?]*[?]s*$/i, lead);
+  const rewritten = text.replace(/(?:Which|What|How|As used in the passage|In this context|In the passage|Here)[^.!?]*[?]\s*$/i, lead);
   if (rewritten !== text) return rewritten;
   return text + '\n\n' + lead;
 }
@@ -398,12 +406,14 @@ function ensureRWMarkers(question, index) {
   let prompt = String(question.prompt || '');
   const skill = String(question.skill || '');
   const targetWord = String(question.metadata?.targetWord || '') || ((prompt.match(/["“]([^"”]+)["”]/) || [])[1] || 'the word');
-  if (skill === 'Words in Context' && !/(in this context|in the passage|as used here)/i.test(prompt)) {
+  if (skill === 'Words in Context' && !/\b(in this context|in the passage|as used here)\b/i.test(prompt)) {
     prompt = prompt + '\n\nIn this context, the word "' + targetWord + '" is evaluated according to the meaning it has in the passage.';
   }
-  if (skill === 'Cross-Text Connections' && !/passage\s+2:/i.test(prompt)) {
+  if (skill === 'Cross-Text Connections') {
     prompt = prompt.replace(/first passage/ig, 'Passage 1').replace(/second passage/ig, 'Passage 2');
-    if (!/passage\s+2:/i.test(prompt)) {
+    if (/passage\s+2:/i.test(prompt) && !/passage\s+1:/i.test(prompt)) {
+      prompt = prompt.replace(/^(.*?)\bPassage 2:/is, 'Passage 1: $1\n\nPassage 2:');
+    } else if (!/passage\s+2:/i.test(prompt)) {
       const parts = prompt.split(/\n\n+/);
       if (parts.length >= 3) {
         const question = parts.pop();
@@ -535,6 +545,61 @@ function targetClasses(section, checks) {
   return [...set];
 }
 
+function diversifyDuplicateCandidate(question, index, occurrence) {
+  const salt = index + (occurrence * 17) + 1;
+  if (question.section === 'math') {
+    return cleanPromptPunctuation(diversifyMathPrompt(question, salt));
+  }
+  const targetWord = String(question.metadata?.targetWord || '') || 'the word';
+  return cleanPromptPunctuation(ensureRWMarkers(question, salt));
+}
+
+function resolveCandidateConstructionDuplicates(candidates) {
+  const promptCounts = new Map();
+  const signatureCounts = new Map();
+  const resolved = [];
+
+  for (let index = 0; index < candidates.length; index += 1) {
+    let question = candidates[index];
+    const promptKey = normalize(question.prompt);
+    const occurrence = promptCounts.get(promptKey) || 0;
+    if (occurrence > 0) {
+      question = diversifyDuplicateCandidate(question, index, occurrence);
+      if (question.questionType === 'multiple-choice') {
+        question = rotateCandidateChoiceOrder(question, index + occurrence * 7 + 1);
+      }
+      if (question.section === 'math') {
+        const profiles = architecture(question);
+        if (profiles) question.metadata = { ...(question.metadata || {}), distractor_architecture: profiles };
+        question = strengthenMathExplanation(question);
+      } else {
+        question = strengthenRWExplanation(question);
+      }
+    }
+    promptCounts.set(normalize(question.prompt), occurrence + 1);
+
+    if (question.questionType === 'multiple-choice') {
+      let signature = normalize(question.prompt) + '||' + question.choices.map(normalize).join(' || ');
+      const signatureOccurrence = signatureCounts.get(signature) || 0;
+      if (signatureOccurrence > 0) {
+        question = rotateCandidateChoiceOrder(question, index + signatureOccurrence * 11 + 3);
+        if (question.section === 'math') {
+          const profiles = architecture(question);
+          if (profiles) question.metadata = { ...(question.metadata || {}), distractor_architecture: profiles };
+          question = strengthenMathExplanation(question);
+        } else {
+          question = strengthenRWExplanation(question);
+        }
+        signature = normalize(question.prompt) + '||' + question.choices.map(normalize).join(' || ');
+      }
+      signatureCounts.set(signature, signatureOccurrence + 1);
+    }
+
+    resolved.push(question);
+  }
+  return resolved;
+}
+
 function stamp(candidate, sourceFailure, index) {
   const out = clone(candidate);
   const sourceId = String(candidate.questionId || candidate.contentId || candidate.id);
@@ -606,6 +671,8 @@ function main() {
     candidates.push(stamped);
   }
 
+  const resolvedCandidates = resolveCandidateConstructionDuplicates(candidates);
+  candidates.splice(0, candidates.length, ...resolvedCandidates);
   const targetIds = new Set(candidates.map((x) => String(x.metadata?.targetTestKey || '') + '|' + String(x.metadata?.targetQuestionId || '')));
   const result = {
     reportType: 'batch-m-deep-content-quality-target-candidates',
