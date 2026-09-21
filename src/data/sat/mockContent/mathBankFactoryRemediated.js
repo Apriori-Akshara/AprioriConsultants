@@ -25,6 +25,61 @@ function figure(type, values) {
   return { type, values };
 }
 
+const DIVERSITY_FRAMES = [
+  'In a field study,',
+  'For a planning exercise,',
+  'During a quality-control review,',
+  'In an environmental survey,',
+  'For a school research project,',
+  'During a business analysis,',
+  'In a transportation study,',
+  'For a public-health report,',
+  'During an engineering review,',
+  'In a community-data project,',
+  'For a manufacturing report,',
+  'During a scientific investigation,',
+];
+
+function applyPromptDiversityFrame(prompt, index) {
+  const frame = DIVERSITY_FRAMES[index % DIVERSITY_FRAMES.length];
+  return `${frame} the following situation is analyzed. ${prompt}`;
+}
+
+function buildDistractorArchitecture(question) {
+  if (question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return null;
+  const answerIndex = String(question.answer || '').charCodeAt(0) - 65;
+  if (answerIndex < 0 || answerIndex > 3) return null;
+  const profiles = {};
+  const distractorChoices = question.choices.filter((_, index) => index !== answerIndex);
+  const errorBySkill = {
+    'Linear relationships': ['uses the initial value as the requested value', 'applies the rate for the wrong number of intervals', 'adds the rate instead of multiplying by elapsed time'],
+    'Systems of linear equations': ['divides the total before removing the fixed fee', 'subtracts the per-unit cost instead of the fixed fee', 'uses the total payment as the number of units'],
+    'Equivalent linear representations': ['uses a point value as the intercept', 'uses the slope in place of the intercept', 'fails to account for the x-coordinate when solving for the intercept'],
+    'Linear inequalities': ['forgets to isolate the constant term', 'uses the coefficient as the solution', 'treats the inequality as an equality without applying the bound'],
+    'Quadratic parameter reasoning': ['adds the roots instead of multiplying them', 'uses one root as the constant term', 'uses the sum of the roots as the requested parameter'],
+    'Equivalent exponential representations': ['changes the base instead of matching exponents', 'subtracts the exponent shift in the wrong direction', 'matches coefficients but not the exponent condition'],
+    'Quadratic functions': ['uses the function value as the vertical shift', 'omits the squared term when substituting', 'solves for the wrong parameter after substitution'],
+    'Quadratic discriminant': ['sets the discriminant to a nonzero value', 'uses the linear coefficient without its squared term', 'forgets the factor multiplying the quadratic term'],
+    'Multi-stage percentages': ['adds the two percentage changes directly', 'applies the second percentage to the original amount', 'reverses the order of the percentage changes'],
+    'Weighted means': ['averages the two group means without weighting', 'uses one group size for both groups', 'divides by a single group size instead of the combined size'],
+    'Scatterplot interpretation': ['treats a trend as an exact relationship', 'infers causation from association alone', 'reverses the direction of the observed trend'],
+    'Statistical transformations': ['changes the interquartile range by the added constant', 'adds the shift to only one quartile', 'subtracts the shift from the original range'],
+    'Composite area': ['adds the removed area instead of subtracting it', 'uses only the outer rectangle area', 'uses the removed dimensions as the full dimensions'],
+    'Similarity and area': ['scales area by the linear factor', 'scales the length by the area factor', 'uses the original area without applying the scale'],
+    'Circle relationships': ['uses circumference instead of area', 'applies the radius change only once', 'forgets that the squared radius changes'],
+    'Right-triangle relationships': ['adds the leg lengths instead of using squares', 'subtracts the hypotenuse from the known leg', 'uses the hypotenuse as the unknown leg'],
+  };
+  const errors = errorBySkill[question.skill] || ['uses the given values without applying the required relationship', 'applies the relationship in the wrong order', 'uses a relevant value for the wrong quantity'];
+  distractorChoices.forEach((_, index) => {
+    profiles[String.fromCharCode(65 + (question.choices.indexOf(distractorChoices[index])))] = {
+      role: 'distractor',
+      misconception: errors[index] || errors[errors.length - 1],
+      error_mechanism: errors[index] || errors[errors.length - 1],
+    };
+  });
+  return profiles;
+}
+
 function buildMath(index, options) {
   const { testId = 'SAT1', variant = 'sat', assessmentNumber = 1, module = 'math-module-1', route = 'standard' } = options;
   const domain = pick(DOMAINS, index);
@@ -225,9 +280,13 @@ function buildMath(index, options) {
     ({ choices, answer: numericAnswer } = rotateChoices(choices, target));
   }
 
+  prompt = applyPromptDiversityFrame(prompt, index);
   if (spr) prompt = `${prompt}\nEnter your answer as a number.`;
   if (module === 'math-module-2' && route === 'low' && domain === 'Advanced Math') {
     prompt = `${prompt} Use the information provided; no advanced technique beyond the stated relationship is required.`;
+  }
+  if (hard) {
+    prompt = `${prompt} First identify the relevant relationship, then use it to evaluate the requested condition because the intermediate result determines the final value.`;
   }
 
   const difficultyFeatures = hard
@@ -285,6 +344,7 @@ function buildMath(index, options) {
       candidateOnly: true,
       productionMutation: false,
       sprTarget: MATH_SPR_TARGET,
+      distractor_architecture: buildDistractorArchitecture({ questionType, choices, answer: numericAnswer, skill }),
     },
   };
   return record;
