@@ -207,3 +207,12 @@ Future sessions should read this checkpoint together with:
 Do not repeat the completed impact audit, classification, inventory, preparation, or candidate-pool generator remediation unless a real repository discrepancy requires verification.
 
 Resume directly with **exact replacement-candidate generation and controlled selection**. Do not create SAT21.
+
+
+## 11. Superseded by later Batch M progress
+
+This September 15 checkpoint is a historical record of the preparation/candidate-pool state at that date. Its “Next logical step” is no longer the current work queue.
+
+The exact replacement-candidate and controlled-selection work later progressed through independent review, remediation/re-review, exact target locking, explicit authorization, and the authorized 195-target production replacement on September 17, 2026.
+
+Current status is maintained in `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md` and `docs/QUESTION-GENERATION-ROADMAP.md`. The current blocker is the post-replacement final-corpus schema failure `Invalid difficultyBand: sat-series-a-medium`.
