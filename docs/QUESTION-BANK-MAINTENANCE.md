@@ -124,12 +124,16 @@ SAT11–SAT20 remain deployed but their public-site verification is deliberately
 
 ### Current deep-QC remediation status
 
-The prior independent-review run (**35579481595**) was technically successful but substantively held with **298 FAIL / 1 expert-review item / 0 PASS**. Two candidate-only corrections now precede the next review:
+The prior independent-review run (**35579481595**) was technically successful but substantively held with **298 FAIL / 1 expert-review item / 0 PASS**. The subsequent candidate-only corrections now preceding the next review are:
 
 - `da71fcbd473741236de08fd9dce0e27b3511b9e4` — diversity-aware candidate selection before independent review;
-- `7885a01eab70982ad866438c310e85eeb5e6001e` — Math hard-difficulty alignment so hard candidates require a genuine multi-step construction.
+- `7885a01eab70982ad866438c310e85eeb5e6001e` — Math hard-difficulty alignment so hard candidates require a genuine multi-step construction;
+- `39c347ff3525cf782970aa8057baa9afc0d87693` — diversified the Math scatterplot construction family;
+- `d1edfb18d8d3d798d4f36e8517c79fb53982599` — corrected the generator structure after that diversification;
+- `6b1d40c085ca270f871b78549c9dd30c37fd4888` — preserved/reconstructed Math distractor architecture after candidate transformations;
+- `12996fda0e5666d86e6d763d67c91ce5c13b5162` — ensured clear R&W question forms and replaced stock/generic R&W explanations with item-specific reasoning.
 
-These changes do not authorize or perform production replacement. The next verification point is the resulting independent-review run.
+These changes do not authorize or perform production replacement. The next verification point is a fresh independent-review run using the corrected candidate pipeline; the historical **35579481595** result must not be reused as current evidence.
 
 ## Targeted remediation and re-gating
 
