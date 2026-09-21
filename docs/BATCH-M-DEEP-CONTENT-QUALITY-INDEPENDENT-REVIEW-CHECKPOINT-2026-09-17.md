@@ -71,3 +71,10 @@ The target-lock workflow has already been implemented but correctly waits for a 
 Fix the candidate generator's production-test metadata mapping so `assessmentVariant` and related assessment metadata are copied from the same `BATCH_M_PRODUCTION_SEQUENCE` entry as the candidate's `productionTestId`. Regenerate/revalidate the 195-candidate package, rerun independent review, and then permit the existing target-lock workflow to run only after review PASS.
 
 Do not weaken or remove the assessment-variant compatibility gate. Do not authorize production mutation during this repair. Production remains frozen and SAT21 must not be created.
+
+
+## 10. Superseded current-state note
+
+The current-active sections above are historical and superseded by `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md` and the September 21 roadmap update.
+
+The assessment-variant mismatch described above was corrected. The corrected 195-candidate calibration reconciliation passed independent review and exact target lock, received explicit authorization, and was applied to production. The current blocking issue is instead the final 30-mock schema failure `Invalid difficultyBand: sat-series-a-medium` after that production application.
