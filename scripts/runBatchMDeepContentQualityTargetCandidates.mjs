@@ -165,10 +165,35 @@ function repairStimulusLength(question) {
   const skill = String(question?.skill || '');
   const limit = ['Transitions', 'Boundaries', 'Form, Structure, and Sense'].includes(skill) ? 80 : 150;
   const parts = stimulusParts(question.prompt);
-  if (parts.stimulus.split(/\s+/).filter(Boolean).length <= limit) return question;
-  const trimmed = trimToLimit(parts.stimulus, limit);
+  const questionWords = parts.question.split(/\s+/).filter(Boolean).length;
+  const stimulusBudget = Math.max(8, limit - questionWords);
+  const currentStimulusWords = parts.stimulus.split(/\s+/).filter(Boolean).length;
+  if (currentStimulusWords <= stimulusBudget && (parts.stimulus + ' ' + parts.question).split(/\s+/).filter(Boolean).length <= limit) return question;
+  const trimmed = trimToLimit(parts.stimulus, stimulusBudget);
   const prompt = parts.question ? trimmed + '\n\n' + parts.question : trimmed;
   return { ...question, prompt };
+}
+
+function cleanPromptPunctuation(question) {
+  if (typeof question?.prompt !== 'string') return question;
+  const prompt = question.prompt.replace(/[ \t]+([,.!?;:])/g, '$1');
+  return prompt === question.prompt ? question : { ...question, prompt };
+}
+
+function rotateCandidateChoiceOrder(question, index) {
+  if (question?.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return question;
+  const ai = answerIndex(question);
+  if (ai < 0 || ai > 3) return question;
+  const shift = ((index % 4) + 4) % 4;
+  if (shift === 0) return question;
+  const choices = [...question.choices];
+  const rotated = choices.map((_, i) => choices[(i + shift) % 4]);
+  const newAnswerIndex = (ai - shift + 4) % 4;
+  return {
+    ...question,
+    choices: rotated,
+    answer: String.fromCharCode(65 + newAnswerIndex),
+  };
 }
 
 function numericValue(text) {
@@ -452,11 +477,14 @@ function repairQuestion(question, checks, index) {
     if (checkSet.has('math-generic-template-density')) out.prompt = replaceGenericPhrases(out.prompt, index);
     out.prompt = diversifyMathPrompt(out, index);
     out = ensureHardMathMetadata(out);
+    out = cleanPromptPunctuation(out);
+    out = rotateCandidateChoiceOrder(out, index);
     if (out.questionType === 'multiple-choice') {
       const profiles = architecture(out);
       if (profiles) out.metadata = { ...(out.metadata || {}), distractor_architecture: profiles };
     }
-    if (checkSet.has('math-generic-numeric-distractor') || checkSet.has('math-generic-template-density')) {
+    if (out.questionType === 'multiple-choice') out = strengthenMathExplanation(out);
+    else if (checkSet.has('math-generic-numeric-distractor') || checkSet.has('math-generic-template-density')) {
       out = strengthenMathExplanation(out);
     }
   }
@@ -482,6 +510,8 @@ function repairQuestion(question, checks, index) {
     }
     out.prompt = ensureRWMarkers(out, index);
     if (checkSet.has('rw-stimulus-length')) out = repairStimulusLength(out);
+    out = cleanPromptPunctuation(out);
+    out = rotateCandidateChoiceOrder(out, index);
     out = strengthenRWExplanation(out);
   }
 
