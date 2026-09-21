@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest verified repository revision:** `eeedbc7b0725ce0b8d1020ddeba283efc04aae74`  
+**Latest verified repository revision:** `200c2a090cf8bf0246dad297c5decd9ef9fb5dfa`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -123,13 +123,13 @@ The 25 reviewed candidates are **candidate-only**.
 - `scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs`
 - `.github/workflows/batch-m-canonical-replacement-package.yml`
 
-The normalization stage deterministically resolves each passed candidate to one existing frozen production target and copies the target's canonical structural metadata into a candidate-only normalized record. Candidate content and candidate identity remain distinct.
+The normalization stage deterministically resolves each passed candidate to one existing frozen production target and copies the target's canonical structural metadata into a candidate-only normalized record. Semantic mappings are now strict: scatterplot interpretation → Data models; equivalent exponential representations → Exponential equations; right-triangle relationships → Right triangles; linear relationships → Linear functions. Candidate content and candidate identity remain distinct.
 
 A **fresh independent substantive review** is then run after normalization, followed by final hypothetical replacement validation against the frozen production corpus, including schema/content quality, exact target compatibility, duplicate checks, the final 30-mock corpus gate, and cross-corpus calibration.
 
 The new workflow is candidate-only and performs no production mutation.
 
-**CI execution result is not independently retrievable through the available GitHub Actions read interface; no CI PASS is claimed here.**
+**CI execution result is not independently retrievable through the available GitHub Actions read interface; no CI PASS is claimed here. The repository now also includes direct npm QC commands and Node syntax checks for the new pipeline.**
 
 The package validator must establish, for all 25 entries:
 
