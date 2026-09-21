@@ -210,7 +210,19 @@ Do not modify unless a question-generation/storage/rendering dependency makes it
 - deployment configuration
 - unrelated Redux/API/auth code
 
-## 9. Resume procedure
+## 9. Documentation continuity
+
+The following September 15 paths referenced by earlier session prompts are **not present on the current `main` branch**:
+
+- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-CHECKPOINT-2026-09-15.md`
+- `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json`
+- `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json`
+
+They should not be treated as missing active work. Their relevant candidate-generation/selection history was superseded by the later September 17 checkpoints, and the authoritative current state is `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md`.
+
+The September 15 targeted-replacement checkpoint remains in the repository as a historical record and now explicitly points to the later state.
+
+## 10. Resume procedure
 
 At the beginning of a future session:
 1. Read this roadmap.
