@@ -202,34 +202,108 @@ function buildMath(index, options) {
       explanation = 'Multiply each group size by its mean, add the totals, and divide by the combined number of observations.';
       features = ['data-interpretation', 'multi-step'];
     } else if (index % 4 === 2) {
-      const points = [[1, 8 + index], [2, 11 + index], [3, 15 + index], [4, 18 + index], [5, 22 + index]];
+      const variant = Math.floor(index / 4) % 8;
+      let points;
+      let question;
+      let options;
+      let answerText;
+      let explanationText;
+
+      if (variant === 0) {
+        points = [[1, 8 + (index % 3)], [2, 11 + (index % 3)], [3, 15 + (index % 3)], [4, 18 + (index % 3)], [5, 22 + (index % 3)]];
+        question = 'Which statement is best supported by the data?';
+        options = [
+          'The response generally increases as the explanatory variable increases.',
+          'The response is exactly constant for every value.',
+          'The response must decrease whenever the explanatory variable increases.',
+          'The data establish that the explanatory variable causes every change in the response.',
+        ];
+        answerText = options[0];
+        explanationText = 'The points show an overall upward association, but the data alone do not establish causation or an exact relationship.';
+      } else if (variant === 1) {
+        points = [[1, 26 - (index % 3)], [2, 22 - (index % 3)], [3, 19 - (index % 3)], [4, 15 - (index % 3)], [5, 12 - (index % 3)]];
+        question = 'Which statement most accurately describes the association shown?';
+        options = [
+          'The response generally decreases as the explanatory variable increases.',
+          'The response generally increases as the explanatory variable increases.',
+          'The response is unchanged for all observed values.',
+          'The data prove that one variable causes the other to decrease.',
+        ];
+        answerText = options[0];
+        explanationText = 'The plotted values show a general downward association. The observations do not by themselves prove a causal relationship.';
+      } else if (variant === 2) {
+        points = [[1, 6 + (index % 2)], [2, 8 + (index % 2)], [3, 11 + (index % 2)], [4, 13 + (index % 2)], [5, 16 + (index % 2)]];
+        question = 'Which statement about the strength of the association is best supported by the scatterplot?';
+        options = [
+          'The points show a clear positive association with relatively little scatter around the trend.',
+          'The points show a clear negative association with relatively little scatter around the trend.',
+          'The points show no visible relationship between the variables.',
+          'The points establish an exact linear relationship for every possible value.',
+        ];
+        answerText = options[0];
+        explanationText = 'The points cluster around an upward pattern with limited variation from that trend, supporting a clear positive association rather than an exact equation.';
+      } else if (variant === 3) {
+        points = [[1, 6], [2, 8], [3, 10], [4, 12], [5, 25 + (index % 3)]];
+        question = 'Which point is most likely to have the greatest influence on a line of best fit for the data?';
+        options = ['(5, 25)', '(2, 8)', '(3, 10)', '(4, 12)'];
+        if ((index % 3) === 1) options[0] = '(5, 26)';
+        if ((index % 3) === 2) options[0] = '(5, 27)';
+        answerText = options[0];
+        explanationText = 'The point at the far upper end is separated from the otherwise nearly linear cluster, so it is the observation most likely to pull the fitted line toward itself.';
+      } else if (variant === 4) {
+        points = [[1, 6], [2, 8], [3, 10], [4, 12], [5, 14]];
+        const predictedX = 6 + (index % 2);
+        const predictedY = 2 * predictedX + 4;
+        question = `A linear model for the data is y = 2x + 4. Based on this model, what value of y is predicted when x = ${predictedX}?`;
+        options = [String(predictedY), String(predictedY + 2), String(predictedY - 2), String(predictedY * 2)];
+        answerText = options[0];
+        explanationText = 'Substitute the given x-value into the stated linear model: y = 2x + 4.';
+      } else if (variant === 5) {
+        points = [[1, 9], [2, 11], [3, 14], [4, 18], [5, 21]];
+        question = 'If the largest observed x-value were removed, which change would be expected in the displayed association?';
+        options = [
+          'The upward association would remain, but the range of observed x-values would be smaller.',
+          'The association would necessarily become negative.',
+          'The response values would all become identical.',
+          'The removal would prove that the original association was causal.',
+        ];
+        answerText = options[0];
+        explanationText = 'Removing one endpoint changes the observed range but does not require the remaining points to reverse direction or become identical.';
+      } else if (variant === 6) {
+        points = [[1, 4], [2, 7], [3, 8], [4, 14], [5, 15]];
+        question = 'Which conclusion about the data is supported without making a causal claim?';
+        options = [
+          'Higher values of the explanatory variable are generally associated with higher response values.',
+          'Increasing the explanatory variable directly causes the response to increase.',
+          'The response must increase by the same amount for every one-unit increase.',
+          'The response is determined solely by the explanatory variable.',
+        ];
+        answerText = options[0];
+        explanationText = 'The data support an observed association, but they do not by themselves establish that changes in one variable cause changes in the other.';
+      } else {
+        points = [[1, 5], [2, 9], [3, 10], [4, 15], [5, 16]];
+        const midpoint = 3;
+        question = `Which statement is best supported by the scatterplot for observations near x = ${midpoint}?`;
+        options = [
+          'The response is around 10 units in the observed data near x = 3.',
+          'The response is exactly 3 units for every observation.',
+          'The response necessarily equals 20 units whenever x = 3.',
+          'The data show no relationship at any observed x-value.',
+        ];
+        answerText = options[0];
+        explanationText = 'The observed point near x = 3 has a response around 10, while the other choices contradict the plotted observations or overstate what the data show.';
+      }
+
       skill = 'Scatterplot interpretation';
-      const scatterPromptVariants = [
-        'A study records the following observed pairs',
-        'The data from a field investigation are shown as the ordered pairs',
-        'A researcher plots these five observations',
-        'The following observations are displayed in a scatterplot',
-        'A data analyst examines the paired values',
-        'The scatterplot is based on these measured pairs',
-        'A sample produces the following coordinate pairs',
-        'The five plotted observations are',
-      ];
-      const scatterQuestionVariants = [
-        'Which statement is best supported by the data?',
-        'Which conclusion is most directly supported by the scatterplot?',
-        'Which statement most accurately describes the association shown?',
-        'What conclusion is supported by the observed pattern?',
-      ];
-      const scatterStem = scatterPromptVariants[Math.floor(index / 4) % scatterPromptVariants.length];
-      const scatterQuestion = scatterQuestionVariants[Math.floor(index / 4) % scatterQuestionVariants.length];
-      prompt = `${scatterStem} ${points.map((point) => `(${point[0]}, ${point[1]})`).join(', ')}. A linear model summarizes the overall trend. ${scatterQuestion}`;
-      choices = ['The response generally increases as the explanatory variable increases.', 'The response is exactly constant for every value.', 'The response must decrease whenever the explanatory variable increases.', 'The data establish that the explanatory variable causes every change in the response.'];
+      prompt = `The following observations are displayed in a scatterplot: ${points.map((point) => `(${point[0]}, ${point[1]})`).join(', ')}. ${question}`;
+      choices = options;
       numericAnswer = null;
-      explanation = 'The plotted values rise overall, although the increase is not perfectly uniform; the data alone do not establish causation.';
+      explanation = explanationText;
       fig = figure('scatter', { points });
-      features = ['data-interpretation', 'representation-shift', 'evidence-synthesis'];
+      features = ['data-interpretation', 'evidence-synthesis'];
+      if (variant === 4) features.push('representation-shift');
     } else {
-      const q1 = 12 + (index % 10);
+
       const q3 = q1 + 16;
       const shift = 4;
       skill = 'Statistical transformations';
