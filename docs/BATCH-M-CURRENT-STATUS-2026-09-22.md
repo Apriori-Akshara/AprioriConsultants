@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest verified repository revision:** `f3df0e2f89ea5c31ed37faa66fe8ae734d416f96`  
+**Latest verified repository revision:** `d7acc0f1367d18561512340fe5a4c42880535469`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -23,18 +23,18 @@ The corrected candidate pipeline now produces a candidate set that has passed th
 - Production mutation: **false**
 - Release eligibility: **false**
 
-The reviewed candidates are therefore **approved candidates for the next controlled replacement-preparation stage**, but they are not themselves production replacements. A separate mapping from each candidate to an exact existing production target is required before any production mutation.
+The reviewed candidates are therefore **approved candidates for the next controlled replacement-preparation stage**, but they are not themselves production replacements.
 
 The candidate-selector correction that established this current pipeline is recorded at:
 
 `f52238c6a3ffafd97baca9ba291a310d5187af2f` — `fix: correct Batch M candidate selector syntax`
 
-The latest `main` commits also reran the two collective gates on the current revision:
+The latest collective gates remain:
 
 - Final 30-mock corpus gate: **35666818448 — PASS**
 - 30-mock cross-corpus calibration: **35666822839 — PASS**
 
-The latest Vercel check is green.
+The latest Vercel check before this package-only implementation was green.
 
 ## 2. Batch M checklist
 
@@ -48,14 +48,15 @@ The latest Vercel check is green.
 | 6. 30-mock cross-corpus calibration | ✅ PASS — 35666822839 |
 | 7. Deep SAT/PSAT content-quality/diversity remediation | ✅ CANDIDATE PIPELINE CORRECTED |
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
-| 9. Prepare controlled production-replacement package | ⏭️ NEXT — candidate-to-production target mapping |
-| 10. Explicit authorization of the replacement scope | ⏳ PENDING |
-| 11. Controlled production replacement, if authorized | ⏳ PENDING |
-| 12. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
-| 13. Final public student-facing inspection of all 30 mocks | ⏳ PENDING |
-| 14. Technical release QC | ⏳ PENDING |
-| 15. Final end-to-end student acceptance | ⏳ PENDING |
-| 16. Final Batch M release acceptance | ⏳ PENDING |
+| 9. Prepare controlled production-replacement package | ✅ IMPLEMENTED — deterministic package builder + CI validation added; authorization readiness still blocked pending canonical compatibility validation |
+| 10. Resolve package compatibility blockers / validate clean package | ⏭️ NEXT |
+| 11. Explicit authorization of the replacement scope | ⏳ PENDING |
+| 12. Controlled production replacement, if authorized | ⏳ PENDING |
+| 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
+| 14. Final public student-facing inspection of all 30 mocks | ⏳ PENDING |
+| 15. Technical release QC | ⏳ PENDING |
+| 16. Final end-to-end student acceptance | ⏳ PENDING |
+| 17. Final Batch M release acceptance | ⏳ PENDING |
 
 ## 3. Completed production milestones
 
@@ -76,15 +77,24 @@ The frozen production scope remains exactly 30 mocks. No SAT21 has been created.
 
 ## 4. Current candidate-only milestone
 
-The current candidate-only pipeline has now passed substantive independent review with **25 / 25 candidates passing**.
+The current candidate-only pipeline has passed substantive independent review with **25 / 25 candidates passing**.
 
-This is a genuine milestone completion, but it does **not** mean that the 25 candidates can be written into production automatically.
-
-The required next control is:
+The required control remains:
 
 **candidate → exact existing production target → replacement package → package validation → explicit authorization → controlled production mutation**
 
 The production target must be an existing question in the frozen 30-mock corpus. No new mock, question outside the approved scope, or automatic replacement may be introduced.
+
+### Replacement-package implementation now present
+
+The controlled package-preparation implementation is now present in:
+
+- `scripts/runBatchMDeepContentQualityReplacementPackage.mjs`
+- `.github/workflows/batch-m-deep-content-quality-replacement-package.yml`
+
+It consumes the current 25-candidate selection and independent-review artifacts, uses the frozen canonical production corpus, proposes deterministic existing targets, and records canonical compatibility blockers without mutating production.
+
+A key safeguard is intentional: candidate metadata is **not silently rewritten** to match production. The current 25 generic candidates use non-canonical assessment/skill labels for some target families, so authorization readiness must remain blocked until those differences are explicitly normalized or regenerated and the package validator passes.
 
 ## 5. Production boundary
 
@@ -93,49 +103,40 @@ The following controls remain active:
 - Production corpus remains frozen at 30 mocks.
 - No SAT21.
 - No broad regeneration of the 30-mock corpus.
-- No automatic production mutation from candidate review.
+- No automatic production mutation from candidate review or package preparation.
 - No weakening of substantive review, diversity, schema, originality, calibration, or replacement-integrity gates.
 - No release eligibility until all downstream release checkpoints pass.
 
-The 25 reviewed candidates are **candidate-only** until the replacement scope is explicitly authorized.
+The 25 reviewed candidates are **candidate-only**.
 
-## 6. Next logical implementation sequence
+## 6. Current logical implementation sequence
 
 ### Step 1 — Controlled replacement-package preparation
 
-Prepare a deterministic package that maps each of the 25 passed candidates to:
+**Implemented.** The package builder deterministically proposes an existing production target for each passed candidate and records the candidate, target snapshot, and compatibility blockers.
 
-- one exact existing production `testKey`;
-- one exact existing production `questionId`;
-- the current production question identity;
-- the approved candidate identity/content;
-- target compatibility;
-- replacement reason/class;
-- preservation checks for answer, difficulty, domain/skill, figure/data dependencies, and other applicable canonical fields;
-- explicit pre-mutation validation status.
+### Step 2 — Resolve package compatibility blockers / validate clean package
 
-The package must prove that every replacement is a one-for-one replacement of an existing production question.
+This is now the immediate next step.
 
-**Production mutation must remain blocked during this step.**
+The package validator must establish, for all 25 entries:
 
-### Step 2 — Package-level integrity review
-
-Before authorization, validate:
-
-- all 25 targets exist exactly once;
-- all 25 candidates exist exactly once;
-- no target is duplicated;
-- no candidate is assigned to multiple targets;
-- candidate/target assessment compatibility;
-- canonical schema compatibility;
-- originality/identity integrity;
+- one exact existing production target per candidate;
+- unique candidate identities;
+- unique target identities;
+- section/module/difficulty/question-type compatibility;
+- canonical domain/skill compatibility;
+- assessment-family/assessment-variant compatibility;
+- figure/data compatibility where applicable;
+- production-boundary flags remain false;
 - no production-scope expansion;
-- no SAT21 creation;
-- replacement count is exactly the explicitly approved package count.
+- no SAT21 creation.
+
+The current candidate artifact does not yet satisfy canonical metadata compatibility for all target families. That issue must be resolved explicitly; it must not be hidden inside the replacement operation.
 
 ### Step 3 — Explicit authorization checkpoint
 
-Only after Step 1 and Step 2 pass should the package be presented as ready for explicit production authorization.
+Only after Step 2 passes should the package be presented as ready for explicit production authorization.
 
 Authorization is a separate control and must not be inferred from candidate-review PASS.
 
@@ -154,7 +155,7 @@ After any authorized production mutation, rerun the required affected-item/mock 
 
 ### Step 6 — Final release sequence
 
-Once the substantive blocker is cleared:
+Once the controlled replacement sequence is fully cleared:
 
 1. final public student-facing inspection of all 30 mocks;
 2. technical release QC;
@@ -184,5 +185,4 @@ For future sessions:
 
 **Current release status: NOT RELEASE-ELIGIBLE.**
 
-The reason is no longer an unresolved candidate-quality review failure. The 25-candidate independent review has passed. The remaining release-critical work is controlled production replacement preparation/authorization (if the passed candidates are confirmed as exact replacements), post-mutation re-gating, and the final public/technical/student/release acceptance sequence.
-
+The 25-candidate independent review has passed. The controlled replacement package implementation is now in place, but the package is not authorization-ready until the canonical compatibility differences are explicitly resolved and the package validator passes. Post-mutation re-gating and the final public/technical/student/release acceptance sequence remain pending.
