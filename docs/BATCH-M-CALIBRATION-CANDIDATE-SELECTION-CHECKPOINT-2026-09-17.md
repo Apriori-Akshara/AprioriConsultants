@@ -121,3 +121,12 @@ The reviewer compatibility gate must remain active; it must not be bypassed or w
 - The historical 352-item calibration replacement is not repeated automatically.
 - Public functionality verification is complete and is not repeated unless a regression is found.
 - Release eligibility remains false until substantive content-quality/diversity QC and final release acceptance are complete.
+
+
+## 10. Superseded current-state note
+
+The “Current active reconciliation stage” and “Exact current next step” text above is a historical snapshot and is superseded by `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md` and the September 21 roadmap update.
+
+The 195-candidate reconciliation progressed beyond candidate generation/review: the corrected package passed independent review, the exact 195-target lock passed, fresh explicit authorization was established, and the authorized 195-target production replacement was applied on September 17, 2026.
+
+The current blocker is no longer assessment-variant mapping or target lock. The latest final 30-mock corpus gate fails on `Invalid difficultyBand: sat-series-a-medium`. Do not rerun the historical candidate-selection stage or seek the earlier authorization described above as though it were still pending.
