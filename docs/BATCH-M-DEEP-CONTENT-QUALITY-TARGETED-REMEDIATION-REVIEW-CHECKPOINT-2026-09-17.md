@@ -111,3 +111,10 @@ After review PASS:
 3. only then consider a **fresh explicit authorization** for any production replacement.
 
 Production remains frozen during the current repair. No SAT21 may be created.
+
+
+## 10. Superseded current-state note
+
+The current-active sections above are historical and superseded by `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md` and the September 21 roadmap update.
+
+The later 195-target calibration reconciliation passed review and exact target locking, was explicitly authorized, and was applied to production. The current blocker is the post-replacement final 30-mock schema failure `Invalid difficultyBand: sat-series-a-medium`; the earlier reconciliation candidate-review blocker is resolved.
