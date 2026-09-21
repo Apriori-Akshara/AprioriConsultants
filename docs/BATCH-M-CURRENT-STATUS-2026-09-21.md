@@ -3,17 +3,17 @@
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
 **Last repository commit:** `7c4dd75bf35a3e618deffb1350e1ea3cbb15876a` — `feat: apply authorized 195-target calibration replacements`  
-**Last repository activity currently present:** September 17, 2026  
+**Latest repository activity currently present:** September 21, 2026 (documentation updates)  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created
 
 ## 1. Current repository and workflow state
 
-The latest `main` commit applies the explicitly authorized **195-target Reading & Writing calibration reconciliation**.
+The latest production/content commit applies the explicitly authorized **195-target Reading & Writing calibration reconciliation**; later commits on `main` are documentation-state updates.
 
 The repository is currently **not release-eligible** because the next collective 30-mock corpus gate fails on a schema incompatibility introduced by the latest replacement layer.
 
-There have been **no GitHub Actions workflow runs on September 18, 19, 20, or 21, 2026**. The latest workflow activity currently recorded is on September 17, 2026.
+There were **no GitHub Actions workflow runs on September 18, 19, or 20, 2026**. On September 21, a documentation commit triggered deep content-quality workflow run **35577494013**, which failed on the **same known `Invalid difficultyBand: sat-series-a-medium` schema regression**. It did not establish a new content-quality finding.
 
 ## 2. Completed stages that must not be repeated
 
