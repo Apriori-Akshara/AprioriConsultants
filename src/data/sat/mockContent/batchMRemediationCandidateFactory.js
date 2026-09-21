@@ -247,32 +247,41 @@ function enrichCandidateExplanation(question) {
   if (answerIndex < 0 || answerIndex >= choices.length) return question;
   const answerLetter = String.fromCharCode(65 + answerIndex);
   const keyedChoice = String(choices[answerIndex] || '').trim();
-  const base = String(question.explanation || '').trim();
+  const metadata = question.metadata && typeof question.metadata === 'object' ? question.metadata : {};
 
   if (question.section === 'reading-writing') {
     const skill = String(question.skill || '');
-    const skillReason = {
-      'Central Ideas and Details': 'It identifies the central relationship supported by the passage rather than a single isolated detail.',
-      Inferences: 'It states only what can reasonably be inferred from the evidence presented in the passage.',
-      'Command of Evidence': 'It supplies the kind of evidence that directly supports or tests the interpretation described in the question.',
-      'Words in Context': 'It matches the meaning required by the surrounding context, not a different common meaning of the word.',
-      'Text Structure and Purpose': 'It describes the function of the relevant part of the passage and how that part contributes to the whole.',
-      'Cross-Text Connections': 'It accurately describes the relationship between the two passages without adding a claim that either passage does not support.',
-      'Rhetorical Synthesis': 'It satisfies the stated communication goal while preserving the important qualification in the notes.',
-      Transitions: 'It creates the logical relationship required between the ideas on either side of the blank.',
-      Boundaries: 'It produces the grammatical boundary required by the sentence structure and punctuation.',
-      'Form, Structure, and Sense': 'It produces a grammatically complete sentence with the required meaning and form.',
-    }[skill] || 'It directly answers the question using the evidence and construction of the item.';
-    return {
-      ...question,
-      explanation: `Choice ${answerLetter} is correct. ${skillReason} The keyed answer states: “${keyedChoice.slice(0, 120)}”. ${base}`,
-    };
+    let explanation;
+    if (skill === 'Words in Context') {
+      explanation = `Choice ${answerLetter} is correct. In this sentence, “${metadata.targetWord || 'the word'}” is used to mean “${keyedChoice.slice(0, 140)}.” The surrounding statement requires that meaning because it describes the condition and result in the passage.`;
+    } else if (skill === 'Cross-Text Connections') {
+      explanation = `Choice ${answerLetter} is correct. It compares the two passages by focusing on ${metadata.crossTextRelationship || 'the evidence and conditions'} and does not add a conclusion that either passage fails to support. The keyed choice states: “${keyedChoice.slice(0, 140)}”.`;
+    } else if (skill === 'Rhetorical Synthesis') {
+      explanation = `Choice ${answerLetter} is correct. It fulfills the stated communication goal by preserving the finding and its limiting condition. The selected wording is: “${keyedChoice.slice(0, 140)}”.`;
+    } else if (skill === 'Transitions') {
+      explanation = `Choice ${answerLetter} is correct because “${keyedChoice.slice(0, 80)}” gives the required logical connection between the two statements.`;
+    } else if (skill === 'Boundaries') {
+      explanation = `Choice ${answerLetter} is correct because “${keyedChoice.slice(0, 80)}” creates the required grammatical boundary and preserves the intended sentence structure.`;
+    } else if (skill === 'Form, Structure, and Sense') {
+      explanation = `Choice ${answerLetter} is correct because “${keyedChoice.slice(0, 80)}” produces the required grammatical form while preserving the sentence's intended meaning.`;
+    } else if (skill === 'Command of Evidence') {
+      explanation = `Choice ${answerLetter} is correct because the selected finding directly tests the claim or interpretation described in the passage. The relevant choice is: “${keyedChoice.slice(0, 140)}”.`;
+    } else if (skill === 'Inferences') {
+      explanation = `Choice ${answerLetter} is correct because the conclusion follows from the information supplied in the passage without extending beyond it. The selected statement is: “${keyedChoice.slice(0, 140)}”.`;
+    } else if (skill === 'Central Ideas and Details') {
+      explanation = `Choice ${answerLetter} is correct because it captures the main point supported by the passage rather than an isolated detail. The selected statement is: “${keyedChoice.slice(0, 140)}”.`;
+    } else if (skill === 'Text Structure and Purpose') {
+      explanation = `Choice ${answerLetter} is correct because it identifies what the relevant part of the passage does and why that part matters to the author's development. The selected statement is: “${keyedChoice.slice(0, 140)}”.`;
+    } else {
+      explanation = `Choice ${answerLetter} is correct. The selected response is: “${keyedChoice.slice(0, 140)}”. It directly addresses the task using the information supplied in the item.`;
+    }
+    return { ...question, explanation };
   }
 
   if (question.section === 'math') {
     return {
       ...question,
-      explanation: `Choice ${answerLetter} is correct because the stated solution method leads to “${keyedChoice.slice(0, 120)}”. ${base} The keyed value therefore satisfies the condition asked for in the problem.`,
+      explanation: `Choice ${answerLetter} is correct. The solution uses the quantities and condition stated in the problem to obtain “${keyedChoice.slice(0, 120)}”. The distractor choices represent different calculation paths, while the keyed value satisfies the requested condition.`,
     };
   }
 
