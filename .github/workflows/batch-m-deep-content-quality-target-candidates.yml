@@ -1,0 +1,74 @@
+name: Batch M target-specific deep content quality candidate remediation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/batch-m-deep-content-quality-target-candidates.yml'
+      - 'scripts/runBatchMDeepContentQualityTargetCandidates.mjs'
+      - 'scripts/runBatchMDeepContentQualityIndependentReview.mjs'
+      - 'src/data/sat/mockContent/batchMProductionStore.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'src/data/sat/questionSchema.js'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  target-specific-candidate-remediation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Generate current deep-QC failure report
+        continue-on-error: true
+        run: node scripts/runBatchMDeepContentQualityDiversityQC.mjs
+
+      - name: Confirm deep-QC report exists
+        run: test -f artifacts/batch-m-deep-content-quality-qc/BATCH-M-DEEP-CONTENT-QUALITY-DIVERSITY-QC-2026-09-17.json
+
+      - name: Build exact target-specific candidate set
+        run: node scripts/runBatchMDeepContentQualityTargetCandidates.mjs
+
+      - name: Run independent substantive review on target-specific candidates
+        env:
+          BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-target-candidates/BATCH-M-DEEP-CONTENT-QUALITY-TARGET-CANDIDATES-2026-09-21.json
+        run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
+      - name: Upload target-specific candidates
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-candidates
+          path: artifacts/batch-m-deep-content-quality-target-candidates/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload target-specific independent review
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-candidates-review
+          path: artifacts/batch-m-deep-content-quality-independent-review/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload source deep-QC report
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-deep-content-quality-target-source-qc
+          path: artifacts/batch-m-deep-content-quality-qc/
+          if-no-files-found: error
+          retention-days: 30
+
