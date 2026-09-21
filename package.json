@@ -21,7 +21,9 @@
     "qc:batch-m-deep-content-quality-single-candidate-remediation": "node scripts/runBatchMDeepContentQualitySingleCandidateRemediation.mjs",
     "qc:batch-m-deep-content-quality-single-candidate-target-resolution": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualitySingleCandidateTargetResolution.mjs",
     "qc:batch-m-deep-content-quality-single-candidate-controlled-replacement-validation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualitySingleCandidateControlledReplacementValidation.mjs",
-    "qc:batch-m-deep-content-quality-controlled-replacement-validation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityControlledReplacementValidation.mjs"
+    "qc:batch-m-deep-content-quality-controlled-replacement-validation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityControlledReplacementValidation.mjs",
+    "qc:batch-m-deep-content-quality-canonical-normalization": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs",
+    "qc:batch-m-deep-content-quality-replacement-package-final": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
