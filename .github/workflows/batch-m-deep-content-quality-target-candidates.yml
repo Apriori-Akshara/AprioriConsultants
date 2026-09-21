@@ -35,13 +35,13 @@ jobs:
 
       - name: Generate current deep-QC failure report
         continue-on-error: true
-        run: node scripts/runBatchMDeepContentQualityDiversityQC.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityDiversityQC.mjs
 
       - name: Confirm deep-QC report exists
         run: test -f artifacts/batch-m-deep-content-quality-qc/BATCH-M-DEEP-CONTENT-QUALITY-DIVERSITY-QC-2026-09-17.json
 
       - name: Build exact target-specific candidate set
-        run: node scripts/runBatchMDeepContentQualityTargetCandidates.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityTargetCandidates.mjs
 
       - name: Run independent substantive review on target-specific candidates
         env:
