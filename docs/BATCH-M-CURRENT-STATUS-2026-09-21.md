@@ -120,6 +120,14 @@ Current state:
 
 No additional production mutation should occur without a fresh explicit authorization for a separately identified scope.
 
+## 8. September 21 public route verification correction
+
+The first SAT11–SAT20 public-route smoke workflow (**35579757818**) failed for one known routing reason: the Series B landing page correctly redirected unauthenticated users to `/Auth?returnTo=%2FSATMocksSeriesB`, but the shared SAT return-path validator only allowed `/SATMocks` paths. SAT11–SAT20 individual routes passed.
+
+This was corrected in `src/lib/sat/satLogin.js` by explicitly allowing the existing `/SATMocksSeriesB` internal return path. No authentication rule was weakened and no production content was changed.
+
+The replacement workflow will re-run automatically from the fix commit. The next release checkpoint remains authenticated student acceptance of SAT11–SAT20 after the public route smoke check passes.
+
 ## 8. Future-session resume instruction
 
 Future sessions should treat this document and `docs/QUESTION-GENERATION-ROADMAP.md` as the current source of truth.
