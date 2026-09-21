@@ -177,3 +177,12 @@ The implemented target-lock workflow is correctly gated on a successful independ
 5. require a fresh explicit production authorization before any new production mutation.
 
 The review compatibility check must not be weakened or removed. Production remains frozen, release eligibility remains false, and SAT21 remains prohibited.
+
+
+## 10. Superseded current-state note
+
+The current-active sections above are historical and are superseded by `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md` and the September 21 roadmap update.
+
+After the documented 195-target reconciliation review and lock, the authorized 195-target production replacement was applied. The post-replacement final 30-mock corpus gate then failed in run **35216124749** on the schema error `Invalid difficultyBand: sat-series-a-medium` for `sat-series-a-mock-01-rw-001`.
+
+Therefore the current work is a schema-compatibility repair followed by the final 30-mock gate. The earlier candidate-mapping/review blocker recorded in this historical checkpoint is resolved and must not be treated as current.
