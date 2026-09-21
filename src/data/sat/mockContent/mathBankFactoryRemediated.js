@@ -46,7 +46,7 @@ function applyPromptDiversityFrame(prompt, index) {
   return `${frame} the following situation is analyzed. ${prompt}`;
 }
 
-function buildDistractorArchitecture(question) {
+export function buildDistractorArchitecture(question) {
   if (question.questionType !== 'multiple-choice' || !Array.isArray(question.choices) || question.choices.length !== 4) return null;
   const answerIndex = String(question.answer || '').charCodeAt(0) - 65;
   if (answerIndex < 0 || answerIndex > 3) return null;
