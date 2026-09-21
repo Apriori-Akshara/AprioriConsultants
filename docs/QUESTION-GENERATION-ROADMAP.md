@@ -1,6 +1,6 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 21, 2026  
+**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 22, 2026  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
 
@@ -26,9 +26,9 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK + CROSS-CORPUS GATES PASS / DEEP CONTENT-QUALITY HOLD REMAINS** |
+| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK + CROSS-CORPUS GATES PASS / 25-CANDIDATE REVIEW PASS / CONTROLLED REPLACEMENT PREPARATION NEXT** |
 
-**Batch M production generation is complete. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit produced a quality hold, which was remediated through the documented candidate/replacement path. The later 195-target R&W calibration reconciliation was independently reviewed, exactly target-locked, explicitly authorized, and applied to production. The corrected production state now passes the final 30-mock corpus gate and 30-mock cross-corpus calibration. The remaining release blocker is substantive deep SAT/PSAT content-quality/diversity work; the latest production-corpus deep-QC run fails while later remediation/review remains candidate-only. Release eligibility remains false.**
+**Batch M production generation is complete. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit was remediated through the documented controlled candidate/replacement path. The later 195-target R&W calibration reconciliation was independently reviewed, exactly target-locked, explicitly authorized, and applied to production. The corrected production state passes the final 30-mock corpus gate and 30-mock cross-corpus calibration. The corrected deep-QC candidate pipeline has now completed independent substantive review at 25/25 PASS, with 0 FAIL, 0 expert-review flags, and 0 duplicate groups. Those 25 items remain candidate-only until an exact candidate-to-production target replacement package is prepared and explicitly authorized. Release eligibility remains false.**
 
 ## 1. Core architecture
 
@@ -197,24 +197,33 @@ The document system must not create SAT21, broaden the 30-mock scope, weaken a q
 
 ### Final 30-mock gate and release checkpoints — current state
 
-The final collective corpus gate and 30-mock cross-corpus calibration now **PASS** on the corrected production state:
+The final collective corpus gate and 30-mock cross-corpus calibration **PASS** on the current production revision:
 
-- Final 30-mock corpus gate: **35578714088 — PASS**.
-- 30-mock cross-corpus calibration: **35578713967 — PASS**.
+- Final 30-mock corpus gate: **35666818448 — PASS**.
+- 30-mock cross-corpus calibration: **35666822839 — PASS**.
+- Latest Vercel check: **green**.
 
 The earlier `Invalid difficultyBand: sat-series-a-medium` regression is resolved and is historical, not the current blocker.
 
-The current substantive production-corpus blocker is:
+The corrected deep SAT/PSAT content-quality/diversity candidate pipeline has also completed its independent substantive review:
 
-- Deep SAT/PSAT content-quality/diversity QC: **35578714129 — FAIL**.
+- Candidate selection: **35666673484 — PASS**.
+- Candidate pipeline: **35666673409 — PASS**.
+- Independent review: **35666673400 — PASS**.
+- Substantive result: **25 / 25 PASS**.
+- FAIL: **0**.
+- Expert-review flags: **0**.
+- Duplicate groups: **0**.
+- Production mutation: **false**.
+- Release eligibility: **false**.
 
-A follow-on candidate-only pipeline generated and selected a remediation pool in **35579096349**. The independent-review workflow completed technically in **35579481595**, but its substantive decision was **HOLD_FOR_REVIEW_AND_REMEDIATION (298 FAIL / 1 expert-review item / 0 PASS)**. These candidates remain outside production and do not authorize mutation.
+The candidate-selector correction is recorded at `f52238c6a3ffafd97baca9ba291a310d5187af2f`. The 25 passed candidates are not automatically production replacements.
 
-The SAT11–SAT20 public route smoke verification then passed in **35580194863**, and the user subsequently reported that the authenticated Series B features/functionality appeared satisfactory. That is a focused live functionality acceptance, not exhaustive question-by-question content QC.
+**Current next stage:** prepare a controlled replacement package mapping each passed candidate to an exact existing production `testKey` + `questionId`, validate the one-for-one mappings and production-boundary controls, and stop before production mutation. Explicit authorization must be recorded separately before any replacement is applied.
 
-The next implementation stage is therefore to verify the candidate-only remediation/review run after the diversity-aware selection and hard-Math construction corrections, then address any remaining substantive failure classes without weakening the review gate. Do not bypass the substantive hold, create SAT21, or broaden the production replacement scope.
+After explicit authorization, apply only the approved one-for-one replacements, then rerun the affected gates and required collective gates. After those gates pass, complete final public student-facing inspection, technical release QC, final end-to-end student acceptance, and Batch M release acceptance.
 
-After the deep-QC blocker is legitimately cleared, rerun the necessary collective gates, then perform the final comprehensive public student-facing QC and Batch M release acceptance.
+Do not create SAT21, broaden the frozen 30-mock scope, bypass the replacement authorization gate, or repeat the completed generation/review/remediation stages.
 
 ### Remediation branch promotion boundary
 
@@ -241,7 +250,7 @@ The following September 15 paths referenced by earlier session prompts are **not
 - `docs/BATCH-M-TARGETED-CANDIDATE-COVERAGE-2026-09-15.json`
 - `docs/BATCH-M-TARGETED-CANDIDATE-SELECTION-2026-09-15.json`
 
-They should not be treated as missing active work. Their relevant candidate-generation/selection history was superseded by the later September 17 checkpoints, and the authoritative current state is `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md`.
+They should not be treated as missing active work. Their relevant candidate-generation/selection history was superseded by the later September 17 checkpoints, and the authoritative current state is `docs/BATCH-M-CURRENT-STATUS-2026-09-22.md`.
 
 The September 15 targeted-replacement checkpoint remains in the repository as a historical record and now explicitly points to the later state.
 
@@ -257,5 +266,5 @@ At the beginning of a future session:
 7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the original audit findings.
 8. Read `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md` for the completed remediation/re-gating milestone.
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
-10. Start with the **current candidate-only deep SAT/PSAT content-quality/diversity remediation and independent-review path**. The `difficultyBand` compatibility regression is already resolved, and the final 30-mock corpus/cross-corpus gates currently pass; do not rerun the historical fix or create SAT21.
+10. Start with **controlled replacement-package preparation for the 25 candidates that passed independent substantive review**. Map each candidate to an exact existing production `testKey` + `questionId`, validate the package, and keep production mutation blocked until explicit authorization. The `difficultyBand` compatibility regression and final 30-mock/cross-corpus gates are already resolved; do not rerun them unnecessarily or create SAT21.
 11. Treat SAT11–SAT20 public verification as deferred release work.
