@@ -1,0 +1,45 @@
+name: Batch M current deep content quality remediation candidates
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/batch-m-current-deep-content-quality-remediation-candidates.yml'
+      - 'scripts/runBatchMDeepContentQualityRemediationCandidates.mjs'
+      - 'src/data/sat/mockContent/batchMRemediationCandidateFactory.js'
+      - 'src/data/sat/mockContent/verbalConstructionRemediated.js'
+      - 'src/data/sat/mockContent/mathBankFactoryRemediated.js'
+      - 'src/data/sat/mockContent/batchMContentQualityGate.js'
+      - 'docs/BATCH-M-DEEP-CONTENT-QUALITY-DIVERSITY-QC-2026-09-17.json'
+
+permissions:
+  contents: read
+
+jobs:
+  generate-candidates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 24.14.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Generate and screen candidate pool
+        run: node scripts/runBatchMDeepContentQualityRemediationCandidates.mjs
+
+      - name: Upload candidate pool
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-current-deep-content-quality-remediation-candidates
+          path: artifacts/batch-m-deep-content-quality-remediation-candidates/
+          if-no-files-found: error
+          retention-days: 30
