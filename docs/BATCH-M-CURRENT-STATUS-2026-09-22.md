@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest verified repository revision:** `d7acc0f1367d18561512340fe5a4c42880535469`  
+**Latest verified repository revision:** `162e6fef11e0a3f01111bb3e3462bc160bc06df0`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -49,7 +49,7 @@ The latest Vercel check before this package-only implementation was green.
 | 7. Deep SAT/PSAT content-quality/diversity remediation | ✅ CANDIDATE PIPELINE CORRECTED |
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
 | 9. Prepare controlled production-replacement package | ✅ IMPLEMENTED — deterministic package builder + CI validation added; authorization readiness still blocked pending canonical compatibility validation |
-| 10. Resolve package compatibility blockers / validate clean package | ⏭️ NEXT |
+| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED — canonical normalization + fresh review + final package validation pipeline added; CI result pending |
 | 11. Explicit authorization of the replacement scope | ⏳ PENDING |
 | 12. Controlled production replacement, if authorized | ⏳ PENDING |
 | 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
@@ -117,7 +117,19 @@ The 25 reviewed candidates are **candidate-only**.
 
 ### Step 2 — Resolve package compatibility blockers / validate clean package
 
-This is now the immediate next step.
+**Implementation added on `main`:**
+
+- `scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs`
+- `scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs`
+- `.github/workflows/batch-m-canonical-replacement-package.yml`
+
+The normalization stage deterministically resolves each passed candidate to one existing frozen production target and copies the target's canonical structural metadata into a candidate-only normalized record. Candidate content and candidate identity remain distinct.
+
+A **fresh independent substantive review** is then run after normalization, followed by final hypothetical replacement validation against the frozen production corpus, including schema/content quality, exact target compatibility, duplicate checks, the final 30-mock corpus gate, and cross-corpus calibration.
+
+The new workflow is candidate-only and performs no production mutation.
+
+**CI execution result is pending verification.**
 
 The package validator must establish, for all 25 entries:
 
@@ -135,6 +147,8 @@ The package validator must establish, for all 25 entries:
 The current candidate artifact does not yet satisfy canonical metadata compatibility for all target families. That issue must be resolved explicitly; it must not be hidden inside the replacement operation.
 
 ### Step 3 — Explicit authorization checkpoint
+
+Only after the canonical-normalized pipeline completes with a clean 25/25 fresh review and final package validation should the exact package be presented as ready for explicit production authorization.
 
 Only after Step 2 passes should the package be presented as ready for explicit production authorization.
 
