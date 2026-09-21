@@ -222,7 +222,7 @@ function buildMath(index, options) {
       ];
       const scatterStem = scatterPromptVariants[Math.floor(index / 4) % scatterPromptVariants.length];
       const scatterQuestion = scatterQuestionVariants[Math.floor(index / 4) % scatterQuestionVariants.length];
-      prompt = `${scatterStem} ${points.map((point) => \`(${point[0]}, ${point[1]})\`).join(', ')}. A linear model summarizes the overall trend. ${scatterQuestion}`;
+      prompt = `${scatterStem} ${points.map((point) => `(${point[0]}, ${point[1]})`).join(', ')}. A linear model summarizes the overall trend. ${scatterQuestion}`;
       choices = ['The response generally increases as the explanatory variable increases.', 'The response is exactly constant for every value.', 'The response must decrease whenever the explanatory variable increases.', 'The data establish that the explanatory variable causes every change in the response.'];
       numericAnswer = null;
       explanation = 'The plotted values rise overall, although the increase is not perfectly uniform; the data alone do not establish causation.';
