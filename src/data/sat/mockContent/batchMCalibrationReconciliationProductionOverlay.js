@@ -92,7 +92,7 @@ function buildCandidate(index, target, prototype, skill, sourceDomain) {
     domain: TARGET_DOMAIN,
     skill,
     difficulty: target.difficulty,
-    difficultyBand: target.difficultyBand,
+    difficultyBand: 'rw-originality',
     cognitiveDemand: 'evaluate',
     questionType: 'multiple-choice',
     stimulusType: 'short-passage',
