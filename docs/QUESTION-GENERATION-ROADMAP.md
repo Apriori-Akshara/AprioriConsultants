@@ -212,7 +212,7 @@ A follow-on candidate-only pipeline generated and selected a remediation pool in
 
 The SAT11–SAT20 public route smoke verification then passed in **35580194863**, and the user subsequently reported that the authenticated Series B features/functionality appeared satisfactory. That is a focused live functionality acceptance, not exhaustive question-by-question content QC.
 
-The next implementation stage is therefore to continue the existing deep content-quality candidate remediation/review path until the documented production/release boundary is reached. Do not bypass the substantive hold, create SAT21, or broaden the production replacement scope.
+The next implementation stage is therefore to verify the candidate-only remediation/review run after the diversity-aware selection and hard-Math construction corrections, then address any remaining substantive failure classes without weakening the review gate. Do not bypass the substantive hold, create SAT21, or broaden the production replacement scope.
 
 After the deep-QC blocker is legitimately cleared, rerun the necessary collective gates, then perform the final comprehensive public student-facing QC and Batch M release acceptance.
 
@@ -257,5 +257,5 @@ At the beginning of a future session:
 7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the original audit findings.
 8. Read `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md` for the completed remediation/re-gating milestone.
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
-10. Start with the **canonical `difficultyBand` compatibility fix and rerun of the final collective 30-mock corpus gate**; do not create SAT21.
+10. Start with the **current candidate-only deep SAT/PSAT content-quality/diversity remediation and independent-review path**. The `difficultyBand` compatibility regression is already resolved, and the final 30-mock corpus/cross-corpus gates currently pass; do not rerun the historical fix or create SAT21.
 11. Treat SAT11–SAT20 public verification as deferred release work.
