@@ -61,6 +61,32 @@ function main() {
     return `${template}|${choices}`;
   }
 
+  function preReviewEligible(candidate) {
+    const prompt = String(candidate?.prompt || '');
+    const explanation = String(candidate?.explanation || '');
+    const section = String(candidate?.section || '');
+    const choices = Array.isArray(candidate?.choices) ? candidate.choices : [];
+
+    if (!prompt || !explanation) return false;
+    if (section === 'reading-writing' && !/\\b(which|what|how)\\b/i.test(prompt)) return false;
+    if (section === 'reading-writing' && explanation.length < 55) return false;
+
+    if (section === 'math' && candidate?.difficulty === 'hard') {
+      const signals = ['then', 'after', 'given that', 'if', 'must', 'because', 'compared with', 'change', 'relationship', 'model'];
+      const signalCount = signals.filter((signal) => prompt.toLowerCase().includes(signal)).length;
+      if (signalCount < 2) return false;
+      if (!Array.isArray(candidate?.metadata?.difficultyFeatures) || !candidate.metadata.difficultyFeatures.includes('multi-step')) return false;
+    }
+
+    if (section === 'math' && candidate?.questionType === 'multiple-choice') {
+      const architecture = candidate?.metadata?.distractor_architecture;
+      if (!architecture?.profiles || Object.keys(architecture.profiles).length < 3) return false;
+      if (choices.length !== 4) return false;
+    }
+
+    return true;
+  }
+
   // Selection must enforce the same diversity ceiling used by the independent
   // review gate. The previous selector admitted the entire screened pool,
   // allowing large repeated-template clusters to fail the independent review
@@ -75,14 +101,15 @@ function main() {
     const promptChoice = promptChoiceSignature(candidate);
     const templateCount = templateCounts.get(template) || 0;
     const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
-      exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3;
+      exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate);
     if (!eligible) {
       const reason = productionMutation
         ? 'production-or-release-boundary-violation'
         : (!id || !fingerprint ? 'duplicate-or-missing-identity' :
           (templateCount >= 3 ? 'semantic-template-review-ceiling' :
             (exactPromptSeen.has(exactPrompt) ? 'duplicate-normalized-prompt' :
-              (promptChoiceSeen.has(promptChoice) ? 'duplicate-prompt-choice-construction' : 'duplicate-or-missing-identity'))));
+              (promptChoiceSeen.has(promptChoice) ? 'duplicate-prompt-choice-construction' :
+                (!preReviewEligible(candidate) ? 'pre-review-substantive-screen' : 'duplicate-or-missing-identity'))));
       rejected.push({ id, reason });
       continue;
     }
@@ -127,7 +154,7 @@ function main() {
     releaseEligible: false,
     sat21Created: false,
     acceptanceDecision: 'SELECTED_FOR_INDEPENDENT_REVIEW',
-    nextStep: 'Independent review of selected candidates against target-specific substantive quality requirements; no production mutation is authorized.'
+    nextStep: 'Independent review of the pre-screened selected candidates against target-specific substantive quality requirements; no production mutation is authorized.'
   };
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
