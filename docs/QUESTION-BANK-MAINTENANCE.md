@@ -44,6 +44,27 @@ The canonical production store is checkpointed as clean:
 
 This is a release checkpoint, not permission for unrecorded mutation. Any further correction after the completed targeted remediation must be an explicitly recorded corpus change followed by the affected individual gates and the final collective gate again.
 
+## Human-editable and canonical question-bank model
+
+The project will use two connected representations of each accepted question:
+
+- **Human-editable mock question-bank document:** the preferred content-authoring surface, with one document per frozen mock under question-banks/.
+- **Canonical question record:** the validated structured representation used by the existing runtime, production assembly, and QC.
+
+These are two representations of the same content, not two independent question banks.
+
+For routine maintenance, the intended workflow is:
+
+**Identify exact testKey + questionId → edit the mock document → parse into canonical structure → run applicable QC → review/decision → explicit authorization when required → update canonical production record → rerun affected gates.**
+
+Direct JavaScript edits remain an implementation mechanism, not the preferred human editing interface.
+
+The complete contract is maintained in docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md.
+
+**Status:** documented and approved; implementation is planned and not yet complete.
+
+This capability is a **Batch M maintenance checkpoint**. It is not Batch N, does not add a new mock, and does not change the frozen 30-mock boundary.
+
 ## Batch M release and content-quality acceptance sequence
 
 The production corpus is frozen, and the first targeted remediation/re-gating milestone is complete, but **Batch M is not considered fully released until all remaining release and quality checkpoints are complete.**
@@ -129,6 +150,14 @@ Before running any Git/npm command for the current Batch M task, first confirm t
 `scripts/runBatchMTargetedReplacementDryRun.js` exists in a stronger local form than the version currently recorded online. The shared/local form adds explicit candidate-only assertions (`productionMutation === false`, `releaseEligible === false`), minimum pool-size checks, clearer per-gate reporting, and a final dry-run status block. The discrepancy is recorded so it is not mistaken for an accidental file loss.
 
 The online GitHub version remains the baseline until the verified local form is deliberately synchronized and committed. The two versions must not be silently allowed to diverge.
+
+### Human-editable document rule after implementation
+
+Once the document system is implemented, routine item-level content edits should be made against the relevant mock document first. The canonical runtime representation must be regenerated/updated through the controlled parser and validation path.
+
+Never assume that changing a document alone changes the live website.
+
+If direct canonical/JavaScript content is changed for an emergency or implementation reason, the corresponding mock document must be synchronized and drift-checked before the change is considered complete.
 
 ## Post-freeze maintenance rules
 

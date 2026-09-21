@@ -1,6 +1,6 @@
 # Apriori Digital SAT Platform — Permanent Architecture
 
-**Last updated:** September 7, 2026
+**Last updated:** September 21, 2026
 
 This document contains the permanent architecture and business rules for the Apriori Digital SAT platform. It should not be confused with `docs/SAT-PROJECT-STATE.md`, which records current implementation progress.
 
@@ -337,6 +337,35 @@ Questions should use the canonical schema and support metadata such as:
 - originality fingerprint
 - concept fingerprint
 - metadata
+
+## 16A. Human-editable and canonical question-bank architecture
+
+The content system has two controlled representations of the same questions:
+
+1. **Human-editable mock question-bank documents** — the preferred content-authoring surface for readable, item-level maintenance.
+2. **Canonical question records** — the validated structured representation used by the existing SAT engine, production assembly, and automated QC.
+
+These are not independent question banks. The document representation must stay synchronized with the canonical records.
+
+For generation, the established path remains:
+
+**Blueprint → Draft → Independent QC → Canonical Storage → Existing SAT Engine**
+
+For item-level maintenance after a mock exists:
+
+**Canonical Record → Human-Editable Mock Question-Bank Document → Requested Edit → Document Parser/Validator → Canonical Record → Applicable QC → Existing SAT Engine**
+
+Current JavaScript content files are an implementation/storage mechanism for canonical question records. They are not the preferred human editing interface.
+
+The planned documents live under question-banks/, with one document per frozen production mock. Every question retains its exact testKey + questionId identity.
+
+Routine edits should change content fields such as prompt, choices, answer, explanation, and structured figure/data parameters without changing system-managed identity, fingerprints, operational state, or production status.
+
+Document edits must never automatically mutate production. The controlled boundary remains:
+
+**Edit → Validate → Review/decision → Explicit authorization when required → Apply → Re-gate**
+
+The detailed document format, synchronization rules, drift detection, field ownership, and round-trip acceptance test are defined in docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md.
 
 ## 17. Content originality and anti-duplication
 

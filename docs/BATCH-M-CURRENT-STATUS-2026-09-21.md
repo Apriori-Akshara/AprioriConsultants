@@ -14,6 +14,23 @@ The earlier `difficultyBand: sat-series-a-medium` schema regression has been cor
 
 The remaining release blocker is the substantive deep SAT/PSAT content-quality/diversity gate. Its current production-corpus run **35578714129** fails on content-quality findings; the later candidate-generation/selection pipeline and independent-review workflow are candidate-only and do not authorize or mutate production.
 
+## 1A. Human-editable and canonical question-bank capability
+
+A new content-maintenance architecture has now been documented for the project:
+
+- one human-readable question-bank document per frozen production mock;
+- exact testKey + questionId identity preserved;
+- controlled document → canonical synchronization;
+- canonical schema/content/figure/originality/corpus validation before production;
+- document/canonical drift detection;
+- no automatic production mutation from document edits.
+
+Specification: docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md.
+
+**Implementation status:** APPROVED / PLANNED — NOT YET IMPLEMENTED IN CODE.
+
+This is a Batch M maintenance capability, not a new Batch N or production target. It does not change the current deep-QC blocker or the frozen 30-mock boundary.
+
 ## 2. Completed stages that must not be repeated
 
 The following are complete and historical unless a later gate identifies a real regression:
@@ -132,7 +149,7 @@ Detailed acceptance record: `docs/BATCH-M-SAT11-SAT20-AUTHENTICATED-STUDENT-ACCE
 
 ## 8. Future-session resume instruction
 
-Future sessions should treat this document and `docs/QUESTION-GENERATION-ROADMAP.md` as the current source of truth.
+Future sessions should treat this document and `docs/QUESTION-GENERATION-ROADMAP.md` as the current source of truth. Read docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md as the source of truth whenever the task involves human-editable question-bank documents, item-level content maintenance, or document/canonical synchronization.
 
 Do **not** resume from the older September 15 or earlier September 17 "next candidate generation / not authorized" statements. Those are historical checkpoints and have been superseded by the later September 17 production application and the resulting final-gate schema regression.
 

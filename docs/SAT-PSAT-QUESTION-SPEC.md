@@ -53,7 +53,7 @@ Same domains, format, and question types as SAT, with the hardest tail of Advanc
 
 ## PART 2 — Item Data Schema
 
-Every question in the bank should match this shape. **Before mass-updating anything, compare this against the current database/question model and reconcile differences — do not silently overwrite the existing schema.**
+Every canonical question in the bank should match this shape. The executable production contract is also enforced by src/data/sat/questionSchema.js. **Before mass-updating anything, compare this specification against the current database/question model and executable validator; reconcile differences explicitly and do not silently overwrite the existing schema.**
 
 ```json
 {
@@ -111,6 +111,81 @@ Notes:
 - For GRE/GMAT later, keep section/domain/skill as controlled-vocabulary fields validated per product.
 
 ---
+
+## PART 2A — Human-Editable Mock Question-Bank Document
+
+The human-editable document is a readable maintenance representation of the canonical question bank. It is not a replacement runtime format.
+
+### Document purpose
+
+Use one Markdown document per frozen production mock under question-banks/.
+
+The document must contain one clearly delimited block for every canonical question in that mock.
+
+The document must preserve the exact testKey, testId, questionId, section, module, domain, skill, and assessment variant.
+
+### Editing rule
+
+Routine question edits are made in the document representation and then converted back into the canonical question structure.
+
+The document must not be treated as a free-form notes file. Its headings and labels are part of a deterministic parser contract.
+
+### Human-editable content
+
+The document may expose these fields for routine maintenance:
+
+- prompt/stimulus text;
+- answer choices;
+- correct answer;
+- explanation;
+- structured figure/data parameters.
+
+### System-managed content
+
+The synchronization system controls, preserves, or verifies:
+
+- canonical identity;
+- test and module identity;
+- originality fingerprints;
+- concept/application fingerprints;
+- QC status;
+- release eligibility;
+- operational status;
+- production-mutation flags;
+- response statistics;
+- audit fields.
+
+A wording change must not silently reset these fields.
+
+### Synchronization rule
+
+The canonical runtime record remains the validated structured form consumed by the existing SAT system.
+
+The document is the preferred editing surface, but a document change is not a production release.
+
+The controlled sequence is:
+
+**Document edit → Parse → Canonical reconstruction → Schema/QC checks → Review/authorization → Canonical update → Required re-gates**
+
+### Drift detection
+
+The implementation must detect document/canonical mismatches rather than silently choosing one side.
+
+At minimum, it must detect missing questions, duplicate identities, changed test identity, missing required fields, unsupported fields, and unvalidated canonical changes.
+
+### Figures
+
+A document may describe a figure in structured text, but the canonical figure remains structured data consumed by the existing renderer and figure QC. Do not use pasted images, raw SVG, ASCII diagrams, or image URLs as the canonical figure source.
+
+### Round-trip requirement
+
+Before the document system is accepted, it must prove:
+
+**Canonical → Document → Parse → Canonical**
+
+without unintended loss of required question information.
+
+It must also prove a single-question edit preserves the exact testKey + questionId while producing a valid replacement candidate.
 
 ## PART 3 — Figure Taxonomy (for visuals)
 

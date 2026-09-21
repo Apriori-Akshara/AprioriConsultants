@@ -36,7 +36,14 @@ The content system uses:
 
 **Stage 1 Blueprint → Stage 2 Draft → Stage 3 Independent QC Review → Canonical Storage → Existing SAT Engine**
 
-The existing SAT/adaptive engine remains the delivery engine. New work is restricted to generation, storage, validation, and figure rendering.
+The existing SAT/adaptive engine remains the delivery engine.
+
+**Generation path:** Stage 1 Blueprint → Stage 2 Draft → Stage 3 Independent QC Review → Canonical Storage → Existing SAT Engine
+
+**Maintenance path:** Canonical Question Record → Human-Editable Mock Question-Bank Document → Requested Edit → Document Parser/Validator → Canonical Question Record → Applicable QC → Existing SAT Engine
+
+The human-editable document layer is a content-authoring/maintenance surface, not a second runtime question bank. The canonical record remains the validated structured representation delivered by the existing engine. See docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md for the detailed contract.
+ New work is restricted to generation, storage, validation, and figure rendering.
 
 The canonical question contract must remain compatible with useful legacy fields. Existing fields must not be silently deleted.
 
@@ -167,6 +174,26 @@ The controlled replacement and subsequent comprehensive 20-test QC are complete.
 - `productionMutation: false`, `releaseEligible: false`, `sat21Created: false` for the comprehensive QC report.
 
 GitHub Actions run **35181971047** (run #7) is the successful comprehensive QC evidence for this milestone.
+
+### Human-editable and canonical question-bank maintenance capability
+
+**Status: APPROVED / PLANNED — NOT YET IMPLEMENTED.**
+
+The project will maintain one human-readable question-bank document per frozen production mock under question-banks/. These documents are the preferred editing surface for item-level content maintenance.
+
+The documents do not replace canonical runtime records. A controlled parser/validator will convert an edited document question into the current canonical question structure, preserve the exact testKey + questionId, run the applicable schema/content/figure/originality/corpus checks, and only then make a specifically authorized canonical production update.
+
+This capability is a **Batch M maintenance checkpoint**, not a new Batch N and not a new mock-generation stage.
+
+Implementation placement in the current release sequence:
+
+1. resolve the active deep SAT/PSAT content-quality/diversity blocker through the existing candidate-only remediation/review path;
+2. implement and round-trip test the per-mock question-bank documents against canonical records;
+3. use the documents for future item-specific changes;
+4. rerun the existing affected-item/mock/corpus gates after any authorized change;
+5. continue final public, end-to-end, and Batch M acceptance.
+
+The document system must not create SAT21, broaden the 30-mock scope, weaken a quality gate, or automatically mutate production.
 
 ### Final 30-mock gate and release checkpoints — current state
 

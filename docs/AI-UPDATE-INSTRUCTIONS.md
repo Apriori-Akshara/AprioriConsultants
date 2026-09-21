@@ -1,9 +1,7 @@
 # AI Task Brief: Update the Question Bank to Spec
 
 This file is written to be read and acted on directly by your AI coding
-assistant. It assumes the assistant also has `SAT-PSAT-QUESTION-SPEC.md` in
-this repo. Point your assistant at both files with the message at the very
-bottom of this document.
+assistant. It assumes the assistant also has SAT-PSAT-QUESTION-SPEC.md and HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md in this repo. Read both when the task involves question-bank content or item-level maintenance.
 
 ---
 
@@ -31,11 +29,43 @@ bottom of this document.
    domain/difficulty distribution in Part 1 of the spec, and replace only
    items that fail QC or don't match spec — no need to discard everything
    that's already working.
-6. **Do not change unrelated parts of the app** (auth, dashboard, deploy
+6. **For item-level maintenance, use the human-editable mock question-bank
+   document as the preferred editing surface.** Identify the exact
+   testKey + questionId, edit only the requested content, reconstruct the
+   canonical question record, and run the applicable validation before any
+   production update.
+7. **Treat the canonical question record as the runtime authority.** The
+   document and canonical representations must remain synchronized and any
+   drift must be reported rather than silently resolved.
+8. **Do not change unrelated parts of the app** (auth, dashboard, deploy
    config) as part of this task — scope this strictly to question
    generation, storage, and rendering.
 
 ---
+
+## DOCUMENT-BASED ITEM MAINTENANCE WORKFLOW
+
+When the user requests a change to a specific existing question after the
+human-editable question-bank system is implemented:
+
+1. Read docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md.
+2. Locate the exact mock document using the frozen mock identity.
+3. Locate the exact testKey + questionId.
+4. Change only the content fields required by the request.
+5. Preserve system-managed identity, fingerprints, QC state, and production
+   status unless the requested change explicitly requires a recalculation.
+6. Parse the edited question into the canonical structure defined by
+   src/data/sat/questionSchema.js.
+7. Run schema, content-quality, math/figure, originality, and compatibility
+   checks applicable to the changed item.
+8. Keep the result candidate-only until the documented production
+   authorization exists.
+9. After an authorized production update, rerun the affected mock and
+   collective gates required by the change.
+10. Report the exact changed testKey + questionId and whether the result is
+    document-only, candidate-only, or production-applied.
+
+The document edit is never, by itself, a production deployment.
 
 ## STAGE 1 PROMPT — Blueprint
 
@@ -186,3 +216,12 @@ periodically check that percent-correct roughly matches the stated
 difficulty band to be implemented after all the mocks pass quality control as verified by Akshara/Dominic. 
 ---
 
+
+
+## Operational rule for this project
+
+Do not ask the user to edit JavaScript. The user supplies the requested
+content change in plain language. The assistant is responsible for editing
+the human-readable question-bank document, reconstructing canonical data,
+performing the required QC, and making only explicitly authorized
+production changes.
