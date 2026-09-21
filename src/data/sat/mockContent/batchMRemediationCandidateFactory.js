@@ -339,6 +339,24 @@ export function buildRepresentativeBatchMRemediationCandidates(options = {}) {
     .map(enrichCandidateExplanation);
   const math = mathResult.candidates
     .map((candidate, index) => alignDifficulty(replaceMathDistractors(candidate, index), index))
+    .map((candidate) => {
+      if (candidate.questionType !== 'multiple-choice') return candidate;
+      const existing = candidate?.metadata?.distractor_architecture;
+      if (existing?.profiles && Object.keys(existing.profiles).length >= 3) return candidate;
+      const fallback = buildDistractorArchitecture({
+        questionType: candidate.questionType,
+        choices: candidate.choices,
+        answer: candidate.answer,
+        skill: candidate.skill,
+      });
+      return {
+        ...candidate,
+        metadata: {
+          ...(candidate.metadata || {}),
+          distractor_architecture: fallback || existing || null,
+        },
+      };
+    })
     .map(enrichCandidateExplanation);
   const candidates = [...readingWriting, ...math];
   const quality = evaluateContentQualityBatch(candidates);
