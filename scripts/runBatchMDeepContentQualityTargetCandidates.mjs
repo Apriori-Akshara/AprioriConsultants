@@ -305,6 +305,144 @@ function strengthenRWExplanation(question) {
   return { ...question, explanation };
 }
 
+function diverseLead(skill, targetWord, index) {
+  const banks = {
+    Transitions: {
+      openers: ['Which choice best completes the text', 'Which option most logically completes the text', 'What choice most clearly completes the text', 'Which response best completes the passage', 'Which choice most precisely completes the text', 'What option best completes the text', 'Which choice most effectively completes the passage', 'Which response most logically completes the text', 'What choice best completes the passage', 'Which option most clearly completes the text'],
+      focuses: ['so that the relationship between the ideas is clear', 'while preserving the intended connection between the two statements', 'by signaling the relationship established by the surrounding sentences', 'so that the shift or continuation between the ideas is precise', 'while matching the logical relationship created by the passage', 'by making the intended connection between the two statements explicit', 'so that the progression of ideas is accurately represented', 'while maintaining the meaning established by the surrounding text', 'by expressing the relationship between the preceding and following ideas', 'so that the two statements connect in the most precise way'],
+    },
+    Boundaries: {
+      openers: ['Which choice completes the sentence', 'Which option best completes the sentence', 'What choice correctly completes the sentence', 'Which response completes the sentence', 'Which choice most precisely completes the sentence', 'What option best completes the sentence', 'Which choice most effectively completes the sentence', 'Which response correctly completes the sentence', 'What choice most clearly completes the sentence', 'Which option most precisely completes the sentence'],
+      focuses: ['so that it conforms to Standard English conventions', 'while preserving the intended grammatical relationship', 'with the correct punctuation and sentence boundary', 'so that the sentence remains grammatically complete', 'while maintaining the sentence structure required by the passage', 'with the appropriate boundary between the clauses', 'so that the grammatical connection is correct', 'while preserving the intended meaning and syntax', 'with the punctuation pattern required by Standard English', 'so that the completed sentence follows standard usage'],
+    },
+    'Form, Structure, and Sense': {
+      openers: ['Which choice completes the sentence', 'Which option best completes the sentence', 'What choice most precisely completes the sentence', 'Which response best completes the sentence', 'Which choice most clearly completes the sentence', 'What option correctly completes the sentence', 'Which choice most effectively completes the sentence', 'Which response most precisely completes the sentence', 'What choice best completes the sentence', 'Which option most clearly completes the sentence'],
+      focuses: ['so that it conforms to Standard English conventions and preserves the intended meaning', 'while supplying the grammatical form required by the sentence', 'with the form that best fits the sentence’s grammatical structure and meaning', 'so that the completed sentence is both grammatical and precise', 'while maintaining the intended relationship among the words in the sentence', 'with the grammatical form required by the surrounding construction', 'so that the wording is standard and the intended meaning remains clear', 'while preserving both sentence structure and meaning', 'with the form that correctly completes the grammatical pattern', 'so that the sentence follows standard usage without changing its meaning'],
+    },
+    'Words in Context': {
+      openers: ['In this context, which choice best states what the word', 'As used in the passage, what does the word', 'In the passage, which choice most nearly gives the meaning of the word', 'Here, which option best describes what the word', 'As used here, what meaning does the word', 'In this sentence, which choice best explains what the word', 'Within the passage, what does the word', 'In context, which option most precisely gives the meaning of the word', 'As the author uses it, what does the word', 'Here, what meaning does the word'],
+      focuses: ['mean?', 'most nearly mean?', 'mean in context?', 'refer to in this passage?', 'describe in this sentence?', 'mean as used here?', 'indicate in context?', 'mean in the surrounding discussion?', 'describe in the author’s argument?', 'mean in this specific context?'],
+    },
+    'Cross-Text Connections': {
+      openers: ['Which choice best characterizes the relationship between the two passages', 'Which option most accurately describes the connection between the passages', 'What choice best explains how the two passages relate', 'Which response most precisely compares the passages', 'How do the two passages most directly relate', 'Which choice best describes the relationship between the authors’ views', 'What option most accurately characterizes the connection between the passages', 'Which response best explains the relationship between the two authors', 'How should the relationship between the passages best be understood', 'Which choice most clearly describes how the passages connect'],
+      focuses: ['in their treatment of the evidence?', 'in the way they interpret the observed pattern?', 'with respect to the conditions each author considers important?', 'in the conclusions each author draws?', 'in how they qualify or extend the central observation?', 'in their explanations of why the reported result occurs?', 'in the scope each author gives to the main claim?', 'in the evidence each author uses to support an interpretation?', 'in the implications each author draws from the evidence?', 'in their treatment of the relevant condition?'],
+    },
+    'Rhetorical Synthesis': {
+      openers: ['Which choice best uses the notes to meet the communication goal', 'Which option most effectively synthesizes the notes for the stated communication goal', 'What choice best fulfills the communication goal using the notes', 'Which response most precisely meets the communication goal described above', 'Which choice best combines the relevant notes to satisfy the communication goal', 'What option most effectively presents the notes for the stated purpose', 'Which response best uses the notes while meeting the communication goal', 'Which choice most clearly fulfills the communication goal with the available information', 'What choice best communicates the requested point while following the stated goal', 'Which option most effectively uses the notes for the stated communication goal'],
+      focuses: ['?', 'while retaining the condition that limits the finding?', 'without overstating what the evidence establishes?', 'while preserving the key qualification in the notes?', 'without adding a conclusion the notes do not support?', 'while communicating the finding accurately?', 'without omitting the condition that affects interpretation?', 'while keeping the evidence and its qualification together?', 'without broadening the claim beyond the notes?', '?'],
+    },
+    'Central Ideas and Details': {
+      openers: ['Which choice best states the main point supported by the passage', 'Which option most accurately describes the central idea of the passage', 'What choice best captures the passage’s main point', 'Which response most precisely represents the central idea of the text', 'Which choice most clearly states what the passage is mainly about', 'What option best describes the principal idea developed in the passage', 'Which response best captures the main idea supported by the text', 'Which choice most accurately identifies the passage’s central claim', 'What choice most precisely summarizes the main point of the passage', 'Which option best expresses the principal idea presented in the text'],
+      focuses: ['?', '.', '?', '?', '?', '?', '?', '?', '?', '?'],
+    },
+    Inferences: {
+      openers: ['Which choice can most reasonably be inferred from the passage', 'What conclusion is best supported by the passage', 'Which option most logically follows from the information presented', 'What can most reasonably be concluded from the passage', 'Which response is best supported by the evidence in the text', 'What inference does the passage most directly support', 'Which choice is most strongly supported by the information provided', 'What statement can be inferred without extending beyond the passage', 'Which option best reflects a conclusion supported by the text', 'What conclusion most directly follows from the passage'],
+      focuses: ['?', '?', '?', '?', '?', '?', '?', '?', '?', '?'],
+    },
+    'Command of Evidence': {
+      openers: ['Which finding would most directly support the interpretation in the passage', 'What additional evidence would most strongly support the claim in the passage', 'Which result would best strengthen the interpretation presented in the text', 'What evidence would most directly support the author’s conclusion', 'Which finding would provide the strongest support for the passage’s claim', 'What result would best distinguish the passage’s interpretation from an alternative', 'Which additional observation would most directly test the claim made in the text', 'What finding would most strongly support the conclusion developed in the passage', 'Which result would most directly strengthen the author’s interpretation', 'What evidence would best support the specific claim described in the passage'],
+      focuses: ['?', '?', '?', '?', '?', '?', '?', '?', '?', '?'],
+    },
+    'Text Structure and Purpose': {
+      openers: ['Which choice best describes the function of the highlighted or relevant part of the passage', 'What role does the relevant part of the passage play in the text', 'Which option most accurately describes how the passage develops its point', 'What is the primary purpose of the relevant portion of the passage', 'Which response best explains the function of the passage’s relevant section', 'How does the relevant part of the passage contribute to the text', 'Which choice best characterizes the structure or purpose of the relevant passage section', 'What purpose does the relevant portion of the text serve', 'Which option most precisely explains how the passage develops its idea', 'How does the relevant section help advance the author’s point'],
+      focuses: ['?', '?', '?', '?', '?', '?', '?', '?', '?', '?'],
+    },
+  };
+  const bank = banks[skill] || banks['Central Ideas and Details'];
+  const openers = bank.openers;
+  const focuses = bank.focuses;
+  const total = openers.length * focuses.length;
+  const slot = ((index % total) + total) % total;
+  const opener = openers[Math.floor(slot / focuses.length)];
+  const focus = focuses[slot % focuses.length];
+  if (skill === 'Words in Context') {
+    return opener + ' "' + String(targetWord || 'the word') + '" ' + focus;
+  }
+  return opener + ' ' + focus;
+}
+
+function rewriteQuestionLead(prompt, skill, targetWord, index) {
+  const lead = diverseLead(skill, targetWord, index);
+  const text = String(prompt || '').trim();
+  const rewritten = text.replace(/(?:Which|What|How|As used in the passage|In this context|In the passage|Here)[^.!?]*[?]s*$/i, lead);
+  if (rewritten !== text) return rewritten;
+  return text + '\n\n' + lead;
+}
+
+function ensureRWMarkers(question, index) {
+  let prompt = String(question.prompt || '');
+  const skill = String(question.skill || '');
+  const targetWord = String(question.metadata?.targetWord || '') || ((prompt.match(/["“]([^"”]+)["”]/) || [])[1] || 'the word');
+  if (skill === 'Words in Context' && !/(in this context|in the passage|as used here)/i.test(prompt)) {
+    prompt = prompt + '\n\nIn this context, the word "' + targetWord + '" is evaluated according to the meaning it has in the passage.';
+  }
+  if (skill === 'Cross-Text Connections' && !/passage\s+2:/i.test(prompt)) {
+    prompt = prompt.replace(/first passage/ig, 'Passage 1').replace(/second passage/ig, 'Passage 2');
+    if (!/passage\s+2:/i.test(prompt)) {
+      const parts = prompt.split(/\n\n+/);
+      if (parts.length >= 3) {
+        const question = parts.pop();
+        prompt = 'Passage 1: ' + parts.join(' ') + '\n\nPassage 2: ' + question;
+      }
+    }
+  }
+  if (skill === 'Rhetorical Synthesis' && !/communication goal:/i.test(prompt)) {
+    prompt = 'Communication goal: preserve the finding and its limiting condition without overstating the evidence.\n\n' + prompt;
+  }
+  return rewriteQuestionLead(prompt, skill, targetWord, index);
+}
+
+function diversifyMathPrompt(question, index) {
+  const domain = String(question?.domain || '');
+  const frames = {
+    Algebra: {
+      settings: ['a planning report', 'a service analysis', 'an inventory study', 'a conservation forecast', 'a transportation review', 'a school operations report', 'a community program audit', 'a facility management study'],
+      actors: ['an analyst', 'a coordinator', 'a project team', 'a manager', 'a research assistant', 'a planning committee', 'a monitoring team', 'a data specialist'],
+      clauses: ['uses the model below to project a quantity', 'records the values needed for a linear calculation', 'compares the stated quantities before making a projection', 'checks the stated relationship against a later condition'],
+    },
+    'Advanced Math': {
+      settings: ['a modeling report', 'a laboratory analysis', 'an engineering calculation', 'a research study', 'a technical briefing', 'a measurement review', 'a design analysis', 'a quantitative investigation'],
+      actors: ['a researcher', 'an engineer', 'an analyst', 'a lab team', 'a modeling group', 'a technical reviewer', 'a study team', 'a quantitative analyst'],
+      clauses: ['uses the algebraic representation below to determine an unknown', 'relates the stated parameters through the given equation', 'checks an equivalent representation before determining the requested value', 'analyzes the relationship among the stated parameters'],
+    },
+    'Problem-Solving and Data Analysis': {
+      settings: ['a data report', 'a field study', 'a survey analysis', 'a quality-control review', 'an environmental investigation', 'a public-health report', 'a transportation study', 'a school research project'],
+      actors: ['a data analyst', 'a research team', 'a field investigator', 'a quality reviewer', 'a study coordinator', 'a statistician', 'a reporting team', 'a project analyst'],
+      clauses: ['uses the observations below to answer a quantitative question', 'compares the measurements before drawing a conclusion', 'summarizes the data using the stated calculation', 'uses the reported values to evaluate the requested result'],
+    },
+    'Geometry and Trigonometry': {
+      settings: ['a design review', 'a land-survey report', 'an engineering plan', 'an architectural study', 'a mapping exercise', 'a construction analysis', 'a spatial measurement report', 'a geometry investigation'],
+      actors: ['a surveyor', 'an engineer', 'a designer', 'a mapping team', 'a construction planner', 'an architect', 'a measurement team', 'a field analyst'],
+      clauses: ['uses the geometric relationship below to determine an unknown', 'applies the stated dimensions to the required geometric calculation', 'checks the relevant dimensions before finding the requested quantity', 'uses the diagram or dimensions to determine the requested result'],
+    },
+  };
+  const bank = frames[domain] || frames.Algebra;
+  const a = bank.settings[index % bank.settings.length];
+  const b = bank.actors[Math.floor(index / bank.settings.length) % bank.actors.length];
+  const d = bank.clauses[Math.floor(index / (bank.settings.length * bank.actors.length)) % bank.clauses.length];
+  const frame = 'In ' + a + ', ' + b + ' ' + d + '.';
+  return frame + ' ' + String(question.prompt || '');
+}
+
+function ensureHardMathMetadata(question) {
+  if (question.section !== 'math' || question.difficulty !== 'hard') return question;
+  const metadata = question.metadata && typeof question.metadata === 'object' ? question.metadata : {};
+  const features = [...new Set([...(Array.isArray(metadata.difficultyFeatures) ? metadata.difficultyFeatures : []), 'multi-step', 'strategic-choice'])];
+  return {
+    ...question,
+    cognitiveDemand: 'analyze',
+    metadata: {
+      ...metadata,
+      difficultyFeatures: features,
+      difficultyRequirements: {
+        ...(metadata.difficultyRequirements || {}),
+        minimumReasoningSteps: Math.max(2, Number(metadata.difficultyRequirements?.minimumReasoningSteps) || 0),
+        requiredFeatures: ['multi-step', 'strategic-choice'],
+      },
+    },
+  };
+}
+
 function repairQuestion(question, checks, index) {
   let out = clone(question);
   const checkSet = new Set(checks);
@@ -312,6 +450,8 @@ function repairQuestion(question, checks, index) {
   if (out.section === 'math') {
     if (checkSet.has('math-generic-numeric-distractor')) out = repairMathChoices(out, index);
     if (checkSet.has('math-generic-template-density')) out.prompt = replaceGenericPhrases(out.prompt, index);
+    out.prompt = diversifyMathPrompt(out, index);
+    out = ensureHardMathMetadata(out);
     if (out.questionType === 'multiple-choice') {
       const profiles = architecture(out);
       if (profiles) out.metadata = { ...(out.metadata || {}), distractor_architecture: profiles };
@@ -322,7 +462,6 @@ function repairQuestion(question, checks, index) {
   }
 
   if (out.section === 'reading-writing') {
-    if (checkSet.has('rw-stimulus-length')) out = repairStimulusLength(out);
     if (checkSet.has('rw-fixed-wic-target')) {
       out.prompt = replaceWICTarget(out.prompt);
       out.explanation = replaceWICTarget(out.explanation);
@@ -341,6 +480,8 @@ function repairQuestion(question, checks, index) {
       };
       out.cognitiveDemand = 'analyze';
     }
+    out.prompt = ensureRWMarkers(out, index).prompt;
+    if (checkSet.has('rw-stimulus-length')) out = repairStimulusLength(out);
     out = strengthenRWExplanation(out);
   }
 
@@ -390,6 +531,11 @@ function stamp(candidate, sourceFailure, index) {
     targetTestKey: sourceFailure.testKey,
     failureChecks: sourceFailure.checks,
     targetClasses: targetClasses(out.section, sourceFailure.checks),
+    remediationPool: {
+      version: 'batch-m-deep-content-quality-target-specific-v2',
+      sourceIndex: index,
+      targetClasses: targetClasses(out.section, sourceFailure.checks),
+    },
   };
   return out;
 }
