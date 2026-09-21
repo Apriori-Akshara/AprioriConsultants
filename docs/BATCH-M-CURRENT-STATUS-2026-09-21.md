@@ -98,7 +98,7 @@ The authorized 195-target calibration replacement passed its candidate-level rev
 
 The remaining substantive blocker is the deep content-quality/diversity gate. The latest production-corpus deep-QC run is **35578714129 — FAIL**. The follow-on run **35579096349** successfully generated and selected a candidate-only remediation pool, and **35579481595** successfully executed the independent-review workflow; however, that review's substantive disposition is **HOLD_FOR_REVIEW_AND_REMEDIATION (298 FAIL / 1 expert review / 0 PASS)**. These candidates remain outside production.
 
-A subsequent candidate-only selector correction was committed as **da71fcbd473741236de08fd9dce0e27b3511b9e4** to enforce diversity limits before independent review. A further candidate-generator correction was committed as **7885a01eab70982ad866438c310e85eeb5e6001e** so Math items are labeled hard only when their underlying construction contains a genuine multi-step path; one-step items are demoted to medium rather than being made to appear hard through generic appended reasoning language. Neither change mutates production.
+A subsequent candidate-only selector correction was committed as **da71fcbd473741236de08fd9dce0e27b3511b9e4** to enforce diversity limits before independent review. A further candidate-generator correction was committed as **7885a01eab70982ad866438c310e85eeb5e6001e** so Math items are labeled hard only when their underlying construction contains a genuine multi-step path; one-step items are demoted to medium rather than being made to appear hard through generic appended reasoning language. Neither change mutates production. A subsequent candidate-only Math diversification/safeguard sequence was committed as **39c347ff3525cf782970aa8057baa9afc0d87693**, **d1edfb18d8d3d798d4f36e8517c79fb53982599**, and **6b1d40c085ca270f871b78549c9dd30c37fd4888**: scatterplot constructions were diversified, the resulting generator syntax was corrected, and Math distractor architecture is now preserved/reconstructed after candidate transformations. These changes remain candidate-only and do not mutate production.
 
 The production corpus remains the same frozen 30-mock scope. The repository has not created SAT21.
 
@@ -117,6 +117,7 @@ Current verified sequence:
 7. **Authenticated Series B functionality — focused live acceptance reported satisfactory by the user; not exhaustive content QC.**
 8. **Candidate selector diversity correction — committed:** da71fcbd473741236de08fd9dce0e27b3511b9e4; candidate-only.
 9. **Hard-Math construction/difficulty-alignment correction — committed:** 7885a01eab70982ad866438c310e85eeb5e6001e; candidate-only.
+10. **Scatterplot diversification and distractor-architecture safeguards — committed:** 39c347ff3525cf782970aa8057baa9afc0d87693, d1edfb18d8d3d798d4f36e8517c79fb53982599, and 6b1d40c085ca270f871b78549c9dd30c37fd4888; candidate-only.
 
 Next implementation work must stay candidate-only until the substantive candidate review/remediation reaches the documented release boundary. Do not create SAT21, broaden the production scope, or weaken any gate.
 
