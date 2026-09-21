@@ -1,5 +1,6 @@
 const SAT_LOGIN_PATH = "/Auth";
 const SAT_ROOT_PATH = "/SATMocks";
+const SAT_SERIES_B_PATH = "/SATMocksSeriesB";
 
 /**
  * Only internal SAT application paths are allowed as return destinations.
@@ -31,7 +32,8 @@ export function getSafeSatReturnPath(value) {
   // Restrict the return destination to the SAT area.
   if (
     trimmed !== SAT_ROOT_PATH &&
-    !trimmed.startsWith(`${SAT_ROOT_PATH}/`)
+    !trimmed.startsWith(`${SAT_ROOT_PATH}/`) &&
+    trimmed !== SAT_SERIES_B_PATH
   ) {
     return SAT_ROOT_PATH;
   }
