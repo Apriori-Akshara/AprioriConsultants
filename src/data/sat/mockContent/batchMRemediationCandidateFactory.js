@@ -238,7 +238,40 @@ function alignDifficulty(question) {
 function enrichShortSECPrompt(question) {
   if (question.section !== 'reading-writing') return question;
   if (!['Transitions', 'Boundaries', 'Form, Structure, and Sense'].includes(question.skill)) return question;
-  return {...question, prompt: `The following sentence appears in a research report about how a revised method affected the study results. ${question.prompt}`};
+
+  const skill = String(question.skill || '');
+  const contextFrames = [
+    'The following sentence appears in a research report about how a revised method affected the study results.',
+    'The following sentence appears in a report comparing two methods used to collect the same type of data.',
+    'The following sentence appears in a science article describing how researchers revised a measurement procedure.',
+    'The following sentence appears in a historical account describing how a new method changed the available evidence.',
+  ];
+  const frame = contextFrames[question.metadata?.candidateConstructionIndex % contextFrames.length];
+
+  const questionLeads = {
+    Transitions: [
+      'Which choice completes the text with the most logical transition?',
+      'Which choice completes the text so that the relationship between the two statements is most clear?',
+      'Which choice provides the most logical transition between the two statements?',
+      'Which choice best completes the text by establishing the intended relationship between the ideas?',
+    ],
+    Boundaries: [
+      'Which choice completes the sentence so that it conforms to Standard English conventions?',
+      'Which choice best completes the sentence according to Standard English conventions?',
+      'Which choice completes the sentence with the correct grammatical boundary?',
+      'Which choice best completes the sentence while preserving the intended grammatical structure?',
+    ],
+    'Form, Structure, and Sense': [
+      'Which choice completes the sentence so that it conforms to Standard English conventions and preserves the intended meaning?',
+      'Which choice best completes the sentence while maintaining the intended grammatical form and meaning?',
+      'Which choice completes the sentence with the correct form of the word or phrase?',
+      'Which choice best completes the sentence so that its grammar and meaning are clear?',
+    ],
+  };
+
+  const leads = questionLeads[skill];
+  const lead = leads[question.metadata?.candidateConstructionIndex % leads.length];
+  return {...question, prompt: `${frame} ${question.prompt} ${lead}`};
 }
 
 function enrichCandidateExplanation(question) {
