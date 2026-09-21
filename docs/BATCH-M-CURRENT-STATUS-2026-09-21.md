@@ -119,6 +119,7 @@ Current verified sequence:
 9. **Hard-Math construction/difficulty-alignment correction — committed:** 7885a01eab70982ad866438c310e85eeb5e6001e; candidate-only.
 10. **Scatterplot diversification and distractor-architecture safeguards — committed:** 39c347ff3525cf782970aa8057baa9afc0d87693, d1edfb18d8d3d798d4f36e8517c79fb53982599, and 6b1d40c085ca270f871b78549c9dd30c37fd4888; candidate-only.
 11. **R&W question-form and explanation safeguard — committed:** 12996fda0e5666d86e6d763d67c91ce5c13b5162; candidate-only. The final candidate-construction layer now ensures a clear skill-specific question form and replaces stock/generic R&W explanations with item-specific keyed-answer reasoning.
+12. **Candidate-selection pre-review substantive screen — committed:** b76ed852be40c7969a4b85bfa5e4873d6b6b678d; candidate-only. Selection now rejects candidates with weak R&W question/explanation structure, hard-Math prompts lacking sufficient reasoning signals or the required multi-step feature, and multiple-choice Math items missing the required distractor architecture before they enter independent review.
 
 Next implementation work must stay candidate-only until the substantive candidate review/remediation reaches the documented release boundary. Do not create SAT21, broaden the production scope, or weaken any gate.
 
