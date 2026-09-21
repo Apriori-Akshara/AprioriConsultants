@@ -77,3 +77,12 @@ The controlled replacement milestone is complete. The next implementation step i
 Until those separate gates pass, `releaseEligible` remains false for final release purposes.
 
 No SAT21 or additional production target may be created.
+
+
+## 7. Subsequent September 17 authorization and current state
+
+This document remains the authoritative record for the earlier **20-test targeted replacement authorization**. A later, separate explicit authorization was established for the exact **195-target R&W calibration reconciliation lock** and the authorized replacement was applied on September 17, 2026.
+
+The later production application is represented by commit `7c4dd75bf35a3e618deffb1350e1ea3cbb15876a`.
+
+The later replacement is now part of the current production corpus. A subsequent final 30-mock corpus gate failed on the schema error `Invalid difficultyBand: sat-series-a-medium`, so final release acceptance remains pending. Future sessions should use `docs/BATCH-M-CURRENT-STATUS-2026-09-21.md` for the active work queue.
