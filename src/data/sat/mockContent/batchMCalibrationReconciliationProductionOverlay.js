@@ -92,7 +92,7 @@ function buildCandidate(index, target, prototype, skill, sourceDomain) {
     domain: TARGET_DOMAIN,
     skill,
     difficulty: target.difficulty,
-    difficultyBand: `${target.assessmentVariant || candidate.assessmentVariant}-${target.difficulty}`,
+    difficultyBand: target.difficultyBand,
     cognitiveDemand: 'evaluate',
     questionType: 'multiple-choice',
     stimulusType: 'short-passage',
@@ -152,6 +152,7 @@ function collectTargets(corpus, sourceDomain, count) {
           sourceDomain,
           targetDomain: TARGET_DOMAIN,
           difficulty: target.difficulty,
+          difficultyBand: target.difficultyBand,
           assessmentVariant: target.assessmentVariant,
           module: target.module,
         });
