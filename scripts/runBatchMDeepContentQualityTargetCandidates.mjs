@@ -73,13 +73,20 @@ function testKeyOf(mock) {
 
 function questionMap() {
   const map = new Map();
+  const byId = new Map();
   for (const mock of BATCH_M_ACCEPTED_PRODUCTION_CORPUS) {
     const testKey = testKeyOf(mock);
+    const testId = String(mock?.testId || '').trim().toUpperCase();
     for (const q of recordsOf(mock)) {
       const id = String(q?.questionId || q?.contentId || q?.id || '');
-      if (id) map.set(testKey + '|' + id, { testKey, mock, question: q });
+      if (!id) continue;
+      const resolved = { testKey, testId, mock, question: q };
+      map.set(testKey + '|' + id, resolved);
+      if (testId) map.set(testId + '|' + id, resolved);
+      byId.set(id, resolved);
     }
   }
+  map.byQuestionId = byId;
   return map;
 }
 
@@ -399,7 +406,7 @@ function main() {
 
   for (const failure of failures.values()) {
     const key = failure.testKey + '|' + failure.questionId;
-    const resolved = corpus.get(key);
+    const resolved = corpus.get(key) || corpus.byQuestionId.get(failure.questionId);
     if (!resolved) {
       unresolved.push({ testKey: failure.testKey, questionId: failure.questionId, checks: [...failure.checks], reason: 'target-not-found-in-frozen-corpus' });
       continue;
