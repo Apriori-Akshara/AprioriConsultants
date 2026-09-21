@@ -26,9 +26,9 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK GATE BLOCKED BY SCHEMA REGRESSION** |
+| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK + CROSS-CORPUS GATES PASS / DEEP CONTENT-QUALITY HOLD REMAINS** |
 
-**Batch M production generation is complete. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit produced a quality hold, which was remediated through the documented candidate/replacement path. The later 195-target R&W calibration reconciliation was independently reviewed, exactly target-locked, explicitly authorized, and applied to production. The latest final 30-mock corpus gate now fails on a canonical schema incompatibility (`Invalid difficultyBand: sat-series-a-medium`) introduced by that replacement layer. Release eligibility remains false.**
+**Batch M production generation is complete. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit produced a quality hold, which was remediated through the documented candidate/replacement path. The later 195-target R&W calibration reconciliation was independently reviewed, exactly target-locked, explicitly authorized, and applied to production. The corrected production state now passes the final 30-mock corpus gate and 30-mock cross-corpus calibration. The remaining release blocker is substantive deep SAT/PSAT content-quality/diversity work; the latest production-corpus deep-QC run fails while later remediation/review remains candidate-only. Release eligibility remains false.**
 
 ## 1. Core architecture
 
@@ -138,7 +138,7 @@ Mocks were produced one at a time. Each mock passed its generation/QC/storage ga
 
 SAT Series A Mocks 1–10, PSAT Mocks 1–10, and SAT Series B Mocks 11–20 remain the frozen production corpus. The corpus contains exactly 30 mocks and no SAT21 target.
 
-SAT11–SAT20 are deployed in the live Series B runtime, but the user-facing inspection of Mocks 11–20 remains **deferred** and is a later release checkpoint.
+SAT11–SAT20 are deployed in the live Series B runtime. Their unauthenticated public-route smoke verification is complete, and focused authenticated Series B functionality acceptance has been reported satisfactory by the user. Exhaustive public content/UI QC remains a later release checkpoint.
 
 ### Content-quality audit result and remediation
 
@@ -168,30 +168,26 @@ The controlled replacement and subsequent comprehensive 20-test QC are complete.
 
 GitHub Actions run **35181971047** (run #7) is the successful comprehensive QC evidence for this milestone.
 
-### Final 30-mock gate — current blocker and next target
+### Final 30-mock gate and release checkpoints — current state
 
-The next release checkpoint is still the **final collective 30-mock corpus gate**, but this gate has already been rerun after the authorized 195-target reconciliation and is currently **BLOCKED by a schema regression**.
+The final collective corpus gate and 30-mock cross-corpus calibration now **PASS** on the corrected production state:
 
-Relevant workflow history:
+- Final 30-mock corpus gate: **35578714088 — PASS**.
+- 30-mock cross-corpus calibration: **35578713967 — PASS**.
 
-- Final 30-mock corpus gate PASS immediately before the 195-target replacement: **run 35215919189**.
-- Exact authorized 195-target replacement applied in `main`: **commit 7c4dd75bf35a3e618deffb1350e1ea3cbb15876a`.
-- Final 30-mock corpus gate after that replacement: **run 35216124749 — FAIL**.
-- Blocking error: **`Invalid difficultyBand: sat-series-a-medium`** for `sat-series-a-mock-01-rw-001`.
+The earlier `Invalid difficultyBand: sat-series-a-medium` regression is resolved and is historical, not the current blocker.
 
-The current failure is a production-corpus schema compatibility problem. The 195-target candidates had already passed candidate generation, independent review, and exact target locking; those stages must not be restarted merely because the final corpus gate now fails.
+The current substantive production-corpus blocker is:
 
-The exact next implementation step is to correct the `difficultyBand` value emitted/applied by the 195-target calibration replacement layer so it conforms to the repository's existing canonical difficulty-band schema, without weakening schema validation or changing the authorized target scope.
+- Deep SAT/PSAT content-quality/diversity QC: **35578714129 — FAIL**.
 
-After the schema fix:
+A follow-on candidate-only pipeline generated and selected a remediation pool in **35579096349**. The independent-review workflow completed technically in **35579481595**, but its substantive decision was **HOLD_FOR_REVIEW_AND_REMEDIATION (298 FAIL / 1 expert-review item / 0 PASS)**. These candidates remain outside production and do not authorize mutation.
 
-1. rerun the final 30-mock corpus gate;
-2. rerun 30-mock cross-corpus calibration;
-3. complete the deferred SAT11–SAT20 public verification;
-4. complete final end-to-end student acceptance;
-5. finalize Batch M release acceptance.
+The SAT11–SAT20 public route smoke verification then passed in **35580194863**, and the user subsequently reported that the authenticated Series B features/functionality appeared satisfactory. That is a focused live functionality acceptance, not exhaustive question-by-question content QC.
 
-No additional candidate generation, impact audit, classification, inventory, or comprehensive 20-test QC rerun is required unless the corrected final gate identifies a genuinely new content or corpus regression.
+The next implementation stage is therefore to continue the existing deep content-quality candidate remediation/review path until the documented production/release boundary is reached. Do not bypass the substantive hold, create SAT21, or broaden the production replacement scope.
+
+After the deep-QC blocker is legitimately cleared, rerun the necessary collective gates, then perform the final comprehensive public student-facing QC and Batch M release acceptance.
 
 ### Remediation branch promotion boundary
 
