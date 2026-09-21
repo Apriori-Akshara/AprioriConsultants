@@ -33,14 +33,19 @@ function corpusIndex(corpus) {
   const targets = new Map();
   for (let i = 0; i < corpus.length; i += 1) {
     const mock = corpus[i];
-    const testKey = testKeyOf(mock, i);
+    const canonicalTestKey = testKeyOf(mock, i);
+    const testIdAlias = String(mock?.testId || '').trim().toUpperCase();
+    const aliases = [...new Set([canonicalTestKey, testIdAlias].filter(Boolean))];
     for (const section of ['readingWriting', 'math']) {
       for (const record of mock?.[section] || []) {
         const questionId = String(record?.questionId || '');
         if (!questionId) continue;
-        const key = `${testKey}::${questionId}`;
-        if (targets.has(key)) fail(`duplicate production identity ${key}`);
-        targets.set(key, { mock, section, index: mock[section].indexOf(record), record });
+        const target = { mock, section, index: mock[section].indexOf(record), record };
+        for (const testKey of aliases) {
+          const key = `${testKey}::${questionId}`;
+          if (targets.has(key) && targets.get(key).record !== record) fail(`duplicate production identity ${key}`);
+          targets.set(key, target);
+        }
       }
     }
   }
