@@ -11,6 +11,7 @@ on:
       - 'scripts/runBatchMDeepContentQualityCandidateSelection.mjs'
       - 'scripts/runBatchMDeepContentQualityIndependentReview.mjs'
       - 'src/data/sat/mockContent/batchMRemediationCandidateFactory.js'
+      - 'src/data/sat/mockContent/mathBankFactoryRemediated.js'
       - 'src/data/sat/mockContent/batchMContentQualityGate.js'
 
 permissions:
