@@ -20,6 +20,8 @@ permissions:
 jobs:
   final-30-mock-corpus-gate:
     runs-on: ubuntu-latest
+    env:
+      BATCH_M_RELEASE_GATE_REVISION: 2026-09-22-r1
 
     steps:
       - name: Checkout repository
