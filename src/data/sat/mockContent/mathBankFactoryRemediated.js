@@ -41,7 +41,8 @@ const DIVERSITY_FRAMES = [
 ];
 
 function applyPromptDiversityFrame(prompt, index) {
-  const cycle = Math.floor(index / DOMAINS.length);\n  const frame = DIVERSITY_FRAMES[(index + cycle * 7) % DIVERSITY_FRAMES.length];
+  const cycle = Math.floor(index / DOMAINS.length);
+  const frame = DIVERSITY_FRAMES[(index + cycle * 7) % DIVERSITY_FRAMES.length];
   return `${frame} the following situation is analyzed. ${prompt}`;
 }
 
