@@ -480,7 +480,7 @@ function repairQuestion(question, checks, index) {
       };
       out.cognitiveDemand = 'analyze';
     }
-    out.prompt = ensureRWMarkers(out, index).prompt;
+    out.prompt = ensureRWMarkers(out, index);
     if (checkSet.has('rw-stimulus-length')) out = repairStimulusLength(out);
     out = strengthenRWExplanation(out);
   }
