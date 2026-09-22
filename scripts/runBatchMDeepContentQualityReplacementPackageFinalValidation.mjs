@@ -15,7 +15,7 @@ import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMConten
 const NORMALIZED_INPUT = process.env.BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT ||
   'artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json';
 const REVIEW_INPUT = process.env.BATCH_M_FINAL_PACKAGE_REVIEW_INPUT ||
-  'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-22.json';
+  'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-post-normalization-2026-09-22.json';
 const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-final-replacement-package';
 const OUTPUT_JSON = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.json');
 const OUTPUT_MD = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.md');
