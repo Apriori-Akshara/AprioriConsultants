@@ -49,7 +49,7 @@ The latest Vercel check before this package-only implementation was green.
 | 7. Deep SAT/PSAT content-quality/diversity remediation | ✅ CANDIDATE PIPELINE CORRECTED |
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
 | 9. Prepare controlled production-replacement package | ✅ IMPLEMENTED — deterministic package builder + CI validation added; authorization readiness still blocked pending canonical compatibility validation |
-| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED + HARDENED — canonical normalization, fresh-review identity, target-resolution, operational-metadata, figure, and final hypothetical package gates added; CI result not independently retrievable |
+| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED + HARDENED — canonical normalization, fresh-review identity, target-resolution, operational-metadata, figure, final hypothetical package gates, and module-loader execution fix; new CI run pending |
 | 11. Explicit authorization of the replacement scope | ⏳ PENDING |
 | 12. Controlled production replacement, if authorized | ⏳ PENDING |
 | 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
@@ -132,7 +132,7 @@ A **fresh independent substantive review** is then run after normalization, foll
 
 The new workflow is candidate-only and performs no production mutation.
 
-**CI execution result is not independently retrievable through the available GitHub Actions read interface; no CI PASS is claimed here. The repository includes direct npm QC commands and Node syntax checks for the package scripts.**
+**Latest CI failure diagnosis:** the canonical replacement workflow reached the package-normalization step but failed because it invoked the `.mjs` scripts with plain Node while the production-store dependency graph uses extensionless `.js` imports. The repository already contains `scripts/batchMExtensionlessModuleLoader.mjs`; the workflow and the independent-review npm command now invoke the affected scripts through that loader. A new workflow run was triggered by the workflow fix; its result is not yet available, so no CI PASS is claimed.
 
 The package validator must establish, for all 25 entries:
 
@@ -200,4 +200,4 @@ For future sessions:
 
 **Current release status: NOT RELEASE-ELIGIBLE.**
 
-The prior 25-candidate review passed. The controlled replacement pipeline is now hardened and remains candidate-only. The next release-critical verification is a verifiable fresh CI result for the normalized candidates and final package; only after that may the exact package move to the separate explicit-authorization checkpoint. Post-mutation re-gating and the final public/technical/student/release acceptance sequence remain pending.
+The prior 25-candidate review passed. The controlled replacement pipeline is now hardened and remains candidate-only. The next release-critical verification is the current workflow run completing with a verifiable clean result; only after that may the exact package move to the separate explicit-authorization checkpoint. Post-mutation re-gating and the final public/technical/student/release acceptance sequence remain pending.
