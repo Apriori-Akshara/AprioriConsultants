@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest implementation revision:** `0c2acc194c79620f031a1d8bab9c22cbaaeb722b`  
+**Latest implementation revision:** `ade1dec20dde087d0e547f751101c8c90e0836a4`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -50,10 +50,10 @@ The latest Vercel check before this package-only implementation was green.
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
 | 9. Prepare controlled production-replacement package | ✅ COMPLETE — deterministic candidate-only package pipeline implemented |
 | 10. Resolve package compatibility blockers / validate clean package | ✅ PASS — exact target-aware generation, selection, pre/post independent review, canonical normalization, hypothetical 30-mock gate, and cross-corpus calibration verified in run **35697516214** |
-| 11. Explicit authorization of the replacement scope | ⏳ PENDING |
-| 12. Controlled production replacement, if authorized | ⏳ PENDING |
-| 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
-| 14. Final public student-facing inspection of all 30 mocks | ⏳ PENDING |
+| 11. Explicit authorization of the replacement scope | ✅ COMPLETE — explicit authorization recorded 2026-09-22 |
+| 12. Controlled production replacement, if authorized | ✅ COMPLETE — 25/25 exact replacements applied in authorized run **35728264303** |
+| 13. Re-run affected corpus/content/calibration gates | ✅ PASS — 30-mock corpus gate + cross-corpus calibration |
+| 14. Final public student-facing inspection of all 30 mocks | ⏳ PENDING — next release checkpoint |
 | 15. Technical release QC | ⏳ PENDING |
 | 16. Final end-to-end student acceptance | ⏳ PENDING |
 | 17. Final Batch M release acceptance | ⏳ PENDING |
@@ -110,7 +110,7 @@ The following controls remain active:
 - No weakening of substantive review, diversity, schema, originality, calibration, or replacement-integrity gates.
 - No release eligibility until all downstream release checkpoints pass.
 
-The 25 reviewed candidates are **candidate-only**.
+The validated 25-target package has now been applied to the frozen production corpus under the explicit 2026-09-22 authorization. The resulting production mutation remains **release-ineligible** until the downstream release checkpoints pass.
 
 ## 6. Current logical implementation sequence
 
@@ -155,22 +155,22 @@ The canonical-normalization implementation now resolves the previously identifie
 
 ### Step 3 — Explicit authorization checkpoint
 
-Only after the canonical-normalized pipeline has a verifiable clean 25/25 fresh review **and** final package validation result should the exact package be presented as ready for explicit production authorization.
-
-Authorization is a separate control and must not be inferred from candidate-review PASS.
+**COMPLETE.** Explicit human authorization was recorded on 2026-09-22 for the exact validated 25-target package.
 
 ### Step 4 — Controlled production replacement
 
-Only after explicit authorization:
-
-- apply the exact approved mappings;
-- record before/after identities;
-- keep the operation one-for-one and auditable;
-- do not regenerate unrelated questions.
+**COMPLETE.** Authorized workflow **35728264303** applied exactly 25 one-for-one replacements to existing production targets. Existing canonical `testId` and `questionId` identities were preserved, production metadata records the authorization/package/candidate/target identities, `releaseEligibility` remains false, and no new mock or SAT21 was created.
 
 ### Step 5 — Affected and collective re-gating
 
-After any authorized production mutation, rerun the required affected-item/mock checks and the collective gates. The final 30-mock corpus gate and cross-corpus calibration must remain PASS.
+**PASS.** The same authorized workflow ran the post-mutation production gates successfully:
+
+- frozen corpus size: **30 mocks**;
+- authorized replacements detected: **25**;
+- final 30-mock corpus gate: **PASS**;
+- cross-corpus calibration: **PASS**;
+- releaseEligibility: **false**;
+- SAT21: **not created**.
 
 ### Step 6 — Final release sequence
 
@@ -204,4 +204,4 @@ For future sessions:
 
 **Current release status: NOT RELEASE-ELIGIBLE.**
 
-The exact 25-target candidate-only replacement package is validated and ready for the separate explicit production-authorization checkpoint. Stage 11 remains pending. After authorization, only the approved one-for-one mappings may be applied, followed by affected/collective re-gating and the remaining public, technical, student, and final release acceptance stages.
+Stages 11–13 are complete: explicit authorization, the exact 25-target controlled production replacement, and post-mutation affected/collective gates. The next required stage is **Stage 14 — final public student-facing inspection of all 30 mocks**, followed by technical release QC, final end-to-end student acceptance, and final Batch M release acceptance.
