@@ -11,8 +11,10 @@ import path from 'node:path';
 
 const INPUT = process.env.BATCH_M_SELECTION_INPUT || 'artifacts/batch-m-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-17.json';
 const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-independent-review';
-const OUTPUT_JSON = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json`;
-const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.md`;
+const inferredReviewDate = String(INPUT).match(/20\d{2}-\d{2}-\d{2}/)?.[0] || new Date().toISOString().slice(0, 10);
+const REVIEW_DATE = process.env.BATCH_M_REVIEW_DATE || inferredReviewDate;
+const OUTPUT_JSON = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-${REVIEW_DATE}.json`;
+const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-${REVIEW_DATE}.md`;
 
 const GENERIC_EXPLANATIONS = [
   'The keyed choice matches the item-specific evidence, rhetorical relationship, communication goal, or grammatical constraint established by the construction.',
@@ -215,7 +217,7 @@ const semanticTemplateFailures = [...duplicateTemplateGroups.entries()].filter((
 
 const result = {
   reportType: 'batch-m-deep-content-quality-independent-review',
-  date: '2026-09-17',
+  date: REVIEW_DATE,
   sourceArtifact: path.basename(INPUT),
   sourceSelectedCount: candidates.length,
   counts,
@@ -237,7 +239,7 @@ const result = {
 fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2));
 const lines = [
-  '# Batch M deep content-quality independent substantive review — 2026-09-17',
+  `# Batch M deep content-quality independent substantive review — ${REVIEW_DATE}`,
   '',
   `- Selected candidates reviewed: **${candidates.length}**`,
   `- PASS: **${counts.pass}**`,
