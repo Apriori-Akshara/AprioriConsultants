@@ -37,7 +37,7 @@ The normalized artifact remains candidate-only. The final validator now rejects 
 
 ## Decision
 
-**REPLACEMENT PACKAGE VALIDATED — EXPLICIT PRODUCTION AUTHORIZATION PENDING**
+**REPLACEMENT PACKAGE VALIDATED — PRODUCTION REPLACEMENT APPLIED — POST-MUTATION GATES PASS**
 
 The full candidate-only replacement-package path is verified clean in run **35697516214**: exact target-aware selection **25/25**, pre-normalization review **25/25 PASS**, canonical normalization **PASS**, post-normalization review **PASS**, and final hypothetical replacement validation **PASS**. No production mutation or authorization occurred.
 
@@ -47,7 +47,7 @@ A second control issue was corrected: the fresh independent review previously re
 
 The package validator also now checks exact canonical operational fields (`timingMode`, calculator/reference-sheet controls, adaptive routing, etc.), target metadata integrity, figure type/shape, unique candidate/target identity, and mapping consistency.
 
-Package validation is clean. Production replacement must still not be executed until the exact package is explicitly authorized.
+Package validation was clean, explicit authorization was then recorded, and the exact package was applied successfully in authorized workflow **35728264303**. No release promotion occurred.
 
 ## Fresh validated package result
 
@@ -94,3 +94,23 @@ The collective gates remain:
 - final 30-mock corpus gate: **35666818448 — PASS**
 - 30-mock cross-corpus calibration: **35666822839 — PASS**
 
+
+## Authorized production execution — completed
+
+- Authorization: **explicit-user-authorization-2026-09-22**
+- Authorization record: `docs/BATCH-M-PRODUCTION-AUTHORIZATION-2026-09-22.md`
+- Production workflow: **35728264303 — PASS**
+- Exact package run: **35697516214**
+- Package revision: **0c2acc194c79620f031a1d8bab9c22cbaaeb722b**
+- Exact replacements applied: **25 / 25**
+- Frozen production corpus: **30 mocks**
+- Final 30-mock post-mutation gate: **PASS**
+- Cross-corpus calibration after mutation: **PASS**
+- Release eligibility: **false**
+- SAT21: **not created**
+
+The production mutation was committed to `main` as **ade1dec20dde087d0e547f751101c8c90e0836a4** with commit message **feat: apply authorized Batch M 25-target production replacement**. The commit contains only the authorized production store/module and the auditable mutation artifact.
+
+## Next release checkpoint
+
+Stage 12 (controlled production replacement) and Stage 13 (affected/collective post-mutation gating) are complete. The next required work is **Stage 14 — final public student-facing inspection of all 30 mocks**. No release-status promotion should occur before the remaining public, technical, student-acceptance, and final Batch M acceptance stages.
