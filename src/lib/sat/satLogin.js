@@ -1,5 +1,6 @@
 const SAT_LOGIN_PATH = "/Auth";
 const SAT_ROOT_PATH = "/SATMocks";
+const PSAT_ROOT_PATH = "/PSATMocks";
 const SAT_SERIES_B_PATH = "/SATMocksSeriesB";
 
 /**
@@ -29,10 +30,12 @@ export function getSafeSatReturnPath(value) {
     return SAT_ROOT_PATH;
   }
 
-  // Restrict the return destination to the SAT area.
+  // Restrict the return destination to the SAT/PSAT mock-test area.
   if (
     trimmed !== SAT_ROOT_PATH &&
-    !trimmed.startsWith(`${SAT_ROOT_PATH}/`) &&
+    !trimmed.startsWith("/SATMocks/") &&
+    trimmed !== PSAT_ROOT_PATH &&
+    !trimmed.startsWith("/PSATMocks/") &&
     trimmed !== SAT_SERIES_B_PATH
   ) {
     return SAT_ROOT_PATH;
