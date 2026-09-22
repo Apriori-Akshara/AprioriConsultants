@@ -127,30 +127,6 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Upload canonical-normalized candidates
-        uses: actions/upload-artifact@v4
-        with:
-          name: batch-m-canonical-normalized-candidates
-          path: artifacts/batch-m-deep-content-quality-canonical-normalization/
-          if-no-files-found: error
-          retention-days: 30
-
-      - name: Upload fresh independent review
-        uses: actions/upload-artifact@v4
-        with:
-          name: batch-m-canonical-normalized-independent-review
-          path: artifacts/batch-m-deep-content-quality-independent-review/
-          if-no-files-found: error
-          retention-days: 30
-
-      - name: Upload final replacement package
-        uses: actions/upload-artifact@v4
-        with:
-          name: batch-m-final-replacement-package
-          path: artifacts/batch-m-deep-content-quality-final-replacement-package/
-          if-no-files-found: error
-          retention-days: 30
-
 # Candidate-only. Fresh review is required after canonical normalization. No production mutation is performed.
 
 # Verification-triggered workflow revision — candidate-only; no production mutation.
