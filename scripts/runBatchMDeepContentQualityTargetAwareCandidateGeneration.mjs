@@ -128,23 +128,6 @@ function addStateCandidate(candidate, state) {
   state.promptChoices.add(promptChoiceSignature(candidate));
 }
 
-function targetTracks(target) {
-  const flags = new Set(Array.isArray(target?.flags) ? target.flags : []);
-  const tracks = [];
-  if (flags.has('math-generic-numeric-distractor')) tracks.push('MATH_DISTRACTOR_REMEDIATION');
-  if (flags.has('rw-fixed-wic-target')) tracks.push('RW_WIC_REMEDIATION');
-  if (flags.has('rw-template-density')) tracks.push('RW_CONSTRUCTION_REMEDIATION');
-  return tracks;
-}
-
-function score(target) {
-  const flags = new Set(Array.isArray(target?.flags) ? target.flags : []);
-  return (target?.priority === 'HIGH' ? 100 : 0) +
-    (flags.has('math-generic-numeric-distractor') ? 40 : 0) +
-    (flags.has('rw-fixed-wic-target') ? 30 : 0) +
-    (flags.has('rw-template-density') ? 25 : 0);
-}
-
 function eligibleInventory(inventory) {
   const eligible = [];
   const seen = new Set();
