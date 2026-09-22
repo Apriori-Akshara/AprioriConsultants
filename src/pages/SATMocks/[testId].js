@@ -38,7 +38,10 @@ export async function getServerSideProps(context) {
       : null;
   const assessmentFamily = testKey.startsWith("PSAT") ? "psat" : testKey.startsWith("SAT") ? "sat" : null;
   const access = testNumber ? await getSatTestAccess(accessState.user?.id, testNumber, assessmentFamily) : { allowed: false };
-  if (!access.allowed) return { redirect: { destination: "/SATMocksSeriesB", permanent: false } };
+  if (!access.allowed) {
+    const fallbackDestination = assessmentFamily === "psat" ? "/PSATMocks" : testNumber && testNumber <= 10 ? "/SATMocks" : "/SATMocksSeriesB";
+    return { redirect: { destination: fallbackDestination, permanent: false } };
+  }
   const { buildClientSafeTest } = await import("../../lib/sat/productionAdaptiveMockEngine");
   const test = buildClientSafeTest(testKey);
   if (!test) return { notFound: true };
@@ -297,7 +300,20 @@ export default function SATMockTest({ test }) {
 
     {tool ? <div className={styles.overlay} onClick={() => setTool(null)}><div className={tool === "navigator" ? styles.drawer : tool === "calculator" ? styles.calculatorPanel : tool === "reference" ? styles.referencePanel : styles.notesPanel} onClick={(event) => event.stopPropagation()}>
       <div className={styles.drawerHeader}><h2>{tool === "navigator" ? "Question Navigator" : tool === "calculator" ? "Desmos Calculator" : tool === "reference" ? "Math Reference" : "Notes"}</h2><button onClick={() => setTool(null)}>Close</button></div>
-      {tool === "navigator" ? <><div className={styles.navigatorLegend}><span>Answered: {answeredCount}</span><span>Flagged: {flaggedCount}</span></div><div className={styles.questionGrid}>{questions.map((item, index) => <button key={item.questionId} className={`${styles.questionCell} ${answers[item.questionId] ? styles.questionAnswered : ""} ${flags[item.questionId] ? styles.questionFlagged : ""} ${index === questionIndex ? styles.questionCurrent : ""}`} onClick={async () => { await moveTo(index); setTool(null); }}>{index + 1}</button>)}</div></> : tool === "calculator" ? <div><div className={styles.calculatorTabs} role="tablist" aria-label="Desmos calculator type"><button type="button" role="tab" aria-selected={calculatorMode === "graphing"} className={calculatorMode === "graphing" ? styles.calculatorTab + " " + styles.calculatorTabActive : styles.calculatorTab} onClick={() => setCalculatorMode("graphing")}>Graphing Calculator</button><button type="button" role="tab" aria-selected={calculatorMode === "scientific"} className={calculatorMode === "scientific" ? styles.calculatorTab + " " + styles.calculatorTabActive : styles.calculatorTab} onClick={() => setCalculatorMode("scientific")}>Scientific Calculator</button></div><p className={styles.calculatorHint}>Desmos calculator tools available during Math.</p><iframe key={calculatorMode} className={styles.calculatorFrame} title={"Desmos " + calculatorMode + " calculator"} src={calculatorUrl} loading="eager" allow="fullscreen" referrerPolicy="strict-origin-when-cross-origin" /><div className={styles.calculatorFallback}><a href={calculatorUrl} target="_blank" rel="noopener noreferrer">Open this calculator in a new tab</a></div></div> : tool === "reference" ? <div className={styles.referenceGrid}><div><strong>Triangle</strong><p>A = ½bh</p></div><div><strong>Circle</strong><p>A = πr²</p></div><div><strong>Pythagorean theorem</strong><p>a² + b² = c²</p></div><div><strong>Coordinate geometry</strong><p>Use the coordinate-plane relationships needed by the question.</p></div></div> : <textarea value={notes[question?.questionId] || ""} onChange={(event) => setNotes((current) => ({ ...current, [question.questionId]: event.target.value }))} onBlur={(event) => saveNote(event.target.value)} placeholder="Write a note for this attempt…" />}
+      {tool === "navigator" ? <><div className={styles.navigatorLegend}><span>Answered: {answeredCount}</span><span>Flagged: {flaggedCount}</span></div><div className={styles.questionGrid}>{questions.map((item, index) => <button key={item.questionId} className={`${styles.questionCell} ${answers[item.questionId] ? styles.questionAnswered : ""} ${flags[item.questionId] ? styles.questionFlagged : ""} ${index === questionIndex ? styles.questionCurrent : ""}`} onClick={async () => { await moveTo(index); setTool(null); }}>{index + 1}</button>)}</div></> : tool === "calculator" ? <div>
+        <p className={styles.calculatorHint}>Choose a Desmos testing calculator. It opens the official College Board testing version in a new tab, which avoids browser iframe restrictions.</p>
+        <div className={styles.calculatorChoiceGrid}>
+          <a className={styles.calculatorChoice} href="https://www.desmos.com/testing/collegeboard/graphing" target="_blank" rel="noopener noreferrer">
+            <strong>Graphing Calculator</strong><span>Open the Desmos College Board Graphing Calculator</span>
+          </a>
+          <a className={styles.calculatorChoice} href="https://www.desmos.com/testing/collegeboard/scientific" target="_blank" rel="noopener noreferrer">
+            <strong>Scientific Calculator</strong><span>Open the Desmos College Board Scientific Calculator</span>
+          </a>
+        </div>
+        <div className={styles.calculatorFallback}>
+          <a href="https://www.desmos.com/testing/collegeboard/graphing" target="_blank" rel="noopener noreferrer">Open Graphing Calculator directly</a>
+        </div>
+      </div>: tool === "reference" ? <div className={styles.referenceGrid}><div><strong>Triangle</strong><p>A = ½bh</p></div><div><strong>Circle</strong><p>A = πr²</p></div><div><strong>Pythagorean theorem</strong><p>a² + b² = c²</p></div><div><strong>Coordinate geometry</strong><p>Use the coordinate-plane relationships needed by the question.</p></div></div> : <textarea value={notes[question?.questionId] || ""} onChange={(event) => setNotes((current) => ({ ...current, [question.questionId]: event.target.value }))} onBlur={(event) => saveNote(event.target.value)} placeholder="Write a note for this attempt…" />}
     </div></div> : null}
   </div>;
 }
