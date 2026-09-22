@@ -128,20 +128,36 @@ function hypotheticalCorpus(baseline, replacements) {
   return corpus;
 }
 
-function uniqueness(corpus) {
+function uniqueness(corpus, baseline = null) {
   const prompts = new Map();
   const fingerprints = new Map();
-  for (const mock of corpus) {
-    for (const q of [...(mock.readingWriting || []), ...(mock.math || [])]) {
-      const p = norm(q.prompt);
-      if (p) prompts.set(p, [...(prompts.get(p) || []), `${testKeyOf(mock)}::${q.questionId}`]);
-      const f = String(q.originalityFingerprint || '');
-      if (f) fingerprints.set(f, [...(fingerprints.get(f) || []), `${testKeyOf(mock)}::${q.questionId}`]);
+  const baselinePrompts = new Map();
+  const baselineFingerprints = new Map();
+
+  const collect = (source, promptMap, fingerprintMap) => {
+    for (const mock of source) {
+      for (const q of [...(mock.readingWriting || []), ...(mock.math || [])]) {
+        const key = `${testKeyOf(mock)}::${q.questionId}`;
+        const p = norm(q.prompt);
+        if (p) promptMap.set(p, [...(promptMap.get(p) || []), key]);
+        const f = String(q.originalityFingerprint || '');
+        if (f) fingerprintMap.set(f, [...(fingerprintMap.get(f) || []), key]);
+      }
     }
-  }
+  };
+
+  collect(corpus, prompts, fingerprints);
+  if (baseline) collect(baseline, baselinePrompts, baselineFingerprints);
+
   return {
-    duplicatePromptGroups: [...prompts.values()].filter((ids) => ids.length > 1),
-    duplicateFingerprintGroups: [...fingerprints.values()].filter((ids) => ids.length > 1),
+    // Only count a duplicate as newly introduced when its final multiplicity
+    // is greater than the frozen baseline multiplicity.
+    duplicatePromptGroups: [...prompts.entries()]
+      .filter(([prompt, ids]) => ids.length > 1 && ids.length > (baselinePrompts.get(prompt)?.length || 0))
+      .map(([, ids]) => ids),
+    duplicateFingerprintGroups: [...fingerprints.entries()]
+      .filter(([fingerprint, ids]) => ids.length > 1 && ids.length > (baselineFingerprints.get(fingerprint)?.length || 0))
+      .map(([, ids]) => ids),
   };
 }
 
@@ -280,7 +296,7 @@ function main() {
 
   const baseline = clone(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
   const hypothetical = hypotheticalCorpus(baseline, replacements);
-  const unique = uniqueness(hypothetical);
+  const unique = uniqueness(hypothetical, baseline);
   if (unique.duplicatePromptGroups.length) throw new Error(`Hypothetical replacement introduces duplicate prompts: ${JSON.stringify(unique.duplicatePromptGroups.slice(0, 5))}`);
   if (unique.duplicateFingerprintGroups.length) throw new Error(`Hypothetical replacement introduces duplicate fingerprints: ${JSON.stringify(unique.duplicateFingerprintGroups.slice(0, 5))}`);
 
