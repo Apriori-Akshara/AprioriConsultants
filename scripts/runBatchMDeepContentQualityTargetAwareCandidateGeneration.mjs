@@ -65,7 +65,87 @@ function score(target) {
     (flags.has('rw-template-density') ? 25 : 0);
 }
 
-function buildTargetSet(inventory) {
+function preReviewEligible(candidate) {
+  const prompt = String(candidate?.prompt || '');
+  const explanation = String(candidate?.explanation || '');
+  const section = String(candidate?.section || '');
+  const choices = Array.isArray(candidate?.choices) ? candidate.choices : [];
+
+  if (!prompt || !explanation) return false;
+  if (section === 'reading-writing' && !/\b(which|what|how)\b/i.test(prompt)) return false;
+  if (section === 'reading-writing' && explanation.length < 55) return false;
+
+  if (section === 'math' && candidate?.difficulty === 'hard') {
+    const signals = ['then', 'after', 'given that', 'if', 'must', 'because', 'compared with', 'change', 'relationship', 'model'];
+    const signalCount = signals.filter((signal) => prompt.toLowerCase().includes(signal)).length;
+    if (signalCount < 2) return false;
+    if (!Array.isArray(candidate?.metadata?.difficultyFeatures) ||
+        !candidate.metadata.difficultyFeatures.includes('multi-step')) return false;
+  }
+
+  if (section === 'math' && candidate?.questionType === 'multiple-choice') {
+    const architecture = candidate?.metadata?.distractor_architecture;
+    if (!architecture?.profiles || Object.keys(architecture.profiles).length < 3) return false;
+    if (choices.length !== 4) return false;
+  }
+
+  return true;
+}
+
+function semanticTemplate(candidate) {
+  return String(candidate?.prompt || '')
+    .trim()
+    .toLowerCase()
+    .replace(/\b\d+(?:\.\d+)?\b/g, '#')
+    .replace(/\b[a-z]\b/g, 'v')
+    .replace(/\s+/g, ' ');
+}
+
+function promptChoiceSignature(candidate) {
+  const choices = Array.isArray(candidate?.choices)
+    ? candidate.choices.map((choice) =>
+        String(choice || '').trim().toLowerCase().replace(/\b\d+(?:\.\d+)?\b/g, '#')
+      ).join(' || ')
+    : '';
+  return semanticTemplate(candidate) + '|' + choices;
+}
+
+function candidateSelectionEligible(candidate, state) {
+  if (!preReviewEligible(candidate)) return false;
+  const exactPrompt = String(candidate?.prompt || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  const template = semanticTemplate(candidate);
+  const promptChoice = promptChoiceSignature(candidate);
+  if (!exactPrompt || state.exactPrompts.has(exactPrompt)) return false;
+  if (state.promptChoices.has(promptChoice)) return false;
+  if ((state.templates.get(template) || 0) >= 3) return false;
+  return true;
+}
+
+function addStateCandidate(candidate, state) {
+  state.exactPrompts.add(String(candidate.prompt || '').trim().toLowerCase().replace(/\s+/g, ' '));
+  const template = semanticTemplate(candidate);
+  state.templates.set(template, (state.templates.get(template) || 0) + 1);
+  state.promptChoices.add(promptChoiceSignature(candidate));
+}
+
+function targetTracks(target) {
+  const flags = new Set(Array.isArray(target?.flags) ? target.flags : []);
+  const tracks = [];
+  if (flags.has('math-generic-numeric-distractor')) tracks.push('MATH_DISTRACTOR_REMEDIATION');
+  if (flags.has('rw-fixed-wic-target')) tracks.push('RW_WIC_REMEDIATION');
+  if (flags.has('rw-template-density')) tracks.push('RW_CONSTRUCTION_REMEDIATION');
+  return tracks;
+}
+
+function score(target) {
+  const flags = new Set(Array.isArray(target?.flags) ? target.flags : []);
+  return (target?.priority === 'HIGH' ? 100 : 0) +
+    (flags.has('math-generic-numeric-distractor') ? 40 : 0) +
+    (flags.has('rw-fixed-wic-target') ? 30 : 0) +
+    (flags.has('rw-template-density') ? 25 : 0);
+}
+
+function eligibleInventory(inventory) {
   const eligible = [];
   const seen = new Set();
   for (const item of Array.isArray(inventory?.questions) ? inventory.questions : []) {
@@ -74,65 +154,87 @@ function buildTargetSet(inventory) {
     const key = testKey + '|' + questionId;
     if (!TEST_KEYS.includes(testKey) || !questionId || seen.has(key)) continue;
     if (item?.productionMutation === true || item?.replacementAuthorized === true) continue;
-    // Keep the package substantive: exclude difficulty-only review records.
     if (String(item?.remediationType || '') !== 'CONTENT_REPLACEMENT') continue;
-    if (!(Array.isArray(item?.classifications) && item.classifications.includes('HIGH_CONFIDENCE_CONTENT_REVIEW'))) continue;
+    if (!(Array.isArray(item?.classifications) &&
+          item.classifications.includes('HIGH_CONFIDENCE_CONTENT_REVIEW'))) continue;
     eligible.push({ ...clone(item), testKey });
     seen.add(key);
   }
+  return eligible.sort((a,b) =>
+    (score(b)-score(a)) ||
+    a.testKey.localeCompare(b.testKey) ||
+    String(a.questionId).localeCompare(String(b.questionId))
+  );
+}
 
+function buildTargetSet(inventory, productionTargets) {
+  const eligible = eligibleInventory(inventory);
   const selected = [];
   const selectedKeys = new Set();
-  const preferredTracks = [
-    'MATH_DISTRACTOR_REMEDIATION',
-    'RW_WIC_REMEDIATION',
-    'RW_CONSTRUCTION_REMEDIATION',
-    'MATH_DISTRACTOR_REMEDIATION',
-  ];
+  const selectedCandidates = new Map();
+  const state = {
+    exactPrompts: new Set(),
+    templates: new Map(),
+    promptChoices: new Set(),
+  };
 
-  function add(pool) {
-    const choice = [...pool]
-      .filter((item) => !selectedKeys.has(item.testKey + '|' + item.questionId))
-      .sort((a,b) =>
-        (score(b)-score(a)) ||
-        a.testKey.localeCompare(b.testKey) ||
-        String(a.questionId).localeCompare(String(b.questionId))
-      )[0];
-    if (!choice) return false;
-    selected.push(choice);
-    selectedKeys.add(choice.testKey + '|' + choice.questionId);
+  function tryAdd(target) {
+    const key = target.testKey + '|' + target.questionId;
+    if (selectedKeys.has(key)) return false;
+    const source = productionTargets.get(key);
+    if (!source) return false;
+    const candidate = buildCandidate(target, source, selected.length);
+    if (!candidateSelectionEligible(candidate, state)) return false;
+    selected.push(target);
+    selectedKeys.add(key);
+    selectedCandidates.set(key, candidate);
+    addStateCandidate(candidate, state);
     return true;
   }
 
+  // Guarantee at least one selector-compatible target from every audited test.
   for (let i = 0; i < TEST_KEYS.length; i += 1) {
-    const key = TEST_KEYS[i];
-    const preferred = preferredTracks[i % preferredTracks.length];
-    const exactTrack = eligible.filter((item) =>
-      item.testKey === key && tracksOf(item).includes(preferred)
-    );
-    const sameTest = eligible.filter((item) => item.testKey === key);
-    if (!add(exactTrack.length ? exactTrack : sameTest)) {
-      throw new Error('No eligible content-replacement target exists for ' + key);
+    const testKey = TEST_KEYS[i];
+    const preferredTrack = [
+      'MATH_DISTRACTOR_REMEDIATION',
+      'RW_WIC_REMEDIATION',
+      'RW_CONSTRUCTION_REMEDIATION',
+      'MATH_DISTRACTOR_REMEDIATION',
+    ][i % 4];
+
+    const sameTest = eligible
+      .filter((item) => item.testKey === testKey)
+      .sort((a,b) =>
+        (Number(targetTracks(b).includes(preferredTrack)) - Number(targetTracks(a).includes(preferredTrack))) ||
+        (score(b)-score(a)) ||
+        String(a.questionId).localeCompare(String(b.questionId))
+      );
+
+    if (!sameTest.some(tryAdd)) {
+      throw new Error('No selector-compatible content-replacement target found for ' + testKey);
     }
   }
 
   while (selected.length < TARGET_COUNT) {
-    const remaining = eligible
-      .filter((item) => !selectedKeys.has(item.testKey + '|' + item.questionId))
-      .sort((a,b) =>
-        (score(b)-score(a)) ||
-        a.testKey.localeCompare(b.testKey) ||
-        String(a.questionId).localeCompare(String(b.questionId))
-      );
-    if (!add(remaining)) throw new Error('Unable to fill exactly 25 target records.');
+    const remaining = eligible.filter((item) => !selectedKeys.has(item.testKey + '|' + item.questionId));
+    let added = false;
+    for (const target of remaining) {
+      if (tryAdd(target)) {
+        added = true;
+        break;
+      }
+    }
+    if (!added) {
+      throw new Error('Unable to fill exactly 25 selector-compatible target candidates. Selected=' + selected.length);
+    }
   }
 
-  if (selected.length !== TARGET_COUNT || selectedKeys.size !== TARGET_COUNT) {
-    throw new Error('Target-aware generator did not produce exactly 25 unique targets.');
+  const targetKeys = new Set(selected.map((item) => item.testKey + '|' + item.questionId));
+  if (selected.length !== TARGET_COUNT || targetKeys.size !== TARGET_COUNT) {
+    throw new Error('Target-aware generator did not produce exactly 25 unique selector-compatible targets.');
   }
-  return { eligibleCount: eligible.length, targets: selected };
+  return { eligibleCount: eligible.length, targets: selected, candidates: selectedCandidates };
 }
-
 function productionIndex() {
   const index = new Map();
   for (const mock of BATCH_M_ACCEPTED_PRODUCTION_CORPUS) {
@@ -196,30 +298,12 @@ function buildCandidate(target, source, index) {
 
 function main() {
   const inventory = readJson(INVENTORY_INPUT);
-  const targetSet = buildTargetSet(inventory);
   const index = productionIndex();
-  const candidates = [];
+  const targetSet = buildTargetSet(inventory, index);
+  const candidates = targetSet.targets.map((target) =>
+    targetSet.candidates.get(target.testKey + '|' + target.questionId)
+  );
   const unresolved = [];
-
-  for (let i = 0; i < targetSet.targets.length; i += 1) {
-    const target = targetSet.targets[i];
-    const key = target.testKey + '|' + target.questionId;
-    const source = index.get(key);
-    if (!source) {
-      unresolved.push({ testKey: target.testKey, questionId: target.questionId, reason: 'target-not-found-in-frozen-corpus' });
-      continue;
-    }
-    try {
-      candidates.push(buildCandidate(target, source, i));
-    } catch (error) {
-      unresolved.push({
-        testKey: target.testKey,
-        questionId: target.questionId,
-        reason: 'candidate-generation-failed',
-        message: String(error?.message || error),
-      });
-    }
-  }
 
   const targetKeys = new Set(candidates.map((q) =>
     String(q?.metadata?.targetTestKey || '') + '|' + String(q?.metadata?.targetQuestionId || '')
@@ -240,10 +324,10 @@ function main() {
   const testCoverage = {};
   const trackCoverage = {};
   for (const candidate of candidates) {
-    const inventory = candidate.metadata?.targetInventory || {};
-    const testKey = String(inventory.targetTestKey || '');
+    const inventoryMeta = candidate.metadata?.targetInventory || {};
+    const testKey = String(inventoryMeta.targetTestKey || '');
     testCoverage[testKey] = (testCoverage[testKey] || 0) + 1;
-    for (const track of Array.isArray(inventory.targetTracks) ? inventory.targetTracks : []) {
+    for (const track of Array.isArray(inventoryMeta.targetTracks) ? inventoryMeta.targetTracks : []) {
       trackCoverage[track] = (trackCoverage[track] || 0) + 1;
     }
   }
