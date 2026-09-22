@@ -26,7 +26,7 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK + CROSS-CORPUS GATES PASS / 25-CANDIDATE REVIEW PASS / CONTROLLED REPLACEMENT PACKAGE VALIDATION IMPLEMENTED + HARDENED** |
+| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK + CROSS-CORPUS GATES PASS / EXACT TARGET-AWARE 25-CANDIDATE REVIEW PASS / CONTROLLED REPLACEMENT PACKAGE VALIDATED** |
 
 **Batch M production generation is complete. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit was remediated through the documented controlled candidate/replacement path. The later 195-target R&W calibration reconciliation was independently reviewed, exactly target-locked, explicitly authorized, and applied to production. The corrected production state passes the final 30-mock corpus gate and 30-mock cross-corpus calibration. The corrected deep-QC candidate pipeline has now completed independent substantive review at 25/25 PASS, with 0 FAIL, 0 expert-review flags, and 0 duplicate groups. Those 25 items remain candidate-only until an exact candidate-to-production target replacement package is prepared and explicitly authorized. Release eligibility remains false.**
 
@@ -201,11 +201,11 @@ The deterministic replacement-package builder is implemented at `scripts/runBatc
 
 The candidate-only canonical-normalization stage resolves the known non-canonical assessment/skill labels from exact existing production targets using strict semantic mappings: scatterplot interpretation → Data models; equivalent exponential representations → Exponential equations; right-triangle relationships → Right triangles; linear relationships → Linear functions.
 
-The package validation path is now hardened. It requires a correctly dated fresh review artifact tied to the normalized input, unique candidate and target identities, exact canonical operational fields, target-resolution audit metadata, canonical target-metadata SHA-256 integrity, protected metadata integrity, figure type/shape compatibility, schema/content-quality PASS, hypothetical uniqueness, the final 30-mock corpus gate, and cross-corpus calibration with no new failures.
+The package validation path is hardened and verified. Run **35697516214 — PASS** establishes correct fresh-review linkage, unique candidate and target identities, exact canonical operational fields, target-resolution audit metadata, canonical target-metadata SHA-256 integrity, candidate-boundary protection, figure type/shape compatibility, schema/content-quality PASS, baseline-aware hypothetical uniqueness, the final 30-mock corpus gate, and cross-corpus calibration with no new failures.
 
-### Batch M package-verification controls — current state
+### Batch M package-verification controls — verified state
 
-The package pipeline has direct npm commands in `package.json` for canonical normalization and final replacement-package validation, and the CI workflow performs Node syntax checks before execution. The fresh independent review now writes its artifact date from the normalized input, so the post-normalization review cannot be mislabeled as the earlier September 17 review. These are validation controls only; they do not authorize production mutation.
+The package pipeline has direct npm commands in `package.json` for target-aware candidate generation, canonical normalization, and final replacement-package validation, and the CI workflow performs Node syntax checks before execution. These controls were verified by **35697516214 — PASS**. They remain validation-only and do not authorize production mutation.
 
 ### Final 30-mock gate and release checkpoints — current state
 
@@ -231,11 +231,7 @@ The corrected deep SAT/PSAT content-quality/diversity candidate pipeline has als
 
 The candidate-selector correction is recorded at `f52238c6a3ffafd97baca9ba291a310d5187af2f`. The 25 passed candidates are not automatically production replacements.
 
-**Current next stage:** obtain a verifiable CI execution result for the corrected target-aware-selection → pre-review → canonical-normalization → post-review → final replacement-package validation pipeline. Production authorization remains blocked until that pipeline is demonstrably clean. Explicit authorization must be recorded separately before any replacement is applied.
-
-After explicit authorization, apply only the approved one-for-one replacements, then rerun the affected gates and required collective gates. After those gates pass, complete final public student-facing inspection, technical release QC, final end-to-end student acceptance, and Batch M release acceptance.
-
-Do not create SAT21, broaden the frozen 30-mock scope, bypass the replacement authorization gate, or repeat the completed generation/review/remediation stages.
+**Current next stage:** obtain explicit production authorization for the exact validated 25-target replacement package. No production mutation has occurred. After authorization, apply only those one-for-one mappings, rerun the affected/collective gates, then complete final public student-facing inspection, technical release QC, final end-to-end student acceptance, and Batch M release acceptance.
 
 ### Remediation branch promotion boundary
 
@@ -278,5 +274,5 @@ At the beginning of a future session:
 7. Read `docs/BATCH-M-CONTENT-QUALITY-QC-2026-09-14.md` for the original audit findings.
 8. Read `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md` for the completed remediation/re-gating milestone.
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
-10. Verify the corrected **target-aware candidate selection → pre-normalization independent review → canonical normalization → post-normalization independent review → final replacement-package validation** pipeline. Target-aware selection must choose exactly 25 candidates from the current screened pool only when each has a real existing canonical target under the strict section/module/difficulty/question-type/domain/skill/figure contract. Keep production mutation blocked until the full pipeline has a verifiable clean result. Canonical normalization uses strict semantic skill mappings and cannot substitute unrelated canonical skills. The prior `difficultyBand` compatibility regression and collective gates are already resolved; do not create SAT21.
+10. Record the completed **target-aware candidate generation → exact-target selection → pre-normalization independent review → canonical normalization → post-normalization independent review → final replacement-package validation** pipeline. Verified in run **35697516214 — PASS**. Keep production mutation blocked until explicit authorization is separately recorded. Canonical normalization uses exact target identity where present and strict structural compatibility; it cannot substitute unrelated canonical skills. The prior `difficultyBand` compatibility regression and collective gates are already resolved; do not create SAT21.
 11. Treat SAT11–SAT20 public verification as deferred release work.

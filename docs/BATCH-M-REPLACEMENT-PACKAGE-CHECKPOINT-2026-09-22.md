@@ -37,9 +37,9 @@ The normalized artifact remains candidate-only. The final validator now rejects 
 
 ## Decision
 
-**CANONICAL NORMALIZATION IMPLEMENTED + PACKAGE VALIDATION HARDENED — FRESH CI RESULT PENDING VERIFICATION**
+**REPLACEMENT PACKAGE VALIDATED — EXPLICIT PRODUCTION AUTHORIZATION PENDING**
 
-The candidate-only canonical-normalization stage is now implemented. It resolves deterministic existing production targets and copies canonical structural metadata into normalized candidates without mutating production. A fresh independent substantive review must pass after normalization, followed by final hypothetical replacement-package validation.
+The full candidate-only replacement-package path is verified clean in run **35697516214**: exact target-aware selection **25/25**, pre-normalization review **25/25 PASS**, canonical normalization **PASS**, post-normalization review **PASS**, and final hypothetical replacement validation **PASS**. No production mutation or authorization occurred.
 
 A validation-path defect was also identified and corrected: the final package validator now resolves production mocks from their canonical `SAT1`/`PSAT1`/`SAT11`-style `testKey` through `BATCH_M_PRODUCTION_SEQUENCE` when the runtime mock only carries a `testId`. This prevents false target-not-found results.
 
@@ -47,9 +47,28 @@ A second control issue was corrected: the fresh independent review previously re
 
 The package validator also now checks exact canonical operational fields (`timingMode`, calculator/reference-sheet controls, adaptive routing, etc.), target metadata integrity, figure type/shape, unique candidate/target identity, and mapping consistency.
 
-No production replacement should be authorized or executed until that package validation is clean.
+Package validation is clean. Production replacement must still not be executed until the exact package is explicitly authorized.
+
+## Fresh validated package result
+
+Run **35697516214 — PASS**.
+
+- Target-aware candidate generation: **25/25 exact-target candidates**, **0 unresolved**.
+- Target-aware selection: **25/25 selected**, **0 rejected**.
+- Pre-normalization independent review: **25 PASS / 0 FAIL / 0 expert-review**.
+- Canonical normalization: **PASS**.
+- Post-normalization independent review: **PASS**.
+- Final hypothetical replacement validation: **PASS**.
+- Production mutation: **false**.
+- Release eligible: **false**.
+- SAT21 created: **false**.
+- Explicit production authorization: **NOT GRANTED**.
+
+The former generic 58-candidate compatibility blocker is superseded by target-aware generation from the frozen replacement-preparation inventory.
 
 ## Validation-path correction
+
+
 
 - Final package validator correction commit: `dc59e553902b717c18f106ffebcd21f659c26060`.
 - Correction: map runtime production `testId` values to canonical Batch M `testKey` values before exact target lookup.
@@ -60,13 +79,15 @@ The package remains candidate-only. No production mutation has been executed.
 
 ## Evidence
 
-The 25-candidate independent review remains:
+The original generic 25-candidate independent review remains historical evidence:
 
 - run **35666673400**
 - **25 / 25 PASS**
 - **0 FAIL**
 - **0 expert-review flags**
 - **0 duplicate groups**
+
+The authoritative current package-validation evidence is **35697516214 — PASS**.
 
 The collective gates remain:
 

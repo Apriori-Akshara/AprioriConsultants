@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest implementation revision:** `c992670bb213253e15406b913c35625d08ad3f84`  
+**Latest implementation revision:** `0c2acc194c79620f031a1d8bab9c22cbaaeb722b`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -48,8 +48,8 @@ The latest Vercel check before this package-only implementation was green.
 | 6. 30-mock cross-corpus calibration | ✅ PASS — 35666822839 |
 | 7. Deep SAT/PSAT content-quality/diversity remediation | ✅ CANDIDATE PIPELINE CORRECTED |
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
-| 9. Prepare controlled production-replacement package | ✅ IMPLEMENTED — deterministic package builder + CI validation added; authorization readiness still blocked pending canonical compatibility validation |
-| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED + HARDENED — target-aware reselection, pre/post normalization reviews, canonical normalization, operational metadata, figure, target-resolution, hypothetical package gates; latest workflow result pending |
+| 9. Prepare controlled production-replacement package | ✅ COMPLETE — deterministic candidate-only package pipeline implemented |
+| 10. Resolve package compatibility blockers / validate clean package | ✅ PASS — exact target-aware generation, selection, pre/post independent review, canonical normalization, hypothetical 30-mock gate, and cross-corpus calibration verified in run **35697516214** |
 | 11. Explicit authorization of the replacement scope | ⏳ PENDING |
 | 12. Controlled production replacement, if authorized | ⏳ PENDING |
 | 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
@@ -77,7 +77,7 @@ The frozen production scope remains exactly 30 mocks. No SAT21 has been created.
 
 ## 4. Current candidate-only milestone
 
-The current candidate-only pipeline has passed substantive independent review with **25 / 25 candidates passing**.
+The current candidate-only pipeline has passed substantive independent review with **25 / 25 candidates passing**. The exact target-aware replacement package then completed the full candidate-only validation chain in workflow run **35697516214 — PASS**.
 
 The required control remains:
 
@@ -95,7 +95,7 @@ The controlled package pipeline is now present in:
 - `scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs`
 - `.github/workflows/batch-m-canonical-replacement-package.yml`
 
-The pipeline now consumes the current 58-candidate screened pool, reselects exactly 25 candidates only when a strict real canonical target exists, performs a pre-normalization independent review, normalizes canonical structural metadata without production mutation, performs a distinct post-normalization independent review, and runs final hypothetical replacement validation.
+The pipeline now generates candidates directly from exact frozen production targets identified in the September 15 replacement-preparation inventory, performs exact-target-aware selection, pre-normalization independent review, canonical normalization, post-normalization independent review, and final hypothetical replacement validation. The former generic 58-candidate pool is no longer the release-package source of truth for Batch M replacement preparation.
 
 The latest hardening prevents silent operational drift: target resolution now records an explicit method and source index; canonical operational fields are checked exactly; protected metadata is integrity-checked; figure type/shape compatibility is required; and the fresh review must explicitly identify the 2026-09-22 normalized artifact. Production mutation remains blocked.
 
@@ -118,7 +118,7 @@ The 25 reviewed candidates are **candidate-only**.
 
 **Implemented.** The package builder deterministically proposes an existing production target for each passed candidate and records the candidate, target snapshot, and compatibility blockers.
 
-### Step 2 — Resolve package compatibility blockers / validate clean package
+### Step 2 — Resolve package compatibility blockers / validate clean package — PASS
 
 **Implementation added on `main`:**
 
@@ -132,7 +132,11 @@ A **fresh independent substantive review** is then run after normalization, foll
 
 The new workflow is candidate-only and performs no production mutation.
 
-**Latest CI failure diagnosis and correction:** after the module-loader issue was fixed, the workflow reached canonical normalization and correctly rejected `PSAT1-BATCHM-DQ-1031` because its strict target pool required the same module, while the frozen PSAT1 Math corpus places the matching canonical Data Models item in another adaptive module. The package workflow is now corrected at the selection layer: it downloads the current 58-candidate pool, target-aware reselects exactly 25 candidates that have real canonical targets under the strict compatibility contract, performs an independent review before normalization, normalizes canonical metadata, performs a distinct post-normalization review, and then runs final package validation. The workflow remains candidate-only; no CI PASS is claimed until a completed run verifies this path.
+**Fresh verification result — run 35697516214:** target-aware candidate generation produced **25/25** exact-target candidates with **0 unresolved**; target-aware selection produced **25/25** with **0 rejected**; pre-normalization independent review returned **25 PASS / 0 FAIL / 0 expert-review**; canonical normalization passed; post-normalization independent review passed; final hypothetical replacement validation passed; and package artifacts uploaded successfully. The former 58-candidate → 4-target blocker is superseded.
+
+Production remains candidate-only; no CI step in this package performs production mutation or grants authorization.
+
+**Historical compatibility failures preceding the PASS:** after the module-loader issue was fixed, the workflow reached canonical normalization and correctly rejected `PSAT1-BATCHM-DQ-1031` because its strict target pool required the same module, while the frozen PSAT1 Math corpus places the matching canonical Data Models item in another adaptive module. The package workflow is now corrected at the selection layer: it downloads the current 58-candidate pool, target-aware reselects exactly 25 candidates that have real canonical targets under the strict compatibility contract, performs an independent review before normalization, normalizes canonical metadata, performs a distinct post-normalization review, and then runs final package validation. The workflow remains candidate-only; no CI PASS is claimed until a completed run verifies this path.
 
 The package validator must establish, for all 25 entries:
 
@@ -200,4 +204,4 @@ For future sessions:
 
 **Current release status: NOT RELEASE-ELIGIBLE.**
 
-The prior 25-candidate review passed. The controlled replacement pipeline is now hardened and remains candidate-only. The next release-critical verification is the current workflow run completing with a verifiable clean result; only after that may the exact package move to the separate explicit-authorization checkpoint. Post-mutation re-gating and the final public/technical/student/release acceptance sequence remain pending.
+The exact 25-target candidate-only replacement package is validated and ready for the separate explicit production-authorization checkpoint. Stage 11 remains pending. After authorization, only the approved one-for-one mappings may be applied, followed by affected/collective re-gating and the remaining public, technical, student, and final release acceptance stages.
