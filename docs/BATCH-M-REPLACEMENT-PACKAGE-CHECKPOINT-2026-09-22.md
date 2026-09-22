@@ -14,13 +14,13 @@ The package builder consumes the exact current 25-candidate selection and indepe
 
 ## Safety boundary
 
-This stage is candidate-only:
+The package-generation/validation stage itself is candidate-only; the separate production execution was governed by the explicit authorization record:
 
-- production mutation: **false**
+- package-generation production mutation: **false**
 - release eligible: **false**
 - SAT21 created: **false**
 - automatic replacement: **false**
-- explicit production authorization: **required**
+- explicit production authorization: **recorded and executed separately**
 
 The validation path intentionally does not silently rewrite candidate metadata to make a candidate appear canonical-compatible. Canonical normalization records the deterministic target-resolution method/source index and a SHA-256 of the target's canonical metadata; final validation checks protected operational metadata and figure type/shape compatibility.
 
@@ -39,7 +39,7 @@ The normalized artifact remains candidate-only. The final validator now rejects 
 
 **REPLACEMENT PACKAGE VALIDATED — PRODUCTION REPLACEMENT APPLIED — POST-MUTATION GATES PASS**
 
-The full candidate-only replacement-package path is verified clean in run **35697516214**: exact target-aware selection **25/25**, pre-normalization review **25/25 PASS**, canonical normalization **PASS**, post-normalization review **PASS**, and final hypothetical replacement validation **PASS**. No production mutation or authorization occurred.
+Historical candidate-only package validation in run **35697516214** was clean: exact target-aware selection **25/25**, pre-normalization review **25/25 PASS**, canonical normalization **PASS**, post-normalization review **PASS**, and final hypothetical replacement validation **PASS**. Explicit production authorization was then recorded and the exact package was successfully applied in workflow **35728264303**.
 
 A validation-path defect was also identified and corrected: the final package validator now resolves production mocks from their canonical `SAT1`/`PSAT1`/`SAT11`-style `testKey` through `BATCH_M_PRODUCTION_SEQUENCE` when the runtime mock only carries a `testId`. This prevents false target-not-found results.
 
@@ -59,10 +59,10 @@ Run **35697516214 — PASS**.
 - Canonical normalization: **PASS**.
 - Post-normalization independent review: **PASS**.
 - Final hypothetical replacement validation: **PASS**.
-- Production mutation: **false**.
-- Release eligible: **false**.
+- Package-generation production mutation: **false**.
+- Release eligible after mutation: **false**.
 - SAT21 created: **false**.
-- Explicit production authorization: **NOT GRANTED**.
+- Explicit production authorization: **GRANTED — see authorized execution below**.
 
 The former generic 58-candidate compatibility blocker is superseded by target-aware generation from the frozen replacement-preparation inventory.
 
@@ -75,7 +75,7 @@ The former generic 58-candidate compatibility blocker is superseded by target-aw
 - Production mutation: **false**.
 - Authorization: **not granted**.
 
-The package remains candidate-only. No production mutation has been executed.
+The package-validation record above is candidate-only; the separately authorized production execution is recorded below.
 
 ## Evidence
 
