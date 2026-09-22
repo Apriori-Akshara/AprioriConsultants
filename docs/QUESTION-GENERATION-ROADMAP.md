@@ -231,7 +231,7 @@ The corrected deep SAT/PSAT content-quality/diversity candidate pipeline has als
 
 The candidate-selector correction is recorded at `f52238c6a3ffafd97baca9ba291a310d5187af2f`. The 25 passed candidates are not automatically production replacements.
 
-**Current next stage:** obtain explicit production authorization for the exact validated 25-target replacement package. No production mutation has occurred. After authorization, apply only those one-for-one mappings, rerun the affected/collective gates, then complete final public student-facing inspection, technical release QC, final end-to-end student acceptance, and Batch M release acceptance.
+**Current next stage:** complete final public student-facing inspection of all 30 mocks. Stages 11–13 are complete: explicit authorization, exact 25-target controlled replacement, and post-mutation affected/collective gates. After public inspection, complete technical release QC, final end-to-end student acceptance, and final Batch M release acceptance.
 
 ### Remediation branch promotion boundary
 
