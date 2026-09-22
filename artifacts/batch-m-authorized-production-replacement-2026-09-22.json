@@ -1,0 +1,137 @@
+{
+  "date": "2026-09-22",
+  "authorization": "explicit-user-authorization-2026-09-22",
+  "packageRun": "35697516214",
+  "packageRevision": "0c2acc194c79620f031a1d8bab9c22cbaaeb722b",
+  "replacementCount": 25,
+  "productionMutation": true,
+  "releaseEligible": false,
+  "sat21Created": false,
+  "targets": [
+    {
+      "testKey": "PSAT4",
+      "questionId": "psat-mock-04-rw-008",
+      "candidateId": "BATCHM-TARGET-PSAT4-psat-mock-04-rw-008-0014"
+    },
+    {
+      "testKey": "SAT2",
+      "questionId": "sat-series-a-mock-02-rw-004",
+      "candidateId": "BATCHM-TARGET-SAT2-sat-series-a-mock-02-rw-004-0002"
+    },
+    {
+      "testKey": "SAT6",
+      "questionId": "sat-series-a-mock-06-rw-002",
+      "candidateId": "BATCHM-TARGET-SAT6-sat-series-a-mock-06-rw-002-0006"
+    },
+    {
+      "testKey": "PSAT1",
+      "questionId": "psat-mock-01-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-PSAT1-psat-mock-01-math-math-module-1-m1-01-0011"
+    },
+    {
+      "testKey": "PSAT1",
+      "questionId": "psat-mock-01-math-math-module-1-m1-02",
+      "candidateId": "BATCHM-TARGET-PSAT1-psat-mock-01-math-math-module-1-m1-02-0021"
+    },
+    {
+      "testKey": "PSAT1",
+      "questionId": "psat-mock-01-math-math-module-1-m1-03",
+      "candidateId": "BATCHM-TARGET-PSAT1-psat-mock-01-math-math-module-1-m1-03-0022"
+    },
+    {
+      "testKey": "PSAT1",
+      "questionId": "psat-mock-01-math-math-module-1-m1-04",
+      "candidateId": "BATCHM-TARGET-PSAT1-psat-mock-01-math-math-module-1-m1-04-0023"
+    },
+    {
+      "testKey": "PSAT1",
+      "questionId": "psat-mock-01-math-math-module-1-m1-06",
+      "candidateId": "BATCHM-TARGET-PSAT1-psat-mock-01-math-math-module-1-m1-06-0024"
+    },
+    {
+      "testKey": "PSAT1",
+      "questionId": "psat-mock-01-math-math-module-1-m1-07",
+      "candidateId": "BATCHM-TARGET-PSAT1-psat-mock-01-math-math-module-1-m1-07-0025"
+    },
+    {
+      "testKey": "PSAT10",
+      "questionId": "psat-mock-10-math-math-module-1-m1-02",
+      "candidateId": "BATCHM-TARGET-PSAT10-psat-mock-10-math-math-module-1-m1-02-0020"
+    },
+    {
+      "testKey": "PSAT2",
+      "questionId": "psat-mock-02-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-PSAT2-psat-mock-02-math-math-module-1-m1-01-0012"
+    },
+    {
+      "testKey": "PSAT3",
+      "questionId": "psat-mock-03-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-PSAT3-psat-mock-03-math-math-module-1-m1-01-0013"
+    },
+    {
+      "testKey": "PSAT5",
+      "questionId": "psat-mock-05-math-math-module-1-m1-02",
+      "candidateId": "BATCHM-TARGET-PSAT5-psat-mock-05-math-math-module-1-m1-02-0015"
+    },
+    {
+      "testKey": "PSAT6",
+      "questionId": "psat-mock-06-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-PSAT6-psat-mock-06-math-math-module-1-m1-01-0016"
+    },
+    {
+      "testKey": "PSAT7",
+      "questionId": "psat-mock-07-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-PSAT7-psat-mock-07-math-math-module-1-m1-01-0017"
+    },
+    {
+      "testKey": "PSAT8",
+      "questionId": "psat-mock-08-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-PSAT8-psat-mock-08-math-math-module-1-m1-01-0018"
+    },
+    {
+      "testKey": "PSAT9",
+      "questionId": "psat-mock-09-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-PSAT9-psat-mock-09-math-math-module-1-m1-01-0019"
+    },
+    {
+      "testKey": "SAT1",
+      "questionId": "sat-series-a-mock-01-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-SAT1-sat-series-a-mock-01-math-math-module-1-m1-01-0001"
+    },
+    {
+      "testKey": "SAT10",
+      "questionId": "sat-series-a-mock-10-math-math-module-1-m1-02",
+      "candidateId": "BATCHM-TARGET-SAT10-sat-series-a-mock-10-math-math-module-1-m1-02-0010"
+    },
+    {
+      "testKey": "SAT3",
+      "questionId": "sat-series-a-mock-03-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-SAT3-sat-series-a-mock-03-math-math-module-1-m1-01-0003"
+    },
+    {
+      "testKey": "SAT4",
+      "questionId": "sat-series-a-mock-04-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-SAT4-sat-series-a-mock-04-math-math-module-1-m1-01-0004"
+    },
+    {
+      "testKey": "SAT5",
+      "questionId": "sat-series-a-mock-05-math-math-module-1-m1-02",
+      "candidateId": "BATCHM-TARGET-SAT5-sat-series-a-mock-05-math-math-module-1-m1-02-0005"
+    },
+    {
+      "testKey": "SAT7",
+      "questionId": "sat-series-a-mock-07-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-SAT7-sat-series-a-mock-07-math-math-module-1-m1-01-0007"
+    },
+    {
+      "testKey": "SAT8",
+      "questionId": "sat-series-a-mock-08-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-SAT8-sat-series-a-mock-08-math-math-module-1-m1-01-0008"
+    },
+    {
+      "testKey": "SAT9",
+      "questionId": "sat-series-a-mock-09-math-math-module-1-m1-01",
+      "candidateId": "BATCHM-TARGET-SAT9-sat-series-a-mock-09-math-math-module-1-m1-01-0009"
+    }
+  ]
+}

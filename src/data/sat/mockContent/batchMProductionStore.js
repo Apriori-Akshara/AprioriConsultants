@@ -32,6 +32,7 @@ import { runBatchMSAT20ProductionGate } from './batchMSAT20ProductionGate';
 import { runBatchMFinalCorpusGate } from './batchMFinalCorpusGate';
 import { applyBatchMDeepContentQualitySingleCandidateProductionReplacement } from './batchMDeepContentQualitySingleCandidateProductionReplacement';
 import { applyBatchMCalibrationReconciliationProductionCorpus } from './batchMCalibrationReconciliationProductionOverlay';
+import { applyBatchMAuthorized25ReplacementPackage } from './batchMAuthorized25ReplacementPackage';
 
 const accepted = (label, result) => {
   if (!result?.passed || !result?.productionMock) throw new Error(`Batch M ${label}: accepted production mock was not returned by the production gate`);
@@ -112,7 +113,7 @@ const BATCH_M_BASE_PRODUCTION_CORPUS = Object.freeze([
   SAT_SERIES_B_MOCK_16_PRODUCTION, SAT_SERIES_B_MOCK_17_PRODUCTION, SAT_SERIES_B_MOCK_18_PRODUCTION, SAT_SERIES_B_MOCK_19_PRODUCTION, SAT_SERIES_B_MOCK_20_PRODUCTION,
 ]);
 
-export const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(applyBatchMCalibrationReconciliationProductionCorpus(BATCH_M_BASE_PRODUCTION_CORPUS));
+export const BATCH_M_ACCEPTED_PRODUCTION_CORPUS = Object.freeze(applyBatchMAuthorized25ReplacementPackage(applyBatchMCalibrationReconciliationProductionCorpus(BATCH_M_BASE_PRODUCTION_CORPUS)));
 
 export const BATCH_M_FINAL_CORPUS_VERIFICATION = runBatchMFinalCorpusGate(BATCH_M_ACCEPTED_PRODUCTION_CORPUS);
 
