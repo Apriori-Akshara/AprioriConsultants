@@ -281,10 +281,13 @@ function main() {
     if (hasExplicitTarget) {
       const exactKey = explicitTargetTestKey + '::' + explicitTargetQuestionId;
       const exact = productionIndex.get(exactKey);
-      const compatible = pool.some((entry) =>
-        entry.testKey === explicitTargetTestKey &&
-        String(entry.record.questionId) === explicitTargetQuestionId
-      );
+      const compatible = exact &&
+        normalize(exact.section) === normalize(candidate?.section) &&
+        normalize(exact.record.questionType) === normalize(candidate?.questionType) &&
+        normalize(exact.record.domain) === normalize(candidate?.domain) &&
+        normalize(exact.record.skill) === normalize(candidate?.skill) &&
+        (normalize(candidate?.section) !== 'math' ||
+          JSON.stringify(figureSignature(candidate)) === JSON.stringify(figureSignature(exact.record)));
       if (!exact || !compatible) {
         throw new Error(`Explicit canonical target is missing or structurally incompatible for ${id}: ${exactKey}`);
       }

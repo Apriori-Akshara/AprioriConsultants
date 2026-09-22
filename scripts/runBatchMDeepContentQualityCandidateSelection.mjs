@@ -107,11 +107,13 @@ function explicitCandidateTarget(candidate, productionIndex) {
   if (!testKey || !questionId) return null;
   const exact = productionIndex.get(`${testKey}::${questionId}`);
   if (!exact) return null;
-  const pool = canonicalTargetPool(candidate, productionIndex);
-  return pool.some((entry) =>
-    entry.testKey === exact.testKey &&
-    String(entry.record.questionId) === questionId
-  ) ? exact : null;
+  if (normalize(exact.section) !== normalize(candidate?.section)) return null;
+  if (normalize(exact.record.questionType) !== normalize(candidate?.questionType)) return null;
+  if (normalize(exact.record.domain) !== normalize(candidate?.domain)) return null;
+  if (normalize(exact.record.skill) !== normalize(candidate?.skill)) return null;
+  if (normalize(candidate?.section) === 'math' &&
+      JSON.stringify(figureSignature(candidate)) !== JSON.stringify(figureSignature(exact.record))) return null;
+  return exact;
 }
 
 function previewCanonicalTarget(targetPool, sourceIndex, reservedTargetKeys, explicitTarget = null) {
@@ -221,7 +223,7 @@ function main() {
       : null;
     const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
       exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate) &&
-      (!TARGET_AWARE || (targetPool.length > 0 && Boolean(previewTarget)));
+      (!TARGET_AWARE || Boolean(explicitTarget) && Boolean(previewTarget));
     if (!eligible) {
       let reason = 'duplicate-or-missing-identity';
       if (productionMutation) {
@@ -258,7 +260,7 @@ function main() {
         canonicalTargetCompatibility: TARGET_AWARE ? {
           eligible: true,
           resolutionMode: 'explicit-target-key-v1',
-          availableTargetCount: targetPool.length,
+          availableTargetCount: explicitTarget ? 1 : targetPool.length,
           explicitTargetTestKey: explicitTarget?.testKey || null,
           explicitTargetQuestionId: explicitTarget?.record?.questionId || null,
           canonicalSkill: canonicalSkillFor(candidate),
