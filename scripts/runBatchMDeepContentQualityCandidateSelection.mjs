@@ -305,7 +305,13 @@ function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2));
   fs.writeFileSync(OUTPUT_MD, `# Batch M deep content-quality candidate selection — ${SELECTION_DATE}\n\n- Source accepted pool: **${candidates.length}**.\n- Selected for independent review: **${selected.length}**.\n- Canonical-target-aware selection: **${TARGET_AWARE}**.\n- Rejected at selection boundary: **${rejected.length}**.\n- Production mutation: **false**.\n- Release eligible: **false**.\n- SAT21 created: **false**.\n\n## Target-class coverage\n\n${Object.entries(coverage).map(([key, value]) => `- ${key}: **${value}** selected`).join('\n')}\n\nSelection is deterministic and candidate-only. It does not replace, modify, delete, or release any production question. Independent substantive review is required before any production mutation can be considered.\n`);
-  if (TARGET_AWARE && selected.length !== 25) throw new Error(`Canonical-target-aware selection produced ${selected.length} candidates; exactly 25 are required.`);
+  if (TARGET_AWARE && selected.length !== 25) {
+    const rejectionCounts = rejected.reduce((acc, item) => {
+      acc[item.reason] = (acc[item.reason] || 0) + 1;
+      return acc;
+    }, {});
+    throw new Error(`Canonical-target-aware selection produced ${selected.length} candidates; exactly 25 are required. Rejections=${JSON.stringify(rejectionCounts)}`);
+  }
   console.log(JSON.stringify({ status: result.acceptanceDecision, sourceAcceptedCount: candidates.length, selectedCount: selected.length, rejectedCount: rejected.length, coverage, targetAware: TARGET_AWARE, productionMutation: false, releaseEligible: false, sat21Created: false }, null, 2));
 }
 
