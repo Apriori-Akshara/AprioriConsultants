@@ -6,11 +6,13 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/batch-m-canonical-replacement-package.yml'
+      - 'scripts/runBatchMDeepContentQualityCandidateSelection.mjs'
       - 'scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs'
       - 'scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs'
       - 'scripts/runBatchMDeepContentQualityIndependentReview.mjs'
       - 'src/data/sat/mockContent/batchMProductionStore.js'
       - 'src/data/sat/mockContent/batchMProductionController.js'
+      - 'package.json'
       - 'src/data/sat/mockContent/batchMContentQualityGate.js'
       - 'src/data/sat/questionSchema.js'
       - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
@@ -37,23 +39,14 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Download current 25-candidate selection
+      - name: Download current candidate pool
         uses: actions/download-artifact@v4
         with:
-          name: batch-m-current-deep-content-quality-candidate-selection
-          path: artifacts/batch-m-current-deep-content-quality-candidate-selection
+          name: batch-m-current-deep-content-quality-candidate-pool
+          path: artifacts/batch-m-deep-content-quality-remediation-candidates
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
           run-id: 35666673409
-
-      - name: Download current 25-candidate independent review
-        uses: actions/download-artifact@v4
-        with:
-          name: batch-m-deep-content-quality-independent-review
-          path: artifacts/batch-m-deep-content-quality-independent-review
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          run-id: 35666673400
 
       - name: Syntax-check Batch M package scripts
         run: |
@@ -61,22 +54,78 @@ jobs:
           node --check scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
           node --check scripts/runBatchMDeepContentQualityIndependentReview.mjs
 
+      - name: Select 25 target-compatible candidates
+        env:
+          BATCH_M_CANDIDATE_INPUT: artifacts/batch-m-deep-content-quality-remediation-candidates/BATCH-M-DEEP-CONTENT-QUALITY-REMEDIATION-CANDIDATES-2026-09-17.json
+          BATCH_M_CANDIDATE_SELECTION_DATE: 2026-09-22
+          BATCH_M_TARGET_AWARE_SELECTION: 'true'
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCandidateSelection.mjs
+
+      - name: Independent review before canonical normalization
+        env:
+          BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-22.json
+          BATCH_M_REVIEW_DATE: 2026-09-22
+          BATCH_M_REVIEW_STAGE: pre-normalization
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityIndependentReview.mjs
+
       - name: Canonically normalize the 25 candidates
         env:
-          BATCH_M_CANONICAL_NORMALIZATION_CANDIDATE_INPUT: artifacts/batch-m-current-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-17.json
-          BATCH_M_CANONICAL_NORMALIZATION_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json
+          BATCH_M_CANONICAL_NORMALIZATION_CANDIDATE_INPUT: artifacts/batch-m-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-22.json
+          BATCH_M_CANONICAL_NORMALIZATION_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-pre-normalization-2026-09-22.json
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs
 
       - name: Fresh independent review after normalization
         env:
           BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json
+          BATCH_M_REVIEW_DATE: 2026-09-22
+          BATCH_M_REVIEW_STAGE: post-normalization
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityIndependentReview.mjs
 
       - name: Final replacement-package validation
         env:
           BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT: artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json
-          BATCH_M_FINAL_PACKAGE_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-22.json
+          BATCH_M_FINAL_PACKAGE_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-post-normalization-2026-09-22.json
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
+
+      - name: Upload target-compatible selection
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-target-compatible-candidate-selection
+          path: artifacts/batch-m-deep-content-quality-candidate-selection/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload pre-normalization independent review
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-pre-normalization-independent-review
+          path: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-pre-normalization-2026-09-22.*
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload canonical-normalized candidates
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-canonical-normalized-candidates
+          path: artifacts/batch-m-deep-content-quality-canonical-normalization/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload fresh independent review
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-canonical-normalized-independent-review
+          path: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-post-normalization-2026-09-22.*
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload final replacement package
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-final-replacement-package
+          path: artifacts/batch-m-deep-content-quality-final-replacement-package/
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Upload canonical-normalized candidates
         uses: actions/upload-artifact@v4
