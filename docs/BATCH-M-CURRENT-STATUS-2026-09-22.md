@@ -23,7 +23,7 @@ The corrected candidate pipeline now produces a candidate set that has passed th
 - Production mutation: **false**
 - Release eligibility: **false**
 
-The reviewed candidates are therefore **approved candidates for the next controlled replacement-preparation stage**, but they are not themselves production replacements.
+The reviewed candidates formed the input to the exact target-aware replacement package. That package was subsequently authorized and applied to production; the current production state is governed by the exact 25-target mutation record below.
 
 The candidate-selector correction that established this current pipeline is recorded at:
 
@@ -77,7 +77,7 @@ The frozen production scope remains exactly 30 mocks. No SAT21 has been created.
 
 ## 4. Current candidate-only milestone
 
-The current candidate-only pipeline has passed substantive independent review with **25 / 25 candidates passing**. The exact target-aware replacement package then completed the full candidate-only validation chain in workflow run **35697516214 — PASS**.
+The candidate-only pipeline passed substantive independent review with **25 / 25 candidates passing**, and the exact target-aware replacement package completed the full candidate-only validation chain in workflow run **35697516214 — PASS**. That package was then explicitly authorized and applied in production workflow **35728264303 — PASS**.
 
 The required control remains:
 
@@ -97,7 +97,7 @@ The controlled package pipeline is now present in:
 
 The pipeline now generates candidates directly from exact frozen production targets identified in the September 15 replacement-preparation inventory, performs exact-target-aware selection, pre-normalization independent review, canonical normalization, post-normalization independent review, and final hypothetical replacement validation. The former generic 58-candidate pool is no longer the release-package source of truth for Batch M replacement preparation.
 
-The latest hardening prevents silent operational drift: target resolution now records an explicit method and source index; canonical operational fields are checked exactly; protected metadata is integrity-checked; figure type/shape compatibility is required; and the fresh review must explicitly identify the 2026-09-22 normalized artifact. Production mutation remains blocked.
+The latest hardening prevents silent operational drift: target resolution now records an explicit method and source index; canonical operational fields are checked exactly; protected metadata is integrity-checked; figure type/shape compatibility is required; and the fresh review must explicitly identify the 2026-09-22 normalized artifact. The candidate-only package workflow remains mutation-ineligible by design; the separate authorized production workflow has now completed successfully.
 
 ## 5. Production boundary
 
