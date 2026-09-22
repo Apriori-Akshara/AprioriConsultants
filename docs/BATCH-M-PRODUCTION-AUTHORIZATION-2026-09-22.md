@@ -58,7 +58,14 @@ The mutation script syntax was corrected in commit cb4296129aee3185f589612ee5b86
 
 The second run then exposed an identity-matching defect during the post-mutation gate: production mocks use canonical test IDs such as psat-mock-04 while the validated package targets use logical keys such as PSAT4. No production mutation was committed because the post-mutation gate failed. The correction is committed in 4ebd9374b82f8124f9a15a24e84eea9b2cdded3b and maps each approved logical target key to its existing canonical production test ID before applying the exact replacement.
 
-This documentation update intentionally re-triggers the authorized workflow so the corrected target mapping can execute. Authorization, package run, replacement count, and scope are unchanged.
+Workflow attempt 35727582563 then failed before production mutation at the exact package re-verification step. The failure was traced to the target-ID mapper introduced in 4ebd9374b82f8124f9a15a24e84eea9b2cdded3b: the JavaScript regex contained a double-escaped digit class, so valid keys such as PSAT4 were rejected as unknown.
+
+The package artifact itself was independently inspected: it contains exactly 25 unique replacement targets, all target question IDs align with their corresponding canonical production mock IDs, and the approved scope remains unchanged.
+
+The mapper was corrected to an explicit canonical-ID table in commit 89fac2ae187c2c8b6aa4f30afaac107265cbd988, with an additional canonical-target uniqueness guard in 60112e88d098db6d9c3de2ac578fa76f9a22a164. The workflow now also performs a mutation-runner syntax preflight in commit 6f9a58352f879036a690b025f4f524c5dcc3a96a before package execution.
+
+The authorized workflow is intentionally re-triggered by this documentation update. Authorization, package run 35697516214, replacement count 25, target scope, release restriction, and SAT21 prohibition remain unchanged.
+
 
 ## Safety boundary
 
