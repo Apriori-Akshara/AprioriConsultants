@@ -6,6 +6,8 @@ on:
     paths:
       - '.github/workflows/batch-m-deep-content-quality-candidate-selection.yml'
       - 'scripts/runBatchMDeepContentQualityCandidateSelection.mjs'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
 
 permissions:
   contents: read
@@ -38,7 +40,7 @@ jobs:
           run-id: 35193915000
 
       - name: Select candidates for independent review
-        run: node scripts/runBatchMDeepContentQualityCandidateSelection.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCandidateSelection.mjs
 
       - name: Upload selection artifact
         uses: actions/upload-artifact@v4
