@@ -16,7 +16,7 @@
     "qc:batch-m-final-30-mock-corpus": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMFinalCorpusGate.js",
     "qc:batch-m-cross-corpus-calibration": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMCrossCorpusCalibration.js",
     "qc:batch-m-deep-content-quality": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityDiversityQC.mjs",
-    "qc:batch-m-deep-content-quality-independent-review": "node scripts/runBatchMDeepContentQualityIndependentReview.mjs",
+    "qc:batch-m-deep-content-quality-independent-review": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityIndependentReview.mjs",
     "qc:batch-m-deep-content-quality-targeted-remediation": "node scripts/runBatchMDeepContentQualityTargetedRemediation.mjs",
     "qc:batch-m-deep-content-quality-single-candidate-remediation": "node scripts/runBatchMDeepContentQualitySingleCandidateRemediation.mjs",
     "qc:batch-m-deep-content-quality-single-candidate-target-resolution": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualitySingleCandidateTargetResolution.mjs",
