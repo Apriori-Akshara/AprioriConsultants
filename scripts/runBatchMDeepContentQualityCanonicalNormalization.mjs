@@ -257,6 +257,9 @@ function main() {
 
     const pool = targetPool(candidate, productionIndex);
     const sourceIndex = Math.abs(Number(candidate?.metadata?.remediationPool?.sourceIndex || 0));
+    if (!Number.isInteger(sourceIndex) || sourceIndex < 0) {
+      throw new Error(`Candidate ${id} has an invalid deterministic target sourceIndex.`);
+    }
     let target = null;
     if (pool.length) {
       const start = sourceIndex % pool.length;
