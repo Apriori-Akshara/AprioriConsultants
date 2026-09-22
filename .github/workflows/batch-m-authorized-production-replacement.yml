@@ -44,7 +44,7 @@ jobs:
           PACKAGE_RUN: 35697516214
         run: |
           mkdir -p artifacts/batch-m-final-replacement-package
-          gh api --paginate "/repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" --jq '.artifacts[] | select(.name=="batch-m-final-replacement-package" and .workflow_run.id==env.PACKAGE_RUN and .expired==false) | .id' | head -n 1 > /tmp/artifact_id
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${PACKAGE_RUN}/artifacts?per_page=100" --jq '.artifacts[] | select(.name=="batch-m-final-replacement-package" and .expired==false) | .id' | head -n 1 > /tmp/artifact_id
           test -s /tmp/artifact_id
           gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/$(cat /tmp/artifact_id)/zip" > /tmp/package.zip
           unzip -o /tmp/package.zip -d artifacts/batch-m-final-replacement-package
