@@ -27,7 +27,7 @@ function main() {
   const seen = new Set();
   const replacements = pkg.replacements.map((item) => {
     const key = `${String(item.targetTestKey).toUpperCase()}::${item.targetQuestionId}`;
-    if (!item.candidateId || seen.has(key)) throw new Error(`Duplicate/missing target: ${key}`);
+    if (!item.candidateId || seen.has(key)) throw new Error('Duplicate/missing target: ' + key);
     seen.add(key);
     return {
       testKey: String(item.targetTestKey).toUpperCase(),
@@ -65,14 +65,14 @@ export function applyBatchMAuthorized25ReplacementPackage(corpus) {
   const seenTargets = new Set();
   for (const item of REPLACEMENTS) {
     const mock = output.find((candidate) => String(candidate?.testKey || candidate?.testId || '').trim().toUpperCase() === item.testKey || String(candidate?.testId || '').trim().toUpperCase() === item.testKey);
-    if (!mock) throw new Error(`Batch M authorized replacement package: target mock ${item.testKey} not found`);
+    if (!mock) throw new Error('Batch M authorized replacement package: target mock ' + item.testKey + ' not found');
     const section = item.content.passageId ? 'readingWriting' : 'math';
     const records = mock[section] || [];
     const index = records.findIndex((record) => String(record?.questionId) === item.questionId);
-    if (index < 0) throw new Error(`Batch M authorized replacement package: target ${item.testKey}::${item.questionId} not found`);
+    if (index < 0) throw new Error('Batch M authorized replacement package: target ' + item.testKey + '::' + item.questionId + ' not found');
     const target = records[index];
-    const targetKey = `${item.testKey}::${item.questionId}`;
-    if (seenTargets.has(targetKey)) throw new Error(`Batch M authorized replacement package: duplicate target ${targetKey}`);
+    const targetKey = item.testKey + '::' + item.questionId;
+    if (seenTargets.has(targetKey)) throw new Error('Batch M authorized replacement package: duplicate target ' + targetKey);
     seenTargets.add(targetKey);
     const replacement = {
       ...target,
@@ -108,10 +108,10 @@ export function applyBatchMAuthorized25ReplacementPackage(corpus) {
         }
       }
     };
-    if (replacement.testId !== target.testId || replacement.questionId !== target.questionId) throw new Error(`Batch M authorized replacement package: production identity changed for ${targetKey}`);
+    if (replacement.testId !== target.testId || replacement.questionId !== target.questionId) throw new Error('Batch M authorized replacement package: production identity changed for ' + targetKey);
     records[index] = replacement;
   }
-  if (seenTargets.size !== 25) throw new Error(`Batch M authorized replacement package: expected 25 replacements, applied ${seenTargets.size}`);
+  if (seenTargets.size !== 25) throw new Error('Batch M authorized replacement package: expected 25 replacements, applied ' + seenTargets.size);
   return output;
 }
 
