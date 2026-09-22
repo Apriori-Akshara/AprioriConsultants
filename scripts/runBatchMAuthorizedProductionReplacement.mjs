@@ -14,6 +14,22 @@ const EXPECTED_RUN = '35697516214';
 function load(file) { return JSON.parse(fs.readFileSync(file, 'utf8')); }
 function q(v) { return JSON.stringify(v); }
 
+function productionTestId(testKey) {
+  const key = String(testKey || '').trim().toUpperCase();
+  const sat = key.match(/^SAT(\\d+)$/);
+  if (sat) {
+    const number = Number(sat[1]);
+    if (number >= 1 && number <= 10) return `sat-series-a-mock-${String(number).padStart(2, '0')}`;
+    if (number >= 11 && number <= 20) return `sat-series-b-mock-${String(number).padStart(2, '0')}`;
+  }
+  const psat = key.match(/^PSAT(\\d+)$/);
+  if (psat) {
+    const number = Number(psat[1]);
+    if (number >= 1 && number <= 10) return `psat-mock-${String(number).padStart(2, '0')}`;
+  }
+  throw new Error('Unknown Batch M production target key: ' + key);
+}
+
 function main() {
   if (process.env.BATCH_M_PRODUCTION_AUTHORIZATION !== AUTH_MARKER) throw new Error('Production mutation blocked: explicit authorization marker missing.');
   const pkg = load(PACKAGE);
@@ -31,6 +47,7 @@ function main() {
     seen.add(key);
     return {
       testKey: String(item.targetTestKey).toUpperCase(),
+      testId: productionTestId(item.targetTestKey),
       questionId: String(item.targetQuestionId),
       candidateId: String(item.candidateId),
       content: {
@@ -64,7 +81,7 @@ export function applyBatchMAuthorized25ReplacementPackage(corpus) {
   const output = clone(corpus);
   const seenTargets = new Set();
   for (const item of REPLACEMENTS) {
-    const mock = output.find((candidate) => String(candidate?.testKey || candidate?.testId || '').trim().toUpperCase() === item.testKey || String(candidate?.testId || '').trim().toUpperCase() === item.testKey);
+    const mock = output.find((candidate) => String(candidate?.testKey || '').trim().toUpperCase() === item.testKey || String(candidate?.testId || '').trim() === item.testId);
     if (!mock) throw new Error('Batch M authorized replacement package: target mock ' + item.testKey + ' not found');
     const section = item.content.passageId ? 'readingWriting' : 'math';
     const records = mock[section] || [];
