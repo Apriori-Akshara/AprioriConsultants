@@ -24,6 +24,12 @@ const OUTPUT_MD = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const normalize = (value) => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+const canonicalSection = (value) => {
+  const normalized = normalize(value).replace(/[_\s]+/g, '-');
+  if (normalized === 'readingwriting' || normalized === 'reading-writing') return 'reading-writing';
+  if (normalized === 'math') return 'math';
+  return normalized;
+};
 
 function stableStringify(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
@@ -282,7 +288,7 @@ function main() {
       const exactKey = explicitTargetTestKey + '::' + explicitTargetQuestionId;
       const exact = productionIndex.get(exactKey);
       const compatible = exact &&
-        normalize(exact.section) === normalize(candidate?.section) &&
+        canonicalSection(exact.section) === canonicalSection(candidate?.section) &&
         normalize(exact.record.questionType) === normalize(candidate?.questionType) &&
         normalize(exact.record.domain) === normalize(candidate?.domain) &&
         normalize(exact.record.skill) === normalize(candidate?.skill) &&

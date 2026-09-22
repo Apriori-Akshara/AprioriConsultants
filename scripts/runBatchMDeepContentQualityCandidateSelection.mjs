@@ -34,6 +34,13 @@ function testKeyForTestId(testId) {
   )?.testKey || normalized;
 }
 
+function canonicalSection(value) {
+  const normalized = normalize(value).replace(/[_\s]+/g, '-');
+  if (normalized === 'readingwriting' || normalized === 'reading-writing') return 'reading-writing';
+  if (normalized === 'math') return 'math';
+  return normalized;
+}
+
 function canonicalSkillFor(candidate) {
   const skill = normalize(candidate?.skill);
   return {
@@ -78,7 +85,7 @@ function canonicalTargetPool(candidate, productionIndex) {
 
   return [...productionIndex.values()]
     .filter((entry) => entry.testKey === testKey)
-    .filter((entry) => normalize(entry.section) === candidateSection)
+    .filter((entry) => canonicalSection(entry.section) === canonicalSection(candidateSection))
     // Module and difficulty are canonical structural fields that may be normalized
     // from an existing production target. Do not allow changes to the content type,
     // domain, skill, or figure structure.
@@ -107,7 +114,7 @@ function explicitCandidateTarget(candidate, productionIndex) {
   if (!testKey || !questionId) return null;
   const exact = productionIndex.get(`${testKey}::${questionId}`);
   if (!exact) return null;
-  if (normalize(exact.section) !== normalize(candidate?.section)) return null;
+  if (canonicalSection(exact.section) !== canonicalSection(candidate?.section)) return null;
   if (normalize(exact.record.questionType) !== normalize(candidate?.questionType)) return null;
   if (normalize(exact.record.domain) !== normalize(candidate?.domain)) return null;
   if (normalize(exact.record.skill) !== normalize(candidate?.skill)) return null;
