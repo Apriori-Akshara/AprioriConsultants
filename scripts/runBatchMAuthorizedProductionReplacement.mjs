@@ -14,20 +14,44 @@ const EXPECTED_RUN = '35697516214';
 function load(file) { return JSON.parse(fs.readFileSync(file, 'utf8')); }
 function q(v) { return JSON.stringify(v); }
 
+const CANONICAL_TEST_IDS = Object.freeze({
+  SAT1: 'sat-series-a-mock-01',
+  SAT2: 'sat-series-a-mock-02',
+  SAT3: 'sat-series-a-mock-03',
+  SAT4: 'sat-series-a-mock-04',
+  SAT5: 'sat-series-a-mock-05',
+  SAT6: 'sat-series-a-mock-06',
+  SAT7: 'sat-series-a-mock-07',
+  SAT8: 'sat-series-a-mock-08',
+  SAT9: 'sat-series-a-mock-09',
+  SAT10: 'sat-series-a-mock-10',
+  PSAT1: 'psat-mock-01',
+  PSAT2: 'psat-mock-02',
+  PSAT3: 'psat-mock-03',
+  PSAT4: 'psat-mock-04',
+  PSAT5: 'psat-mock-05',
+  PSAT6: 'psat-mock-06',
+  PSAT7: 'psat-mock-07',
+  PSAT8: 'psat-mock-08',
+  PSAT9: 'psat-mock-09',
+  PSAT10: 'psat-mock-10',
+  SAT11: 'sat-series-b-mock-11',
+  SAT12: 'sat-series-b-mock-12',
+  SAT13: 'sat-series-b-mock-13',
+  SAT14: 'sat-series-b-mock-14',
+  SAT15: 'sat-series-b-mock-15',
+  SAT16: 'sat-series-b-mock-16',
+  SAT17: 'sat-series-b-mock-17',
+  SAT18: 'sat-series-b-mock-18',
+  SAT19: 'sat-series-b-mock-19',
+  SAT20: 'sat-series-b-mock-20',
+});
+
 function productionTestId(testKey) {
   const key = String(testKey || '').trim().toUpperCase();
-  const sat = key.match(/^SAT(\\d+)$/);
-  if (sat) {
-    const number = Number(sat[1]);
-    if (number >= 1 && number <= 10) return `sat-series-a-mock-${String(number).padStart(2, '0')}`;
-    if (number >= 11 && number <= 20) return `sat-series-b-mock-${String(number).padStart(2, '0')}`;
-  }
-  const psat = key.match(/^PSAT(\\d+)$/);
-  if (psat) {
-    const number = Number(psat[1]);
-    if (number >= 1 && number <= 10) return `psat-mock-${String(number).padStart(2, '0')}`;
-  }
-  throw new Error('Unknown Batch M production target key: ' + key);
+  const testId = CANONICAL_TEST_IDS[key];
+  if (!testId) throw new Error('Unknown Batch M production target key: ' + key);
+  return testId;
 }
 
 function main() {
