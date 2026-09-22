@@ -79,8 +79,9 @@ function canonicalTargetPool(candidate, productionIndex) {
   return [...productionIndex.values()]
     .filter((entry) => entry.testKey === testKey)
     .filter((entry) => normalize(entry.section) === candidateSection)
-    .filter((entry) => normalize(entry.record.module) === candidateModule)
-    .filter((entry) => normalize(entry.record.difficulty) === candidateDifficulty)
+    // Module and difficulty are canonical structural fields that may be normalized
+    // from an existing production target. Do not allow changes to the content type,
+    // domain, skill, or figure structure.
     .filter((entry) => normalize(entry.record.questionType) === candidateQuestionType)
     .filter((entry) => normalize(entry.record.domain) === candidateDomain)
     .filter((entry) => normalize(entry.record.skill) === canonicalSkill)
@@ -88,7 +89,15 @@ function canonicalTargetPool(candidate, productionIndex) {
       if (candidateSection !== 'math') return true;
       return JSON.stringify(figureSignature(candidate)) === JSON.stringify(figureSignature(entry.record));
     })
-    .sort((a, b) => String(a.record.questionId).localeCompare(String(b.record.questionId)));
+    .sort((a, b) => {
+      const aDifficulty = Number(normalize(a.record.difficulty) !== candidateDifficulty);
+      const bDifficulty = Number(normalize(b.record.difficulty) !== candidateDifficulty);
+      const aModule = Number(normalize(a.record.module) !== candidateModule);
+      const bModule = Number(normalize(b.record.module) !== candidateModule);
+      return (aDifficulty - bDifficulty) ||
+        (aModule - bModule) ||
+        String(a.record.questionId).localeCompare(String(b.record.questionId));
+    });
 }
 
 function score(candidate) {
@@ -118,6 +127,7 @@ function main() {
   const templateCounts = new Map();
   const promptChoiceSeen = new Set();
   const exactPromptSeen = new Set();
+  const reservedTargetKeys = new Set();
 
   function semanticTemplate(candidate) {
     return String(candidate?.prompt || '')
@@ -175,9 +185,15 @@ function main() {
     const promptChoice = promptChoiceSignature(candidate);
     const templateCount = templateCounts.get(template) || 0;
     const targetPool = TARGET_AWARE ? canonicalTargetPool(candidate, productionIndex) : [];
+    const sourceIndex = Math.abs(Number(candidate?.metadata?.remediationPool?.sourceIndex || 0));
+    const previewTarget = TARGET_AWARE && targetPool.length
+      ? targetPool.find((entry, index) =>
+          !reservedTargetKeys.has(`${entry.testKey}::${entry.record.questionId}`)
+        , sourceIndex % targetPool.length)
+      : null;
     const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
       exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate) &&
-      (!TARGET_AWARE || targetPool.length > 0);
+      (!TARGET_AWARE || (targetPool.length > 0 && Boolean(previewTarget)));
     if (!eligible) {
       let reason = 'duplicate-or-missing-identity';
       if (productionMutation) {
@@ -190,7 +206,7 @@ function main() {
         reason = 'duplicate-normalized-prompt';
       } else if (promptChoiceSeen.has(promptChoice)) {
         reason = 'duplicate-prompt-choice-construction';
-      } else if (TARGET_AWARE && !canonicalTargetPool(candidate, productionIndex).length) {
+      } else if (TARGET_AWARE && (!canonicalTargetPool(candidate, productionIndex).length || !previewTarget)) {
         reason = 'no-canonical-target-available';
       } else if (!preReviewEligible(candidate)) {
         reason = 'pre-review-substantive-screen';
@@ -203,6 +219,7 @@ function main() {
     exactPromptSeen.add(exactPrompt);
     promptChoiceSeen.add(promptChoice);
     templateCounts.set(template, templateCount + 1);
+    if (TARGET_AWARE && previewTarget) reservedTargetKeys.add(`${previewTarget.testKey}::${previewTarget.record.questionId}`);
     selected.push({
       ...candidate,
       selection: {
@@ -214,6 +231,10 @@ function main() {
           eligible: true,
           availableTargetCount: targetPool.length,
           canonicalSkill: canonicalSkillFor(candidate),
+          sourceModule: candidate.module,
+          sourceDifficulty: candidate.difficulty,
+          previewTargetModule: previewTarget?.record?.module || null,
+          previewTargetDifficulty: previewTarget?.record?.difficulty || null,
         } : null,
         productionMutation: false,
         releaseEligible: false,
