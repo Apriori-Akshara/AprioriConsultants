@@ -65,18 +65,18 @@ jobs:
         env:
           BATCH_M_CANONICAL_NORMALIZATION_CANDIDATE_INPUT: artifacts/batch-m-current-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-17.json
           BATCH_M_CANONICAL_NORMALIZATION_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json
-        run: node scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs
 
       - name: Fresh independent review after normalization
         env:
           BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json
-        run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityIndependentReview.mjs
 
       - name: Final replacement-package validation
         env:
           BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT: artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json
           BATCH_M_FINAL_PACKAGE_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-22.json
-        run: node scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
 
       - name: Upload canonical-normalized candidates
         uses: actions/upload-artifact@v4
