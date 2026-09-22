@@ -13,8 +13,10 @@ const INPUT = process.env.BATCH_M_SELECTION_INPUT || 'artifacts/batch-m-deep-con
 const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-independent-review';
 const inferredReviewDate = String(INPUT).match(/20\d{2}-\d{2}-\d{2}/)?.[0] || new Date().toISOString().slice(0, 10);
 const REVIEW_DATE = process.env.BATCH_M_REVIEW_DATE || inferredReviewDate;
-const OUTPUT_JSON = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-${REVIEW_DATE}.json`;
-const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-${REVIEW_DATE}.md`;
+const REVIEW_STAGE = String(process.env.BATCH_M_REVIEW_STAGE || '').trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-');
+const REVIEW_TAG = REVIEW_STAGE ? `-${REVIEW_STAGE}` : '';
+const OUTPUT_JSON = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW${REVIEW_TAG}-${REVIEW_DATE}.json`;
+const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW${REVIEW_TAG}-${REVIEW_DATE}.md`;
 
 const GENERIC_EXPLANATIONS = [
   'The keyed choice matches the item-specific evidence, rhetorical relationship, communication goal, or grammatical constraint established by the construction.',
@@ -219,6 +221,7 @@ const result = {
   reportType: 'batch-m-deep-content-quality-independent-review',
   date: REVIEW_DATE,
   sourceArtifact: path.basename(INPUT),
+  reviewStage: REVIEW_STAGE || 'default',
   sourceSelectedCount: candidates.length,
   counts,
   coverage,
@@ -239,7 +242,7 @@ const result = {
 fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2));
 const lines = [
-  `# Batch M deep content-quality independent substantive review — ${REVIEW_DATE}`,
+  `# Batch M deep content-quality independent substantive review — ${REVIEW_DATE}${REVIEW_STAGE ? ` (${REVIEW_STAGE})` : ''}`,
   '',
   `- Selected candidates reviewed: **${candidates.length}**`,
   `- PASS: **${counts.pass}**`,
