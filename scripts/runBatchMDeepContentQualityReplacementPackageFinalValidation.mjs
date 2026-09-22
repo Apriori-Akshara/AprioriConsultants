@@ -15,7 +15,7 @@ import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMConten
 const NORMALIZED_INPUT = process.env.BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT ||
   'artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json';
 const REVIEW_INPUT = process.env.BATCH_M_FINAL_PACKAGE_REVIEW_INPUT ||
-  'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json';
+  'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-22.json';
 const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-final-replacement-package';
 const OUTPUT_JSON = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.json');
 const OUTPUT_MD = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.md');
@@ -165,7 +165,7 @@ function main() {
   if (reviewSource.sourceArtifact !== path.basename(NORMALIZED_INPUT)) {
     throw new Error(`Fresh review source mismatch: expected ${path.basename(NORMALIZED_INPUT)}, found ${reviewSource.sourceArtifact || 'missing'}`);
   }
-  const expectedReviewDate = path.basename(NORMALIZED_INPUT).match(/20\\d{2}-\\d{2}-\\d{2}/)?.[0];
+  const expectedReviewDate = path.basename(NORMALIZED_INPUT).match(/20\d{2}-\d{2}-\d{2}/)?.[0];
   if (!expectedReviewDate || reviewSource.date !== expectedReviewDate) {
     throw new Error(`Fresh review date mismatch: expected ${expectedReviewDate || 'normalized-input date'}, found ${reviewSource.date || 'missing'}`);
   }
