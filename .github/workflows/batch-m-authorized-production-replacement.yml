@@ -1,0 +1,80 @@
+name: Batch M authorized production replacement
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/BATCH-M-PRODUCTION-AUTHORIZATION-2026-09-22.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  authorized-production-replacement:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify explicit authorization record
+        run: |
+          test -f docs/BATCH-M-PRODUCTION-AUTHORIZATION-2026-09-22.md
+          grep -q 'AUTHORIZATION_STATUS: AUTHORIZED' docs/BATCH-M-PRODUCTION-AUTHORIZATION-2026-09-22.md
+          grep -q 'PACKAGE_RUN: 35697516214' docs/BATCH-M-PRODUCTION-AUTHORIZATION-2026-09-22.md
+          grep -q 'REPLACEMENT_COUNT: 25' docs/BATCH-M-PRODUCTION-AUTHORIZATION-2026-09-22.md
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.1
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Download exact validated package artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PACKAGE_RUN: 35697516214
+        run: |
+          mkdir -p artifacts/batch-m-final-replacement-package
+          gh api --paginate "/repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" --jq '.artifacts[] | select(.name=="batch-m-final-replacement-package" and .workflow_run.id==env.PACKAGE_RUN and .expired==false) | .id' | head -n 1 > /tmp/artifact_id
+          test -s /tmp/artifact_id
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/$(cat /tmp/artifact_id)/zip" > /tmp/package.zip
+          unzip -o /tmp/package.zip -d artifacts/batch-m-final-replacement-package
+          test -f artifacts/batch-m-final-replacement-package/BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.json
+
+      - name: Re-verify exact package before mutation
+        env:
+          BATCH_M_PRODUCTION_AUTHORIZATION: explicit-user-authorization-2026-09-22
+          BATCH_M_PACKAGE_RUN: 35697516214
+        run: node scripts/runBatchMAuthorizedProductionReplacement.mjs
+
+      - name: Verify generated production mutation
+        run: |
+          test -f src/data/sat/mockContent/batchMAuthorized25ReplacementPackage.js
+          grep -q 'replacementCount: 25' src/data/sat/mockContent/batchMAuthorized25ReplacementPackage.js
+          grep -q 'productionMutation: true' src/data/sat/mockContent/batchMAuthorized25ReplacementPackage.js
+          node --check scripts/runBatchMAuthorizedProductionReplacement.mjs
+          node --check src/data/sat/mockContent/batchMAuthorized25ReplacementPackage.js
+
+      - name: Run production corpus gates
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
+        env:
+          BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT: artifacts/batch-m-final-replacement-package/BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.json
+          BATCH_M_FINAL_PACKAGE_REVIEW_INPUT: artifacts/batch-m-final-replacement-package/BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.json
+
+      - name: Commit authorized production mutation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/sat/mockContent/batchMProductionStore.js src/data/sat/mockContent/batchMAuthorized25ReplacementPackage.js artifacts/batch-m-authorized-production-replacement-2026-09-22.json
+          git diff --cached --quiet && { echo "No production mutation changes detected."; exit 1; } || true
+          git commit -m "feat: apply authorized Batch M 25-target production replacement"
+          git push origin main
