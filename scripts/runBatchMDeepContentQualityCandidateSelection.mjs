@@ -100,6 +100,17 @@ function canonicalTargetPool(candidate, productionIndex) {
     });
 }
 
+function previewCanonicalTarget(targetPool, sourceIndex, reservedTargetKeys) {
+  if (!Array.isArray(targetPool) || !targetPool.length) return null;
+  const start = sourceIndex % targetPool.length;
+  for (let offset = 0; offset < targetPool.length; offset += 1) {
+    const entry = targetPool[(start + offset) % targetPool.length];
+    const key = `${entry.testKey}::${entry.record.questionId}`;
+    if (!reservedTargetKeys.has(key)) return entry;
+  }
+  return null;
+}
+
 function score(candidate) {
   const targets = candidate?.metadata?.remediationPool?.targetClasses || [];
   let value = targets.length * 10;
@@ -186,10 +197,8 @@ function main() {
     const templateCount = templateCounts.get(template) || 0;
     const targetPool = TARGET_AWARE ? canonicalTargetPool(candidate, productionIndex) : [];
     const sourceIndex = Math.abs(Number(candidate?.metadata?.remediationPool?.sourceIndex || 0));
-    const previewTarget = TARGET_AWARE && targetPool.length
-      ? targetPool.find((entry, index) =>
-          !reservedTargetKeys.has(`${entry.testKey}::${entry.record.questionId}`)
-        , sourceIndex % targetPool.length)
+    const previewTarget = TARGET_AWARE
+      ? previewCanonicalTarget(targetPool, sourceIndex, reservedTargetKeys)
       : null;
     const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
       exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate) &&
