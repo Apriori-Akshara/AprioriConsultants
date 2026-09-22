@@ -80,6 +80,7 @@ function main() {
       testKey,
       testId,
       questionId,
+      section: String(item.candidate.section || ''),
       candidateId: String(item.candidateId),
       content: {
         prompt: item.candidate.prompt,
@@ -114,11 +115,18 @@ export function applyBatchMAuthorized25ReplacementPackage(corpus) {
   for (const item of REPLACEMENTS) {
     const mock = output.find((candidate) => String(candidate?.testKey || '').trim().toUpperCase() === item.testKey || String(candidate?.testId || '').trim() === item.testId);
     if (!mock) throw new Error('Batch M authorized replacement package: target mock ' + item.testKey + ' not found');
-    const section = item.content.passageId ? 'readingWriting' : 'math';
+    const section = item.section === 'reading-writing' ? 'readingWriting' : item.section === 'math' ? 'math' : null;
+    if (!section) throw new Error('Batch M authorized replacement package: unsupported candidate section for ' + item.testKey + '::' + item.questionId);
+    const expectedRecordSection = section === 'readingWriting' ? 'reading-writing' : 'math';
     const records = mock[section] || [];
+    if (!records.length) throw new Error('Batch M authorized replacement package: target section is empty for ' + item.testKey);
+    const targetSectionMatches = records.every((record) => String(record?.section || '').trim() === expectedRecordSection);
+    if (!targetSectionMatches) throw new Error('Batch M authorized replacement package: target section identity mismatch in ' + item.testKey);
     const index = records.findIndex((record) => String(record?.questionId) === item.questionId);
     if (index < 0) throw new Error('Batch M authorized replacement package: target ' + item.testKey + '::' + item.questionId + ' not found');
     const target = records[index];
+    if (String(target.section || '').trim() !== expectedRecordSection) throw new Error('Batch M authorized replacement package: candidate/target section mismatch for ' + item.testKey + '::' + item.questionId);
+    if (String(target.testId || '').trim() !== item.testId) throw new Error('Batch M authorized replacement package: target canonical testId mismatch for ' + item.testKey + '::' + item.questionId);
     const targetKey = item.testKey + '::' + item.questionId;
     if (seenTargets.has(targetKey)) throw new Error('Batch M authorized replacement package: duplicate target ' + targetKey);
     seenTargets.add(targetKey);
