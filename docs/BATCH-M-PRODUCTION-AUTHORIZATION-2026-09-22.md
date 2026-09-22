@@ -46,6 +46,14 @@ The production mutation workflow must:
 
 This authorization does not constitute final Batch M release acceptance. The remaining public inspection, technical QC, student acceptance, and final release acceptance stages remain required.
 
+## Execution checkpoint
+
+The first authorized production workflow attempt was run 35722753346. It stopped before production mutation because the workflow's artifact lookup queried the repository-wide artifact list incorrectly. No production mutation occurred in that attempt.
+
+The retrieval logic was corrected in commit 96aee3d79c1faa7b22b4d62c5aacbcf3a7d29d13 to query artifacts directly from validation run 35697516214.
+
+This documentation update intentionally re-triggers the authorized workflow so the corrected exact-package retrieval path can execute. Authorization, package run, replacement count, and scope are unchanged.
+
 ## Safety boundary
 
 No broad regeneration, unrelated replacement, production-scope expansion, automatic selection of a different package, or release-status promotion is authorized by this record.
