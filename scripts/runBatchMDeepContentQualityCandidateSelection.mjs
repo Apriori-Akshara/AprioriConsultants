@@ -7,15 +7,88 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import { BATCH_M_PRODUCTION_SEQUENCE } from '../src/data/sat/mockContent/batchMProductionController.js';
 
 const INPUT = process.env.BATCH_M_CANDIDATE_INPUT || 'artifacts/batch-m-deep-content-quality-remediation-candidates/BATCH-M-DEEP-CONTENT-QUALITY-REMEDIATION-CANDIDATES-2026-09-17.json';
 const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-candidate-selection';
-const OUTPUT_JSON = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-17.json`;
-const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-17.md`;
+const SELECTION_DATE = process.env.BATCH_M_CANDIDATE_SELECTION_DATE || '2026-09-17';
+const TARGET_AWARE = process.env.BATCH_M_TARGET_AWARE_SELECTION === 'true';
+const OUTPUT_JSON = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-${SELECTION_DATE}.json`;
+const OUTPUT_MD = `${OUTPUT_DIR}/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-${SELECTION_DATE}.md`;
 
 function readInput() {
   if (!fs.existsSync(INPUT)) throw new Error(`Candidate artifact not found: ${INPUT}`);
   return JSON.parse(fs.readFileSync(INPUT, 'utf8'));
+}
+
+function normalize(value) {
+  return String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function testKeyForTestId(testId) {
+  const normalized = String(testId || '').trim().toUpperCase();
+  return BATCH_M_PRODUCTION_SEQUENCE.find((entry) =>
+    String(entry.testKey).toUpperCase() === normalized ||
+    String(entry.testId).toUpperCase() === normalized
+  )?.testKey || normalized;
+}
+
+function canonicalSkillFor(candidate) {
+  const skill = normalize(candidate?.skill);
+  return {
+    'scatterplot interpretation': 'data models',
+    'equivalent exponential representations': 'exponential equations',
+    'right-triangle relationships': 'right triangles',
+    'linear relationships': 'linear functions',
+  }[skill] || skill;
+}
+
+function figureSignature(question) {
+  const figure = question?.figure;
+  if (!figure) return null;
+  return { type: normalize(figure.type), shape: normalize(figure.shape) };
+}
+
+function buildProductionIndex() {
+  const map = new Map();
+  for (const mock of BATCH_M_ACCEPTED_PRODUCTION_CORPUS) {
+    const testKey = String(mock?.testKey || testKeyForTestId(mock?.testId)).toUpperCase();
+    for (const section of ['readingWriting', 'math']) {
+      for (const record of Array.isArray(mock?.[section]) ? mock[section] : []) {
+        const questionId = String(record?.questionId || '');
+        if (!questionId) continue;
+        const key = `${testKey}::${questionId}`;
+        if (map.has(key)) throw new Error(`Duplicate frozen production identity: ${key}`);
+        map.set(key, { testKey, section, record });
+      }
+    }
+  }
+  return map;
+}
+
+function canonicalTargetPool(candidate, productionIndex) {
+  const testKey = testKeyForTestId(candidate?.testId);
+  const candidateSection = normalize(candidate?.section);
+  const candidateModule = normalize(candidate?.module);
+  const candidateDifficulty = normalize(candidate?.difficulty);
+  const candidateQuestionType = normalize(candidate?.questionType);
+  const candidateDomain = normalize(candidate?.domain);
+  const canonicalSkill = canonicalSkillFor(candidate);
+
+  return [...productionIndex.values()]
+    .filter((entry) => entry.testKey === testKey)
+    .filter((entry) => normalize(entry.section) === candidateSection)
+    .filter((entry) => normalize(entry.record.module) === candidateModule)
+    .filter((entry) => normalize(entry.record.difficulty) === candidateDifficulty)
+    .filter((entry) => normalize(entry.record.questionType) === candidateQuestionType)
+    .filter((entry) => normalize(entry.record.domain) === candidateDomain)
+    .filter((entry) => normalize(entry.record.skill) === canonicalSkill)
+    .filter((entry) => {
+      if (candidateSection !== 'math') return true;
+      return JSON.stringify(figureSignature(candidate)) === JSON.stringify(figureSignature(entry.record));
+    })
+    .sort((a, b) => String(a.record.questionId).localeCompare(String(b.record.questionId)));
 }
 
 function score(candidate) {
@@ -37,6 +110,7 @@ function main() {
   const candidates = Array.isArray(source.candidates) ? source.candidates : [];
   if (!candidates.length) throw new Error('Candidate pool is empty.');
 
+  const productionIndex = TARGET_AWARE ? buildProductionIndex() : null;
   const seenIds = new Set();
   const seenFingerprints = new Set();
   const selected = [];
@@ -100,8 +174,10 @@ function main() {
     const template = semanticTemplate(candidate);
     const promptChoice = promptChoiceSignature(candidate);
     const templateCount = templateCounts.get(template) || 0;
+    const targetPool = TARGET_AWARE ? canonicalTargetPool(candidate, productionIndex) : [];
     const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
-      exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate);
+      exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate) &&
+      (!TARGET_AWARE || targetPool.length > 0);
     if (!eligible) {
       let reason = 'duplicate-or-missing-identity';
       if (productionMutation) {
@@ -114,6 +190,10 @@ function main() {
         reason = 'duplicate-normalized-prompt';
       } else if (promptChoiceSeen.has(promptChoice)) {
         reason = 'duplicate-prompt-choice-construction';
+      } else if (TARGET_AWARE && !canonicalTargetPool(candidate, productionIndex).length) {
+        reason = 'no-canonical-target-available';
+      } else if (TARGET_AWARE && !canonicalTargetPool(candidate, productionIndex).length) {
+        reason = 'no-canonical-target-available';
       } else if (!preReviewEligible(candidate)) {
         reason = 'pre-review-substantive-screen';
       }
@@ -132,6 +212,11 @@ function main() {
         selectionScore: score(candidate),
         independentReviewRequired: true,
         diversitySelection: { semanticTemplateLimit: 3, exactPromptLimit: 1, promptChoiceLimit: 1 },
+        canonicalTargetCompatibility: TARGET_AWARE ? {
+          eligible: true,
+          availableTargetCount: targetPool.length,
+          canonicalSkill: canonicalSkillFor(candidate),
+        } : null,
         productionMutation: false,
         releaseEligible: false,
         sat21Created: false
@@ -148,7 +233,7 @@ function main() {
 
   const result = {
     reportType: 'batch-m-deep-content-quality-candidate-selection',
-    date: '2026-09-17',
+    date: SELECTION_DATE,
     sourceArtifact: path.basename(INPUT),
     sourceGeneratedCount: source.generatedCount ?? null,
     sourceAcceptedCount: candidates.length,
@@ -160,14 +245,16 @@ function main() {
     productionMutation: false,
     releaseEligible: false,
     sat21Created: false,
-    acceptanceDecision: 'SELECTED_FOR_INDEPENDENT_REVIEW',
+    targetAware: TARGET_AWARE,
+  acceptanceDecision: selected.length === 25 ? 'SELECTED_FOR_INDEPENDENT_REVIEW' : 'SELECTION_INCOMPLETE',
     nextStep: 'Independent review of the pre-screened selected candidates against target-specific substantive quality requirements; no production mutation is authorized.'
   };
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   fs.writeFileSync(OUTPUT_JSON, JSON.stringify(result, null, 2));
-  fs.writeFileSync(OUTPUT_MD, `# Batch M deep content-quality candidate selection — 2026-09-17\n\n- Source accepted pool: **${candidates.length}**.\n- Selected for independent review: **${selected.length}**.\n- Rejected at selection boundary: **${rejected.length}**.\n- Production mutation: **false**.\n- Release eligible: **false**.\n- SAT21 created: **false**.\n\n## Target-class coverage\n\n${Object.entries(coverage).map(([key, value]) => `- ${key}: **${value}** selected`).join('\n')}\n\nSelection is deterministic and candidate-only. It does not replace, modify, delete, or release any production question. Independent substantive review is required before any production mutation can be considered.\n`);
-  console.log(JSON.stringify({ status: result.acceptanceDecision, sourceAcceptedCount: candidates.length, selectedCount: selected.length, rejectedCount: rejected.length, coverage, productionMutation: false, releaseEligible: false, sat21Created: false }, null, 2));
+  fs.writeFileSync(OUTPUT_MD, `# Batch M deep content-quality candidate selection — ${SELECTION_DATE}\n\n- Source accepted pool: **${candidates.length}**.\n- Selected for independent review: **${selected.length}**.\n- Canonical-target-aware selection: **${TARGET_AWARE}**.\n- Rejected at selection boundary: **${rejected.length}**.\n- Production mutation: **false**.\n- Release eligible: **false**.\n- SAT21 created: **false**.\n\n## Target-class coverage\n\n${Object.entries(coverage).map(([key, value]) => `- ${key}: **${value}** selected`).join('\n')}\n\nSelection is deterministic and candidate-only. It does not replace, modify, delete, or release any production question. Independent substantive review is required before any production mutation can be considered.\n`);
+  if (TARGET_AWARE && selected.length !== 25) throw new Error(`Canonical-target-aware selection produced ${selected.length} candidates; exactly 25 are required.`);
+  console.log(JSON.stringify({ status: result.acceptanceDecision, sourceAcceptedCount: candidates.length, selectedCount: selected.length, rejectedCount: rejected.length, coverage, targetAware: TARGET_AWARE, productionMutation: false, releaseEligible: false, sat21Created: false }, null, 2));
 }
 
 main();
