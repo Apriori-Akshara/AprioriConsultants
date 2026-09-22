@@ -65,14 +65,21 @@ function main() {
   if (process.env.BATCH_M_PACKAGE_RUN !== EXPECTED_RUN) throw new Error('Validated package run mismatch.');
 
   const seen = new Set();
+  const seenProductionTargets = new Set();
   const replacements = pkg.replacements.map((item) => {
-    const key = `${String(item.targetTestKey).toUpperCase()}::${item.targetQuestionId}`;
+    const testKey = String(item.targetTestKey).trim().toUpperCase();
+    const testId = productionTestId(testKey);
+    const questionId = String(item.targetQuestionId);
+    const key = `${testKey}::${questionId}`;
+    const productionKey = `${testId}::${questionId}`;
     if (!item.candidateId || seen.has(key)) throw new Error('Duplicate/missing target: ' + key);
+    if (seenProductionTargets.has(productionKey)) throw new Error('Duplicate canonical production target: ' + productionKey);
     seen.add(key);
+    seenProductionTargets.add(productionKey);
     return {
-      testKey: String(item.targetTestKey).toUpperCase(),
-      testId: productionTestId(item.targetTestKey),
-      questionId: String(item.targetQuestionId),
+      testKey,
+      testId,
+      questionId,
       candidateId: String(item.candidateId),
       content: {
         prompt: item.candidate.prompt,
