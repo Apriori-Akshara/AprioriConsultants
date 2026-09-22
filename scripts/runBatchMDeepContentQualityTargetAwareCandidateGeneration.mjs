@@ -125,7 +125,9 @@ function candidateSelectionEligible(candidate, state) {
   const exactPrompt = String(candidate?.prompt || '').trim().toLowerCase().replace(/\s+/g, ' ');
   const template = semanticTemplate(candidate);
   const promptChoice = promptChoiceSignature(candidate);
+  const fingerprint = String(candidate?.originalityFingerprint || '');
   if (!exactPrompt || state.exactPrompts.has(exactPrompt)) return false;
+  if (!fingerprint || state.fingerprints.has(fingerprint)) return false;
   if (state.promptChoices.has(promptChoice)) return false;
   if ((state.templates.get(template) || 0) >= 3) return false;
   return true;
@@ -167,6 +169,7 @@ function buildTargetSet(inventory, productionTargets) {
   const selectedCandidates = new Map();
   const state = {
     exactPrompts: new Set(),
+    fingerprints: new Set(),
     templates: new Map(),
     promptChoices: new Set(),
   };
