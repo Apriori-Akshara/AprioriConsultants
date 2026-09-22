@@ -56,7 +56,9 @@ The second authorized production workflow attempt was run 35723635815. Exact pac
 
 The mutation script syntax was corrected in commit cb4296129aee3185f589612ee5b86c1c3e875e41.
 
-This documentation update intentionally re-triggers the authorized workflow so the corrected mutation script can execute. Authorization, package run, replacement count, and scope are unchanged.
+The second run then exposed an identity-matching defect during the post-mutation gate: production mocks use canonical test IDs such as psat-mock-04 while the validated package targets use logical keys such as PSAT4. No production mutation was committed because the post-mutation gate failed. The correction is committed in 4ebd9374b82f8124f9a15a24e84eea9b2cdded3b and maps each approved logical target key to its existing canonical production test ID before applying the exact replacement.
+
+This documentation update intentionally re-triggers the authorized workflow so the corrected target mapping can execute. Authorization, package run, replacement count, and scope are unchanged.
 
 ## Safety boundary
 
