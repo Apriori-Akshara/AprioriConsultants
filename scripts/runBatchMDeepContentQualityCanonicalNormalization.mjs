@@ -15,9 +15,9 @@ import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
 import { evaluateContentQuality } from '../src/data/sat/mockContent/batchMContentQualityGate.js';
 
 const CANDIDATE_INPUT = process.env.BATCH_M_CANONICAL_NORMALIZATION_CANDIDATE_INPUT ||
-  'artifacts/batch-m-current-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-17.json';
+  'artifacts/batch-m-deep-content-quality-candidate-selection/BATCH-M-DEEP-CONTENT-QUALITY-CANDIDATE-SELECTION-2026-09-22.json';
 const REVIEW_INPUT = process.env.BATCH_M_CANONICAL_NORMALIZATION_REVIEW_INPUT ||
-  'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json';
+  'artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-pre-normalization-2026-09-22.json';
 const OUTPUT_DIR = 'artifacts/batch-m-deep-content-quality-canonical-normalization';
 const OUTPUT_JSON = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json');
 const OUTPUT_MD = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.md');
