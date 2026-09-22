@@ -236,7 +236,7 @@ function main() {
     if (!Number.isInteger(normalization.selectionSourceIndex) || normalization.selectionSourceIndex !== Math.abs(sourceIndex || 0)) {
       throw new Error(`Canonical target selection source-index mismatch for ${id}.`);
     }
-    const expectedMetadataHash = sha256(target.record.metadata || {});
+    const expectedMetadataHash = sha256(clone(target.record.metadata || {}));
     if (normalization.canonicalTargetMetadataHash !== expectedMetadataHash) {
       throw new Error(`Canonical target metadata integrity mismatch for ${id}.`);
     }
