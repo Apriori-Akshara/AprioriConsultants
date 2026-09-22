@@ -4,6 +4,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
 import { BATCH_M_PRODUCTION_SEQUENCE } from '../src/data/sat/mockContent/batchMProductionController.js';
 import { runBatchMFinalCorpusGate } from '../src/data/sat/mockContent/batchMFinalCorpusGate.js';
@@ -21,6 +22,40 @@ const OUTPUT_MD = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPL
 
 const clone = (v) => JSON.parse(JSON.stringify(v));
 const norm = (v) => String(v ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+function stableStringify(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`).join(',')}}`;
+}
+
+function sha256(value) {
+  return crypto.createHash('sha256').update(stableStringify(value)).digest('hex');
+}
+
+function sameValue(a, b) {
+  return stableStringify(a) === stableStringify(b);
+}
+
+function figureSignature(question) {
+  const figure = question?.figure;
+  if (!figure) return null;
+  return {
+    type: norm(figure.type),
+    shape: norm(figure.shape),
+  };
+}
+
+const PROTECTED_METADATA_KEYS = [
+  'assessmentFamily', 'assessmentVariant', 'assessmentNumber', 'section',
+  'module', 'domain', 'skill', 'subskill', 'conceptId', 'difficulty',
+  'difficultyBand', 'cognitiveDemand', 'questionType', 'stimulusType',
+  'interactionType', 'timingMode', 'estimatedTimeSeconds',
+  'calculatorEligibility', 'calculatorMode', 'calculatorRequired',
+  'referenceSheetRelevant', 'adaptiveRoute', 'isOperational',
+  'releaseEligibility', 'status', 'authoringStatus', 'candidateOnly',
+  'productionMutation'
+];
 
 function load(file) {
   if (!fs.existsSync(file)) throw new Error(`Required artifact not found: ${file}`);
@@ -122,18 +157,41 @@ function main() {
   const reviews = reviewMap(reviewSource);
   const production = buildIndex();
   const seenTargets = new Set();
+  const seenCandidateIds = new Set();
   const replacements = [];
+  const mappings = new Map((Array.isArray(source.mappings) ? source.mappings : []).map((m) => [String(m?.candidateId || ''), m]));
+  if (mappings.size !== candidates.length) throw new Error(`Normalized package mapping count mismatch: expected ${candidates.length}, found ${mappings.size}`);
+
+  if (reviewSource.sourceArtifact !== path.basename(NORMALIZED_INPUT)) {
+    throw new Error(`Fresh review source mismatch: expected ${path.basename(NORMALIZED_INPUT)}, found ${reviewSource.sourceArtifact || 'missing'}`);
+  }
+  const expectedReviewDate = path.basename(NORMALIZED_INPUT).match(/20\\d{2}-\\d{2}-\\d{2}/)?.[0];
+  if (!expectedReviewDate || reviewSource.date !== expectedReviewDate) {
+    throw new Error(`Fresh review date mismatch: expected ${expectedReviewDate || 'normalized-input date'}, found ${reviewSource.date || 'missing'}`);
+  }
+  if (Number(reviewSource?.counts?.pass || 0) !== candidates.length || Number(reviewSource?.counts?.fail || 0) !== 0 || Number(reviewSource?.counts?.expertReview || 0) !== 0) {
+    throw new Error(`Fresh review aggregate is not a clean ${candidates.length}/${candidates.length} PASS.`);
+  }
 
   for (const candidate of candidates) {
     const id = String(candidate.id || '');
+    if (!id || seenCandidateIds.has(id)) throw new Error(`Duplicate/missing normalized candidate identity: ${id || 'unknown'}`);
+    seenCandidateIds.add(id);
     const review = reviews.get(id);
     if (!review || review.status !== 'PASS' || Number(review.failureCount || 0) !== 0 || Number(review.expertReviewCount || 0) !== 0) {
       throw new Error(`Normalized candidate ${id} lacks a fresh PASS review.`);
+    }
+    if (String(review.testId || '') !== String(candidate.testId || '') ||
+        String(review.section || '') !== String(candidate.section || '') ||
+        String(review.skill || '') !== String(candidate.skill || '') ||
+        String(review.difficulty || '') !== String(candidate.difficulty || '')) {
+      throw new Error(`Fresh review identity/structure mismatch for ${id}.`);
     }
 
     const targetTestKey = String(candidate.metadata?.canonicalNormalization?.targetTestKey || '').toUpperCase();
     const targetQuestionId = String(candidate.metadata?.canonicalNormalization?.targetQuestionId || '');
     const targetKey = `${targetTestKey}::${targetQuestionId}`;
+    if (!targetTestKey || !targetQuestionId) throw new Error(`Normalized candidate ${id} has incomplete canonical target identity.`);
     if (seenTargets.has(targetKey)) throw new Error(`Duplicate replacement target: ${targetKey}`);
     seenTargets.add(targetKey);
 
@@ -143,12 +201,55 @@ function main() {
     const exactFields = [
       'testId','assessmentFamily','assessmentVariant','assessmentNumber','section',
       'module','domain','skill','subskill','conceptId','difficulty','difficultyBand',
-      'questionType','stimulusType','interactionType'
+      'cognitiveDemand','questionType','stimulusType','interactionType','timingMode',
+      'estimatedTimeSeconds','calculatorEligibility','calculatorMode','calculatorRequired',
+      'referenceSheetRelevant','adaptiveRoute'
     ];
     for (const field of exactFields) {
-      if (norm(candidate[field]) !== norm(target.record[field])) {
+      if (!sameValue(candidate[field], target.record[field])) {
         throw new Error(`Canonical compatibility mismatch for ${id}: ${field}`);
       }
+    }
+
+    const normalization = candidate.metadata?.canonicalNormalization;
+    if (!normalization || normalization.version !== 'batch-m-canonical-normalization-v2') {
+      throw new Error(`Canonical normalization metadata missing or outdated for ${id}.`);
+    }
+    if (normalization.resolutionMethod !== 'deterministic-pool-offset-v1') {
+      throw new Error(`Unexpected target-resolution method for ${id}.`);
+    }
+    if (normalization.sourceCandidateId !== id || normalization.targetTestKey !== targetTestKey || String(normalization.targetQuestionId) !== targetQuestionId) {
+      throw new Error(`Canonical target audit trail mismatch for ${id}.`);
+    }
+    const sourceIndex = Number(candidate.metadata?.remediationPool?.sourceIndex);
+    if (!Number.isInteger(normalization.selectionSourceIndex) || normalization.selectionSourceIndex !== Math.abs(sourceIndex || 0)) {
+      throw new Error(`Canonical target selection source-index mismatch for ${id}.`);
+    }
+    const expectedMetadataHash = sha256(target.record.metadata || {});
+    if (normalization.canonicalTargetMetadataHash !== expectedMetadataHash) {
+      throw new Error(`Canonical target metadata integrity mismatch for ${id}.`);
+    }
+    if (!Array.isArray(normalization.protectedMetadataConflicts) || normalization.protectedMetadataConflicts.length !== 0) {
+      throw new Error(`Protected metadata conflicts are present for ${id}.`);
+    }
+    for (const key of PROTECTED_METADATA_KEYS) {
+      if (Object.prototype.hasOwnProperty.call(target.record.metadata || {}, key) &&
+          !sameValue(candidate.metadata?.[key], target.record.metadata[key]) &&
+          !(key === 'candidateOnly' && candidate.metadata?.[key] === true) &&
+          !(key === 'productionMutation' && candidate.metadata?.[key] === false)) {
+        throw new Error(`Protected metadata mismatch for ${id}: metadata.${key}`);
+      }
+    }
+    if (candidate.metadata?.candidateOnly !== true || candidate.metadata?.productionMutation !== false) {
+      throw new Error(`Candidate-only metadata flags are invalid for ${id}.`);
+    }
+    if (!sameValue(figureSignature(candidate), figureSignature(target.record))) {
+      throw new Error(`Figure compatibility mismatch for ${id}.`);
+    }
+
+    const mapping = mappings.get(id);
+    if (!mapping || mapping.targetTestKey !== targetTestKey || String(mapping.targetQuestionId) !== targetQuestionId || mapping.targetResolutionMethod !== 'deterministic-pool-offset-v1') {
+      throw new Error(`Replacement mapping artifact mismatch for ${id}.`);
     }
 
     const schema = validateSatQuestion(candidate);
@@ -185,10 +286,15 @@ function main() {
     normalizedCandidateCount: candidates.length,
     exactTargetCoverage: seenTargets.size,
     uniqueTargets: true,
+    candidateIdentityIntegrity: 'PASS',
+    freshReviewArtifactIntegrity: 'PASS',
     candidateSchemaCompatibility: 'PASS',
     candidateContentQuality: 'PASS',
     freshIndependentReview: 'PASS',
     canonicalStructuralCompatibility: 'PASS',
+    canonicalOperationalMetadataIntegrity: 'PASS',
+    figureCompatibility: 'PASS',
+    targetResolutionIntegrity: 'PASS',
     hypotheticalPromptUniqueness: 'PASS',
     hypotheticalFingerprintUniqueness: 'PASS',
     final30MockCorpusGate: 'PASS',
@@ -212,6 +318,9 @@ function main() {
     '- Candidate schema/content-quality: **PASS**.',
     '- Fresh independent review: **PASS**.',
     '- Canonical structural compatibility: **PASS**.',
+    '- Canonical operational-metadata integrity: **PASS**.',
+    '- Figure/shape compatibility: **PASS**.',
+    '- Target-resolution audit integrity: **PASS**.',
     '- Hypothetical prompt uniqueness: **PASS**.',
     '- Hypothetical originality uniqueness: **PASS**.',
     '- Hypothetical final 30-mock corpus gate: **PASS**.',
