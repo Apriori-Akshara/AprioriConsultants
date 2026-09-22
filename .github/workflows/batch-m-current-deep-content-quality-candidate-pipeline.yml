@@ -9,6 +9,8 @@ on:
       - '.github/workflows/batch-m-current-deep-content-quality-candidate-pipeline.yml'
       - 'scripts/runBatchMDeepContentQualityRemediationCandidates.mjs'
       - 'scripts/runBatchMDeepContentQualityCandidateSelection.mjs'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
       - 'src/data/sat/mockContent/batchMRemediationCandidateFactory.js'
       - 'src/data/sat/mockContent/batchMContentQualityGate.js'
 
@@ -37,7 +39,7 @@ jobs:
         run: node scripts/runBatchMDeepContentQualityRemediationCandidates.mjs
 
       - name: Select screened candidates for independent review
-        run: node scripts/runBatchMDeepContentQualityCandidateSelection.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCandidateSelection.mjs
 
       - name: Upload candidate pool
         uses: actions/upload-artifact@v4
