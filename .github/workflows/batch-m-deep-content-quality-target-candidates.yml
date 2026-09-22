@@ -6,7 +6,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/batch-m-deep-content-quality-target-candidates.yml'
+      - 'scripts/runBatchMDeepContentQualityTargetAwareCandidateGeneration.mjs'
       - 'scripts/runBatchMDeepContentQualityTargetCandidates.mjs'
+      - 'docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json'
       - 'scripts/runBatchMDeepContentQualityIndependentReview.mjs'
       - 'src/data/sat/mockContent/batchMProductionStore.js'
       - 'src/data/sat/mockContent/batchMContentQualityGate.js'
@@ -33,19 +35,15 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Generate current deep-QC failure report
-        continue-on-error: true
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityDiversityQC.mjs
-
-      - name: Confirm deep-QC report exists
-        run: test -f artifacts/batch-m-deep-content-quality-qc/BATCH-M-DEEP-CONTENT-QUALITY-DIVERSITY-QC-2026-09-17.json
-
-      - name: Build exact target-specific candidate set
-        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityTargetCandidates.mjs
+      - name: Build exact target-aware 25-candidate set
+        env:
+          BATCH_M_TARGET_DATE: 2026-09-22
+          BATCH_M_TARGET_INVENTORY_INPUT: docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityTargetAwareCandidateGeneration.mjs
 
       - name: Run independent substantive review on target-specific candidates
         env:
-          BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-target-candidates/BATCH-M-DEEP-CONTENT-QUALITY-TARGET-CANDIDATES-2026-09-21.json
+          BATCH_M_SELECTION_INPUT: artifacts/batch-m-deep-content-quality-target-candidates/BATCH-M-DEEP-CONTENT-QUALITY-TARGET-CANDIDATES-2026-09-22.json
         run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
 
       - name: Upload target-specific candidates
@@ -61,14 +59,6 @@ jobs:
         with:
           name: batch-m-deep-content-quality-target-candidates-review
           path: artifacts/batch-m-deep-content-quality-independent-review/
-          if-no-files-found: error
-          retention-days: 30
-
-      - name: Upload source deep-QC report
-        uses: actions/upload-artifact@v4
-        with:
-          name: batch-m-deep-content-quality-target-source-qc
-          path: artifacts/batch-m-deep-content-quality-qc/
           if-no-files-found: error
           retention-days: 30
 

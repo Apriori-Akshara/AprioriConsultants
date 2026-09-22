@@ -100,7 +100,25 @@ function canonicalTargetPool(candidate, productionIndex) {
     });
 }
 
-function previewCanonicalTarget(targetPool, sourceIndex, reservedTargetKeys) {
+function explicitCandidateTarget(candidate, productionIndex) {
+  if (!TARGET_AWARE) return null;
+  const testKey = String(candidate?.metadata?.targetTestKey || '').trim().toUpperCase();
+  const questionId = String(candidate?.metadata?.targetQuestionId || '').trim();
+  if (!testKey || !questionId) return null;
+  const exact = productionIndex.get(`${testKey}::${questionId}`);
+  if (!exact) return null;
+  const pool = canonicalTargetPool(candidate, productionIndex);
+  return pool.some((entry) =>
+    entry.testKey === exact.testKey &&
+    String(entry.record.questionId) === questionId
+  ) ? exact : null;
+}
+
+function previewCanonicalTarget(targetPool, sourceIndex, reservedTargetKeys, explicitTarget = null) {
+  if (explicitTarget) {
+    const key = `${explicitTarget.testKey}::${explicitTarget.record.questionId}`;
+    return reservedTargetKeys.has(key) ? null : explicitTarget;
+  }
   if (!Array.isArray(targetPool) || !targetPool.length) return null;
   const start = sourceIndex % targetPool.length;
   for (let offset = 0; offset < targetPool.length; offset += 1) {
@@ -197,8 +215,9 @@ function main() {
     const templateCount = templateCounts.get(template) || 0;
     const targetPool = TARGET_AWARE ? canonicalTargetPool(candidate, productionIndex) : [];
     const sourceIndex = Math.abs(Number(candidate?.metadata?.remediationPool?.sourceIndex || 0));
+    const explicitTarget = TARGET_AWARE ? explicitCandidateTarget(candidate, productionIndex) : null;
     const previewTarget = TARGET_AWARE
-      ? previewCanonicalTarget(targetPool, sourceIndex, reservedTargetKeys)
+      ? previewCanonicalTarget(targetPool, sourceIndex, reservedTargetKeys, explicitTarget)
       : null;
     const eligible = id && fingerprint && !seenIds.has(id) && !seenFingerprints.has(fingerprint) && !productionMutation &&
       exactPrompt && !exactPromptSeen.has(exactPrompt) && !promptChoiceSeen.has(promptChoice) && templateCount < 3 && preReviewEligible(candidate) &&
@@ -215,8 +234,8 @@ function main() {
         reason = 'duplicate-normalized-prompt';
       } else if (promptChoiceSeen.has(promptChoice)) {
         reason = 'duplicate-prompt-choice-construction';
-      } else if (TARGET_AWARE && (!canonicalTargetPool(candidate, productionIndex).length || !previewTarget)) {
-        reason = 'no-canonical-target-available';
+      } else if (TARGET_AWARE && (!canonicalTargetPool(candidate, productionIndex).length || !explicitTarget || !previewTarget)) {
+        reason = 'explicit-target-not-compatible-or-available';
       } else if (!preReviewEligible(candidate)) {
         reason = 'pre-review-substantive-screen';
       }
@@ -238,7 +257,10 @@ function main() {
         diversitySelection: { semanticTemplateLimit: 3, exactPromptLimit: 1, promptChoiceLimit: 1 },
         canonicalTargetCompatibility: TARGET_AWARE ? {
           eligible: true,
+          resolutionMode: 'explicit-target-key-v1',
           availableTargetCount: targetPool.length,
+          explicitTargetTestKey: explicitTarget?.testKey || null,
+          explicitTargetQuestionId: explicitTarget?.record?.questionId || null,
           canonicalSkill: canonicalSkillFor(candidate),
           sourceModule: candidate.module,
           sourceDifficulty: candidate.difficulty,

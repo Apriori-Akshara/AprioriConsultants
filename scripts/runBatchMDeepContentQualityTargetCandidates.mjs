@@ -762,4 +762,8 @@ function main() {
   if (!candidates.length) process.exitCode = 1;
 }
 
-main();
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
+  main();
+}
+
+export { repairQuestion, stamp, targetClasses, testKeyOf };

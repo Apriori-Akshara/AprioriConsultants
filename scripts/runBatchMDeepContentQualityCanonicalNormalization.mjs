@@ -166,7 +166,7 @@ function reviewMap(reviewSource) {
   return map;
 }
 
-function normalizeCandidate(candidate, target, sourceIndex) {
+function normalizeCandidate(candidate, target, sourceIndex, targetResolutionMethod = 'deterministic-pool-offset-v1') {
   const preserved = clone(candidate);
   const canonicalFields = [
     'testId', 'assessmentFamily', 'assessmentVariant', 'assessmentNumber',
@@ -212,8 +212,8 @@ function normalizeCandidate(candidate, target, sourceIndex) {
     candidateOnly: true,
     productionMutation: false,
     canonicalNormalization: {
-      version: 'batch-m-canonical-normalization-v2',
-      resolutionMethod: 'deterministic-pool-offset-v1',
+      version: 'batch-m-canonical-normalization-v3',
+      resolutionMethod: targetResolutionMethod,
       selectionSourceIndex: sourceIndex,
       targetTestKey: target.testKey,
       targetQuestionId: target.record.questionId,
@@ -271,8 +271,27 @@ function main() {
     if (!Number.isInteger(sourceIndex) || sourceIndex < 0) {
       throw new Error(`Candidate ${id} has an invalid deterministic target sourceIndex.`);
     }
+
+    const explicitTargetTestKey = String(candidate?.metadata?.targetTestKey || '').trim().toUpperCase();
+    const explicitTargetQuestionId = String(candidate?.metadata?.targetQuestionId || '').trim();
+    const hasExplicitTarget = Boolean(explicitTargetTestKey && explicitTargetQuestionId);
     let target = null;
-    if (pool.length) {
+    let targetResolutionMethod = 'deterministic-pool-offset-v1';
+
+    if (hasExplicitTarget) {
+      const exactKey = explicitTargetTestKey + '::' + explicitTargetQuestionId;
+      const exact = productionIndex.get(exactKey);
+      const compatible = pool.some((entry) =>
+        entry.testKey === explicitTargetTestKey &&
+        String(entry.record.questionId) === explicitTargetQuestionId
+      );
+      if (!exact || !compatible) {
+        throw new Error(`Explicit canonical target is missing or structurally incompatible for ${id}: ${exactKey}`);
+      }
+      if (usedTargets.has(exactKey)) throw new Error(`Explicit canonical target already used: ${exactKey}`);
+      target = exact;
+      targetResolutionMethod = 'explicit-target-key-v1';
+    } else if (pool.length) {
       const start = sourceIndex % pool.length;
       for (let i = 0; i < pool.length; i += 1) {
         const probe = pool[(start + i) % pool.length];
@@ -283,9 +302,9 @@ function main() {
         }
       }
     }
-    if (!target) throw new Error(`No deterministic canonical target available for ${id}`);
+    if (!target) throw new Error(`No canonical target available for ${id}`);
 
-    const normalized = normalizeCandidate(candidate, target, sourceIndex);
+    const normalized = normalizeCandidate(candidate, target, sourceIndex, targetResolutionMethod);
     const schema = validateSatQuestion(normalized);
     if (!schema.valid) throw new Error(`Normalized candidate ${id} fails schema: ${JSON.stringify(schema.errors || [])}`);
     const quality = evaluateContentQuality(normalized);
@@ -309,7 +328,7 @@ function main() {
       targetDifficultyBand: target.record.difficultyBand,
       canonicalTargetSkill: target.record.skill,
       semanticSkillMapping: skillFamily(candidate).mappingRule,
-      targetResolutionMethod: 'deterministic-pool-offset-v1',
+      targetResolutionMethod: normalized.metadata?.canonicalNormalization?.resolutionMethod || 'deterministic-pool-offset-v1',
       targetResolutionSourceIndex: sourceIndex,
       canonicalTargetMetadataHash: normalized.metadata?.canonicalNormalization?.canonicalTargetMetadataHash,
       canonicalNormalizationApplied: true,

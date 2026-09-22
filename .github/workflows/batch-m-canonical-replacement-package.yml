@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/batch-m-canonical-replacement-package.yml'
+      - 'scripts/runBatchMDeepContentQualityTargetAwareCandidateGeneration.mjs'
       - 'scripts/runBatchMDeepContentQualityCandidateSelection.mjs'
       - 'scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs'
       - 'scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs'
@@ -17,6 +18,7 @@ on:
       - 'src/data/sat/questionSchema.js'
       - 'src/data/sat/mockContent/batchMFinalCorpusGate.js'
       - 'src/data/sat/mockContent/batchMCrossCorpusCalibrationCanonical.js'
+      - 'docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json'
 
 permissions:
   contents: read
@@ -39,24 +41,22 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Download current candidate pool
-        uses: actions/download-artifact@v4
-        with:
-          name: batch-m-current-deep-content-quality-candidate-pool
-          path: artifacts/batch-m-deep-content-quality-remediation-candidates
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          run-id: 35666673409
+      - name: Build exact target-aware 25-candidate set
+        env:
+          BATCH_M_TARGET_DATE: 2026-09-22
+          BATCH_M_TARGET_INVENTORY_INPUT: docs/BATCH-M-TARGETED-REPLACEMENT-PREPARATION-2026-09-15.json
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityTargetAwareCandidateGeneration.mjs
 
       - name: Syntax-check Batch M package scripts
         run: |
+          node --check scripts/runBatchMDeepContentQualityTargetAwareCandidateGeneration.mjs
           node --check scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs
           node --check scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
           node --check scripts/runBatchMDeepContentQualityIndependentReview.mjs
 
       - name: Select 25 target-compatible candidates
         env:
-          BATCH_M_CANDIDATE_INPUT: artifacts/batch-m-deep-content-quality-remediation-candidates/BATCH-M-DEEP-CONTENT-QUALITY-REMEDIATION-CANDIDATES-2026-09-17.json
+          BATCH_M_CANDIDATE_INPUT: artifacts/batch-m-deep-content-quality-target-candidates/BATCH-M-DEEP-CONTENT-QUALITY-TARGET-CANDIDATES-2026-09-22.json
           BATCH_M_CANDIDATE_SELECTION_DATE: 2026-09-22
           BATCH_M_TARGET_AWARE_SELECTION: 'true'
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCandidateSelection.mjs
@@ -86,6 +86,14 @@ jobs:
           BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT: artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json
           BATCH_M_FINAL_PACKAGE_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-post-normalization-2026-09-22.json
         run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
+
+      - name: Upload generated target-aware candidates
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-m-target-aware-25-candidates
+          path: artifacts/batch-m-deep-content-quality-target-candidates/
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Upload target-compatible selection
         uses: actions/upload-artifact@v4

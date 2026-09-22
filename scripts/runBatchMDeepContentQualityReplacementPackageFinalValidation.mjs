@@ -212,11 +212,22 @@ function main() {
     }
 
     const normalization = candidate.metadata?.canonicalNormalization;
-    if (!normalization || normalization.version !== 'batch-m-canonical-normalization-v2') {
+    if (!normalization || !['batch-m-canonical-normalization-v3', 'batch-m-canonical-normalization-v2'].includes(normalization.version)) {
       throw new Error(`Canonical normalization metadata missing or outdated for ${id}.`);
     }
-    if (normalization.resolutionMethod !== 'deterministic-pool-offset-v1') {
+    if (!['explicit-target-key-v1', 'deterministic-pool-offset-v1'].includes(normalization.resolutionMethod)) {
       throw new Error(`Unexpected target-resolution method for ${id}.`);
+    }
+    const explicitTargetTestKey = String(candidate.metadata?.targetTestKey || '').trim().toUpperCase();
+    const explicitTargetQuestionId = String(candidate.metadata?.targetQuestionId || '').trim();
+    if (explicitTargetTestKey || explicitTargetQuestionId) {
+      if (explicitTargetTestKey !== targetTestKey || explicitTargetQuestionId !== targetQuestionId) {
+        throw new Error(`Explicit target inventory mapping mismatch for ${id}.`);
+      }
+      if (normalization.version !== 'batch-m-canonical-normalization-v3' ||
+          normalization.resolutionMethod !== 'explicit-target-key-v1') {
+        throw new Error(`Explicit target candidate did not use the exact-target canonical normalization path for ${id}.`);
+      }
     }
     if (normalization.sourceCandidateId !== id || normalization.targetTestKey !== targetTestKey || String(normalization.targetQuestionId) !== targetQuestionId) {
       throw new Error(`Canonical target audit trail mismatch for ${id}.`);
