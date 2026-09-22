@@ -64,7 +64,8 @@ export default function Login() {
           : "";
 
       const isSafeReturnTo =
-        requestedReturnTo.startsWith("/SATMocks") &&
+        (requestedReturnTo.startsWith("/SATMocks") ||
+          requestedReturnTo.startsWith("/PSATMocks")) &&
         !requestedReturnTo.startsWith("//") &&
         !/[\r\n]/.test(requestedReturnTo);
 
