@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest verified repository revision:** `edc5b4fe7edc5e5cce38124f096799a15d20ab68`  
+**Latest verified implementation revision:** `a36a7d5ea4fe0d69bb0fddf8aa512c302e0e77e3`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -49,7 +49,7 @@ The latest Vercel check before this package-only implementation was green.
 | 7. Deep SAT/PSAT content-quality/diversity remediation | ✅ CANDIDATE PIPELINE CORRECTED |
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
 | 9. Prepare controlled production-replacement package | ✅ IMPLEMENTED — deterministic package builder + CI validation added; authorization readiness still blocked pending canonical compatibility validation |
-| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED — canonical normalization + fresh review + final package validation pipeline added; code-path defect corrected; CI result not yet independently retrievable |
+| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED + HARDENED — canonical normalization, fresh-review identity, target-resolution, operational-metadata, figure, and final hypothetical package gates added; CI result not independently retrievable |
 | 11. Explicit authorization of the replacement scope | ⏳ PENDING |
 | 12. Controlled production replacement, if authorized | ⏳ PENDING |
 | 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
@@ -87,14 +87,17 @@ The production target must be an existing question in the frozen 30-mock corpus.
 
 ### Replacement-package implementation now present
 
-The controlled package-preparation implementation is now present in:
+The controlled package pipeline is now present in:
 
 - `scripts/runBatchMDeepContentQualityReplacementPackage.mjs`
-- `.github/workflows/batch-m-deep-content-quality-replacement-package.yml`
+- `scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs`
+- `scripts/runBatchMDeepContentQualityIndependentReview.mjs`
+- `scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs`
+- `.github/workflows/batch-m-canonical-replacement-package.yml`
 
-It consumes the current 25-candidate selection and independent-review artifacts, uses the frozen canonical production corpus, proposes deterministic existing targets, and records canonical compatibility blockers without mutating production.
+The pipeline consumes the current 25-candidate selection, resolves one deterministic existing target per candidate in the frozen 30-mock corpus, normalizes canonical structural metadata without production mutation, runs a fresh independent substantive review, and performs final hypothetical replacement validation.
 
-A key safeguard is intentional: candidate metadata is **not silently rewritten** to match production. The current 25 generic candidates use non-canonical assessment/skill labels for some target families, so authorization readiness must remain blocked until those differences are explicitly normalized or regenerated and the package validator passes.
+The latest hardening prevents silent operational drift: target resolution now records an explicit method and source index; canonical operational fields are checked exactly; protected metadata is integrity-checked; figure type/shape compatibility is required; and the fresh review must explicitly identify the 2026-09-22 normalized artifact. Production mutation remains blocked.
 
 ## 5. Production boundary
 
@@ -129,7 +132,7 @@ A **fresh independent substantive review** is then run after normalization, foll
 
 The new workflow is candidate-only and performs no production mutation.
 
-**CI execution result is not independently retrievable through the available GitHub Actions read interface; no CI PASS is claimed here. The repository now also includes direct npm QC commands and Node syntax checks for the new pipeline.**
+**CI execution result is not independently retrievable through the available GitHub Actions read interface; no CI PASS is claimed here. The repository includes direct npm QC commands and Node syntax checks for the package scripts.**
 
 The package validator must establish, for all 25 entries:
 
@@ -144,13 +147,11 @@ The package validator must establish, for all 25 entries:
 - no production-scope expansion;
 - no SAT21 creation.
 
-The current candidate artifact does not yet satisfy canonical metadata compatibility for all target families. That issue must be resolved explicitly; it must not be hidden inside the replacement operation.
+The canonical-normalization implementation now resolves the previously identified assessment/skill-label compatibility differences in a candidate-only artifact and records the exact mapping and target-metadata integrity hash. The final validator separately verifies those controls rather than assuming normalization was safe.
 
 ### Step 3 — Explicit authorization checkpoint
 
-Only after the canonical-normalized pipeline completes with a clean 25/25 fresh review and final package validation should the exact package be presented as ready for explicit production authorization.
-
-Only after Step 2 passes should the package be presented as ready for explicit production authorization.
+Only after the canonical-normalized pipeline has a verifiable clean 25/25 fresh review **and** final package validation result should the exact package be presented as ready for explicit production authorization.
 
 Authorization is a separate control and must not be inferred from candidate-review PASS.
 
@@ -199,4 +200,4 @@ For future sessions:
 
 **Current release status: NOT RELEASE-ELIGIBLE.**
 
-The 25-candidate independent review has passed. The controlled replacement package implementation is now in place, but the package is not authorization-ready until the canonical compatibility differences are explicitly resolved and the package validator passes. Post-mutation re-gating and the final public/technical/student/release acceptance sequence remain pending.
+The prior 25-candidate review passed. The controlled replacement pipeline is now hardened and remains candidate-only. The next release-critical verification is a verifiable fresh CI result for the normalized candidates and final package; only after that may the exact package move to the separate explicit-authorization checkpoint. Post-mutation re-gating and the final public/technical/student/release acceptance sequence remain pending.
