@@ -132,8 +132,9 @@ function targetPool(candidate, productionIndex) {
   return [...productionIndex.values()]
     .filter((entry) => entry.testKey === testKey)
     .filter((entry) => normalize(entry.section) === section)
-    .filter((entry) => normalize(entry.record.module) === module)
-    .filter((entry) => normalize(entry.record.difficulty) === difficulty)
+    // Module and difficulty are explicitly canonical-normalized fields.
+    // Critical content structure remains fixed: section, question type, domain,
+    // canonical skill family, and figure type/shape.
     .filter((entry) => normalize(entry.record.questionType) === questionType)
     .filter((entry) => normalize(entry.record.domain) === domain)
     .filter((entry) => family.canonicalSkills.has(normalize(entry.record.skill)))
@@ -143,7 +144,15 @@ function targetPool(candidate, productionIndex) {
       if (!expected) return actual === null;
       return actual && actual.type === expected.type && actual.shape === expected.shape;
     })
-    .sort((a, b) => String(a.record.questionId).localeCompare(String(b.record.questionId)));
+    .sort((a, b) => {
+      const aDifficulty = Number(normalize(a.record.difficulty) !== difficulty);
+      const bDifficulty = Number(normalize(b.record.difficulty) !== difficulty);
+      const aModule = Number(normalize(a.record.module) !== module);
+      const bModule = Number(normalize(b.record.module) !== module);
+      return (aDifficulty - bDifficulty) ||
+        (aModule - bModule) ||
+        String(a.record.questionId).localeCompare(String(b.record.questionId));
+    });
 }
 
 function reviewMap(reviewSource) {
@@ -213,6 +222,8 @@ function normalizeCandidate(candidate, target, sourceIndex) {
       sourceAssessmentVariant: preserved.assessmentVariant,
       sourceSkill: preserved.skill,
       sourceDifficultyBand: preserved.difficultyBand,
+      sourceModule: preserved.module,
+      sourceDifficulty: preserved.difficulty,
       normalizedAssessmentFamily: out.assessmentFamily,
       normalizedAssessmentVariant: out.assessmentVariant,
       normalizedSkill: out.skill,
