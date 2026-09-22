@@ -259,7 +259,9 @@ function main() {
     }
 
     const mapping = mappings.get(id);
-    if (!mapping || mapping.targetTestKey !== targetTestKey || String(mapping.targetQuestionId) !== targetQuestionId || mapping.targetResolutionMethod !== 'deterministic-pool-offset-v1') {
+    const hasExplicitTarget = Boolean(String(candidate.metadata?.targetTestKey || '').trim() && String(candidate.metadata?.targetQuestionId || '').trim());
+    const expectedResolutionMethod = hasExplicitTarget ? 'explicit-target-key-v1' : 'deterministic-pool-offset-v1';
+    if (!mapping || mapping.targetTestKey !== targetTestKey || String(mapping.targetQuestionId) !== targetQuestionId || mapping.targetResolutionMethod !== expectedResolutionMethod) {
       throw new Error(`Replacement mapping artifact mismatch for ${id}.`);
     }
 
