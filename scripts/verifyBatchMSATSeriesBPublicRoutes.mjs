@@ -1,7 +1,11 @@
 const BASE_URL = (process.env.BATCH_M_PUBLIC_BASE_URL || 'https://www.aprioriconsultants.org').replace(/\/$/, '');
 
 const routes = [
+  '/SATMocks',
+  '/PSATMocks',
   '/SATMocksSeriesB',
+  ...Array.from({ length: 10 }, (_, index) => `/SATMocks/SAT${index + 1}`),
+  ...Array.from({ length: 10 }, (_, index) => `/SATMocks/PSAT${index + 1}`),
   ...Array.from({ length: 10 }, (_, index) => `/SATMocks/SAT${index + 11}`),
 ];
 
@@ -12,7 +16,7 @@ async function checkRoute(route) {
   const url = `${BASE_URL}${route}`;
   const response = await fetch(url, {
     redirect: 'manual',
-    headers: { 'user-agent': 'Apriori-Batch-M-Series-B-Public-Smoke/1.0' },
+    headers: { 'user-agent': 'Apriori-SAT-PSAT-Public-Smoke/1.0' },
   });
 
   const location = response.headers.get('location') || '';
@@ -66,13 +70,13 @@ const failures = results.filter((result) => !result.passed);
 
 console.log(JSON.stringify({
   baseUrl: BASE_URL,
-  scope: 'SAT Series B public unauthenticated route smoke verification',
+  scope: 'SAT/PSAT mock public unauthenticated route smoke verification',
   routesChecked: routes.length,
   results,
   passed: failures.length === 0,
-  limitation: 'This verifies live route deployment and the protected-route login redirect. It does not replace authenticated student acceptance of the full SAT11-SAT20 test experience.',
+  limitation: 'This verifies live route deployment and protected-route login redirects. It does not replace authenticated student acceptance of the full 30-mock test experience or interactive calculator embedding.',
 }, null, 2));
 
 if (failures.length) {
-  throw new Error(`SAT11-SAT20 public route smoke verification failed for ${failures.length} route(s) after ${MAX_ATTEMPTS} attempts.`);
+  throw new Error(`SAT/PSAT public route smoke verification failed for ${failures.length} route(s) after ${MAX_ATTEMPTS} attempts.`);
 }

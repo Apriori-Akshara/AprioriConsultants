@@ -1,4 +1,4 @@
-name: Batch M SAT11-SAT20 Public Route Smoke Verification
+name: Batch M SAT/PSAT Public Route Smoke Verification
 
 on:
   workflow_dispatch:
@@ -9,14 +9,16 @@ on:
       - 'scripts/verifyBatchMSATSeriesBPublicRoutes.mjs'
       - '.github/workflows/batch-m-sat11-sat20-public-route-smoke.yml'
       - 'src/pages/SATMocksSeriesB/index.js'
+      - 'src/pages/PSATMocks/index.js'
       - 'src/pages/SATMocks/[testId].js'
+      - 'src/lib/sat/satAccess.js'
       - 'src/lib/sat/satLogin.js'
 
 permissions:
   contents: read
 
 jobs:
-  verify-series-b-public-routes:
+  verify-sat-psat-public-routes:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -28,7 +30,7 @@ jobs:
         with:
           node-version: 24.14.1
 
-      - name: Verify live SAT11-SAT20 routes
+      - name: Verify live SAT/PSAT mock routes
         env:
           BATCH_M_PUBLIC_BASE_URL: https://www.aprioriconsultants.org
         run: node scripts/verifyBatchMSATSeriesBPublicRoutes.mjs

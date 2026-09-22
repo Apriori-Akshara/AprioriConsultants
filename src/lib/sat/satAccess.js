@@ -14,6 +14,7 @@ import { getSessionUser } from "../auth";
 
 const SAT_LOGIN_PATH = "/Auth";
 const SAT_ROOT_PATH = "/SATMocks";
+const SAT_APPLICATION_ROOTS = ["/SATMocks", "/SATMocksSeriesB", "/PSATMocks"];
 
 /**
  * Only internal SAT application paths are allowed as return destinations.
@@ -42,11 +43,11 @@ export function getSafeSatReturnPath(value) {
     return SAT_ROOT_PATH;
   }
 
-  // Restrict the return destination to the SAT area.
-  if (
-    trimmed !== SAT_ROOT_PATH &&
-    !trimmed.startsWith(`${SAT_ROOT_PATH}/`)
-  ) {
+  // Restrict the return destination to the SAT/PSAT mock-test area.
+  const allowed = SAT_APPLICATION_ROOTS.some(
+    (root) => trimmed === root || trimmed.startsWith(`${root}/`)
+  );
+  if (!allowed) {
     return SAT_ROOT_PATH;
   }
 
