@@ -142,7 +142,7 @@ function main() {
     const choices = Array.isArray(candidate?.choices) ? candidate.choices : [];
 
     if (!prompt || !explanation) return false;
-    if (section === 'reading-writing' && !/\\b(which|what|how)\\b/i.test(prompt)) return false;
+    if (section === 'reading-writing' && !/\b(which|what|how)\b/i.test(prompt)) return false;
     if (section === 'reading-writing' && explanation.length < 55) return false;
 
     if (section === 'math' && candidate?.difficulty === 'hard') {
@@ -190,8 +190,6 @@ function main() {
         reason = 'duplicate-normalized-prompt';
       } else if (promptChoiceSeen.has(promptChoice)) {
         reason = 'duplicate-prompt-choice-construction';
-      } else if (TARGET_AWARE && !canonicalTargetPool(candidate, productionIndex).length) {
-        reason = 'no-canonical-target-available';
       } else if (TARGET_AWARE && !canonicalTargetPool(candidate, productionIndex).length) {
         reason = 'no-canonical-target-available';
       } else if (!preReviewEligible(candidate)) {
