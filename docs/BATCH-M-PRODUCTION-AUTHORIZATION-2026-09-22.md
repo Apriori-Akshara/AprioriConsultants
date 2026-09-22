@@ -52,7 +52,11 @@ The first authorized production workflow attempt was run 35722753346. It stopped
 
 The retrieval logic was corrected in commit 96aee3d79c1faa7b22b4d62c5aacbcf3a7d29d13 to query artifacts directly from validation run 35697516214.
 
-This documentation update intentionally re-triggers the authorized workflow so the corrected exact-package retrieval path can execute. Authorization, package run, replacement count, and scope are unchanged.
+The second authorized production workflow attempt was run 35723635815. Exact package retrieval succeeded, but execution stopped before mutation because scripts/runBatchMAuthorizedProductionReplacement.mjs contained an unescaped nested template literal and failed Node syntax parsing. No production mutation occurred in that attempt.
+
+The mutation script syntax was corrected in commit cb4296129aee3185f589612ee5b86c1c3e875e41.
+
+This documentation update intentionally re-triggers the authorized workflow so the corrected mutation script can execute. Authorization, package run, replacement count, and scope are unchanged.
 
 ## Safety boundary
 
