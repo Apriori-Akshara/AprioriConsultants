@@ -64,6 +64,10 @@ The package artifact itself was independently inspected: it contains exactly 25 
 
 The mapper was corrected to an explicit canonical-ID table in commit 89fac2ae187c2c8b6aa4f30afaac107265cbd988, with an additional canonical-target uniqueness guard in 60112e88d098db6d9c3de2ac578fa76f9a22a164. The workflow now also performs a mutation-runner syntax preflight in commit 6f9a58352f879036a690b025f4f524c5dcc3a96a before package execution.
 
+The retriggered run 35728012862 advanced through package retrieval, mutation-runner syntax validation, exact package re-verification, and generated-mutation verification. It then failed at the post-mutation gate because the runner selected the target section from candidate.passsageId; the validated package contains two R&W candidates (SAT2 and SAT6) with section=reading-writing and passageId=null. No production commit occurred.
+
+The section-selection logic was corrected in commit f76b92f0a7370c4eb7d4d46037792b5e40998e53 to use the explicit candidate section and to assert candidate/target section and canonical testId compatibility before applying a target.
+
 The authorized workflow is intentionally re-triggered by this documentation update. Authorization, package run 35697516214, replacement count 25, target scope, release restriction, and SAT21 prohibition remain unchanged.
 
 
