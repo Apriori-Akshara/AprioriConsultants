@@ -9,6 +9,8 @@ on:
       - '.github/workflows/batch-m-deep-content-quality-independent-review.yml'
       - 'scripts/runBatchMDeepContentQualityRemediationCandidates.mjs'
       - 'scripts/runBatchMDeepContentQualityCandidateSelection.mjs'
+      - 'scripts/batchMExtensionlessModuleLoader.mjs'
+      - 'scripts/batchMExtensionlessResolve.mjs'
       - 'scripts/runBatchMDeepContentQualityIndependentReview.mjs'
       - 'src/data/sat/mockContent/batchMRemediationCandidateFactory.js'
       - 'src/data/sat/mockContent/mathBankFactoryRemediated.js'
@@ -44,7 +46,7 @@ jobs:
         run: node scripts/runBatchMDeepContentQualityRemediationCandidates.mjs
 
       - name: Select screened candidates
-        run: node scripts/runBatchMDeepContentQualityCandidateSelection.mjs
+        run: node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCandidateSelection.mjs
 
       - name: Run independent substantive review
         run: node scripts/runBatchMDeepContentQualityIndependentReview.mjs
