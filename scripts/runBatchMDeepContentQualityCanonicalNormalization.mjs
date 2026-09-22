@@ -197,8 +197,7 @@ function normalizeCandidate(candidate, target, sourceIndex, targetResolutionMeth
     'interactionType', 'timingMode', 'estimatedTimeSeconds',
     'calculatorEligibility', 'calculatorMode', 'calculatorRequired',
     'referenceSheetRelevant', 'adaptiveRoute', 'isOperational',
-    'releaseEligibility', 'status', 'authoringStatus', 'candidateOnly',
-    'productionMutation'
+    'releaseEligibility', 'status', 'authoringStatus'
   ];
 
   const metadataConflicts = protectedMetadataKeys.filter((key) =>
@@ -219,6 +218,11 @@ function normalizeCandidate(candidate, target, sourceIndex, targetResolutionMeth
     productionMutation: false,
     canonicalNormalization: {
       version: 'batch-m-canonical-normalization-v3',
+      candidateBoundaryOverride: {
+        candidateOnly: true,
+        productionMutation: false,
+        reason: 'Frozen production target metadata is not allowed to reintroduce operational state during candidate-only normalization.',
+      },
       resolutionMethod: targetResolutionMethod,
       selectionSourceIndex: sourceIndex,
       targetTestKey: target.testKey,
