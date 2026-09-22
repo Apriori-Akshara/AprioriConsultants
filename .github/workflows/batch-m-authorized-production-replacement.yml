@@ -50,6 +50,9 @@ jobs:
           unzip -o /tmp/package.zip -d artifacts/batch-m-final-replacement-package
           test -f artifacts/batch-m-final-replacement-package/BATCH-M-DEEP-CONTENT-QUALITY-FINAL-REPLACEMENT-PACKAGE-2026-09-22.json
 
+      - name: Validate mutation runner syntax
+        run: node --check scripts/runBatchMAuthorizedProductionReplacement.mjs
+
       - name: Re-verify exact package before mutation
         env:
           BATCH_M_PRODUCTION_AUTHORIZATION: explicit-user-authorization-2026-09-22
