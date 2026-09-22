@@ -75,7 +75,7 @@ jobs:
       - name: Final replacement-package validation
         env:
           BATCH_M_FINAL_PACKAGE_NORMALIZED_INPUT: artifacts/batch-m-deep-content-quality-canonical-normalization/BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-NORMALIZED-CANDIDATES-2026-09-22.json
-          BATCH_M_FINAL_PACKAGE_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-17.json
+          BATCH_M_FINAL_PACKAGE_REVIEW_INPUT: artifacts/batch-m-deep-content-quality-independent-review/BATCH-M-DEEP-CONTENT-QUALITY-INDEPENDENT-REVIEW-2026-09-22.json
         run: node scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs
 
       - name: Upload canonical-normalized candidates
