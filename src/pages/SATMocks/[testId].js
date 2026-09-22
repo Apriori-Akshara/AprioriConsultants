@@ -66,7 +66,6 @@ export default function SATMockTest({ test }) {
   const [deadlineAt, setDeadlineAt] = useState(null);
   const [result, setResult] = useState(null);
   const [tool, setTool] = useState(null);
-  const [calculatorMode, setCalculatorMode] = useState("graphing");
   const [zoom, setZoom] = useState(100);
   const [eliminated, setEliminated] = useState({});
   const [notes, setNotes] = useState({});
@@ -83,10 +82,6 @@ export default function SATMockTest({ test }) {
   const flaggedCount = useMemo(() => Object.values(flags).filter(Boolean).length, [flags]);
   const moduleAnsweredCount = useMemo(() => questions.filter((item) => answers[item.questionId] !== undefined && String(answers[item.questionId]).trim() !== "").length, [answers, questions]);
   const isLastQuestion = questions.length > 0 && questionIndex === questions.length - 1;
-  const calculatorUrl = calculatorMode === "scientific"
-    ? "https://www.desmos.com/testing/collegeboard/scientific"
-    : "https://www.desmos.com/testing/collegeboard/graphing";
-
   useEffect(() => {
     let active = true;
     (async () => {
