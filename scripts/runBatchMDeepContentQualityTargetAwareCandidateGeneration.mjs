@@ -56,6 +56,16 @@ function tracksOf(target) {
   return tracks;
 }
 
+function targetTracks(target) {
+  const flags = new Set(Array.isArray(target?.flags) ? target.flags : []);
+  const tracks = [];
+  if (flags.has('math-generic-numeric-distractor')) tracks.push('MATH_DISTRACTOR_REMEDIATION');
+  if (flags.has('rw-fixed-wic-target')) tracks.push('RW_WIC_REMEDIATION');
+  if (flags.has('rw-template-density')) tracks.push('RW_CONSTRUCTION_REMEDIATION');
+  if (flags.has('hard-label-without-demand-feature')) tracks.push('DIFFICULTY_CALIBRATION');
+  return tracks;
+}
+
 function score(target) {
   const flags = new Set(Array.isArray(target?.flags) ? target.flags : []);
   return (target?.priority === 'HIGH' ? 100 : 0) +
