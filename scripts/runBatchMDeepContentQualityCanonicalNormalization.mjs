@@ -8,6 +8,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
 import { BATCH_M_PRODUCTION_SEQUENCE } from '../src/data/sat/mockContent/batchMProductionController.js';
 import { validateSatQuestion } from '../src/data/sat/questionSchema.js';
@@ -23,6 +24,16 @@ const OUTPUT_MD = path.join(OUTPUT_DIR, 'BATCH-M-DEEP-CONTENT-QUALITY-CANONICAL-
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const normalize = (value) => String(value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+function stableStringify(value) {
+  if (value === null || typeof value !== 'object') return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`).join(',')}}`;
+}
+
+function sha256(value) {
+  return crypto.createHash('sha256').update(stableStringify(value)).digest('hex');
+}
 
 function loadJson(file) {
   if (!fs.existsSync(file)) throw new Error(`Required artifact not found: ${file}`);
@@ -146,7 +157,7 @@ function reviewMap(reviewSource) {
   return map;
 }
 
-function normalizeCandidate(candidate, target) {
+function normalizeCandidate(candidate, target, sourceIndex) {
   const preserved = clone(candidate);
   const canonicalFields = [
     'testId', 'assessmentFamily', 'assessmentVariant', 'assessmentNumber',
@@ -162,13 +173,39 @@ function normalizeCandidate(candidate, target) {
     if (target.record[field] !== undefined) out[field] = clone(target.record[field]);
   }
 
+  const targetMetadata = clone(target.record.metadata || {});
+  const candidateMetadata = clone(candidate.metadata || {});
+  const protectedMetadataKeys = [
+    'assessmentFamily', 'assessmentVariant', 'assessmentNumber', 'section',
+    'module', 'domain', 'skill', 'subskill', 'conceptId', 'difficulty',
+    'difficultyBand', 'cognitiveDemand', 'questionType', 'stimulusType',
+    'interactionType', 'timingMode', 'estimatedTimeSeconds',
+    'calculatorEligibility', 'calculatorMode', 'calculatorRequired',
+    'referenceSheetRelevant', 'adaptiveRoute', 'isOperational',
+    'releaseEligibility', 'status', 'authoringStatus', 'candidateOnly',
+    'productionMutation'
+  ];
+
+  const metadataConflicts = protectedMetadataKeys.filter((key) =>
+    Object.prototype.hasOwnProperty.call(targetMetadata, key) &&
+    Object.prototype.hasOwnProperty.call(candidateMetadata, key) &&
+    stableStringify(targetMetadata[key]) !== stableStringify(candidateMetadata[key])
+  );
+  if (metadataConflicts.length) {
+    throw new Error(
+      `Canonical metadata conflict for ${candidate.id}: ${metadataConflicts.join(', ')}`
+    );
+  }
+
   out.metadata = {
-    ...(target.record.metadata || {}),
-    ...(candidate.metadata || {}),
+    ...targetMetadata,
+    ...candidateMetadata,
     candidateOnly: true,
     productionMutation: false,
     canonicalNormalization: {
-      version: 'batch-m-canonical-normalization-v1',
+      version: 'batch-m-canonical-normalization-v2',
+      resolutionMethod: 'deterministic-pool-offset-v1',
+      selectionSourceIndex: sourceIndex,
       targetTestKey: target.testKey,
       targetQuestionId: target.record.questionId,
       sourceCandidateId: candidate.id,
@@ -180,6 +217,8 @@ function normalizeCandidate(candidate, target) {
       normalizedAssessmentVariant: out.assessmentVariant,
       normalizedSkill: out.skill,
       normalizedDifficultyBand: out.difficultyBand,
+      canonicalTargetMetadataHash: sha256(targetMetadata),
+      protectedMetadataConflicts: metadataConflicts,
     },
   };
   out.releaseEligibility = false;
@@ -232,7 +271,7 @@ function main() {
     }
     if (!target) throw new Error(`No deterministic canonical target available for ${id}`);
 
-    const normalized = normalizeCandidate(candidate, target);
+    const normalized = normalizeCandidate(candidate, target, sourceIndex);
     const schema = validateSatQuestion(normalized);
     if (!schema.valid) throw new Error(`Normalized candidate ${id} fails schema: ${JSON.stringify(schema.errors || [])}`);
     const quality = evaluateContentQuality(normalized);
@@ -256,6 +295,9 @@ function main() {
       targetDifficultyBand: target.record.difficultyBand,
       canonicalTargetSkill: target.record.skill,
       semanticSkillMapping: skillFamily(candidate).mappingRule,
+      targetResolutionMethod: 'deterministic-pool-offset-v1',
+      targetResolutionSourceIndex: sourceIndex,
+      canonicalTargetMetadataHash: normalized.metadata?.canonicalNormalization?.canonicalTargetMetadataHash,
       canonicalNormalizationApplied: true,
       productionMutation: false,
       releaseEligible: false,
@@ -299,6 +341,7 @@ function main() {
     '',
     'Canonical assessment metadata, skill labels, difficulty metadata, and other structural fields are normalized from an exact existing production target.',
     'Candidate content and candidate identity remain distinct from the production target.',
+    'Canonical normalization records a target-metadata SHA-256 and rejects protected metadata conflicts instead of silently allowing operational metadata overrides.',
     'A fresh independent substantive review is required after normalization.',
     '',
   ].join('\n'));
