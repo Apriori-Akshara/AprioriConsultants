@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest verified implementation revision:** `a36a7d5ea4fe0d69bb0fddf8aa512c302e0e77e3`  
+**Latest implementation revision:** `c992670bb213253e15406b913c35625d08ad3f84`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -49,7 +49,7 @@ The latest Vercel check before this package-only implementation was green.
 | 7. Deep SAT/PSAT content-quality/diversity remediation | ✅ CANDIDATE PIPELINE CORRECTED |
 | 8. Independent substantive candidate review | ✅ 25/25 PASS, 0 FAIL, 0 expert-review flags |
 | 9. Prepare controlled production-replacement package | ✅ IMPLEMENTED — deterministic package builder + CI validation added; authorization readiness still blocked pending canonical compatibility validation |
-| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED + HARDENED — canonical normalization, fresh-review identity, target-resolution, operational-metadata, figure, final hypothetical package gates, and module-loader execution fix; new CI run pending |
+| 10. Resolve package compatibility blockers / validate clean package | ✅ IMPLEMENTED + HARDENED — target-aware reselection, pre/post normalization reviews, canonical normalization, operational metadata, figure, target-resolution, hypothetical package gates; latest workflow result pending |
 | 11. Explicit authorization of the replacement scope | ⏳ PENDING |
 | 12. Controlled production replacement, if authorized | ⏳ PENDING |
 | 13. Re-run affected corpus/content/calibration gates | ⏳ PENDING |
@@ -95,7 +95,7 @@ The controlled package pipeline is now present in:
 - `scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs`
 - `.github/workflows/batch-m-canonical-replacement-package.yml`
 
-The pipeline consumes the current 25-candidate selection, resolves one deterministic existing target per candidate in the frozen 30-mock corpus, normalizes canonical structural metadata without production mutation, runs a fresh independent substantive review, and performs final hypothetical replacement validation.
+The pipeline now consumes the current 58-candidate screened pool, reselects exactly 25 candidates only when a strict real canonical target exists, performs a pre-normalization independent review, normalizes canonical structural metadata without production mutation, performs a distinct post-normalization independent review, and runs final hypothetical replacement validation.
 
 The latest hardening prevents silent operational drift: target resolution now records an explicit method and source index; canonical operational fields are checked exactly; protected metadata is integrity-checked; figure type/shape compatibility is required; and the fresh review must explicitly identify the 2026-09-22 normalized artifact. Production mutation remains blocked.
 
@@ -132,7 +132,7 @@ A **fresh independent substantive review** is then run after normalization, foll
 
 The new workflow is candidate-only and performs no production mutation.
 
-**Latest CI failure diagnosis:** the canonical replacement workflow reached the package-normalization step but failed because it invoked the `.mjs` scripts with plain Node while the production-store dependency graph uses extensionless `.js` imports. The repository already contains `scripts/batchMExtensionlessModuleLoader.mjs`; the workflow and the independent-review npm command now invoke the affected scripts through that loader. A new workflow run was triggered by the workflow fix; its result is not yet available, so no CI PASS is claimed.
+**Latest CI failure diagnosis and correction:** after the module-loader issue was fixed, the workflow reached canonical normalization and correctly rejected `PSAT1-BATCHM-DQ-1031` because its strict target pool required the same module, while the frozen PSAT1 Math corpus places the matching canonical Data Models item in another adaptive module. The package workflow is now corrected at the selection layer: it downloads the current 58-candidate pool, target-aware reselects exactly 25 candidates that have real canonical targets under the strict compatibility contract, performs an independent review before normalization, normalizes canonical metadata, performs a distinct post-normalization review, and then runs final package validation. The workflow remains candidate-only; no CI PASS is claimed until a completed run verifies this path.
 
 The package validator must establish, for all 25 entries:
 
