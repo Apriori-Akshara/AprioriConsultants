@@ -10,7 +10,9 @@ on:
       - '.github/workflows/batch-m-sat11-sat20-public-route-smoke.yml'
       - 'src/pages/SATMocksSeriesB/index.js'
       - 'src/pages/PSATMocks/index.js'
+      - 'src/pages/PSATMocks/[testId].js'
       - 'src/pages/SATMocks/[testId].js'
+      - 'src/styles/SATMockTest.module.css'
       - 'src/lib/sat/satAccess.js'
       - 'src/lib/sat/satLogin.js'
 
