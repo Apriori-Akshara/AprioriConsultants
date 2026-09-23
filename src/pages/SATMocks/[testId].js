@@ -31,6 +31,9 @@ export async function getServerSideProps(context) {
 
   const testKey = normalizeMockKey(String(context.params.testId || ""));
   if (!testKey) return { notFound: true };
+  if (testKey.startsWith("PSAT")) {
+    return { redirect: { destination: "/PSATMocks/" + testKey, permanent: false } };
+  }
   const testNumber = testKey.startsWith("PSAT")
     ? Number(testKey.slice(4))
     : testKey.startsWith("SAT")
@@ -71,6 +74,18 @@ export default function SATMockTest({ test }) {
   const [notes, setNotes] = useState({});
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const calculatorUrls = {
+    graphing: "https://www.desmos.com/testing/collegeboard/graphing",
+    scientific: "https://www.desmos.com/testing/collegeboard/scientific",
+  };
+
+  function openDesmosCalculator(mode) {
+    const url = calculatorUrls[mode];
+    if (!url || typeof window === "undefined") return;
+    const opened = window.open(url, "_blank", "noopener,noreferrer");
+    if (!opened) window.location.assign(url);
+  }
 
   const section = test?.sections?.[sectionIndex];
   const sectionRoute = section ? routes[section.key] || "standard" : "standard";
@@ -266,12 +281,14 @@ export default function SATMockTest({ test }) {
     </section></div></div>
   );
 
+  const mockLibraryPath = test?.testKey?.startsWith("PSAT") ? "/PSATMocks" : "/SATMocks";
+
   if (phase === "complete") return (
     <div className={styles.page}><div className={styles.shell}><section className={styles.resultShell}>
       <span className={styles.eyebrow}>TEST COMPLETE</span><h1>{test.label}</h1><p className={styles.resultNote}>Your attempt has been saved. This completion screen reports practice performance; it is not an official College Board scaled score.</p>
       {result ? <div className={styles.resultGrid}><div><strong>{result.accuracy}%</strong><span>Overall accuracy</span></div><div><strong>{result.totalCorrect}/{result.totalQuestions}</strong><span>Questions correct</span></div><div><strong>{result.readingWriting?.accuracy ?? 0}%</strong><span>Reading and Writing</span></div><div><strong>{result.math?.accuracy ?? 0}%</strong><span>Math</span></div></div> : <p>Results could not be loaded immediately. Your completed attempt remains saved.</p>}
       <button className={styles.primaryButton} onClick={() => router.push(`/SATMocks/results?attemptId=${attemptId}`)}>View Detailed Report</button>
-      <button className={styles.secondaryButton} onClick={() => router.push("/SATMocks")}>Back to Mock Library</button>
+      <button className={styles.secondaryButton} onClick={() => router.push(mockLibraryPath)}>Back to Mock Library</button>
     </section></div></div>
   );
 
@@ -280,6 +297,7 @@ export default function SATMockTest({ test }) {
 
   return <div className={styles.page}>
     <header className={styles.topbar}><div><span className={styles.topbarLabel}>{test.label}</span><strong>{section?.label} · Module {moduleIndex + 1} of 2</strong></div><div className={styles.topTools}>
+      {isMath ? <button className={styles.toolButton} onClick={() => setTool(tool === "calculator" ? null : "calculator")}>Desmos Calculator</button> : null}
       <div className={styles.timer}><span>TIME REMAINING</span><strong>{formatTime(remaining)}</strong></div><button className={styles.toolButton} onClick={toggleFlag}>{isFlagged ? "Unmark" : "Mark for Review"}</button><button className={styles.toolButton} onClick={() => setTool(tool === "navigator" ? null : "navigator")}>Question Menu</button>
     </div></header>
 
@@ -290,7 +308,7 @@ export default function SATMockTest({ test }) {
       <section className={styles.questionCard}><div className={styles.prompt} style={{ fontSize: `${16 * (zoom / 100)}px` }}>{cleanPrompt(question?.prompt)}</div>{question?.figure ? <MathVisualStimulus figure={question.figure} /> : null}
         {question?.questionType === "student-produced-response" ? <input className={styles.numericInput} inputMode="decimal" value={answers[question.questionId] || ""} onChange={(event) => selectAnswer(event.target.value)} placeholder="Enter answer" /> : <div className={styles.choices}>{choiceValues.map((choice, index) => { const key = `${question.questionId}-${index}`; const selected = answers[question.questionId] === choice; return <button key={key} className={`${styles.choice} ${selected ? styles.choiceSelected : ""} ${eliminated[key] ? styles.choiceEliminated : ""}`} onClick={() => selectAnswer(choice)} onContextMenu={(event) => { event.preventDefault(); toggleEliminate(index); }}><span className={styles.choiceLetter}>{String.fromCharCode(65 + index)}</span><span>{choice}</span></button>; })}</div>}
         <div className={styles.navigation}><button className={styles.secondaryButton} onClick={() => moveTo(questionIndex - 1)} disabled={questionIndex === 0}>Previous</button><button className={styles.secondaryButton} onClick={() => moveTo(questionIndex + 1)} disabled={questionIndex === questions.length - 1}>Next</button>{isLastQuestion ? <button className={styles.primaryButton} onClick={() => advanceModule(false)} disabled={saving}>{moduleIndex === 1 && sectionIndex === test.sections.length - 1 ? "Finish Test" : "Continue"}</button> : null}</div>
-        <button className={styles.questionMenuButton} onClick={() => setTool(tool === "navigator" ? null : "navigator")}>Open Question Navigator</button>{isMath ? <><a className={styles.secondaryToolLink} href="https://www.desmos.com/testing/collegeboard/graphing" target="_blank" rel="noopener noreferrer">Graphing Calculator</a><a className={styles.secondaryToolLink} href="https://www.desmos.com/testing/collegeboard/scientific" target="_blank" rel="noopener noreferrer">Scientific Calculator</a></> : <span className={styles.secondaryToolLink}>Calculator available in Math</span>}<button className={styles.secondaryToolLink} onClick={() => setTool(tool === "reference" ? null : "reference")} disabled={!isMath}>Math Reference</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "notes" ? null : "notes")}>Notes</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "line-reader" ? null : "line-reader")}>Line Reader</button>
+        <button className={styles.questionMenuButton} onClick={() => setTool(tool === "navigator" ? null : "navigator")}>Open Question Navigator</button>{isMath ? <><button type="button" className={styles.secondaryToolLink} onClick={() => openDesmosCalculator("graphing")}>Graphing Calculator</button><button type="button" className={styles.secondaryToolLink} onClick={() => openDesmosCalculator("scientific")}>Scientific Calculator</button></> : <span className={styles.secondaryToolLink}>Calculator available in Math</span>}<button className={styles.secondaryToolLink} onClick={() => setTool(tool === "reference" ? null : "reference")} disabled={!isMath}>Math Reference</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "notes" ? null : "notes")}>Notes</button><button className={styles.secondaryToolLink} onClick={() => setTool(tool === "line-reader" ? null : "line-reader")}>Line Reader</button>
       </section></main>
 
     {tool ? <div className={styles.overlay} onClick={() => setTool(null)}><div className={tool === "navigator" ? styles.drawer : tool === "calculator" ? styles.calculatorPanel : tool === "reference" ? styles.referencePanel : styles.notesPanel} onClick={(event) => event.stopPropagation()}>
@@ -298,15 +316,15 @@ export default function SATMockTest({ test }) {
       {tool === "navigator" ? <><div className={styles.navigatorLegend}><span>Answered: {answeredCount}</span><span>Flagged: {flaggedCount}</span></div><div className={styles.questionGrid}>{questions.map((item, index) => <button key={item.questionId} className={`${styles.questionCell} ${answers[item.questionId] ? styles.questionAnswered : ""} ${flags[item.questionId] ? styles.questionFlagged : ""} ${index === questionIndex ? styles.questionCurrent : ""}`} onClick={async () => { await moveTo(index); setTool(null); }}>{index + 1}</button>)}</div></> : tool === "calculator" ? <div>
         <p className={styles.calculatorHint}>Choose a Desmos testing calculator. It opens the official College Board testing version in a new tab, which avoids browser iframe restrictions.</p>
         <div className={styles.calculatorChoiceGrid}>
-          <a className={styles.calculatorChoice} href="https://www.desmos.com/testing/collegeboard/graphing" target="_blank" rel="noopener noreferrer">
+          <button type="button" className={styles.calculatorChoice} onClick={() => openDesmosCalculator("graphing")}>
             <strong>Graphing Calculator</strong><span>Open the Desmos College Board Graphing Calculator</span>
-          </a>
-          <a className={styles.calculatorChoice} href="https://www.desmos.com/testing/collegeboard/scientific" target="_blank" rel="noopener noreferrer">
+          </button>
+          <button type="button" className={styles.calculatorChoice} onClick={() => openDesmosCalculator("scientific")}>
             <strong>Scientific Calculator</strong><span>Open the Desmos College Board Scientific Calculator</span>
-          </a>
+          </button>
         </div>
         <div className={styles.calculatorFallback}>
-          <a href="https://www.desmos.com/testing/collegeboard/graphing" target="_blank" rel="noopener noreferrer">Open Graphing Calculator directly</a>
+          <button type="button" onClick={() => openDesmosCalculator("graphing")}>Open Graphing Calculator directly</button>
         </div>
       </div>: tool === "reference" ? <div className={styles.referenceGrid}><div><strong>Triangle</strong><p>A = ½bh</p></div><div><strong>Circle</strong><p>A = πr²</p></div><div><strong>Pythagorean theorem</strong><p>a² + b² = c²</p></div><div><strong>Coordinate geometry</strong><p>Use the coordinate-plane relationships needed by the question.</p></div></div> : <textarea value={notes[question?.questionId] || ""} onChange={(event) => setNotes((current) => ({ ...current, [question.questionId]: event.target.value }))} onBlur={(event) => saveNote(event.target.value)} placeholder="Write a note for this attempt…" />}
     </div></div> : null}
