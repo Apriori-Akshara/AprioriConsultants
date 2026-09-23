@@ -13,6 +13,7 @@ export default function navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const { user } = useSelector((state) => state.auth);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [isVerifiedLoggedIn, setIsVerifiedLoggedIn] = useState(false);
 
   const router = useRouter();
   const isActive = (href) => router.pathname === href;
@@ -41,6 +42,26 @@ export default function navbar() {
     setDropdownVisible(false);
   };
 
+  useEffect(() => {
+    let active = true;
+
+    fetch("/api/auth/session", {
+      credentials: "include",
+      cache: "no-store",
+    })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (active) setIsVerifiedLoggedIn(Boolean(data?.authenticated));
+      })
+      .catch(() => {
+        if (active) setIsVerifiedLoggedIn(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [user]);
+
   useEffect(() => {   
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar);
@@ -67,7 +88,9 @@ export default function navbar() {
         </div>
 
         <div className={styles.btnsconta}>
-          <Link href='/Courses'><button className={styles.loginBtn}>Courses</button></Link>
+          {isVerifiedLoggedIn && (
+            <Link href='/Courses'><button className={styles.loginBtn}>Courses</button></Link>
+          )}
           <div className={styles.endflex}>
             {user ? (
               <div className={styles.userInfoContainer}>
