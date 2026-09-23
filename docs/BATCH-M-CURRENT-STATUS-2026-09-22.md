@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest implementation revision:** `ade1dec20dde087d0e547f751101c8c90e0836a4`  
+**Latest implementation revision:** `048b337c21afc9c1f4657b604b46e530a49ce898`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -113,6 +113,10 @@ The following controls remain active:
 The validated 25-target package has now been applied to the frozen production corpus under the explicit 2026-09-22 authorization. The resulting production mutation remains **release-ineligible** until the downstream release checkpoints pass.
 
 ## 6. Current logical implementation sequence
+### Stage 14 frontend remediation — 2026-09-23
+
+A public student-facing inspection found two frontend defects: PSAT mocks were launched through the SAT dynamic route, and Desmos calculator access was not reliably exposed across the shared runner. These have now been corrected by adding a canonical PSAT dynamic route, separating the shared browser runner from the SAT server page, and providing both official College Board Desmos testing calculators with popup-block fallback. The dedicated remediation record is `docs/BATCH-M-STAGE-14-FRONTEND-REMEDIATION-2026-09-23.md`. Live deployment verification is still required; Stage 14 remains pending.
+
 
 ### Step 1 — Controlled replacement-package preparation
 
