@@ -36,10 +36,19 @@ export default function navbar() {
     setDropdownVisible(!isDropdownVisible);
   };
 
-  const handleLogout = () => {
-    window.location.href = '/';
-    dispatch(logout());
-    setDropdownVisible(false);
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("Logout request error:", error);
+    } finally {
+      dispatch(logout());
+      setDropdownVisible(false);
+      window.location.href = "/";
+    }
   };
 
   useEffect(() => {
