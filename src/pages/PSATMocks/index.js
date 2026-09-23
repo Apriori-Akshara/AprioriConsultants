@@ -54,7 +54,7 @@ function MockCard({ testNumber, attempt }) {
         <Meta value="64 + 70" label="minutes" />
       </div>
       <div className={styles.actionArea}>
-        <Link href={`/SATMocks/${routeKey}`} className={`${styles.actionButton} ${styles.primaryButton}`}>
+        <Link href={`/PSATMocks/${routeKey}`} className={`${styles.actionButton} ${styles.primaryButton}`}>
           {actionLabel}
         </Link>
       </div>
