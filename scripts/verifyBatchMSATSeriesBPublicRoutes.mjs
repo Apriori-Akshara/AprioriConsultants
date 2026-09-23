@@ -5,7 +5,7 @@ const routes = [
   '/PSATMocks',
   '/SATMocksSeriesB',
   ...Array.from({ length: 10 }, (_, index) => `/SATMocks/SAT${index + 1}`),
-  ...Array.from({ length: 10 }, (_, index) => `/SATMocks/PSAT${index + 1}`),
+  ...Array.from({ length: 10 }, (_, index) => `/PSATMocks/PSAT${index + 1}`),
   ...Array.from({ length: 10 }, (_, index) => `/SATMocks/SAT${index + 11}`),
 ];
 
