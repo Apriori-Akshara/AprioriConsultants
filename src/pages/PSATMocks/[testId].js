@@ -2,7 +2,7 @@ import { getVerifiedSatServerAccessState } from "../../lib/sat/satAccess";
 import { getSatLoginUrl } from "../../lib/sat/satLogin";
 import { getSatTestAccess } from "../../lib/sat/testAccess";
 import { normalizeMockKey, buildClientSafeTest } from "../../lib/sat/productionAdaptiveMockEngine";
-import SATMockTest from "../SATMocks/[testId]";
+import SATMockTestRunner from "../../components/SATMockTestRunner";
 
 export async function getServerSideProps(context) {
   const rawTestId = String(context.params?.testId || "");
@@ -33,5 +33,5 @@ export async function getServerSideProps(context) {
 }
 
 export default function PSATMockTest(props) {
-  return <SATMockTest {...props} />;
+  return <SATMockTestRunner {...props} />;
 }
