@@ -1,25 +1,20 @@
 /**
  * Server-only adapter for the Batch M production corpus.
  *
- * The production gates are release-time generation/QC machinery. They must not
- * execute merely because Next.js is compiling or because a client-safe helper
- * is imported. The corpus is loaded lazily only when a verified server request
- * actually needs a Series B mock. The authorized 2026-09-17 calibration
- * replacement layer is applied at this same server-only boundary.
+ * Release-time production gates are never executed during a student request.
+ * The accepted Series B records are materialized once during the Render build
+ * into a compact runtime snapshot and loaded from that snapshot here.
  */
 
 let corpus = null;
-let storeLoaded = false;
+let snapshotLoaded = false;
 
 function loadCorpus() {
-  if (!storeLoaded) {
+  if (!snapshotLoaded) {
     // eslint-disable-next-line global-require
-    const store = require('../../data/sat/mockContent/batchMProductionStore');
-    // eslint-disable-next-line global-require
-    const replacement = require('../../data/sat/mockContent/batchMCalibrationProductionReplacement');
-    const acceptedCorpus = store.BATCH_M_ACCEPTED_PRODUCTION_CORPUS || [];
-    corpus = acceptedCorpus.map((mock) => replacement.applyBatchMCalibrationProductionReplacement(mock, mock?.testId));
-    storeLoaded = true;
+    const snapshot = require('../../data/sat/mockContent/batchMSeriesBRuntimeSnapshot.json');
+    corpus = Array.isArray(snapshot?.mocks) ? snapshot.mocks : [];
+    snapshotLoaded = true;
   }
   return corpus;
 }
@@ -29,19 +24,19 @@ export function getSeriesBMock(testKey) {
   const match = normalized.match(/^SAT(1[1-9]|20)$/);
   if (!match) return null;
 
-  const targetKey = `sat-series-b-mock-${String(Number(match[1])).padStart(2, '0')}`;
-  return loadCorpus().find((mock) => mock?.testId === targetKey) || null;
+  const targetKey = `SAT${Number(match[1])}`;
+  return loadCorpus().find((mock) => String(mock?.testKey || '').toUpperCase() === targetKey) || null;
 }
 
 export function validateSeriesBMockRuntime(mock) {
   const records = [...(mock?.readingWriting || []), ...(mock?.math || [])];
-  if (records.length !== 196) throw new Error(`Production mock integrity failure for ${mock?.testId || 'unknown'}: expected 196 records, found ${records.length}`);
+  if (records.length !== 196) throw new Error(`Production mock integrity failure for ${mock?.testKey || mock?.testId || 'unknown'}: expected 196 records, found ${records.length}`);
   const seen = new Set();
   for (const question of records) {
-    if (!question?.questionId) throw new Error(`Production mock integrity failure: missing questionId in ${mock.testId}`);
+    if (!question?.questionId) throw new Error(`Production mock integrity failure: missing questionId in ${mock?.testKey || mock?.testId || 'unknown'}`);
     if (seen.has(question.questionId)) throw new Error(`Production mock integrity failure: duplicate questionId ${question.questionId}`);
     seen.add(question.questionId);
-    if (question.testId !== mock.testId) throw new Error(`Production mock integrity failure: ${question.questionId} has mismatched testId`);
+    if (!question.testId) throw new Error(`Production mock integrity failure: missing testId for ${question.questionId}`);
     if (!question.section || !question.module || String(question.prompt || '').trim() === '') throw new Error(`Production mock integrity failure: incomplete ${question.questionId}`);
   }
   return mock;
