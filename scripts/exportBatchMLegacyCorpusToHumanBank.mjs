@@ -1,6 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import {
+  requireResolvedMultipleChoiceAnswer,
+  resolveQuestionAnswer,
+  resolveQuestionChoices,
+} from './humanQuestionBankContentAdapter.mjs';
 
 const MOCK_KEYS = [
   ...Array.from({ length: 10 }, (_, i) => 'SAT' + (i + 1)),
@@ -25,8 +30,9 @@ function normalizeKey(mock) {
 
 function questionToMarkdown(question) {
   const safe = question && typeof question === 'object' ? question : {};
-  const choices = safe.choices ?? safe.options ?? [];
-  const answer = safe.answer ?? safe.correctAnswer ?? '';
+  const choices = resolveQuestionChoices(safe);
+  const answer = resolveQuestionAnswer(safe);
+  if (safe.questionType === 'multiple-choice') requireResolvedMultipleChoiceAnswer(safe);
   const system = { ...safe };
   delete system.prompt; delete system.choices; delete system.options; delete system.answer; delete system.correctAnswer; delete system.explanation;
   return [
