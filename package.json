@@ -28,7 +28,8 @@
     "qc:batch-m-deep-content-quality-replacement-package-final": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs",
     "question-bank:export-legacy": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/exportBatchMLegacyCorpusToHumanBank.mjs",
     "question-bank:validate": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/validateHumanEditableQuestionBank.mjs",
-    "question-bank:promote-staging": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/promoteHumanBankToCanonicalStaging.mjs"
+    "question-bank:promote-staging": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/promoteHumanBankToCanonicalStaging.mjs",
+    "question-bank:pilot": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/runHumanQuestionBankPilot.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
