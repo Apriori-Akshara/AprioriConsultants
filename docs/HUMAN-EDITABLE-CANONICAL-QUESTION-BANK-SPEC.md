@@ -338,3 +338,21 @@ Canonical staging is not production. It is the controlled bridge needed before a
 ## 18. Next implementation checkpoint
 
 The bridge is ready for a small end-to-end pilot. The next step is to export/prepare a small representative set of existing questions, explicitly approve the acceptable items, run document validation and canonical staging, and verify the round-trip without touching production. Only after that pilot passes should the workflow be expanded to the full 30-mock legacy corpus.
+
+## 19. Pilot hardening after CI failure
+
+The first CI pilot exposed a representation-compatibility issue rather than a parser-heading issue. A small number of existing/remediated records can retain the answer redundantly in controlled metadata or in an explicit explanation statement even when a direct answer field is blank.
+
+The maintenance bridge now uses scripts/humanQuestionBankContentAdapter.mjs to resolve answers conservatively:
+
+1. use the explicit question-level answer first;
+2. then use explicit redundant answer fields;
+3. for multiple-choice records only, use a single machine-readable correct profile when present;
+4. then accept an explicit explanation statement such as "Choice B is correct";
+5. reject conflicts instead of guessing.
+
+The pilot now selects real SAT1 R&W and Math multiple-choice records with a resolvable answer and verifies both question identity and answer identity after canonical staging.
+
+The workflow remains staging-only. No production corpus mutation is performed by this pilot.
+
+The expanded workflow is expected to pass before the full 30-mock human-editable export is generated and committed.
