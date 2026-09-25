@@ -1,6 +1,6 @@
 # Human-Editable and Canonical SAT/PSAT Question-Bank Specification
 
-**Status:** Approved content-maintenance architecture; implementation planned
+**Status:** IMPLEMENTATION STARTED — legacy/approved separation and legacy export implemented; controlled parser/promotion remains pending
 **Scope:** Human-readable question editing, canonical question synchronization, validation, and controlled item-level maintenance
 **Production boundary:** This document does not authorize production mutation
 **Production target:** The frozen 30-mock corpus — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20
@@ -65,7 +65,7 @@ The document must never bypass schema or content-quality validation.
 
 ## 4. File organization
 
-The planned human-editable documents live in:
+The human-editable documents live in:
 
 question-banks/
 
@@ -304,7 +304,7 @@ When the user asks for a change to a specific question after this system is impl
 
 ## 16. Current implementation status
 
-The human-editable/canonical two-representation architecture is **documented and approved but not yet implemented in code**.
+The human-editable/canonical two-representation architecture is **partially implemented**. The repository now contains separate legacy and approved working areas plus a deterministic exporter for the frozen 30-mock corpus. The legacy export is intentionally non-production and cannot mutate canonical records. The document parser, approval-state validator, canonical promotion adapter, and full round-trip acceptance test remain to be implemented.
 
 Until implementation is completed, existing JavaScript production content and the current canonical validation/storage path remain the working runtime mechanism.
 
