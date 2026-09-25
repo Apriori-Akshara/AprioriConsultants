@@ -1,8 +1,8 @@
 # Batch M Current Status — 2026-09-22
 
-**Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
+**Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT — UPDATED 2026-09-25  
 **Documentation branch:** `main`  
-**Latest implementation revision:** `c4e73fa0359f7356565aeb794f322b9362c435d6`  
+**Latest relevant implementation revision:** `1fbe6bd2573d8b258fc6ade46cc72cec458ced85`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -118,7 +118,7 @@ The validated 25-target package has now been applied to the frozen production co
 
 The launch-content workflow has now been separated from the frozen legacy corpus. The repository contains `question-banks/legacy-30-mock-corpus/` for the existing 30-mock working copies and `question-banks/approved-launch-corpus/` for human-approved launch content. A deterministic exporter, `scripts/exportBatchMLegacyCorpusToHumanBank.mjs`, and npm command `npm run question-bank:export-legacy` are implemented to materialize the frozen corpus into the legacy human-editable area without mutating production.
 
-The existing 30-mock corpus remains legacy/non-approved content. It may be selectively retained, edited, or replaced, but nothing becomes canonical launch content merely because it exists in the legacy area. The next implementation sub-step is the controlled document parser/validator and approval-to-canonical promotion path.
+The existing 30-mock corpus remains legacy/non-approved content. It may be selectively retained, edited, or replaced, but nothing becomes canonical launch content merely because it exists in the legacy area. The controlled document parser/validator, approval gate, canonical staging adapter, answer-resolution adapter, and CI pilot are now implemented and verified. The next question-bank maintenance step is full 30-mock legacy document materialization.
 
 ## 8. Current logical implementation sequence
 ### Stage 14 frontend remediation — 2026-09-23/25
@@ -197,11 +197,13 @@ Once the controlled replacement sequence is fully cleared:
 
 ## 7. Human-editable and canonical question-bank architecture
 
-The human-editable question-bank capability remains **approved/planned and not yet implemented in code**.
+The human-editable/canonical maintenance bridge is **implemented and pilot-verified**. It is a maintenance capability layered on top of the canonical runtime question bank; it does not replace the existing SAT engine or release gates.
 
-It is a maintenance capability and does not replace the canonical runtime question bank. It must not be introduced as an excuse to bypass the controlled replacement package or the production authorization gate.
+Implemented controls include the legacy/approved separation, deterministic 30-mock exporter, deterministic Markdown parser, canonical schema validation, explicit `STATUS: APPROVED` gating, canonical staging, conservative answer/choice resolution, and the end-to-end SAT1 pilot.
 
-Its implementation remains downstream of the current Batch M release-critical content-quality work unless a later maintenance task is explicitly prioritized.
+Verified CI pilot: **Human question bank pilot — run 36152194934 — SUCCESS**. The pilot preserved exact question IDs and answer identities and performed no production mutation.
+
+The next maintenance step is **full 30-mock legacy document materialization**. It is independent of the remaining Batch M release checkpoints and must not be treated as release approval.
 
 ## 8. Documentation authority
 
@@ -218,6 +220,8 @@ For future sessions:
 
 **Current release status: NOT RELEASE-ELIGIBLE.**
 
-Stages 11–14 are complete: explicit authorization, the exact 25-target controlled production replacement, post-mutation affected/collective gates, and the user-reported quick public inspection of all 30 frozen mocks. The Series B runtime-loading defect is also resolved and publicly verified by the user.
+Stages 11–14 are complete: explicit authorization, the exact 25-target controlled production replacement, post-mutation affected/collective gates, and the user-reported quick public inspection of all 30 frozen mocks. The later frontend/runtime defects involving PSAT routing, calculator exposure, and Series B loading were corrected and separately verified; no new Stage 14 work is required unless a new live defect is reported.
 
-The next required stage is **Stage 15 — Technical release QC**, followed by final end-to-end student acceptance and final Batch M release acceptance.
+The next Batch M release stage remains **Stage 15 — Technical release QC**, followed by final end-to-end student acceptance and final Batch M release acceptance.
+
+The next question-bank maintenance stage is separate: **materialize the full 30-mock legacy document set** using `npm run question-bank:export-legacy`.
