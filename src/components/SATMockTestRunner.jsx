@@ -36,6 +36,18 @@ export default function SATMockTest({ test }) {
     return { sectionIndex, moduleIndex };
   }
 
+
+  function formatTime(seconds) {
+    const value = Math.max(0, Number(seconds) || 0);
+    const minutes = Math.floor(value / 60);
+    const remainingSeconds = value % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
+  }
+
+  function cleanPrompt(value) {
+    return String(value || "").trim();
+  }
+
   const calculatorUrls = {
     graphing: "https://www.desmos.com/testing/collegeboard/graphing",
     scientific: "https://www.desmos.com/testing/collegeboard/scientific",
