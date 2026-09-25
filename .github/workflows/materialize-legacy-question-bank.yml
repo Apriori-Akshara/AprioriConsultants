@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   export:
-    if: contains(github.event.head_commit.message, 'Run frozen legacy question-bank export') == false
+    if: contains(github.event.head_commit.message, 'Materialize frozen legacy question-bank corpus') == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
