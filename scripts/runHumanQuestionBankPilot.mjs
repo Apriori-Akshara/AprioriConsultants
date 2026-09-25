@@ -3,18 +3,37 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { BATCH_M_ACCEPTED_PRODUCTION_CORPUS } from '../src/data/sat/mockContent/batchMProductionStore.js';
+import {
+  requireResolvedMultipleChoiceAnswer,
+  resolveQuestionChoices,
+  resolveQuestionAnswer,
+} from './humanQuestionBankContentAdapter.mjs';
 
 const mock = BATCH_M_ACCEPTED_PRODUCTION_CORPUS.find((item) => String(item?.testId || '').toLowerCase() === 'sat-series-a-mock-01');
 if (!mock) throw new Error('Pilot could not locate the real frozen SAT1 canonical corpus.');
-const rw = mock.readingWriting?.[0];
-const math = mock.math?.[0];
-if (!rw || !math) throw new Error('Pilot requires one real R&W and one real Math question.');
+function pickRepresentative(records, label) {
+  const candidate = (records || []).find((question) => {
+    if (!question || question.questionType !== 'multiple-choice') return false;
+    try {
+      requireResolvedMultipleChoiceAnswer(question);
+      return String(question.prompt || '').trim() && resolveQuestionChoices(question).length === 4;
+    } catch {
+      return false;
+    }
+  });
+  if (!candidate) throw new Error('Pilot could not locate a real ' + label + ' multiple-choice question with a resolvable answer.');
+  return candidate;
+}
+
+const rw = pickRepresentative(mock.readingWriting, 'R&W');
+const math = pickRepresentative(mock.math, 'Math');
 
 function block(question) {
-  const choices = question.choices ?? question.options ?? [];
+  const choices = resolveQuestionChoices(question);
+  const resolvedAnswer = resolveQuestionAnswer(question);
   const metadata = { ...question };
   delete metadata.prompt; delete metadata.choices; delete metadata.options; delete metadata.answer; delete metadata.explanation;
-  return ['### Question: ' + question.questionId, '', 'STATUS: APPROVED', 'TEST KEY: SAT1', 'PROMPT:', String(question.prompt ?? ''), '', 'CHOICES:', JSON.stringify(choices, null, 2), '', 'ANSWER:', String(question.answer ?? question.correctAnswer ?? ''), '', 'EXPLANATION:', String(question.explanation ?? ''), '', 'SYSTEM METADATA (DO NOT EDIT DIRECTLY):', '```json', JSON.stringify(metadata, null, 2), '```', ''].join('\n');
+  return ['### Question: ' + question.questionId, '', 'STATUS: APPROVED', 'TEST KEY: SAT1', 'PROMPT:', String(question.prompt ?? ''), '', 'CHOICES:', JSON.stringify(choices, null, 2), '', 'ANSWER:', resolvedAnswer, '', 'EXPLANATION:', String(question.explanation ?? ''), '', 'SYSTEM METADATA (DO NOT EDIT DIRECTLY):', '```json', JSON.stringify(metadata, null, 2), '```', ''].join('\n');
 }
 
 const documentText = ['# SAT1 — Human-Editable Pilot', '', 'STATUS: PILOT', 'TEST KEY: SAT1', 'TEST ID: sat-series-a-mock-01', 'QUESTION COUNT: 2', '', block(rw), block(math)].join('\n');
@@ -36,8 +55,11 @@ const promotedFile = path.resolve(process.cwd(), 'question-banks/approved-launch
 if (!fs.existsSync(promotedFile)) throw new Error('Pilot staging artifact was not created.');
 const stagedData = JSON.parse(fs.readFileSync(promotedFile, 'utf8'));
 const expectedIds = [rw.questionId, math.questionId];
+const expectedAnswers = [resolveQuestionAnswer(rw), resolveQuestionAnswer(math)];
 const actualIds = stagedData.questions.map((question) => question.questionId);
 if (JSON.stringify(expectedIds) !== JSON.stringify(actualIds)) throw new Error('Pilot changed canonical question identities.');
+const actualAnswers = stagedData.questions.map((question) => String(question.answer || '').trim().toUpperCase());
+if (JSON.stringify(expectedAnswers.map((answer) => answer.toUpperCase())) !== JSON.stringify(actualAnswers)) throw new Error('Pilot changed canonical answers during round-trip.');
 fs.rmSync(promotedFile, { force: true });
 fs.rmSync(tempRoot, { recursive: true, force: true });
 console.log(JSON.stringify({ status: 'PILOT_PASS', testKey: 'SAT1', representativeQuestions: ['R&W', 'Math'], questionCount: 2, identitiesPreserved: true, canonicalStagingOnly: true, productionMutation: false, sat21Created: false }, null, 2));
