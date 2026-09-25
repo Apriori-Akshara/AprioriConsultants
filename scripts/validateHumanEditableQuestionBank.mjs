@@ -9,7 +9,12 @@ if (!inputPath) throw new Error('Usage: node validateHumanEditableQuestionBank.m
 const absolute = path.resolve(process.cwd(), inputPath);
 const source = fs.readFileSync(absolute, 'utf8');
 const top = Object.fromEntries([...source.matchAll(/^([A-Z][A-Z ]+):[ \t]*(.*)$/gm)].map((m) => [m[1].trim(), m[2].trim()]));
-const questionMatches = [...source.matchAll(/^### Question: ([^\n]+)\n([\s\S]*?)(?=^### Question: |$)/gm)];
+const headingRegex = /^### Question: ([^\n]+)\n/gm;
+const headings = [...source.matchAll(headingRegex)];
+const questionMatches = headings.map((match, index) => ({
+  1: match[1],
+  2: source.slice(match.index + match[0].length, index + 1 < headings.length ? headings[index + 1].index : source.length),
+}));
 if (!questionMatches.length) throw new Error('No question blocks found in ' + inputPath);
 
 function field(block, label) {
