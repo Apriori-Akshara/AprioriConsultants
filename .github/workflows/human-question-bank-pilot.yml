@@ -12,6 +12,7 @@ on:
       - 'scripts/promoteHumanBankToCanonicalStaging.mjs'
       - 'scripts/runHumanQuestionBankPilot.mjs'
       - 'scripts/exportBatchMLegacyCorpusToHumanBank.mjs'
+      - 'scripts/humanQuestionBankContentAdapter.mjs'
       - 'scripts/batchMExtensionlessModuleLoader.mjs'
       - 'scripts/batchMExtensionlessResolve.mjs'
       - 'src/data/sat/questionSchema.js'
