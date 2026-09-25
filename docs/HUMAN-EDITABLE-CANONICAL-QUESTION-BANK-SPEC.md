@@ -1,6 +1,6 @@
 # Human-Editable and Canonical SAT/PSAT Question-Bank Specification
 
-**Status:** IMPLEMENTATION STARTED — legacy/approved separation and legacy export implemented; controlled parser/promotion remains pending
+**Status:** IMPLEMENTED — legacy/approved separation, deterministic export, parser/validator, approval gate, canonical staging bridge, and end-to-end CI pilot verified
 **Scope:** Human-readable question editing, canonical question synchronization, validation, and controlled item-level maintenance
 **Production boundary:** This document does not authorize production mutation
 **Production target:** The frozen 30-mock corpus — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20
@@ -73,9 +73,11 @@ There is one document for each frozen production mock.
 
 Examples:
 
-question-banks/SAT01.md
-question-banks/PSAT06.md
-question-banks/SAT20.md
+question-banks/legacy-30-mock-corpus/SAT1.md
+question-banks/legacy-30-mock-corpus/PSAT6.md
+question-banks/legacy-30-mock-corpus/SAT20.md
+
+Approved working documents use the parallel `question-banks/approved-launch-corpus/` area. Canonical promotion artifacts are written only to `question-banks/approved-launch-corpus/canonical-promotion-staging/`.
 
 The filename is an organizational convenience; the document metadata and every question's canonical identity remain authoritative.
 
@@ -304,58 +306,69 @@ When the user asks for a change to a specific question after this system is impl
 
 ## 16. Current implementation status
 
-The human-editable/canonical two-representation architecture is **partially implemented**. The repository now contains separate legacy and approved working areas plus a deterministic exporter for the frozen 30-mock corpus. The legacy export is intentionally non-production and cannot mutate canonical records. The document parser, approval-state validator, canonical promotion adapter, and full round-trip acceptance test remain to be implemented.
+The human-editable/canonical question-bank bridge is **implemented and CI-verified**. The repository now contains:
 
-Until implementation is completed, existing JavaScript production content and the current canonical validation/storage path remain the working runtime mechanism.
+- `question-banks/legacy-30-mock-corpus/` for the frozen legacy working copy;
+- `question-banks/approved-launch-corpus/` for explicitly approved working content;
+- `scripts/exportBatchMLegacyCorpusToHumanBank.mjs` for deterministic legacy export;
+- `scripts/validateHumanEditableQuestionBank.mjs` for deterministic parsing and canonical schema validation;
+- `scripts/promoteHumanBankToCanonicalStaging.mjs` for approval-gated canonical staging;
+- `scripts/humanQuestionBankContentAdapter.mjs` for conservative answer/choice resolution;
+- `scripts/runHumanQuestionBankPilot.mjs` for the end-to-end acceptance pilot;
+- `.github/workflows/human-question-bank-pilot.yml` for continuous verification.
 
-This feature is a maintenance improvement; it does not change the frozen 30-mock production scope.
-## 17. Parser and approval-gate implementation checkpoint
+The runtime production corpus remains the existing canonical JavaScript store. The human-editable system is a maintenance layer and does not itself change production.
 
-The controlled document bridge is now implemented at the tooling level.
+## 17. Verified pilot acceptance
 
-### Implemented
+The end-to-end pilot has passed in GitHub Actions after correcting the Markdown answer-field parsing compatibility issue.
 
-- `scripts/validateHumanEditableQuestionBank.mjs` parses the deterministic Markdown format, reconstructs canonical editable fields, preserves the system-managed metadata block, detects duplicate question identities, checks document identity consistency, and runs the existing `validateSatQuestion` canonical schema validator.
-- `scripts/promoteHumanBankToCanonicalStaging.mjs` accepts only documents whose questions are explicitly marked `STATUS: APPROVED`, validates them first, restricts promotion targets to the frozen 30-mock scope, and writes only a **canonical staging** JSON artifact.
-- No script in this bridge mutates the production JavaScript corpus.
-- Production authorization is still a separate step.
+Verified workflow: **Human question bank pilot — run 36152194934 — SUCCESS**.
 
-### Commands
+The pilot verifies, using real frozen SAT1 production questions:
 
-```bash
-npm run question-bank:validate -- question-banks/legacy-30-mock-corpus/SAT1.md
-npm run question-bank:promote-staging -- question-banks/approved-launch-corpus/SAT1.md
-```
+- deterministic Markdown generation;
+- explicit approval status;
+- parsing and canonical schema validation;
+- canonical staging only;
+- preservation of exact question identities;
+- preservation of resolved answer identities;
+- removal of temporary staging artifacts;
+- no production mutation;
+- no SAT21 creation.
 
-The first command performs document/schema validation. The second performs the approval-gated conversion to canonical staging. A legacy document intentionally fails the approval gate until its questions have been explicitly reviewed and marked APPROVED.
+The parser accepts both `ANSWER: B` and a two-line `ANSWER:` followed by `B`. New exports write `ANSWER: B`.
 
-### Safety rule
+## 18. Controlled maintenance workflow — current contract
 
-**Markdown edit → validation → explicit APPROVED status → canonical staging → separate production authorization → production update → affected re-gates**
+For future content maintenance, use this sequence:
 
-Canonical staging is not production. It is the controlled bridge needed before a future authorized production promotion.
+**1. Select exact target → 2. Edit human-readable mock document → 3. Mark item APPROVED only after review → 4. Validate document/schema → 5. Promote to canonical staging → 6. Run applicable item/corpus QC → 7. Obtain explicit production authorization when required → 8. Apply to existing canonical production target → 9. Re-run required affected/collective gates → 10. Release only after the separate Batch M release checkpoints pass.**
 
-## 18. Next implementation checkpoint
+The human-editable document is the preferred authoring surface. JavaScript remains the canonical runtime storage mechanism until an authorized production promotion is applied.
 
-The bridge is ready for a small end-to-end pilot. The next step is to export/prepare a small representative set of existing questions, explicitly approve the acceptable items, run document validation and canonical staging, and verify the round-trip without touching production. Only after that pilot passes should the workflow be expanded to the full 30-mock legacy corpus.
+## 19. Full-corpus preparation — next implementation step
 
-## 19. Pilot hardening after CI failure
+The next step is **only** to materialize the complete frozen 30-mock legacy human-editable document set using:
 
-The first CI pilot exposed a representation-compatibility issue rather than a parser-heading issue. A small number of existing/remediated records can retain the answer redundantly in controlled metadata or in an explicit explanation statement even when a direct answer field is blank.
+`npm run question-bank:export-legacy`
 
-The maintenance bridge now uses scripts/humanQuestionBankContentAdapter.mjs to resolve answers conservatively:
+Expected scope:
 
-1. use the explicit question-level answer first;
-2. then use explicit redundant answer fields;
-3. for multiple-choice records only, use a single machine-readable correct profile when present;
-4. then accept an explicit explanation statement such as "Choice B is correct";
-5. reject conflicts instead of guessing.
+- SAT1–SAT10;
+- PSAT1–PSAT10;
+- SAT11–SAT20;
+- 30 documents total;
+- 196 questions per document;
+- 5,880 questions total;
+- all records retained as `STATUS: LEGACY` / not launch-approved;
+- no canonical production mutation;
+- no SAT21.
 
-The pilot now selects real SAT1 R&W and Math multiple-choice records with a resolvable answer and verifies both question identity and answer identity after canonical staging.
+After the export is materialized, the next documented task is to establish the review/approval working process on those documents. Do **not** promote the full legacy corpus automatically.
 
-The workflow remains staging-only. No production corpus mutation is performed by this pilot.
+## 20. Production safety boundary
 
-The expanded workflow is expected to pass before the full 30-mock human-editable export is generated and committed.
-### 19.1 Parser compatibility fix
+The full legacy export is a non-production documentation operation. It does not authorize replacement of the current runtime corpus and does not change release eligibility.
 
-The Markdown parser now accepts both `ANSWER: B` and a two-line `ANSWER:` followed by `B`. New exports write the answer inline while legacy/hand-edited files remain readable.
+Any future approved edit must continue through the controlled validation and staging path above and then through the normal affected-item and corpus re-gates. Explicit production authorization is still required for production mutation when applicable.
