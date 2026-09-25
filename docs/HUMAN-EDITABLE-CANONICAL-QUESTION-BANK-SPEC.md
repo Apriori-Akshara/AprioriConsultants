@@ -309,3 +309,32 @@ The human-editable/canonical two-representation architecture is **partially impl
 Until implementation is completed, existing JavaScript production content and the current canonical validation/storage path remain the working runtime mechanism.
 
 This feature is a maintenance improvement; it does not change the frozen 30-mock production scope.
+## 17. Parser and approval-gate implementation checkpoint
+
+The controlled document bridge is now implemented at the tooling level.
+
+### Implemented
+
+- `scripts/validateHumanEditableQuestionBank.mjs` parses the deterministic Markdown format, reconstructs canonical editable fields, preserves the system-managed metadata block, detects duplicate question identities, checks document identity consistency, and runs the existing `validateSatQuestion` canonical schema validator.
+- `scripts/promoteHumanBankToCanonicalStaging.mjs` accepts only documents whose questions are explicitly marked `STATUS: APPROVED`, validates them first, restricts promotion targets to the frozen 30-mock scope, and writes only a **canonical staging** JSON artifact.
+- No script in this bridge mutates the production JavaScript corpus.
+- Production authorization is still a separate step.
+
+### Commands
+
+```bash
+npm run question-bank:validate -- question-banks/legacy-30-mock-corpus/SAT1.md
+npm run question-bank:promote-staging -- question-banks/approved-launch-corpus/SAT1.md
+```
+
+The first command performs document/schema validation. The second performs the approval-gated conversion to canonical staging. A legacy document intentionally fails the approval gate until its questions have been explicitly reviewed and marked APPROVED.
+
+### Safety rule
+
+**Markdown edit → validation → explicit APPROVED status → canonical staging → separate production authorization → production update → affected re-gates**
+
+Canonical staging is not production. It is the controlled bridge needed before a future authorized production promotion.
+
+## 18. Next implementation checkpoint
+
+The bridge is ready for a small end-to-end pilot. The next step is to export/prepare a small representative set of existing questions, explicitly approve the acceptable items, run document validation and canonical staging, and verify the round-trip without touching production. Only after that pilot passes should the workflow be expanded to the full 30-mock legacy corpus.
