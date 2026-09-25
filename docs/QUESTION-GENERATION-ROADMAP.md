@@ -42,7 +42,7 @@ The existing SAT/adaptive engine remains the delivery engine.
 
 **Maintenance path:** Canonical Question Record → Human-Editable Mock Question-Bank Document → Requested Edit → Document Parser/Validator → Canonical Question Record → Applicable QC → Existing SAT Engine
 
-The human-editable document layer is a content-authoring/maintenance surface, not a second runtime question bank. The canonical record remains the validated structured representation delivered by the existing engine. See docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md for the detailed contract.
+The human-editable document layer is a content-authoring/maintenance surface, not a second runtime question bank. The canonical record remains the validated structured representation delivered by the existing engine. See docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md for the detailed contract. The implementation has now begun with strict separation between the frozen legacy 30-mock corpus and the approved launch corpus.
  New work is restricted to generation, storage, validation, and figure rendering.
 
 The canonical question contract must remain compatible with useful legacy fields. Existing fields must not be silently deleted.
@@ -177,7 +177,7 @@ GitHub Actions run **35181971047** (run #7) is the successful comprehensive QC e
 
 ### Human-editable and canonical question-bank maintenance capability
 
-**Status: APPROVED / PLANNED — NOT YET IMPLEMENTED.**
+**Status: IMPLEMENTATION STARTED — LEGACY/APPROVED SEPARATION + LEGACY EXPORT IMPLEMENTED; PARSER/PROMOTION PENDING.**
 
 The project will maintain one human-readable question-bank document per frozen production mock under question-banks/. These documents are the preferred editing surface for item-level content maintenance.
 
