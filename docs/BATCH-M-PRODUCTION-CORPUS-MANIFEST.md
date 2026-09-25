@@ -1,7 +1,7 @@
 # Batch M Production Corpus Manifest
 
-**Status:** FROZEN — TARGETED REMEDIATION COMPLETE / 30-MOCK TECHNICAL + CALIBRATION GATES PASS / DEEP CONTENT-QUALITY RELEASE HOLD  
-**Date:** September 16, 2026  
+**Status:** FROZEN — AUTHORIZED 25-TARGET REPLACEMENT COMPLETE / 30-MOCK TECHNICAL + CALIBRATION GATES PASS / PUBLIC QUICK-CHECK COMPLETE / RELEASE NOT YET ACCEPTED  
+**Date:** Updated September 25, 2026  
 **Scope:** Batch M production question corpus only
 
 ## Purpose
@@ -65,7 +65,7 @@ SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20 are the complete approved Batch 
 
 The canonical production store contains exactly this frozen sequence. It does not define or export a SAT21 production target. `nextTestKey` is `null`.
 
-The final collective verification after the targeted remediation remains a required release checkpoint.
+The final collective verification after the targeted remediation has passed; it remains a required evidence checkpoint, not a pending task.
 
 ## Maintenance and release safeguards
 
@@ -92,18 +92,21 @@ The detailed checkpoint is `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-202
 
 ## Final Batch M release sequence
 
-1. **Final collective 30-mock corpus gate — PASS:** workflow **35578714088**.
-2. **30-mock cross-corpus calibration — PASS:** workflow **35578713967**.
-3. **Deep content-quality/diversity release hold:** production-corpus workflow **35578714129 — FAIL**; subsequent candidate/review work remains candidate-only until its release boundary is satisfied.
-4. **SAT11–SAT20 public route smoke — PASS:** workflow **35580194863**.
-5. **Authenticated Series B functionality — focused live acceptance reported satisfactory by the user:** this verifies student-facing functionality only, not exhaustive content QC.
-6. **Final comprehensive public QC — pending:** after the substantive release blocker is cleared, inspect the student-facing 30-mock experience, including representative questions, R&W/Math rendering, figures/charts/tables, layout, responsive/mobile behavior, navigation, timing, adaptive progression, persistence, scoring, and reports. The user does not need to solve every question.
-7. **Final Batch M acceptance:** only after all preceding checkpoints pass.
+1. **Final collective 30-mock corpus gate — PASS.**
+2. **30-mock cross-corpus calibration — PASS.**
+3. **Deep content-quality/diversity candidate/review/replacement boundary — COMPLETE for the authorized package:** the exact 25-target package was independently reviewed, validated, explicitly authorized, and applied; post-mutation corpus and calibration gates passed.
+4. **SAT11–SAT20 public route/runtime verification — COMPLETE.**
+5. **Public student-facing quick-check of all 30 mocks — COMPLETE:** the user verified that all 30 mocks load. No additional Stage 14 work is required unless a new live defect is reported.
+6. **Technical release QC — NEXT:** diagnose and correct genuine remaining launch-blocking technical defects within scope.
+7. **Final end-to-end student acceptance — PENDING.**
+8. **Final Batch M acceptance — PENDING.**
 
-SAT11–SAT20 are deployed in the live Series B runtime and have passed both public route verification and focused authenticated functionality acceptance. No SAT21 or additional production mock is planned.
+The human-editable/canonical question-bank bridge is implemented and pilot-verified, but it is a maintenance track rather than a prerequisite release gate. Its next step is full 30-mock legacy document materialization.
+
+No SAT21 or additional production mock is planned.
 
 ## Current status
 
-**Production generation, targeted remediation, authorized 195-target calibration replacement, comprehensive 20-test post-replacement QC, final 30-mock corpus gate, 30-mock cross-corpus calibration, SAT11–SAT20 public route verification, and focused authenticated Series B functionality acceptance are complete. The corpus remains frozen at exactly 30 mocks. The remaining release blocker is the substantive deep content-quality/diversity hold and its production-release boundary; exhaustive public content/UI QC and final Batch M acceptance remain pending.**
+**Production generation, targeted remediation, authorized 195-target calibration replacement, exact authorized 25-target replacement, post-mutation gates, final 30-mock corpus gate, cross-corpus calibration, SAT11–SAT20 verification, and public quick-check are complete. The corpus remains frozen at exactly 30 mocks. Release is not yet accepted; Stage 15 technical release QC, final end-to-end student acceptance, and final Batch M acceptance remain pending.**
 
-No SAT21 or additional production mock is planned.
+The human-editable/canonical question-bank bridge is implemented and CI-verified. The next maintenance step is full 30-mock legacy document materialization.
