@@ -114,7 +114,13 @@ The following controls remain active:
 
 The validated 25-target package has now been applied to the frozen production corpus under the explicit 2026-09-22 authorization. The resulting production mutation remains **release-ineligible** until the downstream release checkpoints pass.
 
-## 6. Current logical implementation sequence
+## 6. Human-editable launch-bank implementation checkpoint
+
+The launch-content workflow has now been separated from the frozen legacy corpus. The repository contains `question-banks/legacy-30-mock-corpus/` for the existing 30-mock working copies and `question-banks/approved-launch-corpus/` for human-approved launch content. A deterministic exporter, `scripts/exportBatchMLegacyCorpusToHumanBank.mjs`, and npm command `npm run question-bank:export-legacy` are implemented to materialize the frozen corpus into the legacy human-editable area without mutating production.
+
+The existing 30-mock corpus remains legacy/non-approved content. It may be selectively retained, edited, or replaced, but nothing becomes canonical launch content merely because it exists in the legacy area. The next implementation sub-step is the controlled document parser/validator and approval-to-canonical promotion path.
+
+## 8. Current logical implementation sequence
 ### Stage 14 frontend remediation — 2026-09-23/25
 
 A public student-facing inspection found two frontend defects: PSAT mocks were launched through the SAT dynamic route, and Desmos calculator access was not reliably exposed across the shared runner. These were corrected by adding a canonical PSAT dynamic route, separating the shared browser runner from the SAT server page, and providing both official College Board Desmos testing calculators with popup-block fallback. The user then completed a quick public-site inspection of all 30 frozen mocks and reported that all 30 mocks are loading. The user also confirmed that the Series B tests are loading publicly after the runtime memory remediation in `c4e73fa0359f7356565aeb794f322b9362c435d6`.
