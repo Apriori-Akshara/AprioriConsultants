@@ -356,3 +356,6 @@ The pilot now selects real SAT1 R&W and Math multiple-choice records with a reso
 The workflow remains staging-only. No production corpus mutation is performed by this pilot.
 
 The expanded workflow is expected to pass before the full 30-mock human-editable export is generated and committed.
+### 19.1 Parser compatibility fix
+
+The Markdown parser now accepts both `ANSWER: B` and a two-line `ANSWER:` followed by `B`. New exports write the answer inline while legacy/hand-edited files remain readable.
