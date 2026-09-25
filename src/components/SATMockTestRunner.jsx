@@ -22,6 +22,7 @@ export default function SATMockTest({ test }) {
   const [deadlineAt, setDeadlineAt] = useState(null);
   const [result, setResult] = useState(null);
   const [tool, setTool] = useState(null);
+  const [calculatorMode, setCalculatorMode] = useState("graphing");
   const [zoom, setZoom] = useState(100);
   const [eliminated, setEliminated] = useState({});
   const [notes, setNotes] = useState({});
@@ -54,10 +55,9 @@ export default function SATMockTest({ test }) {
   };
 
   function openDesmosCalculator(mode) {
-    const url = calculatorUrls[mode];
-    if (!url || typeof window === "undefined") return;
-    const opened = window.open(url, "_blank", "noopener,noreferrer");
-    if (!opened) window.location.assign(url);
+    if (!calculatorUrls[mode]) return;
+    setCalculatorMode(mode);
+    setTool("calculator");
   }
 
   const section = test?.sections?.[sectionIndex];
@@ -287,18 +287,16 @@ export default function SATMockTest({ test }) {
     {tool ? <div className={styles.overlay} onClick={() => setTool(null)}><div className={tool === "navigator" ? styles.drawer : tool === "calculator" ? styles.calculatorPanel : tool === "reference" ? styles.referencePanel : styles.notesPanel} onClick={(event) => event.stopPropagation()}>
       <div className={styles.drawerHeader}><h2>{tool === "navigator" ? "Question Navigator" : tool === "calculator" ? "Desmos Calculator" : tool === "reference" ? "Math Reference" : "Notes"}</h2><button onClick={() => setTool(null)}>Close</button></div>
       {tool === "navigator" ? <><div className={styles.navigatorLegend}><span>Answered: {answeredCount}</span><span>Flagged: {flaggedCount}</span></div><div className={styles.questionGrid}>{questions.map((item, index) => <button key={item.questionId} className={`${styles.questionCell} ${answers[item.questionId] ? styles.questionAnswered : ""} ${flags[item.questionId] ? styles.questionFlagged : ""} ${index === questionIndex ? styles.questionCurrent : ""}`} onClick={async () => { await moveTo(index); setTool(null); }}>{index + 1}</button>)}</div></> : tool === "calculator" ? <div>
-        <p className={styles.calculatorHint}>Choose a Desmos testing calculator. It opens the official College Board testing version in a new tab, which avoids browser iframe restrictions.</p>
+        <p className={styles.calculatorHint}>Use the official College Board testing version of Desmos directly inside this question screen. The test remains on the same page while the calculator is open.</p>
         <div className={styles.calculatorChoiceGrid}>
-          <button type="button" className={styles.calculatorChoice} onClick={() => openDesmosCalculator("graphing")}>
-            <strong>Graphing Calculator</strong><span>Open the Desmos College Board Graphing Calculator</span>
+          <button type="button" className={styles.calculatorChoice} onClick={() => setCalculatorMode("graphing")} aria-pressed={calculatorMode === "graphing"}>
+            <strong>Graphing Calculator</strong><span>College Board testing version · embedded here</span>
           </button>
-          <button type="button" className={styles.calculatorChoice} onClick={() => openDesmosCalculator("scientific")}>
-            <strong>Scientific Calculator</strong><span>Open the Desmos College Board Scientific Calculator</span>
+          <button type="button" className={styles.calculatorChoice} onClick={() => setCalculatorMode("scientific")} aria-pressed={calculatorMode === "scientific"}>
+            <strong>Scientific Calculator</strong><span>College Board testing version · embedded here</span>
           </button>
         </div>
-        <div className={styles.calculatorFallback}>
-          <button type="button" onClick={() => openDesmosCalculator("graphing")}>Open Graphing Calculator directly</button>
-        </div>
+        <iframe className={styles.calculatorFrame} src={calculatorUrls[calculatorMode]} title={calculatorMode === "graphing" ? "Desmos College Board Graphing Calculator" : "Desmos College Board Scientific Calculator"} allow="fullscreen" />
       </div>: tool === "reference" ? <div className={styles.referenceGrid}><div><strong>Triangle</strong><p>A = ½bh</p></div><div><strong>Circle</strong><p>A = πr²</p></div><div><strong>Pythagorean theorem</strong><p>a² + b² = c²</p></div><div><strong>Coordinate geometry</strong><p>Use the coordinate-plane relationships needed by the question.</p></div></div> : <textarea value={notes[question?.questionId] || ""} onChange={(event) => setNotes((current) => ({ ...current, [question.questionId]: event.target.value }))} onBlur={(event) => saveNote(event.target.value)} placeholder="Write a note for this attempt…" />}
     </div></div> : null}
   </div>;
