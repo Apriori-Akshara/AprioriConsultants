@@ -1,21 +1,33 @@
 # Approved Launch Corpus
 
-This directory is the **human-editable staging area for launch-approved content**.
+This directory is the **human-review and approval working area** for content intended for launch.
 
-A question belongs here only after human review has established that the content is suitable for the intended SAT/PSAT use.
+It is separate from `question-banks/legacy-30-mock-corpus/`.
 
 ## Required lifecycle
 
-`DRAFT → REVIEW → APPROVED → CANONICAL → RUNTIME`
+`LEGACY / DRAFT → REVIEW → APPROVED → VALIDATE → CANONICAL STAGING → AUTHORIZED PRODUCTION → RE-GATE → RELEASE`
 
-Approval in this directory does not by itself mutate production. Canonical promotion remains a controlled, validated operation.
+Approval does not by itself mutate production.
+
+Canonical staging is written to:
+
+`question-banks/approved-launch-corpus/canonical-promotion-staging/`
 
 ## Required identity
 
-Every question must retain its existing `testKey + questionId` when editing an existing target unless an explicit identity migration is approved.
+Every existing question must retain its exact `testKey + questionId` unless an explicit identity migration is separately approved.
 
-New questions must not silently create new production mock targets.
+No new mock target may be created through this workflow.
 
-## Required separation
+## Validation commands
 
-Legacy content must never be treated as approved merely because it was exported here. A legacy item must be explicitly reviewed and assigned an approval status before canonical promotion.
+`npm run question-bank:validate -- <approved-mock.md> --approved-only`
+
+`npm run question-bank:promote-staging -- <approved-mock.md>`
+
+The promotion command performs approved-only validation first and writes staging only. Production mutation remains a separate authorized operation.
+
+## Current status
+
+The parser, approval gate, staging bridge, answer-resolution adapter, and CI pilot are implemented and verified. Full 30-mock content materialization and human review are the next maintenance steps.
