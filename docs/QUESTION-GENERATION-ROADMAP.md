@@ -1,6 +1,6 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 22, 2026  
+**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 25, 2026  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
 
@@ -26,7 +26,7 @@ This document is the primary implementation roadmap. `docs/QUESTION-GENERATION-C
 | J | Figure validation + originality/uniqueness | COMPLETE / LIVE |
 | K | Calibration corpus + assessment calibration | COMPLETE / READY FOR PRIVATE ANCHOR POPULATION |
 | L | Controlled end-to-end generation/QC/storage/adapter test | COMPLETE / LIVE |
-| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK + CROSS-CORPUS GATES PASS / EXACT TARGET-AWARE 25-CANDIDATE REVIEW PASS / CONTROLLED REPLACEMENT PACKAGE VALIDATED** |
+| M | Production generation + corpus-level QC | **TARGETED REMEDIATION COMPLETE / 195-TARGET CALIBRATION RECONCILIATION APPLIED / FINAL 30-MOCK + CROSS-CORPUS GATES PASS / EXACT TARGET-AWARE 25-CANDIDATE REVIEW PASS / CONTROLLED REPLACEMENT PACKAGE VALIDATED / STAGE 14 PUBLIC INSPECTION COMPLETE** |
 
 **Batch M production generation is complete. The initial SAT1–SAT10 and PSAT1–PSAT10 content-quality audit was remediated through the documented controlled candidate/replacement path. The later 195-target R&W calibration reconciliation was independently reviewed, exactly target-locked, explicitly authorized, and applied to production. The corrected production state passes the final 30-mock corpus gate and 30-mock cross-corpus calibration. The corrected deep-QC candidate pipeline has now completed independent substantive review at 25/25 PASS, with 0 FAIL, 0 expert-review flags, and 0 duplicate groups. Those 25 items were converted into the exact approved production replacement package, explicitly authorized, and applied one-for-one to existing targets. Release eligibility remains false.**
 
@@ -231,7 +231,7 @@ The corrected deep SAT/PSAT content-quality/diversity candidate pipeline has als
 
 The candidate-selector correction is recorded at `f52238c6a3ffafd97baca9ba291a310d5187af2f`. The 25 passed candidates are not automatically production replacements.
 
-**Current next stage:** complete final public student-facing inspection of all 30 mocks. Stages 11–13 are complete: explicit authorization, exact 25-target controlled replacement, and post-mutation affected/collective gates. After public inspection, complete technical release QC, final end-to-end student acceptance, and final Batch M release acceptance.
+**Current next stage:** complete technical release QC. Stages 11–14 are complete: explicit authorization, exact 25-target controlled replacement, post-mutation affected/collective gates, and the user-reported quick public inspection of all 30 frozen mocks. After technical release QC, complete final end-to-end student acceptance and final Batch M release acceptance.
 
 ### Remediation branch promotion boundary
 
@@ -275,4 +275,4 @@ At the beginning of a future session:
 8. Read `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md` for the completed remediation/re-gating milestone.
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
 10. Record the completed **target-aware candidate generation → exact-target selection → pre-normalization independent review → canonical normalization → post-normalization independent review → final replacement-package validation → explicit authorization → controlled production replacement → post-mutation gates** sequence. Validation run **35697516214 — PASS**; authorized production run **35728264303 — PASS**. Keep release eligibility false until the remaining public/technical/student/final acceptance checkpoints pass. Canonical normalization uses exact target identity where present and strict structural compatibility; it cannot substitute unrelated canonical skills. The prior `difficultyBand` compatibility regression and collective gates are already resolved; do not create SAT21.
-11. Treat SAT11–SAT20 public verification as deferred release work.
+11. Treat SAT11–SAT20 public verification as complete at the documented user-reported quick-check level; the Series B runtime memory/loading remediation is also verified publicly by the user. Proceed to technical release QC.
