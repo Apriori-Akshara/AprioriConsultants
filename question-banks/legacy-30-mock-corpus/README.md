@@ -1,17 +1,30 @@
 # Legacy 30-Mock Corpus
 
-This directory is a **non-approved working copy** of the existing frozen production corpus.
+This directory is a **non-approved working copy** of the current frozen 30-mock canonical/runtime corpus.
 
-It exists so that the current 30 mocks can be reviewed and selectively improved without confusing them with the approved launch corpus.
+## Scope
 
-## Status
+- SAT1–SAT10
+- PSAT1–PSAT10
+- SAT11–SAT20
+- 196 questions per mock
+- 5,880 questions total when fully materialized
+- SAT21: prohibited / not created
+- approval status: **LEGACY — NOT LAUNCH APPROVED**
+- production mutation: none
 
-- Source: current frozen Batch M production corpus.
-- Scope: SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20.
-- SAT21: prohibited / not created.
-- Approval status: **LEGACY — NOT LAUNCH APPROVED**.
-- Production mutation: none.
+The documents are generated from the frozen canonical/runtime corpus by:
 
-The documents in this directory are generated from the current canonical/runtime corpus by the legacy export command. They are not a second runtime question bank.
+`npm run question-bank:export-legacy`
 
-For each question, reviewers may retain, edit, or replace the item. An edited item must be promoted to the approved-launch area and pass the required validation before it can become canonical launch content.
+They are not a second runtime question bank.
+
+## Review rule
+
+A legacy item may be retained, edited, replaced, or rejected during human review. Nothing becomes launch-approved merely because it appears in this directory.
+
+An approved item must move through the approved-launch workflow and pass the required validation/QC before any controlled canonical promotion.
+
+## Current status
+
+The tooling bridge and SAT1 pilot are implemented and CI-verified. The **full 30-mock document set has not yet been materialized**; that is the next documented implementation step.
