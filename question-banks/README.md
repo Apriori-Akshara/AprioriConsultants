@@ -1,40 +1,68 @@
 # Question-Bank Working Area
 
-This directory separates **legacy production content** from the new **human-editable approved content**.
+This directory is the controlled content-maintenance layer for the frozen 30-mock SAT/PSAT corpus.
 
-## Two separate areas
+## Two connected representations
 
-- `legacy-30-mock-corpus/` — exported working copies of the existing frozen 30-mock corpus. These records are **not approved launch content** and are never promoted automatically.
-- `approved-launch-corpus/` — human-editable questions that have passed review and have been explicitly approved for canonical promotion.
+- `legacy-30-mock-corpus/` — deterministic, non-approved working copies exported from the current frozen canonical/runtime corpus.
+- `approved-launch-corpus/` — explicitly reviewed/approved working content and canonical staging artifacts.
+
+These are two representations of the same content, not two independent runtime question banks.
 
 ## Controlled flow
 
 ```
-Frozen 30-mock runtime corpus
+Frozen 30-mock canonical/runtime corpus
         ↓
 legacy-30-mock-corpus/
         ↓
-human review / edit / replacement
+human review / edit
+        ↓
+STATUS: APPROVED
         ↓
 approved-launch-corpus/
         ↓
-schema + content + originality + corpus validation
+schema + applicable content/QC gates
         ↓
-canonical production record
+canonical-promotion-staging/
         ↓
-runtime JS / mock assembly
+explicit production authorization when required
+        ↓
+existing canonical production target
+        ↓
+affected/collective re-gates
 ```
 
-The legacy area and approved area must never be merged implicitly.
+## Frozen scope
 
-No SAT21 may be created. The frozen production scope remains SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20.
+Exactly:
 
-The legacy exporter is:
+- SAT1–SAT10
+- PSAT1–PSAT10
+- SAT11–SAT20
 
-`scripts/exportBatchMLegacyCorpusToHumanBank.mjs`
+No SAT21 may be created.
 
-Run it with:
+## Implemented tooling
+
+Legacy export:
 
 `npm run question-bank:export-legacy`
 
-This exporter is intentionally one-way. It creates human-readable working documents from the current frozen corpus; editing those documents does not mutate production.
+Document validation:
+
+`npm run question-bank:validate -- <mock.md>`
+
+Approval-gated canonical staging:
+
+`npm run question-bank:promote-staging -- <approved-mock.md>`
+
+End-to-end CI pilot:
+
+`npm run question-bank:pilot`
+
+The pilot is verified green in GitHub Actions (**run 36152194934**). It uses real SAT1 R&W and Math records, preserves question IDs and answers, and performs no production mutation.
+
+## Current status
+
+The bridge is implemented and pilot-verified. The **next step is full 30-mock legacy document materialization**. The export remains non-production and must not be treated as launch approval.
