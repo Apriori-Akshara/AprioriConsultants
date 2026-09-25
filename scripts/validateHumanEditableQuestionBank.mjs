@@ -18,8 +18,14 @@ const questionMatches = headings.map((match, index) => ({
 if (!questionMatches.length) throw new Error('No question blocks found in ' + inputPath);
 
 function field(block, label) {
-  const match = block.split('\n').find((line) => line.startsWith(label + ':'));
-  return match ? match.slice(label.length + 1).trim() : '';
+  const lines = block.split('\n');
+  const index = lines.findIndex((line) => line.startsWith(label + ':'));
+  if (index < 0) return '';
+  const inline = lines[index].slice(label.length + 1).trim();
+  if (inline) return inline;
+  const next = lines[index + 1] ? lines[index + 1].trim() : '';
+  if (next && !/^[A-Z][A-Z ]+\s*:/.test(next) && next !== '```') return next;
+  return '';
 }
 function multiline(block, label, nextLabels) {
   const start = block.indexOf(label + ':');
