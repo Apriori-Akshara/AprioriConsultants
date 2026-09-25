@@ -33,7 +33,7 @@ function block(question) {
   const resolvedAnswer = resolveQuestionAnswer(question);
   const metadata = { ...question };
   delete metadata.prompt; delete metadata.choices; delete metadata.options; delete metadata.answer; delete metadata.explanation;
-  return ['### Question: ' + question.questionId, '', 'STATUS: APPROVED', 'TEST KEY: SAT1', 'PROMPT:', String(question.prompt ?? ''), '', 'CHOICES:', JSON.stringify(choices, null, 2), '', 'ANSWER:', resolvedAnswer, '', 'EXPLANATION:', String(question.explanation ?? ''), '', 'SYSTEM METADATA (DO NOT EDIT DIRECTLY):', '```json', JSON.stringify(metadata, null, 2), '```', ''].join('\n');
+  return ['### Question: ' + question.questionId, '', 'STATUS: APPROVED', 'TEST KEY: SAT1', 'PROMPT:', String(question.prompt ?? ''), '', 'CHOICES:', JSON.stringify(choices, null, 2), '', 'ANSWER: ' + resolvedAnswer, '', 'EXPLANATION:', String(question.explanation ?? ''), '', 'SYSTEM METADATA (DO NOT EDIT DIRECTLY):', '```json', JSON.stringify(metadata, null, 2), '```', ''].join('\n');
 }
 
 const documentText = ['# SAT1 — Human-Editable Pilot', '', 'STATUS: PILOT', 'TEST KEY: SAT1', 'TEST ID: sat-series-a-mock-01', 'QUESTION COUNT: 2', '', block(rw), block(math)].join('\n');
