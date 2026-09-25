@@ -25,7 +25,8 @@
     "qc:batch-m-deep-content-quality-controlled-replacement-validation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityControlledReplacementValidation.mjs",
     "qc:batch-m-deep-content-quality-canonical-normalization": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs",
     "qc:batch-m-deep-content-quality-target-aware-selection": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCandidateSelection.mjs",
-    "qc:batch-m-deep-content-quality-replacement-package-final": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs"
+    "qc:batch-m-deep-content-quality-replacement-package-final": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs",
+    "question-bank:export-legacy": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/exportBatchMLegacyCorpusToHumanBank.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
