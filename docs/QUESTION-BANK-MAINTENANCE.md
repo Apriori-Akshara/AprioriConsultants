@@ -46,143 +46,105 @@ This is a release checkpoint, not permission for unrecorded mutation. Any furthe
 
 ## Human-editable and canonical question-bank model
 
-The project will use two connected representations of each accepted question:
+The project uses two connected representations of each accepted question:
 
-- **Human-editable mock question-bank document:** the preferred content-authoring surface, with one document per frozen mock under question-banks/.
+- **Human-editable mock question-bank document:** the preferred content-authoring surface under `question-banks/legacy-30-mock-corpus/` and `question-banks/approved-launch-corpus/`.
 - **Canonical question record:** the validated structured representation used by the existing runtime, production assembly, and QC.
 
-These are two representations of the same content, not two independent question banks.
+These are two representations of the same content, not two independent runtime banks.
 
-For routine maintenance, the intended workflow is:
+The document bridge is implemented and CI-verified. The runtime website continues to use the existing canonical production store until an approved, explicitly authorized promotion is applied.
 
-**Identify exact testKey + questionId → edit the mock document → parse into canonical structure → run applicable QC → review/decision → explicit authorization when required → update canonical production record → rerun affected gates.**
+### Implemented controls
 
-Direct JavaScript edits remain an implementation mechanism, not the preferred human editing interface.
+- deterministic 30-mock export;
+- deterministic Markdown parser;
+- canonical `validateSatQuestion` schema validation;
+- explicit `STATUS: APPROVED` gate for canonical staging;
+- canonical staging under `question-banks/approved-launch-corpus/canonical-promotion-staging/`;
+- conservative answer/choice resolution through `scripts/humanQuestionBankContentAdapter.mjs`;
+- end-to-end SAT1 R&W + Math pilot;
+- GitHub Actions verification with no production mutation.
 
-The complete contract is maintained in docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md.
+Verified pilot: GitHub Actions **run 36152194934 — SUCCESS**.
 
-**Status:** documented and approved; implementation is planned and not yet complete.
+### Current controlled workflow
 
-This capability is a **Batch M maintenance checkpoint**. It is not Batch N, does not add a new mock, and does not change the frozen 30-mock boundary.
+**Select exact testKey + questionId → edit the human-readable mock document → review and mark APPROVED → validate → promote to canonical staging → run applicable QC → explicit production authorization when required → apply to existing canonical target → re-run required affected/collective gates.**
+
+Never treat a legacy export as launch-approved merely because it has been generated. Never treat canonical staging as production.
+
+The complete contract is maintained in `docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md`.
+
+**Status:** IMPLEMENTED / PILOT VERIFIED. Full 30-mock legacy document materialization is the next step.
 
 ## Batch M release and content-quality acceptance sequence
 
-The production corpus is frozen, and the first targeted remediation/re-gating milestone is complete, but **Batch M is not considered fully released until all remaining release and quality checkpoints are complete.**
+The frozen 30-mock production corpus and the authorized 25-target replacement package are complete. The current Batch M release status is **not release-eligible** until the remaining downstream technical, student-acceptance, and final release checkpoints pass.
 
-### SAT/PSAT content-quality QC — remediation complete for the affected 20-test scope
+Completed and not to be repeated wholesale:
 
-The formal content-quality review of **SAT Series A Mocks 1–10 and PSAT Mocks 1–10** initially produced a QUALITY HOLD. The resulting affected-record remediation has now been completed and re-gated.
+1. frozen 30-mock production generation;
+2. targeted remediation and authorized replacements;
+3. 195-target calibration reconciliation and authorized application;
+4. final 30-mock corpus gate;
+5. 30-mock cross-corpus calibration;
+6. exact 25-target package validation and authorized production application;
+7. post-mutation collective gates;
+8. public quick-check of all 30 mocks;
+9. Series B runtime-loading remediation and focused verification.
 
-The controlled replacement applied **1,594** authorized replacements within the previously identified **2,144** affected unique production records. No out-of-scope mock was changed.
+The human-editable/canonical bridge is a **maintenance capability**, not a new Batch N and not a replacement for the Batch M release gate.
 
-The successful comprehensive 20-test QC workflow (GitHub Actions run **35181971047**, run #7, September 16, 2026) reported:
+## Current implementation order
 
-- **3,920** runtime questions across 20 mocks;
-- **1,594** verified replacement targets;
-- **0** schema failures;
-- **0** content-quality failures;
-- figure originality gate **PASS**;
-- **550** difficulty calibrations;
-- **206** R&W stimulus repairs;
-- **169** figure repairs;
-- **5** numeric-distractor repairs;
-- **846** total targeted remediation changes;
-- every affected mock at **196 / 196** passing questions;
-- `productionMutation: false` for the comprehensive QC stage;
-- `releaseEligible: false`;
-- `sat21Created: false`.
+### Step 1 — Full 30-mock legacy document materialization — NEXT
 
-The detailed current checkpoint is `docs/BATCH-M-COMPREHENSIVE-20-TEST-QC-CHECKPOINT-2026-09-16.md`.
+Run:
 
-### Current remediation state — September 16, 2026
+`npm run question-bank:export-legacy`
 
-The following stages are complete and must not be repeated without a genuine repository discrepancy:
+Expected result:
 
-- production impact identification;
-- impact classification;
-- targeted review inventory;
-- targeted replacement preparation;
-- candidate-pool quality validation;
-- exact candidate selection;
-- controlled replacement of the authorized targets;
-- affected 20-test runtime validation;
-- comprehensive 20-test post-replacement QC.
+- 30 Markdown documents;
+- SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20 only;
+- 196 questions per document;
+- 5,880 questions total;
+- all exported questions remain `STATUS: LEGACY`;
+- no production mutation;
+- no SAT21.
 
-The frozen 30-mock corpus is still **not finally release-accepted** because the final 30-mock corpus gate and the remaining release checkpoints are separate.
+### Step 2 — Human review/approval working set
 
-## Final Batch M release sequence
+Use the generated legacy documents as the review baseline. Retain, edit, replace, or reject items individually. Approved items move into the approved-launch working area; they are not silently promoted to production.
 
-1. **Candidate-only deep content-quality remediation/review — CURRENT IMPLEMENTATION STEP:** resolve the substantive hold from the deep SAT/PSAT content-quality/diversity gate through the existing candidate-generation, diversity-aware selection, and independent-review path. No production mutation occurs at this stage.
-2. **Final collective 30-mock corpus gate:** rerun the complete current 30-mock production corpus after any authorized remediation, including SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20.
-3. **30-mock cross-corpus calibration:** assess difficulty consistency, skill/domain balance, construction diversity, conceptual/construction repetition, SAT/PSAT calibration, and overall corpus coherence.
-4. **Public website inspection — user responsibility:** after the content-quality hold is cleared, inspect only `https://www.aprioriconsultants.org`; verify all 30 mocks open, R&W/Math content displays, figures/charts/tables display, there are no obvious missing/broken/overlapping/clipped elements, and representative responsive/mobile views work. The user does not perform technical QC or solve every question.
-5. **Technical release QC — project responsibility:** diagnose every reported issue against generation/storage/rendering and correct only genuine defects within scope.
-6. **Final end-to-end student acceptance:** verify launch → instructions → adaptive test-taking → completion → scoring/results → detailed report using the existing architecture.
-7. **Final Batch M acceptance:** only after all preceding checkpoints pass.
+### Step 3 — Controlled promotion and QC
 
-SAT11–SAT20 remain deployed but their public-site verification is deliberately deferred until the later release checkpoint. No SAT21 or additional production mock is planned.
+For an approved mock document:
 
-### Current deep-QC remediation status
+`npm run question-bank:validate -- <approved-mock.md>`
 
-The prior independent-review run (**35579481595**) was technically successful but substantively held with **298 FAIL / 1 expert-review item / 0 PASS**. The subsequent candidate-only corrections now preceding the next review are:
+then:
 
-- `da71fcbd473741236de08fd9dce0e27b3511b9e4` — diversity-aware candidate selection before independent review;
-- `7885a01eab70982ad866438c310e85eeb5e6001e` — Math hard-difficulty alignment so hard candidates require a genuine multi-step construction;
-- `39c347ff3525cf782970aa8057baa9afc0d87693` — diversified the Math scatterplot construction family;
-- `d1edfb18d8d3d798d4f36e8517c79fb53982599` — corrected the generator structure after that diversification;
-- `6b1d40c085ca270f871b78549c9dd30c37fd4888` — preserved/reconstructed Math distractor architecture after candidate transformations;
-- `12996fda0e5666d86e6d763d67c91ce5c13b5162` — ensured clear R&W question forms and replaced stock/generic R&W explanations with item-specific reasoning.
+`npm run question-bank:promote-staging -- <approved-mock.md>`
 
-These changes do not authorize or perform production replacement. The next verification point is a fresh independent-review run using the corrected candidate pipeline; the historical **35579481595** result must not be reused as current evidence.
+Promotion writes canonical staging only. Run the applicable content, mathematical/figure, originality, duplicate, compatibility, and affected-corpus gates before any production authorization.
 
-## Targeted remediation and re-gating
+### Step 4 — Production promotion
 
-Do not regenerate the corpus wholesale for isolated defects. The September 16 controlled replacement was limited to the explicitly affected production records. Any further post-freeze correction must remain item-specific and fully re-gated.
-
-If a genuine production-corpus change is required:
-
-1. explicitly record the corpus change;
-2. rerun the affected individual production gates;
-3. rerun the final collective corpus gate;
-4. preserve the exact 30-mock boundary.
-
-No SAT21 or additional production target may be created.
-
-## Working-copy rule for GitHub Desktop and legacy backup
-
-There are two local project folders used during this project and they must not be treated as interchangeable:
-
-- **Active authoritative working copy:** `AprioriConsultants-Git` — the GitHub Desktop-connected local repository used for current Batch M remediation work since September 14, 2026. Current branch work, edits, commits, pushes, pulls, and QC commands must be performed here unless explicitly stated otherwise.
-- **Older backup/reference copy:** `AprioriConsultants` — the pre-GitHub-Desktop local folder retained as a backup and historical reference. It may contain legitimate earlier changes that were never synchronized to the online repository.
-
-The backup copy is not authoritative for current work. Do not run the current Batch M QC from it and do not copy/merge files from it blindly. When a material discrepancy is found, compare the specific file against the active Git-connected copy and the online branch, then recover only verified work.
-
-Before running any Git/npm command for the current Batch M task, first confirm the command prompt is in the active `AprioriConsultants-Git` folder and confirm the intended branch with `git branch --show-current`.
-
-## Known synchronization discrepancy — targeted dry-run runner
-
-`scripts/runBatchMTargetedReplacementDryRun.js` exists in a stronger local form than the version currently recorded online. The shared/local form adds explicit candidate-only assertions (`productionMutation === false`, `releaseEligible === false`), minimum pool-size checks, clearer per-gate reporting, and a final dry-run status block. The discrepancy is recorded so it is not mistaken for an accidental file loss.
-
-The online GitHub version remains the baseline until the verified local form is deliberately synchronized and committed. The two versions must not be silently allowed to diverge.
-
-### Human-editable document rule after implementation
-
-Once the document system is implemented, routine item-level content edits should be made against the relevant mock document first. The canonical runtime representation must be regenerated/updated through the controlled parser and validation path.
-
-Never assume that changing a document alone changes the live website.
-
-If direct canonical/JavaScript content is changed for an emergency or implementation reason, the corresponding mock document must be synchronized and drift-checked before the change is considered complete.
+Only an explicit production authorization may allow a staged approved item to replace an existing canonical production target. Preserve `testKey + questionId` and the frozen 30-mock boundary.
 
 ## Post-freeze maintenance rules
 
 - No new Batch M target may be created.
-- No accepted mock may be silently regenerated, replaced, reordered, or mutated.
-- The September 16 targeted remediation is an explicitly recorded exception within the authorized affected-record boundary; future corrections require the same level of explicit recording and re-gating.
-- Passing the existing production gates does not by itself certify final public release.
-- Private calibration anchors remain private and must never be copied into production content or the public repository.
-- The legacy public corpus remains separate until explicit release approval.
-- The original 2,144-record targeted replacement preparation was a planning record; the subsequent controlled replacement was separately authorized and completed for 1,594 selected targets.
+- No accepted mock may be silently regenerated, reordered, or broadly replaced.
+- Human-editable documents are the preferred authoring surface for routine item maintenance.
+- Canonical staging is not production.
+- Any authorized production edit requires the applicable affected-item and collective re-gates.
+- Do not create SAT21.
+- Do not copy private calibration anchors into production or the public repository.
+- Changes outside question content, storage, rendering, or required release dependencies remain outside this maintenance track.
 
 ## Current status
 
-**Batch M production generation, production-store cleanliness, maintenance/spec safeguard verification, targeted remediation, controlled replacement, and comprehensive 20-test post-replacement QC are complete. The 30-mock corpus remains frozen. The current implementation step is candidate-only resolution of the substantive deep content-quality/diversity hold. SAT11–SAT20 remain deployed. Final collective corpus gating, cross-corpus calibration, public verification, end-to-end student acceptance, and Batch M release acceptance remain outstanding.**
+**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge is implemented and pilot-verified. The next implementation step is full 30-mock legacy document materialization.**
