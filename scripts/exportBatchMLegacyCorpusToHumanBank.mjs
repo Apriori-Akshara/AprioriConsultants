@@ -48,7 +48,7 @@ function questionToMarkdown(question) {
     'QUESTION TYPE: ' + (safe.questionType || safe.type || ''), '',
     'PROMPT:', String(safe.prompt ?? ''), '',
     'CHOICES:', JSON.stringify(choices, null, 2), '',
-    'ANSWER:', String(answer), '',
+    'ANSWER: ' + String(answer), '',
     'EXPLANATION:', String(safe.explanation ?? ''), '',
     'SYSTEM METADATA (DO NOT EDIT DIRECTLY):', '```json', JSON.stringify(system, null, 2), '```', ''
   ].join('\n');
