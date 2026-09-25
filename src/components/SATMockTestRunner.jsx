@@ -28,6 +28,14 @@ export default function SATMockTest({ test }) {
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  function positionToIndexes(attempt) {
+    const sectionKey = String(attempt?.current_section || "reading-writing");
+    const moduleKey = String(attempt?.current_module || "module-1");
+    const sectionIndex = sectionKey === "math" ? 1 : 0;
+    const moduleIndex = moduleKey === "module-2" ? 1 : 0;
+    return { sectionIndex, moduleIndex };
+  }
+
   const calculatorUrls = {
     graphing: "https://www.desmos.com/testing/collegeboard/graphing",
     scientific: "https://www.desmos.com/testing/collegeboard/scientific",
