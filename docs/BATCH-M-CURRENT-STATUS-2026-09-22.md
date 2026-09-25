@@ -2,7 +2,7 @@
 
 **Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT  
 **Documentation branch:** `main`  
-**Latest implementation revision:** `048b337c21afc9c1f4657b604b46e530a49ce898`  
+**Latest implementation revision:** `c4e73fa0359f7356565aeb794f322b9362c435d6`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
@@ -53,7 +53,7 @@ The latest Vercel check before this package-only implementation was green.
 | 11. Explicit authorization of the replacement scope | ✅ COMPLETE — explicit authorization recorded 2026-09-22 |
 | 12. Controlled production replacement, if authorized | ✅ COMPLETE — 25/25 exact replacements applied in authorized run **35728264303** |
 | 13. Re-run affected corpus/content/calibration gates | ✅ PASS — 30-mock corpus gate + cross-corpus calibration |
-| 14. Final public student-facing inspection of all 30 mocks | ⏳ PENDING — next release checkpoint |
+| 14. Final public student-facing inspection of all 30 mocks | ✅ COMPLETE — user quick-check verified all 30 mocks |
 | 15. Technical release QC | ⏳ PENDING |
 | 16. Final end-to-end student acceptance | ⏳ PENDING |
 | 17. Final Batch M release acceptance | ⏳ PENDING |
@@ -74,6 +74,8 @@ The following remain complete and must not be repeated wholesale:
 - The earlier 299-candidate deep-QC review and its subsequent remediation history.
 
 The frozen production scope remains exactly 30 mocks. No SAT21 has been created.
+
+The user subsequently completed a quick public-site inspection of all 30 frozen mocks and reported that all 30 mocks are loading. This closes the Stage 14 public student-facing inspection checkpoint at the documented quick-check level. The Series B runtime/memory remediation is also live in `c4e73fa0359f7356565aeb794f322b9362c435d6`, and the user verified that Series B tests now load publicly. The earlier Stage 14 calculator/routing implementation therefore proceeds to the next release checkpoint without reopening completed content-generation work.
 
 ## 4. Current candidate-only milestone
 
@@ -113,9 +115,11 @@ The following controls remain active:
 The validated 25-target package has now been applied to the frozen production corpus under the explicit 2026-09-22 authorization. The resulting production mutation remains **release-ineligible** until the downstream release checkpoints pass.
 
 ## 6. Current logical implementation sequence
-### Stage 14 frontend remediation — 2026-09-23
+### Stage 14 frontend remediation — 2026-09-23/25
 
-A public student-facing inspection found two frontend defects: PSAT mocks were launched through the SAT dynamic route, and Desmos calculator access was not reliably exposed across the shared runner. These have now been corrected by adding a canonical PSAT dynamic route, separating the shared browser runner from the SAT server page, and providing both official College Board Desmos testing calculators with popup-block fallback. The dedicated remediation record is `docs/BATCH-M-STAGE-14-FRONTEND-REMEDIATION-2026-09-23.md`. Live deployment verification is still required; Stage 14 remains pending.
+A public student-facing inspection found two frontend defects: PSAT mocks were launched through the SAT dynamic route, and Desmos calculator access was not reliably exposed across the shared runner. These were corrected by adding a canonical PSAT dynamic route, separating the shared browser runner from the SAT server page, and providing both official College Board Desmos testing calculators with popup-block fallback. The user then completed a quick public-site inspection of all 30 frozen mocks and reported that all 30 mocks are loading. The user also confirmed that the Series B tests are loading publicly after the runtime memory remediation in `c4e73fa0359f7356565aeb794f322b9362c435d6`.
+
+**Stage 14 status: COMPLETE at the documented quick-check level.** No additional Stage 14 code change is required unless a new live defect is reported.
 
 
 ### Step 1 — Controlled replacement-package preparation
@@ -208,4 +212,6 @@ For future sessions:
 
 **Current release status: NOT RELEASE-ELIGIBLE.**
 
-Stages 11–13 are complete: explicit authorization, the exact 25-target controlled production replacement, and post-mutation affected/collective gates. The next required stage is **Stage 14 — final public student-facing inspection of all 30 mocks**, followed by technical release QC, final end-to-end student acceptance, and final Batch M release acceptance.
+Stages 11–14 are complete: explicit authorization, the exact 25-target controlled production replacement, post-mutation affected/collective gates, and the user-reported quick public inspection of all 30 frozen mocks. The Series B runtime-loading defect is also resolved and publicly verified by the user.
+
+The next required stage is **Stage 15 — Technical release QC**, followed by final end-to-end student acceptance and final Batch M release acceptance.
