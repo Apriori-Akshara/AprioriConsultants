@@ -227,7 +227,7 @@ export function formatMathForSvg(value) {
     .replace(/\^\(([^)]+)\)/g, '^$1')
     .replace(/\s*\/\s*/g, '⁄')
     .replace(/\bsqrt\(([^)]+)\)/gi, '√($1)')
-    .replace(/_([A-Za-z0-9]+)/g, '₍$1₎');
+    .replace(/_([0-9]+)/g, (_, value) => value.replace(/[0-9]/g, (digit) => ({ "0":"₀","1":"₁","2":"₂","3":"₃","4":"₄","5":"₅","6":"₆","7":"₇","8":"₈","9":"₉" }[digit])));
 }
 
 export function hasSuspiciousRawMath(value) {
