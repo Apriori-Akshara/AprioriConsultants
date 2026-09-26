@@ -292,7 +292,7 @@ This section supersedes the earlier statement that the human-editable bridge sho
 
 **Acceptance result:** GitHub Actions Step 2 acceptance run #14 passed on commit 8f7c3c32439753564f7d07d6e6ea277614d1cfb0: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific command was npm run question-bank:source-import:test.
 
-**Scope boundary:** Steps 5–9 remain untouched. Step 5 is the next documented implementation step.
+**Scope boundary:** Steps 6–9 remain untouched. Step 6 is the next documented implementation step.
 
 ### Step 3 — Canonical Math typography — COMPLETE — 2026-09-26
 
@@ -310,9 +310,15 @@ Implemented docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md across the current st
 
 **Scope boundary:** No Step 5 normalization, exception-first review, human approval, canonical promotion, production replacement, or release work was started.
 
-### Step 5 — Pre-launch candidate normalization
+### Step 5 — Pre-launch candidate normalization — COMPLETE — 2026-09-26
 
-Apply imported and approved source material through the human-editable/canonical candidate path. Preserve question identities, route all mathematical and visual presentation through the centralized standards, and run the existing structural/content/Math/figure/originality/duplicate/compatibility gates.
+Implemented the documented candidate-only normalization path over Step 2 source-import candidates. The normalizer resolves each candidate against the frozen testKey + questionId identity, preserves system-managed metadata and identity, applies the centralized source math normalization without changing structured numeric figure data, reconstructs canonical candidate records, runs the applicable schema/content/Math/figure/originality/presentation gates, detects duplicate targets/content, and emits an exception-first review queue. Outputs are restricted to `.question-bank-normalization/` or an explicitly external directory; production paths are not writable.
+
+**Acceptance result:** GitHub Actions Step 5 acceptance run #9 passed on commit a5c72a2d13aed52ce93c04a93b663e639f541408. The focused test validated the frozen 30-mock / 5,880-question boundary, a real SAT1 legacy question fixture, identity preservation, candidate-only normalization, URL/date preservation during math-source normalization, duplicate-target and duplicate-content exception routing, structured table normalization, exception-first review, `productionMutation: false`, and `sat21Created: false`.
+
+**Operational command:** `npm run question-bank:prelaunch-normalization -- <candidates.json> [figure-candidates.json] [output-dir]`
+
+**Scope boundary:** No Step 6 human review/approval, canonical staging/promotion, production replacement, or release work was started.
 
 ### Step 6 — Exception-first human review/approval
 
