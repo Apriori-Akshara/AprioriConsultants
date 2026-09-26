@@ -57,6 +57,10 @@ Approval-gated canonical staging:
 
 `npm run question-bank:promote-staging -- <approved-mock.md>`
 
+Pre-launch candidate normalization:
+
+`npm run question-bank:prelaunch-normalization -- <candidates.json> [figure-candidates.json] [output-dir]`
+
 End-to-end CI pilot:
 
 `npm run question-bank:pilot`
@@ -65,4 +69,4 @@ The pilot is verified green in GitHub Actions (**run 36152194934**). It uses rea
 
 ## Current status
 
-The bridge is implemented and pilot-verified. The **next step is full 30-mock legacy document materialization**. The export remains non-production and must not be treated as launch approval.
+The bridge and full 30-mock legacy materialization are implemented and verified. Steps 2–5 of the post-freeze content-readiness sequence are implemented with candidate-only controls. Step 6 human review/approval is next; the export and normalization artifacts remain non-production.
