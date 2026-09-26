@@ -12,7 +12,7 @@ function normalizeWhitespace(value) {
  * Normalize source-style mathematical notation without changing ordinary prose,
  * URLs, dates, identifiers, or structured numeric data.
  */
-const URL_PATTERN = /https?:\\/\\/[^\\s<>"']+/gi;
+const URL_PATTERN = /\bhttps?:\/\/[^\s<>"']+/gi;
 
 function protectUrls(value) {
   const urls = [];
