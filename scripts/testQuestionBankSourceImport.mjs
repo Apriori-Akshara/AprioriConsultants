@@ -250,6 +250,8 @@ assert.deepEqual(second.figureCandidates, first.figureCandidates);
 assert.deepEqual(second.exceptions, first.exceptions);
 
 const outputDir = path.join(tempRoot, 'out');
+const importerStatusBefore = spawnSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' });
+assert.equal(importerStatusBefore.status, 0, 'Unable to capture pre-import Git status.');
 const written = writeImportArtifacts({ repoRoot, outputDir, inputs });
 assert.equal(written.result.summary.productionMutation, false);
 assert.equal(written.result.summary.frozenBoundaryPreserved, true);
@@ -270,9 +272,13 @@ assert.throws(
   'Production output guard',
 );
 
-const status = spawnSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' });
-assert.equal(status.status, 0, 'Unable to inspect git status.');
-assert.equal(status.stdout.trim(), '', 'Step 2 importer must not mutate tracked repository files during the acceptance test.');
+const importerStatusAfter = spawnSync('git', ['status', '--porcelain'], { cwd: repoRoot, encoding: 'utf8' });
+assert.equal(importerStatusAfter.status, 0, 'Unable to inspect post-import Git status.');
+assert.equal(
+  importerStatusAfter.stdout.trim(),
+  importerStatusBefore.stdout.trim(),
+  'Step 2 importer changed tracked repository files.',
+);
 
 console.log(JSON.stringify({
   status: 'STEP2_ACCEPTANCE_PASS',
