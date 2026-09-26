@@ -27,4 +27,4 @@ An approved item must move through the approved-launch workflow and pass the req
 
 ## Current status
 
-The tooling bridge and SAT1 pilot are implemented and CI-verified. The **full 30-mock document set has not yet been materialized**; that is the next documented implementation step.
+The tooling bridge and SAT1 pilot are implemented and CI-verified. The **full 30-mock document set has been materialized** as the frozen legacy working set. The next documented implementation step is human review/approval working-set preparation.
