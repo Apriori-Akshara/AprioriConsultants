@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for more information.
 
 # dependencies
 /node_modules
@@ -38,3 +38,6 @@ next-env.d.ts
 # Private SAT calibration corpus: never commit official anchor text or answer content.
 /internal-only/calibration-corpus/*
 !/internal-only/calibration-corpus/README.md
+
+# Local non-production Step 2 source-import artifacts.
+/.question-bank-import/
