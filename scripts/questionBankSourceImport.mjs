@@ -39,29 +39,9 @@ const MODULE_ALIASES = new Map([
   ['mathematics module 2', 'math-module-2'],
 ]);
 
-function normalizeWhitespace(value) {
-  return String(value ?? '')
-    .replace(/\u00a0/g, ' ')
-    .replace(/\r\n?/g, '\n')
-    .split('\n')
-    .map((line) => line.replace(/[ \t]+$/g, ''))
-    .join('\n')
-    .trim();
-}
+import { normalizeMathSourceNotation } from "../src/lib/sat/contentNormalization.js";
 
-export function normalizeMathSourceNotation(value) {
-  return normalizeWhitespace(value)
-    .replace(/−/g, '-')
-    .replace(/\u2212/g, '-')
-    .replace(/<=/g, '≤')
-    .replace(/>=/g, '≥')
-    .replace(/([A-Za-z0-9)\]])[ \t]*\^[ \t]*([A-Za-z0-9({])/g, '$1^$2')
-    .replace(/(\d)[ \t]*\/[ \t]*(\d)/g, '$1/$2');
-}
-
-function normalizeContentValue(value) {
-  return normalizeMathSourceNotation(value);
-}
+export { normalizeMathSourceNotation };
 
 export function normalizeMockKey(rawValue) {
   const raw = normalizeWhitespace(rawValue).replace(/^mock\s*[:#-]?\s*/i, '');

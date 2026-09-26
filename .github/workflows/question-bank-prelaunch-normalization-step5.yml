@@ -1,0 +1,34 @@
+name: Step 5 pre-launch candidate normalization acceptance
+
+on:
+  push:
+    branches:
+      - step5-candidate-normalization
+  pull_request:
+    paths:
+      - "src/lib/sat/contentNormalization.js"
+      - "src/lib/sat/prelaunchCandidateNormalization.js"
+      - "scripts/normalizePrelaunchQuestionBankCandidates.mjs"
+      - "scripts/testPrelaunchCandidateNormalization.mjs"
+      - "scripts/questionBankSourceImport.mjs"
+      - "src/lib/sat/mathTypography.js"
+      - "src/data/sat/questionSchema.js"
+      - "src/data/sat/mockContent/batchMContentQualityGate.js"
+      - "src/data/sat/mockContent/figureRegistry.js"
+      - "src/data/sat/mockContent/figureOriginalityQC.js"
+      - "src/data/sat/mockContent/mathMathematicalQC.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/question-bank-prelaunch-normalization-step5.yml"
+
+jobs:
+  step5-prelaunch-normalization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install
+      - run: npm run question-bank:prelaunch-normalization:test
