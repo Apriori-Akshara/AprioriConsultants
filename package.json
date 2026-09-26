@@ -31,7 +31,8 @@
     "question-bank:promote-staging": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/promoteHumanBankToCanonicalStaging.mjs",
     "question-bank:pilot": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/runHumanQuestionBankPilot.mjs",
     "question-bank:source-import": "node scripts/importQuestionBankSources.mjs",
-    "question-bank:source-import:test": "node scripts/testQuestionBankSourceImport.mjs"
+    "question-bank:source-import:test": "node scripts/testQuestionBankSourceImport.mjs",
+    "question-bank:math-typography:test": "node scripts/testMathTypography.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
