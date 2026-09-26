@@ -99,10 +99,19 @@ assert.equal(batch.summary.reviewRequiredCount, 2);
 assert.ok(batch.candidates[1].exceptions.some((item) => item.code === "DUPLICATE_TARGET"));
 assert.ok(batch.candidates[2].exceptions.some((item) => item.code === "MISSING_REQUIRED_CONTENT"));
 
+const duplicateContentTarget = frozen.mocks.get("PSAT1").questions[0];
 const duplicateContentCandidate = structuredClone(usable.candidate);
-duplicateContentCandidate.questionId = usable.target.questionId;
-const contentBatch = normalizePrelaunchCandidateBatch([usable.candidate, { ...duplicateContentCandidate, testKey: "PSAT1" }], {
-  targetResolver: (testKey, questionId) => testKey === "SAT1" ? usable.target : frozen.byQuestionId.get(questionId) || null,
+duplicateContentCandidate.testKey = "PSAT1";
+duplicateContentCandidate.questionId = duplicateContentTarget.questionId;
+duplicateContentCandidate.baseMetadata = {
+  ...structuredClone(usable.item.metadata),
+  questionId: duplicateContentTarget.questionId,
+  testId: duplicateContentTarget.testId,
+  section: duplicateContentTarget.section,
+  module: duplicateContentTarget.module,
+};
+const contentBatch = normalizePrelaunchCandidateBatch([usable.candidate, duplicateContentCandidate], {
+  targetResolver: (testKey, questionId) => frozen.byQuestionId.get(questionId) || null,
 });
 assert.ok(contentBatch.candidates[1].exceptions.some((item) => item.code === "DUPLICATE_CANDIDATE_CONTENT"));
 
