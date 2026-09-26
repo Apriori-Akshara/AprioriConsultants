@@ -147,9 +147,15 @@ Implemented docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md across the current st
 
 **Scope boundary:** No Step 5 normalization, exception-first review, human approval, canonical promotion, production replacement, or release work was started.
 
-### Step 5 — Pre-launch candidate normalization and exception-first review
+### Step 5 — Pre-launch candidate normalization and exception-first review — COMPLETE — 2026-09-26
 
-Apply imported candidates and approved source material through the human-editable/canonical candidate path. Run structural, content, Math, figure, originality, duplicate, and compatibility checks. Send only material exceptions to human review.
+Implemented the candidate-only normalizer for Step 2 source-import candidates. It resolves exact frozen identities, preserves system-managed metadata and question identities, applies centralized source math normalization, reconstructs canonical candidate records, runs the applicable schema/content/Math/figure/originality/presentation gates, detects duplicate targets and candidate content, and writes an exception-first review queue without mutating production.
+
+**Acceptance result:** GitHub Actions Step 5 acceptance run #9 passed on commit a5c72a2d13aed52ce93c04a93b663e639f541408. The focused test validated the frozen 30-mock / 5,880-question boundary, a real SAT1 fixture, identity preservation, table normalization, duplicate exception routing, URL/date preservation, and `productionMutation: false`.
+
+**Operational command:** `npm run question-bank:prelaunch-normalization -- <candidates.json> [figure-candidates.json] [output-dir]`
+
+**Scope boundary:** Step 6 human review/approval, canonical staging/promotion, production replacement, and release work remain untouched.
 
 ### Step 6 — Human review and approval working set
 
@@ -180,4 +186,4 @@ After launch, use the human-editable document for exact released-item correction
 
 ## Current status
 
-**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge and Step 1 legacy materialization are complete. Steps 2–4 bulk source intake, Math typography, and figure/graph/chart/table rendering hardening are complete. The next implementation step is Step 5 pre-launch candidate normalization and exception-first review.**
+**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge and Step 1 legacy materialization are complete. Steps 2–4 bulk source intake, Math typography, and figure/graph/chart/table rendering hardening are complete. The next implementation step is Step 6 human review and approval working set.**

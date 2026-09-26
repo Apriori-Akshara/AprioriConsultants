@@ -49,19 +49,9 @@ function normalizeWhitespace(value) {
     .trim();
 }
 
-export function normalizeMathSourceNotation(value) {
-  return normalizeWhitespace(value)
-    .replace(/−/g, '-')
-    .replace(/\u2212/g, '-')
-    .replace(/<=/g, '≤')
-    .replace(/>=/g, '≥')
-    .replace(/([A-Za-z0-9)\]])[ \t]*\^[ \t]*([A-Za-z0-9({])/g, '$1^$2')
-    .replace(/(\d)[ \t]*\/[ \t]*(\d)/g, '$1/$2');
-}
+import { normalizeMathSourceNotation } from "../src/lib/sat/contentNormalization.js";
 
-function normalizeContentValue(value) {
-  return normalizeMathSourceNotation(value);
-}
+export { normalizeMathSourceNotation };
 
 export function normalizeMockKey(rawValue) {
   const raw = normalizeWhitespace(rawValue).replace(/^mock\s*[:#-]?\s*/i, '');
