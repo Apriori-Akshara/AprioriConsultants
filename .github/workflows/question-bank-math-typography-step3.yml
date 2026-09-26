@@ -1,0 +1,31 @@
+name: Step 3 math typography acceptance
+
+on:
+  push:
+    branches:
+      - step3-math-typography
+  pull_request:
+    paths:
+      - 'src/lib/sat/mathTypography.js'
+      - 'src/components/sat/MathText.js'
+      - 'src/components/sat/MathSvgText.js'
+      - 'src/components/SATMockTestRunner.jsx'
+      - 'src/components/sat/MathVisualStimulusCore.js'
+      - 'src/components/sat/ThreeDSolidFigure.js'
+      - 'src/styles/MathTypography.module.css'
+      - 'scripts/testMathTypography.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/question-bank-math-typography-step3.yml'
+
+jobs:
+  step3-math-typography:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install
+      - run: npm run question-bank:math-typography:test
