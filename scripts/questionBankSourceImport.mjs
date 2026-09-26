@@ -639,12 +639,10 @@ function buildCandidateMarkdown(testKey, entries) {
       JSON.stringify(metadata, null, 2),
       fence,
       '',
-    ].join('
-');
+    ].join(String.fromCharCode(10));
   });
 
-  return header.concat(blocks).join('
-');
+  return header.concat(blocks).join(String.fromCharCode(10));
 }
 
 function sha256Buffer(buffer) {
