@@ -50,6 +50,7 @@ function isDateLike(value) {
 function isMathCandidate(value) {
   const text = String(value ?? '').trim();
   if (!text || isDateLike(text)) return false;
+  if (/^\(\s*[+\-]?\d+(?:\.\d+)?\s*,\s*[+\-]?\d+(?:\.\d+)?\s*\)$/.test(text)) return true;
   if (!MATH_OPERATOR_RE.test(text)) return false;
   if (/^https?:\/\//i.test(text) || /^www\./i.test(text)) return false;
   return /[0-9A-Za-zπ√]/.test(text);
