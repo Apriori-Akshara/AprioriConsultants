@@ -1,5 +1,7 @@
 # SAT / PSAT Figure Recalibration — 2026-09-11
 
+> **Historical checkpoint.** The implementation findings below record the 2026-09-11 recalibration. The current permanent visual contract is now defined in docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md; any historical “next step” wording in this checkpoint is superseded by the current master roadmap.
+
 ## Purpose
 Correct the Stage 1 PSAT Mock 01 and SAT Mock 01 visual-authoring problem in which generic charts/graphs were displayed on questions that did not author a relevant figure, and exact visual data could repeat unnecessarily.
 
