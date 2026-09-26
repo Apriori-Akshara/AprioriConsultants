@@ -295,3 +295,36 @@ Then validate at three levels: individual item quality, per-mock coverage/diffic
 Official College Board material may be used as a private calibration reference for assessment characteristics, style, difficulty, source complexity, and question construction. It must not be copied, closely paraphrased, or shipped as production content. Public repository files must not contain copyrighted anchor text unless its use and licensing explicitly permit that distribution.
 
 ---
+
+
+---
+
+# PART 5 — Bulk Source Intake, Math Typography, and Visual Rendering
+
+## 5.1 Bulk source intake
+
+User-supplied DOCX, PDF, or structured pasted text may be used as pre-launch source material. The controlled process is defined in docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md.
+
+The source is never the canonical runtime record. The importer must map the source to an existing frozen testKey + questionId, or stop and report an ambiguous mapping.
+
+The source workflow produces candidate content, provenance, structured figure/data candidates where recoverable, and an exception manifest. It must not silently overwrite the frozen legacy corpus or mutate production.
+
+## 5.2 Math typography
+
+Student-facing Math must use deterministic typeset mathematical notation. Source-style strings such as x^2, sqrt(x), <=, >=, or ambiguous fraction text must not remain visibly rendered when a mathematical span is intended.
+
+The complete typography contract is docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md. This includes question text, answer choices, explanations, tables, graph equations, and figure labels.
+
+Typography normalization must preserve mathematical meaning, answer identity, question identity, and figure parameters.
+
+## 5.3 Figures and data displays
+
+Canonical figures are structured objects defined by Part 3 and rendered by code. Pasted images may be source references during import/review but are not the canonical production visual.
+
+The complete visual contract is docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. Every question-essential figure must be mathematically/data-consistent with the question and answer and must pass deterministic validation.
+
+## 5.4 Pre-launch normalization and review
+
+Pre-launch source replacement/content work proceeds through candidate representations and exception-first review. It is not treated as post-launch maintenance editing.
+
+Post-launch edits are reserved for observed released-item defects and must preserve the exact canonical question identity.
