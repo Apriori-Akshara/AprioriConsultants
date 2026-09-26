@@ -6,6 +6,17 @@ import { validateStructuredFigure } from "../../data/sat/mockContent/figureRegis
 import { validateFigureOriginality } from "../../data/sat/mockContent/figureOriginalityQC.js";
 import { validateMathQuestionMathematics } from "../../data/sat/mockContent/mathMathematicalQC.js";
 
+function candidateContentFingerprint(question) {
+  return JSON.stringify({
+    section: question?.section || "",
+    module: question?.module || "",
+    prompt: question?.prompt || "",
+    choices: question?.choices || [],
+    answer: question?.answer || "",
+    explanation: question?.explanation || "",
+  });
+}
+
 const IDENTITY_FIELDS = ["testKey", "questionId"];
 const TEXT_FIELDS = ["prompt", "answer", "explanation"];
 
@@ -246,6 +257,7 @@ export function normalizePrelaunchCandidateBatch(candidates, { targetResolver, f
   }
 
   const seenTargets = new Set();
+  const seenContent = new Map();
   const results = candidates.map((candidate) => {
     const result = normalizePrelaunchCandidate(candidate, { targetResolver, figureCandidatesByTarget });
     const key = keyFor(result.testKey, result.questionId);
@@ -261,6 +273,24 @@ export function normalizePrelaunchCandidateBatch(candidates, { targetResolver, f
       });
     } else if (key !== "|") {
       seenTargets.add(key);
+    }
+
+    if (result.canonical && result.eligible) {
+      const contentFingerprint = candidateContentFingerprint(result.canonical);
+      const previous = seenContent.get(contentFingerprint);
+      if (previous && previous.key !== key) {
+        result.reviewRequired = true;
+        result.eligible = false;
+        result.status = "CANDIDATE_NORMALIZATION_REVIEW";
+        result.exceptions.push({
+          code: "DUPLICATE_CANDIDATE_CONTENT",
+          severity: "error",
+          message: "Candidate content is identical to another candidate targeting a different frozen identity.",
+          duplicateTarget: previous.key,
+        });
+      } else if (!previous) {
+        seenContent.set(contentFingerprint, { key, testKey: result.testKey, questionId: result.questionId });
+      }
     }
 
     if (figureDuplicates.has(key)) {
