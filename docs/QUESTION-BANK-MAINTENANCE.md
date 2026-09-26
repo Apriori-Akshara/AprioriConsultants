@@ -129,7 +129,7 @@ Implemented the documented non-production bulk source-input workflow for DOCX, t
 
 **Acceptance result (2026-09-26):** GitHub Actions Step 2 acceptance run #14 passed: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific test was npm run question-bank:source-import:test.
 
-Step 4 is now the next implementation step.
+Step 4 is complete; Step 5 is now the next implementation step.
 
 ### Step 3 — Canonical Math typography and student-facing rendering — COMPLETE — 2026-09-26
 
