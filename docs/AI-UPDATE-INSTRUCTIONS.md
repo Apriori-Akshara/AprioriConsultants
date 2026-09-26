@@ -67,6 +67,30 @@ human-editable question-bank system is implemented:
 
 The document edit is never, by itself, a production deployment.
 
+
+## BULK SOURCE-DOCUMENT WORKFLOW
+
+When the user supplies a Word document, PDF, or structured pasted question set for pre-launch content work, do not ask the user to retype questions into Markdown or JavaScript.
+
+Read:
+- docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md
+- docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md
+- docs/SAT-PSAT-QUESTION-SPEC.md
+- docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md when Math is involved
+- docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md when visuals are involved
+
+Extract the source in batches, map each question deterministically to the frozen testKey + questionId, create candidate content, and report only ambiguous or failed mappings/checks for human attention. Preserve the frozen legacy baseline and keep all results candidate-only until the documented approval/staging path is satisfied.
+
+Pre-launch source replacements/content candidates are distinct from post-launch maintenance edits. After release, an exact released-item defect may use the human-editable document as the maintenance surface, followed by canonical reconstruction and the applicable gates.
+
+## MATHEMATICAL DISPLAY RULE
+
+Do not “fix” SAT Math typography with blind string replacement. Route mathematical spans through the canonical typography/rendering contract so exponents, fractions, roots, inequalities, symbols, equations, graph labels, and figure annotations use one consistent student-facing system.
+
+## VISUAL RULE
+
+Do not patch individual screenshots or use AI-drawn production figures as substitutes for the structured figure system. Reconstruct structured figure/data parameters, render them deterministically, and validate their relationship to the question and answer.
+
 ## STAGE 1 PROMPT — Blueprint
 
 Use as the system/instruction prompt for the first AI call. Its only job is
