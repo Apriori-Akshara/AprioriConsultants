@@ -1,6 +1,9 @@
 name: Step 2 question-bank source intake acceptance
 
 on:
+  push:
+    branches:
+      - step2-bulk-source-intake
   pull_request:
     paths:
       - 'scripts/questionBankSourceImport.mjs'
