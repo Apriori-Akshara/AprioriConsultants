@@ -267,6 +267,8 @@ After each Stage 3 step, update the project-state documentation with the step re
 
 **Result:** The complete twenty-mock series gate passes with the corrected lowercase mock identity validation.
 
+> **Historical-scope note:** Sections 12–16 below record the earlier 20-mock Stage 3 functional milestone. Their 20-mock/Mock 10 references are historical for that functional milestone and do not override the current 30-mock question-bank corpus state recorded in Section 2 and the current question-bank maintenance section.
+
 ## 13. Stage 3 Step 11 — Full functional and public QC
 
 **Status:** **IMPLEMENTATION COMPLETE; LIVE FUNCTIONAL QC AND FINAL USER VERIFICATION PENDING.**
@@ -304,7 +306,7 @@ After the user confirms live functional QC, Step 12 will:
 - record final Stage 3 approval status;
 - record the final LIVE deployment checkpoint;
 - record any remaining non-blocking observations;
-- explicitly confirm content remains frozen at Mock 10;
+- historical Stage 3 handoff text originally confirmed content frozen at Mock 10; the current question-bank corpus is frozen at 30 mocks and the current content roadmap is recorded in the September 26 section below;
 - confirm no subscription/payment gating was introduced for Mocks 1–10;
 - confirm the same verified student account remains the access path for all 20 mocks;
 - hand off the project to the next approved phase only after all 20 mocks are publicly QC-approved.
