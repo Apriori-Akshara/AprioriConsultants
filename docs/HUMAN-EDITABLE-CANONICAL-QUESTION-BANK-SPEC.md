@@ -1,6 +1,6 @@
 # Human-Editable and Canonical SAT/PSAT Question-Bank Specification
 
-**Status:** IMPLEMENTED — legacy/approved separation, deterministic export, parser/validator, approval gate, canonical staging bridge, and end-to-end CI pilot verified
+**Status:** IMPLEMENTED — frozen legacy export, legacy/approved separation, deterministic parser/validator, approval gate, canonical staging bridge, and CI pilot verified; bulk source intake, math typography, and visual-rendering hardening are the next implementation track
 **Scope:** Human-readable question editing, canonical question synchronization, validation, and controlled item-level maintenance
 **Production boundary:** This document does not authorize production mutation
 **Production target:** The frozen 30-mock corpus — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20
@@ -23,7 +23,7 @@ The canonical representation is the validated structured form used for runtime d
 
 ### Human-editable question-bank document
 
-The mock document is the **content-authoring source** for routine item-level wording/content maintenance.
+The mock document is the **controlled human-readable authoring representation**. For pre-launch bulk content intake, Word/PDF/pasted source material may enter the separate source-import workflow and be converted into candidate document content.
 
 It is intended to make a request such as:
 
@@ -49,11 +49,15 @@ Routine content maintenance must not require the user to edit JavaScript.
 
 ## 3. Relationship between the two representations
 
-For newly accepted content:
+For newly accepted generated content:
 
 **Blueprint → Draft → Independent QC → Canonical Storage → Existing SAT Engine**
 
-For human maintenance of an accepted question:
+For pre-launch bulk source intake:
+
+**DOCX/PDF/Pasted Source → Import/Map → Candidate Human-Editable Content → Canonical Candidate → QC → Approval**
+
+For post-launch maintenance of a released question:
 
 **Canonical Question Record → Human-Editable Mock Question-Bank Document → Requested Edit → Document Parser/Validator → Canonical Question Record → Applicable QC → Existing SAT Engine**
 
@@ -266,15 +270,17 @@ This is not a new Batch N.
 
 The document system is a **Batch M content-maintenance capability** built on top of the completed A–L foundations.
 
-The planned implementation checkpoint is:
+The original implementation checkpoint above is historical. The frozen 30-mock production corpus and the legacy document bridge are now implemented. The current content-readiness sequence is defined in docs/QUESTION-GENERATION-ROADMAP.md and docs/QUESTION-BANK-MAINTENANCE.md and is:
 
-1. resolve the current deep SAT/PSAT content-quality/diversity blocker through the existing candidate-only remediation/review path;
-2. implement and round-trip test the human-editable 30-mock document set against canonical records;
-3. use the documents for future item-specific maintenance;
-4. apply the normal affected-item and corpus re-gates after any authorized production edit;
-5. continue the existing final Batch M release checkpoints.
+1. bulk source intake and deterministic question mapping;
+2. canonical Math typography and student-facing rendering;
+3. structured figure/graph/chart/table rendering hardening;
+4. controlled pre-launch normalization of supplied content and existing acceptable content;
+5. exception-first human review and approval;
+6. canonical staging, applicable QC, and explicitly authorized production application only where required;
+7. post-launch maintenance edits only for observed released-item defects.
 
-The document system must not interrupt, weaken, or broaden the current deep-QC remediation scope.
+This track must not broaden the frozen 30-mock corpus, create SAT21, weaken existing QC, or bypass the existing Batch M release gates.
 
 ## 14. Round-trip acceptance test
 
@@ -347,7 +353,7 @@ For future content maintenance, use this sequence:
 
 The human-editable document is the preferred authoring surface. JavaScript remains the canonical runtime storage mechanism until an authorized production promotion is applied.
 
-## 19. Full-corpus preparation — next implementation step
+## 19. Full-corpus preparation — completed checkpoint
 
 Step 1 is **complete**: the complete frozen 30-mock legacy human-editable document set has been materialized using:
 
@@ -365,10 +371,20 @@ Expected scope:
 - no canonical production mutation;
 - no SAT21.
 
-After Step 1, the next documented task is to establish the review/approval working process on those documents. Do **not** promote the full legacy corpus automatically.
+The original immediate next task was human review. That task is now sequenced after the new bulk-ingestion, Math-typography, and visual-rendering foundations so source material can be processed in batches and only true exceptions require manual attention. Do **not** promote the full legacy corpus automatically.
 
 ## 20. Production safety boundary
 
 The full legacy export is a non-production documentation operation. It does not authorize replacement of the current runtime corpus and does not change release eligibility.
 
 Any future approved edit must continue through the controlled validation and staging path above and then through the normal affected-item and corpus re-gates. Explicit production authorization is still required for production mutation when applicable.
+
+## 21. Pre-launch bulk content and rendering roadmap
+
+The human-editable document remains the controlled readable representation, but it is not intended to force manual editing of 5,880 questions.
+
+Before launch, user-supplied DOCX/PDF/pasted content is handled through docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md. The importer maps supplied questions to the frozen identities, creates candidate content and reports exceptions. The frozen legacy baseline is not silently overwritten.
+
+Math presentation is governed by docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md. Figures, graphs, charts and tables are governed by docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. These standards apply before launch as normalization gates and after launch as maintenance gates.
+
+Pre-launch changes supplied through source documents are candidate replacements/content candidates, not maintenance edits. Post-launch edits are reserved for corrections to already released questions and must preserve identity and pass the applicable gates.
