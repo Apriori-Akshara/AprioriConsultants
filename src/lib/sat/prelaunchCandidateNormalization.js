@@ -1,10 +1,10 @@
 import { normalizeMathSourceNotation } from "./contentNormalization.js";
-import { typesetMathText } from "./mathTypography";
-import { validateSatQuestion } from "../../data/sat/questionSchema";
-import { evaluateContentQuality } from "../../data/sat/mockContent/batchMContentQualityGate";
-import { validateStructuredFigure } from "../../data/sat/mockContent/figureRegistry";
-import { validateFigureOriginality } from "../../data/sat/mockContent/figureOriginalityQC";
-import { validateMathQuestionMathematics } from "../../data/sat/mockContent/mathMathematicalQC";
+import { typesetMathText } from "./mathTypography.js";
+import { validateSatQuestion } from "../../data/sat/questionSchema.js";
+import { evaluateContentQuality } from "../../data/sat/mockContent/batchMContentQualityGate.js";
+import { validateStructuredFigure } from "../../data/sat/mockContent/figureRegistry.js";
+import { validateFigureOriginality } from "../../data/sat/mockContent/figureOriginalityQC.js";
+import { validateMathQuestionMathematics } from "../../data/sat/mockContent/mathMathematicalQC.js";
 
 const IDENTITY_FIELDS = ["testKey", "questionId"];
 const TEXT_FIELDS = ["prompt", "answer", "explanation"];
