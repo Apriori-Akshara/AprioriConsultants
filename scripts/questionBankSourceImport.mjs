@@ -905,12 +905,9 @@ export function writeImportArtifacts({ repoRoot, outputDir, inputs }) {
     fs.writeFileSync(path.join(humanDir, testKey + '.md'), buildCandidateMarkdown(testKey, entries), 'utf8');
   }
 
-  fs.writeFileSync(path.join(safeOutput, 'candidates.json'), JSON.stringify(result.candidates, null, 2) + '
-', 'utf8');
-  fs.writeFileSync(path.join(safeOutput, 'figure-candidates.json'), JSON.stringify(result.figureCandidates, null, 2) + '
-', 'utf8');
-  fs.writeFileSync(path.join(safeOutput, 'exceptions.json'), JSON.stringify(result.exceptions, null, 2) + '
-', 'utf8');
+  fs.writeFileSync(path.join(safeOutput, 'candidates.json'), JSON.stringify(result.candidates, null, 2) + String.fromCharCode(10), 'utf8');
+  fs.writeFileSync(path.join(safeOutput, 'figure-candidates.json'), JSON.stringify(result.figureCandidates, null, 2) + String.fromCharCode(10), 'utf8');
+  fs.writeFileSync(path.join(safeOutput, 'exceptions.json'), JSON.stringify(result.exceptions, null, 2) + String.fromCharCode(10), 'utf8');
 
   const manifest = {
     ...result,
@@ -922,7 +919,6 @@ export function writeImportArtifacts({ repoRoot, outputDir, inputs }) {
       exceptions: path.join(safeOutput, 'exceptions.json'),
     },
   };
-  fs.writeFileSync(path.join(safeOutput, 'import-manifest.json'), JSON.stringify(manifest, null, 2) + '
-', 'utf8');
+  fs.writeFileSync(path.join(safeOutput, 'import-manifest.json'), JSON.stringify(manifest, null, 2) + String.fromCharCode(10), 'utf8');
   return { result, manifest, outputDir: safeOutput };
 }
