@@ -21,7 +21,7 @@ export function formatTick(value) {
   return numeric
     .toFixed(precision)
     .replace(/0+$/, "")
-    .replace(/\\.$/, "")
+    .replace(/\.$/, "")
     .replace(/^-0$/, "0");
 }
 
@@ -175,9 +175,9 @@ export function parseParabolaEquation(equation) {
     .toLowerCase()
     .replace(/[−–—]/g, "-")
     .replace(/²/g, "^2")
-    .replace(/\\s+/g, "")
+    .replace(/\s+/g, "")
     .replace(/^y=/, "");
-  const match = source.match(/^([+-]?(?:\\d+(?:\\.\\d+)?)?)x\\^2(?:([+-](?:\\d+(?:\\.\\d+)?)?)x)?(?:([+-](?:\\d+(?:\\.\\d+)?)))?$/);
+  const match = source.match(/^([+-]?(?:\d+(?:\.\d+)?)?)x\^2(?:([+-](?:\d+(?:\.\d+)?)?)x)?(?:([+-](?:\d+(?:\.\d+)?)))?$/);
   if (!match) return null;
   const a = match[1] === "" || match[1] === "+" ? 1 : match[1] === "-" ? -1 : Number(match[1]);
   const b = match[2] == null ? 0 : Number(match[2]);
