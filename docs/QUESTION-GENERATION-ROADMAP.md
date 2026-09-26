@@ -231,7 +231,7 @@ The corrected deep SAT/PSAT content-quality/diversity candidate pipeline has als
 
 The candidate-selector correction is recorded at `f52238c6a3ffafd97baca9ba291a310d5187af2f`. The 25 passed candidates are not automatically production replacements.
 
-**Current next stage:** complete technical release QC. Stages 11–14 are complete: explicit authorization, exact 25-target controlled replacement, post-mutation affected/collective gates, and the user-reported quick public inspection of all 30 frozen mocks. After technical release QC, complete final end-to-end student acceptance and final Batch M release acceptance.
+**Current release state:** the separate technical/student/final Batch M release checkpoints remain authoritative. For the question-bank content-readiness track, Step 2 bulk source intake and deterministic mapping is next; do not treat this roadmap as permission to mutate production.
 
 ### Remediation branch promotion boundary
 
@@ -276,3 +276,50 @@ At the beginning of a future session:
 9. Do not repeat the completed impact audit, classification, inventory, preparation, candidate selection, controlled replacement, or comprehensive 20-test QC.
 10. Record the completed **target-aware candidate generation → exact-target selection → pre-normalization independent review → canonical normalization → post-normalization independent review → final replacement-package validation → explicit authorization → controlled production replacement → post-mutation gates** sequence. Validation run **35697516214 — PASS**; authorized production run **35728264303 — PASS**. Keep release eligibility false until the remaining public/technical/student/final acceptance checkpoints pass. Canonical normalization uses exact target identity where present and strict structural compatibility; it cannot substitute unrelated canonical skills. The prior `difficultyBand` compatibility regression and collective gates are already resolved; do not create SAT21.
 11. Treat SAT11–SAT20 public verification as complete at the documented user-reported quick-check level; the Series B runtime memory/loading remediation is also verified publicly by the user. Proceed to technical release QC.
+
+
+## 11. Post-freeze launch-readiness content roadmap
+
+This section supersedes the earlier statement that the human-editable bridge should proceed immediately to manual item-level review. The 30-mock legacy document set is now materialized, and the efficient pre-launch path is batch source intake followed by centralized Math/visual normalization and exception-first review.
+
+### Step 1 — Legacy 30-mock baseline
+
+**COMPLETE.** The frozen legacy document set contains SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20, with 196 questions per mock and no SAT21.
+
+### Step 2 — Bulk source intake and deterministic mapping
+
+**NEXT.** Implement docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md. Support DOCX, PDF, and structured pasted text; map supplied content to existing frozen testKey + questionId identities; create candidate representations and an exception manifest; never mutate production.
+
+### Step 3 — Canonical Math typography
+
+Implement docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md. Normalize student-facing exponents, fractions, roots, inequalities, symbols, equations, graph labels, and explanations without changing mathematical meaning.
+
+### Step 4 — Figure/graph/chart/table rendering hardening
+
+Implement docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. Use structured visual data as the only canonical source, render deterministically, and enforce answer/data/figure consistency and accessibility.
+
+### Step 5 — Pre-launch candidate normalization
+
+Apply imported and approved source material through the human-editable/canonical candidate path. Preserve question identities, route all mathematical and visual presentation through the centralized standards, and run the existing structural/content/Math/figure/originality/duplicate/compatibility gates.
+
+### Step 6 — Exception-first human review/approval
+
+Review only material exceptions and controlled content decisions. Resolve, retain, replace, or reject items in the approved working area. Do not treat an imported source as automatically approved.
+
+### Step 7 — Canonical staging and re-gating
+
+Validate approved documents and promote only to canonical staging. Run applicable item/mock/corpus gates.
+
+### Step 8 — Explicit production application where authorized
+
+Only explicit production authorization may replace an existing canonical target. Preserve testKey + questionId and the frozen 30-mock boundary.
+
+### Step 9 — Post-launch maintenance
+
+After launch, use the human-editable document for exact released-item corrections, including wording, answer, mathematical display, or figure/graph/chart mismatches. Reconstruct canonical content, run the applicable gates, and apply only after required authorization.
+
+### Launch-protection rule
+
+This roadmap is designed to avoid a manual 5,880-question editing bottleneck. Automated intake/normalization should reduce human work to ambiguous mappings, failed checks, substantive content decisions, and visual exceptions. It does not reopen completed Batch M remediation wholesale and does not create a new Batch N.
+
+The roadmap does not replace the separate final technical, student-acceptance, and Batch M release checkpoints. It provides the question-bank content-readiness sequence that feeds those checkpoints.
