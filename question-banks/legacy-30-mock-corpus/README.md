@@ -17,7 +17,7 @@ The documents are generated from the frozen canonical/runtime corpus by:
 
 `npm run question-bank:export-legacy`
 
-They are not a second runtime question bank.
+They are not a second runtime question bank. Pre-launch replacement content must enter through docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md rather than silently overwriting this frozen baseline.
 
 ## Review rule
 
@@ -27,4 +27,4 @@ An approved item must move through the approved-launch workflow and pass the req
 
 ## Current status
 
-The tooling bridge and SAT1 pilot are implemented and CI-verified. The **full 30-mock document set has been materialized** as the frozen legacy working set. The next documented implementation step is human review/approval working-set preparation.
+The tooling bridge and SAT1 pilot are implemented and CI-verified. The **full 30-mock document set has been materialized** as the frozen legacy working set. The next documented implementation step is bulk source intake and deterministic mapping, followed by centralized Math/visual normalization and exception-first review.
