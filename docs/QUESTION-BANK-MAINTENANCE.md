@@ -1,6 +1,6 @@
 # Question Bank Maintenance Checkpoint
 
-Approved September 14, 2026; current Batch M status updated September 16, 2026.
+Approved September 14, 2026; current Batch M status and full legacy materialization updated September 26, 2026.
 
 ## Taxonomy rule
 
@@ -68,13 +68,34 @@ The document bridge is implemented and CI-verified. The runtime website continue
 
 Verified pilot: GitHub Actions **run 36152194934 — SUCCESS**.
 
+### Bulk source-input workflow
+
+For pre-launch content consolidation, do not require manual question-by-question Markdown editing. User-supplied DOCX, PDF, or structured pasted text enters the non-production source-import workflow defined in docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md.
+
+The sequence is:
+
+**Source document → deterministic mapping → candidate content → human-editable representation → canonical candidate → exception-first QC/review → approval → applicable staging/QC**
+
+Pre-launch source changes are candidate replacements/content candidates, not post-launch maintenance edits. The frozen legacy corpus remains the baseline and is not silently overwritten.
+
+### Math and visual normalization
+
+Before final launch acceptance, Math notation and visual rendering are normalized through:
+
+- docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md
+- docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md
+
+Raw ASCII math display such as caret exponents, ASCII inequality operators, or ambiguous fraction text must not remain in student-facing Math when typeset mathematical notation is intended. Figures remain structured data rendered deterministically.
+
+Post-launch editing is reserved for observed released-item problems, including incorrect answers, wording mismatches, mathematical display defects, or figure/graph/chart rendering mismatches.
+
 ### Current controlled workflow
 
 **Select exact testKey + questionId → edit the human-readable mock document → review and mark APPROVED → validate → promote to canonical staging → run applicable QC → explicit production authorization when required → apply to existing canonical target → re-run required affected/collective gates.**
 
 Never treat a legacy export as launch-approved merely because it has been generated. Never treat canonical staging as production.
 
-The complete contract is maintained in `docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md`.
+The complete document/canonical contract is maintained in docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md. Bulk intake is defined in docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md; Math typography and visual rendering are defined in the dedicated standards.
 
 **Status:** IMPLEMENTED / PILOT VERIFIED. Full 30-mock legacy document materialization is the next step.
 
@@ -147,4 +168,4 @@ Only an explicit production authorization may allow a staged approved item to re
 
 ## Current status
 
-**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge is implemented and pilot-verified. Step 1 full 30-mock legacy document materialization is complete; the next implementation step is Step 2 human review/approval working-set preparation.**
+**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge and Step 1 legacy materialization are complete. The next implementation step is Step 2 bulk source intake and deterministic mapping, followed by Math typography, visual-rendering hardening, normalization, and exception-first review.**
