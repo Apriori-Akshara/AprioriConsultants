@@ -292,7 +292,7 @@ This section supersedes the earlier statement that the human-editable bridge sho
 
 **Acceptance result:** GitHub Actions Step 2 acceptance run #14 passed on commit 8f7c3c32439753564f7d07d6e6ea277614d1cfb0: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific command was npm run question-bank:source-import:test.
 
-**Scope boundary:** Steps 4–9 remain untouched. Step 4 is the next documented implementation step.
+**Scope boundary:** Steps 5–9 remain untouched. Step 5 is the next documented implementation step.
 
 ### Step 3 — Canonical Math typography — COMPLETE — 2026-09-26
 
