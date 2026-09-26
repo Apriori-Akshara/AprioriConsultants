@@ -349,7 +349,7 @@ The human-editable document is the preferred authoring surface. JavaScript remai
 
 ## 19. Full-corpus preparation — next implementation step
 
-The next step is **only** to materialize the complete frozen 30-mock legacy human-editable document set using:
+Step 1 is **complete**: the complete frozen 30-mock legacy human-editable document set has been materialized using:
 
 `npm run question-bank:export-legacy`
 
@@ -365,7 +365,7 @@ Expected scope:
 - no canonical production mutation;
 - no SAT21.
 
-After the export is materialized, the next documented task is to establish the review/approval working process on those documents. Do **not** promote the full legacy corpus automatically.
+After Step 1, the next documented task is to establish the review/approval working process on those documents. Do **not** promote the full legacy corpus automatically.
 
 ## 20. Production safety boundary
 
