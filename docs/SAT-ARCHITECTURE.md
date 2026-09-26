@@ -367,6 +367,16 @@ Document edits must never automatically mutate production. The controlled bounda
 
 The detailed document format, synchronization rules, drift detection, field ownership, and round-trip acceptance test are defined in docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md.
 
+## 16B. Bulk question-source intake and student-facing content rendering
+
+Pre-launch question content may be supplied in bulk through DOCX, PDF, or structured pasted text. The controlled intake process is defined in docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md.
+
+Bulk source material is mapped to existing frozen question identities and converted into candidate human-editable/canonical representations. It must not directly mutate production.
+
+Math student-facing content uses the deterministic typography contract in docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md. Structured figures, graphs, charts and tables use docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. The same rules apply before launch for normalization and after launch for exact maintenance corrections.
+
+Raw ASCII mathematical notation is source syntax, not the final student-facing contract. Figure images supplied in source documents are review references; structured figure data remains canonical.
+
 ## 17. Content originality and anti-duplication
 
 All Apriori SAT content must be original.
