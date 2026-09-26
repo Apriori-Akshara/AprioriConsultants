@@ -53,6 +53,6 @@ The production boundary is:
 
 ## Current status
 
-The parser, approval gate, canonical staging bridge, answer/choice adapter, and CI pilot are implemented and verified. The **next documented step is to materialize the full 30-mock legacy document set**.
+The parser, approval gate, canonical staging bridge, answer/choice adapter, CI pilot, source intake, Math typography, visual hardening, and pre-launch candidate normalization controls are implemented and verified. The full 30-mock legacy document set is already materialized; the next documented step is Step 6 human review and approval after candidate normalization.
 
 The export is a maintenance/review operation only. It does not authorize production replacement or release.
