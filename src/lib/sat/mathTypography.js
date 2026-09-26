@@ -167,12 +167,17 @@ function candidatePatterns() {
 
 function findMathRanges(text) {
   const ranges = [];
+  const protectedRanges = [];
+  for (const match of String(text).matchAll(/https?:\/\/[^\s]+|www\.[^\s]+/gi)) {
+    protectedRanges.push({ start: match.index, end: match.index + match[0].length });
+  }
   for (const pattern of candidatePatterns()) {
     for (const match of String(text).matchAll(pattern)) {
       const value = match[0];
       if (!isMathCandidate(value)) continue;
       const start = match.index;
       const end = start + value.length;
+      if (protectedRanges.some((item) => start < item.end && end > item.start)) continue;
       if (ranges.some((item) => start < item.end && end > item.start)) continue;
       ranges.push({ start, end, value });
     }
