@@ -75,8 +75,8 @@ for (const item of realQuestions) {
 }
 assert.ok(usable, "a real SAT1 question must pass the applicable Step 5 candidate gates");
 
-const mathText = normalizeMathSourceNotation("For x <= 5, keep the URL https://example.com/a/b and date 2026/09/26.");
-assert.equal(mathText, "For x ≤ 5, keep the URL https://example.com/a/b and date 2026/09/26.");
+const mathText = normalizeMathSourceNotation("For x <= 5, keep the URL https://example.com/a?filter<=5 and date 2026/09/26.");
+assert.equal(mathText, "For x ≤ 5, keep the URL https://example.com/a?filter<=5 and date 2026/09/26.");
 
 assert.equal(usable.normalized.productionMutation, false);
 assert.equal(usable.normalized.testKey, usable.target.testKey);
@@ -98,6 +98,13 @@ assert.equal(batch.summary.candidateCount, 3);
 assert.equal(batch.summary.reviewRequiredCount, 2);
 assert.ok(batch.candidates[1].exceptions.some((item) => item.code === "DUPLICATE_TARGET"));
 assert.ok(batch.candidates[2].exceptions.some((item) => item.code === "MISSING_REQUIRED_CONTENT"));
+
+const duplicateContentCandidate = structuredClone(usable.candidate);
+duplicateContentCandidate.questionId = usable.target.questionId;
+const contentBatch = normalizePrelaunchCandidateBatch([usable.candidate, { ...duplicateContentCandidate, testKey: "PSAT1" }], {
+  targetResolver: (testKey, questionId) => testKey === "SAT1" ? usable.target : frozen.byQuestionId.get(questionId) || null,
+});
+assert.ok(contentBatch.candidates[1].exceptions.some((item) => item.code === "DUPLICATE_CANDIDATE_CONTENT"));
 
 const tableResult = normalizePrelaunchCandidate({
   testKey: usable.target.testKey,
