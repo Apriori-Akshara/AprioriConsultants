@@ -87,7 +87,7 @@ Math uses the same blueprint → draft → independent QC architecture and prese
 
 Mathematical QC must independently verify mathematical correctness. Unsupported constructions must be flagged rather than silently “proved” by a generic solver.
 
-**Content-quality audit finding:** the initial production content had insufficient construction diversity and reasoning demand, with generic distractors and weak hard-item calibration. The targeted remediation included difficulty calibration, figure remediation, and numeric-distractor remediation; the affected 20-test comprehensive QC passed with zero content-quality failures. Final 30-mock calibration remains pending.
+**Content-quality audit finding:** the initial production content had insufficient construction diversity and reasoning demand, with generic distractors and weak hard-item calibration. The targeted remediation included difficulty calibration, figure remediation, and numeric-distractor remediation; the affected 20-test comprehensive QC passed with zero content-quality failures. The final 30-mock corpus gate and 30-mock cross-corpus calibration are already PASS on the documented production state.
 
 ## 5. Independent QC standard
 
@@ -177,7 +177,7 @@ GitHub Actions run **35181971047** (run #7) is the successful comprehensive QC e
 
 ### Human-editable and canonical question-bank maintenance capability
 
-**Status: IMPLEMENTATION STARTED — LEGACY/APPROVED SEPARATION + LEGACY EXPORT IMPLEMENTED; PARSER/PROMOTION PENDING.**
+**Status: IMPLEMENTED / PILOT VERIFIED — LEGACY/APPROVED SEPARATION, LEGACY EXPORT, PARSER/VALIDATOR, APPROVAL GATE, AND CANONICAL STAGING BRIDGE COMPLETE. Bulk source intake, Math typography, and visual-rendering hardening are the next content-readiness steps.**
 
 The project will maintain one human-readable question-bank document per frozen production mock under question-banks/. These documents are the preferred editing surface for item-level content maintenance.
 
