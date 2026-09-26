@@ -1,0 +1,29 @@
+name: Step 4 figure rendering hardening acceptance
+
+on:
+  push:
+    branches:
+      - step4-rendering-hardening
+  pull_request:
+    paths:
+      - 'src/lib/sat/figureRendering.js'
+      - 'src/components/sat/MathVisualStimulus.js'
+      - 'src/components/sat/MathVisualStimulusCore.js'
+      - 'src/components/sat/ThreeDSolidFigure.js'
+      - 'src/styles/SATMockTest.module.css'
+      - 'scripts/testFigureRendering.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/question-bank-figure-rendering-step4.yml'
+
+jobs:
+  step4-figure-rendering:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install
+      - run: npm run question-bank:figure-rendering:test
