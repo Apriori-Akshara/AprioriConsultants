@@ -123,9 +123,13 @@ The human-editable/canonical bridge is a **maintenance capability**, not a new B
 
 The frozen 30-mock legacy document set is materialized and recorded.
 
-### Step 2 — Bulk source intake and deterministic mapping — NEXT
+### Step 2 — Bulk source intake and deterministic mapping — COMPLETE
 
-Use docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md to accept DOCX, PDF, or structured pasted source content in batches. Produce exact frozen-identity mappings, candidate content, provenance, structured figure/data candidates, and an exception manifest. Do not mutate production.
+Implemented the documented non-production bulk source-input workflow for DOCX, text-PDF, structured JSON/text, and pasted structured content. It produces exact frozen-identity mappings, candidate content, provenance, structured table candidates where recoverable, and an exception manifest. The workflow does not mutate production.
+
+**Acceptance result (2026-09-26):** GitHub Actions Step 2 acceptance run #14 passed: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific test was npm run question-bank:source-import:test.
+
+Step 3 remains the next implementation step.
 
 ### Step 3 — Canonical Math typography and student-facing rendering
 

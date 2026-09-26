@@ -288,7 +288,11 @@ This section supersedes the earlier statement that the human-editable bridge sho
 
 ### Step 2 — Bulk source intake and deterministic mapping
 
-**NEXT.** Implement docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md. Support DOCX, PDF, and structured pasted text; map supplied content to existing frozen testKey + questionId identities; create candidate representations and an exception manifest; never mutate production.
+**COMPLETE — 2026-09-26.** Implemented the documented non-production source-intake capability for DOCX, text-PDF, structured JSON/text, and pasted structured content. It deterministically maps supplied items to existing frozen testKey + questionId identities, produces candidate/human-editable representations, provenance and exception manifests, and structured table candidates where recoverable. The importer is hard-bounded to candidate-only output and does not mutate canonical production content.
+
+**Acceptance result:** GitHub Actions Step 2 acceptance run #14 passed on commit 8f7c3c32439753564f7d07d6e6ea277614d1cfb0: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific command was npm run question-bank:source-import:test.
+
+**Scope boundary:** Steps 3–9 remain untouched; Step 3 is the next documented implementation step.
 
 ### Step 3 — Canonical Math typography
 
