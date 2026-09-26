@@ -150,6 +150,7 @@ function renderMathExpression(value) {
 
 function candidatePatterns() {
   return [
+    /\b[A-Za-z][A-Za-z0-9_]*\s*(?:<=|>=|=|<|>)\s*[+−-]?\d+(?:\.\d+)?\b/g,
     /sqrt\([^)\n]+\)/gi,
     /\|\s*[^|\n]+\s*\|/g,
     /\(\s*[+\-]?\d+(?:\.\d+)?\s*,\s*[+\-]?\d+(?:\.\d+)?\s*\)/g,
