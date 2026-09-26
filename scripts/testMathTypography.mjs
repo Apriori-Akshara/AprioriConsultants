@@ -31,7 +31,7 @@ assert.equal(deterministicA, deterministicB);
 
 const prose = typesetMathText("The word 'scope' remains prose, and the URL https://example.com/a/b remains unchanged.");
 assert.match(prose, /scope/);
-assert.match(prose, /https://example.com/a/b/);
+assert.ok(prose.includes("https://example.com/a/b"), "URL remains unchanged");
 
 console.log(JSON.stringify({
   status: "STEP3_MATH_TYPOGRAPHY_ACCEPTANCE_PASS",
