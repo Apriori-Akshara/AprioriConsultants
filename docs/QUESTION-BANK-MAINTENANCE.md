@@ -137,11 +137,15 @@ Implemented the approved Math typography layer for the student-facing mock runne
 
 **Acceptance result:** GitHub Actions Step 3 acceptance run #10 passed on commit f09d62b55e8da40cd002975a250d55a74aaaab8f with 17 implementation-specific assertions, including deterministic output, accessible Math role, shared SVG notation, and preservation of URLs/date-like source text.
 
-Step 4 — Figure/graph/chart/table rendering hardening — NEXT.
+Step 4 — Figure/graph/chart/table rendering hardening — COMPLETE — 2026-09-26.
 
-### Step 4 — Structured figure/graph/chart/table rendering hardening
+### Step 4 — Structured figure/graph/chart/table rendering hardening — COMPLETE — 2026-09-26
 
-Implement docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. Use structured data as the only canonical visual source; render deterministically; verify mathematical/data consistency and accessibility.
+Implemented docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md across the current structured-figure student renderer. Charts and graphs now use deterministic axes, ticks, scales, category positions, and consistent source data; bar charts correctly handle zero/negative baselines; multi-series charts expose a legend and non-color series distinction; tables use the shared Math typography path; SVG figures expose accessible titles/descriptions; unsafe geometry/3D default dimensions and unsupported parabola fallbacks were removed; unsupported/future figure families still fail closed.
+
+**Acceptance result:** GitHub Actions Step 4 acceptance run #3 passed on commit dc608b39b06f2b71eb82412b527d2d90c87b318c. The focused implementation-specific test passed 25 assertions across 11 representative supported figure families, with deterministic layout, numeric axes, table Math typography, accessibility-contract coverage, unsupported/future fail-closed behavior, and `productionMutation: false`.
+
+**Scope boundary:** No Step 5 normalization, exception-first review, human approval, canonical promotion, production replacement, or release work was started.
 
 ### Step 5 — Pre-launch candidate normalization and exception-first review
 
@@ -176,4 +180,4 @@ After launch, use the human-editable document for exact released-item correction
 
 ## Current status
 
-**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge and Step 1 legacy materialization are complete. The next implementation step is Step 2 bulk source intake and deterministic mapping, followed by Math typography, visual-rendering hardening, normalization, and exception-first review.**
+**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge and Step 1 legacy materialization are complete. Steps 2–4 bulk source intake, Math typography, and figure/graph/chart/table rendering hardening are complete. The next implementation step is Step 5 pre-launch candidate normalization and exception-first review.**
