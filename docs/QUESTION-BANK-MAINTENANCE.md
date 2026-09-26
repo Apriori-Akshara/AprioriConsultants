@@ -97,7 +97,7 @@ Never treat a legacy export as launch-approved merely because it has been genera
 
 The complete document/canonical contract is maintained in docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md. Bulk intake is defined in docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md; Math typography and visual rendering are defined in the dedicated standards.
 
-**Status:** IMPLEMENTED / PILOT VERIFIED. Full 30-mock legacy document materialization is the next step.
+**Status:** IMPLEMENTED / PILOT VERIFIED. Step 1 full 30-mock legacy materialization is complete; Step 2 bulk source intake and deterministic mapping is next.
 
 ## Batch M release and content-quality acceptance sequence
 
@@ -121,39 +121,39 @@ The human-editable/canonical bridge is a **maintenance capability**, not a new B
 
 ### Step 1 — Full 30-mock legacy document materialization — COMPLETE
 
-Run:
+The frozen 30-mock legacy document set is materialized and recorded.
 
-`npm run question-bank:export-legacy`
+### Step 2 — Bulk source intake and deterministic mapping — NEXT
 
-Expected result:
+Use docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md to accept DOCX, PDF, or structured pasted source content in batches. Produce exact frozen-identity mappings, candidate content, provenance, structured figure/data candidates, and an exception manifest. Do not mutate production.
 
-- 30 Markdown documents;
-- SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20 only;
-- 196 questions per document;
-- 5,880 questions total;
-- all exported questions remain `STATUS: LEGACY`;
-- no production mutation;
-- no SAT21.
+### Step 3 — Canonical Math typography and student-facing rendering
 
-### Step 2 — Human review/approval working set — NEXT
+Implement docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md across prompts, choices, explanations, tables, graph labels, geometry labels, and mathematical reference content. Normalize existing candidate content without changing mathematical meaning.
 
-Use the generated legacy documents as the review baseline. Retain, edit, replace, or reject items individually. Approved items move into the approved-launch working area; they are not silently promoted to production.
+### Step 4 — Structured figure/graph/chart/table rendering hardening
 
-### Step 3 — Controlled promotion and QC
+Implement docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. Use structured data as the only canonical visual source; render deterministically; verify mathematical/data consistency and accessibility.
 
-For an approved mock document:
+### Step 5 — Pre-launch candidate normalization and exception-first review
 
-`npm run question-bank:validate -- <approved-mock.md>`
+Apply imported candidates and approved source material through the human-editable/canonical candidate path. Run structural, content, Math, figure, originality, duplicate, and compatibility checks. Send only material exceptions to human review.
 
-then:
+### Step 6 — Human review and approval working set
 
-`npm run question-bank:promote-staging -- <approved-mock.md>`
+Resolve the exception queue and controlled substantive content decisions. Approved content moves to the approved-launch working area; it is not silently promoted to production.
 
-Promotion writes canonical staging only. Run the applicable content, mathematical/figure, originality, duplicate, compatibility, and affected-corpus gates before any production authorization.
+### Step 7 — Controlled promotion and QC
 
-### Step 4 — Production promotion
+Validate approved documents and promote only to canonical staging. Run all applicable item/mock/corpus gates before any production authorization.
 
-Only an explicit production authorization may allow a staged approved item to replace an existing canonical production target. Preserve `testKey + questionId` and the frozen 30-mock boundary.
+### Step 8 — Explicit production application where authorized
+
+Only explicit production authorization may replace an existing canonical production target. Preserve testKey + questionId and the frozen 30-mock boundary.
+
+### Step 9 — Post-launch maintenance
+
+After launch, use the human-editable document for exact released-item corrections, including wording, answer, mathematical display, or figure/graph/chart mismatches. Reconstruct canonical content, run the applicable gates, and apply only after required authorization.
 
 ## Post-freeze maintenance rules
 
