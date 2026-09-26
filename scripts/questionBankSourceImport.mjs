@@ -586,9 +586,7 @@ function buildMetadata(repoRoot, target) {
   const heading = headings[headingIndex];
   const end = headingIndex + 1 < headings.length ? headings[headingIndex + 1].index : markdown.length;
   const block = markdown.slice(heading.index + heading[0].length, end);
-  const match = block.match(/SYSTEM METADATA \(DO NOT EDIT DIRECTLY\):\s*\n```json
-([sS]*?)
-```/);
+  const match = block.match(new RegExp('SYSTEM METADATA \\(DO NOT EDIT DIRECTLY\\):\\s*\\n' + String.fromCharCode(96).repeat(3) + 'json\\n([\\s\\S]*?)\\n' + String.fromCharCode(96).repeat(3)));
   return match ? JSON.parse(match[1]) : {};
 }
 
