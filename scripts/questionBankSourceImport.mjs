@@ -670,8 +670,27 @@ function extractSource(input) {
   const name = input.name || 'pasted-content.txt';
   const extension = path.extname(name).toLowerCase();
   const data = Buffer.isBuffer(input.data) ? input.data : Buffer.from(String(input.data), 'utf8');
-  if (extension === '.docx') return { ...parseDocxBuffer(data), format: 'docx' };
-  if (extension === '.pdf') return { ...parsePdfBuffer(data), format: 'pdf' };
+
+  if (extension === '.docx') {
+    const extracted = parseDocxBuffer(data);
+    return {
+      ...parseStructuredText(extracted.text),
+      tableCandidates: extracted.tableCandidates,
+      imageCount: extracted.imageCount,
+      format: 'docx',
+    };
+  }
+
+  if (extension === '.pdf') {
+    const extracted = parsePdfBuffer(data);
+    return {
+      ...parseStructuredText(extracted.text),
+      tableCandidates: extracted.tableCandidates,
+      imageCount: extracted.imageCount,
+      format: 'pdf',
+    };
+  }
+
   if (extension === '.json') return parseStructuredText(data.toString('utf8'));
   if (['.txt', '.md', '.text'].includes(extension) || input.kind === 'pasted-text') return parseStructuredText(data.toString('utf8'));
   throw new Error('Unsupported source type: ' + name + '. Accepted inputs are DOCX, PDF, JSON/structured text, or pasted structured text.');
