@@ -25,11 +25,13 @@
     "qc:batch-m-deep-content-quality-controlled-replacement-validation": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityControlledReplacementValidation.mjs",
     "qc:batch-m-deep-content-quality-canonical-normalization": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCanonicalNormalization.mjs",
     "qc:batch-m-deep-content-quality-target-aware-selection": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityCandidateSelection.mjs",
-    "qc:batch-m-deep-content-quality-replacement-package-final": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinalValidation.mjs",
+    "qc:batch-m-deep-content-quality-replacement-package-final": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs scripts/runBatchMDeepContentQualityReplacementPackageFinal.mjs",
     "question-bank:export-legacy": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/exportBatchMLegacyCorpusToHumanBank.mjs",
     "question-bank:validate": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/validateHumanEditableQuestionBank.mjs",
     "question-bank:promote-staging": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/promoteHumanBankToCanonicalStaging.mjs",
-    "question-bank:pilot": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/runHumanQuestionBankPilot.mjs"
+    "question-bank:pilot": "node --import ./scripts/batchMExtensionlessModuleLoader.mjs ./scripts/runHumanQuestionBankPilot.mjs",
+    "question-bank:source-import": "node scripts/importQuestionBankSources.mjs",
+    "question-bank:source-import:test": "node scripts/testQuestionBankSourceImport.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
