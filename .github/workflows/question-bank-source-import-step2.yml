@@ -1,0 +1,24 @@
+name: Step 2 question-bank source intake acceptance
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/questionBankSourceImport.mjs'
+      - 'scripts/importQuestionBankSources.mjs'
+      - 'scripts/testQuestionBankSourceImport.mjs'
+      - 'package.json'
+      - '.gitignore'
+      - 'question-banks/legacy-30-mock-corpus/**'
+      - '.github/workflows/question-bank-source-import-step2.yml'
+
+jobs:
+  step2-source-import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install
+      - run: npm run question-bank:source-import:test
