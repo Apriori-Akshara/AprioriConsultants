@@ -98,7 +98,7 @@ The human-editable/canonical bridge is a **maintenance capability**, not a new B
 
 ## Current implementation order
 
-### Step 1 — Full 30-mock legacy document materialization — NEXT
+### Step 1 — Full 30-mock legacy document materialization — COMPLETE
 
 Run:
 
@@ -114,7 +114,7 @@ Expected result:
 - no production mutation;
 - no SAT21.
 
-### Step 2 — Human review/approval working set
+### Step 2 — Human review/approval working set — NEXT
 
 Use the generated legacy documents as the review baseline. Retain, edit, replace, or reject items individually. Approved items move into the approved-launch working area; they are not silently promoted to production.
 
@@ -147,4 +147,4 @@ Only an explicit production authorization may allow a staged approved item to re
 
 ## Current status
 
-**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge is implemented and pilot-verified. The next implementation step is full 30-mock legacy document materialization.**
+**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge is implemented and pilot-verified. Step 1 full 30-mock legacy document materialization is complete; the next implementation step is Step 2 human review/approval working-set preparation.**
