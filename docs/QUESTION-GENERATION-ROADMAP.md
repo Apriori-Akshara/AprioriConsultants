@@ -177,7 +177,7 @@ GitHub Actions run **35181971047** (run #7) is the successful comprehensive QC e
 
 ### Human-editable and canonical question-bank maintenance capability
 
-**Status: IMPLEMENTED / PILOT VERIFIED — LEGACY/APPROVED SEPARATION, LEGACY EXPORT, PARSER/VALIDATOR, APPROVAL GATE, AND CANONICAL STAGING BRIDGE COMPLETE. Bulk source intake, Math typography, and visual-rendering hardening are the next content-readiness steps.**
+**Status: IMPLEMENTED / PILOT VERIFIED — LEGACY/APPROVED SEPARATION, LEGACY EXPORT, PARSER/VALIDATOR, APPROVAL GATE, AND CANONICAL STAGING BRIDGE COMPLETE. Bulk source intake, Math typography, and visual-rendering hardening are complete; Step 5 pre-launch candidate normalization and exception-first review is next.**
 
 The project will maintain one human-readable question-bank document per frozen production mock under question-banks/. These documents are the preferred editing surface for item-level content maintenance.
 
@@ -292,7 +292,7 @@ This section supersedes the earlier statement that the human-editable bridge sho
 
 **Acceptance result:** GitHub Actions Step 2 acceptance run #14 passed on commit 8f7c3c32439753564f7d07d6e6ea277614d1cfb0: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific command was npm run question-bank:source-import:test.
 
-**Scope boundary:** Steps 4–9 remain untouched. Step 4 is the next documented implementation step.
+**Scope boundary:** Steps 5–9 remain untouched. Step 5 is the next documented implementation step.
 
 ### Step 3 — Canonical Math typography — COMPLETE — 2026-09-26
 
@@ -302,9 +302,13 @@ Implemented the approved SAT/PSAT Math typography layer for the current student-
 
 **Scope boundary:** No Step 4 figure/graph/chart/table rendering hardening, corpus normalization, human review, canonical promotion, production replacement, or release work was started.
 
-### Step 4 — Figure/graph/chart/table rendering hardening
+### Step 4 — Figure/graph/chart/table rendering hardening — COMPLETE — 2026-09-26
 
-Implement docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. Use structured visual data as the only canonical source, render deterministically, and enforce answer/data/figure consistency and accessibility.
+Implemented docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md across the current structured-figure student renderer. Charts and graphs now use deterministic axes, ticks, scales, category positions, and consistent source data; bar charts correctly handle zero/negative baselines; multi-series charts expose a legend and non-color series distinction; tables use the shared Math typography path; SVG figures expose accessible titles/descriptions; unsafe geometry/3D default dimensions and unsupported parabola fallbacks were removed; unsupported/future figure families still fail closed.
+
+**Acceptance result:** GitHub Actions Step 4 acceptance run #3 passed on commit dc608b39b06f2b71eb82412b527d2d90c87b318c. The focused implementation-specific test passed 25 assertions across 11 representative supported figure families, with deterministic layout, numeric axes, table Math typography, accessibility-contract coverage, unsupported/future fail-closed behavior, and `productionMutation: false`.
+
+**Scope boundary:** No Step 5 normalization, exception-first review, human approval, canonical promotion, production replacement, or release work was started.
 
 ### Step 5 — Pre-launch candidate normalization
 

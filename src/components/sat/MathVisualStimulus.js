@@ -11,5 +11,5 @@ export default function MathVisualStimulus({ figure, skill = "Math" }) {
   const title = normalized.title || `${skill} — question-specific visual`;
   if (type === "3d_solid") return <ThreeDSolidFigure figure={normalized} title={title} />;
   if (type === "multi_source_table") return null;
-  return <MathVisualStimulusCore figure={figure} skill={skill} />;
+  return <MathVisualStimulusCore figure={normalized} skill={skill} />;
 }
