@@ -467,3 +467,24 @@ These secondary sources are used only to benchmark realistic difficulty, questio
 ## 18. Permanent rule
 
 This document governs future SAT/PSAT Math question generation and QC. Any future change to the bank that conflicts with this standard requires an explicit QC-standard revision before the question bank is changed.
+
+
+## 19. Mathematical typography and student-facing display
+
+The Math bank must distinguish mathematical source syntax from student-facing display. Raw ASCII notation such as caret exponents, ASCII inequalities, ambiguous slash fractions, or source-style radical expressions must not be exposed where typeset mathematics is intended.
+
+The permanent contract is docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md. Formatting normalization is content-preserving: it must not change the answer, mathematical meaning, question identity, or structured figure data.
+
+## 20. Structured visual rendering
+
+Every question-essential Math visual must follow the structured-data path:
+
+**question intent → underlying values/geometry → structured figure → deterministic renderer → student-facing visual**
+
+The permanent visual contract is docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md. The figure gate must connect the visual values to the answer calculation, labels, axes, units, and question intent.
+
+## 21. Pre-launch source consolidation and exception-first review
+
+Large pre-launch content changes should enter through the bulk source workflow rather than manual item-by-item JavaScript editing. The importer creates candidate representations and reports only material mapping/content/Math/figure/compatibility exceptions for human review.
+
+After launch, maintenance edits are reserved for exact released-item defects and follow the existing controlled re-gate path.
