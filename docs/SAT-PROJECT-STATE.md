@@ -1,6 +1,6 @@
 # Apriori Digital SAT Platform — Project State
 
-**Last updated:** September 12, 2026
+**Last updated:** September 26, 2026
 
 ## 1. Source of truth
 
@@ -8,14 +8,15 @@ Read this document and `docs/SAT-ARCHITECTURE.md` before resuming SAT/PSAT work.
 
 ## 2. Product target
 
-The current product contains **20 original mock content sets**:
+The current question-bank production corpus contains **30 original mock content sets**:
 
 - PSAT Mocks 1–10
 - SAT Mocks 1–10
+- SAT Mocks 11–20
 
 All use one shared production-quality mock-test architecture. Do not create separate test engines or parallel implementations.
 
-Content expansion is **frozen at Mock 10**.
+Content generation is **frozen at these 30 mocks**. SAT21 must not be created.
 
 ## 3. AUTHORITATIVE student access rule for Mocks 1–10
 
@@ -65,7 +66,7 @@ Preserve all existing Mocks 1–10. Do not regenerate earlier content merely to 
 
 The shared content bank and full twenty-mock quality gate remain active. Do not bypass or weaken originality, structural, figure, answer-position, adaptive-pool, duplicate-ID or cross-mock collision checks.
 
-Each mock contains 196 questions under the calibrated shared structure, for **3,920 questions across 20 content sets**.
+Each frozen mock contains 196 questions under the calibrated shared structure, for **5,880 questions across 30 content sets**.
 
 Mock 10 passed the full twenty-mock quality gate after its R&W context collision was corrected.
 
@@ -340,3 +341,27 @@ The public site is the user's testing surface. Render is used for deployment/bui
 7. Update the state documents at the completion checkpoint of each approved step so the next session can resume without reconstructing prior work.
 8. Do not mark Step 11 or Stage 3 fully verified until the user's public-site QC confirmation is received.
 9. Do not begin Mock 11 until the user has personally QC-verified and approved all PSAT Mocks 1–10 and SAT Mocks 1–10.
+
+
+## Current question-bank content-maintenance state — September 26, 2026
+
+The frozen 30-mock legacy human-editable document set is materialized under question-banks/legacy-30-mock-corpus/ and remains LEGACY / NOT LAUNCH APPROVED. No production mutation occurred during export.
+
+The human-editable/canonical bridge is implemented and pilot-verified. The current content-readiness sequence is:
+
+1. bulk source intake and deterministic mapping;
+2. canonical Math typography and student-facing rendering;
+3. structured figure/graph/chart/table rendering hardening;
+4. pre-launch candidate normalization and exception-first review;
+5. controlled approval, canonical staging, applicable QC, and explicit production authorization where required;
+6. post-launch maintenance edits for exact released-item defects.
+
+Authoritative supporting documents:
+- docs/QUESTION-GENERATION-ROADMAP.md
+- docs/QUESTION-BANK-MAINTENANCE.md
+- docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md
+- docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md
+- docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md
+- docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md
+
+Older Stage 3 functional milestones in this file are historical progress records; the 30-mock question-bank state above is the current content source of truth.
