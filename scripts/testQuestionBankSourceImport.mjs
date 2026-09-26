@@ -209,9 +209,11 @@ const ambiguousText = [
   'The item lacks the module needed for deterministic mapping.',
 ].join('\n');
 
+const sat3Id = frozen.mocks.get('SAT3').questions[0].questionId;
+
 const malformedText = [
-  'MOCK: SAT1',
-  '### Question: ' + sat1Id,
+  'MOCK: SAT3',
+  '### Question: ' + sat3Id,
   'PROMPT:',
   'A prompt is present, but required answer/explanation fields are absent.',
 ].join('\n');
