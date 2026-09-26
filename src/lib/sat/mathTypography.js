@@ -1,4 +1,4 @@
-const MATH_OPERATOR_RE = /(?:\^|_|<=|>=|=|<|>|\*|\/|π|\bpi\b|√|sqrt\(|[⁻⁰¹²³⁴⁵⁶⁷⁸⁹])/i;
+const MATH_OPERATOR_RE = /(?:\^|_|<=|>=|=|<|>|\*|\/|π|\bpi\b|√|sqrt\(|\||[⁻⁰¹²³⁴⁵⁶⁷⁸⁹])/i;
 const GREEK = new Map([
   ['alpha','α'],['beta','β'],['gamma','γ'],['delta','δ'],['theta','θ'],['lambda','λ'],
   ['mu','μ'],['sigma','σ'],['phi','φ'],['omega','ω'],['pi','π'],['rho','ρ'],
