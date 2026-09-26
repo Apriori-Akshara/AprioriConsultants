@@ -129,11 +129,15 @@ Implemented the documented non-production bulk source-input workflow for DOCX, t
 
 **Acceptance result (2026-09-26):** GitHub Actions Step 2 acceptance run #14 passed: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific test was npm run question-bank:source-import:test.
 
-Step 3 remains the next implementation step.
+Step 4 is now the next implementation step.
 
-### Step 3 — Canonical Math typography and student-facing rendering
+### Step 3 — Canonical Math typography and student-facing rendering — COMPLETE — 2026-09-26
 
-Implement docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md across prompts, choices, explanations, tables, graph labels, geometry labels, and mathematical reference content. Normalize existing candidate content without changing mathematical meaning.
+Implemented the approved Math typography layer for the student-facing mock runner and reusable figure presentation path. The layer is conservative, deterministic, and shared by question prompts, answer choices, Math Reference formulas, table content, graph axes/labels, geometry labels, and 3D figure labels. Mathematical identity/content is not rewritten in the source bank.
+
+**Acceptance result:** GitHub Actions Step 3 acceptance run #10 passed on commit f09d62b55e8da40cd002975a250d55a74aaaab8f with 17 implementation-specific assertions, including deterministic output, accessible Math role, shared SVG notation, and preservation of URLs/date-like source text.
+
+Step 4 — Figure/graph/chart/table rendering hardening — NEXT.
 
 ### Step 4 — Structured figure/graph/chart/table rendering hardening
 

@@ -292,11 +292,15 @@ This section supersedes the earlier statement that the human-editable bridge sho
 
 **Acceptance result:** GitHub Actions Step 2 acceptance run #14 passed on commit 8f7c3c32439753564f7d07d6e6ea277614d1cfb0: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific command was npm run question-bank:source-import:test.
 
-**Scope boundary:** Steps 3–9 remain untouched; Step 3 is the next documented implementation step.
+**Scope boundary:** Steps 4–9 remain untouched. Step 4 is the next documented implementation step.
 
-### Step 3 — Canonical Math typography
+### Step 3 — Canonical Math typography — COMPLETE — 2026-09-26
 
-Implement docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md. Normalize student-facing exponents, fractions, roots, inequalities, symbols, equations, graph labels, and explanations without changing mathematical meaning.
+Implemented the approved SAT/PSAT Math typography layer for the current student-facing mock runner. Mathematical spans are detected conservatively rather than by blind global replacement and rendered deterministically on the same presentation path in the Next.js application. The layer covers exponents, subscripts, fractions, radicals, inequalities, multiplication, minus signs, Greek symbols, coordinate pairs, equations, units/products, Math Reference formulas, table content, graph axes/labels, geometry labels, and 3D figure labels. Accessible role="math" and SVG accessible labels are preserved.
+
+**Acceptance result:** GitHub Actions Step 3 acceptance run #10 passed on commit f09d62b55e8da40cd002975a250d55a74aaaab8f: 17 implementation-specific assertions passed; deterministic rendering confirmed; accessible Math role confirmed; shared SVG notation path confirmed; URLs and date-like source notation preserved.
+
+**Scope boundary:** No Step 4 figure/graph/chart/table rendering hardening, corpus normalization, human review, canonical promotion, production replacement, or release work was started.
 
 ### Step 4 — Figure/graph/chart/table rendering hardening
 

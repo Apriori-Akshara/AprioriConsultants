@@ -1,0 +1,11 @@
+.mathText{white-space:pre-wrap}
+.mathExpression{font-family:Georgia,"Times New Roman",serif;letter-spacing:.01em;display:inline-block;vertical-align:baseline;margin:0 .035em}
+.mathSup{display:inline-block;font-size:.68em;line-height:0;vertical-align:.6em;margin-left:.04em}
+.mathSub{display:inline-block;font-size:.68em;line-height:0;vertical-align:-.3em;margin-left:.04em}
+.mathFraction{display:inline-flex;flex-direction:column;align-items:stretch;vertical-align:middle;line-height:1;margin:0 .08em;min-width:1.2em}
+.mathNumerator,.mathDenominator{display:block;text-align:center;padding:0 .16em}
+.mathFractionBar{display:block;height:1px;background:currentColor;margin:2px 0}
+.mathRadical{display:inline-flex;align-items:flex-start;vertical-align:middle;font-size:1.03em}
+.mathRadicand{border-top:1px solid currentColor;padding:0 .08em 0 .12em;margin-top:.12em}
+.mathAbs{display:inline-flex;align-items:center;gap:.03em}
+.mathAbsBar{font-size:1.15em;line-height:.9}
