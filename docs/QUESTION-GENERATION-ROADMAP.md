@@ -1,6 +1,6 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 25, 2026  
+**Status:** Approved implementation plan; question-bank content-readiness and integration status reconciled October 29, 2026  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
 
@@ -292,7 +292,7 @@ This section supersedes the earlier statement that the human-editable bridge sho
 
 **Acceptance result:** GitHub Actions Step 2 acceptance run #14 passed on commit 8f7c3c32439753564f7d07d6e6ea277614d1cfb0: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific command was npm run question-bank:source-import:test.
 
-**Scope boundary:** Steps 6–9 remain untouched. Step 6 is the next documented implementation step.
+**Historical checkpoint note:** At the time Step 2 was completed, Steps 3–9 were pending. The later Step 3–5 records below supersede that earlier checkpoint. Current next work is Step 6 after the open Step 2–5 PR stack is integrated into `main`.
 
 ### Step 3 — Canonical Math typography — COMPLETE — 2026-09-26
 
@@ -300,7 +300,7 @@ Implemented the approved SAT/PSAT Math typography layer for the current student-
 
 **Acceptance result:** GitHub Actions Step 3 acceptance run #10 passed on commit f09d62b55e8da40cd002975a250d55a74aaaab8f: 17 implementation-specific assertions passed; deterministic rendering confirmed; accessible Math role confirmed; shared SVG notation path confirmed; URLs and date-like source notation preserved.
 
-**Scope boundary:** No Step 4 figure/graph/chart/table rendering hardening, corpus normalization, human review, canonical promotion, production replacement, or release work was started.
+**Historical checkpoint note:** This boundary records what had not yet started when Step 3 passed. Step 4 and Step 5 are subsequently completed below; Steps 6–9 remain pending.
 
 ### Step 4 — Figure/graph/chart/table rendering hardening — COMPLETE — 2026-09-26
 
@@ -308,13 +308,13 @@ Implemented docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md across the current st
 
 **Acceptance result:** GitHub Actions Step 4 acceptance run #3 passed on commit dc608b39b06f2b71eb82412b527d2d90c87b318c. The focused implementation-specific test passed 25 assertions across 11 representative supported figure families, with deterministic layout, numeric axes, table Math typography, accessibility-contract coverage, unsupported/future fail-closed behavior, and `productionMutation: false`.
 
-**Scope boundary:** No Step 5 normalization, exception-first review, human approval, canonical promotion, production replacement, or release work was started.
+**Historical checkpoint note:** This boundary records the state when Step 4 passed. Step 5 is subsequently completed below; human review/approval, staging, production application, and post-launch maintenance remain pending.
 
 ### Step 5 — Pre-launch candidate normalization — COMPLETE — 2026-09-26
 
 Implemented the documented candidate-only normalization path over Step 2 source-import candidates. The normalizer resolves each candidate against the frozen testKey + questionId identity, preserves system-managed metadata and identity, applies the centralized source math normalization without changing structured numeric figure data, reconstructs canonical candidate records, runs the applicable schema/content/Math/figure/originality/presentation gates, detects duplicate targets/content, and emits an exception-first review queue. Outputs are restricted to `.question-bank-normalization/` or an explicitly external directory; production paths are not writable.
 
-**Acceptance result:** GitHub Actions Step 5 acceptance run #9 passed on commit a5c72a2d13aed52ce93c04a93b663e639f541408. The focused test validated the frozen 30-mock / 5,880-question boundary, a real SAT1 legacy question fixture, identity preservation, candidate-only normalization, URL/date preservation during math-source normalization, duplicate-target and duplicate-content exception routing, structured table normalization, exception-first review, `productionMutation: false`, and `sat21Created: false`.
+**Acceptance result:** GitHub Actions Step 5 acceptance run #14 passed on the then-current branch head `5b6cef942ba0b369aa85b1d59b47870a4ef2eada`. The focused test validated the frozen 30-mock / 5,880-question boundary, a real SAT1 legacy question fixture, identity preservation, candidate-only normalization, URL/date preservation during math-source normalization, duplicate-target and duplicate-content exception routing, structured table normalization, exception-first review, `productionMutation: false`, and `sat21Created: false`. Earlier test-development failures were corrected before this passing run.
 
 **Operational command:** `npm run question-bank:prelaunch-normalization -- <candidates.json> [figure-candidates.json] [output-dir]`
 
@@ -335,6 +335,21 @@ Only explicit production authorization may replace an existing canonical target.
 ### Step 9 — Post-launch maintenance
 
 After launch, use the human-editable document for exact released-item corrections, including wording, answer, mathematical display, or figure/graph/chart mismatches. Reconstruct canonical content, run the applicable gates, and apply only after required authorization.
+
+### Current integration status and immediate next action — 2026-10-29
+
+**Implementation status is not the same as merge/deployment status.** Step 1 is materialized. Steps 2–5 have implementations and passing focused acceptance workflows on stacked working branches, but the corresponding PRs are still **open and unmerged**:
+
+- PR #24 — [Step 2 bulk source intake](https://github.com/Apriori-Akshara/AprioriConsultants/pull/24), base `main`
+- PR #25 — [Step 3 canonical Math typography](https://github.com/Apriori-Akshara/AprioriConsultants/pull/25), base `step2-bulk-source-intake`
+- PR #26 — [Step 4 visual rendering hardening](https://github.com/Apriori-Akshara/AprioriConsultants/pull/26), base `step3-math-typography`
+- PR #27 — [Step 5 candidate normalization](https://github.com/Apriori-Akshara/AprioriConsultants/pull/27), base `step4-rendering-hardening`
+
+Therefore, the Step 2–5 code must **not** be described as merged to `main` or deployed to the live website. The passing checks validate branch implementations only. This documentation update does not merge PRs, deploy, or mutate production.
+
+**Immediate next action before Step 6:** integrate the stacked PRs in dependency order. Merge PR #24 first. After each predecessor is merged, retarget the next PR to `main`, verify its diff contains only the intended remaining step, resolve any integration conflicts, and require the applicable focused acceptance workflow to pass before merging. Repeat for PRs #25, #26, and #27 in that order.
+
+**Then implement Step 6 — Exception-first human review and approval working set.** Its input is the Step 5 normalized candidate output and exception queue. It must produce a reviewer-readable, provenance-linked working set grouped by exact frozen `testKey + questionId`; preserve the original candidate and system-managed identity; record explicit dispositions and reasons for material exceptions; distinguish automated QC results from human approval; and require an explicit human decision before any item is marked `APPROVED`. Passing automated checks must never silently approve content. Do not automatically review/edit all 5,880 records, promote the legacy corpus wholesale, run Step 7 staging, authorize production replacement, or claim release eligibility as part of Step 6.
 
 ### Launch-protection rule
 

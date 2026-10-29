@@ -1,6 +1,6 @@
 # Apriori Digital SAT Platform — Project State
 
-**Last updated:** September 26, 2026
+**Last updated:** October 29, 2026 — documentation-only reconciliation; no code change, production mutation, or deployment performed
 
 ## 1. Source of truth
 
@@ -345,25 +345,34 @@ The public site is the user's testing surface. Render is used for deployment/bui
 9. Do not begin Mock 11 until the user has personally QC-verified and approved all PSAT Mocks 1–10 and SAT Mocks 1–10.
 
 
-## Current question-bank content-maintenance state — September 26, 2026
+## Current question-bank content-maintenance state — October 29, 2026
 
-The frozen 30-mock legacy human-editable document set is materialized under question-banks/legacy-30-mock-corpus/ and remains LEGACY / NOT LAUNCH APPROVED. No production mutation occurred during export.
+The frozen 30-mock legacy human-editable document set is materialized under `question-banks/legacy-30-mock-corpus/` and remains **LEGACY / NOT LAUNCH APPROVED**. It contains SAT1–SAT10, PSAT1–PSAT10, and SAT11–SAT20, with 196 questions per mock / 5,880 questions total. No production mutation occurred during export.
 
-The human-editable/canonical bridge is implemented and pilot-verified. The current content-readiness sequence is:
+### Recorded content-readiness status
 
-1. bulk source intake and deterministic mapping;
-2. canonical Math typography and student-facing rendering;
-3. structured figure/graph/chart/table rendering hardening;
-4. pre-launch candidate normalization and exception-first review;
-5. controlled approval, canonical staging, applicable QC, and explicit production authorization where required;
-6. post-launch maintenance edits for exact released-item defects.
+- **Step 1 — Legacy 30-mock baseline:** materialized.
+- **Step 2 — Bulk source intake and deterministic mapping:** implementation and focused acceptance complete on branch; PR #24 open/unmerged.
+- **Step 3 — Canonical Math typography:** implementation and focused acceptance complete on branch; PR #25 open/unmerged.
+- **Step 4 — Figure/graph/chart/table rendering hardening:** implementation and focused acceptance complete on branch; PR #26 open/unmerged.
+- **Step 5 — Pre-launch candidate normalization:** implementation and focused acceptance complete on branch; PR #27 open/unmerged.
+- **Step 6 — Exception-first human review and approval working set:** next implementation step after Steps 2–5 are merged to `main`.
+- **Steps 7–9 — canonical staging/re-gating, separately authorized production application, and post-launch maintenance:** pending in order.
+
+### Integration constraint
+
+PRs #24–#27 form a stacked dependency chain and are all open/unmerged. Merge PR #24 to `main`; then retarget and merge PRs #25, #26, and #27 to `main` in dependency order, checking each diff and focused acceptance workflow. Passing acceptance runs validate branch implementations only. They do not establish that the changes are merged, deployed, launch-approved, or release-eligible.
+
+### Exact next action after integration
+
+Implement Step 6 as a reviewer-readable, provenance-linked working set derived from Step 5 normalized candidates and the exception queue. Group by exact frozen `testKey + questionId`, preserve the source candidate and system-managed identity, capture explicit dispositions and reasons for material exceptions, and keep automated QC separate from human approval. No item may be marked `APPROVED` automatically; do not review/edit the full 5,880-question legacy set by default or begin canonical staging/production application as part of Step 6.
 
 Authoritative supporting documents:
-- docs/QUESTION-GENERATION-ROADMAP.md
-- docs/QUESTION-BANK-MAINTENANCE.md
-- docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md
-- docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md
-- docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md
-- docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md
+- `docs/QUESTION-GENERATION-ROADMAP.md`
+- `docs/QUESTION-BANK-MAINTENANCE.md`
+- `docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md`
+- `docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md`
+- `docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md`
+- `docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md`
 
-Older Stage 3 functional milestones in this file are historical progress records; the 30-mock question-bank state above is the current content source of truth.
+The separate Stage 3 public functional QC status recorded earlier in this document remains pending user verification; this documentation-only update does not change it. No source-code or production/deployment status is asserted by this checkpoint.

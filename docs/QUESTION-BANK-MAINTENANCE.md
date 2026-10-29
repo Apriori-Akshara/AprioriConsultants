@@ -1,6 +1,6 @@
 # Question Bank Maintenance Checkpoint
 
-Approved September 14, 2026; current Batch M status and full legacy materialization updated September 26, 2026.
+Approved September 14, 2026; question-bank content-readiness and integration status reconciled October 29, 2026.
 
 ## Taxonomy rule
 
@@ -129,15 +129,11 @@ Implemented the documented non-production bulk source-input workflow for DOCX, t
 
 **Acceptance result (2026-09-26):** GitHub Actions Step 2 acceptance run #14 passed: 30 frozen mocks / 5,880 frozen questions preserved; 4 deterministic mappings; 4 candidates; 1 structured figure candidate; negative-path coverage for ambiguous mapping and missing required content; production mutation: false. The implementation-specific test was npm run question-bank:source-import:test.
 
-Step 4 is complete; Step 5 is now the next implementation step.
-
 ### Step 3 — Canonical Math typography and student-facing rendering — COMPLETE — 2026-09-26
 
 Implemented the approved Math typography layer for the student-facing mock runner and reusable figure presentation path. The layer is conservative, deterministic, and shared by question prompts, answer choices, Math Reference formulas, table content, graph axes/labels, geometry labels, and 3D figure labels. Mathematical identity/content is not rewritten in the source bank.
 
 **Acceptance result:** GitHub Actions Step 3 acceptance run #10 passed on commit f09d62b55e8da40cd002975a250d55a74aaaab8f with 17 implementation-specific assertions, including deterministic output, accessible Math role, shared SVG notation, and preservation of URLs/date-like source text.
-
-Step 4 — Figure/graph/chart/table rendering hardening — COMPLETE — 2026-09-26.
 
 ### Step 4 — Structured figure/graph/chart/table rendering hardening — COMPLETE — 2026-09-26
 
@@ -151,15 +147,15 @@ Implemented docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md across the current st
 
 Implemented the candidate-only normalizer for Step 2 source-import candidates. It resolves exact frozen identities, preserves system-managed metadata and question identities, applies centralized source math normalization, reconstructs canonical candidate records, runs the applicable schema/content/Math/figure/originality/presentation gates, detects duplicate targets and candidate content, and writes an exception-first review queue without mutating production.
 
-**Acceptance result:** GitHub Actions Step 5 acceptance run #9 passed on commit a5c72a2d13aed52ce93c04a93b663e639f541408. The focused test validated the frozen 30-mock / 5,880-question boundary, a real SAT1 fixture, identity preservation, table normalization, duplicate exception routing, URL/date preservation, and `productionMutation: false`.
+**Acceptance result:** GitHub Actions Step 5 acceptance run #14 passed on the then-current branch head `5b6cef942ba0b369aa85b1d59b47870a4ef2eada`. The focused test validated the frozen 30-mock / 5,880-question boundary, a real SAT1 fixture, identity preservation, table normalization, duplicate-target and duplicate-content exception routing, URL/date preservation, exception-first review, and `productionMutation: false`. Earlier test-development failures were corrected before this passing run.
 
 **Operational command:** `npm run question-bank:prelaunch-normalization -- <candidates.json> [figure-candidates.json] [output-dir]`
 
 **Scope boundary:** Step 6 human review/approval, canonical staging/promotion, production replacement, and release work remain untouched.
 
-### Step 6 — Human review and approval working set
+### Step 6 — Exception-first human review and approval working set — NEXT AFTER PR INTEGRATION
 
-Resolve the exception queue and controlled substantive content decisions. Approved content moves to the approved-launch working area; it is not silently promoted to production.
+Use Step 5 normalized candidates and the exception queue to prepare a provenance-linked review working set grouped by exact frozen `testKey + questionId`. Record explicit dispositions and reasons for material exceptions. Keep automated QC status separate from human approval; no candidate becomes `APPROVED` without an explicit human decision. Do not review or edit all 5,880 legacy items by default. Approved content moves to the approved-launch working area; it is not silently promoted to production.
 
 ### Step 7 — Controlled promotion and QC
 
@@ -172,6 +168,10 @@ Only explicit production authorization may replace an existing canonical product
 ### Step 9 — Post-launch maintenance
 
 After launch, use the human-editable document for exact released-item corrections, including wording, answer, mathematical display, or figure/graph/chart mismatches. Reconstruct canonical content, run the applicable gates, and apply only after required authorization.
+
+### Integration prerequisite
+
+PRs #24–#27 are a stacked dependency chain and remain open/unmerged. Merge #24 to `main`, then retarget #25 to `main` and merge it after its focused checks pass; repeat in order for #26 and #27. Verify each downstream PR's diff and acceptance result after retargeting. Step 6 is the next implementation step only after Steps 2–5 are integrated into `main`. No production deployment, replacement, or release is implied by these PRs or this documentation update.
 
 ## Post-freeze maintenance rules
 
@@ -186,4 +186,4 @@ After launch, use the human-editable document for exact released-item correction
 
 ## Current status
 
-**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete. The human-editable/canonical bridge and Step 1 legacy materialization are complete. Steps 2–4 bulk source intake, Math typography, and figure/graph/chart/table rendering hardening are complete. The next implementation step is Step 6 human review and approval working set.**
+**Batch M production generation, targeted remediation, authorized replacements, final corpus gates, cross-corpus calibration, and public quick-check are complete at their documented checkpoints. For question-bank readiness, Steps 1–5 have been implemented and focused-acceptance-verified on stacked branches; PRs #24–#27 remain open and unmerged, so these changes are not yet on `main` or deployed. Immediate next action: integrate PRs #24–#27 in dependency order. After integration, implement Step 6 — Exception-first human review and approval working set. No production replacement or release approval is implied.**
