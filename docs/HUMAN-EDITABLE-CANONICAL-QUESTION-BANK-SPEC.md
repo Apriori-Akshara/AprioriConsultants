@@ -1,6 +1,6 @@
 # Human-Editable and Canonical SAT/PSAT Question-Bank Specification
 
-**Status:** IMPLEMENTED — frozen legacy export, legacy/approved separation, deterministic parser/validator, approval gate, canonical staging bridge, and CI pilot verified; bulk source intake, math typography, and visual-rendering hardening are the next implementation track
+**Status:** IMPLEMENTED THROUGH CONTENT-READINESS STEP 5 ON WORKING BRANCHES — frozen legacy export, source intake, canonical Math typography, visual-rendering hardening, and candidate-only normalization have passing focused acceptance checks. PRs #24–#27 are open/unmerged; these changes are not yet on `main` or deployed. Step 6 human review/approval is next after dependency-ordered PR integration.
 **Scope:** Human-readable question editing, canonical question synchronization, validation, and controlled item-level maintenance
 **Production boundary:** This document does not authorize production mutation
 **Production target:** The frozen 30-mock corpus — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20
@@ -270,15 +270,19 @@ This is not a new Batch N.
 
 The document system is a **Batch M content-maintenance capability** built on top of the completed A–L foundations.
 
-The original implementation checkpoint above is historical. The frozen 30-mock production corpus and the legacy document bridge are now implemented. The current content-readiness sequence is defined in docs/QUESTION-GENERATION-ROADMAP.md and docs/QUESTION-BANK-MAINTENANCE.md and is:
+The original implementation checkpoint above is historical. The current sequence is defined by docs/QUESTION-GENERATION-ROADMAP.md §11 and docs/QUESTION-BANK-MAINTENANCE.md. Keep this numbering synchronized with those documents:
 
-1. bulk source intake and deterministic question mapping;
-2. canonical Math typography and student-facing rendering;
-3. structured figure/graph/chart/table rendering hardening;
-4. controlled pre-launch normalization of supplied content and existing acceptable content;
-5. exception-first human review and approval;
-6. canonical staging, applicable QC, and explicitly authorized production application only where required;
-7. post-launch maintenance edits only for observed released-item defects.
+1. **Step 1 — Legacy 30-mock baseline:** complete.
+2. **Step 2 — Bulk source intake and deterministic mapping:** implementation and focused acceptance complete on branch; PR #24 open/unmerged.
+3. **Step 3 — Canonical Math typography:** implementation and focused acceptance complete on branch; PR #25 open/unmerged.
+4. **Step 4 — Figure/graph/chart/table rendering hardening:** implementation and focused acceptance complete on branch; PR #26 open/unmerged.
+5. **Step 5 — Pre-launch candidate normalization:** implementation and focused acceptance complete on branch; PR #27 open/unmerged.
+6. **Step 6 — Exception-first human review and approval working set:** next, after PRs #24–#27 are integrated into `main`.
+7. **Step 7 — Canonical staging and re-gating:** pending Step 6.
+8. **Step 8 — Explicit production application where separately authorized:** pending Step 7 and explicit authorization.
+9. **Step 9 — Post-launch maintenance of exact released-item defects:** future, after launch.
+
+Passing branch tests do not mean changes are merged or deployed. The overall document-to-canonical round-trip, human approval, staged promotion, and release acceptance are not declared complete by Steps 1–5. No SAT21 may be created and no production content may be mutated by these candidate-only steps.
 
 This track must not broaden the frozen 30-mock corpus, create SAT21, weaken existing QC, or bypass the existing Batch M release gates.
 
@@ -321,7 +325,13 @@ The human-editable/canonical question-bank bridge is **implemented and CI-verifi
 - `scripts/promoteHumanBankToCanonicalStaging.mjs` for approval-gated canonical staging;
 - `scripts/humanQuestionBankContentAdapter.mjs` for conservative answer/choice resolution;
 - `scripts/runHumanQuestionBankPilot.mjs` for the end-to-end acceptance pilot;
-- `.github/workflows/human-question-bank-pilot.yml` for continuous verification.
+- `.github/workflows/human-question-bank-pilot.yml` for continuous verification;
+- `scripts/questionBankSourceImport.mjs` and `scripts/importQuestionBankSources.mjs` for source extraction, frozen identity mapping, candidate outputs, provenance, and import exceptions;
+- `scripts/testQuestionBankSourceImport.mjs` and `.github/workflows/question-bank-source-import-step2.yml` for focused Step 2 acceptance;
+- `src/lib/sat/mathTypography.js`, `src/components/sat/MathText.js`, and `src/components/sat/MathSvgText.js` for shared student-facing Math typography;
+- `src/lib/sat/figureRendering.js`, the shared visual components, `scripts/testFigureRendering.mjs`, and `.github/workflows/question-bank-figure-rendering-step4.yml` for Step 4 rendering hardening;
+- `src/lib/sat/contentNormalization.js` and `src/lib/sat/prelaunchCandidateNormalization.js` for shared source normalization and Step 5 candidate-only checks;
+- `scripts/normalizePrelaunchQuestionBankCandidates.mjs`, `scripts/testPrelaunchCandidateNormalization.mjs`, and `.github/workflows/question-bank-prelaunch-normalization-step5.yml` for Step 5 artifacts and acceptance.
 
 The runtime production corpus remains the existing canonical JavaScript store. The human-editable system is a maintenance layer and does not itself change production.
 
@@ -371,7 +381,7 @@ Expected scope:
 - no canonical production mutation;
 - no SAT21.
 
-The original immediate next task was human review. That task is now sequenced after the new bulk-ingestion, Math-typography, and visual-rendering foundations so source material can be processed in batches and only true exceptions require manual attention. Do **not** promote the full legacy corpus automatically.
+The legacy corpus remains a frozen baseline, not an approved corpus. Steps 2–5 now provide source intake, shared presentation rules, visual-rendering hardening, and candidate-only normalization/exception reporting on the working branch. Their PRs #24–#27 are still open and unmerged. After integrating them in dependency order, Step 6 is to create the exception-first human review/approval working set. Review material exceptions and substantive decisions; do not automatically mark QC-passing content approved and do not promote the full legacy corpus automatically. The full round-trip and release-acceptance criteria in §14 remain pending.
 
 ## 20. Production safety boundary
 

@@ -14,9 +14,15 @@ These are two representations of the same content, not two independent runtime q
 ```
 Frozen 30-mock canonical/runtime corpus
         ↓
-legacy-30-mock-corpus/
+legacy-30-mock-corpus/ (frozen, not launch-approved)
         ↓
-human review / edit
+DOCX/PDF/structured source → Step 2 import/mapping
+        ↓
+candidate content + provenance + exceptions
+        ↓
+Step 5 normalization and applicable QC
+        ↓
+Step 6 exception-first human review / explicit decision
         ↓
 STATUS: APPROVED
         ↓
@@ -57,6 +63,10 @@ Approval-gated canonical staging:
 
 `npm run question-bank:promote-staging -- <approved-mock.md>`
 
+Pre-launch candidate normalization:
+
+`npm run question-bank:prelaunch-normalization -- <candidates.json> [figure-candidates.json] [output-dir]`
+
 End-to-end CI pilot:
 
 `npm run question-bank:pilot`
@@ -65,4 +75,4 @@ The pilot is verified green in GitHub Actions (**run 36152194934**). It uses rea
 
 ## Current status
 
-The bridge is implemented and pilot-verified. The **next step is full 30-mock legacy document materialization**. The export remains non-production and must not be treated as launch approval.
+The full 30-mock legacy materialization is complete. Steps 2–5 have passing focused acceptance workflows on stacked branches, but PRs #24–#27 remain open/unmerged; their changes are not yet on `main` or deployed. Immediate next action is dependency-ordered integration of PRs #24–#27. After that, Step 6 is to build the exception-first human review/approval working set from normalized candidates and the review queue. Export/import/normalization artifacts remain non-production and do not approve content.

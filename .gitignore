@@ -41,3 +41,6 @@ next-env.d.ts
 
 # Local non-production Step 2 source-import artifacts.
 /.question-bank-import/
+
+# Local non-production Step 5 candidate-normalization artifacts.
+/.question-bank-normalization/

@@ -1,7 +1,7 @@
 
 # Question-Bank Source Import and Review Workflow
 
-**Status:** Approved implementation design — pre-launch content workflow
+**Status:** Approved pre-launch workflow contract; source intake (Step 2) and candidate normalization (Step 5) have passing focused acceptance checks on stacked PR branches #24–#27, which remain open/unmerged. Human review/approval, canonical staging, production application, and release remain pending.
 **Scope:** Bulk intake of user-supplied question documents and controlled review/candidate preparation for the frozen 30-mock corpus
 **Master roadmap:** docs/QUESTION-GENERATION-ROADMAP.md
 
@@ -137,7 +137,7 @@ Production replacement requires the existing explicit authorization and affected
 
 ## 11. Acceptance criteria
 
-The import system is complete only when it can demonstrate:
+The source-intake acceptance contract is:
 
 - DOCX intake
 - PDF or reliable text-PDF intake
@@ -149,6 +149,8 @@ The import system is complete only when it can demonstrate:
 - structured figure/data extraction or a review exception
 - mathematical notation normalization without meaning changes
 - no production mutation
+
+**Current checkpoint:** Step 2 source intake passed its focused acceptance workflow; Step 5 candidate normalization passed GitHub Actions run #14 on branch head `5b6cef942ba0b369aa85b1d59b47870a4ef2eada`. These results validate the branch implementations only, not a merge or deployment. The overall workflow is **not complete**: Step 6 human review/approval, Step 7 canonical staging/re-gating, Step 8 separately authorized production application, and final release checkpoints remain pending.
 
 ## 12. Operating rule
 

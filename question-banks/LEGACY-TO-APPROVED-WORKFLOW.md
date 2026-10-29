@@ -18,15 +18,18 @@ Only `APPROVED` questions may proceed to canonical staging.
 
 ## Current tooling
 
-The bridge is implemented in these stages:
+The controlled stages and commands are:
 
-1. Export the frozen corpus:
+1. Export the frozen corpus (Step 1, complete):
    `npm run question-bank:export-legacy`
-2. Edit/review questions in the legacy document.
-3. Move or reproduce the approved question in the approved-launch working area and set `STATUS: APPROVED`.
-4. Validate:
+2. Import external DOCX/PDF/structured content through Step 2. The importer maps candidates to exact frozen identities and emits candidate content, provenance, figure candidates and exceptions.
+3. Normalize candidates through Step 5:
+   `npm run question-bank:prelaunch-normalization -- <candidates.json> [figure-candidates.json] [output-dir]`
+4. Step 6 (next, after PRs #24–#27 are integrated): resolve material exceptions/substantive content decisions in a provenance-linked review working set. Record explicit dispositions. Never auto-approve on automated QC alone.
+5. Move or reproduce only explicitly human-approved items in the approved-launch working area and set `STATUS: APPROVED`.
+6. Validate:
    `npm run question-bank:validate -- <approved-mock.md> --approved-only`
-5. Promote to staging:
+7. Promote to staging:
    `npm run question-bank:promote-staging -- <approved-mock.md>`
 
 The staging command writes only to `question-banks/approved-launch-corpus/canonical-promotion-staging/`. It does not mutate production.
@@ -53,6 +56,6 @@ The production boundary is:
 
 ## Current status
 
-The parser, approval gate, canonical staging bridge, answer/choice adapter, and CI pilot are implemented and verified. The **next documented step is to materialize the full 30-mock legacy document set**.
+The parser, approval gate, canonical staging bridge, answer/choice adapter, CI pilot, source intake, Math typography, visual hardening, and candidate-normalization controls have passed focused tests on the current stacked branches. PRs #24–#27 remain open/unmerged; their code is not yet on `main` or deployed. The full 30-mock legacy document set is materialized and remains LEGACY / NOT LAUNCH APPROVED. Immediate next action is to merge PRs #24–#27 in dependency order; then implement Step 6, the exception-first human review/approval working set. Canonical staging, production application, and release are later steps.
 
 The export is a maintenance/review operation only. It does not authorize production replacement or release.

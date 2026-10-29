@@ -33,7 +33,9 @@
     "question-bank:source-import": "node scripts/importQuestionBankSources.mjs",
     "question-bank:source-import:test": "node scripts/testQuestionBankSourceImport.mjs",
     "question-bank:math-typography:test": "node scripts/testMathTypography.mjs",
-    "question-bank:figure-rendering:test": "node scripts/testFigureRendering.mjs"
+    "question-bank:figure-rendering:test": "node scripts/testFigureRendering.mjs",
+    "question-bank:prelaunch-normalization": "node scripts/normalizePrelaunchQuestionBankCandidates.mjs",
+    "question-bank:prelaunch-normalization:test": "node scripts/testPrelaunchCandidateNormalization.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
