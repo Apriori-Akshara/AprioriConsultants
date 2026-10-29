@@ -177,7 +177,7 @@ GitHub Actions run **35181971047** (run #7) is the successful comprehensive QC e
 
 ### Human-editable and canonical question-bank maintenance capability
 
-**Status: IMPLEMENTED / PILOT VERIFIED — LEGACY/APPROVED SEPARATION, LEGACY EXPORT, PARSER/VALIDATOR, APPROVAL GATE, AND CANONICAL STAGING BRIDGE COMPLETE. Bulk source intake, Math typography, and visual-rendering hardening are complete; Step 5 pre-launch candidate normalization and exception-first review is next.**
+**Status: IMPLEMENTED / PILOT VERIFIED THROUGH STEP 5 ON WORKING BRANCHES.** Legacy/approved separation, the frozen 30-mock export, parser/validator and approval-gated staging pilot, bulk source intake (Step 2), Math typography (Step 3), visual rendering hardening (Step 4), and candidate-only normalization (Step 5) have recorded acceptance checks. PRs #24–#27 remain open/unmerged; those changes are not yet on `main` or deployed. Immediate next action is dependency-ordered PR integration, then Step 6 human review/approval.
 
 The project will maintain one human-readable question-bank document per frozen production mock under question-banks/. These documents are the preferred editing surface for item-level content maintenance.
 
@@ -185,10 +185,10 @@ The documents do not replace canonical runtime records. A controlled parser/vali
 
 This capability is a **Batch M maintenance checkpoint**, not a new Batch N and not a new mock-generation stage.
 
-Implementation placement in the current release sequence:
+Historical implementation placement (superseded by the current post-freeze content-readiness sequence in §11):
 
-1. resolve the active deep SAT/PSAT content-quality/diversity blocker through the existing candidate-only remediation/review path;
-2. implement and round-trip test the per-mock question-bank documents against canonical records;
+1. resolve the then-active deep SAT/PSAT content-quality/diversity blocker through the existing candidate-only remediation/review path — that remediation and its documented gates are recorded separately as complete;
+2. build and verify the document bridge — the pilot is verified, but the full round-trip contract in §14 remains an explicit acceptance criterion and must not be claimed complete solely from the pilot;
 3. use the documents for future item-specific changes;
 4. rerun the existing affected-item/mock/corpus gates after any authorized change;
 5. continue final public, end-to-end, and Batch M acceptance.
@@ -231,7 +231,7 @@ The corrected deep SAT/PSAT content-quality/diversity candidate pipeline has als
 
 The candidate-selector correction is recorded at `f52238c6a3ffafd97baca9ba291a310d5187af2f`. The 25 passed candidates are not automatically production replacements.
 
-**Current release state:** the separate technical/student/final Batch M release checkpoints remain authoritative. For the question-bank content-readiness track, Step 2 bulk source intake and deterministic mapping is next; do not treat this roadmap as permission to mutate production.
+**Current release state:** the separate technical/student/final Batch M release checkpoints remain authoritative and the release is not eligible until they pass. For question-bank readiness, Steps 2–5 have passing focused acceptance checks on branches, but PRs #24–#27 remain open/unmerged. Merge the stacked PRs in dependency order before beginning Step 6 human review/approval. Nothing in this roadmap authorizes unrecorded production mutation.
 
 ### Remediation branch promotion boundary
 

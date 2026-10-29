@@ -97,7 +97,7 @@ Never treat a legacy export as launch-approved merely because it has been genera
 
 The complete document/canonical contract is maintained in docs/HUMAN-EDITABLE-CANONICAL-QUESTION-BANK-SPEC.md. Bulk intake is defined in docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md; Math typography and visual rendering are defined in the dedicated standards.
 
-**Status:** IMPLEMENTED / PILOT VERIFIED. Step 1 full 30-mock legacy materialization is complete; Step 2 bulk source intake and deterministic mapping is next.
+**Status:** IMPLEMENTED / PILOT VERIFIED THROUGH STEP 5 ON WORKING BRANCHES. Steps 1–5 have recorded completion/acceptance results, but PRs #24–#27 are open/unmerged and not yet on `main` or deployed. Immediate next action is dependency-ordered PR integration; Step 6 human review/approval follows integration.
 
 ## Batch M release and content-quality acceptance sequence
 
