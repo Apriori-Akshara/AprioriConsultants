@@ -1,103 +1,176 @@
-.slidercontainer{
-  padding: 20px 10vw 0;
+
+.slidercontainer {
   position: relative;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 650px;
+  margin-top: 64px;
+  padding: 34px clamp(24px, 8vw, 120px) 46px;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: "Open Sans", sans-serif;
 }
-.background{
-  position: absolute;
-  top: 0;
-  left: 0vw;
-  width: 100vw;
-  height: 750px;
-  z-index: -10;
-  object-fit: cover;
-}
-.cover{
+
+.background {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 750px;
-  background: rgba(0, 0, 0, 0.55);
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
   z-index: -5;
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+  background: rgba(13, 22, 47, 0.76);
 }
-.heading{
-  padding-top: 30px;
-  width: 80vw;
-  margin: 0px 0 50px;
-  font-size: 50px;
-  font-weight: 600;
+
+.heading {
+  position: relative;
+  width: 100%;
+  margin: 0 0 30px;
+  padding-top: 12px;
+  color: #fff;
+  font-size: clamp(34px, 3.4vw, 46px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
   text-align: center;
-  color: white;
 }
-.card{
-  padding: 0px 12vw 0px 12vw;
-  /* padding: 30px 2vw 50px; */
+
+.slider {
+  width: 100%;
+}
+
+.cardcontainer {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0 8px 12px;
+}
+
+.card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: min(100%, 860px);
+  min-height: 450px;
+  height: auto;
+  margin: 0 auto;
+  padding: 34px clamp(24px, 6vw, 82px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  background: rgba(13, 22, 45, 0.78);
+  color: #fff;
   text-align: center;
-  width: 55vw;
-  height: 500px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  font-weight: 500;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
 }
-.img{
+
+.img {
   width: 100px;
   height: 100px;
-object-fit: cover;
-border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.78);
+  border-radius: 50%;
+  object-fit: cover;
 }
-.name{
+
+.name {
+  margin: 20px 0 4px;
+  color: #fff;
   font-size: 18px;
-  font-weight: 600;
-  margin: 20px 0 0px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
 }
-.boldtext{
-  font-weight: 600;
+
+.boldtext {
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.86);
   font-size: 14px;
-  margin-bottom: 20px;
+  font-weight: 600;
+  line-height: 1.5;
 }
-.description{
-  margin-top: 30px;
-  font-weight: 300;
-  font-size: 14px;
+
+.description {
+  margin-top: 22px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.75;
 }
-@media screen and (max-width: 720px){
-  .background, .cover{
-    height: 700px;
+
+@media screen and (max-width: 1024px) {
+  .slidercontainer {
+    min-height: 640px;
+    margin-top: 54px;
+    padding: 30px 5vw 40px;
   }
-  .slidercontainer{
-    padding: 20px 5vw 0;
+
+  .background,
+  .cover {
+    min-height: 640px;
   }
-  .slider{
-    width: 90vw;
+
+  .card {
+    min-height: 430px;
+    padding: 30px 34px;
   }
-  .card{
-    padding: 50px 4vw 20px 4vw;
-    width: 82vw;
-    height: 460px;
+}
+
+@media screen and (max-width: 720px) {
+  .slidercontainer {
+    min-height: 0;
+    margin-top: 36px;
+    padding: 24px 5vw 32px;
   }
-  .heading{
-    font-size: 40px;
-    padding-top: 10px;
-    padding-left: 5vw;
+
+  .background,
+  .cover {
+    min-height: 100%;
+  }
+
+  .heading {
     margin-bottom: 20px;
+    padding-top: 4px;
+    font-size: 31px;
   }
-  .img{
-    width: 100px;
-    height: 100px;
+
+  .slider {
+    width: 100%;
   }
-  .name{
-    font-size: 22px;
+
+  .cardcontainer {
+    padding: 0 0 10px;
   }
-  .boldtext{
-    font-size: 16px;
+
+  .card {
+    width: 100%;
+    min-height: 440px;
+    padding: 28px 20px;
+    border-radius: 13px;
   }
-  .description{
+
+  .description {
+    margin-top: 18px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .name {
+    font-size: 17px;
+  }
+
+  .boldtext {
     font-size: 14px;
-    padding: 0 5vw;
   }
 }

@@ -1,53 +1,121 @@
-.bigcontainer{
+
+.bigcontainer {
   position: relative;
-  height: 100px;
+  height: 96px;
+  font-family: "Open Sans", sans-serif;
 }
-.container{
-  display: flex;
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   position: absolute;
-  top: -100px;
-  left: 10%;
+  z-index: 6;
+  top: -76px;
+  left: 8%;
+  width: 84%;
+  overflow: hidden;
+  border: 1px solid rgba(15, 29, 66, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 16px 38px rgba(14, 25, 58, 0.16);
 }
-.icons{
-  font-size: 70px;
-}
-.block,.block1,.block2,.block3{
-  color: white;
-  width: 26vw;
+
+.block,
+.block1,
+.block2,
+.block3 {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 20px 0;
+  box-sizing: border-box;
+  width: auto;
+  min-height: 152px;
+  padding: 20px 16px;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.035em;
 }
-.block{
-  background-color: rgb(45, 35, 151);
+
+.block {
+  background-color: #1d3674;
 }
-.block1{
-  background-color: rgb(35, 29, 107);
+
+.block1 {
+  background-color: #17295b;
 }
-.block2{
-  background-color: rgb(21, 17, 73);
+
+.block2 {
+  background-color: #13234d;
 }
-.block3{
-  background-color: rgb(20, 16, 57);
+
+.block3 {
+  background-color: #101b3b;
 }
-@media screen and (max-width: 720px){
-  .bigcontainer{
-    padding: 20px 0;
+
+.icons {
+  font-size: 36px;
+  color: #fff;
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    left: 5%;
+    width: 90%;
+  }
+
+  .block,
+  .block1,
+  .block2,
+  .block3 {
+    min-height: 136px;
+    padding: 18px 12px;
+  }
+
+  .icons {
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .bigcontainer {
     display: flex;
     justify-content: center;
     height: auto;
-    background-color: rgb(74, 59, 234);
+    padding: 22px 5vw;
+    box-sizing: border-box;
+    background: #f5f7fb;
   }
-  .container{
+
+  .container {
     position: static;
+    display: flex;
     flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
-  .block,.block1,.block2,.block3{
+
+  .block,
+  .block1,
+  .block2,
+  .block3 {
     flex-direction: row;
-    width: 70vw;
-    padding: 20px 10vw;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 84px;
+    padding: 18px 22px;
+    border-radius: 10px;
+    text-align: left;
+  }
+
+  .icons {
+    flex: 0 0 38px;
+    font-size: 28px;
   }
 }

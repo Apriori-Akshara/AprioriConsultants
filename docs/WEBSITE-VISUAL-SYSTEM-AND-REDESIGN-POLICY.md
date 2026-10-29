@@ -157,11 +157,34 @@ When a phase or batch is authorized:
 
 No production deployment is implied by this documentation. Deployment must follow the project's normal release process and whatever authorization is applicable at that time.
 
+
+### Homepage URL and visual acceptance criteria (Phase 1)
+
+**Expected public homepage:** https://www.aprioriconsultants.org/  
+**Render service URL:** https://aprioriconsultants.onrender.com/
+
+The following criteria apply to the homepage redesign and must be checked before marking this page complete:
+
+- **Typography:** coherent page/section/subsection hierarchy; headings and body copy remain readable and unclipped; body text uses comfortable line spacing; no copy is rewritten.
+- **Color:** established Apriori navy and red accents are retained; light neutral surfaces and deep-ink text dominate; no unrelated accent palette is introduced.
+- **Spacing and alignment:** content follows a consistent grid and spacing scale; section edges, card padding, image edges, and form controls align deliberately.
+- **Surfaces and controls:** borders, radii, and shadows are restrained and consistent; existing buttons, form fields, links, and controls retain their actions and state behavior.
+- **Graphics and imagery:** existing images and icons remain present, keep their meaning, and crop cleanly without distortion; no new product feature is implied.
+- **Desktop check (target viewport 1440 × 900):** content stays within its intended width, navigation and headings do not collide, and sections retain visual balance.
+- **Tablet check (target viewport 768 × 1024):** columns, cards, forms, and imagery adapt without overlap, clipping, or cramped text.
+- **Mobile check (target viewport 390 × 844):** no unintended horizontal page scrolling; all existing content and controls remain visible and legible, with natural text wrapping.
+- **Content and behavior:** all copy, images, links, navigation destinations, form fields, interactive behavior, and original section order are preserved.
+- **Scope isolation:** only homepage-specific component styles may change; no global stylesheet, shared navigation styling, authenticated-only page, or mock-test screen may receive an unintended visual change.
+- **Build and release:** the production build passes, the final diff contains only authorized visual and documentation changes, and the public homepage is checked after deployment.
+
+Acceptance is not declared until the responsive checks, diff review, build, and deployment status have been recorded. If a browser viewport cannot be directly tested, record that limitation instead of claiming the check passed.
+
 ## 6. Current recorded status
 
 - **Visual direction:** approved as the primary design reference.
-- **This documentation update:** documentation-only.
-- **Public-page redesign:** not started or authorized by this documentation update alone; wait for explicit approval to begin Phase 1.
+- **Homepage redesign:** Phase 1 is explicitly authorized; homepage is the only page in scope for the current implementation.
+- **Homepage public URL:** https://www.aprioriconsultants.org/ (Render service URL: https://aprioriconsultants.onrender.com/).
+- **Public-page redesign:** continue one page at a time in the documented sequence; completion of the homepage does not imply that other public pages have been redesigned.
 - **Authenticated-only pages:** protected from all Phase 1 changes; Phase 2 requires separate explicit approval.
 - **Mock-test screens:** no changes until individually authorized batches of up to five tests per series are approved.
 - **Architecture, navigation, content, or section reordering:** suggestions may be recorded separately; implementation requires additional explicit approval.
