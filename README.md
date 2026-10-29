@@ -38,3 +38,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Website Visual System
+
+The primary design direction, visual-only scope, redesign sequence, and approval gates are documented in [docs/WEBSITE-VISUAL-SYSTEM-AND-REDESIGN-POLICY.md](docs/WEBSITE-VISUAL-SYSTEM-AND-REDESIGN-POLICY.md).
+
+That policy is authoritative for future website visual redesign work. In particular, public pages are redesigned first, page by page, only after approval to begin Phase 1; authenticated-only pages require separate approval; and mock-test screens require explicit approval for each batch of up to five tests within a single series. Visual changes must not alter content, functionality, navigation, architecture, or section order without separate approval.
+
