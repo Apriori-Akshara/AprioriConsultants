@@ -5,6 +5,16 @@ assistant. It assumes the assistant also has SAT-PSAT-QUESTION-SPEC.md and HUMAN
 
 ---
 
+## CURRENT QUESTION-BANK CHECKPOINT — 2026-10-29
+
+For current human-editable/canonical question-bank work, the authoritative sequence is `docs/QUESTION-GENERATION-ROADMAP.md` §11, cross-checked against `docs/QUESTION-BANK-MAINTENANCE.md` and `docs/SAT-PROJECT-STATE.md`.
+
+Steps 1–5 are implementation- and focused-acceptance-complete on the current stacked working branches. PRs #24–#27 remain open and unmerged; do not describe their changes as on `main` or deployed. The broad generation recipe below is not a request to repeat completed generation, calibration, legacy export, source intake, Math typography, rendering, or normalization work.
+
+**Immediate next action:** integrate PRs #24, #25, #26, and #27 into `main` in dependency order, retargeting each downstream PR to `main` after its predecessor is merged and verifying the focused acceptance workflow and diff. Only then begin Step 6 — the exception-first human review/approval working set. Step 6 must distinguish automated QC from human approval, preserve exact `testKey + questionId`, and never approve/promote content automatically. No production mutation or release is authorized by this checkpoint.
+
+---
+
 ## THE TASK (read this first, do these steps in order)
 
 1. **Audit before changing anything.** Look at the current question
@@ -79,7 +89,7 @@ Read:
 - docs/SAT-MATH-TYPOGRAPHY-AND-RENDERING-STANDARD.md when Math is involved
 - docs/SAT-FIGURE-DATA-AND-RENDERING-STANDARD.md when visuals are involved
 
-Extract the source in batches, map each question deterministically to the frozen testKey + questionId, create candidate content, and report only ambiguous or failed mappings/checks for human attention. Preserve the frozen legacy baseline and keep all results candidate-only until the documented approval/staging path is satisfied.
+Operational status: Steps 2 and 5 (source intake and candidate normalization) are implemented and their focused acceptance workflows pass on branches, but PRs #24–#27 are still open/unmerged. Do not repeat those implementations. After the stacked PRs are integrated into `main` in dependency order, implement Step 6 from the current roadmap: a provenance-linked, exception-first human review/approval working set. Preserve the frozen legacy baseline; keep results candidate-only until explicit human approval and the documented staging/re-gating path are satisfied.
 
 Pre-launch source replacements/content candidates are distinct from post-launch maintenance edits. After release, an exact released-item defect may use the human-editable document as the maintenance surface, followed by canonical reconstruction and the applicable gates.
 

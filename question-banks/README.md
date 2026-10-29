@@ -14,9 +14,15 @@ These are two representations of the same content, not two independent runtime q
 ```
 Frozen 30-mock canonical/runtime corpus
         ↓
-legacy-30-mock-corpus/
+legacy-30-mock-corpus/ (frozen, not launch-approved)
         ↓
-human review / edit
+DOCX/PDF/structured source → Step 2 import/mapping
+        ↓
+candidate content + provenance + exceptions
+        ↓
+Step 5 normalization and applicable QC
+        ↓
+Step 6 exception-first human review / explicit decision
         ↓
 STATUS: APPROVED
         ↓
@@ -69,4 +75,4 @@ The pilot is verified green in GitHub Actions (**run 36152194934**). It uses rea
 
 ## Current status
 
-The bridge and full 30-mock legacy materialization are implemented and verified. Steps 2–5 of the post-freeze content-readiness sequence are implemented with candidate-only controls. Step 6 human review/approval is next; the export and normalization artifacts remain non-production.
+The full 30-mock legacy materialization is complete. Steps 2–5 have passing focused acceptance workflows on stacked branches, but PRs #24–#27 remain open/unmerged; their changes are not yet on `main` or deployed. Immediate next action is dependency-ordered integration of PRs #24–#27. After that, Step 6 is to build the exception-first human review/approval working set from normalized candidates and the review queue. Export/import/normalization artifacts remain non-production and do not approve content.

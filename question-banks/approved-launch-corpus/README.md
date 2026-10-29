@@ -30,4 +30,4 @@ The promotion command performs approved-only validation first and writes staging
 
 ## Current status
 
-The parser, approval gate, staging bridge, answer-resolution adapter, and CI pilot are implemented and verified. Full 30-mock content materialization and human review are the next maintenance steps.
+The approval gate, staging bridge, answer-resolution adapter and CI pilot are implemented and verified. The full 30-mock legacy baseline is already materialized separately. Steps 2–5 have passing focused acceptance workflows on stacked branches, but PRs #24–#27 remain open/unmerged and are not yet on `main` or deployed. After dependency-ordered PR integration, Step 6 will build the exception-first human review/approval working set. This directory must contain only explicitly human-approved content; automated QC does not confer approval.
