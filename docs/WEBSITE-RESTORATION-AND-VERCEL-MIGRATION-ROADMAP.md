@@ -1,7 +1,7 @@
 # Apriori Website Recovery, Vercel Migration and Delivery Roadmap
 
 **Last updated:** October 31, 2026  
-**Status:** Stage 1 — Vercel frontend READY FOR USER DNS CUTOVER; public-domain restoration, redesign and mock-test resumption remain gated in sequence.  
+**Status:** Stage 2 — user DNS cutover is complete and Vercel confirms both domains correctly configured; public-site restoration verification is in progress. Stages 3 and 4 remain gated.  
 **Authority:** This is the single current source of truth for the website-hosting recovery order. It supersedes older statements that describe Render as the current public website host.
 
 ## Required project sequence
@@ -17,9 +17,11 @@ The completed state of one stage is the entry condition for the next. A successf
 
 ## Stage 1 — Vercel migration
 
-**FRONTEND READY FOR USER DNS CUTOVER — DNS still points to Render**
+**COMPLETE — user completed the GoDaddy DNS cutover; Vercel reports both domains correctly configured.**
 
 ### Completed and verified
+
+- User-completed GoDaddy DNS cutover is confirmed by Vercel: the www domain uses the recommended CNAME; the apex uses the recommended Vercel A-record pair; both report misconfigured=false and no DNS conflicts.
 
 - GitHub repository: `Apriori-Akshara/AprioriConsultants`, branch `main`.
 - Vercel project: `apriori-consultants`.
@@ -34,7 +36,7 @@ The completed state of one stage is the entry condition for the next. A successf
 
 **The public domain still resolves to Render, not Vercel.** The GoDaddy DNS nameservers are `ns08.domaincontrol.com` and `ns07.domaincontrol.com`.
 
-Last observed website records:
+Pre-cutover website records (historical; replaced by the user cutover):
 
 | Host | Current record pointing to Render | Vercel-reported recommendation |
 |---|---|---|
@@ -44,7 +46,7 @@ Last observed website records:
 
 These values are the Vercel domain-configuration recommendations returned during the October 31 audit. Re-check the live GoDaddy zone and Vercel domain instructions immediately before changing DNS. Do not change nameserver, MX, TXT, email, or unrelated records.
 
-**No DNS records have been changed by this work.** The GoDaddy DNS zone is external to the current Vercel connection.
+**The user completed the DNS changes manually in GoDaddy.** The assistant did not edit DNS. The current accepted Vercel configuration is recorded in the Stage 2 checkpoint below.
 
 ### Approved frontend-only launch boundary — October 31, 2026
 
@@ -77,17 +79,17 @@ The user must make the DNS edits in GoDaddy. Replace the apex A record with the 
 
 The Render web service `AprioriConsultants` (`https://aprioriconsultants.onrender.com`) is **suspended by billing**. Its suspended response was confirmed as HTTP 503 with Render's suspension-routing header. Do not pay, resume, redeploy, or change Render as part of this recovery sequence. Public website delivery must not depend on the suspended Render web service.
 
-### Stage 1 completion gate
+### Stage 1 completion gate — PASS
 
-Stage 1 frontend cutover is complete only when GoDaddy DNS routes both custom domains to Vercel, the intended production deployment serves them, and anonymous visitors are not blocked. Backend/database reachability is explicitly outside this frontend-only cutover gate and remains DEFERRED until the user chooses to reactivate the Render services and complete the required Vercel runtime configuration. Until the DNS cutover is complete, report Stage 1 as READY FOR USER DNS CUTOVER, not complete.
+The user completed the GoDaddy DNS cutover. Vercel now reports misconfigured=false for both www.aprioriconsultants.org and aprioriconsultants.org; the custom domains are verified and assigned to the production project; the apex redirects to www with HTTP 308. Stage 1 is therefore COMPLETE. Backend/database reachability remains explicitly outside this frontend-only migration and is DEFERRED until the user chooses to reactivate Render.
 
 ## Stage 2 — Public website restoration verification
 
-**PENDING — starts after the user completes the GoDaddy DNS cutover**
+**IN PROGRESS — DNS cutover confirmed; full public-site acceptance remains open**
 
 Stage 2 is a **public frontend restoration check**. It must establish that an ordinary unauthenticated visitor can access the Vercel-hosted public website even while Render's backend/database remain suspended.
 
-### Required frontend checks after DNS propagation
+### Required frontend checks after the completed DNS cutover
 
 1. `https://www.aprioriconsultants.org/` loads the intended Vercel production homepage for an ordinary unauthenticated visitor.
 2. `https://aprioriconsultants.org/` redirects to `https://www.aprioriconsultants.org/` without passing through Render.
@@ -109,6 +111,15 @@ Do not change authentication/security rules, make failed actions appear successf
 
 Close Stage 2 when the public frontend routes, assets, navigation, anonymous access and responsive presentation pass. Record the backend-dependent features above as DEFERRED, not PASS. Stage 3 may then begin under the existing public-page-only redesign policy; Stage 4 remains gated behind Stage 3.
 
+### October 31, 2026 — Post-cutover checkpoint
+
+- The user reports that the public website is back online after the GoDaddy DNS cutover.
+- Vercel confirms www.aprioriconsultants.org is verified, has no DNS conflicts, and uses the recommended CNAME cd3ea3f5daa82b89.vercel-dns-017.com; its domain configuration reports misconfigured=false.
+- Vercel confirms aprioriconsultants.org is verified, has no DNS conflicts, and uses A records 216.198.79.1 and 64.29.17.1; its domain configuration reports misconfigured=false. The apex redirect to www is configured as HTTP 308.
+- These facts close the Stage 1 cutover gate. They do not by themselves close Stage 2.
+- The assistant could not independently complete the all-routes/assets/desktop-tablet-mobile/browser-console checks in this session. Keep those acceptance checks open rather than recording unsupported PASS results.
+- The Premium Services section was reported blank between Why Choose Us and Testimonials. A focused restoration fix is implemented on branch fix/premium-services-homepage-visibility, latest code commit 9f4f46a37d6db4330f00009a097864350e7bfe40, with preview deployment dpl_ETsBbjywav4e8obE6hVMXGE2GGY5 READY. The fix keeps the original five cards, their text, images, links, section order and carousel behavior; it adds a responsive fallback while the carousel initializes and removes reveal-only hiding from this section. Production promotion and live visual confirmation are pending.
+- Render services/database remain billing-suspended and untouched. Backend-dependent functionality remains DEFERRED.
 ## Stage 3 — Pending website redesign
 
 **PENDING — begins only after Stage 2 passes**
@@ -164,12 +175,12 @@ Resume from the current documented SAT/PSAT state; do not restart completed work
 ## Cross-stage operating rules
 
 - This roadmap controls the order of work. If an older document says Render is the current website host, gives an old Render URL as the active test URL, or calls a later-stage task the immediate next action, treat that statement as historical and follow this roadmap.
-- The assistant must not edit GoDaddy DNS; the user's manual DNS cutover is the pending Stage 1 action. Do not pay for, resume, redeploy or alter Render services/database. Do not change production environment values or authenticated/mock-test functionality outside the stage and approval gates above.
+- The assistant must not edit GoDaddy DNS; the user's manual DNS cutover is complete. Preserve all DNS/email/verification records and do not make further DNS changes. Do not pay for, resume, redeploy or alter Render services/database. Do not change production environment values or authenticated/mock-test functionality outside the stage and approval gates above.
 - Keep historical deployment and implementation records for auditability; mark them historical rather than deleting or silently rewriting them.
 - Update this roadmap and the relevant detailed source documents when a stage changes state.
 - The repository branch and code remain the source of truth for implementation; this roadmap controls the delivery sequence and current handoff.
 
-## October 31, 2026 audit record
+## October 31, 2026 pre-cutover audit record (historical snapshot)
 
 - Current Vercel project: `apriori-consultants`; Node.js 24.x.
 - Latest production deployment: READY — `dpl_CaRn7s5VSsyhJAAWf5yXcvKXgZqD`, commit `5dbc3f0dc6482b731d360e0cad76fa1a4aac1306` on `main`.
