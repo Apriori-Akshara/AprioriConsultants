@@ -9,7 +9,7 @@ This is the permanent deployment and student-facing verification rule. The curre
 ## 1. Hosting authority
 
 - Vercel project: `apriori-consultants`, Node.js 24.x.
-- Latest production deployment before the Premium Services correction: READY — `dpl_CebMmuTcsfnJ2kSUhLoPXwX5jLx6`, commit `4a100442353638dfc40b0cbea256c56904f10912` on `main`.
+- Latest production deployment: READY — `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j`, commit `85ae34cc7f988265674b20548758cd036abbf58d` on `main`. Deployment aliases include `www.aprioriconsultants.org` and `aprioriconsultants.org`.
 - Intended public website: `https://www.aprioriconsultants.org`; apex `https://aprioriconsultants.org` redirects to www with HTTP 308.
 - Both Vercel project-domain associations report verified and are assigned as deployment aliases.
 - The user completed the GoDaddy DNS cutover. Vercel reports misconfigured=false and no conflicts for both domains: www uses CNAME cd3ea3f5daa82b89.vercel-dns-017.com; the apex uses A 216.198.79.1 and A 64.29.17.1.
@@ -78,3 +78,7 @@ Do not perform any of these steps now.
 Vercel confirms both public domains are verified, correctly configured and assigned to the project; the apex redirect to www is HTTP 308. The user reports the homepage is back online. Stage 2 remains in progress until public routes, assets, navigation, responsive layouts and browser-console checks are completed.
 
 The Premium Services blank-section defect is being corrected on the homepage only. The fix is scoped to components/Home/Ourcourses.js, components/Home/CoursesSlider.js and src/styles/home/ourcourses.module.css; production promotion and final public visual confirmation are pending. Backend/database services remain suspended and unchanged.
+
+## October 31, 2026 — Premium Services production correction
+
+The focused homepage restoration correction has been deployed to production. Vercel deployment `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j` for commit `85ae34cc7f988265674b20548758cd036abbf58d` reached READY with both custom-domain aliases. The public section's visual appearance still requires confirmation at desktop, tablet and mobile sizes; the broader Stage 2 public restoration checks remain in progress. No backend/database, Render resource, authentication or mock-test behavior was changed.
