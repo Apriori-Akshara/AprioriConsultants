@@ -1,7 +1,7 @@
 # Primary Website Visual System and Redesign Policy
 
 **Last updated:** October 31, 2026  
-**Status:** Premium Academic Precision visual system approved; public-page redesign is queued behind Vercel migration and public restoration verification  
+**Status:** Premium Academic Precision visual system approved; Vercel DNS cutover is complete; public restoration verification remains in progress. The focused Premium Services visibility correction is restoration defect remediation, not completion of the broader homepage redesign.  
 **Authority:** Primary reference for the visual redesign of the Apriori Consultants website
 
 This document records the approved visual direction, strict scope boundaries, approval gates, and page-by-page sequence for the website redesign. It applies to the public website and later, separately authorized authenticated pages and mock-test screens. The operational order is controlled by [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md): Vercel migration, public restoration verification, public-page redesign, then resumed mock-test work. Do not start redesign implementation until Stages 1 and 2 of that roadmap have passed.
@@ -183,7 +183,7 @@ Acceptance is not declared until the responsive checks, diff review, build, and 
 ## 6. Current recorded status — October 31, 2026
 
 - **Visual direction:** Premium Academic Precision is approved as the primary design reference.
-- **Operational gate:** wait for Vercel migration and public website restoration verification to pass, as defined in `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`, before continuing redesign implementation.
+- **Operational gate:** Vercel migration/DNS cutover is complete. Finish Stage 2 public website restoration verification, as defined in `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`, before continuing the broader Phase 1 redesign.
 - **Homepage:** the homepage styling implementation exists in commit `bf7d593ccd62033a11bff128a10f075edcace063`. It changed seven homepage component CSS modules and did not change page-component logic or global/shared styles.
 - **Homepage verification:** the seven edited CSS modules passed the recorded structural CSS check. The current Vercel production deployment reached READY and its deployment URL returned HTTP 200, but the public custom domain still routes to suspended Render. Desktop/tablet/mobile browser acceptance on the restored public domain therefore remains **PENDING**. Do not mark the homepage visually accepted yet.
 - **Remaining public pages:** the main-menu pages, submenu pages and other pages viewable without successful authentication remain pending Phase 1, in the exact menu/hierarchy sequence in Section 4. Process one page at a time after Stage 2 passes.
@@ -193,3 +193,16 @@ Acceptance is not declared until the responsive checks, diff review, build, and 
 - **Architecture, navigation, content or section reordering:** suggestions may be recorded separately; implementation requires additional explicit approval.
 
 This policy remains the primary reference for visual-design work. The recovery roadmap controls when the policy may be acted upon.
+
+## 7. October 31, 2026 — Premium Services visibility restoration correction
+
+This is a focused defect correction to restore an existing homepage section during Stage 2; it does not declare the homepage redesign or Phase 1 complete.
+
+- **Affected section:** homepage Our Premium Services, between Why Choose Us and Testimonials.
+- **Files:** `components/Home/Ourcourses.js`, `components/Home/CoursesSlider.js`, `src/styles/home/ourcourses.module.css`.
+- **Problem:** the service-card carousel relies on client-side initialization; the shared Slick stylesheet hides slides until initialization and defines a fixed slider-track height. Reveal wrappers can also leave heading/card text hidden before the animation becomes visible.
+- **Correction:** render the section heading directly; preserve all existing service-card text, images, links and order; show a responsive three/two/one-column fallback until the carousel reports initialization; then retain the original three-slide autoplay carousel and existing responsive behavior. Remove reveal-only hiding within this section and scope track/slide sizing to this component's CSS module.
+- **Design alignment:** retain Apriori navy/red accents, light card surfaces, restrained borders/shadows, readable typography, consistent spacing and responsive gutters. No copy, image, route, interaction purpose or section order is changed.
+- **Isolation:** no global/shared stylesheet, navigation, authenticated-only page, login-only state, mock-test screen, API, backend or business logic is changed.
+- **Preview:** branch `fix/premium-services-homepage-visibility`; latest code commit `9f4f46a37d6db4330f00009a097864350e7bfe40`; Vercel preview `dpl_ETsBbjywav4e8obE6hVMXGE2GGY5` reached READY. Production promotion and live desktop/tablet/mobile visual acceptance remain pending.
+- **Gate:** the broader homepage redesign and remaining public-page redesign sequence remain gated behind completion of Stage 2 and the approvals/sequence in Section 4.
