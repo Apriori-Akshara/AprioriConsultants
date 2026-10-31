@@ -1,19 +1,17 @@
-import React from 'react'
-import styles from "../../src/styles/home/ourcourses.module.css"
-import CoursesSlider from "./CoursesSlider"
-import Reveal from '../../components/Reveal'
+import React from "react";
+import styles from "../../src/styles/home/ourcourses.module.css";
+import CoursesSlider from "./CoursesSlider";
 
 export default function Ourcourses() {
   return (
-    <div className={styles.container}>
-    
-      <Reveal><div className={styles.heading}>Our <span>Premium Services</span></div></Reveal>
-      <Reveal><div className={styles.headingtext}>
-        {/* Unlock advanced knowledge with our exclusive Premium courses. Dive deeper into specialized subjects and gain a competitive edge. */}
-        </div></Reveal>
-      <div>
-        <CoursesSlider />
-      </div>
-    </div>
-  )
+    <section
+      className={styles.container}
+      aria-labelledby="premium-services-heading"
+    >
+      <h2 id="premium-services-heading" className={styles.heading}>
+        Our <span>Premium Services</span>
+      </h2>
+      <CoursesSlider />
+    </section>
+  );
 }
