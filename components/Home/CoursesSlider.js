@@ -1,11 +1,76 @@
+import React, { useState } from "react";
 import Image from "next/image";
-import React from "react";
 import Slider from "react-slick";
-import styles from "../../src/styles/home/ourcourses.module.css"
-import Reveal from '../../components/Reveal'
+import styles from "../../src/styles/home/ourcourses.module.css";
 import Link from "next/link";
 
-function CoursesSlider() {
+const premiumServices = [
+  {
+    id: "admissions-counselling",
+    href: "/Admissions",
+    image: "/newimages/adms-counselling-img.jpg",
+    title: <>Admissions Counselling <br /> Services</>,
+    description:
+      "From building strong profiles to choosing the right courses, our program equips counselors with the tools they need to guide students toward success.",
+  },
+  {
+    id: "undergraduate-test-prep",
+    href: "/TestPrep",
+    image: "/newimages/foreign languages.png",
+    title: <>Test Prep - Undergrad <br /> SAT/ ACT/ AP</>,
+    description:
+      "Prepare for your undergraduate journey with our comprehensive GRE, GMAT, and LSAT test prep courses. Master critical thinking and exam strategies.",
+  },
+  {
+    id: "postgraduate-test-prep",
+    href: "/TestPrep",
+    image: "/newimages/GREGMATLSAT.png",
+    title: <>Test Prep - Postgrad <br /> GRE/ GMAT/ LSAT</>,
+    description:
+      "Ace your postgraduate admissions tests with our expert-led GRE, GMAT, and LSAT preparation courses. Unlock your potential and secure your academic future!",
+  },
+  {
+    id: "language-proficiency",
+    href: "/TestPrep",
+    image: "/newimages/LanguageProficiency.jpeg",
+    title: <>Language Proficiency <br /> IELTS/ TOEFL/ SPOKEN ENGLISH</>,
+    description:
+      "Master the art of communication with our Language Proficiency courses. Whether you’re preparing for IELTS or TOEFL, we’ve got you covered!",
+  },
+  {
+    id: "foreign-languages",
+    href: "/Languages",
+    image: "/newimages/test-prep-act-sat-img.jpg",
+    title: <>Foreign Languages <br />SPANISH/ FRENCH/ GERMAN</>,
+    description:
+      "Embark on a linguistic adventure with our Spanish, French, German, and Italian courses. Explore cultures, enhance communication, and broaden your horizons!",
+  },
+];
+
+function ServiceCards() {
+  return premiumServices.map((service) => (
+    <div className={styles.card} key={service.id}>
+      <Link className={styles.link} href={service.href}>
+        <Image
+          className={styles.img}
+          src={service.image}
+          width={400}
+          height={400}
+          alt="image"
+        />
+        <div className={styles.cardinfo}>
+          <div className={styles.cardtitle}>{service.title}</div>
+          <div className={styles.carddesc}>{service.description}</div>
+          <div className={styles.text3}>Read More</div>
+        </div>
+      </Link>
+    </div>
+  ));
+}
+
+export default function CoursesSlider() {
+  const [sliderReady, setSliderReady] = useState(false);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -22,143 +87,48 @@ function CoursesSlider() {
           slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
-          dots: true
-        }
+          dots: true,
+        },
       },
       {
         breakpoint: 600,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          initialSlide: 1
-        }
+          initialSlide: 1,
+        },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
-  return (
-    <div className={styles.slidercontainer}>
-      <Slider className={styles.slider} {...settings}>
-        <div className={styles.card}>
-        <Link className={styles.link} href='/Admissions'>
-          <div>
-            <Image className={styles.img} src={"/newimages/adms-counselling-img.jpg"} width={400} height={400} alt="image"/>
-          </div>
-          <div className={styles.cardinfo}>
-          <Reveal>
-            <div className={styles.cardtitle}>Admissions Counselling <br/>  Services </div>
-            <div className={styles.carddesc}>From building strong profiles to choosing the right courses, our program equips counselors with the tools they need to guide students toward success.</div>
-           <div className={styles.text3}>Read More</div>
-            {/* <div className={styles.cardflexend}>
-              <div><div>Date</div><div>June 26</div></div>
-              <div className={styles.discount}><div>Discount</div><div>15%</div></div>
-              <div><div>Duration</div><div>6 months</div></div>
-            </div> */}
-            </Reveal>
-          </div>
-          <div>
-            
-          </div>
-          </Link>
-        </div>
-        <div className={styles.card}>
-        <Link className={styles.link} href='/TestPrep'>
-          <div>
-            <Image className={styles.img} src={"/newimages/foreign languages.png"} width={400} height={400} alt="image"/>
-          </div>
-          <div className={styles.cardinfo}>
-          <Reveal>
-            <div className={styles.cardtitle}>Test Prep - Undergrad <br/> SAT/ ACT/ AP</div>
-            <div className={styles.carddesc}>Prepare for your undergraduate journey with our comprehensive GRE, GMAT, and LSAT test prep courses. Master critical thinking and exam strategies.</div>
-           <div className={styles.text3}>Read More</div>
-            {/* <div className={styles.cardflexend}>
-              <div><div>Date</div><div>June 26</div></div>
-              <div className={styles.discount}><div>Discount</div><div>15%</div></div>
-              <div><div>Duration</div><div>6 months</div></div>
-            </div> */}
-            </Reveal>
-          </div>
-          <div>
-            
-          </div>
-          </Link>
-        </div>
-        <div className={styles.card}>
-        <Link className={styles.link} href='/TestPrep'>
-          <div>
-            <Image className={styles.img} src={"/newimages/GREGMATLSAT.png"} width={400} height={400} alt="image"/>
-          </div>
-          <div className={styles.cardinfo}>
-          <Reveal>
-            <div className={styles.cardtitle}>Test Prep - Postgrad <br/> GRE/ GMAT/ LSAT</div>
-            <div className={styles.carddesc}>Ace your postgraduate admissions tests with our expert-led GRE, GMAT, and LSAT preparation courses. Unlock your potential and secure your academic future!</div>
-            <div className={styles.text3}>Read More</div>
-            {/* <div className={styles.cardflexend}>
-              <div><div>Date</div><div>June 26</div></div>
-              <div className={styles.discount}><div>Discount</div><div>15%</div></div>
-              <div><div>Duration</div><div>6 months</div></div>
-            </div> */}
-            </Reveal>
-          </div>
-          <div>
-            
-          </div>
-          </Link>
-        </div>
-        <div className={styles.card}>
-        <Link className={styles.link} href='/TestPrep'>
-          <div>
-            <Image className={styles.img} src={"/newimages/LanguageProficiency.jpeg"} width={400} height={400} alt="image"/>
-          </div>
-          <div className={styles.cardinfo}>
-          <Reveal>
-            <div className={styles.cardtitle}>Language Proficiency <br/> IELTS/ TOEFL/ SPOKEN ENGLISH</div>
-            <div className={styles.carddesc}>Master the art of communication with our Language Proficiency courses. Whether you’re preparing for IELTS or TOEFL, we’ve got you covered!</div>
-            <div className={styles.text3}>Read More</div>
-            {/* <div className={styles.cardflexend}>
-              <div><div>Date</div><div>June 26</div></div>
-              <div className={styles.discount}><div>Discount</div><div>15%</div></div>
-              <div><div>Duration</div><div>6 months</div></div>
-            </div> */}
-            </Reveal>
-          </div>
-          <div>
-            
-          </div>
-          </Link>
-        </div>
 
-        <div className={styles.card}>
-        <Link className={styles.link} href='/Languages'>
-          <div>
-            <Image className={styles.img} src={"/newimages/test-prep-act-sat-img.jpg"} width={400} height={400} alt="image"/>
-          </div>
-          <div className={styles.cardinfo}>
-          <Reveal>
-            <div className={styles.cardtitle}>Foreign Languages <br/>SPANISH/ FRENCH/ GERMAN</div>
-            <div className={styles.carddesc}>Embark on a linguistic adventure with our Spanish, French, German, and Italian courses. Explore cultures, enhance communication, and broaden your horizons!</div>
-            <div className={styles.text3}>Read More</div>
-            {/* <div className={styles.cardflexend}>
-              <div><div>Date</div><div>June 26</div></div>
-              <div className={styles.discount}><div>Discount</div><div>15%</div></div>
-              <div><div>Duration</div><div>6 months</div></div>
-            </div> */}
-            </Reveal>
-          </div>
-          <div>
-            
-          </div>
-          </Link>
+  return (
+    <div className={styles.sliderFrame}>
+      {!sliderReady && (
+        <div className={styles.fallbackGrid}>
+          <ServiceCards />
         </div>
-      </Slider>
+      )}
+
+      <div
+        className={
+          sliderReady ? styles.slidercontainer : styles.sliderPreload
+        }
+      >
+        <Slider
+          className={styles.slider}
+          {...settings}
+          onInit={() => setSliderReady(true)}
+        >
+          <ServiceCards />
+        </Slider>
+      </div>
     </div>
   );
 }
-
-export default CoursesSlider;
