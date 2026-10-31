@@ -232,7 +232,7 @@ These are design principles, not templates. Preserve Apriori's own navy/red iden
 - Root token file: `src/styles/home/homepage.module.css`.
 - Page wrapper: `src/pages/index.js`.
 - Updated public-home CSS modules: `src/styles/home/Slider/heroslider.module.css`, `src/styles/home/herobuttom.module.css`, `src/styles/home/welcome.module.css`, `src/styles/home/whyus.module.css`, `src/styles/home/ourcourses.module.css`, `src/styles/home/testimonials.module.css`, `src/styles/home/news.module.css`.
-- Preview: branch `redesign/homepage-spacing-alignment-system`, commit `0958d1354fe71b5c07a89d5b71f4a0407995bc7b`, deployment `dpl_CUFJ3cKVcDXeved2191DnLLD1Ts9` READY.
+- **Production:** merged into `main` at commit `348cbabe6f181b48c4aab41cc90641b252f97116`; Vercel deployment `dpl_AFZ2TmVCzs4erFzLgFoACj1HQeD6` reached READY with both public domain aliases. The live homepage returned HTTP 200 and all 39 static pages were generated.
 - Preview HTML returned HTTP 200; the Next.js build generated all 39 static pages; the five Premium Services images and additional homepage assets checked returned HTTP 200. The compiled CSS includes the root tokens and per-section token usage.
 - No browser viewport/computed-layout or browser-console inspection was performed. Live visual acceptance at 1440×900, 768×1024 and 390×844 remains pending.
 - No copy, content, links, routes, page order, functionality, form markup, global styles, other public pages, authenticated-only pages, mock-test screens, APIs, backend settings, Render resources or DNS records were changed.
