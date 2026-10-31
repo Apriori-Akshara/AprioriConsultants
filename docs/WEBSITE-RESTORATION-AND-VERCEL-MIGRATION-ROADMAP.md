@@ -26,8 +26,7 @@ The completed state of one stage is the entry condition for the next. A successf
 - GitHub repository: `Apriori-Akshara/AprioriConsultants`, branch `main`.
 - Vercel project: `apriori-consultants`.
 - Vercel Node.js project setting: **24.x**.
-- Latest production deployment: **READY** — `dpl_CaRn7s5VSsyhJAAWf5yXcvKXgZqD`.
-- Deployed from `main`, commit `5dbc3f0dc6482b731d360e0cad76fa1a4aac1306` (`docs: normalize roadmap status formatting`).
+- Previous production deployment before the Premium Services correction: READY — `dpl_CebMmuTcsfnJ2kSUhLoPXwX5jLx6`, commit `4a100442353638dfc40b0cbea256c56904f10912` (`docs: record frontend-only Vercel launch readiness`).
 - Production deployment aliases include `www.aprioriconsultants.org` and `aprioriconsultants.org`.
 - Both custom-domain associations remain Vercel-verified; the apex is configured to redirect to `www` with HTTP 308.
 - Vercel project Node.js runtime is 24.x. The latest production deployment is READY; this is distinct from public-domain DNS cutover and post-cutover visual acceptance.
@@ -118,7 +117,7 @@ Close Stage 2 when the public frontend routes, assets, navigation, anonymous acc
 - Vercel confirms aprioriconsultants.org is verified, has no DNS conflicts, and uses A records 216.198.79.1 and 64.29.17.1; its domain configuration reports misconfigured=false. The apex redirect to www is configured as HTTP 308.
 - These facts close the Stage 1 cutover gate. They do not by themselves close Stage 2.
 - The assistant could not independently complete the all-routes/assets/desktop-tablet-mobile/browser-console checks in this session. Keep those acceptance checks open rather than recording unsupported PASS results.
-- The Premium Services section was reported blank between Why Choose Us and Testimonials. A focused restoration fix is implemented on branch fix/premium-services-homepage-visibility, latest code commit 9f4f46a37d6db4330f00009a097864350e7bfe40, with preview deployment dpl_ETsBbjywav4e8obE6hVMXGE2GGY5 READY. The fix keeps the original five cards, their text, images, links, section order and carousel behavior; it adds a responsive fallback while the carousel initializes and removes reveal-only hiding from this section. Production promotion and live visual confirmation are pending.
+- The Premium Services blank-section defect has been corrected on main. Production deployment dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j (commit 85ae34cc7f988265674b20548758cd036abbf58d) reached READY and is assigned both www.aprioriconsultants.org and aprioriconsultants.org. The fix preserves all five existing cards, their text, images, links, section order and carousel behavior; it adds a responsive fallback while the carousel initializes and removes reveal-only hiding from this section. Vercel reported no runtime error clusters in the last-hour check. Live desktop/tablet/mobile visual confirmation remains pending.
 - Render services/database remain billing-suspended and untouched. Backend-dependent functionality remains DEFERRED.
 ## Stage 3 — Pending website redesign
 
