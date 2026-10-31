@@ -2,7 +2,7 @@
 
 **Last updated:** October 31, 2026
 
-> **Hosting update:** The current Next.js application is deployed to Vercel. The October 31 production deployment is READY, but GoDaddy DNS still points the public domain to the suspended Render service. Follow `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md` for current hosting and release order. Render references below that describe the former web-service host are historical unless explicitly updated.
+> **Hosting update:** The Next.js frontend is deployed to Vercel and READY FOR USER DNS CUTOVER. The user has authorized public frontend visibility while the Render backend/database remain suspended until the user chooses to reactivate them. Backend-dependent flows are temporarily unavailable and must not be represented as working. Follow `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md` for the current hosting and release order. Render references below remain architecture targets or historical host references, not instructions to resume Render now.
 
 This document contains the permanent architecture and business rules for the Apriori Digital SAT platform. It should not be confused with `docs/SAT-PROJECT-STATE.md`, which records current implementation progress.
 
@@ -26,14 +26,14 @@ SAT-specific functionality should remain isolated where practical.
 - Redux/Redux Toolkit for UI/application state where appropriate
 - PostgreSQL for persistent SAT/authentication data
 - Next.js API routes for server-side backend functionality
-- Vercel for current Next.js application hosting (Node.js 24.x; custom-domain DNS cutover pending)
+- Vercel for Next.js frontend and API hosting (Node.js 24.x; production deployment READY; custom-domain DNS cutover pending)
 - Resend for transactional email verification
 
 The current Vercel production deployment URL for controlled diagnostics is:
 
 `https://apriori-consultants-1lmrslzp6-aksharas-projects.vercel.app`
 
-The intended public student-facing URL remains `https://www.aprioriconsultants.org`, but its DNS cutover and public-access verification are pending. The historical Render URL `https://aprioriconsultants.onrender.com` is billing-suspended and must not be used as the current deployment target or testing URL.
+The intended public student-facing URL remains `https://www.aprioriconsultants.org`; GoDaddy DNS cutover remains pending and the user is ready to perform it. The Render `AprioriConsultants` web service and PostgreSQL database are billing-suspended by user choice. The public frontend may be restored independently; PostgreSQL-backed authentication, APIs and student workflows remain deferred until the user chooses to reactivate Render and the required Vercel runtime configuration is completed.
 
 ## 3. Authentication architecture
 

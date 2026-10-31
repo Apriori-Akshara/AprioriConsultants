@@ -2,7 +2,7 @@
 
 **Last updated:** October 31, 2026
 
-> **Current project-wide execution gate:** Follow [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md) in order: (1) Vercel migration, (2) public website restoration verification, (3) pending public website redesign, (4) resume mock-test work. SAT/PSAT functional and question-bank work is held until Stage 4. The Render deployment references in the historical sections below are not current deployment instructions.
+> **Current project-wide execution gate:** Follow [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md) in order: (1) Vercel frontend cutover, (2) public frontend restoration verification, (3) pending public website redesign, (4) resume mock-test work. The user has authorized a frontend-only public launch while the Render backend/database remain suspended. Backend-dependent functionality is deferred until the user chooses to reactivate Render. SAT/PSAT functional and question-bank work remains held until Stage 4.
 
 ## 1. Source of truth
 
@@ -41,13 +41,16 @@ Rules:
 - Next.js 14.1.4, Pages Router; React 18
 - Vercel project: `apriori-consultants`
 - Vercel Node.js setting: 24.x
-- Latest Vercel production deployment: READY — `dpl_EfFcpksrF1eKBAeeJPNCKJvr6Sz3`
-- Source commit: `91e056089490fc54eb2dffe47e760229b62620c8`
+- Latest Vercel production deployment: READY — `dpl_CaRn7s5VSsyhJAAWf5yXcvKXgZqD`
+- Source commit: `5dbc3f0dc6482b731d360e0cad76fa1a4aac1306`
 - Intended public website: `https://www.aprioriconsultants.org`
-- Vercel production deployment diagnostic URL: `https://apriori-consultants-1lmrslzp6-aksharas-projects.vercel.app`
-- DNS registrar/provider: GoDaddy; DNS cutover to Vercel remains pending.
-- Render `AprioriConsultants` service: billing-suspended; `https://aprioriconsultants.onrender.com` is a historical URL, not a current public website or student test target.
-- PostgreSQL and other runtime integrations must be verified separately from the successful static build.
+- Current Vercel production deployment URL: `https://apriori-consultants-pfky03rp1-aksharas-projects.vercel.app`
+- DNS registrar/provider: GoDaddy; DNS cutover to Vercel is READY FOR USER ACTION and remains pending.
+- Both custom domain associations are Vercel-verified and assigned to the latest production deployment; apex redirects to www with HTTP 308.
+- Vercel protection is Standard Protection (`prod_deployment_urls_and_all_previews`); custom production domains remain public under this scope.
+- Vercel environment inventory shows `NEXT_PUBLIC_BACKENDURL` targeting `https://aprioribackend.onrender.com`; no `DATABASE_URL` entry appeared in the returned inventory.
+- Render `AprioriConsultants` web service and `apriori-consultants-database` PostgreSQL instance are suspended by billing. The configured `aprioribackend.onrender.com` hostname was not present in the connected Render service inventory; its service status is unverified.
+- Public marketing pages can render independently of the suspended database. Authentication, server-side database APIs, student operations and form submissions remain deferred. The homepage Apply, Contact Message and footer newsletter controls do not currently have submission handlers.
 
 The user-facing public website must be checked only at the intended public domain after Vercel DNS cutover and Stage 2 restoration verification. Do not ask the user to test the suspended Render URL.
 

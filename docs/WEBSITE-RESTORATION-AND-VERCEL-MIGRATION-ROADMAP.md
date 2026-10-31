@@ -1,7 +1,7 @@
 # Apriori Website Recovery, Vercel Migration and Delivery Roadmap
 
 **Last updated:** October 31, 2026  
-**Status:** Stage 1 — Vercel migration IN PROGRESS; public-domain restoration, redesign and mock-test resumption are gated in sequence.  
+**Status:** Stage 1 — Vercel frontend READY FOR USER DNS CUTOVER; public-domain restoration, redesign and mock-test resumption remain gated in sequence.  
 **Authority:** This is the single current source of truth for the website-hosting recovery order. It supersedes older statements that describe Render as the current public website host.
 
 ## Required project sequence
@@ -17,19 +17,18 @@ The completed state of one stage is the entry condition for the next. A successf
 
 ## Stage 1 — Vercel migration
 
-**IN PROGRESS**
+**FRONTEND READY FOR USER DNS CUTOVER — DNS still points to Render**
 
 ### Completed and verified
 
 - GitHub repository: `Apriori-Akshara/AprioriConsultants`, branch `main`.
 - Vercel project: `apriori-consultants`.
 - Vercel Node.js project setting: **24.x**.
-- Latest production deployment: **READY**.
-- Deployment ID: `dpl_EfFcpksrF1eKBAeeJPNCKJvr6Sz3`.
-- Source commit: `91e056089490fc54eb2dffe47e760229b62620c8`.
-- Build completed successfully. The existing SAT Series B build precheck produced 10 mocks / 1,960 records, and Next.js generated all 39 static pages before deployment completion.
-- The production deployment has the aliases `www.aprioriconsultants.org` and `aprioriconsultants.org`; both Vercel project-domain associations report verified. The apex domain is configured to redirect to `www` with HTTP 308.
-- The Vercel deployment URL `https://apriori-consultants-1lmrslzp6-aksharas-projects.vercel.app/` returned HTTP 200 when checked through the authenticated Vercel deployment-fetch connection. This confirms the deployed homepage responds; it is not proof that the custom domain is publicly routed or that visual acceptance has passed.
+- Latest production deployment: **READY** — `dpl_CaRn7s5VSsyhJAAWf5yXcvKXgZqD`.
+- Deployed from `main`, commit `5dbc3f0dc6482b731d360e0cad76fa1a4aac1306` (`docs: normalize roadmap status formatting`).
+- Production deployment aliases include `www.aprioriconsultants.org` and `aprioriconsultants.org`.
+- Both custom-domain associations remain Vercel-verified; the apex is configured to redirect to `www` with HTTP 308.
+- Vercel project Node.js runtime is 24.x. The latest production deployment is READY; this is distinct from public-domain DNS cutover and post-cutover visual acceptance.
 
 ### Remaining migration blockers
 
@@ -47,13 +46,32 @@ These values are the Vercel domain-configuration recommendations returned during
 
 **No DNS records have been changed by this work.** The GoDaddy DNS zone is external to the current Vercel connection.
 
-Additional pre-cutover checks:
+### Approved frontend-only launch boundary — October 31, 2026
 
-1. Confirm Vercel's effective deployment-protection/SSO behavior will not block anonymous visitors to the custom domains. The project currently reports SSO protection enabled for production deployment URLs and all previews; custom-domain visitor behavior has not yet been verified.
-2. Check the Vercel environment-variable *names and configuration status* required by server-side routes, authentication, email and database access without exposing secret values.
-3. Confirm the target database and any required backend integrations are reachable from the Vercel runtime. A successful static build does not prove database-backed routes or forms work.
-4. Confirm the Vercel deployment is still READY and the domain associations remain verified.
-5. Only then perform the approved GoDaddy DNS cutover and allow DNS propagation.
+The user has explicitly authorized the public frontend to be restored on Vercel while the backend and PostgreSQL database remain on Render in their current billing-suspended state. This is a **frontend-only public launch**, not a full-stack migration or confirmation that login, forms, email, database operations, or student functionality work.
+
+The pre-cutover inspection confirms:
+
+1. **Vercel deployment and domain assignment — PASS.** The latest production deployment is READY and includes both custom-domain aliases. Both project-domain associations report verified.
+2. **Anonymous custom-domain access configuration — PASS.** Vercel reports Vercel Authentication scope `prod_deployment_urls_and_all_previews` (Standard Protection). This protects generated deployment URLs/previews while leaving the actual production custom domains public. Do not disable this protection or change its scope.
+3. **Public-page rendering boundary — PASS by source inspection.** The homepage and representative public pages (`/`, `/About`, `/Admissions`, `/Contact`, `/TestPrep`, `/Languages`, and `/Testimonials`) are rendered from frontend components and do not require a successful database read to produce their page content. The shared navigation performs a first-party `/api/auth/session` check; that API catches database errors and returns `authenticated: false`, so a suspended/unconfigured database does not prevent the public page from rendering.
+4. **Backend-dependent functionality — DEFERRED.** The Vercel project environment-variable inventory currently shows `NEXT_PUBLIC_BACKENDURL` pointing to `https://aprioribackend.onrender.com`; no `DATABASE_URL` entry was present in the returned project-variable inventory. The application's database helper requires `DATABASE_URL`. The connected Render workspace currently lists the `AprioriConsultants` web service and `apriori-consultants-database` as suspended by billing. The configured `aprioribackend.onrender.com` hostname did not appear as a service in that workspace inventory, so its current service state is unverified.
+5. **Public form behavior — DEFERRED.** The current homepage Apply form, Contact page Message form, and footer newsletter controls have no submission handlers in the inspected source. They must not be represented as working. Their future implementation is a separate task; reactivating Render alone will not add missing form handlers.
+
+No code, production environment variable, Vercel protection setting, Render service/database, or DNS record needs to be changed to make the static public content eligible for the Vercel cutover. Preserve the existing backend URL variable unchanged for later investigation/reactivation.
+
+### Pre-cutover DNS state — confirmed directly from Vercel
+
+Vercel currently reports these external DNS records and recommendations:
+
+| Host | Current DNS detected by Vercel | Preferred Vercel record |
+|---|---|---|
+| Apex `@` | A `216.24.57.1` | A `216.198.79.1` and A `64.29.17.1` |
+| `www` | CNAME `aprioriconsultants.onrender.com` plus A `216.24.57.18` and `216.24.57.16` | CNAME `cd3ea3f5daa82b89.vercel-dns-017.com` only |
+
+The detected nameservers are `ns07.domaincontrol.com` and `ns08.domaincontrol.com`. Both Vercel domain configurations report `misconfigured: true` because DNS still targets Render. Domain verification being true confirms the project association; it does not mean traffic is already routed to Vercel.
+
+The user must make the DNS edits in GoDaddy. Replace the apex A record with the two preferred Vercel A records; remove the old `www` Render CNAME and both old `www` A records; add the preferred `www` CNAME. Preserve all unrelated records, including MX, TXT, SPF, DKIM, DMARC, email, and verification records. Do not change nameservers.
 
 ### Render status and cost boundary
 
@@ -61,27 +79,35 @@ The Render web service `AprioriConsultants` (`https://aprioriconsultants.onrende
 
 ### Stage 1 completion gate
 
-Stage 1 is complete only when the public DNS records route both custom domains to Vercel, Vercel serves the intended production deployment, public visitors are not blocked by deployment protection, and required runtime configuration has been checked. Until then, report migration as IN PROGRESS.
+Stage 1 frontend cutover is complete only when GoDaddy DNS routes both custom domains to Vercel, the intended production deployment serves them, and anonymous visitors are not blocked. Backend/database reachability is explicitly outside this frontend-only cutover gate and remains DEFERRED until the user chooses to reactivate the Render services and complete the required Vercel runtime configuration. Until the DNS cutover is complete, report Stage 1 as READY FOR USER DNS CUTOVER, not complete.
 
 ## Stage 2 — Public website restoration verification
 
-**PENDING — blocked by Stage 1**
+**PENDING — starts after the user completes the GoDaddy DNS cutover**
 
-After the DNS cutover, verify the live custom domain before any redesign work resumes.
+Stage 2 is a **public frontend restoration check**. It must establish that an ordinary unauthenticated visitor can access the Vercel-hosted public website even while Render's backend/database remain suspended.
 
-Required checks:
+### Required frontend checks after DNS propagation
 
-1. `https://www.aprioriconsultants.org/` loads the Vercel production homepage for an ordinary unauthenticated visitor.
+1. `https://www.aprioriconsultants.org/` loads the intended Vercel production homepage for an ordinary unauthenticated visitor.
 2. `https://aprioriconsultants.org/` redirects to `https://www.aprioriconsultants.org/` without passing through Render.
-3. Main-menu, submenu and other no-login public routes load directly and through navigation; refresh/deep links work.
-4. CSS, JavaScript, images, fonts and other static assets load from the deployed application.
-5. Public contact/application forms and other public interactions are checked end-to-end, including their required API/email/database dependencies.
-6. Browser console and network checks show no material client-side errors, failed assets or unexpected calls to the suspended Render website service.
-7. Public login/registration entry pages render correctly. Authenticated product functionality is not redesigned or functionally reworked under this restoration check; verify only the access boundary and expected route availability.
-8. Test desktop, tablet and mobile rendering for the existing public site and record any pre-existing defects separately from restoration blockers.
-9. The public domain is checked again after propagation, not just the Vercel deployment URL.
+3. Public main-menu, submenu and other no-login content routes load both through navigation and by direct URL/deep link, including refresh.
+4. CSS, JavaScript, images, fonts, and the Contact page map iframe load without material failures.
+5. Public navigation works on desktop, tablet and mobile; record any pre-existing layout defects separately from restoration blockers.
+6. The browser console/network shows no page-rendering failures and no public content route depends on the suspended Render website service.
+7. Login and registration entry screens may be checked for rendering only. Do not attempt to certify login, registration, email verification, password reset, session, student, admin or mock-test workflows while the database/backend are suspended.
+8. Record the final public DNS and Vercel domain status after propagation. A deployment URL response or Vercel domain association alone is not proof of public custom-domain restoration.
 
-Close Stage 2 only after the public website is reachable and the documented public-route/asset/interaction checks pass. Record failures and fix them before advancing. A homepage HTTP 200 alone is insufficient.
+### Explicitly deferred until backend/database reactivation
+
+- Login, registration, email verification, password reset, session validation, student/profile data, admin tools, payment/entitlement, SAT/PSAT mock tests, progress and results.
+- Any API route requiring PostgreSQL or a Render backend.
+- Contact/application/newsletter submission. In addition to their backend dependency, the currently inspected homepage Apply, Contact Message and footer newsletter controls do not have submission handlers in source; they need separate implementation and end-to-end verification before being advertised as usable.
+- Email delivery and other transactional integrations.
+
+Do not change authentication/security rules, make failed actions appear successful, create local/mock substitutes for student data, or weaken access controls to make the frontend-only launch appear fully functional.
+
+Close Stage 2 when the public frontend routes, assets, navigation, anonymous access and responsive presentation pass. Record the backend-dependent features above as DEFERRED, not PASS. Stage 3 may then begin under the existing public-page-only redesign policy; Stage 4 remains gated behind Stage 3.
 
 ## Stage 3 — Pending website redesign
 
@@ -138,17 +164,21 @@ Resume from the current documented SAT/PSAT state; do not restart completed work
 ## Cross-stage operating rules
 
 - This roadmap controls the order of work. If an older document says Render is the current website host, gives an old Render URL as the active test URL, or calls a later-stage task the immediate next action, treat that statement as historical and follow this roadmap.
-- Do not make DNS changes, pay for or resume Render, change production environment values, or alter authenticated/mock-test functionality outside the stage and approval gates above.
+- The assistant must not edit GoDaddy DNS; the user's manual DNS cutover is the pending Stage 1 action. Do not pay for, resume, redeploy or alter Render services/database. Do not change production environment values or authenticated/mock-test functionality outside the stage and approval gates above.
 - Keep historical deployment and implementation records for auditability; mark them historical rather than deleting or silently rewriting them.
 - Update this roadmap and the relevant detailed source documents when a stage changes state.
 - The repository branch and code remain the source of truth for implementation; this roadmap controls the delivery sequence and current handoff.
 
 ## October 31, 2026 audit record
 
-- Vercel Node.js setting changed to 24.x.
-- Production deployment `dpl_EfFcpksrF1eKBAeeJPNCKJvr6Sz3` reached READY on commit `91e056089490fc54eb2dffe47e760229b62620c8`.
-- Vercel deployment homepage response: HTTP 200.
-- Vercel custom domains: verified and assigned; apex redirects to www.
-- GoDaddy DNS still points to Render; public www domain still returned Render suspension HTTP 503.
-- Vercel SSO protection remains reported as enabled for production deployment URLs and all previews; effective custom-domain anonymous access still needs verification.
-- No GoDaddy DNS, Render billing/service, application source code, authenticated pages or mock-test functionality was changed during this audit.
+- Current Vercel project: `apriori-consultants`; Node.js 24.x.
+- Latest production deployment: READY — `dpl_CaRn7s5VSsyhJAAWf5yXcvKXgZqD`, commit `5dbc3f0dc6482b731d360e0cad76fa1a4aac1306` on `main`.
+- Deployment aliases include both `www.aprioriconsultants.org` and `aprioriconsultants.org`.
+- Project domain associations report verified; apex redirect is configured as HTTP 308 to www.
+- Vercel deployment protection is enabled with Standard Protection scope `prod_deployment_urls_and_all_previews`; custom production domains remain publicly accessible under this scope.
+- Vercel project environment inventory returned `NEXT_PUBLIC_BACKENDURL` targeting `https://aprioribackend.onrender.com`; no `DATABASE_URL` entry appeared in that inventory. Do not change these settings for the frontend-only cutover.
+- Connected Render workspace lists `AprioriConsultants` web service and `apriori-consultants-database` as suspended by billing. Do not reactivate/pay or modify them.
+- Vercel live DNS detection still shows apex A `216.24.57.1`, and www CNAME `aprioriconsultants.onrender.com` plus A `216.24.57.18` and `216.24.57.16`. Both domains are therefore still misconfigured for Vercel traffic.
+- Preferred current Vercel DNS targets: apex A `216.198.79.1` and `64.29.17.1`; www CNAME `cd3ea3f5daa82b89.vercel-dns-017.com`.
+- User is authorized to make the GoDaddy DNS cutover while leaving Render backend/database suspended. Preserve all unrelated DNS/email/verification records.
+- No code, Vercel setting, environment variable, Render resource, or DNS record was changed in this inspection. Project records are being updated to reflect the frontend-only launch boundary and exact next action.
