@@ -1,0 +1,41 @@
+
+.homePage {
+  --home-content-max: 1280px;
+  --home-gutter: clamp(24px, 5.55vw, 80px);
+  --home-section-space: clamp(64px, 6vw, 88px);
+  --home-section-space-compact: clamp(48px, 4.8vw, 68px);
+  --home-heading-size: clamp(30px, 2.45vw, 38px);
+  --home-heading-line: 1.18;
+  --home-heading-weight: 750;
+  --home-heading-tracking: -0.025em;
+  --home-body-size: 16px;
+  --home-body-line: 1.68;
+  --home-ink: #172033;
+  --home-muted: #5e6674;
+  --home-border: #e5e9f0;
+  --home-radius: 14px;
+  --home-card-shadow: 0 10px 28px rgba(20, 35, 70, 0.07);
+
+  width: 100%;
+  color: var(--home-ink);
+  background: #fff;
+  font-family: "Open Sans", sans-serif;
+}
+
+@media screen and (max-width: 1024px) {
+  .homePage {
+    --home-gutter: clamp(28px, 5vw, 54px);
+    --home-section-space: 64px;
+    --home-section-space-compact: 52px;
+    --home-heading-size: clamp(30px, 3.4vw, 36px);
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .homePage {
+    --home-gutter: clamp(20px, 5.5vw, 28px);
+    --home-section-space: 48px;
+    --home-section-space-compact: 40px;
+    --home-heading-size: clamp(28px, 7vw, 32px);
+  }
+}
