@@ -1,6 +1,8 @@
 # Apriori Digital SAT Platform — Permanent Architecture
 
-**Last updated:** September 21, 2026
+**Last updated:** October 31, 2026
+
+> **Hosting update:** The current Next.js application is deployed to Vercel. The October 31 production deployment is READY, but GoDaddy DNS still points the public domain to the suspended Render service. Follow `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md` for current hosting and release order. Render references below that describe the former web-service host are historical unless explicitly updated.
 
 This document contains the permanent architecture and business rules for the Apriori Digital SAT platform. It should not be confused with `docs/SAT-PROJECT-STATE.md`, which records current implementation progress.
 
@@ -24,14 +26,14 @@ SAT-specific functionality should remain isolated where practical.
 - Redux/Redux Toolkit for UI/application state where appropriate
 - PostgreSQL for persistent SAT/authentication data
 - Next.js API routes for server-side backend functionality
-- Render for deployment
+- Vercel for current Next.js application hosting (Node.js 24.x; custom-domain DNS cutover pending)
 - Resend for transactional email verification
 
-The current controlled deployment/test URL is:
+The current Vercel production deployment URL for controlled diagnostics is:
 
-`https://aprioriconsultants.onrender.com`
+`https://apriori-consultants-1lmrslzp6-aksharas-projects.vercel.app`
 
-The custom domain must not be used for controlled testing until explicitly approved.
+The intended public student-facing URL remains `https://www.aprioriconsultants.org`, but its DNS cutover and public-access verification are pending. The historical Render URL `https://aprioriconsultants.onrender.com` is billing-suspended and must not be used as the current deployment target or testing URL.
 
 ## 3. Authentication architecture
 
