@@ -17,7 +17,7 @@ The completed state of one stage is the entry condition for the next. A successf
 
 ## Stage 1 — Vercel migration
 
-<badge>IN PROGRESS</badge>
+**IN PROGRESS**
 
 ### Completed and verified
 
@@ -65,7 +65,7 @@ Stage 1 is complete only when the public DNS records route both custom domains t
 
 ## Stage 2 — Public website restoration verification
 
-<badge color="warning">PENDING — blocked by Stage 1</badge>
+**PENDING — blocked by Stage 1**
 
 After the DNS cutover, verify the live custom domain before any redesign work resumes.
 
@@ -85,7 +85,7 @@ Close Stage 2 only after the public website is reachable and the documented publ
 
 ## Stage 3 — Pending website redesign
 
-<badge color="warning">PENDING — begins only after Stage 2 passes</badge>
+**PENDING — begins only after Stage 2 passes**
 
 Use `docs/WEBSITE-VISUAL-SYSTEM-AND-REDESIGN-POLICY.md` as the authoritative design and scope specification. The approved direction is **Premium Academic Precision**.
 
@@ -122,7 +122,7 @@ Stage 3 is complete only when the authorized public-page redesign sequence and i
 
 ## Stage 4 — Resume mock-test work
 
-<badge color="warning">PENDING — begins only after Stage 3</badge>
+**PENDING — begins only after Stage 3**
 
 Resume from the current documented SAT/PSAT state; do not restart completed work or invent a new mock.
 
