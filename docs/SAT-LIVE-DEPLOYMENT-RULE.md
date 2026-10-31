@@ -1,7 +1,7 @@
 # Public Website Deployment and Verification Rule
 
 **Last updated:** October 31, 2026  
-**Current frontend host:** Vercel — READY FOR USER DNS CUTOVER  
+**Current frontend host:** Vercel — DNS CUTOVER COMPLETE; public restoration verification in progress  
 **Backend/database:** Render — intentionally left billing-suspended until the user chooses to reactivate them
 
 This is the permanent deployment and student-facing verification rule. The current recovery order and frontend-only launch exception are governed by `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`.
@@ -9,10 +9,10 @@ This is the permanent deployment and student-facing verification rule. The curre
 ## 1. Hosting authority
 
 - Vercel project: `apriori-consultants`, Node.js 24.x.
-- Latest production deployment: READY — `dpl_CaRn7s5VSsyhJAAWf5yXcvKXgZqD`, commit `5dbc3f0dc6482b731d360e0cad76fa1a4aac1306` on `main`.
+- Latest production deployment before the Premium Services correction: READY — `dpl_CebMmuTcsfnJ2kSUhLoPXwX5jLx6`, commit `4a100442353638dfc40b0cbea256c56904f10912` on `main`.
 - Intended public website: `https://www.aprioriconsultants.org`; apex `https://aprioriconsultants.org` redirects to www with HTTP 308.
 - Both Vercel project-domain associations report verified and are assigned as deployment aliases.
-- GoDaddy DNS still points to Render. The user must perform the cutover manually using the Vercel-reported preferred records in the roadmap.
+- The user completed the GoDaddy DNS cutover. Vercel reports misconfigured=false and no conflicts for both domains: www uses CNAME cd3ea3f5daa82b89.vercel-dns-017.com; the apex uses A 216.198.79.1 and A 64.29.17.1.
 - Render `AprioriConsultants` web service and `apriori-consultants-database` PostgreSQL instance are billing-suspended. They must not be paid for, resumed, redeployed or modified as part of this frontend-only launch.
 
 ## 2. Approved frontend-only public launch
@@ -27,7 +27,7 @@ The Vercel environment-variable inventory currently shows `NEXT_PUBLIC_BACKENDUR
 
 ## 3. Public-site acceptance — frontend scope
 
-After the user updates DNS and propagation completes, verify:
+Following the completed user DNS cutover, verify:
 
 - `https://www.aprioriconsultants.org/` loads the intended Vercel production homepage for an ordinary unauthenticated visitor.
 - The apex domain redirects to www without routing through Render.
@@ -72,3 +72,9 @@ Do not perform any of these steps now.
 - Preferred Vercel records are apex A `216.198.79.1` and `64.29.17.1`; www CNAME `cd3ea3f5daa82b89.vercel-dns-017.com`.
 - Render website service and PostgreSQL database are suspended by billing, by user choice.
 - No DNS, Vercel settings, environment variables, Render resources or application code were changed in this audit.
+
+## October 31, 2026 — Current public restoration checkpoint
+
+Vercel confirms both public domains are verified, correctly configured and assigned to the project; the apex redirect to www is HTTP 308. The user reports the homepage is back online. Stage 2 remains in progress until public routes, assets, navigation, responsive layouts and browser-console checks are completed.
+
+The Premium Services blank-section defect is being corrected on the homepage only. The fix is scoped to components/Home/Ourcourses.js, components/Home/CoursesSlider.js and src/styles/home/ourcourses.module.css; production promotion and final public visual confirmation are pending. Backend/database services remain suspended and unchanged.
