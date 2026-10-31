@@ -206,3 +206,34 @@ This is a focused defect correction to restore an existing homepage section duri
 - **Isolation:** no global/shared stylesheet, navigation, authenticated-only page, login-only state, mock-test screen, API, backend or business logic is changed.
 - **Production code deployment:** commit `85ae34cc7f988265674b20548758cd036abbf58d` on `main`; Vercel deployment `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j` reached READY and includes both custom-domain aliases. Live desktop/tablet/mobile visual acceptance remains pending.
 - **Gate:** the broader homepage redesign and remaining public-page redesign sequence remain gated behind completion of Stage 2 and the approvals/sequence in Section 4.
+
+## 8. October 31, 2026 — Homepage layout cohesion pass
+
+**Scope:** homepage only, following the user's explicit request for a systematic spacing/alignment fix. This is not blanket authorization for the remaining public pages and does not close the overall public restoration or Phase 1 redesign gates.
+
+### Visual synthesis from reference sites
+
+- OnePrep: clear section sequence, distinct section headings, concise supporting explanations and predictable grouping of related features. Reference: https://www.oneprep.com/
+- BluePrep: service groups are presented in a repeatable pattern of title, explanation and action, helping visitors scan different offerings. Reference: https://www.blueprep.org/
+- UWorld SAT: readable hierarchy and clear, structured visual explanations make information easier to scan. Reference: https://collegeprep.uworld.com/sat/
+- SAT Sphere: page content is divided into clear, purposeful sections with consistent section-level structure. Reference: https://www.satsphere.com/
+
+These are design principles, not templates. Preserve Apriori's own navy/red identity, imagery, copy, information architecture and existing section order.
+
+### System implemented
+
+- Shared homepage tokens: maximum content width 1280px; responsive horizontal gutters; repeatable section spacing; one section-heading scale/line-height/weight; consistent ink/muted/border colors; card radius and shadow tokens.
+- Shared horizontal alignment is applied to the hero information strip, Welcome content/form/cards, the text column within Why Choose Us, Premium Services and Flagship Programs. Full-width hero, split-image, and testimonial treatments remain intentionally full bleed.
+- Repeated card surfaces now use consistent border, corner radius, padding rhythm and restrained shadows. Card text and actions align consistently within repeated card groups.
+- Responsive overrides preserve the same design logic at desktop, tablet and mobile widths while reducing gutters and vertical spacing appropriately.
+
+### Implementation record
+
+- Root token file: `src/styles/home/homepage.module.css`.
+- Page wrapper: `src/pages/index.js`.
+- Updated public-home CSS modules: `src/styles/home/Slider/heroslider.module.css`, `src/styles/home/herobuttom.module.css`, `src/styles/home/welcome.module.css`, `src/styles/home/whyus.module.css`, `src/styles/home/ourcourses.module.css`, `src/styles/home/testimonials.module.css`, `src/styles/home/news.module.css`.
+- Preview: branch `redesign/homepage-spacing-alignment-system`, commit `0958d1354fe71b5c07a89d5b71f4a0407995bc7b`, deployment `dpl_CUFJ3cKVcDXeved2191DnLLD1Ts9` READY.
+- Preview HTML returned HTTP 200; the Next.js build generated all 39 static pages; the five Premium Services images and additional homepage assets checked returned HTTP 200. The compiled CSS includes the root tokens and per-section token usage.
+- No browser viewport/computed-layout or browser-console inspection was performed. Live visual acceptance at 1440×900, 768×1024 and 390×844 remains pending.
+- No copy, content, links, routes, page order, functionality, form markup, global styles, other public pages, authenticated-only pages, mock-test screens, APIs, backend settings, Render resources or DNS records were changed.
+
