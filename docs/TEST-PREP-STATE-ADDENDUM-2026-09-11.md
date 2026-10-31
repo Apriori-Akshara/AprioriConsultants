@@ -1,4 +1,6 @@
-# Test-Prep Architecture State Addendum — September 11, 2026
+# Test-Prep Architecture State Addendum — September 11, 2026 (Historical Product Decisions)
+
+> Current hosting and delivery order changed on October 31, 2026. Vercel is the current Next.js host; GoDaddy DNS cutover is pending. The Render live-deployment instruction in this historical addendum is superseded by `docs/SAT-LIVE-DEPLOYMENT-RULE.md` and `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`.
 
 This addendum records the product and UI/UX decisions established on September 11, 2026. It should be read together with `docs/SAT-PROJECT-STATE.md`, `docs/SAT-ARCHITECTURE.md`, and `docs/TEST-PREP-ARCHITECTURE.md` until the next project-state consolidation.
 
@@ -141,7 +143,7 @@ Completed in GitHub:
 
 ### Controlled live verification required
 
-After Render deploys this batch, live testing should focus on:
+After the authorized Vercel production deployment of this batch, and only once the public-domain routing is restored, live testing should focus on:
 
 - `/Courses` loads normally and shows Foundation, Advanced, and Mock Tests.
 - The **SAT Mock Tests** Courses card opens `/SATMocks`.
