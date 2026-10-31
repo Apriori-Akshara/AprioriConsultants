@@ -41,10 +41,11 @@ Rules:
 - Next.js 14.1.4, Pages Router; React 18
 - Vercel project: `apriori-consultants`
 - Vercel Node.js setting: 24.x
-- Latest Vercel production deployment before the Premium Services correction: READY — `dpl_CebMmuTcsfnJ2kSUhLoPXwX5jLx6`
-- Source commit: `4a100442353638dfc40b0cbea256c56904f10912`
+- Latest Vercel production deployment: READY — `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j`
+- Source commit: `85ae34cc7f988265674b20548758cd036abbf58d`
+- Deployment URL: `https://apriori-consultants-1xtfaetq1-aksharas-projects.vercel.app`
 - Intended public website: `https://www.aprioriconsultants.org`
-- Current Vercel production deployment URL before the Premium Services correction: `https://apriori-consultants-20jxub69l-aksharas-projects.vercel.app`
+- Previous production deployment URL before the Premium Services correction: `https://apriori-consultants-20jxub69l-aksharas-projects.vercel.app`
 - DNS registrar/provider: GoDaddy; user-completed cutover is confirmed by Vercel (misconfigured=false for both domains). The www CNAME is `cd3ea3f5daa82b89.vercel-dns-017.com`; apex A records are `216.198.79.1` and `64.29.17.1`.
 - Both custom domain associations are Vercel-verified and assigned to the latest production deployment; apex redirects to www with HTTP 308.
 - Vercel protection is Standard Protection (`prod_deployment_urls_and_all_previews`); custom production domains remain public under this scope.
@@ -59,7 +60,7 @@ The user-facing public website must be checked only at `https://www.aprioriconsu
 - The user confirms the public site is back online after the GoDaddy DNS cutover.
 - Vercel reports both public domains verified and correctly configured with no DNS conflicts; the apex redirects to www with HTTP 308.
 - Stage 1 is complete. Stage 2 remains in progress because the all-route/deep-link/assets/navigation/desktop-tablet-mobile/browser-console acceptance checks have not yet been independently completed.
-- The reported Premium Services blank section is being corrected on the homepage only. The branch preview is READY: dpl_ETsBbjywav4e8obE6hVMXGE2GGY5 for fix/premium-services-homepage-visibility. Files changed: components/Home/Ourcourses.js, components/Home/CoursesSlider.js, and src/styles/home/ourcourses.module.css. Production promotion and final live visual confirmation remain pending.
+- The reported Premium Services blank section has been corrected on the homepage only. Production deployment dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j is READY with both public custom-domain aliases. Files changed: components/Home/Ourcourses.js, components/Home/CoursesSlider.js, and src/styles/home/ourcourses.module.css. Final live visual confirmation remains pending.
 - The correction preserves the five existing service cards, their visible text, images, hrefs, section position and active carousel settings. It adds a responsive fallback before slider initialization, avoids reveal-animation hiding for this section, and scopes track/slide height correction to the homepage Premium Services carousel.
 - No authenticated-only page, mock-test screen, global stylesheet, backend setting, Render service/database, or DNS record was changed.
 ## 5. Authentication/session milestone — COMPLETE
