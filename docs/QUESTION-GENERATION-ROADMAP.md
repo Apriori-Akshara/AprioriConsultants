@@ -1,8 +1,10 @@
 # Question Generation Implementation Roadmap
 
-**Status:** Approved implementation plan / current Batch M remediation and release checkpoint updated September 25, 2026  
+**Status:** Approved implementation plan / Batch M release and question-bank roadmap updated October 31, 2026  
 **Scope:** Question generation, question storage, and figure/question rendering only  
 **Production target:** 30 controlled production targets: SAT Series A 1–10, PSAT 1–10, SAT Series B 11–20
+
+> **Global execution gate:** This roadmap is resumed only at Stage 4 of `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`, after Vercel migration, public website restoration verification and the approved public-page redesign sequence. Until then, do not begin content intake, question generation, content mutation or mock-test implementation. The current frozen corpus and completed Batch M work remain preserved.
 
 ## Taxonomy rule
 
@@ -288,7 +290,7 @@ This section supersedes the earlier statement that the human-editable bridge sho
 
 ### Step 2 — Bulk source intake and deterministic mapping
 
-**NEXT.** Implement docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md. Support DOCX, PDF, and structured pasted text; map supplied content to existing frozen testKey + questionId identities; create candidate representations and an exception manifest; never mutate production.
+**NEXT AFTER GLOBAL STAGE 4 RESUMPTION.** Implement docs/QUESTION-BANK-IMPORT-AND-REVIEW-WORKFLOW.md. This remains queued while website migration, public restoration and public-page redesign are in progress. Support DOCX, PDF, and structured pasted text; map supplied content to existing frozen testKey + questionId identities; create candidate representations and an exception manifest; never mutate production.
 
 ### Step 3 — Canonical Math typography
 
