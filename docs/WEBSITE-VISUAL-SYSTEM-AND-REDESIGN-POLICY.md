@@ -1,10 +1,10 @@
 # Primary Website Visual System and Redesign Policy
 
-**Last updated:** October 29, 2026  
-**Status:** Visual direction approved for future reference; implementation remains approval-gated  
+**Last updated:** October 31, 2026  
+**Status:** Premium Academic Precision visual system approved; public-page redesign is queued behind Vercel migration and public restoration verification  
 **Authority:** Primary reference for the visual redesign of the Apriori Consultants website
 
-This document records the approved visual direction, strict scope boundaries, approval gates, and page-by-page sequence for the website redesign. It applies to the public website and later, separately authorized authenticated pages and mock-test screens.
+This document records the approved visual direction, strict scope boundaries, approval gates, and page-by-page sequence for the website redesign. It applies to the public website and later, separately authorized authenticated pages and mock-test screens. The operational order is controlled by [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md): Vercel migration, public restoration verification, public-page redesign, then resumed mock-test work. Do not start redesign implementation until Stages 1 and 2 of that roadmap have passed.
 
 **Approval of this visual system is not blanket permission to start every redesign phase.** Each phase or mock-test batch must have the explicit authorization described below. Until the relevant authorization is given, do not change code or page styling in that scope.
 
@@ -160,8 +160,9 @@ No production deployment is implied by this documentation. Deployment must follo
 
 ### Homepage URL and visual acceptance criteria (Phase 1)
 
-**Expected public homepage:** https://www.aprioriconsultants.org/  
-**Render service URL:** https://aprioriconsultants.onrender.com/
+**Expected public homepage:** https://www.aprioriconsultants.org/ (Vercel production domain; DNS cutover is still pending).  
+**Vercel production deployment URL:** https://apriori-consultants-1lmrslzp6-aksharas-projects.vercel.app/  
+**Historical Render URL:** https://aprioriconsultants.onrender.com/ (billing-suspended; not a verification target).
 
 The following criteria apply to the homepage redesign and must be checked before marking this page complete:
 
@@ -179,7 +180,19 @@ The following criteria apply to the homepage redesign and must be checked before
 
 Acceptance is not declared until the responsive checks, diff review, build, and deployment status have been recorded. If a browser viewport cannot be directly tested, record that limitation instead of claiming the check passed.
 
-## 6. Current recorded status
+## 6. Current recorded status — October 31, 2026
+
+- **Visual direction:** Premium Academic Precision is approved as the primary design reference.
+- **Operational gate:** wait for Vercel migration and public website restoration verification to pass, as defined in `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`, before continuing redesign implementation.
+- **Homepage:** the homepage styling implementation exists in commit `bf7d593ccd62033a11bff128a10f075edcace063`. It changed seven homepage component CSS modules and did not change page-component logic or global/shared styles.
+- **Homepage verification:** the seven edited CSS modules passed the recorded structural CSS check. The current Vercel production deployment reached READY and its deployment URL returned HTTP 200, but the public custom domain still routes to suspended Render. Desktop/tablet/mobile browser acceptance on the restored public domain therefore remains **PENDING**. Do not mark the homepage visually accepted yet.
+- **Remaining public pages:** the main-menu pages, submenu pages and other pages viewable without successful authentication remain pending Phase 1, in the exact menu/hierarchy sequence in Section 4. Process one page at a time after Stage 2 passes.
+- **Phase 1 scope:** public unauthenticated pages only. Preserve content, page/section order, routes, navigation, functionality and behavior. Do not change any page/state available only after successful login, and do not change mock-test screens.
+- **Authenticated-only pages:** protected from Phase 1; Phase 2 requires separate explicit user approval after Phase 1 is complete.
+- **Mock-test screen redesign:** Phase 3 requires separate explicit approval for each batch of at most five mock tests from one series.
+- **Architecture, navigation, content or section reordering:** suggestions may be recorded separately; implementation requires additional explicit approval.
+
+This policy remains the primary reference for visual-design work. The recovery roadmap controls when the policy may be acted upon.
 
 - **Visual direction:** approved as the primary design reference.
 - **Homepage redesign:** Phase 1 is explicitly authorized; homepage is the only page in scope for the current implementation.
