@@ -1,6 +1,8 @@
 # Apriori Digital SAT Platform — Project State
 
-**Last updated:** September 26, 2026
+**Last updated:** October 31, 2026
+
+> **Current project-wide execution gate:** Follow [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md) in order: (1) Vercel migration, (2) public website restoration verification, (3) pending public website redesign, (4) resume mock-test work. SAT/PSAT functional and question-bank work is held until Stage 4. The Render deployment references in the historical sections below are not current deployment instructions.
 
 ## 1. Source of truth
 
@@ -36,15 +38,18 @@ Rules:
 
 - GitHub: `Apriori-Akshara/AprioriConsultants`
 - Branch: `main`
-- Next.js 14.1.4, Pages Router
-- React 18
-- PostgreSQL
-- Render web service: `AprioriConsultants`
-- Controlled Render URL: `https://aprioriconsultants.onrender.com`
-- Controlled SAT URL: `https://aprioriconsultants.onrender.com/SATMocks`
-- Public verification URL: `https://www.aprioriconsultants.org`
+- Next.js 14.1.4, Pages Router; React 18
+- Vercel project: `apriori-consultants`
+- Vercel Node.js setting: 24.x
+- Latest Vercel production deployment: READY — `dpl_EfFcpksrF1eKBAeeJPNCKJvr6Sz3`
+- Source commit: `91e056089490fc54eb2dffe47e760229b62620c8`
+- Intended public website: `https://www.aprioriconsultants.org`
+- Vercel production deployment diagnostic URL: `https://apriori-consultants-1lmrslzp6-aksharas-projects.vercel.app`
+- DNS registrar/provider: GoDaddy; DNS cutover to Vercel remains pending.
+- Render `AprioriConsultants` service: billing-suspended; `https://aprioriconsultants.onrender.com` is a historical URL, not a current public website or student test target.
+- PostgreSQL and other runtime integrations must be verified separately from the successful static build.
 
-The user tests only the public website when instructed. Do not ask the user to test Render.
+The user-facing public website must be checked only at the intended public domain after Vercel DNS cutover and Stage 2 restoration verification. Do not ask the user to test the suspended Render URL.
 
 ## 5. Authentication/session milestone — COMPLETE
 
@@ -52,11 +57,11 @@ Registration, password hashing, email verification, verified-login acceptance/re
 
 Do not repeat registration, email verification, database setup or the resolved PostgreSQL/Node client-bundle work unless a real defect requires it.
 
-## 6. Current milestone — Stage 3 functional completion
+## 6. Historical milestone — Stage 3 functional completion snapshot (September 2026)
 
-The objective is to make **all PSAT Mocks 1–10 and SAT Mocks 1–10 fully functional and publicly QC-verifiable** before any Mock 11 work.
+This section preserves the earlier PSAT/SAT Mocks 1–10 functional integration checkpoint. It is **not the current next action**. The October 31, 2026 project sequence now requires Vercel migration, public website restoration verification and the pending public-page redesign before mock-test work resumes. On resumption, use `docs/BATCH-M-CURRENT-STATUS-2026-09-22.md` for the authoritative 30-mock Batch M state and `docs/QUESTION-GENERATION-ROADMAP.md` for the question-bank implementation roadmap.
 
-Stage 3 consists of Steps 1–12. Steps 1–10 are now implemented and the latest corrective deployment is LIVE. **Step 11 — live functional/public QC — is pending the user's final verification. Step 12 — final documentation and handoff — follows Step 11.**
+At the time of this historical milestone, Stage 3 steps 1–10 were implemented; its then-pending live verification and handoff checkpoints must not override the later Batch M Stage 14 completion recorded in the Batch M status document.
 
 A mock is fully functional only when the student can launch it through the student-facing library, complete the shared adaptive/timed/resumable test experience, submit it, receive server-authoritative scoring, and view the corresponding report/analysis.
 
@@ -114,12 +119,14 @@ For every code change, state:
 - exact change;
 - BEFORE/AFTER or complete replacement where appropriate;
 - exact commit message;
-- expected Render result;
-- exact controlled testing URL.
+- expected Vercel deployment result and any separately required backend-service result;
+- exact public-domain testing URL after Stage 2 restoration verification (use the Vercel deployment URL only for controlled diagnostics before custom-domain cutover).
 
 After each Stage 3 step, update the project-state documentation with the step result, files changed, deployment result, public testing result and next step.
 
-## 12. Stage 3 implementation history — Steps 1–10 COMPLETE
+## 12. Historical Stage 3 implementation history — Steps 1–10 COMPLETE
+
+> All Render deployment IDs and LIVE labels in this section are historical deployment records from the earlier hosting arrangement. They do not identify the current Vercel production deployment.
 
 ### Step 1 — Remove subscription gate for Mocks 1–10
 
@@ -269,7 +276,7 @@ After each Stage 3 step, update the project-state documentation with the step re
 
 > **Historical-scope note:** Sections 12–16 below record the earlier 20-mock Stage 3 functional milestone. Their 20-mock/Mock 10 references are historical for that functional milestone and do not override the current 30-mock question-bank corpus state recorded in Section 2 and the current question-bank maintenance section.
 
-## 13. Stage 3 Step 11 — Full functional and public QC
+## 13. Historical Stage 3 Step 11 — Full functional and public QC (September 2026 checkpoint)
 
 **Status:** **IMPLEMENTATION COMPLETE; LIVE FUNCTIONAL QC AND FINAL USER VERIFICATION PENDING.**
 
@@ -297,7 +304,7 @@ The user does not need to complete all 20 mocks. A focused authenticated click-t
 
 **Important:** Step 11 must remain pending until the user reports that public-site functional QC passes, or identifies a defect that must be corrected. If a defect is found, code changes and a new controlled deployment will be made before Step 11 is closed.
 
-## 14. Stage 3 Step 12 — Final documentation and Stage 3 handoff
+## 14. Historical Stage 3 Step 12 — Final documentation and Stage 3 handoff
 
 **Status:** **PENDING completion of Step 11.**
 
@@ -313,7 +320,7 @@ After the user confirms live functional QC, Step 12 will:
 
 Therefore **Stage 3 is not yet declared fully verified or closed**. The remaining action is the user's live functional QC, followed by the final documentation/hand-off checkpoint.
 
-## 15. Current live deployment checkpoint
+## 15. Historical Render deployment checkpoint — superseded October 31, 2026
 
 Latest Stage 3 deployment:
 
@@ -324,13 +331,13 @@ Latest Stage 3 deployment:
 
 The current live code contains the completed Step 10 isolation gate and all preceding Stage 3 implementation work.
 
-## 16. Public verification URLs
+## 16. Public verification URLs — recheck after Vercel DNS cutover
 
 Public/live site: `https://www.aprioriconsultants.org`
 
 SAT Mock Library: `https://www.aprioriconsultants.org/SATMocks`
 
-The public site is the user's testing surface. Render is used for deployment/build confirmation only unless the user explicitly requests otherwise.
+The intended user testing surface is the Vercel-served public domain `https://www.aprioriconsultants.org`, after DNS cutover and Stage 2 verification. Render is suspended and must not be used as a current public verification target.
 
 ## 17. Operating rules for remaining work
 
