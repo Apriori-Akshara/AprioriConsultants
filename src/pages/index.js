@@ -4,11 +4,10 @@ import Herobottom from "../../components/Home/Herobottom";
 import Welcome from "../../components/Home/Welcome";
 import Whyus from "../../components/Home/Whyus";
 import Ourcourses from "../../components/Home/Ourcourses";
-import Counters from '../../components/Home/Counters'
-import Events from '../../components/Home/Events'
-import News from "../../components/Home/News";
 import Testimonials from "../../components/Home/testimonials";
+import News from "../../components/Home/News";
 import Navbar from "../../components/NavbarJS";
+import styles from "../../src/styles/home/homepage.module.css";
 
 export default function Home() {
   return (
@@ -20,8 +19,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main>
-        <div>
-        <Navbar />
+        <div className={styles.homePage}>
+          <Navbar />
           <Heroslider />
           <Herobottom />
           <Welcome />
