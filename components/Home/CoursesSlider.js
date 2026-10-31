@@ -47,9 +47,9 @@ const premiumServices = [
   },
 ];
 
-function ServiceCards() {
-  return premiumServices.map((service) => (
-    <div className={styles.card} key={service.id}>
+function ServiceCard({ service }) {
+  return (
+    <div className={styles.card}>
       <Link className={styles.link} href={service.href}>
         <Image
           className={styles.img}
@@ -65,6 +65,12 @@ function ServiceCards() {
         </div>
       </Link>
     </div>
+  );
+}
+
+function ServiceCards() {
+  return premiumServices.map((service) => (
+    <ServiceCard key={service.id} service={service} />
   ));
 }
 
@@ -126,7 +132,9 @@ export default function CoursesSlider() {
           {...settings}
           onInit={() => setSliderReady(true)}
         >
-          <ServiceCards />
+          {premiumServices.map((service) => (
+            <ServiceCard key={service.id} service={service} />
+          ))}
         </Slider>
       </div>
     </div>
