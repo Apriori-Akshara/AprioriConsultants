@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This repository contains the Apriori Consultants Next.js website and test-prep application.
+
+## Current delivery sequence
+
+Follow [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md) as the current delivery authority: **1. Vercel migration → 2. public website restoration verification → 3. pending public website redesign → 4. resume mock-test work.** The Vercel production deployment is READY, but GoDaddy DNS still routes the public domain to the suspended Render service. Do not treat the website as restored until the DNS, public-access, runtime and public-route checks in that roadmap pass.
 
 ## Getting Started
 
@@ -33,11 +37,11 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Production hosting
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Vercel is the intended production host for the Next.js website. The October 31, 2026 Vercel production deployment is READY; custom-domain DNS cutover and public restoration verification remain pending. Render is suspended and is not the current public website host. Follow the recovery roadmap before changing DNS or resuming later work.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For framework deployment details, see the [Next.js deployment documentation](https://nextjs.org/docs/deployment).
 
 ## Website Visual System
 
