@@ -41,13 +41,13 @@ Rules:
 - Next.js 14.1.4, Pages Router; React 18
 - Vercel project: `apriori-consultants`
 - Vercel Node.js setting: 24.x
-- Latest Vercel production deployment: READY — `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j`
+- Production deployment containing the Premium Services correction: READY — `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j`
 - Source commit: `85ae34cc7f988265674b20548758cd036abbf58d`
 - Deployment URL: `https://apriori-consultants-1xtfaetq1-aksharas-projects.vercel.app`
 - Intended public website: `https://www.aprioriconsultants.org`
 - Previous production deployment URL before the Premium Services correction: `https://apriori-consultants-20jxub69l-aksharas-projects.vercel.app`
 - DNS registrar/provider: GoDaddy; user-completed cutover is confirmed by Vercel (misconfigured=false for both domains). The www CNAME is `cd3ea3f5daa82b89.vercel-dns-017.com`; apex A records are `216.198.79.1` and `64.29.17.1`.
-- Both custom domain associations are Vercel-verified and assigned to the latest production deployment; apex redirects to www with HTTP 308.
+- Both custom domain associations are Vercel-verified and route to the current production application; apex redirects to www with HTTP 308.
 - Vercel protection is Standard Protection (`prod_deployment_urls_and_all_previews`); custom production domains remain public under this scope.
 - Vercel environment inventory shows `NEXT_PUBLIC_BACKENDURL` targeting `https://aprioribackend.onrender.com`; no `DATABASE_URL` entry appeared in the returned inventory.
 - Render `AprioriConsultants` web service and `apriori-consultants-database` PostgreSQL instance are suspended by billing. The configured `aprioribackend.onrender.com` hostname was not present in the connected Render service inventory; its service status is unverified.
