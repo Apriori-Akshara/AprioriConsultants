@@ -12,6 +12,7 @@
 }
 
 .heading {
+  margin: 0;
   padding: 0 24px;
   color: #172033;
   font-size: clamp(30px, 2.6vw, 36px);
@@ -35,6 +36,32 @@
   text-align: center;
 }
 
+.sliderFrame {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.fallbackGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 clamp(24px, 7vw, 104px);
+}
+
+.sliderPreload {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .slidercontainer {
   width: 100%;
   min-width: 0;
@@ -46,17 +73,30 @@
   padding: 0 clamp(24px, 7vw, 104px);
 }
 
+.slider :global(.slick-track) {
+  height: auto;
+}
+
 .slider :global(.slick-list) {
   margin: 0 -12px;
 }
 
 .slider :global(.slick-slide) {
   box-sizing: border-box;
+  height: auto;
   padding: 0 12px 10px;
 }
 
 .slider :global(.slick-dots li button:before) {
   color: #1b326b;
+}
+
+.card {
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
 }
 
 .img {
@@ -128,6 +168,11 @@
     margin-top: 54px;
   }
 
+  .fallbackGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 38px;
+  }
+
   .slider {
     padding: 0 38px;
   }
@@ -149,6 +194,12 @@
 
   .heading {
     font-size: 29px;
+  }
+
+  .fallbackGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 0 22px;
   }
 
   .headingtext {
