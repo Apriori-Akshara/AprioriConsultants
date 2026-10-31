@@ -82,3 +82,7 @@ The Premium Services blank-section defect has been corrected on the homepage onl
 ## October 31, 2026 — Premium Services production correction
 
 The focused homepage restoration correction has been deployed to production. Vercel deployment `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j` for commit `85ae34cc7f988265674b20548758cd036abbf58d` reached READY with both custom-domain aliases. The public section's visual appearance still requires confirmation at desktop, tablet and mobile sizes; the broader Stage 2 public restoration checks remain in progress. No backend/database, Render resource, authentication or mock-test behavior was changed.
+
+## October 31, 2026 — Homepage spacing and alignment consistency pass
+
+The homepage-only refinement was implemented on branch `redesign/homepage-spacing-alignment-system`, preview commit `0958d1354fe71b5c07a89d5b71f4a0407995bc7b`, Vercel preview `dpl_CUFJ3cKVcDXeved2191DnLLD1Ts9` (READY). It introduces shared homepage layout tokens and applies them to the hero strip, Welcome, Why Choose Us, Premium Services, Testimonials and Flagship Programs. It retains all page content, section order, links and existing behavior. The preview homepage returned HTTP 200; the 39-page build completed and the Premium Services image assets checked returned HTTP 200. Desktop/tablet/mobile browser visual acceptance and Stage 2 full-site verification remain pending. No authenticated/mock-test/backend/Render scope was changed.
