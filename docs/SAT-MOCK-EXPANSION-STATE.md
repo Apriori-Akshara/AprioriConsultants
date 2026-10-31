@@ -1,4 +1,6 @@
-# SAT Mock Expansion State — September 12, 2026
+# SAT Mock Expansion State — Historical September 12, 2026 Checkpoint
+
+> **HISTORICAL / SUPERSEDED FOR CURRENT WORK:** This document preserves the original 20-mock expansion milestone and older Render deployment notes. The current production corpus contains 30 mocks; use `docs/BATCH-M-CURRENT-STATUS-2026-09-22.md` and `docs/SAT-PROJECT-STATE.md` for current content/runtime state. Do not resume this historical Stage 3 checkpoint now. The active four-stage delivery order is in `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`; mock-test work resumes only at Stage 4.
 
 This is the current expansion addendum to `docs/SAT-PROJECT-STATE.md` and is the source of truth for the remaining PSAT/SAT Mock 1–10 functional work.
 
@@ -46,7 +48,7 @@ Mock 10 is implemented through the existing shared production pipeline:
 
 Each mock must provide 196 bank questions: 27 R&W Module 1, 81 R&W Module 2 route questions, 22 Math Module 1, and 66 Math Module 2 route questions. Shared structural, originality, figure, answer-position, and adaptive-pool gates remain active.
 
-## Stage 3 functional implementation checkpoint — Steps 1–10 COMPLETE
+## Historical Stage 3 functional implementation checkpoint — Steps 1–10 COMPLETE
 
 Steps 1–10 are implemented and the latest corrective deployment is LIVE. Step 11 remains the final public functional/QC gate to be completed by the user.
 
@@ -202,7 +204,7 @@ Step 12 will be the documentation/final-handoff checkpoint after the user confir
 
 Because Step 11 is still pending from the user, **Stage 3 itself is not yet declared fully verified or closed.**
 
-## Current live deployment checkpoint
+## Historical Render deployment checkpoint — superseded October 31, 2026
 
 Latest Stage 3 deployment:
 - Commit: `b8cded66272be89f14c120b7f1384638125567ec`
@@ -218,7 +220,7 @@ Public/live site: `https://www.aprioriconsultants.org`
 
 SAT Mock Library: `https://www.aprioriconsultants.org/SATMocks`
 
-The public site is the user's testing surface. Render is used for deployment/build confirmation only unless the user explicitly requests otherwise.
+The intended public testing surface is `https://www.aprioriconsultants.org` after Vercel DNS cutover and Stage 2 restoration verification. Render is currently billing-suspended and is not a current deployment/build or student-testing target.
 
 ## Operating rules for remaining work
 
