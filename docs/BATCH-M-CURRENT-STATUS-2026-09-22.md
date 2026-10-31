@@ -1,11 +1,13 @@
 # Batch M Current Status — 2026-09-22
 
-**Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT — UPDATED 2026-09-25  
+**Status:** CURRENT AUTHORITATIVE BATCH M RELEASE CHECKPOINT — UPDATED 2026-10-31  
 **Documentation branch:** `main`  
 **Latest relevant implementation revision:** `1fbe6bd2573d8b258fc6ade46cc72cec458ced85`  
 **Production target:** 30 controlled mocks — SAT1–SAT10, PSAT1–PSAT10, SAT11–SAT20  
 **SAT21:** prohibited / not created  
 **Release eligible:** false
+
+> **Global execution hold:** The website work must first complete Stage 1 Vercel migration, Stage 2 public restoration verification and Stage 3 public-page redesign in [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md). Batch M is held until Stage 4. Its next release gate remains Stage 15 — Technical release QC; do not start it before Stage 4.
 
 ## 1. Current authoritative state
 
@@ -34,7 +36,7 @@ The latest collective gates remain:
 - Final 30-mock corpus gate: **35666818448 — PASS**
 - 30-mock cross-corpus calibration: **35666822839 — PASS**
 
-The latest Vercel check before this package-only implementation was green.
+The earlier Vercel check mentioned in this historical Batch M record predates the October 31, 2026 hosting recovery. Current Vercel deployment and DNS state is recorded only in the website recovery roadmap; the production deployment is READY, while public-domain DNS cutover remains pending.
 
 ## 2. Batch M checklist
 
@@ -203,7 +205,7 @@ Implemented controls include the legacy/approved separation, deterministic 30-mo
 
 Verified CI pilot: **Human question bank pilot — run 36152194934 — SUCCESS**. The pilot preserved exact question IDs and answer identities and performed no production mutation.
 
-The next maintenance step is **full 30-mock legacy document materialization**. It is independent of the remaining Batch M release checkpoints and must not be treated as release approval.
+The full 30-mock legacy document set is already materialized. The next question-bank content step is **bulk source intake and deterministic mapping (Step 2)** in `docs/QUESTION-GENERATION-ROADMAP.md`; it is separate from Batch M release eligibility and is queued until the global Stage 4 resumption gate.
 
 ## 8. Documentation authority
 
@@ -224,4 +226,4 @@ Stages 11–14 are complete: explicit authorization, the exact 25-target control
 
 The next Batch M release stage remains **Stage 15 — Technical release QC**, followed by final end-to-end student acceptance and final Batch M release acceptance.
 
-The next question-bank maintenance stage is separate: **materialize the full 30-mock legacy document set** using `npm run question-bank:export-legacy`.
+The next question-bank maintenance stage is separate: **Step 2 — bulk source intake and deterministic mapping**, as defined in `docs/QUESTION-GENERATION-ROADMAP.md`. It remains queued until Stage 4 of the global website recovery sequence.
