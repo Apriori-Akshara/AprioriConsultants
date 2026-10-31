@@ -160,8 +160,8 @@ No production deployment is implied by this documentation. Deployment must follo
 
 ### Homepage URL and visual acceptance criteria (Phase 1)
 
-**Expected public homepage:** https://www.aprioriconsultants.org/ (Vercel production domain; DNS cutover is still pending).  
-**Vercel production deployment URL:** https://apriori-consultants-1lmrslzp6-aksharas-projects.vercel.app/  
+**Expected public homepage:** https://www.aprioriconsultants.org/ (Vercel production domain; DNS cutover complete; Stage 2 public restoration verification remains in progress).  
+**Production deployment URL containing the Premium Services correction:** https://apriori-consultants-1xtfaetq1-aksharas-projects.vercel.app/  
 **Historical Render URL:** https://aprioriconsultants.onrender.com/ (billing-suspended; not a verification target).
 
 The following criteria apply to the homepage redesign and must be checked before marking this page complete:
@@ -185,7 +185,7 @@ Acceptance is not declared until the responsive checks, diff review, build, and 
 - **Visual direction:** Premium Academic Precision is approved as the primary design reference.
 - **Operational gate:** Vercel migration/DNS cutover is complete. Finish Stage 2 public website restoration verification, as defined in `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`, before continuing the broader Phase 1 redesign.
 - **Homepage:** the homepage styling implementation exists in commit `bf7d593ccd62033a11bff128a10f075edcace063`. It changed seven homepage component CSS modules and did not change page-component logic or global/shared styles.
-- **Homepage verification:** the seven edited CSS modules passed the recorded structural CSS check. The current Vercel production deployment reached READY and its deployment URL returned HTTP 200, but the public custom domain still routes to suspended Render. Desktop/tablet/mobile browser acceptance on the restored public domain therefore remains **PENDING**. Do not mark the homepage visually accepted yet.
+- **Homepage verification:** the earlier seven CSS modules passed the recorded structural CSS check. The user has since completed DNS cutover and Vercel confirms both custom domains correctly configured; the Premium Services correction is deployed to production and the deployment reached READY. Desktop/tablet/mobile visual acceptance and full public-route/browser-console verification have not been independently completed in this session and therefore remain **PENDING**. Do not mark the homepage or Stage 2 visually accepted yet.
 - **Remaining public pages:** the main-menu pages, submenu pages and other pages viewable without successful authentication remain pending Phase 1, in the exact menu/hierarchy sequence in Section 4. Process one page at a time after Stage 2 passes.
 - **Phase 1 scope:** public unauthenticated pages only. Preserve content, page/section order, routes, navigation, functionality and behavior. Do not change any page/state available only after successful login, and do not change mock-test screens.
 - **Authenticated-only pages:** protected from Phase 1; Phase 2 requires separate explicit user approval after Phase 1 is complete.
@@ -204,5 +204,5 @@ This is a focused defect correction to restore an existing homepage section duri
 - **Correction:** render the section heading directly; preserve all existing service-card text, images, links and order; show a responsive three/two/one-column fallback until the carousel reports initialization; then retain the original three-slide autoplay carousel and existing responsive behavior. Remove reveal-only hiding within this section and scope track/slide sizing to this component's CSS module.
 - **Design alignment:** retain Apriori navy/red accents, light card surfaces, restrained borders/shadows, readable typography, consistent spacing and responsive gutters. No copy, image, route, interaction purpose or section order is changed.
 - **Isolation:** no global/shared stylesheet, navigation, authenticated-only page, login-only state, mock-test screen, API, backend or business logic is changed.
-- **Production:** commit `85ae34cc7f988265674b20548758cd036abbf58d` on `main`; Vercel deployment `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j` reached READY and includes both custom-domain aliases. Live desktop/tablet/mobile visual acceptance remains pending.
+- **Production code deployment:** commit `85ae34cc7f988265674b20548758cd036abbf58d` on `main`; Vercel deployment `dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j` reached READY and includes both custom-domain aliases. Live desktop/tablet/mobile visual acceptance remains pending.
 - **Gate:** the broader homepage redesign and remaining public-page redesign sequence remain gated behind completion of Stage 2 and the approvals/sequence in Section 4.
