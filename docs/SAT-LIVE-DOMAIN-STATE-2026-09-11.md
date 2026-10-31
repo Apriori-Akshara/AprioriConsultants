@@ -1,4 +1,6 @@
-# SAT Public Domain and Authentication State — September 11, 2026
+# SAT Public Domain and Authentication State — Historical September 11, 2026 Record
+
+> **HISTORICAL / SUPERSEDED:** This document records the former Render-based public-domain configuration as it existed on September 11, 2026. It is not the current DNS instruction. On October 31, 2026, Vercel became the intended production host and a READY Vercel production deployment was created; however, GoDaddy DNS still points to the suspended Render service. Use [docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md](WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md) for all current host, DNS and verification facts. Do not reapply the historical Render records below.
 
 This document records infrastructure/authentication changes completed on September 11, 2026 that were not previously captured in the project-state documentation.
 
