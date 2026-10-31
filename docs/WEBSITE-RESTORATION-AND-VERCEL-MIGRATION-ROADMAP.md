@@ -31,9 +31,9 @@ The completed state of one stage is the entry condition for the next. A successf
 - Both custom-domain associations remain Vercel-verified; the apex is configured to redirect to `www` with HTTP 308.
 - Vercel project Node.js runtime is 24.x. The latest production deployment is READY; this is distinct from public-domain DNS cutover and post-cutover visual acceptance.
 
-### Remaining migration blockers
+### Historical pre-cutover DNS observation — superseded by completed cutover
 
-**The public domain still resolves to Render, not Vercel.** The GoDaddy DNS nameservers are `ns08.domaincontrol.com` and `ns07.domaincontrol.com`.
+Before the user performed the DNS change, the public domain resolved to the suspended Render service. This is a historical pre-cutover state and is no longer current. The GoDaddy nameservers remain `ns08.domaincontrol.com` and `ns07.domaincontrol.com`.
 
 Pre-cutover website records (historical; replaced by the user cutover):
 
@@ -43,7 +43,7 @@ Pre-cutover website records (historical; replaced by the user cutover):
 | `www` | CNAME `aprioriconsultants.onrender.com` | Preferred CNAME: `cd3ea3f5daa82b89.vercel-dns-017.com`; alternate: `cname.vercel-dns.com` |
 | `www` | A `216.24.57.18` and `216.24.57.16` | Remove the old Render A records when the approved cutover is performed; do not leave conflicting A/CNAME records for `www`. |
 
-These values are the Vercel domain-configuration recommendations returned during the October 31 audit. Re-check the live GoDaddy zone and Vercel domain instructions immediately before changing DNS. Do not change nameserver, MX, TXT, email, or unrelated records.
+These were the Vercel domain-configuration recommendations returned during the October 31 pre-cutover audit. The user has since completed the approved change and Vercel now reports both custom domains correctly configured. Do not make further DNS changes. Preserve nameservers, MX, TXT, email, and unrelated records.
 
 **The user completed the DNS changes manually in GoDaddy.** The assistant did not edit DNS. The current accepted Vercel configuration is recorded in the Stage 2 checkpoint below.
 
@@ -61,18 +61,18 @@ The pre-cutover inspection confirms:
 
 No code, production environment variable, Vercel protection setting, Render service/database, or DNS record needs to be changed to make the static public content eligible for the Vercel cutover. Preserve the existing backend URL variable unchanged for later investigation/reactivation.
 
-### Pre-cutover DNS state — confirmed directly from Vercel
+### Pre-cutover DNS state — historical Vercel observation before user cutover
 
-Vercel currently reports these external DNS records and recommendations:
+Before the user completed the DNS change, Vercel detected these external DNS records:
 
 | Host | Current DNS detected by Vercel | Preferred Vercel record |
 |---|---|---|
 | Apex `@` | A `216.24.57.1` | A `216.198.79.1` and A `64.29.17.1` |
 | `www` | CNAME `aprioriconsultants.onrender.com` plus A `216.24.57.18` and `216.24.57.16` | CNAME `cd3ea3f5daa82b89.vercel-dns-017.com` only |
 
-The detected nameservers are `ns07.domaincontrol.com` and `ns08.domaincontrol.com`. Both Vercel domain configurations report `misconfigured: true` because DNS still targets Render. Domain verification being true confirms the project association; it does not mean traffic is already routed to Vercel.
+The detected nameservers were `ns07.domaincontrol.com` and `ns08.domaincontrol.com`. At that pre-cutover point, both Vercel domain configurations reported `misconfigured: true` because DNS still targeted Render. This result is historical and is superseded by the verified current domain configurations recorded in the Stage 2 checkpoint above.
 
-The user must make the DNS edits in GoDaddy. Replace the apex A record with the two preferred Vercel A records; remove the old `www` Render CNAME and both old `www` A records; add the preferred `www` CNAME. Preserve all unrelated records, including MX, TXT, SPF, DKIM, DMARC, email, and verification records. Do not change nameservers.
+The user has completed the GoDaddy DNS edits: apex A records `216.198.79.1` and `64.29.17.1`; www CNAME `cd3ea3f5daa82b89.vercel-dns-017.com`. Do not repeat or alter those edits. Preserve all unrelated records, including MX, TXT, SPF, DKIM, DMARC, email, and verification records; do not change nameservers.
 
 ### Render status and cost boundary
 
@@ -117,7 +117,7 @@ Close Stage 2 when the public frontend routes, assets, navigation, anonymous acc
 - Vercel confirms aprioriconsultants.org is verified, has no DNS conflicts, and uses A records 216.198.79.1 and 64.29.17.1; its domain configuration reports misconfigured=false. The apex redirect to www is configured as HTTP 308.
 - These facts close the Stage 1 cutover gate. They do not by themselves close Stage 2.
 - The assistant could not independently complete the all-routes/assets/desktop-tablet-mobile/browser-console checks in this session. Keep those acceptance checks open rather than recording unsupported PASS results.
-- The Premium Services blank-section defect has been corrected on main. Production deployment dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j (commit 85ae34cc7f988265674b20548758cd036abbf58d) reached READY and is assigned both www.aprioriconsultants.org and aprioriconsultants.org. The fix preserves all five existing cards, their text, images, links, section order and carousel behavior; it adds a responsive fallback while the carousel initializes and removes reveal-only hiding from this section. Vercel reported no runtime error clusters in the last-hour check. Live desktop/tablet/mobile visual confirmation remains pending.
+- The Premium Services blank-section defect has been corrected on main. The production code deployment containing the correction, dpl_F35LCc3pFZ2mXCWWQpUowH1MyV4j (commit 85ae34cc7f988265674b20548758cd036abbf58d), reached READY and was assigned both www.aprioriconsultants.org and aprioriconsultants.org. The fix preserves all five existing cards, their text, images, links, section order and carousel behavior; it adds a responsive fallback while the carousel initializes and removes reveal-only hiding from this section. Vercel reported no runtime error clusters in the last-hour check. Live desktop/tablet/mobile visual confirmation remains pending.
 - Render services/database remain billing-suspended and untouched. Backend-dependent functionality remains DEFERRED.
 ## Stage 3 — Pending website redesign
 
