@@ -1,60 +1,57 @@
-# SAT Live Deployment and Verification Rule
+# Public Website Deployment and Verification Rule
 
-**Established:** September 11, 2026
+**Last updated:** October 31, 2026  
+**Current production host:** Vercel (custom-domain DNS cutover pending)
 
-This is a permanent working rule for the SAT/test-prep build process.
+This is the permanent deployment and student-facing verification rule. The current recovery order is governed by `docs/WEBSITE-RESTORATION-AND-VERCEL-MIGRATION-ROADMAP.md`.
 
-## 1. Primary verification environment
+## 1. Hosting authority
 
-The **public live website** is the primary student-facing environment for verification:
+- Vercel is the intended production host for the Apriori Next.js website/application.
+- The Vercel project is `apriori-consultants`, using Node.js 24.x.
+- The October 31, 2026 production deployment for commit `91e056089490fc54eb2dffe47e760229b62620c8` is READY.
+- The intended public verification domain is `https://www.aprioriconsultants.org`; the apex domain redirects to www.
+- Render's `AprioriConsultants` web service is billing-suspended. The historical Render URL `https://aprioriconsultants.onrender.com` is not the public verification target and must not be resumed or paid for as part of website restoration.
 
-`https://www.aprioriconsultants.org`
+A Vercel deployment marked READY is not proof that the custom domain has migrated. Until GoDaddy DNS is pointed to Vercel and public access is verified, the public domain remains unavailable.
 
-The Render URL is an infrastructure/deployment environment and is **not** the normal user verification target.
-
-## 2. Deployment requirement
-
-Unless a change absolutely requires a remote-only Render operation, every product change must be carried through to the public live website before the user is asked to verify it.
-
-Do not ask the user to verify a feature on the Render URL merely because the code was deployed there.
+## 2. Required release path
 
 The intended sequence is:
 
-**GitHub implementation → deployment/hosting synchronization → public live website → user verification**
+**GitHub main → Vercel production build/deployment → custom-domain DNS routing → public-domain and runtime verification → user verification**
 
-The user should not have to determine whether a GitHub change has reached the public website.
+Deployment synchronization is part of the implementation task. Do not ask the user to verify a preview URL when the intended change is for the public website.
 
-## 3. Authentication and session changes
+## 3. Public-site acceptance
 
-Authentication, login, registration, email verification, session-cookie, SAT-access, and authorization changes are especially important because a stale public deployment can make a correctly implemented repository change appear broken.
+A change is not ready for public verification merely because GitHub contains the code or Vercel reports READY. Verify:
 
-If the public live website cannot use a recently implemented authentication change, first determine whether the public domain is serving the current application/deployment before changing the authentication code again.
+- the public custom domain resolves to the intended Vercel deployment;
+- ordinary visitors are not blocked by Vercel deployment protection;
+- public pages, deep links, assets, client-side navigation and responsive layouts load;
+- public forms and any required APIs, email and database integrations work;
+- the browser console and network show no material failures;
+- no public website route depends on the suspended Render website service.
 
-Do not duplicate or rewrite working authentication merely because the public domain has not yet received the current deployment.
+Record any check that could not be performed; do not report it as passed.
 
-## 4. Live-domain priority
+## 4. Authentication and student-product checks
 
-For student-facing testing, use the public live domain for:
+Authentication, login, registration, email verification, session-cookie, SAT-access and authorization changes must be checked against the current Vercel deployment and its actual environment configuration. Before changing authentication code, first establish that the public domain serves the current Vercel deployment and that required runtime services are reachable.
 
-- Login and logout
-- Registration and email verification
-- Profile and Courses
-- SAT Foundation
-- SAT Advanced
-- SAT Mock Tests
-- Subscription/entitlement flows when implemented
-- Student-facing UI/UX
-- Responsive/mobile checks
-- End-to-end user journeys
+Do not rewrite working authentication because the public domain is still routed to an old or suspended host.
 
-The Render URL may be used internally when necessary to diagnose deployment/build/service issues, but it should not become the user's routine testing URL.
+Authenticated student/mock-test acceptance is part of the later mock-test work sequence. Do not weaken auth, subscription, entitlement, scoring or student-data controls to make the public marketing pages appear available.
 
-## 5. No deployment lag by design
+## 5. Current exception — October 31, 2026
 
-When a GitHub change is intended for the public website, deployment synchronization to the live site must be treated as part of the same implementation task, not as an optional later step.
+- Vercel production deployment: READY.
+- Vercel deployment homepage fetch: HTTP 200.
+- Vercel custom domain associations: verified.
+- GoDaddy DNS: still points website traffic to Render.
+- `www.aprioriconsultants.org`: last checked as HTTP 503 from Render suspension.
+- Vercel project SSO protection: reported enabled for production deployment URLs and all previews; effective custom-domain anonymous access still requires verification.
+- GoDaddy DNS has not been changed.
 
-A feature is not considered ready for user verification merely because GitHub contains the code or a Render deployment is green. It must be available on the public live website.
-
-## 6. Documentation and verification
-
-Project documentation should record the live-deployment rule immediately when it is established. Normal feature/status documentation should still be updated after the user verifies the relevant live changes, unless the user explicitly asks for a rule or architecture decision to be documented earlier.
+Therefore the public site is **not yet restored**. Follow Stage 1 and Stage 2 of the recovery roadmap before starting the public-page redesign or resuming mock-test work.
